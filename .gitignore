@@ -36,4 +36,5 @@ public/assets
 application/views/vertical-menu-template
 application/core/ACController.php
 user_guide/
+db_actudent.sql
 .vscode
