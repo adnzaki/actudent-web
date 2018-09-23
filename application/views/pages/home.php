@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html class="loading" lang="en" data-textdirection="ltr">
-
-<?php $this->view('component/head') ?>
-
+<head>
+  <title>Actudent - {title}</title>
+  <?php $this->view('component/head') ?>
+</head>
 <body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- fixed-top-->
