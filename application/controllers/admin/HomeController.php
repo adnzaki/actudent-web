@@ -7,6 +7,6 @@ class HomeController extends ACController
     {
         $data = $this->shared();
         $data['title'] = 'Beranda';
-        $this->parser->parse('pages/home', $data);
+        $this->parser->parse('admin/pages/home', $data);
     }
 }
