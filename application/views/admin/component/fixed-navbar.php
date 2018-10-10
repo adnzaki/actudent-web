@@ -19,7 +19,7 @@
           <ul class="nav navbar-nav mr-auto float-left">
             <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
             <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
-            <li class="dropdown nav-item mega-dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">Mega</a>
+            <li class="dropdown nav-item mega-dropdown"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown">SMK Negeri 8 Kota Bekasi</a>
               <ul class="mega-dropdown-menu dropdown-menu row">
                 <li class="col-md-2">
                   <h6 class="dropdown-menu-header text-uppercase mb-1"><i class="la la-newspaper-o"></i> News</h6>
@@ -145,12 +145,7 @@
                   </form>
                 </li>
               </ul>
-            </li>
-            <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i class="ficon ft-search"></i></a>
-              <div class="search-input">
-                <input class="input" type="text" placeholder="Explore Modern...">
-              </div>
-            </li>
+            </li>            
           </ul>
           <ul class="nav navbar-nav float-right">
             <li class="dropdown dropdown-user nav-item">
@@ -161,11 +156,11 @@
                 <span class="avatar avatar-online">
                   <img src="{appAssets}images/portrait/small/avatar-s-19.png" alt="avatar"><i></i></span>
               </a>
-              <div class="dropdown-menu dropdown-menu-right"><a class="dropdown-item" href="#"><i class="ft-user"></i> Edit Profile</a>
-                <a class="dropdown-item" href="#"><i class="ft-mail"></i> My Inbox</a>
-                <a class="dropdown-item" href="#"><i class="ft-check-square"></i> Task</a>
-                <a class="dropdown-item" href="#"><i class="ft-message-square"></i> Chats</a>
-                <div class="dropdown-divider"></div><a class="dropdown-item" href="#"><i class="ft-power"></i> Logout</a>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item" href="#"><i class="ft-user"></i> Profil Pengguna</a>
+                <a class="dropdown-item" href="#"><i class="ft-layers"></i> Data Sekolah</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#"><i class="ft-power"></i> Logout</a>
               </div>
             </li>
             <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown"
