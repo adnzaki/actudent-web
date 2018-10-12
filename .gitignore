@@ -32,7 +32,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 
 # Actudent ignored files
 public/app-assets
-public/assets
+public/assets/scss
 application/views/vertical-menu-template
 application/controllers/test/
 user_guide/
