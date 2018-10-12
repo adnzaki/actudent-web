@@ -14,6 +14,10 @@
   rel="stylesheet">
   <!-- BEGIN VENDOR CSS-->
   <link rel="stylesheet" type="text/css" href="{appAssets}css/vendors.css">
+  <?php if($this->uri->segment(2) === 'auth'): ?>
+    <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/forms/icheck/icheck.css">
+    <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/forms/icheck/custom.css">
+  <?php endif; ?>
   <!-- END VENDOR CSS-->
   <!-- BEGIN MODERN CSS-->
   <link rel="stylesheet" type="text/css" href="{appAssets}css/app.css">
@@ -21,6 +25,9 @@
   <!-- BEGIN Page Level CSS-->
   <link rel="stylesheet" type="text/css" href="{appAssets}css/core/menu/menu-types/vertical-menu.css">
   <link rel="stylesheet" type="text/css" href="{appAssets}css/core/colors/palette-gradient.css">
+  <?php if($this->uri->segment(2) === 'auth'): ?>
+    <link rel="stylesheet" type="text/css" href="{appAssets}css/pages/login-register.css">
+  <?php endif; ?>
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/cryptocoins/cryptocoins.css">
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->

@@ -52,5 +52,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = '';
 $route['admin/home'] = 'admin/HomeController';
 $route['admin/siswa'] = 'admin/SiswaController';
+$route['admin/auth'] = 'admin/AuthController';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
