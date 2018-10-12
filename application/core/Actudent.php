@@ -21,7 +21,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * ACController Class
+ * Actudent Class
  * Ini adalah class inti dari Actudent App. Class ini menyimpan fungsi umum dan 
  * menjadi kunci agar aplikasi dapat berjalan.
  */
