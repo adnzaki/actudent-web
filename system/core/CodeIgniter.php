@@ -369,9 +369,15 @@ if ( ! is_php('5.4'))
 		return CI_Controller::get_instance();
 	}
 
-	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
+	// if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php'))
+	// {
+	// 	require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+	// }
+	
+	// Menghapus akhiran "Controller" pada file core
+	if (file_exists(APPPATH.'core/'.$CFG->config['subclass_prefix'].'.php'))
 	{
-		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'Controller.php';
+		require_once APPPATH.'core/'.$CFG->config['subclass_prefix'].'.php';
 	}
 
 	// Set a mark point for benchmarking
