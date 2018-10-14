@@ -36,7 +36,9 @@ class Actudent extends CI_Controller
     public function __construct()
     {
         parent:: __construct();
-        $this->load->model(['admin/SekolahModel' => 'sekolah']);
+        $this->load->model([
+            'admin/SekolahModel' => 'sekolah', 'AuthModel' => 'auth'
+        ]);
     }
 
     /**
@@ -46,6 +48,7 @@ class Actudent extends CI_Controller
      */
     protected function shared()
     {
+        $pengguna = $this->getDataPengguna();
         $data = [
             'base_url'  => base_url(),
             'assets'    => base_url() . 'public/assets/',
@@ -54,6 +57,7 @@ class Actudent extends CI_Controller
             'fonts'     => base_url() . 'public/fonts/',
             'admin'     => base_url() . 'admin/',
             'namaSekolah' => $this->getDataSekolah(1)->schoolName,
+            'namaPengguna' => isset($pengguna->userName) ? $pengguna->userName : '',
         ];
 
         return $data;
@@ -68,5 +72,18 @@ class Actudent extends CI_Controller
     protected function getDataSekolah($schoolID)
     {
         return $this->sekolah->getDataSekolah($schoolID)[0];
+    }
+
+    /**
+     * Mengambil data pengguna yang sudah login
+     * 
+     * @return void
+     */
+    public function getDataPengguna()
+    {
+        if(isset($_SESSION['email']))
+        {
+            return $this->auth->getDataPengguna($_SESSION['email']);
+        }
     }
 }

@@ -53,5 +53,6 @@ $route['default_controller'] = '';
 $route['admin/home'] = 'admin/HomeController';
 $route['admin/siswa'] = 'admin/SiswaController';
 $route['admin/auth'] = 'admin/AuthController';
+$route['admin/logout'] = 'admin/AuthController/logout';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -15,8 +15,12 @@
   <!-- BEGIN PAGE LEVEL JS-->
   <script src="{appAssets}js/scripts/pages/dashboard-crypto.js" type="text/javascript"></script>
   <script src="{appAssets}js/scripts/forms/form-login-register.js" type="text/javascript"></script>
-  <script src="{assets}js/vue.js" type="text/javascript"></script>
+  
   <script>
     var baseURL = "<?= base_url() ?>";
     var admin = "<?= $admin ?>";
+    Vue.component('form-error', {
+        props: ['msg'],
+        template: '<p class="error-text">{{ msg }}</p>'
+    })
   </script>
