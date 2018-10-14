@@ -32,4 +32,7 @@
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
   <link rel="stylesheet" type="text/css" href="{assets}css/style.css">
+  <link rel="stylesheet" type="text/css" href="{assets}css/actudent.css">
   <!-- END Custom CSS-->
+  <!-- Vue JS kini harus ditempatkan di atas -->
+  <script src="{assets}js/vue.js" type="text/javascript"></script>

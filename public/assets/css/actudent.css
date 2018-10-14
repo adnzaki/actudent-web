@@ -1,0 +1,15 @@
+.error-text {
+	color: rgb(241, 89, 63) !important;
+}
+
+.loading-text {
+	color: #000;
+}
+
+.success-text {
+	color: #3dd926 !important;
+}
+
+.error-text, .loading-text, .success-text {
+    font-weight: bold;
+}
