@@ -7,11 +7,10 @@
   <meta name="author" content="PIXINVENT">
   <link rel="apple-touch-icon" href="{appAssets}images/ico/apple-icon-120.png">
   <link rel="shortcut icon" type="image/x-icon" href="{appAssets}images/ico/favicon.ico">
-  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Quicksand:300,400,500,700"
-  rel="stylesheet"> -->
+  <!-- Fonts -->
   <link href="{fonts}fonts.css" rel="stylesheet">
-  <link href="https://maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome.min.css"
-  rel="stylesheet">
+  <!-- Line Awesome -->
+  <link href="{assets}line-awesome/css/line-awesome.min.css" rel="stylesheet">
   <!-- BEGIN VENDOR CSS-->
   <link rel="stylesheet" type="text/css" href="{appAssets}css/vendors.css">
   <?php if($this->uri->segment(2) === 'auth'): ?>
