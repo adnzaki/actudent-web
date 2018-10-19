@@ -13,3 +13,7 @@
 .error-text, .loading-text, .success-text {
     font-weight: bold;
 }
+
+.cursor-pointer {
+	cursor: pointer;
+}
