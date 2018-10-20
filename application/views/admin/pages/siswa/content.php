@@ -37,10 +37,10 @@
                         <div class="col-3">
                             <fieldset>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" @keyup.enter="getSiswa(0, search)" v-model="search"
+                                    <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
                                     placeholder="Cari nama, NIS, kelas" aria-describedby="button-addon2">
                                     <div class="input-group-append">
-                                        <button class="btn btn-primary" type="button" @click="getSiswa(0, search)">Go</button>
+                                        <button class="btn btn-primary" type="button" @click="filter">Go</button>
                                     </div>
                                 </div>
                             </fieldset>    

@@ -32,6 +32,86 @@ const SSPaging = {
     },
     methods: {
         /**
+         * Fungsi untuk mengeksekusi getData() agar mencegah
+         * terjadinya kesalahan perhitungan offset
+         * setelah menyimpan atau update data
+         * 
+         * @return void
+         */
+        execGetData() {
+            let start = this.offset / this.limit
+            var exec = num => {
+                this.offset = num
+                this.runPaging()
+            }
+            exec(start)
+            setTimeout(() => {
+                if (this.data.length === 0) {
+                    start -= 1
+                    exec(start)
+                }
+            }, 500)
+        },
+        /**
+         * Pencarian data berdasarkan parameter pencarian pada 
+         * textbox / kotak pencarian
+         */
+        filter() {
+            this.offset = 0
+            this.runPaging()
+        },
+        /**
+         * Refresh data
+         */
+        reloadData() {
+            this.offset = (this.activePage - 1)
+            this.runPaging()
+        },
+        /**
+         * Fungsi untuk sorting data berdasarkan kolom
+         * yang ada di tabel
+         * 
+         * @param {string} orderBy 
+         */
+        sortData(orderBy) {
+            (this.sort === 'ASC') ? this.ascendingSort = true: this.ascendingSort = false
+            if (this.ascendingSort) {
+                this.ascendingSort = false
+                this.sort = 'DESC'
+            } else {
+                this.ascendingSort = true
+                this.sort = 'ASC'
+            }
+            this.orderBy = orderBy
+            this.runPaging()
+        },
+        /**
+         * Opsi untuk menampilkan jumlah data per halaman 
+         */
+        showPerPage() {
+            this.limit = parseInt(this.rows)
+            this.offset = 0
+            this.runPaging()
+        },
+        /**
+         * Menjalankan fungsi ambil data berdasarkan current state / 
+         * state yang sedang aktif saat ini
+         */
+        runPaging() {
+        	this.getData({
+        		limit: this.limit,
+        		offset: this.offset,
+        		orderBy: this.orderBy,
+        		searchBy: this.searchBy,
+        		sort: this.sort,
+        		search: this.search,
+        		url: this.url,
+        		linkNum: this.linkNum,
+        		activeClass: this.activeClass,
+        		linkClass: this.linkClass,
+        	})
+        },
+        /**
          * Get data for pagination
          * Options: limit, offset, url, orderBy, searchBy, sort, 
          *          search, linkNum, activeClass, linkClass
@@ -61,94 +141,6 @@ const SSPaging = {
         				linkClass: options.linkClass
         			})
         		}
-        	})
-        },
-        /**
-         * Fungsi untuk mengeksekusi getData() agar mencegah
-         * terjadinya kesalahan perhitungan offset
-         */
-        execGetData() {
-            let start = this.offset / this.limit
-            var exec = num => {
-                this.getData({
-                    limit: this.limit,
-                    offset: num,
-                    orderBy: this.orderBy,
-                    searchBy: this.searchBy,
-                    sort: this.sort,
-                    search: this.search,
-                    url: this.url,
-                    linkNum: this.linkNum,
-                    activeClass: this.activeClass,
-                    linkClass: this.linkClass,
-                })
-            }
-            exec(start)
-            setTimeout(() => {
-            	if (this.data.length === 0) {
-            		start -= 1
-            		exec(start)
-            	}
-            }, 500)
-        },
-        reloadData() {
-            this.getData({
-            	limit: this.limit,
-            	offset: (this.activePage - 1),
-            	orderBy: this.orderBy,
-            	searchBy: this.searchBy,
-            	sort: this.sort,
-            	search: this.search,
-            	url: this.url,
-            	linkNum: this.linkNum,
-            	activeClass: this.activeClass,
-            	linkClass: this.linkClass,
-            })
-        },
-        /**
-         * Fungsi untuk sorting data berdasarkan kolom
-         * yang ada di tabel
-         * 
-         * @param {string} orderBy 
-         */
-        sortData(orderBy) {
-            (this.sort === 'ASC') ? this.ascendingSort = true : this.ascendingSort = false
-            if(this.ascendingSort) {
-                this.ascendingSort = false 
-                this.sort = 'DESC'
-            } else {
-                this.ascendingSort = true
-                this.sort = 'ASC'
-            }
-            this.getData({
-            	limit: this.limit,
-            	offset: this.offset,
-            	orderBy: orderBy,
-            	searchBy: this.searchBy,
-            	sort: this.sort,
-            	search: this.search,
-            	url: this.url,
-            	linkNum: this.linkNum,
-            	activeClass: this.activeClass,
-            	linkClass: this.linkClass,
-            })
-        },
-        /**
-         * Opsi untuk menampilkan jumlah data per halaman 
-         */
-        showPerPage() {
-        	this.limit = parseInt(this.rows)
-        	this.getData({
-        		limit: this.limit,
-        		offset: 0,
-        		orderBy: this.orderBy,
-        		searchBy: this.searchBy,
-        		sort: this.sort,
-        		search: this.search,
-        		url: this.url,
-        		linkNum: this.linkNum,
-        		activeClass: this.activeClass,
-        		linkClass: this.linkClass,
         	})
         },
         /**
