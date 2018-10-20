@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 14, 2018 at 01:24 PM
+-- Generation Time: Oct 20, 2018 at 04:14 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -22,62 +22,24 @@ SET time_zone = "+00:00";
 -- Database: `db_actudent`
 --
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_student_grade`
---
-
-CREATE TABLE `tb_student_grade` (
-  `studentID` int(11) NOT NULL,
-  `gradeID` int(11) NOT NULL,
-  `studentGradeStatus` tinyint(1) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 --
 -- Dumping data for table `tb_student_grade`
 --
 
 INSERT INTO `tb_student_grade` (`studentID`, `gradeID`, `studentGradeStatus`, `created`, `modified`) VALUES
-(1, 1, 1, '2018-10-14 11:18:39', '0000-00-00 00:00:00'),
-(2, 1, 1, '2018-10-14 11:19:09', '0000-00-00 00:00:00'),
-(3, 1, 1, '2018-10-14 11:19:25', '0000-00-00 00:00:00'),
-(4, 1, 1, '2018-10-14 11:19:50', '0000-00-00 00:00:00'),
-(5, 1, 0, '2018-10-14 11:20:04', '0000-00-00 00:00:00');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `tb_student_grade`
---
-ALTER TABLE `tb_student_grade`
-  ADD PRIMARY KEY (`studentID`,`gradeID`),
-  ADD KEY `fk_grade` (`gradeID`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `tb_student_grade`
---
-ALTER TABLE `tb_student_grade`
-  MODIFY `studentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `tb_student_grade`
---
-ALTER TABLE `tb_student_grade`
-  ADD CONSTRAINT `fk_grade` FOREIGN KEY (`gradeID`) REFERENCES `tb_grade` (`gradeID`),
-  ADD CONSTRAINT `fk_student` FOREIGN KEY (`studentID`) REFERENCES `tb_student` (`studentID`);
+(1, 1, 1, '2018-10-14 04:18:39', '0000-00-00 00:00:00'),
+(2, 1, 1, '2018-10-14 04:19:09', '0000-00-00 00:00:00'),
+(3, 1, 1, '2018-10-14 04:19:25', '0000-00-00 00:00:00'),
+(4, 1, 1, '2018-10-14 04:19:50', '0000-00-00 00:00:00'),
+(5, 1, 0, '2018-10-14 04:20:04', '0000-00-00 00:00:00'),
+(6, 2, 1, '2018-10-20 03:15:10', '0000-00-00 00:00:00'),
+(7, 1, 1, '2018-10-20 03:15:10', '0000-00-00 00:00:00'),
+(8, 2, 1, '2018-10-20 03:15:10', '0000-00-00 00:00:00'),
+(9, 2, 1, '2018-10-20 03:15:10', '0000-00-00 00:00:00'),
+(10, 2, 1, '2018-10-20 03:16:16', '0000-00-00 00:00:00'),
+(11, 2, 1, '2018-10-20 13:53:36', '2018-10-19 17:00:00'),
+(12, 1, 1, '2018-10-20 13:54:02', '2018-10-19 17:00:00'),
+(13, 1, 1, '2018-10-20 13:54:02', '2018-10-19 17:00:00');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
