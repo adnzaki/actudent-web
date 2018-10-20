@@ -14,18 +14,18 @@ const siswa = new Vue({
     mounted() {
         this.reset()
         setTimeout(() => {
-            this.getSiswa(0, '')            
+            this.getSiswa()            
         }, 200);
     },
     methods: {
-        getSiswa(offset, search) {
+        getSiswa() {
             this.getData({
-                limit: 1,
-                offset: offset,
+                limit: 10,
+                offset: 0,
                 orderBy: 'studentName',
                 searchBy: 'studentNis-studentName-gradeName',
                 sort: 'DESC',
-                search: search,
+                search: '',
                 url: `${this.siswa}getDataSiswa/`,
                 linkNum: 4,
                 activeClass: 'active',
