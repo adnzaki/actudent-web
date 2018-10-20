@@ -77,23 +77,23 @@
                         <div class="text-center mb-3">
                             <nav aria-label="Page navigation">
                                 <ul class="pagination justify-content-center pagination-round">
-                                    <li v-bind:class="[linkClass]" @click="getSiswa(first, search)">
+                                    <li v-bind:class="[linkClass]" @click="nav(first)">
                                         <a class="page-link" href="#" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
                                             <span class="sr-only">Previous</span>
                                         </a>
                                     </li>
-                                    <li v-bind:class="[linkClass]" @click="getSiswa(prev, search)">
+                                    <li v-bind:class="[linkClass]" @click="nav(prev)">
                                         <a class="page-link" href="#">Prev</a>
                                     </li>
                                     <li v-for="link in pageLinks" v-bind:class="[linkClass, activeLink(link)]" 
-                                        v-if="numLinks" @click="getSiswa((link - 1), search)">
+                                        v-if="numLinks" @click="nav((link - 1))">
                                         <a class="page-link" href="#">{{ link }}</a>
                                     </li>
-                                    <li v-bind:class="[linkClass]" @click="getSiswa(next, search)">
+                                    <li v-bind:class="[linkClass]" @click="nav(next)">
                                         <a class="page-link" href="#">Next</a>
                                     </li>
-                                    <li v-bind:class="[linkClass]" @click="getSiswa(last, search)">
+                                    <li v-bind:class="[linkClass]" @click="nav(last)">
                                         <a class="page-link" href="#" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
                                             <span class="sr-only">Next</span>
