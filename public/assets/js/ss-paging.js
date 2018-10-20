@@ -16,7 +16,7 @@
  * @package     Pagination
  * @author      Adnan Zaki
  * @type        Libraries
- * @version     2.0.0
+ * @version     2.0.2
  */
 
 const SSPaging = {
@@ -126,22 +126,20 @@ const SSPaging = {
             this.searchBy = options.searchBy
             this.sort = options.sort
             this.search = options.search
-        	$.ajax({
-        		url: `${options.url}${this.limit}/${this.offset}/${this.orderBy}/${this.searchBy}/${this.sort}/${this.search}`,
-        		type: 'GET',
-        		dataType: 'json',
-        		success: data => {
-        			this.data = data['container']
-        			// jalankan pagination
-        			this.create({
-        				rows: data['totalRows'],
-        				start: options.offset,
-        				linkNum: options.linkNum,
-        				activeClass: options.activeClass,
-        				linkClass: options.linkClass
-        			})
-        		}
-        	})
+            var xhr = new XMLHttpRequest()
+            xhr.open('GET', `${options.url}${this.limit}/${this.offset}/${this.orderBy}/${this.searchBy}/${this.sort}/${this.search}`, true)
+            xhr.responseType = 'json'
+            xhr.onload = () => {
+                this.data = xhr.response['container']
+                this.create({
+                	rows: xhr.response['totalRows'],
+                	start: options.offset,
+                	linkNum: options.linkNum,
+                	activeClass: options.activeClass,
+                	linkClass: options.linkClass
+                })
+            }
+            xhr.send()
         },
         /**
          * Generate Pagination
