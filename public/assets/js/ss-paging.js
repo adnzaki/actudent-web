@@ -1,22 +1,11 @@
 /**
- * Smartscore
- * Aplikasi Pengolahan Nilai Siswa berbasis Kurikulum 2013 untuk tingkat Sekolah Dasar (SD)
- *
- * @copyright   Copyright (c) 2017, Adnan Zaki
- * @license     Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International Public License | https://creativecommons.org/licenses/by-nc-nd/4.0/legalcode
- * @author      Adnan Zaki
- * @link        http://wolestech.com
- * @version     1.0.0
- */
-
-/**
  * Smartscore Pagination
  * Sebuah paket library untuk mengolah data pagination
  *
  * @package     Pagination
  * @author      Adnan Zaki
  * @type        Libraries
- * @version     2.0.2
+ * @version     2.0.3
  */
 
 const SSPaging = {
@@ -51,6 +40,15 @@ const SSPaging = {
                     exec(start)
                 }
             }, 500)
+        },
+        /**
+         * Fungsi navigasi halaman pagination
+         * 
+         * @param {int} page 
+         */
+        nav(page) {
+            this.offset = page
+            this.runPaging()
         },
         /**
          * Pencarian data berdasarkan parameter pencarian pada 
