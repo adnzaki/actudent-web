@@ -48,13 +48,13 @@
                     </div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table table-hover mb-0 cursor-pointer">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th @click="sortData('studentNis')" class="cursor-pointer">NIS<i class="la la-sort"></th>
-                            <th @click="sortData('studentName')" class="cursor-pointer">Nama Siswa<i class="la la-sort"></th>
-                            <th @click="sortData('gradeName')" class="cursor-pointer">Kelas<i class="la la-sort"></th>
+                            <th @click="sortData('studentNis')">NIS<i class="la la-sort"></th>
+                            <th @click="sortData('studentName')">Nama Siswa<i class="la la-sort"></th>
+                            <th @click="sortData('gradeName')">Kelas<i class="la la-sort"></th>
                         </tr>
                     </thead>
                     <tbody>
