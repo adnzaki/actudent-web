@@ -49,6 +49,7 @@ class Actudent extends CI_Controller
     protected function shared()
     {
         $pengguna = $this->getDataPengguna();
+        $schoolID = isset($pengguna->schoolID) ? $pengguna->schoolID : '';
         $data = [
             'base_url'  => base_url(),
             'assets'    => base_url() . 'public/assets/',
@@ -57,7 +58,7 @@ class Actudent extends CI_Controller
             'fonts'     => base_url() . 'public/fonts/',
             'images'    => base_url() . 'public/images/',
             'admin'     => base_url() . 'admin/',
-            'namaSekolah' => $this->getDataSekolah(1)->schoolName,
+            'namaSekolah' => $this->getDataSekolah($schoolID)->schoolName,
             'namaPengguna' => isset($pengguna->userName) ? $pengguna->userName : '',
         ];
 
