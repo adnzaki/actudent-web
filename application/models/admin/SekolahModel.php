@@ -6,11 +6,9 @@ class SekolahModel extends CI_Model
     /**
      * Tabel yang dibutuhkan untuk class AuthModel
      * 
-     * @var array
+     * @var string
      */
-    private $table = [
-        'sekolah' => 'tb_school'
-    ];
+    private $sekolah = 'tb_school';
 
     /**
      * Mengambil data sekolah berdasarkan ID Sekolah 
@@ -20,6 +18,6 @@ class SekolahModel extends CI_Model
      */
     public function getDataSekolah($schoolID)
     {
-        return $this->db->get_where($this->table['sekolah'], ['schoolID' => $schoolID])->result();        
+        return $this->db->get_where($this->sekolah, ['schoolID' => $schoolID])->result();        
     }
 }
