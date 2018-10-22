@@ -15,10 +15,10 @@ class SekolahModel extends CI_Model
     /**
      * Mengambil data sekolah berdasarkan ID Sekolah 
      * 
-     * @param int $schoolID
+     * @param int|string $schoolID
      * @return object
      */
-    public function getDataSekolah(int $schoolID)
+    public function getDataSekolah($schoolID)
     {
         return $this->db->get_where($this->table['sekolah'], ['schoolID' => $schoolID])->result();        
     }
