@@ -37,7 +37,8 @@ class Actudent extends CI_Controller
     {
         parent:: __construct();
         $this->load->model([
-            'admin/SekolahModel' => 'sekolah', 'AuthModel' => 'auth'
+            'admin/SekolahModel' => 'sekolah', 'AuthModel' => 'auth',
+            'admin/SettingModel' => 'setting',
         ]);
     }
 
@@ -51,16 +52,22 @@ class Actudent extends CI_Controller
         $pengguna = $this->getDataPengguna();        
         $schoolID = isset($pengguna->schoolID) ? $pengguna->schoolID : '';
         $namaSekolah = $this->getDataSekolah($schoolID);
+        $settings = $this->getSettings();
         $data = [
-            'base_url'  => base_url(),
-            'assets'    => base_url() . 'public/assets/',
-            'appAssets' => base_url() . 'public/app-assets/',
-            'css'       => base_url() . 'public/css/',
-            'fonts'     => base_url() . 'public/fonts/',
-            'images'    => base_url() . 'public/images/',
-            'admin'     => base_url() . 'admin/',            
-            'namaSekolah' => isset($namaSekolah->schoolName) ? $namaSekolah->schoolName : '',
-            'namaPengguna' => isset($pengguna->userName) ? $pengguna->userName : '',
+            'base_url'              => base_url(),
+            'assets'                => base_url() . 'public/assets/',
+            'appAssets'             => base_url() . 'public/app-assets/',
+            'css'                   => base_url() . 'public/css/',
+            'fonts'                 => base_url() . 'public/fonts/',
+            'images'                => base_url() . 'public/images/',
+            'admin'                 => base_url() . 'admin/',            
+            'namaSekolah'           => isset($namaSekolah->schoolName) ? $namaSekolah->schoolName : '',
+            'namaPengguna'          => isset($pengguna->userName) ? $pengguna->userName : '',
+            'menuColor'             => $settings['menuColor'],
+            'navbarColor'           => $settings['navbarColor'],
+            'navbarContainerColor'  => $settings['navbarContainerColor'],
+            'modalHeaderColor'      => $settings['modalHeaderColor'],
+            'navlinkColor'          => $settings['navlinkColor'],
         ];
 
         return $data;
@@ -85,11 +92,28 @@ class Actudent extends CI_Controller
      * 
      * @return void
      */
-    public function getDataPengguna()
+    protected function getDataPengguna()
     {
         if(isset($_SESSION['email']))
         {
             return $this->auth->getDataPengguna($_SESSION['email']);
         }
+    }
+
+    /**
+     * Mengambil pengaturan
+     * 
+     * @return void
+     */
+    protected function getSettings()
+    {
+        $setting = $this->setting->getSettings();
+        $wrapper = [];
+        foreach($setting as $key)
+        {
+            $wrapper[$key->settingKey] = $key->settingValue;
+        }
+
+        return $wrapper;
     }
 }

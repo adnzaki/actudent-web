@@ -20,6 +20,7 @@
   <script>
     var baseURL = "<?= base_url() ?>";
     var admin = "<?= $admin ?>";
+    var warnaTema = "<?= $menuColor ?>";
     Vue.component('form-error', {
         props: ['msg'],
         template: '<p class="error-text">{{ msg }}</p>'

@@ -1,4 +1,4 @@
-<div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true">
+<div class="main-menu menu-fixed {menuColor} menu-accordion    menu-shadow " data-scroll-to-active="true">
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
       <li class="<?= menu_active('home', 'active') ?> nav-item">
@@ -26,11 +26,10 @@
         <ul class="menu-content">
           <li class="<?= menu_active('aaa', 'active') ?>"><a class="menu-item" href="#" data-i18n="nav.icons.icons_feather">Pengguna</a>
           </li>
-          <li class="<?= menu_active('aaa', 'active') ?>"><a class="menu-item" href="#" data-i18n="nav.icons.icons_line_awesome">Aplikasi</a>
+          <li class="<?= menu_active('pengaturan-aplikasi', 'active') ?>"><a class="menu-item" href="{admin}pengaturan-aplikasi" data-i18n="nav.icons.icons_line_awesome">Aplikasi</a>
           </li>
         </ul>
       </li>
-      
     </ul>
   </div>
 </div>

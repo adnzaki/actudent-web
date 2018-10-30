@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $route['default_controller'] = '';
 $route['admin/home'] = 'admin/HomeController';
 $route['admin/siswa'] = 'admin/SiswaController';
+$route['admin/pengaturan-aplikasi'] = 'admin/SettingController/settingAplikasi';
 $route['admin/auth'] = 'admin/AuthController';
 $route['admin/logout'] = 'admin/AuthController/logout';
 $route['404_override'] = '';

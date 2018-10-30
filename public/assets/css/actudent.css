@@ -17,3 +17,7 @@
 .cursor-pointer {
 	cursor: pointer;
 }
+
+.nav-link-white {
+	color: #F2F2F2 !important;
+}
