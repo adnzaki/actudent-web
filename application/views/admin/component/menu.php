@@ -30,6 +30,16 @@
           </li>
         </ul>
       </li>
+      <?php if(ENVIRONMENT === 'development'): ?>
+      <li class=" nav-item"><a href="#"><i class="la la-puzzle-piece"></i><span class="menu-title" data-i18n="nav.icons.main">Template</span></a>
+        <ul class="menu-content">
+          <li class="<?= menu_active('ikon', 'active') ?>"><a class="menu-item" href="{base_url}template/ikon" data-i18n="nav.icons.icons_line_awesome">Icons</a>
+          </li>
+          <li class="<?= menu_active('button', 'active') ?>"><a class="menu-item" href="{base_url}template/button" data-i18n="nav.icons.icons_feather">Button</a>
+          </li>
+        </ul>
+      </li>
+      <?php endif; ?>
     </ul>
   </div>
 </div>
