@@ -21,7 +21,7 @@ class SettingController extends Actudent
 
     public function setWarnaTema($tema)
     {
-        $this->setting->setTheme($tema);
+        $this->setting->setTheme($_SESSION['email'], $tema);
         redirect('admin/pengaturan-aplikasi');
     }
 }

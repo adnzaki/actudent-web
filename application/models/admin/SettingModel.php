@@ -1,6 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require_once APPPATH.'models/AuthModel.php';
+
 class SettingModel extends CI_Model
 {
     /**
@@ -9,6 +11,25 @@ class SettingModel extends CI_Model
      * @var string
      */
     private $setting = 'tb_settings';
+
+    /**
+     * Tabel tb_user_themes
+     * 
+     * @var string 
+     */
+    private $userThemes = 'tb_user_themes';
+
+    /**
+     * Auth Model 
+     * 
+     * @var object
+     */
+    private $auth;
+
+    public function __construct()
+    {
+        $this->auth = new AuthModel();
+    }
 
     /**
      * Mengambil pengaturan
@@ -23,18 +44,16 @@ class SettingModel extends CI_Model
     /**
      * Set warna tema aplikasi
      * 
-     * @param string $theme 
+     * @param string $username
+     * @param string $selectedTheme
      * @return void
      */
-    public function setTheme($theme)
+    public function setTheme($username, $selectedTheme)
     {
-        $template = $this->themeComponents($theme);
-        foreach($template as $key)
-        {
-            $this->db->update($this->setting, [
-                'settingValue' => $key['settingValue']
-            ], ['settingKey' => $key['settingKey']]);
-        }
+        $theme = $this->auth->getUserThemes($username);
+        $this->db->update($this->userThemes, [
+            'theme' => $selectedTheme,
+        ], ['userID' => $theme[0]->userID]);
     }
 
     /**
@@ -43,7 +62,7 @@ class SettingModel extends CI_Model
      * @param string $theme
      * @return array
      */
-    private function themeComponents($theme)
+    public function themeComponents($theme)
     {
         $template = [
             // Semi Dark theme

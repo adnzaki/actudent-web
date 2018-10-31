@@ -4,13 +4,19 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class AuthModel extends CI_Model
 {
     /**
-     * Tabel yang dibutuhkan untuk class AuthModel
+     * Tabel tb_user
      * 
-     * @var array
+     * @var string
      */
-    private $table = [
-        'user' => 'tb_user'
-    ];
+    private $user = 'tb_user';
+
+    /**
+     * Tabel tb_user_themes 
+     * Untuk memuat tema setelah autentikasi berhasil
+     * 
+     * @var string
+     */
+    private $userThemes = 'tb_user_themes';
 
     /**
      * Mengambil data pengguna yang berhasil login 
@@ -20,9 +26,17 @@ class AuthModel extends CI_Model
      */
     public function getDataPengguna($username)
     {
-        $query = $this->db->select('schoolID, userName, userEmail, userLevel')->from($this->table['user'])
+        $query = $this->db->select('schoolID, userName, userEmail, userLevel')->from($this->user)
                 ->where('userEmail', $username)->get()->result();
         return $query[0];
+    }
+
+    public function getUserThemes($username)
+    {
+        $userID = $this->db->select('userID, userEmail')->from($this->user)
+                ->where('userEmail', $username)->get()->result();
+        
+        return $this->db->get_where($this->userThemes, ['userID' => $userID[0]->userID])->result();
     }
 
     /**
@@ -33,7 +47,7 @@ class AuthModel extends CI_Model
      */
     public function statusJaringan($status, $username)
     {
-        $this->db->update($this->table['user'], [
+        $this->db->update($this->user, [
             'network' => $status
         ], ['userEmail' => $username]);
     }
@@ -47,7 +61,7 @@ class AuthModel extends CI_Model
     {
         $username = $this->input->post('username', true);
         $password = $this->input->post('password', true);
-        $cari = $this->db->get_where($this->table['user'], ['userEmail' => $username]);
+        $cari = $this->db->get_where($this->user, ['userEmail' => $username]);
         if($cari->num_rows() > 0 && $this->userAktif($username))
         {
             $userAktif = $cari->result();
@@ -74,7 +88,7 @@ class AuthModel extends CI_Model
      */
     public function userAktif(string $username): bool
     {
-        $query = $this->db->get_where($this->table['user'], ['userEmail' => $username])->result();
+        $query = $this->db->get_where($this->user, ['userEmail' => $username])->result();
         if($query[0]->userStatus === '1')
         {
             return true;

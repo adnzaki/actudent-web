@@ -52,7 +52,7 @@ class Actudent extends CI_Controller
         $pengguna = $this->getDataPengguna();        
         $schoolID = isset($pengguna->schoolID) ? $pengguna->schoolID : '';
         $namaSekolah = $this->getDataSekolah($schoolID);
-        $settings = $this->getSettings();
+        $theme = $this->getUserThemes();
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . 'public/assets/',
@@ -63,11 +63,11 @@ class Actudent extends CI_Controller
             'admin'                 => base_url() . 'admin/',            
             'namaSekolah'           => isset($namaSekolah->schoolName) ? $namaSekolah->schoolName : '',
             'namaPengguna'          => isset($pengguna->userName) ? $pengguna->userName : '',
-            'menuColor'             => $settings['menuColor'],
-            'navbarColor'           => $settings['navbarColor'],
-            'navbarContainerColor'  => $settings['navbarContainerColor'],
-            'modalHeaderColor'      => $settings['modalHeaderColor'],
-            'navlinkColor'          => $settings['navlinkColor'],
+            'menuColor'             => $theme['menuColor'],
+            'navbarColor'           => $theme['navbarColor'],
+            'navbarContainerColor'  => $theme['navbarContainerColor'],
+            'modalHeaderColor'      => $theme['modalHeaderColor'],
+            'navlinkColor'          => $theme['navlinkColor'],
         ];
 
         return $data;
@@ -101,19 +101,23 @@ class Actudent extends CI_Controller
     }
 
     /**
-     * Mengambil pengaturan
+     * Mengambil tema berdasarkan user yang sedang login
      * 
      * @return void
      */
-    protected function getSettings()
+    protected function getUserThemes()
     {
-        $setting = $this->setting->getSettings();
-        $wrapper = [];
-        foreach($setting as $key)
+        if(isset($_SESSION['email']))
         {
-            $wrapper[$key->settingKey] = $key->settingValue;
+            $userTheme = $this->auth->getUserThemes($_SESSION['email']);
+            $theme = $this->setting->themeComponents($userTheme[0]->theme);
+            $wrapper = [];
+            foreach($theme as $key)
+            {
+                $wrapper[$key['settingKey']] = $key['settingValue'];
+            }
+    
+            return $wrapper;
         }
-
-        return $wrapper;
     }
 }
