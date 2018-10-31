@@ -20,7 +20,7 @@ const setting = new Vue({
             window.location.href = this.themeUrl
         },
         getWarnaTema() {
-            (warnaTema === 'menu-dark') ? this.theme = 'semi-dark' : this.theme = 'light-blue'
+            (warnaTema === 'semi-dark') ? this.theme = 'semi-dark' : this.theme = 'light-blue'
         }
     },
     computed: {

@@ -52,7 +52,8 @@ class Actudent extends CI_Controller
         $pengguna = $this->getDataPengguna();        
         $schoolID = isset($pengguna->schoolID) ? $pengguna->schoolID : '';
         $namaSekolah = $this->getDataSekolah($schoolID);
-        $theme = $this->getUserThemes();
+        $theme = $this->getUserThemes()['data'];
+        $userTheme = $this->getUserThemes()['selectedTheme'];
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . 'public/assets/',
@@ -63,6 +64,7 @@ class Actudent extends CI_Controller
             'admin'                 => base_url() . 'admin/',            
             'namaSekolah'           => isset($namaSekolah->schoolName) ? $namaSekolah->schoolName : '',
             'namaPengguna'          => isset($pengguna->userName) ? $pengguna->userName : '',
+            'theme'                 => isset($userTheme) ? $userTheme : '',
             'menuColor'             => $theme['menuColor'],
             'navbarColor'           => $theme['navbarColor'],
             'navbarContainerColor'  => $theme['navbarContainerColor'],
@@ -117,7 +119,10 @@ class Actudent extends CI_Controller
                 $wrapper[$key['settingKey']] = $key['settingValue'];
             }
     
-            return $wrapper;
+            return [
+                'selectedTheme' => $userTheme[0]->theme,
+                'data' => $wrapper,
+            ];
         }
     }
 }
