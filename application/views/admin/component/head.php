@@ -32,6 +32,9 @@
   <!-- BEGIN Custom CSS-->
   <link rel="stylesheet" type="text/css" href="{assets}css/style.css">
   <link rel="stylesheet" type="text/css" href="{assets}css/actudent.css">
+  <?php if($theme === 'night-vision'): ?>
+    <link rel="stylesheet" type="text/css" href="{assets}css/actudent-night.css">
+  <?php endif; ?>
   <!-- END Custom CSS-->
   <!-- Vue JS kini harus ditempatkan di atas -->
   <script src="{assets}js/vue.js" type="text/javascript"></script>

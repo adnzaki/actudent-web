@@ -1,0 +1,100 @@
+/*
+ * Actudent Night Vision additional style
+ */
+
+body {
+    color: #ffffff;
+}
+
+.night-body {
+	background-color: #606371 !important;
+}
+
+html body .content .content-wrapper .content-header-title {
+	color: #fafbff;
+}
+
+.night-card {
+	background-color: #2C303B !important;
+}
+
+.night-card-title {
+	color: #f5f5f5 !important;
+}
+
+.table-white-font {
+	color: #fff;
+}
+
+.table thead th {
+	border-bottom: 1px solid #acb1b780;
+	border-top: 1px solid #acb1b780;
+}
+
+.table td {
+    border-bottom: 1px solid rgba(117, 111, 111, 0.3) !important;
+}
+
+.pagination .page-link {
+    color: #B0BBC3;
+    background-color: #fff0;
+}
+
+.page-item.active .page-link {
+    background-color: #5c5a5b;
+    border-color: #BABFC7;
+}
+
+.page-link:hover {
+    background-color: #5c5a5b;
+    color: #fff;
+}
+
+footer.navbar-border {
+	border-top: 1px solid #E4E7ED4D;
+}
+
+.form-control {
+    background-color: #fff0;
+}
+
+.form-control:focus {
+	color: #FFF;
+	background-color: #fff0;
+}
+
+.form-control.border-primary:focus {
+	border: 1px solid #31D4C2 !important;
+}
+
+form .form-control,
+.form-control {
+	color: #f6f0f0;
+}
+
+select.form-control {
+	color: #fff;
+}
+
+select option {
+    color: #000;
+}
+
+.modal-body {
+    background-color: #2C303B;
+}
+
+form label {
+	color: #d2d3d5;
+}
+
+.modal-header {
+    border-bottom: 1px solid #5B687E4D;
+}
+
+.modal-footer {
+	border-top: 1px solid #98A4B84D;
+    background-color: #2C303B;
+    border-bottom-left-radius: 0.35rem;
+    border-bottom-right-radius: 0.35rem;
+}

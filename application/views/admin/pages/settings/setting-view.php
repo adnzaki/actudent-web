@@ -5,7 +5,7 @@
   <?php $this->view('admin/component/head') ?>
   <!-- END Custom CSS-->
 </head>
-<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
+<body class="vertical-layout vertical-menu 2-columns {bodyColor} menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- fixed-top-->
   <?php $this->view('admin/component/fixed-navbar') ?>

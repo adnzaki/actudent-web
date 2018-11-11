@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Warna Tema</h4>
+        <div class="card {cardColor}">
+            <div class="card-header {cardColor}">
+                <h4 class="card-title {cardTitleColor}">Warna Tema</h4>
                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                 <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -25,6 +25,10 @@
 							<fieldset>
 								<input type="radio" name="input-radio-4" id="input-radio-16" value="semi-dark" v-model="theme">
 								<label for="input-radio-16">Semi Dark</label>
+							</fieldset>
+                            <fieldset>
+								<input type="radio" name="input-radio-4" id="input-radio-17" value="night-vision" v-model="theme">
+								<label for="input-radio-17">Night Vision</label>
 							</fieldset>
                     	</div>
                         <div class="col-12">

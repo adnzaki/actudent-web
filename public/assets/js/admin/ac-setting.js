@@ -20,7 +20,12 @@ const setting = new Vue({
             window.location.href = this.themeUrl
         },
         getWarnaTema() {
-            (warnaTema === 'semi-dark') ? this.theme = 'semi-dark' : this.theme = 'light-blue'
+            switch (warnaTema) {
+                case 'semi-dark':       this.theme = 'semi-dark'; break;
+                case 'light-blue':      this.theme = 'light-blue'; break;
+                case 'night-vision':    this.theme = 'night-vision'; break;
+                default: 'not a valid theme'; break;
+            }
         }
     },
     computed: {

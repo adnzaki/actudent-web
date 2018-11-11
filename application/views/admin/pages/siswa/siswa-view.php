@@ -4,7 +4,7 @@
   <title>Actudent - {title}</title>
   <?php $this->view('admin/component/head') ?>
 </head>
-<body class="vertical-layout vertical-menu 2-columns   menu-expanded fixed-navbar"
+<body class="vertical-layout vertical-menu 2-columns {bodyColor} menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- fixed-top-->
   <?php $this->view('admin/component/fixed-navbar') ?>
@@ -26,6 +26,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <?php $this->view('admin/component/footer') ?>
   <!-- BEGIN VENDOR JS-->
   <?php $this->view('admin/component/scripts') ?>
+  <script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
   <script src="{assets}js/admin/ac-siswa.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>
