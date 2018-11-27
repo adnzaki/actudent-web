@@ -207,6 +207,11 @@ const SSPaging = {
                 return ''
             }      
         },
+        /**
+         * Reset pagination into default value 
+         * 
+         * @return void
+         */
         reset() {
             this.data = []
             this.pageLinks = []
@@ -221,9 +226,19 @@ const SSPaging = {
         }
     },
     computed: {
+        /**
+         * Membaca halaman yang sedang aktif
+         * 
+         * @return int
+         */
         activePage() {
             return ((this.offset / this.limit) + 1)
         },
+        /**
+         * Mengambil rentang data akhir 
+         * 
+         * @return int
+         */
         dataTo() {
             let currentPage = this.offset / this.limit,
                 range
@@ -239,6 +254,11 @@ const SSPaging = {
 
             return range
         },
+        /**
+         * Mengambil rentang data awal 
+         * 
+         * @return void
+         */
         dataFrom() {
             let from
             if (this.pageLinks.length === 0) {
@@ -253,6 +273,11 @@ const SSPaging = {
 
             return from
         },
+        /**
+         * Men-generate rentang baris data pagination 
+         * 
+         * @return string
+         */
         rowRange() {
             if(this.pageLinks.length === 0) {
                 this.showPaging = false
