@@ -26,7 +26,7 @@ class AuthModel extends CI_Model
      */
     public function getDataPengguna($username)
     {
-        $query = $this->db->select('schoolID, userName, userEmail, userLevel')->from($this->user)
+        $query = $this->db->select('userName, userEmail, userLevel')->from($this->user)
                 ->where('userEmail', $username)->get()->result();
         return $query[0];
     }

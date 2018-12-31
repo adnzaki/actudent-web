@@ -31,7 +31,6 @@ class AuthController extends Actudent
             $session = [
                 'email'     => $username,
                 'nama'      => $pengguna->userName,
-                'sekolah'   => $pengguna->schoolID,
                 'userLevel' => $pengguna->userLevel,
                 'logged_in' => true
             ];
@@ -48,7 +47,7 @@ class AuthController extends Actudent
     public function logout()
     {
         $this->auth->statusJaringan('offline', $_SESSION['email']);
-        $this->session->unset_userdata(['email', 'nama', 'sekolah', 'userLevel', 'logged_in']);
+        $this->session->unset_userdata(['email', 'nama', 'userLevel', 'logged_in']);
         redirect('admin/auth');
     }
 }

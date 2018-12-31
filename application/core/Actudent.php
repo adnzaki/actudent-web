@@ -50,8 +50,7 @@ class Actudent extends CI_Controller
     protected function shared()
     {
         $pengguna = $this->getDataPengguna();        
-        $schoolID = isset($pengguna->schoolID) ? $pengguna->schoolID : '';
-        $namaSekolah = $this->getDataSekolah($schoolID);
+        $sekolah = $this->getDataSekolah();
         $theme = $this->getUserThemes()['data'];
         $userTheme = $this->getUserThemes()['selectedTheme'];
         $data = [
@@ -62,7 +61,7 @@ class Actudent extends CI_Controller
             'fonts'                 => base_url() . 'public/fonts/',
             'images'                => base_url() . 'public/images/',
             'admin'                 => base_url() . 'admin/',            
-            'namaSekolah'           => isset($namaSekolah->schoolName) ? $namaSekolah->schoolName : '',
+            'namaSekolah'           => isset($sekolah->schoolName) ? $sekolah->schoolName : '',
             'namaPengguna'          => isset($pengguna->userName) ? $pengguna->userName : '',
             'theme'                 => isset($userTheme) ? $userTheme : '',
             'bodyColor'             => $theme['bodyColor'],
@@ -86,11 +85,11 @@ class Actudent extends CI_Controller
      * @param int $schoolID
      * @return object
      */
-    protected function getDataSekolah($schoolID)
+    protected function getDataSekolah()
     {
         if(isset($_SESSION['email']))
         {
-            return $this->sekolah->getDataSekolah($schoolID)[0];
+            return $this->sekolah->getDataSekolah()[0];
         }        
     }
 

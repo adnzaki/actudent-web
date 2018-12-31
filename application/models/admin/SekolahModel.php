@@ -16,8 +16,8 @@ class SekolahModel extends CI_Model
      * @param int|string $schoolID
      * @return object
      */
-    public function getDataSekolah($schoolID)
+    public function getDataSekolah()
     {
-        return $this->db->get_where($this->sekolah, ['schoolID' => $schoolID])->result();        
+        return $this->db->get($this->sekolah)->result();        
     }
 }
