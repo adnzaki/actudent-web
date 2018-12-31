@@ -96,4 +96,14 @@ class SiswaModel extends CI_Model
         
         return $join;
     }
+
+    /**
+     * Mengambil daftar kelas 
+     * 
+     * @return void
+     */
+    public function getKelas()
+    {
+        return $this->db->get($this->kelas)->result();
+    }
 }

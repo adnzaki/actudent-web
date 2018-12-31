@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <button type="button" class="btn mr-1 mb-1 btn-primary btn-sm" data-toggle="modal" data-target="#iconModal">
+                    <button @click="showFormTambah" type="button" class="btn mr-1 mb-1 btn-primary btn-sm" data-toggle="modal" data-target="#iconModal">
                         <i class="la la-plus"></i> Tambah
                     </button>
                     <button type="button" class="btn mr-1 mb-1 btn-danger btn-sm"><i class="la la-trash"></i> Hapus</button>

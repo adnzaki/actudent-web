@@ -31,4 +31,9 @@ class SiswaController extends Actudent
             'totalRows' => $rows,
         ]);
     }
+
+    public function getKelas()
+    {
+        echo json_encode($this->siswa->getKelas());
+    }
 }
