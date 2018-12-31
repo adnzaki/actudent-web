@@ -13,16 +13,13 @@
   <script src="{appAssets}js/scripts/customizer.js" type="text/javascript"></script>
   <!-- END MODERN JS-->
   <!-- BEGIN PAGE LEVEL JS-->
-  <script src="{appAssets}js/scripts/pages/dashboard-crypto.js" type="text/javascript"></script>
   <script src="{appAssets}js/scripts/forms/form-login-register.js" type="text/javascript"></script>
   <script src="{assets}js/ss-paging.js" type="text/javascript"></script>
+  <script src="{assets}js/components.js" type="text/javascript"></script>
   
   <script>
     var baseURL = "<?= base_url() ?>";
     var admin = "<?= $admin ?>";
     var warnaTema = "<?= $theme ?>";
-    Vue.component('form-error', {
-        props: ['msg'],
-        template: '<p class="error-text">{{ msg }}</p>'
-    })
+    var xhr = new XMLHttpRequest();
   </script>
