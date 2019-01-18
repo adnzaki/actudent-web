@@ -24,7 +24,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput7">Kelas</label>
-                            <select class="form-control" id="userinput7" name="gradeName">
+                            <select class="form-control" id="userinput7" name="gradeID">
                                 <option v-for="item in daftarKelas" :value="item.gradeID">{{ item.gradeName }}</option>
                             </select>
                             <form-error :msg="error.gradeName" />
@@ -34,8 +34,11 @@ aria-hidden="true">
                 <alert-msg :alert-class="alert.class" :header="alert.header" :text="alert.text" v-if="alert.show" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning mr-1" data-dismiss="modal"><i class="ft-x"></i> Cancel</button>
-                <button type="button" class="btn btn-primary"><i class="la la-check-square-o"></i> Save</button>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-{buttonColorType}danger" data-dismiss="modal"> Batal</button>
+                    <button type="button" class="btn btn-{buttonColorType}primary"> Simpan</button>
+                    <button type="button" class="btn btn-{buttonColorType}light"> Simpan dan Tutup</button>
+                </div>
             </div>
         </div>
     </div>

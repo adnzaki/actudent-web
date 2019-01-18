@@ -108,6 +108,10 @@ class SettingModel extends CI_Model
                     'settingKey'    => 'navlinkColor',
                     'settingValue'  => 'nav-link-white',
                 ],
+                [
+                    'settingKey'    => 'buttonColorType',
+                    'settingValue'  => '',
+                ],
             ],
             // Light Blue theme
             // Empty setingValue = using default template color
@@ -152,6 +156,10 @@ class SettingModel extends CI_Model
                     'settingKey'    => 'navlinkColor',
                     'settingValue'  => '',
                 ],
+                [
+                    'settingKey'    => 'buttonColorType',
+                    'settingValue'  => '',
+                ],
             ],
             // Night Vision theme 
             'night-vision' => [
@@ -194,6 +202,10 @@ class SettingModel extends CI_Model
                 [
                     'settingKey'    => 'navlinkColor',
                     'settingValue'  => 'nav-link-white',
+                ],
+                [
+                    'settingKey'    => 'buttonColorType',
+                    'settingValue'  => 'outline-',
                 ],
             ],
         ];

@@ -74,6 +74,7 @@ class Actudent extends CI_Controller
             'navbarContainerColor'  => $theme['navbarContainerColor'],
             'modalHeaderColor'      => $theme['modalHeaderColor'],
             'navlinkColor'          => $theme['navlinkColor'],
+            'buttonColorType'       => $theme['buttonColorType'],
         ];
 
         return $data;

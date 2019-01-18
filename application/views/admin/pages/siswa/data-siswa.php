@@ -3,11 +3,13 @@
         <div class="row">
             <div class="col-6">
                 <div class="form-group">
-                    <button @click="showFormTambah" type="button" class="btn mr-1 mb-1 btn-primary btn-sm" data-toggle="modal" data-target="#iconModal">
-                        <i class="la la-plus"></i> Tambah
-                    </button>
-                    <button type="button" class="btn mr-1 mb-1 btn-danger btn-sm"><i class="la la-trash"></i> Hapus</button>
-                    <button type="button" class="btn mr-1 mb-1 btn-light btn-sm"><i class="la la-filter"></i> Filter</button>
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <button @click="showFormTambah" type="button" class="btn btn-{buttonColorType}primary box-shadow-1" 
+                            data-toggle="modal" data-target="#iconModal">Tambah 
+                        </button>
+                        <button type="button" class="btn btn-{buttonColorType}danger box-shadow-1">Hapus</button> 
+                        <button type="button" class="btn btn-{buttonColorType}light box-shadow-1">Filter</button>
+                    </div>
                 </div>
             </div>
             <div class="col-3">
