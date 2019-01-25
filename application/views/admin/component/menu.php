@@ -37,6 +37,8 @@
           </li>
           <li class="<?= menu_active('button', 'active') ?>"><a class="menu-item" href="{base_url}template/button" data-i18n="nav.icons.icons_feather">Button</a>
           </li>
+          <li class="<?= menu_active('select2', 'active') ?>"><a class="menu-item" href="{base_url}template/select2" data-i18n="nav.icons.icons_feather">Select2</a>
+          </li>
         </ul>
       </li>
       <?php endif; ?>
