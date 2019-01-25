@@ -1,7 +1,19 @@
 <div class="card-content collapse show">
     <div class="card-body">
-        <div class="row">            
-            <div class="col-6">
+        <div class="row">   
+            <div class="col-sm-12">
+                <div class="alert fly-alert bg-success alert-icon-left alert-dismissible mb-2" role="alert">
+                    <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <strong>Well done!</strong> You successfully read this <a href="#"
+                    class="alert-link">important</a> alert message.
+                </div>
+            </div>
+        </div>
+        <div class="row">         
+            <div class="col-12 col-md-4 col-lg-6 col-xl-7">
                 <div class="form-group">
                     <div class="btn-group" role="group" aria-label="Basic example">
                         <button @click="showFormTambah" type="button" class="btn btn-primary box-shadow-1" 
@@ -12,8 +24,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-3">
-                <select class="select2 form-control" id="showRows">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+                <select class="select2 form-control" id="showRows" style="width: 100%;">
                     <option value="10">10 baris</option>
                     <option value="25">25 baris</option>
                     <option value="50">50 baris</option>
@@ -21,7 +33,7 @@
                     <option value="250">250 baris</option>
                 </select>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <fieldset>
                     <div class="input-group">
                         <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
