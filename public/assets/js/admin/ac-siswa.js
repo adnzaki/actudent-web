@@ -7,7 +7,7 @@
 
 const siswa = new Vue({
     el: '#siswa-content',
-    mixins: [SSPaging],
+    mixins: [SSPaging, plugin],
     data: {
         siswa: `${admin}SiswaController/`,
         error: { 
@@ -15,8 +15,11 @@ const siswa = new Vue({
             gradeName: '',
         },
         alert: {
-            class: 'alert-danger', show: false,
+            class: 'alert bg-danger', show: true,
             header: 'Sukses', text: 'heheheh',
+        },
+        helper: {
+            saveAndClose: false,
         },
         daftarKelas: '',
     },
@@ -25,6 +28,8 @@ const siswa = new Vue({
         setTimeout(() => {
             this.getSiswa()            
         }, 200);
+        this.runSelect2()
+        this.select2ShowPerPage('#showRows')
     },
     methods: {
         showFormTambah() {

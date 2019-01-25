@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade text-left" id="iconModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2"
-aria-hidden="true">
+<div class="modal fade text-left" id="iconModal" role="dialog" aria-labelledby="myModalLabel2"
+aria-hidden="true" style="overflow: hidden;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header {modalHeaderColor} white">
@@ -23,8 +23,8 @@ aria-hidden="true">
                             <form-error :msg="error.studentName" />
                         </div>
                         <div class="form-group">
-                            <label for="userinput7">Kelas</label>
-                            <select class="form-control" id="userinput7" name="gradeID">
+                            <label for="selectGrade">Kelas</label>
+                            <select class="select2 form-control block" id="selectGrade" name="gradeID" style="width: 100%">
                                 <option v-for="item in daftarKelas" :value="item.gradeID">{{ item.gradeName }}</option>
                             </select>
                             <form-error :msg="error.gradeName" />
@@ -35,9 +35,9 @@ aria-hidden="true">
             </div>
             <div class="modal-footer">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-{buttonColorType}danger" data-dismiss="modal"> Batal</button>
-                    <button type="button" class="btn btn-{buttonColorType}primary"> Simpan</button>
-                    <button type="button" class="btn btn-{buttonColorType}light"> Simpan dan Tutup</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> Batal</button>
+                    <button type="button" class="btn btn-primary"> Simpan</button>
+                    <button type="button" class="btn btn-light"> Simpan dan Tutup</button>
                 </div>
             </div>
         </div>

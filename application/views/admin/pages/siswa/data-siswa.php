@@ -1,27 +1,25 @@
 <div class="card-content collapse show">
     <div class="card-body">
-        <div class="row">
+        <div class="row">            
             <div class="col-6">
                 <div class="form-group">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button @click="showFormTambah" type="button" class="btn btn-{buttonColorType}primary box-shadow-1" 
+                        <button @click="showFormTambah" type="button" class="btn btn-primary box-shadow-1" 
                             data-toggle="modal" data-target="#iconModal">Tambah 
                         </button>
-                        <button type="button" class="btn btn-{buttonColorType}danger box-shadow-1">Hapus</button> 
-                        <button type="button" class="btn btn-{buttonColorType}light box-shadow-1">Filter</button>
+                        <button type="button" class="btn btn-danger box-shadow-1">Hapus</button> 
+                        <button type="button" class="btn btn-light box-shadow-1">Filter</button>
                     </div>
                 </div>
             </div>
             <div class="col-3">
-                <fieldset class="form-group">
-                    <select class="form-control" v-model="rows" id="basicSelect" v-on:change="showPerPage">
-                        <option value="10">10 baris</option>
-                        <option value="25">25 baris</option>
-                        <option value="50">50 baris</option>
-                        <option value="100">100 baris</option>
-                        <option value="250">250 baris</option>
-                    </select>
-                </fieldset>
+                <select class="select2 form-control" id="showRows">
+                    <option value="10">10 baris</option>
+                    <option value="25">25 baris</option>
+                    <option value="50">50 baris</option>
+                    <option value="100">100 baris</option>
+                    <option value="250">250 baris</option>
+                </select>
             </div>
             <div class="col-3">
                 <fieldset>

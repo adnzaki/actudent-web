@@ -13,6 +13,7 @@
   <link href="{assets}line-awesome/css/line-awesome.min.css" rel="stylesheet">
   <!-- BEGIN VENDOR CSS-->
   <link rel="stylesheet" type="text/css" href="{appAssets}css/vendors.css">
+  <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/forms/selects/select2.min.css">
   <?php if($this->uri->segment(2) === 'auth'): ?>
     <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/forms/icheck/icheck.css">
     <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/forms/icheck/custom.css">
