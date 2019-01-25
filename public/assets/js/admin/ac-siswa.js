@@ -19,7 +19,7 @@ const siswa = new Vue({
             header: 'Sukses', text: 'heheheh',
         },
         flashAlert: {
-            class: 'bg-success', show: true,
+            class: 'bg-success', show: false,
             title: 'Sukses', text: 'Data peserta didik baru berhasil disimpan', 
             icon: 'la-thumbs-o-up'
         },

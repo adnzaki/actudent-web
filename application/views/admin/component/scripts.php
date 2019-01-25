@@ -16,6 +16,7 @@
   <!-- BEGIN PAGE LEVEL JS-->
   <script src="{appAssets}js/scripts/forms/form-login-register.js" type="text/javascript"></script>  
   <script src="{assets}js/plugin.js" type="text/javascript"></script>
+  <script src="{assets}js/ss-paging-template.js" type="text/javascript"></script>
   <script src="{assets}js/ss-paging.js" type="text/javascript"></script>
   <script src="{assets}js/components.js" type="text/javascript"></script>
   
