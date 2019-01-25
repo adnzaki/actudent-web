@@ -18,6 +18,11 @@ const siswa = new Vue({
             class: 'alert bg-danger', show: true,
             header: 'Sukses', text: 'heheheh',
         },
+        flashAlert: {
+            class: 'bg-success', show: true,
+            title: 'Sukses', text: 'Data peserta didik baru berhasil disimpan', 
+            icon: 'la-thumbs-o-up'
+        },
         helper: {
             saveAndClose: false,
         },

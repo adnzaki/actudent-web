@@ -2,14 +2,8 @@
     <div class="card-body">
         <div class="row">   
             <div class="col-sm-12">
-                <div class="alert fly-alert bg-success alert-icon-left alert-dismissible mb-2" role="alert">
-                    <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <strong>Well done!</strong> You successfully read this <a href="#"
-                    class="alert-link">important</a> alert message.
-                </div>
+                <flash-alert :alert-class="flashAlert.class" :title="flashAlert.title" :icon="flashAlert.icon" 
+                :text="flashAlert.text" v-if="flashAlert.show" />
             </div>
         </div>
         <div class="row">         
