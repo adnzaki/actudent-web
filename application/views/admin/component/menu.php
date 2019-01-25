@@ -14,6 +14,9 @@
         <a href="{admin}siswa"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">Agenda Sekolah</span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
+        <a href="{admin}siswa"><i class="la la-institution"></i><span class="menu-title" data-i18n="nav.dash.main">Kelas</span></a>
+      </li>
+      <li class="<?= menu_active('aaa', 'active') ?> nav-item">
         <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">Jadwal Pelajaran</span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
