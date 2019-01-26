@@ -7,6 +7,9 @@
       <li class="<?= menu_active('siswa', 'active') ?> nav-item">
         <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">Data Siswa</span></a>
       </li>
+      <li class="<?= menu_active('kelas', 'active') ?> nav-item">
+        <a href="{admin}kelas"><i class="la la-bank"></i><span class="menu-title" data-i18n="nav.dash.main">Kelas</span></a>
+      </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
         <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">Kehadiran</span></a>
       </li>
