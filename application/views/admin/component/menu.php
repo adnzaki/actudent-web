@@ -17,6 +17,9 @@
         <a href="{admin}siswa"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">Agenda Sekolah</span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
+        <a href="{admin}siswa"><i class="la la-institution"></i><span class="menu-title" data-i18n="nav.dash.main">Kelas</span></a>
+      </li>
+      <li class="<?= menu_active('aaa', 'active') ?> nav-item">
         <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">Jadwal Pelajaran</span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
@@ -39,6 +42,8 @@
           <li class="<?= menu_active('ikon', 'active') ?>"><a class="menu-item" href="{base_url}template/ikon" data-i18n="nav.icons.icons_line_awesome">Icons</a>
           </li>
           <li class="<?= menu_active('button', 'active') ?>"><a class="menu-item" href="{base_url}template/button" data-i18n="nav.icons.icons_feather">Button</a>
+          </li>
+          <li class="<?= menu_active('select2', 'active') ?>"><a class="menu-item" href="{base_url}template/select2" data-i18n="nav.icons.icons_feather">Select2</a>
           </li>
         </ul>
       </li>

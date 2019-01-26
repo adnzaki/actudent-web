@@ -5,7 +5,7 @@
  * @package     Pagination
  * @author      Adnan Zaki
  * @type        Libraries
- * @version     2.0.3
+ * @version     2.0.4
  */
 
 const SSPaging = {
@@ -18,6 +18,9 @@ const SSPaging = {
         orderBy: '', searchBy: '', sort: 'ASC',
         url: '', ascendingSort: false, linkNum: 0,
         rows: 10, // custom limit
+    },
+    components: {
+        'pager': Pager,
     },
     methods: {
         /**

@@ -16,4 +16,11 @@ class Template extends Actudent
         $data['title'] = 'Buttons';
         $this->parser->parse('admin/pages/template/button', $data);
     }
+
+    public function select2()
+    {
+        $data = $this->shared();
+        $data['title'] = 'Select2';
+        $this->parser->parse('admin/pages/template/select2', $data);
+    }
 }
