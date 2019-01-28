@@ -27,6 +27,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  */
 class Actudent extends CI_Controller
 {
+    public $secretKey = 'Wolestech@2018#Actudent$';
 
     /**
      * Class Constructor 
@@ -128,5 +129,34 @@ class Actudent extends CI_Controller
                 'data' => $wrapper,
             ];
         }
+    }
+
+    public function GetErrorMessage($code){
+        $ErrorMessage = array(
+            'err001' => 'Invalid email or password', 
+            'err002' => 'There is one or more parameter needs', 
+            'err003' => 'Invalid Token',
+            'err004' => 'Signature verification failed',
+            'err005' => 'User already exists',
+            'err006' => 'Token required',
+            );
+        return element($code, $ErrorMessage);
+    }
+
+    public function GetSuccessMessage($code){
+        $SuccessMessage = array(
+            'suc001' => 'Success', 
+            'suc002' => '', 
+            );
+        return element($code, $SuccessMessage);
+    }
+
+    public function sendResponse($response, $statusHeader){
+		$this->output
+        ->set_status_header($statusHeader)
+        ->set_content_type('application/json', 'utf-8')
+        ->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
+		->_display();
+		exit;
     }
 }
