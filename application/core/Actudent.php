@@ -20,15 +20,19 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+require APPPATH . '../vendor/autoload.php';
+use \Firebase\JWT\JWT;
+
 /**
  * Actudent Class
  * Ini adalah class inti dari Actudent App. Class ini menyimpan fungsi umum dan 
  * menjadi kunci agar aplikasi dapat berjalan.
  */
-    require APPPATH . '../vendor/autoload.php';
-    use \Firebase\JWT\JWT;
 class Actudent extends CI_Controller
 {
+    /**
+     * @var string
+     */
     public $secretKey = 'Wolestech@2018#Actudent$';
 
     /**
@@ -133,27 +137,51 @@ class Actudent extends CI_Controller
         }
     }
 
-    public function GetErrorMessage($code){
-        $ErrorMessage = array(
+    /**
+     * Get error messages
+     * 
+     * @param string $code 
+     * @return void
+     */
+    public function GetErrorMessage($code)
+    {
+        $ErrorMessage = [
             'err001' => 'Invalid email or password', 
             'err002' => 'There is one or more parameter needs', 
             'err003' => 'Invalid Token',
             'err004' => 'Signature verification failed',
             'err005' => 'User already exists',
             'err006' => 'Token required',
-            );
+        ];
+
         return element($code, $ErrorMessage);
     }
 
-    public function GetSuccessMessage($code){
-        $SuccessMessage = array(
+    /**
+     * Get success message
+     * 
+     * @param string $code
+     * @return void
+     */
+    public function GetSuccessMessage($code)
+    {
+        $SuccessMessage = [
             'suc001' => 'Success', 
             'suc002' => '', 
-            );
+        ];
+
         return element($code, $SuccessMessage);
     }
 
-    public function sendResponse($response, $statusHeader){
+    /**
+     * Send response..
+     * 
+     * @param array $response
+     * @param int $statusHeader 
+     * @return void
+     */
+    public function sendResponse($response, $statusHeader)
+    {
 		$this->output
         ->set_status_header($statusHeader)
         ->set_content_type('application/json', 'utf-8')
@@ -162,15 +190,26 @@ class Actudent extends CI_Controller
 		exit;
     }
 
-    public function checkToken($tokenID){
-        try {
+    /**
+     * Check token
+     * 
+     * @param mixed $tokenID
+     * @return void
+     */
+    public function checkToken($tokenID)
+    {
+        try 
+        {
             $decode = JWT::decode($tokenID, $this->secretKey,array('HS256'));
             $whereArray = ['userID' => $decode->userID, 'userName' => $decode->userName, 'userEmail' => $decode->userEmail, 'userLevel' => $decode->userLevel, 'userStatus' => '1'];
-            if(!$this->userModel->isValidUser($whereArray)){
+            if(!$this->userModel->isValidUser($whereArray))
+            {
                 $response = ['status' => FALSE, 'errorCode' => 'err003', 'msg' => $this->GetErrorMessage('err003')];    
                 $this->sendResponse($response, 400);
             }
-        } catch (Exception $e) {
+        } 
+        catch (Exception $e) 
+        {
             $response = ['status' => FALSE, 'errorCode' => 'err004', 'msg' => $this->GetErrorMessage('err004')];
             $this->sendResponse($response, 400);
         }
