@@ -21,6 +21,24 @@ class UserModel extends CI_Model {
         }
     }
 
+    public function checkUserbyId($userID) {
+        $query = $this->db->get_where($this->tableUser, ['userID' => $userID, 'userStatus' => '1']);
+        if($query->num_rows() > 0){
+            $user = $query->result();
+            $response = array(
+                'status' => TRUE,
+                'userID' => $user[0]->userID, 
+                'userName' => $user[0]->userName, 
+                'userEmail' => $user[0]->userEmail,
+                'userPassword' => $user[0]->userPassword,
+                'userLevel' => $user[0]->userLevel);
+            return $response;
+        } else {
+            $response = array('status' => FALSE);
+            return $response;
+        }
+    }
+
     public function isValidUser($whereArray) {
         $query = $this->db->get_where($this->tableUser, $whereArray);
         if($query->num_rows() > 0){
@@ -48,5 +66,4 @@ class UserModel extends CI_Model {
 		$this->db->affected_rows();
     }
 
-    
 }

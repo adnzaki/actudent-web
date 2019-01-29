@@ -25,6 +25,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Ini adalah class inti dari Actudent App. Class ini menyimpan fungsi umum dan 
  * menjadi kunci agar aplikasi dapat berjalan.
  */
+    require APPPATH . '../vendor/autoload.php';
+    use \Firebase\JWT\JWT;
 class Actudent extends CI_Controller
 {
     public $secretKey = 'Wolestech@2018#Actudent$';
@@ -158,5 +160,19 @@ class Actudent extends CI_Controller
         ->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES))
 		->_display();
 		exit;
+    }
+
+    public function checkToken($tokenID){
+        try {
+            $decode = JWT::decode($tokenID, $this->secretKey,array('HS256'));
+            $whereArray = ['userID' => $decode->userID, 'userName' => $decode->userName, 'userEmail' => $decode->userEmail, 'userLevel' => $decode->userLevel, 'userStatus' => '1'];
+            if(!$this->userModel->isValidUser($whereArray)){
+                $response = ['status' => FALSE, 'errorCode' => 'err003', 'msg' => $this->GetErrorMessage('err003')];    
+                $this->sendResponse($response, 400);
+            }
+        } catch (Exception $e) {
+            $response = ['status' => FALSE, 'errorCode' => 'err004', 'msg' => $this->GetErrorMessage('err004')];
+            $this->sendResponse($response, 400);
+        }
     }
 }

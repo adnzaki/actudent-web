@@ -1,4 +1,10 @@
 <?php
+/**
+ * API untuk mengecek user authentification valid atau tidak.
+ * method: 'GET'
+ * path: '/api/v1/user-auth/initiate'
+ * headers: Authorization
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
     require APPPATH . '../vendor/autoload.php';
@@ -13,7 +19,7 @@ class initiate extends Actudent {
     }
 
     private function initialize(){
-        $tokenID = $this->input->get_request_header('Authorization');
+        $tokenID = $this->input->get_request_header('authorization');
         if(empty($tokenID)){
             $response = ['status' => FALSE, 'errorCode' => 'err006', 'msg' => $this->GetErrorMessage('err006')];    
             $this->sendResponse($response, 500);
@@ -22,7 +28,7 @@ class initiate extends Actudent {
     }
 
     public function index() {
-        $tokenID = $this->input->get_request_header('Authorization');
+        $tokenID = $this->input->get_request_header('authorization');
         try {
             $decode = JWT::decode($tokenID, $this->secretKey,array('HS256'));
             $whereArray = ['userID' => $decode->userID, 'userName' => $decode->userName, 'userEmail' => $decode->userEmail, 'userLevel' => $decode->userLevel, 'userStatus' => '1'];

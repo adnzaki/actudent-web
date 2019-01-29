@@ -66,4 +66,6 @@ $route['api/v1'] = 'api/v1/welcome';
 // user-auth
 $route['api/v1/user-auth/login'] = 'api/v1/user-auth/login';
 $route['api/v1/user-auth/logout'] = 'api/v1/user-auth/logout';
+$route['api/v1/user-profile/change_password/(:any)'] = 'api/v1/user-profile/change_password/index/$1';
+$route['api/v1/user-profile/profile/(:any)'] = 'api/v1/user-profile/profile/index/$1';
 

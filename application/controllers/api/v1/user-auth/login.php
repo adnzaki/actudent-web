@@ -1,4 +1,12 @@
 <?php
+/**
+ * API untuk login user dan mendapatkan token.
+ * method: 'POST'
+ * path: '/api/v1/user-auth/login'
+ * payload: form-data 
+ * - userEmail (String)
+ * - userPassword (String)
+ */
 defined('BASEPATH') OR exit('No direct script access allowed');
 
     require APPPATH . '../vendor/autoload.php';
@@ -49,8 +57,8 @@ class login extends Actudent {
         $payload['userName'] = $userName;
         $payload['userEmail'] = $userEmail;
         $payload['userLevel'] = $userLevel;
-        $payload['iat'] = $this->GetCurrentDate();
-        $payload['exp'] = $this->GetCurrentDate() + 3600;
+        $payload['iat'] = $this->getCurrentDate();
+        $payload['exp'] = $this->getCurrentDate() + 3600;
         return JWT::encode($payload, $this->secretKey);
     }
 
@@ -60,6 +68,11 @@ class login extends Actudent {
         } else {
             return FALSE;
         }
+    }
+
+    public function getCurrentDate(){
+        $date = new DateTime();
+        return $date->getTimestamp();
     }
     
 }
