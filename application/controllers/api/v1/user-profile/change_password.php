@@ -23,8 +23,8 @@ class change_password extends Actudent {
     }
 
     private function initialize(){
-        $userPassword = $this->input->post('userPassword', TRUE);
-        $newPassword = $this->input->post('newPassword', TRUE);
+        $userPassword = $this->input->post('user_password', TRUE);
+        $newPassword = $this->input->post('new_password', TRUE);
         $tokenID = $this->input->get_request_header('authorization');
 
         if(empty($tokenID)){
@@ -44,13 +44,13 @@ class change_password extends Actudent {
             $this->sendResponse($response, 500);
         }
 
-        $userPassword = $this->input->post('userPassword', TRUE);
-        $newPassword = $this->input->post('newPassword', TRUE);
+        $userPassword = $this->input->post('user_password', TRUE);
+        $newPassword = $this->input->post('new_password', TRUE);
 
         $user = $this->userModel->checkUserbyId($userID);
         if(element('status', $user)==TRUE) {
-            if($this->verifyPassword($userPassword, element('userPassword', $user))){
-                $data = array('userPassword' => $this->createPassword($newPassword));
+            if($this->verifyPassword($userPassword, element('user_password', $user))){
+                $data = array('user_password' => $this->createPassword($newPassword));
                 $this->userModel->updateUser($data, $userID);
                 $response = ['status' => TRUE, 'successCode' => 'suc001', 'msg' => $this->GetSuccessMessage('suc001')];
                 $this->sendResponse($response, 200);

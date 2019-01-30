@@ -201,7 +201,7 @@ class Actudent extends CI_Controller
         try 
         {
             $decode = JWT::decode($tokenID, $this->secretKey,array('HS256'));
-            $whereArray = ['userID' => $decode->userID, 'userName' => $decode->userName, 'userEmail' => $decode->userEmail, 'userLevel' => $decode->userLevel, 'userStatus' => '1'];
+            $whereArray = ['user_id' => $decode->user_id, 'user_name' => $decode->user_name, 'user_email' => $decode->user_email, 'user_level' => $decode->user_level, 'user_status' => '1'];
             if(!$this->userModel->isValidUser($whereArray))
             {
                 $response = ['status' => FALSE, 'errorCode' => 'err003', 'msg' => $this->GetErrorMessage('err003')];    

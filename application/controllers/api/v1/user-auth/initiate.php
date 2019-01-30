@@ -23,7 +23,6 @@ class initiate extends Actudent {
         if(empty($tokenID)){
             $response = ['status' => FALSE, 'errorCode' => 'err006', 'msg' => $this->GetErrorMessage('err006')];    
             $this->sendResponse($response, 500);
-            exit;
         }
     }
 
@@ -31,9 +30,9 @@ class initiate extends Actudent {
         $tokenID = $this->input->get_request_header('authorization');
         try {
             $decode = JWT::decode($tokenID, $this->secretKey,array('HS256'));
-            $whereArray = ['userID' => $decode->userID, 'userName' => $decode->userName, 'userEmail' => $decode->userEmail, 'userLevel' => $decode->userLevel, 'userStatus' => '1'];
+            $whereArray = ['user_id' => $decode->user_id, 'user_name' => $decode->user_name, 'user_email' => $decode->user_email, 'user_level' => $decode->user_level, 'user_status' => '1'];
             if($this->userModel->isValidUser($whereArray)){
-                $response = ['status' => TRUE];    
+                $response = ['status' => TRUE, 'successCode' => 'suc001', 'msg' => $this->GetSuccessMessage('suc001')];    
                 $this->sendResponse($response, 200);
             } else {
                $response = ['status' => FALSE, 'errorCode' => 'err003', 'msg' => $this->GetErrorMessage('err003')];    

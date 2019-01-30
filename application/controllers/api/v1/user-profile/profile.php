@@ -1,7 +1,7 @@
 <?php
 /**
  * API untuk mengambil data user.
- * method: 'POST'
+ * method: 'GET'
  * path: '/api/v1/user-profile/profile/{userID}'
  * headers: authorization
  * params: userID 
@@ -36,8 +36,8 @@ class profile extends Actudent {
 
         $user = $this->userModel->checkUserbyId($userID);
         if(element('status', $user)==TRUE) {
-            unset($user['status']);
-            unset($user['userPassword']);
+            unset($user['user_status']);
+            unset($user['user_password']);
             $response = ['status' => TRUE, 'successCode' => 'suc001', 'msg' => $this->GetSuccessMessage('suc001'), 'result' => $user];
             $this->sendResponse($response, 200);
         } else {

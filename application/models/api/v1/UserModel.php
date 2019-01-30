@@ -4,16 +4,16 @@ class UserModel extends CI_Model {
     var $tableUser = "tb_user";
 
     public function checkUser($userEmail) {
-        $query = $this->db->get_where($this->tableUser, ['userEmail' => $userEmail, 'userStatus' => '1']);
+        $query = $this->db->get_where($this->tableUser, ['user_email' => $userEmail, 'user_status' => '1']);
         if($query->num_rows() > 0){
             $user = $query->result();
             $response = array(
                 'status' => TRUE,
-                'userID' => $user[0]->userID, 
-                'userName' => $user[0]->userName, 
-                'userEmail' => $user[0]->userEmail,
-                'userPassword' => $user[0]->userPassword,
-                'userLevel' => $user[0]->userLevel);
+                'user_id' => $user[0]->user_id, 
+                'user_name' => $user[0]->user_name, 
+                'user_email' => $user[0]->user_email,
+                'user_password' => $user[0]->user_password,
+                'user_level' => $user[0]->user_level);
             return $response;
         } else {
             $response = array('status' => FALSE);
@@ -22,16 +22,16 @@ class UserModel extends CI_Model {
     }
 
     public function checkUserbyId($userID) {
-        $query = $this->db->get_where($this->tableUser, ['userID' => $userID, 'userStatus' => '1']);
+        $query = $this->db->get_where($this->tableUser, ['user_id' => $userID, 'user_status' => '1']);
         if($query->num_rows() > 0){
             $user = $query->result();
             $response = array(
                 'status' => TRUE,
-                'userID' => $user[0]->userID, 
-                'userName' => $user[0]->userName, 
-                'userEmail' => $user[0]->userEmail,
-                'userPassword' => $user[0]->userPassword,
-                'userLevel' => $user[0]->userLevel);
+                'user_id' => $user[0]->user_id, 
+                'user_name' => $user[0]->user_name, 
+                'user_email' => $user[0]->user_email,
+                'user_password' => $user[0]->user_password,
+                'user_level' => $user[0]->user_level);
             return $response;
         } else {
             $response = array('status' => FALSE);
@@ -50,7 +50,7 @@ class UserModel extends CI_Model {
     
     public function getUserID($userID){
         $this->db->from($this->tableUser);
-		$this->db->where('userID',$userID);
+		$this->db->where('user_id',$userID);
 		$query = $this->db->get();
 		return $query->row();
     }
@@ -61,7 +61,7 @@ class UserModel extends CI_Model {
     }
 
     public function updateUser($data, $userID) {
-        $this->db->where('userID', $userID);
+        $this->db->where('user_id', $userID);
         $this->db->update($this->tableUser, $data);
 		$this->db->affected_rows();
     }
