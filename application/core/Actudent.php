@@ -45,7 +45,7 @@ class Actudent extends CI_Controller
         parent:: __construct();
         $this->load->model([
             'admin/SekolahModel' => 'sekolah', 'AuthModel' => 'auth',
-            'admin/SettingModel' => 'setting',
+            'admin/SettingModel' => 'setting', 'api/v1/UserModel' => 'userModel',
         ]);
     }
 
@@ -213,5 +213,13 @@ class Actudent extends CI_Controller
             $response = ['status' => FALSE, 'errorCode' => 'err004', 'msg' => $this->GetErrorMessage('err004')];
             $this->sendResponse($response, 400);
         }
+    }
+
+    public function initializeToken($tokenID){
+        if(empty($tokenID)){
+            $response = ['status' => FALSE, 'errorCode' => 'err006', 'msg' => $this->GetErrorMessage('err006')];    
+            $this->sendResponse($response, 500);
+        }
+        $this->checkToken($tokenID);
     }
 }
