@@ -20,7 +20,12 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-require APPPATH . '../vendor/autoload.php';
+$jwtVendor = APPPATH . '../vendor/autoload.php';
+if(file_exists($jwtVendor))
+{
+    require $jwtVendor;
+}
+
 use \Firebase\JWT\JWT;
 
 /**
