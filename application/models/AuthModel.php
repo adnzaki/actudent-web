@@ -26,17 +26,17 @@ class AuthModel extends CI_Model
      */
     public function getDataPengguna($username)
     {
-        $query = $this->db->select('userName, userEmail, userLevel')->from($this->user)
-                ->where('userEmail', $username)->get()->result();
+        $query = $this->db->select('user_name, user_email, user_level')->from($this->user)
+                ->where('user_email', $username)->get()->result();
         return $query[0];
     }
 
     public function getUserThemes($username)
     {
-        $userID = $this->db->select('userID, userEmail')->from($this->user)
-                ->where('userEmail', $username)->get()->result();
+        $userID = $this->db->select('user_id, user_email')->from($this->user)
+                ->where('user_email', $username)->get()->result();
         
-        return $this->db->get_where($this->userThemes, ['userID' => $userID[0]->userID])->result();
+        return $this->db->get_where($this->userThemes, ['user_id' => $userID[0]->user_id])->result();
     }
 
     /**
@@ -49,7 +49,7 @@ class AuthModel extends CI_Model
     {
         $this->db->update($this->user, [
             'network' => $status
-        ], ['userEmail' => $username]);
+        ], ['user_email' => $username]);
     }
 
     /**
@@ -61,11 +61,11 @@ class AuthModel extends CI_Model
     {
         $username = $this->input->post('username', true);
         $password = $this->input->post('password', true);
-        $cari = $this->db->get_where($this->user, ['userEmail' => $username]);
+        $cari = $this->db->get_where($this->user, ['user_email' => $username]);
         if($cari->num_rows() > 0 && $this->userAktif($username))
         {
             $userAktif = $cari->result();
-            if(password_verify($password, $userAktif[0]->userPassword))
+            if(password_verify($password, $userAktif[0]->user_password))
             {
                 return true;
             }
@@ -88,8 +88,8 @@ class AuthModel extends CI_Model
      */
     public function userAktif(string $username): bool
     {
-        $query = $this->db->get_where($this->user, ['userEmail' => $username])->result();
-        if($query[0]->userStatus === '1')
+        $query = $this->db->get_where($this->user, ['user_email' => $username])->result();
+        if($query[0]->user_status === '1')
         {
             return true;
         }

@@ -30,8 +30,8 @@ class AuthController extends Actudent
             $pengguna = $this->auth->getDataPengguna($username);
             $session = [
                 'email'     => $username,
-                'nama'      => $pengguna->userName,
-                'userLevel' => $pengguna->userLevel,
+                'nama'      => $pengguna->user_name,
+                'userLevel' => $pengguna->user_level,
                 'logged_in' => true
             ];
             $this->session->set_userdata($session);

@@ -45,17 +45,17 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th @click="sortData('studentNis')">NIS<i class="la la-sort"></th>
-                <th @click="sortData('studentName')">Nama Siswa<i class="la la-sort"></th>
-                <th @click="sortData('gradeName')">Kelas<i class="la la-sort"></th>
+                <th @click="sortData('student_nis')">NIS<i class="la la-sort"></th>
+                <th @click="sortData('student_name')">Nama Siswa<i class="la la-sort"></th>
+                <th @click="sortData('grade_name')">Kelas<i class="la la-sort"></th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(item, index) in data" :key="index">
                 <td scope="row">{{ index + 1 }}</td>
-                <td>{{ item.studentNis }}</td>
-                <td>{{ item.studentName }}</td>
-                <td>{{ item.gradeName }}</td>
+                <td>{{ item.student_nis }}</td>
+                <td>{{ item.student_name }}</td>
+                <td>{{ item.grade_name }}</td>
             </tr>
         </tbody>
         </table>

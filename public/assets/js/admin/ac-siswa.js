@@ -50,8 +50,8 @@ const siswa = new Vue({
             this.getData({
                 limit: 10,
                 offset: 0,
-                orderBy: 'studentName',
-                searchBy: 'studentNis-studentName-gradeName',
+                orderBy: 'student_name',
+                searchBy: 'student_nis-student_name-grade_name',
                 sort: 'DESC',
                 search: '',
                 url: `${this.siswa}getDataSiswa/`,

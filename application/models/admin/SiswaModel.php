@@ -35,12 +35,12 @@ class SiswaModel extends CI_Model
      * @param string $search 
      * @return object
      */
-    public function getSiswaQuery($limit, $offset, $orderBy = 'studentName', $searchBy = 'studentName', $sort = 'ASC', $search = '')
+    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
 
         // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
-        $query = $joinAndSearch->where('studentStatus', '1')->order_by($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where('student_status', '1')->order_by($orderBy, $sort)->limit($limit, $offset);
         return $query->get();
     }
 
@@ -51,11 +51,11 @@ class SiswaModel extends CI_Model
      * @param string $search
      * @return int
      */
-    public function getSiswaRows($searchBy = 'studentName', $search = '')
+    public function getSiswaRows($searchBy = 'student_name', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
 
-        return $joinAndSearch->where('studentStatus', '1')->get()->num_rows();
+        return $joinAndSearch->where('student_status', '1')->get()->num_rows();
     }
 
     /**
@@ -71,10 +71,10 @@ class SiswaModel extends CI_Model
         // Query:   SELECT studentNis, studentName, gradeName, studentStatus FROM tb_student
         //          JOIN tb_student_grade ON tb_student_grade.studentID = tb_student.studentID
         //          JOIN tb_grade ON tb_grade.gradeID = tb_student_grade.gradeID 
-        $field = 'studentNis, studentName, gradeName, studentStatus';
+        $field = 'student_nis, student_name, grade_name, student_status';
         $join = $this->db->select($field)->from($this->siswa)
-                ->join($this->kelasSiswa, "{$this->kelasSiswa}.studentID = {$this->siswa}.studentID")
-                ->join($this->kelas, "{$this->kelas}.gradeID = {$this->kelasSiswa}.gradeID");
+                ->join($this->kelasSiswa, "{$this->kelasSiswa}.student_id = {$this->siswa}.student_id")
+                ->join($this->kelas, "{$this->kelas}.grade_id = {$this->kelasSiswa}.grade_id");
 
         if(! empty($search))
         {
@@ -105,5 +105,21 @@ class SiswaModel extends CI_Model
     public function getKelas()
     {
         return $this->db->get($this->kelas)->result();
+    }
+
+    public function insert($data)
+    {
+        $this->db->insert($this->siswa, $data['student']);
+        $this->db->insert($this->kelasSiswa, $data['studentGrade']);
+    }
+
+    public function update()
+    {
+
+    }
+
+    public function delete()
+    {
+
     }
 }

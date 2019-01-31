@@ -53,7 +53,7 @@ class SettingModel extends CI_Model
         $theme = $this->auth->getUserThemes($username);
         $this->db->update($this->userThemes, [
             'theme' => $selectedTheme,
-        ], ['userID' => $theme[0]->userID]);
+        ], ['user_id' => $theme[0]->userID]);
     }
 
     /**
