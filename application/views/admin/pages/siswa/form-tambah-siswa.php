@@ -25,7 +25,7 @@ aria-hidden="true" style="overflow: hidden;">
                         <div class="form-group">
                             <label for="selectGrade">Kelas</label>
                             <select class="select2 form-control block" id="selectGrade" name="gradeID" style="width: 100%">
-                                <option v-for="item in daftarKelas" :value="item.gradeID">{{ item.gradeName }}</option>
+                                <option v-for="item in daftarKelas" :value="item.grade_id">{{ item.grade_name }}</option>
                             </select>
                             <form-error :msg="error.gradeName" />
                         </div>
