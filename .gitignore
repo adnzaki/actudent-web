@@ -33,6 +33,7 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 # Actudent ignored files
 public/app-assets
 public/assets/scss
+public/assets/js/component-source
 public/assets/js/vue-2.5.17
 public/assets/js/vue-2.5.17.zip
 public/images/bg
