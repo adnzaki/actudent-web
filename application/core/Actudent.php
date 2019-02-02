@@ -72,7 +72,7 @@ class Actudent extends CI_Controller
             'css'                   => base_url() . 'public/css/',
             'fonts'                 => base_url() . 'public/fonts/',
             'images'                => base_url() . 'public/images/',
-            'admin'                 => base_url() . 'admin/',            
+            'admin'                 => base_url() . 'index.php/admin/',            
             'namaSekolah'           => $sekolah->schoolName ?? '',
             'namaPengguna'          => $pengguna->userName ?? '',
             'theme'                 => $userTheme ?? '',
@@ -157,6 +157,7 @@ class Actudent extends CI_Controller
             'err004' => 'Signature verification failed',
             'err005' => 'User already exists',
             'err006' => 'Token required',
+            'err007' => 'User does not exists',
         ];
 
         return element($code, $ErrorMessage);

@@ -63,6 +63,8 @@ $route['translate_uri_dashes'] = FALSE;
 
 // Route Pattern
 $route['api/v1'] = 'api/v1/welcome';
+//organization
+$route['api/v1/organization/initiate'] = 'api/v1/organization/initiate';
 // user-auth
 $route['api/v1/user-auth/login'] = 'api/v1/user-auth/login';
 $route['api/v1/user-auth/logout'] = 'api/v1/user-auth/logout';

@@ -26,16 +26,11 @@ class change_password extends Actudent {
         $userPassword = $this->input->post('user_password', TRUE);
         $newPassword = $this->input->post('new_password', TRUE);
         $tokenID = $this->input->get_request_header('authorization');
-
-        if(empty($tokenID)){
-            $response = ['status' => FALSE, 'errorCode' => 'err006', 'msg' => $this->GetErrorMessage('err006')];    
-            $this->sendResponse($response, 500);
-        }
+        $this->initializeToken($tokenID);
         if(empty($userPassword)||empty($newPassword)) {
             $response = ['status' => FALSE, 'errorCode' => 'err002', 'msg' => $this->GetErrorMessage('err002')];
             $this->sendResponse($response, 500);
         }
-        $this->checkToken($tokenID);
     }
 
     public function index($userID) {
