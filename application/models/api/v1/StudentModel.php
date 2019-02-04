@@ -11,4 +11,11 @@ class StudentModel extends CI_Model {
 		$query = $this->db->get();
 		return $query->result();
     }
+
+    public function getStudentDetail($studentId){
+        $this->db->from($this->tableStudent);
+        $this->db->where('student_id',$studentId);
+		$query = $this->db->get();
+		return $query->row();
+    }
 }

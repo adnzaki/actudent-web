@@ -21,12 +21,12 @@ class KelasModel extends CI_Model
      * @param string $search 
      * @return object
      */
-    public function getKelasQuery($limit, $offset, $orderBy = 'gradeName', $searchBy = 'gradeName', $sort = 'ASC', $search = '')
+    public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
 
         // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
-        $query = $joinAndSearch->where('gradeStatus', '1')->order_by($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where('grade_status', '1')->order_by($orderBy, $sort)->limit($limit, $offset);
         return $query->get();
     }
 
@@ -37,11 +37,11 @@ class KelasModel extends CI_Model
      * @param string $search
      * @return int
      */
-    public function getKelasRows($searchBy = 'gradeName', $search = '')
+    public function getKelasRows($searchBy = 'grade_name', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
 
-        return $joinAndSearch->where('gradeStatus', '1')->get()->num_rows();
+        return $joinAndSearch->where('grade_status', '1')->get()->num_rows();
     }
 
     /**
@@ -57,7 +57,7 @@ class KelasModel extends CI_Model
         // Query:   SELECT studentNis, studentName, gradeName, studentStatus FROM tb_student
         //          JOIN tb_student_grade ON tb_student_grade.studentID = tb_student.studentID
         //          JOIN tb_grade ON tb_grade.gradeID = tb_student_grade.gradeID 
-        $field = 'gradeName, periodFrom, periodUntil, gradeStatus';
+        $field = 'grade_name, period_from, period_until, grade_status';
         $join = $this->db->select($field)->from($this->kelas);
         
         if(! empty($search))
