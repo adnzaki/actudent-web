@@ -17,7 +17,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
     <div class="content-wrapper">
       <div class="content-header row">
       </div>
-      <div class="content-body">
+      <div class="content-body" id="dashboard-content">
         <!-- App Content Here -->
       </div>
     </div>
@@ -26,6 +26,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <?php $this->view('admin/component/footer') ?>
   <!-- BEGIN VENDOR JS-->
   <?php $this->view('admin/component/scripts') ?>
+  <script src="{assets}js/admin/ac-dashboard.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>
