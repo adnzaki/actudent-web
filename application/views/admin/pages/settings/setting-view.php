@@ -17,11 +17,12 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2 breadcrumb-new">
-          <h3 class="content-header-title mb-0 d-inline-block">Pengaturan Aplikasi</h3>
+          <h3 class="content-header-title mb-0 d-inline-block"><?= lang('app_setting_title') ?></h3>
         </div>     
       </div>
       <div class="content-body" id="setting-content">
-       <?php $this->view('admin/pages/settings/app-setting-content'); ?>
+       <?php $this->view('admin/pages/settings/app-theme'); ?>
+       <?php $this->view('admin/pages/settings/app-language'); ?>
       </div>
     </div>
   </div>

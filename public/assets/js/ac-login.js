@@ -6,19 +6,23 @@
  */
 
 const login = new Vue({
-    el: '#login-content',
+	el: '#login-content',
+	mixins: [plugin],
     data: {
         auth: `${admin}AuthController/`,
         username: '', password: '',
         msg: '', msgClass: 'error-text',
         showMsg: false, remember: false,
-    },
+	},
+	mounted() {
+		this.getLanguageResources()
+	},
     methods: {
         validasi() {
             this.msg = ''
             this.showMsg = true
             if (this.username === '' || this.password === '') {
-            	this.msg = 'Silakan masukkan username dan password anda'
+            	this.msg = this.lang.userpassword_wajib
             } else {
                 var data = $("#form-login").serialize()
                 $.ajax({
@@ -26,24 +30,24 @@ const login = new Vue({
                 	type: 'post',
                 	data: data,
                 	beforeSend: () => {
-                		this.msg = 'Mengautentikasi...'
+                		this.msg = this.lang.mengautentikasi
                 		this.msgClass = 'loading-text'
                 	},
                 	success: msg => {
                 		if (msg === 'valid') {
-                			this.msg = 'Login berhasil, mengalihkan...'
+                			this.msg = this.lang.login_sukses
                 			this.msgClass = 'success-text'
                 			window.location.href = `${admin}home`
                 		} else {
                 			this.msgClass = 'error-text'
-                			this.msg = 'Username atau password yang anda masukkan salah'
+                			this.msg = this.lang.invalid_login
                 			setTimeout(() => {
                 				this.showMsg = false
                 			}, 4000)
                 		}
                 	},
                 	error: () => {
-                		alert('Tidak dapat terhubung ke server')
+                		alert(this.lang.login_error)
                 		this.showMsg = ''
                 		this.showMsg = false
                 	}

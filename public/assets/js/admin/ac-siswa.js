@@ -15,7 +15,7 @@ const siswa = new Vue({
             gradeName: '',
         },
         alert: {
-            class: 'alert bg-danger', show: true,
+            class: 'alert bg-danger', show: false,
             header: 'Sukses', text: 'heheheh',
         },
         flashAlert: {
@@ -35,6 +35,7 @@ const siswa = new Vue({
         }, 200);
         this.runSelect2()
         this.select2ShowPerPage('#showRows')
+        this.getLanguageResources()
     },
     methods: {
         showFormTambah() {
@@ -45,6 +46,13 @@ const siswa = new Vue({
                     this.daftarKelas = data
                 }
             })
+        },
+        testSimpan() {
+            this.alert.class = 'alert bg-success'
+            this.alert.text = this.lang.siswa_add_sukses
+            this.alert.header = this.lang.sukses
+            this.alert.show = true
+            setTimeout(() => { this.alert.show = false }, 4000);
         },
         getSiswa() {
             this.getData({

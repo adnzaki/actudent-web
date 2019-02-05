@@ -51,7 +51,10 @@ class Actudent extends CI_Controller
         $this->load->model([
             'admin/SekolahModel' => 'sekolah', 'AuthModel' => 'auth',
             'admin/SettingModel' => 'setting', 'api/v1/UserModel' => 'userModel',
-        ]);
+        ]);        
+        
+        $bahasa = $this->getUserLanguage();
+        $this->lang->load('actudent', $bahasa);
     }
 
     /**
@@ -65,6 +68,7 @@ class Actudent extends CI_Controller
         $sekolah = $this->getDataSekolah();
         $theme = $this->getUserThemes()['data'];
         $userTheme = $this->getUserThemes()['selectedTheme'];
+        $bahasa = $this->getUserLanguage();
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . 'public/assets/',
@@ -72,9 +76,11 @@ class Actudent extends CI_Controller
             'css'                   => base_url() . 'public/css/',
             'fonts'                 => base_url() . 'public/fonts/',
             'images'                => base_url() . 'public/images/',
-            'admin'                 => base_url() . 'admin/',            
+            'admin'                 => base_url() . 'admin/',    
+            'public'                => base_url() . 'public/',
             'namaSekolah'           => $sekolah->school_name ?? '',
             'namaPengguna'          => $pengguna->user_name ?? '',
+            'bahasa'                => $bahasa ?? '',
             'theme'                 => $userTheme ?? '',
             'bodyColor'             => $theme['bodyColor'],
             'footerColor'           => $theme['footerColor'],
@@ -139,6 +145,35 @@ class Actudent extends CI_Controller
                 'selectedTheme' => $userTheme[0]->theme,
                 'data' => $wrapper,
             ];
+        }
+    }
+
+    /**
+     * Mengatur bahasa yang dipilih pengguna
+     * 
+     * @param string $lang
+     * @return void
+     */
+    protected function setLanguage(string $lang): void
+    {
+        // Set bahasa yang dipilih pengguna
+        $this->lang->load('actudent', $lang);
+
+        // simpan ke dalam session
+        $this->session->set_userdata('actudent_lang', $lang);
+    }
+
+    /**
+     * Mengambil preferensi bahasa pengguna 
+     * 
+     * @return string
+     */
+    protected function getUserLanguage()
+    {
+        if(isset($_SESSION['email']))
+        {
+            $lang = $this->auth->getUserLanguage($_SESSION['email']);
+            return $lang[0]->user_language;
         }
     }
 

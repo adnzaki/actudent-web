@@ -6,20 +6,6 @@ require_once APPPATH.'models/AuthModel.php';
 class SettingModel extends CI_Model
 {
     /**
-     * Tabel tb_setting
-     * 
-     * @var string
-     */
-    private $setting = 'tb_settings';
-
-    /**
-     * Tabel tb_user_themes
-     * 
-     * @var string 
-     */
-    private $userThemes = 'tb_user_themes';
-
-    /**
      * Auth Model 
      * 
      * @var object
@@ -32,16 +18,6 @@ class SettingModel extends CI_Model
     }
 
     /**
-     * Mengambil pengaturan
-     * 
-     * @return void
-     */
-    public function getSettings()
-    {
-        return $this->db->get($this->setting)->result();
-    }
-
-    /**
      * Set warna tema aplikasi
      * 
      * @param string $username
@@ -51,9 +27,24 @@ class SettingModel extends CI_Model
     public function setTheme($username, $selectedTheme)
     {
         $theme = $this->auth->getUserThemes($username);
-        $this->db->update($this->userThemes, [
+        $this->db->update($this->auth->userThemes, [
             'theme' => $selectedTheme,
         ], ['user_id' => $theme[0]->user_id]);
+    }
+
+    /**
+     * Set bahasa aplikasi
+     * 
+     * @param string $username
+     * @param string $selectedLanguage
+     * @return void
+     */
+    public function setUserLanguage($username, $selectedLanguage)
+    {
+        $lang = $this->auth->getUserLanguage($username);
+        $this->db->update($this->auth->userLanguage, [
+            'user_language' => $selectedLanguage,
+        ], ['user_id' => $lang[0]->user_id]);
     }
 
     /**

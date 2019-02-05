@@ -16,7 +16,15 @@ class AuthModel extends CI_Model
      * 
      * @var string
      */
-    private $userThemes = 'tb_user_themes';
+    public $userThemes = 'tb_user_themes';
+
+    /**
+     * Tabel tb_user_language 
+     * Daftar preferensi bahasa pengguna aplikasi
+     * 
+     * @var string
+     */
+    public $userLanguage = 'tb_user_language';
 
     /**
      * Mengambil data pengguna yang berhasil login 
@@ -31,12 +39,32 @@ class AuthModel extends CI_Model
         return $query[0];
     }
 
+    /**
+     * Mengambil preferensi tema pengguna
+     * 
+     * @param string $username 
+     * @return object
+     */
     public function getUserThemes($username)
     {
         $userID = $this->db->select('user_id, user_email')->from($this->user)
                 ->where('user_email', $username)->get()->result();
         
         return $this->db->get_where($this->userThemes, ['user_id' => $userID[0]->user_id])->result();
+    }
+
+    /**
+     * Mengambil preferensi bahasa pengguna
+     * 
+     * @param string $username
+     * @return object
+     */
+    public function getUserLanguage($username)
+    {
+        $userID = $this->db->select('user_id, user_email')->from($this->user)
+                ->where('user_email', $username)->get()->result();
+        
+        return $this->db->get_where($this->userLanguage, ['user_id' => $userID[0]->user_id])->result();
     }
 
     /**

@@ -24,4 +24,10 @@ class SettingController extends Actudent
         $this->setting->setTheme($_SESSION['email'], $tema);
         redirect('admin/pengaturan-aplikasi');
     }
+
+    public function setBahasa($bahasa)
+    {
+        $this->setting->setUserLanguage($_SESSION['email'], $bahasa);
+        redirect('admin/pengaturan-aplikasi');
+    }
 }

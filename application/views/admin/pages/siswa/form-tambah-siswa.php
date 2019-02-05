@@ -4,7 +4,7 @@ aria-hidden="true" style="overflow: hidden;">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header {modalHeaderColor} white">
-                <h4 class="modal-title white" id="myModalLabel2"><i class="la la-road2"></i> Basic Modal</h4>
+                <h4 class="modal-title white" id="myModalLabel2"><i class="la la-road2"></i> {{ lang.siswa_add_title }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -14,16 +14,16 @@ aria-hidden="true" style="overflow: hidden;">
                     <div class="form-body">                        
                         <div class="form-group">
                             <label for="userinput5">NIS</label>
-                            <input class="form-control border-primary" type="text" placeholder="Nomor Induk Sekolah" name="studentNis">
+                            <input class="form-control border-primary" type="text" :placeholder="lang.siswa_add_title" name="studentNis">
                             <form-error :msg="error.studentNis" />
                         </div>
                         <div class="form-group">
-                            <label for="userinput6">Nama Siswa</label>
-                            <input class="form-control border-primary" type="text" placeholder="Nama Lengkap Peserta Didik" name="studentName">
+                            <label for="userinput6">{{ lang.siswa_nama }}</label>
+                            <input class="form-control border-primary" type="text" :placeholder="lang.siswa_input_nama" name="studentName">
                             <form-error :msg="error.studentName" />
                         </div>
                         <div class="form-group">
-                            <label for="selectGrade">Kelas</label>
+                            <label for="selectGrade">{{ lang.siswa_kelas }}</label>
                             <select class="select2 form-control block" id="selectGrade" name="gradeID" style="width: 100%">
                                 <option v-for="item in daftarKelas" :value="item.grade_id">{{ item.grade_name }}</option>
                             </select>
@@ -35,9 +35,9 @@ aria-hidden="true" style="overflow: hidden;">
             </div>
             <div class="modal-footer">
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal"> Batal</button>
-                    <button type="button" class="btn btn-primary"> Simpan</button>
-                    <button type="button" class="btn btn-light"> Simpan dan Tutup</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal"> {{ lang.batal }}</button>
+                    <button type="button" class="btn btn-primary" @click="testSimpan"> {{ lang.simpan }}</button>
+                    <button type="button" class="btn btn-light"> {{ lang.simpan_tutup }}</button>
                 </div>
             </div>
         </div>

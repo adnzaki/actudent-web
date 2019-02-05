@@ -1,3 +1,11 @@
+<script>
+    var baseURL = "<?= base_url() ?>";
+    var admin = "<?= $admin ?>";
+    var public = "<?= $public ?>";
+    var warnaTema = "<?= $theme ?>";
+    var bahasa = "<?= $bahasa ?>"
+    var xhr = new XMLHttpRequest();
+  </script>
 <script src="{appAssets}vendors/js/vendors.min.js" type="text/javascript"></script>
 <script src="{appAssets}vendors/js/forms/select/select2.full.min.js" type="text/javascript"></script>
   <!-- BEGIN VENDOR JS-->
@@ -20,9 +28,3 @@
   <script src="{assets}js/ss-paging.js" type="text/javascript"></script>
   <script src="{assets}js/components.js" type="text/javascript"></script>
   
-  <script>
-    var baseURL = "<?= base_url() ?>";
-    var admin = "<?= $admin ?>";
-    var warnaTema = "<?= $theme ?>";
-    var xhr = new XMLHttpRequest();
-  </script>

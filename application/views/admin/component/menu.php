@@ -2,34 +2,34 @@
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
       <li class="<?= menu_active('home', 'active') ?> nav-item">
-        <a href="{admin}home"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">Dashboard</span></a>
+        <a href="{admin}home"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_dashboard') ?></span></a>
       </li>
       <li class="<?= menu_active('siswa', 'active') ?> nav-item">
-        <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">Data Siswa</span></a>
+        <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_siswa') ?></span></a>
       </li>
       <li class="<?= menu_active('kelas', 'active') ?> nav-item">
-        <a href="{admin}kelas"><i class="la la-bank"></i><span class="menu-title" data-i18n="nav.dash.main">Kelas</span></a>
+        <a href="{admin}kelas"><i class="la la-bank"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_kelas') ?></span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
-        <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">Kehadiran</span></a>
+        <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_kehadiran') ?></span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
-        <a href="{admin}siswa"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">Agenda Sekolah</span></a>
+        <a href="{admin}siswa"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_agenda') ?></span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
-        <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">Jadwal Pelajaran</span></a>
+        <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_jadwal') ?></span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
-        <a href="{admin}siswa"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">Pesan</span></a>
+        <a href="{admin}siswa"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_pesan') ?></span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
-        <a href="{admin}siswa"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">Nilai</span></a>
+        <a href="{admin}siswa"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_nilai') ?></span></a>
       </li>
-      <li class=" nav-item"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.icons.main">Pengaturan</span></a>
+      <li class=" nav-item"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.icons.main"><?= lang('menu_pengaturan') ?></span></a>
         <ul class="menu-content">
-          <li class="<?= menu_active('aaa', 'active') ?>"><a class="menu-item" href="#" data-i18n="nav.icons.icons_feather">Pengguna</a>
+          <li class="<?= menu_active('aaa', 'active') ?>"><a class="menu-item" href="#" data-i18n="nav.icons.icons_feather"><?= lang('menu_pengguna') ?></a>
           </li>
-          <li class="<?= menu_active('pengaturan-aplikasi', 'active') ?>"><a class="menu-item" href="{admin}pengaturan-aplikasi" data-i18n="nav.icons.icons_line_awesome">Aplikasi</a>
+          <li class="<?= menu_active('pengaturan-aplikasi', 'active') ?>"><a class="menu-item" href="{admin}pengaturan-aplikasi" data-i18n="nav.icons.icons_line_awesome"><?= lang('menu_aplikasi') ?></a>
           </li>
         </ul>
       </li>

@@ -1,4 +1,8 @@
 const plugin = {
+	data: {
+		lang: '',
+		public: `${public}resources/`,
+	},
     methods: {
         runSelect2() {
             (function(window, document, $) {
@@ -354,6 +358,15 @@ const plugin = {
                 obj.rows = data.id
                 obj.showPerPage()                
             })
-        }
+        },
+        getLanguageResources() {
+			$.ajax({
+				url: `${this.public}language`,
+				dataType: 'json',
+				success: data => {
+					this.lang = data
+				}
+			})				
+		},
     }
 }

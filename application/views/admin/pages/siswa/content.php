@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card {cardColor}">
             <div class="card-header {cardColor}">
-                <h4 class="card-title {cardTitleColor}">Data Siswa</h4>
+                <h4 class="card-title {cardTitleColor}">{{ lang.siswa_title }}</h4>
                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                 <div class="heading-elements">
                     <ul class="list-inline mb-0">
