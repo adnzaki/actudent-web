@@ -63,6 +63,9 @@ $route['translate_uri_dashes'] = FALSE;
 
 // Route Pattern
 $route['api/v1'] = 'api/v1/welcome';
+//organization
+$route['api/v1/organization/initiate'] = 'api/v1/organization/initiate';
+$route['api/v1/organization/organization_detail'] = 'api/v1/organization/organization_detail';
 // user-auth
 $route['api/v1/user-auth/login'] = 'api/v1/user-auth/login';
 $route['api/v1/user-auth/logout'] = 'api/v1/user-auth/logout';
@@ -70,4 +73,5 @@ $route['api/v1/user-profile/change_password/(:any)'] = 'api/v1/user-profile/chan
 $route['api/v1/user-profile/profile/(:any)'] = 'api/v1/user-profile/profile/index/$1';
 // student
 $route['api/v1/student/student_list/(:any)'] = 'api/v1/student/student_list/index/$1';
+$route['api/v1/student/student_detail/(:any)'] = 'api/v1/student/student_detail/index/$1';
 

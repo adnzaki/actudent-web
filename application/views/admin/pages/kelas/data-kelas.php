@@ -41,17 +41,17 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th @click="sortData('student_nis')">NIS<i class="la la-sort"></th>
-                <th @click="sortData('student_name')">{{ lang.siswa_nama }}<i class="la la-sort"></th>
-                <th @click="sortData('grade_name')">{{ lang.siswa_kelas }}<i class="la la-sort"></th>
+                <th @click="sortData('grade_name')">Nama Kelas<i class="la la-sort"></th>
+                <th @click="sortData('period_from')">Periot Start<i class="la la-sort"></th>
+                <th @click="sortData('period_until')">Periot Last<i class="la la-sort"></th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(item, index) in data" :key="index">
                 <td scope="row">{{ index + 1 }}</td>
-                <td>{{ item.student_nis }}</td>
-                <td>{{ item.student_name }}</td>
                 <td>{{ item.grade_name }}</td>
+                <td>{{ item.period_from }}</td>
+                <td>{{ item.period_until }}</td>
             </tr>
         </tbody>
         </table>

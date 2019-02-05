@@ -21,11 +21,7 @@ class profile extends Actudent {
 
     private function initialize(){
         $tokenID = $this->input->get_request_header('authorization');
-        if(empty($tokenID)){
-            $response = ['status' => FALSE, 'errorCode' => 'err006', 'msg' => $this->GetErrorMessage('err006')];    
-            $this->sendResponse($response, 500);
-        }
-        $this->checkToken($tokenID);
+        $this->initializeToken($tokenID);
     }
 
     public function index($userID) {

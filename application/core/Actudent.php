@@ -192,6 +192,7 @@ class Actudent extends CI_Controller
             'err004' => 'Signature verification failed',
             'err005' => 'User already exists',
             'err006' => 'Token required',
+            'err007' => 'User does not exists',
         ];
 
         return element($code, $ErrorMessage);
