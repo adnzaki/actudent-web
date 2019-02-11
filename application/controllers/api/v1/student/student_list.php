@@ -19,7 +19,6 @@ class student_list extends Actudent {
             $response = ['status' => FALSE, 'errorCode' => 'err002', 'msg' => $this->GetErrorMessage('err002')];
             $this->sendResponse($response, 500);
         }
-
         $studentList = $this->studentModel->getStudentList($user_id);
         $response = ['status' => TRUE, 'results' => $studentList];
         $this->sendResponse($response, 200);
