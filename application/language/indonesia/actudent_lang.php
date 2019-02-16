@@ -45,6 +45,10 @@ $lang['siswa_input_nama']   = 'Nama lengkap peserta didik';
 $lang['siswa_add_sukses']   = 'Data peserta didik baru berhasil ditambahkan';
 $lang['siswa_add_gagal']    = 'Gagal menambahkan peserta didik baru';
 
+// teks halaman data kelas
+$lang['kelas_title']        = 'Data Kelas';
+$lang['kelas_nama']         = 'Nama Kelas';
+
 // teks halaman pengaturan aplikasi
 $lang['app_setting_title']  = 'Pengaturan Aplikasi';
 $lang['app_setting_theme']  = 'Warna Tema';

@@ -17,7 +17,12 @@ class AuthController extends Actudent
         else 
         {
             $data = $this->shared();
+
+            // mengatur bahasa awal aplikasi ketika belum ada pilihan bahasa dari pengguna
+            // atur bahasa awal ke bahasa Indonesia jika belum ada session 'actudent_lang
             $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';
+
+            // set bahasa aplikasi berdasarkan bahasa awal
             $this->setLanguage($defaultLang);
             $data['title'] = 'Autentikasi';
             $this->parser->parse('admin/pages/auth', $data);
@@ -49,7 +54,10 @@ class AuthController extends Actudent
     public function logout()
     {
         $bahasa = $this->getUserLanguage();
+
+        // simpan pilihan bahasa pengguna setelah dia logout dari aplikasi
         $this->setLanguage($bahasa);
+        
         $this->auth->statusJaringan('offline', $_SESSION['email']);
         $this->session->unset_userdata(['email', 'nama', 'userLevel', 'logged_in']);
         redirect('admin/auth');

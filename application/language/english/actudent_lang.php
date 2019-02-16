@@ -45,6 +45,10 @@ $lang['siswa_input_nama']   = 'Student full name';
 $lang['siswa_add_sukses']   = 'New student has been successfully added';
 $lang['siswa_add_gagal']    = 'Unable to add new student';
 
+// teks halaman data kelas
+$lang['kelas_title']        = 'Grade Data';
+$lang['kelas_nama']         = 'Class Name';
+
 // teks halaman pengaturan aplikasi
 $lang['app_setting_title']  = 'Application Setting';
 $lang['app_setting_theme']  = 'Color Theme';
