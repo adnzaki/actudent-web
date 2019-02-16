@@ -1,10 +1,16 @@
 <div class="card-content collapse show">
     <div class="card-body">
-        <div class="row">
-        <div class="col-12 col-md-4 col-lg-6 col-xl-7">
+        <div class="row">   
+            <div class="col-sm-12">
+                <flash-alert :alert-class="flashAlert.class" :title="flashAlert.title" :icon="flashAlert.icon" 
+                :text="flashAlert.text" v-if="flashAlert.show" />
+            </div>
+        </div>
+        <div class="row">         
+            <div class="col-12 col-md-4 col-lg-6 col-xl-7">
                 <div class="form-group">
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button @click="showFormTambah" type="button" class="btn btn-primary box-shadow-1" 
+                        <button type="button" class="btn btn-primary box-shadow-1" 
                             data-toggle="modal" data-target="#iconModal">{{ lang.tambah }}
                         </button>
                         <button type="button" class="btn btn-danger box-shadow-1">{{ lang.hapus }}</button> 
@@ -13,15 +19,13 @@
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
-                <fieldset class="form-group">
-                    <select class="form-control" v-model="rows" id="basicSelect" v-on:change="showPerPage">
+                <select class="select2 form-control" id="showRows" style="width: 100%;">
                     <option value="10">10 <?= lang('baris') ?></option>
                     <option value="25">25 {{ lang.baris }}</option>
                     <option value="50">50 {{ lang.baris }}</option>
                     <option value="100">100 {{ lang.baris }}</option>
                     <option value="250">250 {{ lang.baris }}</option>
-                    </select>
-                </fieldset>
+                </select>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                 <fieldset>
