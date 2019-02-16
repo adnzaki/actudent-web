@@ -16,10 +16,9 @@ class initiate extends Actudent {
     }
 
     private function initialize(){
-        $tokenID = $this->input->get_request_header('authorization');
         $userEmail = $this->input->post('user_email', TRUE);
-        $tokenID = $this->input->get_request_header('authorization');
-        $this->initializeToken($tokenID);
+        // $tokenID = $this->input->get_request_header('authorization');
+        // $this->initializeToken($tokenID);
         if(empty($userEmail)) {
             $response = ['status' => FALSE, 'errorCode' => 'err002', 'msg' => $this->GetErrorMessage('err002')];
             $this->sendResponse($response, 500);

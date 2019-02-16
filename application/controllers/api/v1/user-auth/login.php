@@ -58,7 +58,7 @@ class login extends Actudent {
         $payload['user_email'] = $userEmail;
         $payload['user_level'] = $userLevel;
         $payload['iat'] = $this->getCurrentDate();
-        $payload['exp'] = $this->getCurrentDate() + (86400 * 7);
+        $payload['exp'] = $this->getCurrentDate() + (86400 * 180);
         return JWT::encode($payload, $this->secretKey);
     }
 
