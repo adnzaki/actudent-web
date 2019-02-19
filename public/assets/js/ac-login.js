@@ -35,6 +35,7 @@ const login = new Vue({
                 	},
                 	success: msg => {
                 		if (msg === 'valid') {
+							this.showMsg = true
                 			this.msg = this.lang.login_sukses
                 			this.msgClass = 'success-text'
                 			window.location.href = `${admin}home`
