@@ -26,6 +26,8 @@ if(file_exists($jwtVendor))
     require $jwtVendor;
 }
 
+require 'WebResources.php';
+
 use \Firebase\JWT\JWT;
 
 /**
@@ -41,6 +43,12 @@ class Actudent extends CI_Controller
     public $secretKey = 'Wolestech@2018#Actudent$';
 
     /**
+     * Web Resources object
+     * @var object
+     */
+    protected $web;
+
+    /**
      * Class Constructor 
      * 
      * @return void
@@ -48,12 +56,10 @@ class Actudent extends CI_Controller
     public function __construct()
     {
         parent:: __construct();
-        $this->load->model([
-            'admin/SekolahModel' => 'sekolah', 'AuthModel' => 'auth',
-            'admin/SettingModel' => 'setting', 'api/v1/UserModel' => 'userModel',
-        ]);        
+        $this->load->model(['api/v1/UserModel' => 'userModel']);        
         
-        $bahasa = $this->getUserLanguage();
+        $this->web = new WebResources;
+        $bahasa = $this->web->getUserLanguage();
         $this->lang->load('actudent', $bahasa);
     }
 
@@ -64,11 +70,11 @@ class Actudent extends CI_Controller
      */
     protected function shared()
     {
-        $pengguna = $this->getDataPengguna();        
-        $sekolah = $this->getDataSekolah();
-        $theme = $this->getUserThemes()['data'];
-        $userTheme = $this->getUserThemes()['selectedTheme'];
-        $bahasa = $this->getUserLanguage();
+        $pengguna = $this->web->getDataPengguna();  
+        $sekolah = $this->web->getDataSekolah();
+        $theme = $this->web->getUserThemes()['data'];
+        $userTheme = $this->web->getUserThemes()['selectedTheme'];
+        $bahasa = $this->web->getUserLanguage();
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . 'public/assets/',
@@ -97,86 +103,6 @@ class Actudent extends CI_Controller
         return $data;
     }
     
-    /**
-     * Mengambil data sekolah dari SekolahModel
-     * 
-     * @param int $schoolID
-     * @return object
-     */
-    protected function getDataSekolah()
-    {
-        if(isset($_SESSION['email']))
-        {
-            return $this->sekolah->getDataSekolah()[0];
-        }        
-    }
-
-    /**
-     * Mengambil data pengguna yang sudah login
-     * 
-     * @return void
-     */
-    protected function getDataPengguna()
-    {
-        if(isset($_SESSION['email']))
-        {
-            return $this->auth->getDataPengguna($_SESSION['email']);
-        }
-    }
-
-    /**
-     * Mengambil tema berdasarkan user yang sedang login
-     * 
-     * @return void
-     */
-    protected function getUserThemes()
-    {
-        if(isset($_SESSION['email']))
-        {
-            $userTheme = $this->auth->getUserThemes($_SESSION['email']);
-            $theme = $this->setting->themeComponents($userTheme[0]->theme);
-            $wrapper = [];
-            foreach($theme as $key)
-            {
-                $wrapper[$key['settingKey']] = $key['settingValue'];
-            }
-    
-            return [
-                'selectedTheme' => $userTheme[0]->theme,
-                'data' => $wrapper,
-            ];
-        }
-    }
-
-    /**
-     * Mengatur bahasa yang dipilih pengguna
-     * 
-     * @param string $lang
-     * @return void
-     */
-    protected function setLanguage(string $lang): void
-    {
-        // Set bahasa yang dipilih pengguna
-        $this->lang->load('actudent', $lang);
-
-        // simpan ke dalam session
-        $this->session->set_userdata('actudent_lang', $lang);
-    }
-
-    /**
-     * Mengambil preferensi bahasa pengguna 
-     * 
-     * @return string
-     */
-    protected function getUserLanguage()
-    {
-        if(isset($_SESSION['email']))
-        {
-            $lang = $this->auth->getUserLanguage($_SESSION['email']);
-            return $lang[0]->user_language;
-        }
-    }
-
     /**
      * Get error messages
      * 

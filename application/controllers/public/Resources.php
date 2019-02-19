@@ -7,7 +7,7 @@ class Resources extends Actudent
     {
         if(isset($_SESSION['email']))
         {
-            $bahasa = $this->getUserLanguage();
+            $bahasa = $this->web->getUserLanguage();
         }
         elseif(isset($_SESSION['actudent_lang']))
         {
