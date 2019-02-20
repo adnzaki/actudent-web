@@ -12,7 +12,9 @@ const siswa = new Vue({
         siswa: `${admin}SiswaController/`,
         error: { 
             studentNis: '', studentName: '', 
-            gradeName: '',
+            gradeName: '', familyCard: '',
+            fatherName: '', motherName: '',
+            phone: '',
         },
         alert: {
             class: 'alert bg-danger', show: false,
