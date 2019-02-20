@@ -30,7 +30,7 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <p></p>
-                                <button type="button" class="btn btn-primary round btn-min-width mr-1 mb-1" @click="setBahasa">{{ lang.terapkan }}</button>
+                                <button type="button" class="btn btn-outline-info btn-min-width mr-1 mb-1" @click="setBahasa">{{ lang.terapkan }}</button>
                             </div>
                         </div>
                     </div>

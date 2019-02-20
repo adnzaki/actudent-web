@@ -9,13 +9,11 @@
         <div class="row">         
             <div class="col-12 col-md-4 col-lg-6 col-xl-7">
                 <div class="form-group">
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary box-shadow-1" 
-                            data-toggle="modal" data-target="#iconModal">{{ lang.tambah }}
-                        </button>
-                        <button type="button" class="btn btn-danger box-shadow-1">{{ lang.hapus }}</button> 
-                        <button type="button" class="btn btn-light box-shadow-1">Filter</button>
-                    </div>
+                    <button type="button" class="btn btn-outline-info" 
+                        data-toggle="modal" data-target="#iconModal">{{ lang.tambah }}
+                    </button>
+                    <button type="button" class="btn btn-outline-danger">{{ lang.hapus }}</button> 
+                    <button type="button" class="btn btn-outline-warning">Filter</button>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
