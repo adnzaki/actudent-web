@@ -1,7 +1,7 @@
 const plugin = {
 	data: {
 		lang: '',
-		public: `${public}resources/`,
+		public: `${public}Resources/`,
 	},
     methods: {        
         select2ShowPerPage(element) {
