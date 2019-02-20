@@ -18,6 +18,21 @@ const SSPaging = {
         orderBy: '', searchBy: '', sort: 'ASC',
         url: '', ascendingSort: false, linkNum: 0,
         rows: 10, // custom limit
+        sentences: {
+            indonesia: {
+                noData: 'Tidak ada data yang ditampilkan',
+                showRows: 'Menampilkan baris',
+                from: 'dari',
+                rows: 'baris',
+            },
+            english: {
+                noData: 'No data to display',
+                showRows: 'Showing row',
+                from: 'from',
+                rows: 'rows',
+            }
+        },
+        pagingLang: '',
     },
     components: {
         'pager': Pager,
@@ -120,6 +135,7 @@ const SSPaging = {
          * @param {object} options 
          */
         getData(options) {
+            this.pagingLang = options.lang
             this.url = options.url
         	this.limit = options.limit
             this.offset = options.offset * options.limit
@@ -284,10 +300,14 @@ const SSPaging = {
         rowRange() {
             if(this.pageLinks.length === 0) {
                 this.showPaging = false
-                return 'Tidak ada data yang ditampilkan'
+                
+                // handle error on undefined
+                return (this.sentences[this.pagingLang] === undefined) ? '' : this.sentences[this.pagingLang].noData
             } else {
                 this.showPaging = true
-                return `Menampilkan baris ${this.dataFrom} - ${this.dataTo} dari ${this.totalRows} baris`
+                return `${this.sentences[this.pagingLang].showRows} ${this.dataFrom} - 
+                        ${this.dataTo} ${this.sentences[this.pagingLang].from} ${this.totalRows} 
+                        ${this.sentences[this.pagingLang].rows}`
             }
         }
     }

@@ -58,6 +58,7 @@ const siswa = new Vue({
         },
         getSiswa() {
             this.getData({
+                lang: bahasa,
                 limit: 10,
                 offset: 0,
                 orderBy: 'student_name',
