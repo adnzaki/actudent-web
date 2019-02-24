@@ -26,6 +26,8 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <?php $this->view('admin/component/footer') ?>
   <!-- BEGIN VENDOR JS-->
   <?php $this->view('admin/component/scripts') ?>
+  <script src="{appAssets}vendors/js/charts/chart.min.js" type="text/javascript"></script>
+  <script src="{appAssets}vendors/js/charts/echarts/echarts.js" type="text/javascript"></script>
   <script src="{assets}js/admin/ac-dashboard.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>

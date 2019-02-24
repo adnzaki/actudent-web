@@ -26,7 +26,7 @@ const agenda = new Vue({
         },
     },
     mounted() {
-        //this.runCalendar()
+        this.runCalendar()
         this.getLanguageResources()
     },
     methods: {
