@@ -54,6 +54,7 @@ $route['admin'] = 'admin/HomeController';
 $route['admin/home'] = 'admin/HomeController';
 $route['admin/siswa'] = 'admin/SiswaController';
 $route['admin/kelas'] = 'admin/KelasController';
+$route['admin/agenda'] = 'admin/AgendaController';
 $route['admin/pengaturan-aplikasi'] = 'admin/SettingController/settingAplikasi';
 $route['admin/auth'] = 'admin/AuthController';
 $route['admin/logout'] = 'admin/AuthController/logout';
