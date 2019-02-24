@@ -115,6 +115,7 @@ const SSPaging = {
          */
         runPaging() {
         	this.getData({
+                lang: this.pagingLang,
         		limit: this.limit,
         		offset: this.offset,
         		orderBy: this.orderBy,
