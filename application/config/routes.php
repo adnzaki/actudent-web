@@ -74,4 +74,8 @@ $route['api/v1/user-profile/profile/(:any)'] = 'api/v1/user-profile/profile/inde
 // student
 $route['api/v1/student/student_list/(:any)'] = 'api/v1/student/student_list/index/$1';
 $route['api/v1/student/student_detail/(:any)'] = 'api/v1/student/student_detail/index/$1';
+// agenda
+$route['api/v1/agenda/agenda_list/(:any)'] = 'api/v1/agenda/agenda_list/index/$1';
+$route['api/v1/agenda/agenda_detail/(:any)'] = 'api/v1/agenda/agenda_detail/index/$1';
+
 
