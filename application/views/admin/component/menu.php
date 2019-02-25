@@ -13,8 +13,8 @@
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
         <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_kehadiran') ?></span></a>
       </li>
-      <li class="<?= menu_active('aaa', 'active') ?> nav-item">
-        <a href="{admin}siswa"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_agenda') ?></span></a>
+      <li class="<?= menu_active('agenda', 'active') ?> nav-item">
+        <a href="{admin}agenda"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_agenda') ?></span></a>
       </li>
       <li class="<?= menu_active('aaa', 'active') ?> nav-item">
         <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main"><?= lang('menu_jadwal') ?></span></a>

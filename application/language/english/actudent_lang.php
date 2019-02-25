@@ -57,6 +57,9 @@ $lang['siswa_add_gagal']    = 'Unable to add new student';
 $lang['kelas_title']        = 'Grade Data';
 $lang['kelas_nama']         = 'Class Name';
 
+// teks halaman agenda
+$lang['agenda_title']       = 'School Agenda';
+
 // teks halaman pengaturan aplikasi
 $lang['app_setting_title']  = 'Application Setting';
 $lang['app_setting_theme']  = 'Color Theme';
