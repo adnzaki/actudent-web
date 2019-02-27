@@ -22,4 +22,23 @@ class AgendaController extends Actudent
         $data['title'] = 'Agenda';
         $this->parser->parse('admin/pages/agenda/agenda-view', $data);
     }
+
+    public function getEvents()
+    {
+        $events = $this->agenda->getEvents();
+        $formatted = [];
+        foreach($events as $key)
+        {
+            $data = [];
+            
+            // menyesuaikan dengan format data yang didukung oleh plugin FullCalendar
+            $data['id'] = $key->agenda_id;
+            $data['title'] = $key->agenda_name;
+            $data['start'] = str_replace(' ', 'T', $key->agenda_start);
+            $data['end'] = str_replace(' ', 'T', $key->agenda_end);
+            array_push($formatted, $data);
+        }
+
+        echo json_encode($formatted);
+    }
 }

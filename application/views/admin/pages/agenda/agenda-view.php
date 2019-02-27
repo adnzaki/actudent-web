@@ -32,6 +32,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <script src="{appAssets}vendors/js/extensions/moment.min.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/extensions/fullcalendar.min.js" type="text/javascript"></script>
   <script src="{assets}js/admin/ac-agenda.js" type="text/javascript"></script>
+  <script src="{assets}js/admin/locale-all.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>

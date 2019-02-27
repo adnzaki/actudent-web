@@ -16,4 +16,18 @@ class AgendaModel extends CI_Model
      * @var string
      */
     private $agendaUser = 'tb_agenda_user';
+
+    /**
+     * Menarik data dari tb_agenda untuk dimasukkkan
+     * ke dalam plugin FullCalendar
+     * 
+     * @return object
+     */
+    public function getEvents()
+    {
+        $query = $this->db->select('agenda_id, agenda_name, agenda_start, agenda_end')
+                 ->from($this->agenda)->get()->result();
+        
+        return $query;
+    }
 }

@@ -9,7 +9,7 @@ const agenda = new Vue({
     el: '#agenda-content',
     mixins: [SSPaging, plugin],
     data: {
-        siswa: `${admin}AgendaController/`,
+        agenda: `${admin}AgendaController/`,
         error: { 
         },
         alert: {
@@ -24,11 +24,41 @@ const agenda = new Vue({
         helper: {
             saveAndClose: false,
         },
+        locale: {
+            english: 'en', indonesia: 'id'
+        }
     },
     mounted() {
-        this.runCalendar()
+        this.getEvents()
         this.getLanguageResources()
     },
     methods: {
+        getEvents() {
+            $.ajax({
+                url: `${this.agenda}getEvents`,
+                type: 'get',
+                dataType: 'json',
+                success: data => {
+                    $('#fc-agenda-views').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay'
+                        },
+                        defaultDate: moment().format('YYYY-MM-DD'),
+                        defaultView: 'month',
+                        editable: false,
+                        eventLimit: true,
+                        events: data,
+                        locale: this.locale[bahasa],
+                        timeFormat: 'HH:mm',
+                        slotLabelFormat: 'HH:mm',
+                        eventClick: function(calEvent, jsEvent, view) {
+                            alert(`Agenda ${calEvent.title} dengan ID ${calEvent.id}`)
+                        }
+                    })
+                }
+            })
+        },
     }
 })
