@@ -54,9 +54,7 @@ class KelasModel extends CI_Model
      */
     public function joinAndSearchQuery($searchBy, $search)
     {
-        // Query:   SELECT studentNis, studentName, gradeName, studentStatus FROM tb_student
-        //          JOIN tb_student_grade ON tb_student_grade.studentID = tb_student.studentID
-        //          JOIN tb_grade ON tb_grade.gradeID = tb_student_grade.gradeID 
+        // Query:   SELECT grade_name, period_from, period_until, grade_status FROM tb_grade
         $field = 'grade_name, period_from, period_until, grade_status';
         $join = $this->db->select($field)->from($this->kelas);
         
