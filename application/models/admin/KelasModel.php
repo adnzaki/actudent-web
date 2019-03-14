@@ -60,8 +60,8 @@ class KelasModel extends CI_Model
         
         if(! empty($search))
         {
-            // Menampung parameter pencarian "studentNis-studentName-gradeName",
-            // sehingga parameter bisa berdasarkan field studentNis, studentName atau gradeName.
+            // Menampung parameter pencarian "grade_name",
+            // sehingga parameter bisa berdasarkan field grade_name.
             // Kode ini tidak berkaitan dengan plugin SSPaging yang hanya mendukung 1 parameter pencarian
             if(strpos($searchBy, '-') !== false)
             {

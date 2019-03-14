@@ -14,6 +14,7 @@
                 </div>
             </div>
             <?php $this->view('admin/pages/agenda/calendar') ?>
+            <?php $this->view('admin/pages/agenda/form-tambah-agenda') ?>
         </div>
     </div>
 </div>

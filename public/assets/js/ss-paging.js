@@ -144,20 +144,23 @@ const SSPaging = {
             this.searchBy = options.searchBy
             this.sort = options.sort
             this.search = options.search
-            var xhr = new XMLHttpRequest()
-            xhr.open('GET', `${options.url}${this.limit}/${this.offset}/${this.orderBy}/${this.searchBy}/${this.sort}/${this.search}`, true)
-            xhr.responseType = 'json'
-            xhr.onload = () => {
-                this.data = xhr.response['container']
-                this.create({
-                	rows: xhr.response['totalRows'],
-                	start: options.offset,
-                	linkNum: options.linkNum,
-                	activeClass: options.activeClass,
-                	linkClass: options.linkClass
-                })
-            }
-            xhr.send()
+            let searchParam
+            this.search === '' ? searchParam = '' : searchParam = '/'+this.search
+            $.ajax({
+                url: `${options.url}${this.limit}/${this.offset}/${this.orderBy}/${this.searchBy}/${this.sort}${searchParam}`,
+                type: 'GET',
+                dataType: 'json',
+                success: data => {
+                    this.data = data.container
+                    this.create({
+                        rows: data.totalRows,
+                        start: options.offset,
+                        linkNum: options.linkNum,
+                        activeClass: options.activeClass,
+                        linkClass: options.linkClass
+                    })
+                }
+            })
         },
         /**
          * Generate Pagination

@@ -59,6 +59,26 @@ $lang['kelas_nama']         = 'Nama Kelas';
 
 // teks halaman agenda
 $lang['agenda_title']       = 'Agenda Sekolah';
+$lang['agenda_form_title']  = 'Tambah Agenda Baru';
+$lang['agenda_label_nama']  = 'Nama Kegiatan';
+$lang['agenda_label_start'] = 'Tanggal Mulai';
+$lang['agenda_label_end']   = 'Tanggal Selesai';
+$lang['agenda_label_timestart'] = 'Waktu Mulai';
+$lang['agenda_label_timeend']   = 'Waktu Selesai';
+$lang['agenda_label_allday']= 'Kegiatan sehari penuh';
+$lang['agenda_label_desc']  = 'Deskripsi Kegiatan';
+$lang['agenda_label_prior'] = 'Prioritas';
+$lang['agenda_label_loc']   = 'Lokasi';
+$lang['agenda_label_guest'] = 'Undangan';
+$lang['agenda_check_guru']  = 'Guru';
+$lang['agenda_check_ortu']  = 'Orang Tua';
+$lang['agenda_sw_certain']  = 'Orang Tertentu';
+$lang['agenda_label_att']   = 'Lampiran Berkas';
+$lang['agenda_input_nama']  = 'Wajib diisi';
+$lang['agenda_input_start'] = 'Tanggal mulai kegiatan';
+$lang['agenda_input_end']   = 'Tanggal selesai kegiatan';
+$lang['agenda_input_desc']  = 'Optional';
+$lang['agenda_input_loc']   = 'Tempat pelaksanaan kegiatan';
 
 // teks halaman pengaturan aplikasi
 $lang['app_setting_title']  = 'Pengaturan Aplikasi';

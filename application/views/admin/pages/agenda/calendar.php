@@ -1,8 +1,14 @@
 <div class="card-content collapse show">
     <div class="card-body">
-        <p class="card-text">This is the most basic example having navigation button to navigate
-            next and previous months and today button. This basic example
-            lists all the events on the calendar.</p>
+        <div class="row">         
+            <div class="col-12">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-info" 
+                        data-toggle="modal" data-target="#agendaModal">{{ lang.tambah }}
+                    </button>
+                </div>
+            </div>
+        </div>
         <div id="fc-agenda-views"></div>
     </div>
 </div>

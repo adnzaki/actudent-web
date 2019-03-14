@@ -22,7 +22,7 @@ const agenda = new Vue({
             icon: 'la-thumbs-o-up'
         },
         helper: {
-            saveAndClose: false,
+            saveAndClose: false, fullDayCheck: true,
         },
         locale: {
             english: 'en', indonesia: 'id'
@@ -30,6 +30,9 @@ const agenda = new Vue({
     },
     mounted() {
         this.getEvents()
+        this.runDateTimePicker()
+        this.runICheck()
+        this.runSwitchery()
         this.getLanguageResources()
     },
     methods: {
