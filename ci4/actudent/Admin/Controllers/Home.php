@@ -1,0 +1,33 @@
+<?php namespace Actudent\Admin\Controllers;
+
+use Actudent\Core\Controllers\Actudent;
+use Actudent\Admin\Models\AuthModel;
+
+class Home extends \CodeIgniter\Controller
+{
+    /**
+     * @var Actudent\Core\Controllers\Actudent
+     */
+    private $actudent;
+    
+    private $auth;
+
+    public function __construct()
+    {
+        $this->actudent = new Actudent;
+        $this->auth = new AuthModel;
+    }
+
+    public function index()
+	{
+        $data = $this->actudent->common();
+        $data['title'] = 'Actudent CI4 Home';
+        return Actudent::$parser->setData($data)
+                ->render('Actudent\Admin\Views\dashboard\home');
+    }
+
+    public function showQuery()
+    {
+        echo $this->auth->showPenggunaQuery('admin@wolestech.com');
+    }
+}
