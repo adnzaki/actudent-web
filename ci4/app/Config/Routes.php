@@ -61,7 +61,7 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->set404Override('Actudent\Admin\Controllers\Error::show404');
 $routes->setAutoRoute(true);
 
 /**
@@ -78,6 +78,7 @@ $routes->get('/', 'Home::index');
 // Admin section 
 $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function($routes)
 {
+	$routes->get('/', 'Home::goToHome');
 	$routes->add('login', 'Auth::index');
 	$routes->add('login/validate', 'Auth::validasi');
 	$routes->add('logout', 'Auth::logout');

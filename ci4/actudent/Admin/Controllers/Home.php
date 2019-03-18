@@ -26,6 +26,11 @@ class Home extends \CodeIgniter\Controller
                 ->render('Actudent\Admin\Views\dashboard\home');
     }
 
+    public function goToHome()
+    {
+        return redirect()->to(site_url('admin/home'));
+    }
+
     public function showQuery()
     {
         echo $this->auth->showPenggunaQuery('admin@wolestech.com');

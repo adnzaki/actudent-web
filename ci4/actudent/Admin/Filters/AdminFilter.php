@@ -10,7 +10,7 @@ class AdminFilter implements FilterInterface
     public function before(RequestInterface $request)
     {
         $session = Services::session();
-        if($session->get('email') === null)
+        if($session->get('email') === null || $session->get('userLevel') !== '1')
         {
             return redirect()->to(site_url('admin/login'));
         }

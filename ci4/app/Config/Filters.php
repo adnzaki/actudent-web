@@ -20,7 +20,9 @@ class Filters extends BaseConfig
 			'honeypot',
 			// 'csrf',
 			'throttle',
-			'acfilter' => ['except' => ['login/*', 'login', 'get-admin-lang', 'hash']],
+			'acfilter' => ['except' => [
+				'login/*', 'login', 'get-admin-lang', 'hash']
+			],
 		],
 		'after'  => [
 			'toolbar',	
