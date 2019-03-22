@@ -1,0 +1,49 @@
+.error-text {
+	color: rgb(241, 89, 63) !important;
+}
+
+.loading-text {
+	color: #000;
+}
+
+.success-text {
+	color: #3dd926 !important;
+}
+
+.error-text, .loading-text, .success-text {
+    font-weight: bold;
+}
+
+.cursor-pointer {
+	cursor: pointer;
+}
+
+.nav-link-white {
+	color: #F2F2F2 !important;
+}
+
+.fly-alert {
+	position: fixed;
+	z-index: 9;
+	top: 40%;
+	width: 80%;
+}
+
+@media (min-width: 576px) {
+	.fly-alert {
+		width: 85%;
+	}
+}
+
+@media (min-width: 768px) {
+	.fly-alert {
+		width: 80%;
+	}
+}
+
+@media (min-width: 992px) {
+	.fly-alert {
+		left: 30%;		
+		width: 50%;
+	}
+}

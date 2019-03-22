@@ -1,0 +1,102 @@
+<?php
+return [
+    // teks halaman login
+    'silakan_login'       => 'Silakan login untuk masuk ke dalam Actudent',
+    'input_password'      => 'Kata sandi',
+    'lupa_password'       => 'Lupa kata sandi?',
+    'login'               => 'Masuk',
+    'pulihkan_password'   => 'Pulihkan kata sandi',
+    'belum_daftar'        => 'Belum mendaftar?',
+    'daftar_disini'       => 'Daftar di sini.',
+    'userpassword_wajib'  => 'Silakan masukkan username dan password anda',
+    'mengautentikasi'     => 'Mengautentikasi...',
+    'login_sukses'        => 'Login berhasil, mengalihkan...',
+    'invalid_login'       => 'Username atau password yang anda masukkan salah',
+    'login_error'         => 'Tidak dapat terhubung ke server',
+    
+    // teks side menu 
+    'menu_dashboard'  => 'Beranda',
+    'menu_siswa'  => 'Siswa',
+    'menu_kelas'  => 'Kelas',
+    'menu_kehadiran'  => 'Kehadiran',
+    'menu_agenda'  => 'Agenda',
+    'menu_jadwal'  => 'Jadwal Pelajaran',
+    'menu_pesan'  => 'Pesan',
+    'menu_nilai'  => 'Nilai',
+    'menu_pengaturan'  => 'Pengaturan',
+    'menu_pengguna'  => 'Pengguna',
+    'menu_aplikasi'  => 'Aplikasi',
+    
+    // teks navbar
+    'navbar_halo'  => 'Halo',
+    'navbar_profil'  => 'Profil Pengguna',
+    'navbar_sekolah'  => 'Data Sekolah',
+    'navbar_keluar'  => 'Keluar',
+    
+    // teks halaman data siswa
+    'siswa_title'         => 'Data Siswa',
+    'siswa_cari'          => 'Cari nama, NIS, kelas',
+    'siswa_nama'          => 'Nama Siswa',
+    'siswa_kk'            => 'Nomor KK',
+    'siswa_label_ayah'    => 'Nama Ayah',
+    'siswa_label_ibu'     => 'Nama Ibu',
+    'siswa_label_telp'    => 'Nomor Telepon',
+    'siswa_kelas'         => 'Kelas',
+    'siswa_add_title'     => 'Tambah peserta didik baru',
+    'siswa_nis'           => 'Nomor Induk Sekolah',
+    'siswa_input_nama'    => 'Nama lengkap peserta didik',
+    'siswa_input_kk'      => 'Nomor Kartu Keluarga',
+    'siswa_input_ayah'    => 'Nama lengkap ayah',
+    'siswa_input_ibu'     => 'Nama lengkap ibu',
+    'siswa_input_telp'    => 'Nomor telepon/handphone orang tua yang aktif',
+    'siswa_add_sukses'    => 'Data peserta didik baru berhasil ditambahkan',
+    'siswa_add_gagal'     => 'Gagal menambahkan peserta didik baru',
+    
+    // teks halaman data kelas
+    'kelas_title'         => 'Data Kelas',
+    'kelas_nama'          => 'Nama Kelas',
+    
+    // teks halaman agenda
+    'agenda_title'        => 'Agenda Sekolah',
+    'agenda_form_title'   => 'Tambah Agenda Baru',
+    'agenda_label_nama'   => 'Nama Kegiatan',
+    'agenda_label_start'  => 'Tanggal Mulai',
+    'agenda_label_end'    => 'Tanggal Selesai',
+    'agenda_label_timestart'  => 'Waktu Mulai',
+    'agenda_label_timeend'    => 'Waktu Selesai',
+    'agenda_label_allday' => 'Kegiatan sehari penuh',
+    'agenda_label_desc'   => 'Deskripsi Kegiatan',
+    'agenda_label_prior'  => 'Prioritas',
+    'agenda_label_loc'    => 'Lokasi',
+    'agenda_label_guest'  => 'Undangan',
+    'agenda_check_guru'   => 'Guru',
+    'agenda_check_ortu'   => 'Orang Tua',
+    'agenda_sw_certain'   => 'Orang Tertentu',
+    'agenda_label_att'    => 'Lampiran Berkas',
+    'agenda_input_nama'   => 'Wajib diisi',
+    'agenda_input_start'  => 'Tanggal mulai kegiatan',
+    'agenda_input_end'    => 'Tanggal selesai kegiatan',
+    'agenda_input_desc'   => 'Optional',
+    'agenda_input_loc'    => 'Tempat pelaksanaan kegiatan',
+    
+    // teks halaman pengaturan aplikasi
+    'app_setting_title'   => 'Pengaturan Aplikasi',
+    'app_setting_theme'   => 'Warna Tema',
+    'app_setting_desc'    => 'Pilihan warna tema tampilan aplikasi untuk menyesuaikan suasana anda saat ini.',
+    'app_setting_lang'    => 'Bahasa',
+    'app_lang_desc'       => 'Pilihan bahasa dalam aplikasi.',
+    
+    // teks umum
+    'baris'               => 'baris',
+    'tambah'              => 'Tambah',
+    'hapus'               => 'Hapus',
+    'aksi'                => 'Tindakan',
+    'batal'               => 'Batal',
+    'simpan'              => 'Simpan',
+    'simpan_tutup'        => 'Simpan dan tutup',
+    'sukses'              => 'Sukses',
+    'terapkan'            => 'Terapkan',
+    'english'             => 'Inggris (AS)',
+    'indonesia'           => 'Bahasa Indonesia',
+];
+
