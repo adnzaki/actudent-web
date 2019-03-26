@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card {cardColor}">
             <div class="card-header {cardColor}">
-                <h4 class="card-title {cardTitleColor}">{+ lang Admin.app_setting_theme +}</h4>
+                <h4 class="card-title {cardTitleColor}">{+ lang AdminSetting.app_setting_theme +}</h4>
                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                 <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -15,7 +15,7 @@
             </div>
 			<div class="card-content">
                 <div class="card-body">
-                    <p>{+ lang Admin.app_setting_desc +}</p>
+                    <p>{+ lang AdminSetting.app_setting_desc +}</p>
                     <div class="row">
                       	<div class="col-md-12 col-sm-12">
 							<fieldset>

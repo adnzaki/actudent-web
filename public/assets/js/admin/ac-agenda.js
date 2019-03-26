@@ -33,7 +33,7 @@ const agenda = new Vue({
         this.runDateTimePicker()
         this.runICheck()
         this.runSwitchery()
-        this.getLanguageResources()
+        this.getLanguageResources('AdminAgenda')
     },
     methods: {
         getEvents() {

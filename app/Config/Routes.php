@@ -81,7 +81,7 @@ require ACTUDENTPATH . 'Admin/Config/AdminRoutes.php';
 // Core application section 
 $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
 {
-	$routes->add('get-admin-lang', 'Resources::adminLocaleResource');
+	$routes->add('get-admin-lang/(:any)', 'Resources::getLocaleResource/$1');
 });
 
 /**

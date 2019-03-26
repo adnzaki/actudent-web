@@ -114,9 +114,9 @@ aria-hidden="true">
                 <alert-msg :alert-class="alert.class" :header="alert.header" :text="alert.text" v-if="alert.show" />
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {{ lang.batal }}</button>
-                <button type="button" class="btn btn-outline-primary"> {{ lang.simpan }}</button>
-                <button type="button" class="btn btn-outline-success"> {{ lang.simpan_tutup }}</button>
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
+                <button type="button" class="btn btn-outline-primary"> {+ lang Admin.simpan +}</button>
+                <button type="button" class="btn btn-outline-success"> {+ lang Admin.simpan_tutup +}</button>
             </div>
         </div>
     </div>

@@ -10,9 +10,9 @@
             <div class="col-12 col-md-4 col-lg-6 col-xl-7">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#iconModal">{{ lang.tambah }}
+                        data-toggle="modal" data-target="#iconModal">{+ lang Admin.tambah +}
                     </button>
-                    <button type="button" class="btn btn-outline-danger">{{ lang.hapus }}</button> 
+                    <button type="button" class="btn btn-outline-danger">{+ lang Admin.hapus +}</button> 
                     <button type="button" class="btn btn-outline-warning">Filter</button>
                 </div>
             </div>
@@ -29,7 +29,7 @@
                 <fieldset>
                     <div class="input-group">
                         <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
-                        :placeholder="lang.siswa_cari" aria-describedby="button-addon2">
+                        placeholder="{+ lang AdminSiswa.siswa_cari +}" aria-describedby="button-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" @click="filter">Go</button>
                         </div>
@@ -43,7 +43,7 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th @click="sortData('grade_name')">{+ lang Admin.kelas_nama +}<i class="la la-sort"></th>
+                <th @click="sortData('grade_name')">{+ lang AdminKelas.kelas_nama +}<i class="la la-sort"></th>
                 <th @click="sortData('period_from')">Periot Start<i class="la la-sort"></th>
                 <th @click="sortData('period_until')">Periot Last<i class="la la-sort"></th>
             </tr>

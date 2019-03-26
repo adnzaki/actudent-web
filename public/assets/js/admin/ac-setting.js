@@ -17,7 +17,7 @@ const setting = new Vue({
     },
     mounted() {
         this.getWarnaTema()
-        this.getLanguageResources()
+        this.getLanguageResources('AdminSetting')
         this.getBahasa()
     },
     methods: {

@@ -1,0 +1,26 @@
+<?php
+
+return [
+    // teks halaman agenda
+    'agenda_title'       => 'School Agenda',
+    'agenda_form_title'  => 'Add New Agenda',
+    'agenda_label_nama'  => 'Event Name',
+    'agenda_label_start' => 'Start Date',
+    'agenda_label_end'   => 'End Date',
+    'agenda_label_timestart' => 'Time Start',
+    'agenda_label_timeend'   => 'Time End',
+    'agenda_label_allday'=> 'Full day event',
+    'agenda_label_desc'  => 'Event Description',
+    'agenda_label_prior' => 'Priority',
+    'agenda_label_loc'   => 'Location',
+    'agenda_label_guest' => 'Guests',
+    'agenda_check_guru'  => 'Teacher',
+    'agenda_check_ortu'  => 'Parent',
+    'agenda_sw_certain'  => 'Certain People',
+    'agenda_label_att'   => 'File Attachment',
+    'agenda_input_nama'  => 'Required',
+    'agenda_input_start' => 'Event date start',
+    'agenda_input_end'   => 'Event date end',
+    'agenda_input_desc'  => 'Optional',
+    'agenda_input_loc'   => 'Event\'s place',
+];

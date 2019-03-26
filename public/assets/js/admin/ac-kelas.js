@@ -34,7 +34,7 @@ const kelas = new Vue({
         }, 200);
         this.runSelect2()
         this.select2ShowPerPage('#showRows')
-        this.getLanguageResources()
+        this.getLanguageResources('AdminKelas')
     },
     methods: {
         getSiswa() {

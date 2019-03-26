@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#agendaModal">{{ lang.tambah }}
+                        data-toggle="modal" data-target="#agendaModal">{+ lang Admin.tambah +}
                     </button>
                 </div>
             </div>

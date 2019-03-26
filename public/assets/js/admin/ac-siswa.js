@@ -27,7 +27,7 @@ const siswa = new Vue({
         }, 200);
         this.runSelect2()
         this.select2ShowPerPage('#showRows')
-        this.getLanguageResources()
+        this.getLanguageResources('AdminSiswa')
     },
     methods: {
         showFormTambah() {

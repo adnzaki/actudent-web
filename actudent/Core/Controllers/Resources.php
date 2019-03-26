@@ -12,7 +12,14 @@ class Resources extends \CodeIgniter\Controller
         $this->actudent = new Actudent;
     }
 
-    public function adminLocaleResource()
+    /**
+     * Admin locale resources
+     * Provide set of files needed by the JS to be loaded
+     * 
+     * @param string $files (separated by "-")
+     * @return void
+     */
+    public function getLocaleResource($file)
     {
         if(isset($_SESSION['email']))
         {
@@ -27,7 +34,7 @@ class Resources extends \CodeIgniter\Controller
             $bahasa = 'indonesia';
         }
         
-        $lang = require APPPATH . 'Language/' . $bahasa . '/Admin.php';
+        $lang = require APPPATH . "Language/{$bahasa}/{$file}.php";
         echo json_encode($lang);
     }
 }

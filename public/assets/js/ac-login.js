@@ -15,7 +15,7 @@ const login = new Vue({
         showMsg: false, remember: false,
 	},
 	mounted() {
-		this.getLanguageResources()
+		this.getLanguageResources('Admin-AdminAuth')
 	},
     methods: {
         validasi() {

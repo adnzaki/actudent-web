@@ -11,9 +11,9 @@ const plugin = {
 				obj.showPerPage()
 			})
 		},
-		getLanguageResources() {
+		getLanguageResources(files) {
 			$.ajax({
-				url: `${baseURL}index.php/core/get-admin-lang`,
+				url: `${baseURL}index.php/core/get-admin-lang/${files}`,
 				dataType: 'json',
 				success: data => {
 					this.lang = data

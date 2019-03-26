@@ -20,17 +20,17 @@
                       	<div class="col-md-12 col-sm-12">
 							<fieldset>
 								<input type="radio" name="input-radio-5" id="input-radio-18" value="indonesia" v-model="appLang">
-								<label for="input-radio-18">{{ lang.indonesia }}</label>
+								<label for="input-radio-18">{+ lang Admin.indonesia +}</label>
 							</fieldset>
 							<fieldset>
 								<input type="radio" name="input-radio-5" id="input-radio-19" value="english" v-model="appLang">
-								<label for="input-radio-19">{{ lang.english }}</label>
+								<label for="input-radio-19">{+ lang Admin.english +}</label>
 							</fieldset>
                     	</div>
                         <div class="col-12">
                             <div class="form-group">
                                 <p></p>
-                                <button type="button" class="btn btn-outline-info btn-min-width mr-1 mb-1" @click="setBahasa">{{ lang.terapkan }}</button>
+                                <button type="button" class="btn btn-outline-info btn-min-width mr-1 mb-1" @click="setBahasa">{+ lang Admin.terapkan +}</button>
                             </div>
                         </div>
                     </div>
