@@ -10,7 +10,7 @@ class Filters extends BaseConfig
 		'csrf'		=> \CodeIgniter\Filters\CSRF::class,
 		'toolbar'	=> \CodeIgniter\Filters\DebugToolbar::class,
 		'honeypot'	=> \CodeIgniter\Filters\Honeypot::class,
-		'acfilter'	=> \Actudent\Admin\Filters\AdminFilter::class,
+		'adminfilter' => \Actudent\Admin\Filters\AdminFilter::class,
 		'throttle'	=> \App\Filters\Throttle::class,
 	];
 
@@ -20,7 +20,7 @@ class Filters extends BaseConfig
 			'honeypot',
 			// 'csrf',
 			'throttle',
-			'acfilter' => ['except' => [
+			'adminfilter' => ['except' => [
 				'login/*', 'login', 'get-admin-lang', 'hash']
 			],
 		],
