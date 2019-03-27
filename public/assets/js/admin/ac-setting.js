@@ -35,7 +35,7 @@ const setting = new Vue({
         },
         getThemeValue() {
             let obj = this
-            $('#theme-option input').on('ifChecked', function(event) {
+            $('#theme-option input').on('ifChecked', function() {
                 obj.theme = $(this).val()
             })
         },
@@ -44,10 +44,10 @@ const setting = new Vue({
         },
         getLangValue() {
             let obj = this
-            $('#lang-option input').on('ifChecked', function(event) {
+            $('#lang-option input').on('ifChecked', function() {
                 obj.appLang = $(this).val()
             })
-        }
+        },
     },
     computed: {
         themeUrl() {
