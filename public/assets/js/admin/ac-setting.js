@@ -19,6 +19,9 @@ const setting = new Vue({
         this.getWarnaTema()
         this.getLanguageResources('AdminSetting')
         this.getBahasa()
+        this.runICheck()
+        this.getThemeValue()
+        this.getLangValue()
     },
     methods: {
         setTheme() {
@@ -28,19 +31,22 @@ const setting = new Vue({
             window.location.href = this.languageUrl
         },
         getWarnaTema() {
-            switch (warnaTema) {
-                case 'semi-dark':       this.theme = 'semi-dark'; break;
-                case 'light-blue':      this.theme = 'light-blue'; break;
-                case 'night-vision':    this.theme = 'night-vision'; break;
-                default: 'not a valid theme'; break;
-            }
+            $(`#${warnaTema}`).iCheck('check')
+        },
+        getThemeValue() {
+            let obj = this
+            $('#theme-option input').on('ifChecked', function(event) {
+                obj.theme = $(this).val()
+            })
         },
         getBahasa() {
-            switch (bahasa) {
-                case 'english':     this.appLang = 'english'; break;
-                case 'indonesia':   this.appLang = 'indonesia'; break;
-                default: 'not a valid language'; break;
-            }
+            $(`#${bahasa}`).iCheck('check')
+        },
+        getLangValue() {
+            let obj = this
+            $('#lang-option input').on('ifChecked', function(event) {
+                obj.appLang = $(this).val()
+            })
         }
     },
     computed: {

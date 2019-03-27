@@ -17,13 +17,13 @@
                 <div class="card-body">
                     <p>{{ lang.app_lang_desc }}</p>
                     <div class="row">
-                      	<div class="col-md-12 col-sm-12">
+                      	<div class="col-md-12 col-sm-12 skin skin-square" id="lang-option">
 							<fieldset>
-								<input type="radio" name="input-radio-5" id="input-radio-18" value="indonesia" v-model="appLang">
+								<input type="radio" name="input-radio-5" id="indonesia" value="indonesia" v-model="appLang">
 								<label for="input-radio-18">{+ lang Admin.indonesia +}</label>
 							</fieldset>
 							<fieldset>
-								<input type="radio" name="input-radio-5" id="input-radio-19" value="english" v-model="appLang">
+								<input type="radio" name="input-radio-5" id="english" value="english" v-model="appLang">
 								<label for="input-radio-19">{+ lang Admin.english +}</label>
 							</fieldset>
                     	</div>
