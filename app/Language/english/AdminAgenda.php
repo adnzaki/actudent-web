@@ -23,4 +23,5 @@ return [
     'agenda_input_end'   => 'Event date end',
     'agenda_input_desc'  => 'Optional',
     'agenda_input_loc'   => 'Event\'s place',
+    'agenda_label_semua' => 'All',
 ];

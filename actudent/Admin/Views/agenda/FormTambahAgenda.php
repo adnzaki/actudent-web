@@ -107,7 +107,7 @@ aria-hidden="true">
                                 <div class="col-md-3 col-12">
                                     <fieldset>
                                         <input type="checkbox" name="all-guest" id="all-guest" value="all-guest">
-                                        <label for="all-guest">Semua</label>
+                                        <label for="all-guest">{{ lang.agenda_label_semua }}</label>
                                     </fieldset>  
                                 </div>
                             </div>

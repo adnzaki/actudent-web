@@ -23,4 +23,5 @@ return [
     'agenda_input_end'    => 'Tanggal selesai kegiatan',
     'agenda_input_desc'   => 'Optional',
     'agenda_input_loc'    => 'Tempat pelaksanaan kegiatan',
+    'agenda_label_semua'  => 'Semua',
 ];
