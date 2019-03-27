@@ -108,11 +108,6 @@ const plugin = {
 					size: 'small'
 				});
 			});
-			// let el = document.querySelectorAll('.switchery')
-			// var init = new Switchery(el, { 
-			// 	secondaryColor: '#6b6b6b',
-			// 	size: 'small'
-			// })
 		}
 	},
 }
