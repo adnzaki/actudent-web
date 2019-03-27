@@ -46,8 +46,6 @@ aria-hidden="true">
                         <div class="form-group mt-1">
                             <input type="checkbox" id="switcherySize2" class="switchery"/>
                             <label for="switcherySize2">{{ lang.agenda_label_allday }}</label>
-                            <input type="checkbox" id="switcherySize2" class="switchery"/>
-                            <label for="switcherySize2">{{ lang.agenda_label_allday }}</label>
                         </div>
                         <div class="row">
                             <div class="col-md-6 col-sm-6 col-12">
@@ -87,27 +85,36 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{{ lang.agenda_label_guest }}</label>
-                            <div class="row">
-                                <div class="col-md-3 col-12 skin skin-square">
+                            <div class="row skin skin-square">
+                                <div class="col-md-3 col-12 guest-list">
                                     <fieldset>
                                         <input type="checkbox" id="input-11">
                                         <label for="input-11">{{ lang.agenda_check_guru }}</label>
                                     </fieldset>                                    
                                 </div>
-                                <div class="col-md-3 col-12 skin skin-square">
+                                <div class="col-md-3 col-12 guest-list">
                                     <fieldset>
-                                        <input type="checkbox" id="input-12" checked>
+                                        <input type="checkbox" id="input-12">
                                         <label for="input-12">{{ lang.agenda_check_ortu }}</label>
                                     </fieldset>
                                 </div>
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group mt-1">
-                                        <input type="checkbox" id="switcherySize3" class="switchery"/>
-                                        <label for="switcherySize3">{{ lang.agenda_label_allday }}</label>
-                                    </div>
+                                <div class="col-md-3 col-12 guest-list">
+                                    <fieldset>
+                                        <input type="checkbox" id="input-13">
+                                        <label for="input-13">Staff</label>
+                                    </fieldset>
+                                </div>
+                                <div class="col-md-3 col-12">
+                                    <fieldset>
+                                        <input type="checkbox" name="all-guest" id="all-guest" value="all-guest">
+                                        <label for="all-guest">Semua</label>
+                                    </fieldset>  
                                 </div>
                             </div>
                             <form-error :msg="error.phone" />
+                        </div>
+                        <div class="form-group">
+                            
                         </div>
                     </div>
                 </form>

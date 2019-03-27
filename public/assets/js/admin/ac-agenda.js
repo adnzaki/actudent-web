@@ -34,6 +34,7 @@ const agenda = new Vue({
         this.runICheck()
         this.runSwitchery()
         this.getLanguageResources('AdminAgenda')
+        this.checkAllGuests()
     },
     methods: {
         getEvents() {
@@ -63,5 +64,20 @@ const agenda = new Vue({
                 }
             })
         },
+        checkAllGuests() {
+            $('#all-guest').on('ifChecked', function() {
+                $('.guest-list input').each(function() {
+                    $(this).iCheck('check')
+                    $(this).iCheck('disable')
+                })
+            })
+
+            $('#all-guest').on('ifUnchecked', function() {
+                $('.guest-list input').each(function() {
+                    $(this).iCheck('uncheck')
+                    $(this).iCheck('enable')
+                })
+            })
+        }
     }
 })
