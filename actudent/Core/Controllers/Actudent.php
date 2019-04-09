@@ -91,7 +91,7 @@ class Actudent extends \CodeIgniter\Controller
 
         return $data;
     }
-    
+
     /**
      * Mengambil data sekolah dari SekolahModel
      * 

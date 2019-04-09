@@ -104,11 +104,18 @@ form label {
     border-bottom-right-radius: 0.35rem;
 }
 
-.select2-container--default .select2-selection--single {
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple {
     background-color: rgba(0, 0, 0, 0);
 }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered {
+.select2-selection .select2-selection--multiple,
+.select2-selection .select2-selection--single {
+    border-color: 1px solid #666EE8 !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection--multiple 
+.select2-selection__rendered {
     color: #ece0e0;
 }
 

@@ -297,3 +297,26 @@ if ( ! function_exists('is_https'))
 		return FALSE;
 	}
 }
+
+if ( ! function_exists('resort'))
+{
+    /**
+     * Re-sorting arrays in order to make index key
+     * back to numeric index started from 0
+     * This function is used to remove numeric index when
+     * the array is encoded to JSON format
+     * 
+     * @param array $array
+     * @return array
+     */
+    function resort(array $array)
+    {
+        $sort = [];
+        foreach($array as $key)
+        {
+            $sort[] = $key;
+        }
+
+        return $sort;
+    }
+}

@@ -16,6 +16,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events', 'Agenda::getEvents');
+	$routes->add('agenda/search-guest/(:any)', 'Agenda::searchGuest/$1');
+	$routes->add('agenda/search-guest', 'Agenda::searchGuest/$1');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

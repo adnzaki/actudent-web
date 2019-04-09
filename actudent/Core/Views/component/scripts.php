@@ -7,7 +7,7 @@
     var xhr = new XMLHttpRequest();
   </script>
 <script src="{appAssets}vendors/js/vendors.min.js" type="text/javascript"></script>
-<script src="{appAssets}vendors/js/forms/select/select2.full.min.js" type="text/javascript"></script>
+<script src="{assets}js/select2.full.min_c.js" type="text/javascript"></script>
   <!-- BEGIN VENDOR JS-->
   <!-- BEGIN PAGE VENDOR JS-->
   <script src="{appAssets}vendors/js/forms/icheck/icheck.min.js" type="text/javascript"></script>

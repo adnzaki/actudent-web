@@ -85,32 +85,8 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{{ lang.agenda_label_guest }}</label>
-                            <div class="row skin skin-square">
-                                <div class="col-md-3 col-12 guest-list">
-                                    <fieldset>
-                                        <input type="checkbox" id="input-11">
-                                        <label for="input-11">{{ lang.agenda_check_guru }}</label>
-                                    </fieldset>                                    
-                                </div>
-                                <div class="col-md-3 col-12 guest-list">
-                                    <fieldset>
-                                        <input type="checkbox" id="input-12">
-                                        <label for="input-12">{{ lang.agenda_check_ortu }}</label>
-                                    </fieldset>
-                                </div>
-                                <div class="col-md-3 col-12 guest-list">
-                                    <fieldset>
-                                        <input type="checkbox" id="input-13">
-                                        <label for="input-13">Staff</label>
-                                    </fieldset>
-                                </div>
-                                <div class="col-md-3 col-12">
-                                    <fieldset>
-                                        <input type="checkbox" name="all-guest" id="all-guest" value="all-guest">
-                                        <label for="all-guest">{{ lang.agenda_label_semua }}</label>
-                                    </fieldset>  
-                                </div>
-                            </div>
+                            <select class="select2-data-ajax form-control" multiple="multiple" style="width: 100%">
+                            </select>
                             <form-error :msg="error.phone" />
                         </div>
                         <div class="form-group">
