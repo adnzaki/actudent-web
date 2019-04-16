@@ -16,7 +16,7 @@ class Resources extends \CodeIgniter\Controller
      * Admin locale resources
      * Provide set of files needed by the JS to be loaded
      * 
-     * @param string $files (separated by "-")
+     * @param string $files
      * @return void
      */
     public function getLocaleResource($file)
