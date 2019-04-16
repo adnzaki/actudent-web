@@ -15,33 +15,6 @@ const agenda = new Vue({
             class: 'alert bg-danger', show: false,
             header: 'Sukses', text: 'heheheh',
         },
-        guests: [
-            {
-                text: 'Semua',
-                children: [
-                    {
-                        id: 1,
-                        text: 'Semua Wali Kelas'
-                    },
-                    {
-                        id: 2,
-                        text: 'Semua Wali Murid'
-                    },
-                    {
-                        id: 3,
-                        text: 'Staff'
-                    },
-                ],
-            },
-            {
-                text: 'Daftar Wali Kelas',
-                children: [],
-            },
-            {
-                text: 'Daftar Wali Murid',
-                children: [],
-            }
-        ],
         flashAlert: {
             class: 'bg-success', show: false, title: 'Sukses',
             text: 'Data peserta didik baru berhasil disimpan',
@@ -109,20 +82,5 @@ const agenda = new Vue({
                 }
             })
         },
-        checkAllGuests() {
-            $('#all-guest').on('ifChecked', function () {
-                $('.guest-list input').each(function () {
-                    $(this).iCheck('check')
-                    $(this).iCheck('disable')
-                })
-            })
-
-            $('#all-guest').on('ifUnchecked', function () {
-                $('.guest-list input').each(function () {
-                    $(this).iCheck('uncheck')
-                    $(this).iCheck('enable')
-                })
-            })
-        }
     }
 })
