@@ -20,6 +20,9 @@
         <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal +}</span></a>
       </li>
       <li class="{+ menu_active uri=aaa +} nav-item">
+        <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_guru +}</span></a>
+      </li>
+      <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="{admin}siswa"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span></a>
       </li>
       <li class="{+ menu_active uri=aaa +} nav-item">

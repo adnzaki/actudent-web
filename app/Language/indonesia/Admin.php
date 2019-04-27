@@ -12,6 +12,7 @@ return [
     'menu_pengaturan'  => 'Pengaturan',
     'menu_pengguna'  => 'Pengguna',
     'menu_aplikasi'  => 'Aplikasi',
+    'menu_guru'       => 'Guru',
     
     // teks navbar
     'navbar_halo'  => 'Halo',
