@@ -98,7 +98,7 @@ aria-hidden="true">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" class="btn btn-outline-primary"> {+ lang Admin.simpan +}</button>
+                <button type="button" class="btn btn-outline-primary" @click="filterGuest"> {+ lang Admin.simpan +}</button>
                 <button type="button" class="btn btn-outline-success"> {+ lang Admin.simpan_tutup +}</button>
             </div>
         </div>

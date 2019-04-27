@@ -82,8 +82,8 @@ class Agenda extends \CodeIgniter\Controller
             foreach($data as $res)
             {
                 // push the result into the wrapper
-                array_push($wrapper['wali_murid'], ['id' => $res->user_id, 'text' => "{$res->user_name} - {$res->grade_name}"]);
-                array_push($wrapper['wali_kelas'], ['id' => $res->user_id, 'text' => "{$res->teacher_name} - {$res->grade_name}"]);
+                array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => "{$res->user_name}"]);
+                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->teacher_name} - {$res->grade_name}"]);
             }
     
             // generate output and remove duplicate results with array_unique
@@ -92,26 +92,22 @@ class Agenda extends \CodeIgniter\Controller
                     'text' => 'Semua',
                     'children' => [
                         [
-                            'id' => 1,
+                            'id' => 'wali_kelas',
                             'text' => "Semua Wali Kelas \"{$search}\"",
                         ],
                         [
-                            'id' => 2,
+                            'id' => 'wali_murid',
                             'text' => "Semua Wali Murid \"{$search}\"",
-                        ],
-                        [
-                            'id' => 3,
-                            'text' => 'Staff',
                         ],
                     ]
                 ],
                 [
                     'text' => "Daftar Wali Kelas \"{$search}\"",
-                    'children' => resort(multidimensional_array_unique($wrapper['wali_kelas'], 'text')),
+                    'children' => resort(multidimensional_array_unique($wrapper['wali_kelas'], 'id')),
                 ],
                 [
                     'text' => "Daftar Wali Murid \"{$search}\"",
-                    'children' => resort(multidimensional_array_unique($wrapper['wali_murid'], 'text')),
+                    'children' => resort(multidimensional_array_unique($wrapper['wali_murid'], 'id')),
                 ],
             ];
         }

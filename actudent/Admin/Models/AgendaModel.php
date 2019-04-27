@@ -72,7 +72,8 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      */
     private function joinAndSearchQuery($search)
     {
-        $field = 'tb_parent.user_id, parent_father_name, parent_mother_name, user_name,
+        $field = 'tb_parent.user_id as user_parent, tb_teacher.user_id as user_guru,
+        parent_father_name, parent_mother_name, user_name,
         tb_user_student.student_id, student_name, tb_student_grade.grade_id, grade_name, teacher_name';
         $query = $this->QBParent->select($field)->join($this->user, "{$this->parent}.user_id = {$this->user}.user_id")
                 ->join($this->userStudent, "{$this->user}.user_id = {$this->userStudent}.user_id")

@@ -25,19 +25,21 @@ const agenda = new Vue({
         },
         locale: {
             english: 'en', indonesia: 'id'
-        }
+        },
+        guests: [], 
+        guestWrapper: [],
     },
     mounted() {
         this.getEvents()
         this.runDateTimePicker()
         this.runICheck()
         this.runSwitchery()
-        this.initSelect2Agenda()
+        this.searchGuest()
+        this.pushGuest()
         this.getLanguageResources('AdminAgenda')
-        this.checkAllGuests()
     },
     methods: {
-        initSelect2Agenda() {
+        searchGuest() {
             var obj = this
             $(".select2-data-ajax").select2({
                 ajax: {
@@ -47,6 +49,7 @@ const agenda = new Vue({
                     dataType: 'json',
                     delay: 250,
                     processResults: function(data) {
+                        obj.guests = data
                         return {
                             results: data
                         }
@@ -54,6 +57,52 @@ const agenda = new Vue({
                     cache: true,
                 }
             });
+        },
+        filterGuest() {
+            let finalGuest = []
+            this.guestWrapper.forEach(el => {
+                if(finalGuest.indexOf(el) === -1) {
+                    finalGuest.push(el)
+                }
+            })
+            
+            let filtered = finalGuest.filter(e => {
+                return e.match(/[0-9]/)
+            })
+            this.guestWrapper = filtered
+        },
+        pushGuest() {
+            let obj = this
+            $('.select2-data-ajax').on('select2:select', function(e) {
+                let selectValue = $(this).val()
+                selectValue.forEach(el => {
+                    if(obj.guestWrapper.indexOf(el) === -1) {
+                        obj.guestWrapper.push(el)
+                    }
+                })
+                
+                let allGuests = obj.guestWrapper.filter(guest => {
+                    return guest.match(/wali/)
+                })
+
+                if(allGuests.length > 0) {
+                    allGuests.forEach(el => {
+                        if(el === 'wali_kelas') {
+                            let waliKelas = obj.guests[1].children
+                            waliKelas.forEach(v => {
+                                obj.guestWrapper.push(v.id)
+                            })
+                        }
+
+                        if(el === 'wali_murid') {
+                            let waliMurid = obj.guests[2].children
+                            waliMurid.forEach(v => {
+                                obj.guestWrapper.push(v.id)
+                            })
+                        }
+                    })
+                }
+            })
         },
         getEvents() {
             $.ajax({
