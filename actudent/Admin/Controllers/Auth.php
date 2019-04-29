@@ -29,7 +29,7 @@ class Auth extends \CodeIgniter\Controller
 
     public function index()
     {
-        if(isset($_SESSION['email']) && $_SESSION['userLevel'] === '1')
+        if(isset($_SESSION['email']) && isset($_SESSION['userLevel']) === '1')
         {
             return redirect()->to(site_url('admin/home'));
         }
