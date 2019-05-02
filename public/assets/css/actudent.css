@@ -47,3 +47,29 @@
 		width: 50%;
 	}
 }
+
+.list-group-custom {
+	overflow-y: scroll;
+	min-height: 100px;
+	max-height: 300px;
+}
+
+.list-group-item-custom {
+	padding: 0.35rem 1.25rem !important;
+}
+
+.add-margin-top-5px {
+	margin-top: 5px;
+}
+
+.add-margin-bottom-5px {
+	margin-bottom: 5px;
+}
+
+.add-margin-right-5px {
+	margin-right: 5px;
+}
+
+.add-margin-left-5px {
+	margin-left: 5px;
+}

@@ -169,3 +169,9 @@ select.picker__select--year option, select.picker__select--month option {
 .picker__nav--next:hover, .picker__nav--prev:hover {
     background-color: #282b2d !important;
 }
+
+.list-group-item {
+    background-color: #2e3c45;
+    border: 1px solid #43454A;
+    color: #f5f5f5;
+}

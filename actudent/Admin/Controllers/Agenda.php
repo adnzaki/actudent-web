@@ -49,70 +49,37 @@ class Agenda extends \CodeIgniter\Controller
         echo json_encode($formatted);
     }
 
-    public function searchGuest($search = '')
+    public function searchGuest($keyword = '')
     {
-        if(empty($search) || $search === 'undefined')
+        $wrapper = [
+            'wali_murid' => [],
+            'wali_kelas' => [],
+        ];
+
+        if(empty($keyword))
         {
-            $output = [
-                [
-                    'text' => 'Semua',
-                    'children' => [],
-                ],
-                [
-                    'text' => 'Daftar Wali Kelas',
-                    'children' => [],
-                ],
-                [
-                    'text' => 'Daftar Wali Murid',
-                    'children' => [],
-                ],
-            ];
+            return $this->response->setJSON($wrapper);
         }
         else 
         {
             // search the guests!
-            $data = $this->agenda->searchGuest($search);
-    
+            $data = $this->agenda->searchGuest($keyword);
+        
             // create a wrapper to store the result
-            $wrapper = [
-                'wali_murid' => [],
-                'wali_kelas' => [],
-            ];
-    
+
             foreach($data as $res)
             {
                 // push the result into the wrapper
                 array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => "{$res->user_name}"]);
                 array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->teacher_name} - {$res->grade_name}"]);
             }
-    
-            // generate output and remove duplicate results with array_unique
+
             $output = [
-                [
-                    'text' => 'Semua',
-                    'children' => [
-                        [
-                            'id' => 'wali_kelas',
-                            'text' => "Semua Wali Kelas \"{$search}\"",
-                        ],
-                        [
-                            'id' => 'wali_murid',
-                            'text' => "Semua Wali Murid \"{$search}\"",
-                        ],
-                    ]
-                ],
-                [
-                    'text' => "Daftar Wali Kelas \"{$search}\"",
-                    'children' => resort(multidimensional_array_unique($wrapper['wali_kelas'], 'id')),
-                ],
-                [
-                    'text' => "Daftar Wali Murid \"{$search}\"",
-                    'children' => resort(multidimensional_array_unique($wrapper['wali_murid'], 'id')),
-                ],
+                'wali_kelas' => resort(multidimensional_array_unique($wrapper['wali_kelas'], 'id')),
+                'wali_murid' => resort(multidimensional_array_unique($wrapper['wali_murid'], 'id'))
             ];
-        }
 
-        return $this->response->setJSON($output);
+            return $this->response->setJSON($output);
+        }        
     }
-
 }
