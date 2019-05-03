@@ -49,7 +49,7 @@ const agenda = new Vue({
             // open the result wrapper
             this.searchResultWrapper = true
             
-            // prevent request until the searchTimeout is true
+            // prevent request until searchTimeout is true
             if(!this.searchTimeout) {
                 this.searchTimeout = true
                 // wait for 300ms before processing request to server
@@ -116,7 +116,7 @@ const agenda = new Vue({
             }
         },
         removeGuest(param) {
-            // check if the id contains word like "wali_kelas" or "wali_murid"
+            // check if ID contains word like "wali_kelas" or "wali_murid"
             // if null, remove individual guest
             if(param.id.match(/wali/) === null) {
                 let itemToRemove = this.guestWrapper.indexOf(param.id)    
@@ -127,7 +127,7 @@ const agenda = new Vue({
                 let tempArray = []     
                 let display = this.guestToDisplay           
                 this.guestWrapperAll.forEach(el => {
-                    // if the relation is not match with param.id
+                    // if relation does not match with param.id
                     // push them to temporary array: tempArray
                     if(el.relation !== param.id) {
                         tempArray.push({
@@ -148,7 +148,7 @@ const agenda = new Vue({
                     }
                 })                
 
-                // search the guest that displayed to user
+                // search guest that displayed to user
                 // if matched, delete it                
                 let index = display.findIndex(el => {
                     return el.id === param.id
