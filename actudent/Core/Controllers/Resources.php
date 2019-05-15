@@ -35,6 +35,6 @@ class Resources extends \CodeIgniter\Controller
         }
         
         $lang = require APPPATH . "Language/{$bahasa}/{$file}.php";
-        echo json_encode($lang);
+        return $this->response->setJSON($lang);
     }
 }

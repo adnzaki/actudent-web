@@ -34,7 +34,7 @@ class Kelas extends \CodeIgniter\Controller
     {
         $data = $this->kelas->getKelasQuery($limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->kelas->getKelasRows($searchBy, $search);
-        echo json_encode([
+        return $this->response->setJSON([
             'container' => $data,
             'totalRows' => $rows,
         ]);

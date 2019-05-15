@@ -46,7 +46,7 @@ class Agenda extends \CodeIgniter\Controller
             array_push($formatted, $data);
         }
 
-        echo json_encode($formatted);
+        return $this->response->setJSON($formatted);
     }
 
     public function searchGuest($keyword = '')

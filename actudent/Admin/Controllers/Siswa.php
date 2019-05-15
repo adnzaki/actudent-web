@@ -41,7 +41,7 @@ class Siswa extends \CodeIgniter\Controller
     {
         $data = $this->siswa->getSiswaQuery($limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->siswa->getSiswaRows($searchBy, $search);
-        echo json_encode([
+        return $this->response->setJSON([
             'container' => $data,
             'totalRows' => $rows,
         ]);
@@ -49,6 +49,6 @@ class Siswa extends \CodeIgniter\Controller
 
     public function getKelas()
     {
-        echo json_encode($this->kelas->getKelas());
+        return $this->response->setJSON($this->kelas->getKelas());
     }
 }
