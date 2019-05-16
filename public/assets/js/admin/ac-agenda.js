@@ -21,7 +21,8 @@ const agenda = new Vue({
             icon: 'la-thumbs-o-up'
         },
         helper: {
-            saveAndClose: false, fullDayCheck: true,
+            saveAndClose: false, fullDayEvent: false,
+            timeStart: '00:00:00', timeEnd: '23:59:00',
         },
         locale: {
             english: 'en', indonesia: 'id'
@@ -36,12 +37,15 @@ const agenda = new Vue({
         guestToDisplay: [],
         // data that come from "Semua wali kelas xxx" or "Semua wali murid xxx"
         guestWrapperAll: [],
+        agendaStart: '', agendaEnd: '',
     },
     mounted() {
         this.getEvents()
-        this.runDateTimePicker()
+        this.runDatePicker()
+        this.runTimePicker()
         this.runICheck()
         this.runSwitchery()
+        this.setFullDayEvent()
         this.getLanguageResources('AdminAgenda')
     },
     methods: {
@@ -72,6 +76,24 @@ const agenda = new Vue({
                     this.searchTimeout = false
                 }, 300)
             }
+        },
+        save() {
+            this.filterGuest()
+            let form = $('#formTambahAgenda')
+            let dateStart = $('input[name=agendaDateStart]').val(),
+                dateEnd = $('input[name=agendaDateEnd]').val(),
+                timeStart = $('input[name=timestart]').val(),
+                timeEnd = $('input[name=timeend]').val()       
+            
+            if(this.helper.fullDayEvent) {
+                timeStart = this.helper.timeStart
+                timeEnd = this.helper.timeEnd
+            } else {
+                timeStart = `${timeStart}:00`
+                timeEnd = `${timeEnd}:00`
+            }
+            this.agendaStart = `${dateStart} ${timeStart}`
+            this.agendaEnd = `${dateEnd} ${timeEnd}`
         },
         filterGuest() {
             // filter guest IDs before send them to server, no duplicate!
@@ -187,6 +209,18 @@ const agenda = new Vue({
                     })
                 }
             })
+        },
+        setFullDayEvent() {
+            let fullDay = document.querySelector('#allDayEvent')
+            let obj = this
+            fullDay.onchange = function() {
+                obj.helper.fullDayEvent = fullDay.checked
+                if(!fullDay.checked) {
+                    setTimeout(() => {
+                        obj.runTimePicker()
+                    }, 200)
+                } 
+            }
         },
     },
 })

@@ -13,41 +13,41 @@ aria-hidden="true">
                 <form class="form" id="formTambahAgenda">
                     <div class="form-body">                        
                         <div class="form-group">
-                            <label for="userinput5">{{ lang.agenda_label_nama }}</label>
-                            <input class="form-control border-primary" type="text" :placeholder="lang.agenda_input_nama" name="student_nis">
-                            <form-error :msg="error.studentNis" />
+                            <label>{{ lang.agenda_label_nama }}</label>
+                            <input class="form-control border-primary" type="text" :placeholder="lang.agenda_input_nama" name="agenda_name">
+                            <form-error :msg="error.agenda_name" />
                         </div>
                         <div class="form-group">
+                            <input type="hidden" name="agenda_start" v-model="agendaStart">
                             <label>{{ lang.agenda_label_start }}</label>
                             <div class="input-group">
-                                <input type='text' class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_start"
-                                />
+                                <input type='text' name="agendaDateStart"
+                                class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_start" />
                                 <div class="input-group-append">
                                     <span class="input-group-text border-primary">
                                         <span class="la la-calendar-o"></span>
                                     </span>
                                 </div>
                             </div>                            
-                            <form-error :msg="error.studentName" />                            
                         </div>
                         <div class="form-group">
+                            <input type="hidden" name="agenda_end" v-model="agendaEnd">
                             <label>{{ lang.agenda_label_end }}</label>
                             <div class="input-group">
-                                <input type='text' class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_end"
-                                />
+                                <input type='text' name="agendaDateEnd"
+                                class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_end" />
                                 <div class="input-group-append">
                                     <span class="input-group-text border-primary">
                                         <span class="la la-calendar-o"></span>
                                     </span>
                                 </div>
                             </div> 
-                            <form-error :msg="error.familyCard" />
                         </div>
                         <div class="form-group mt-1">
-                            <input type="checkbox" id="switcherySize2" class="switchery"/>
-                            <label for="switcherySize2">{{ lang.agenda_label_allday }}</label>
+                            <input type="checkbox" id="allDayEvent" class="switchery"/>
+                            <label for="allDayEvent">{{ lang.agenda_label_allday }}</label>
                         </div>
-                        <div class="row">
+                        <div class="row" v-if="helper.fullDayEvent === false">
                             <div class="col-md-6 col-sm-6 col-12">
                                 <div class="form-group">
                                     <div class="input-group">
@@ -56,7 +56,8 @@ aria-hidden="true">
                                                 <span class="ft-clock"></span>
                                             </span>
                                         </div>
-                                        <input type='text' class="form-control border-primary pickatime" :placeholder="lang.agenda_label_timestart" />
+                                        <input type='text' name="timestart" 
+                                        class="form-control border-primary pickatime" :placeholder="lang.agenda_label_timestart" />
                                     </div>
                                 </div>
                             </div>
@@ -68,28 +69,59 @@ aria-hidden="true">
                                                 <span class="ft-clock"></span>
                                             </span>
                                         </div>
-                                        <input type='text' class="form-control border-primary pickatime" :placeholder="lang.agenda_label_timeend" />
+                                        <input type='text' name="timeend" 
+                                        class="form-control border-primary pickatime" :placeholder="lang.agenda_label_timeend" />
                                     </div>
                                 </div>
                             </div>
+                            <form-error :msg="error.agenda_datetime" />   
                         </div>                        
                         <div class="form-group">
                             <label for="userinput6">{{ lang.agenda_label_desc }}</label>
-                            <textarea class="form-control border-primary" type="text" :placeholder="lang.agenda_input_desc" name="parent_mother_name"></textarea>
-                            <form-error :msg="error.motherName" />
+                            <textarea class="form-control border-primary" type="text" :placeholder="lang.agenda_input_desc" name="agenda_description"></textarea>
+                            <form-error :msg="error.agenda_description" />
                         </div>
                         <div class="form-group">
-                            <label for="userinput6">{{ lang.agenda_label_loc }}</label>
-                            <input class="form-control border-primary" type="text" :placeholder="lang.agenda_input_loc" name="parent_phone_number">
-                            <form-error :msg="error.phone" />
+                            <label for="userinput6">{{ lang.agenda_label_prior }}</label>
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 skin skin-square" id="prioritas">
+                                    <div class="row">
+                                        <div class="col-sm-4">
+                                            <fieldset>
+                                                <input type="radio" name="agenda_priority" id="high" value="high">
+                                                <label>{{ lang.agenda_input_highprior }}</label>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <fieldset>
+                                                <input type="radio" name="agenda_priority" id="normal" value="normal" checked>
+                                                <label>{{ lang.agenda_input_normalprior }}</label>
+                                            </fieldset>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <fieldset>
+                                                <input type="radio" name="agenda_priority" id="low" value="low">
+                                                <label>{{ lang.agenda_input_lowprior }}</label>
+                                            </fieldset>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            <form-error :msg="error.agenda_priority" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ lang.agenda_label_loc }}</label>
+                            <input class="form-control border-primary" type="text" :placeholder="lang.agenda_input_loc" name="agenda_location">
+                            <form-error :msg="error.agenda_location" />
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{{ lang.agenda_label_guest }} </label>
+                            <input type="hidden" name="agenda_guest" v-model="guestWrapper">
                             <div class="row add-margin-bottom-5px">
                                 <div class="col-12">
                                     <div class="badge badge-primary add-margin-right-5px add-margin-top-5px
                                     cursor-pointer" 
-                                    v-for="tamu in guestToDisplay">
+                                    v-for="tamu in guestToDisplay" :key="tamu.id">
                                         {{ tamu.name }} <strong @click="removeGuest(tamu)"><i class="la la-close font-medium-2"></i></strong>
                                     </div>
                                 </div>
@@ -98,7 +130,7 @@ aria-hidden="true">
                             <div class="input-group">
                                 <input class="form-control border-primary" type="text" v-model="searchParam" 
                                 @focus="searchResultWrapper = true"
-                                :placeholder="lang.agenda_input_guest" name="parent_phone_number" @keyup="searchGuest">
+                                :placeholder="lang.agenda_input_guest" @keyup="searchGuest">
                                 <div class="input-group-append">
                                     <button class="btn btn-primary" type="button" 
                                     @click="clearResult">{{ lang.agenda_close_result }}</button>
@@ -106,35 +138,40 @@ aria-hidden="true">
                                 
                             </div>                            
                             <div class="list-group list-group-custom add-margin-top-5px" v-if="searchResultWrapper">
-                            	<a href="#" class="list-group-item active list-group-item-custom">
+                            	<a href="javascript:void()" class="list-group-item active list-group-item-custom">
                             		Semua
                             	</a>
-                                <a href="#" class="list-group-item list-group-item-action
+                                <a href="javascript:void()" class="list-group-item list-group-item-action
                                 list-group-item-custom" @click="pushAll('wali_kelas')">
                                     Semua Wali Kelas "{{ searchParam }}"
                                 </a>
-                                <a href="#" class="list-group-item list-group-item-action 
+                                <a href="javascript:void()" class="list-group-item list-group-item-action 
                                 list-group-item-custom" @click="pushAll('wali_murid')">
                                     Semua Wali Murid "{{ searchParam }}"
                                 </a>
-                                <a href="#" class="list-group-item active">
+                                <a href="javascript:void()" class="list-group-item active">
                             		Daftar Wali Kelas "{{ searchParam }}"
                                 </a>
-                                <a href="#" class="list-group-item list-group-item-action 
+                                <a href="javascript:void()" class="list-group-item list-group-item-action 
                                 list-group-item-custom"
                                 v-for="guru in guests.wali_kelas" @click="pushGuest(guru)">
                                     {{ guru.text }}
                                 </a>
-                                <a href="#" class="list-group-item active 
+                                <a href="javascript:void()" class="list-group-item active 
                                 list-group-item-custom">
                             		Daftar Wali Murid "{{ searchParam }}"
                             	</a>
-                                <a href="#" class="list-group-item list-group-item-action 
+                                <a href="javascript:void()" class="list-group-item list-group-item-action 
                                 list-group-item-custom"
                                 v-for="ortu in guests.wali_murid" @click="pushGuest(ortu)">
                                     {{ ortu.text }}
                                 </a>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label>{{ lang.agenda_label_att }}</label>
+                            <input class="form-control border-primary" type="file" name="agenda_attachment">
+                            <form-error :msg="error.agenda_attachment" />
                         </div>
                     </div>
                 </form>
@@ -142,7 +179,7 @@ aria-hidden="true">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" class="btn btn-outline-primary" @click="filterGuest"> {+ lang Admin.simpan +}</button>
+                <button type="button" class="btn btn-outline-primary" @click="save"> {+ lang Admin.simpan +}</button>
                 <button type="button" class="btn btn-outline-success"> {+ lang Admin.simpan_tutup +}</button>
             </div>
         </div>

@@ -73,26 +73,26 @@ const plugin = {
 
 			})(window, document, jQuery);
 		},
-		runDateTimePicker() {
-			(function (window, document, $) {
-				'use strict';
-
-				// Month & Year selectors
-				$('.pickadate-selectors').pickadate({
-					labelMonthNext: 'Next month',
-					labelMonthPrev: 'Previous month',
-					labelMonthSelect: 'Pick a Month',
-					labelYearSelect: 'Pick a Year',
-					selectMonths: true,
-					selectYears: true,
-					min: true // set minimal tanggal hari ini
-				});
-
-				$('.pickatime').pickatime({
-					format: 'HH:i'
-				});
-
-			})(window, document, jQuery);
+		runDatePicker() {
+			// Month & Year selectors
+			$('.pickadate-selectors').pickadate({
+				labelMonthNext: 'Next month',
+				labelMonthPrev: 'Previous month',
+				labelMonthSelect: 'Pick a Month',
+				labelYearSelect: 'Pick a Year',
+				selectMonths: true,
+				selectYears: true,
+				min: true, // set minimal tanggal hari ini
+				hiddenName: true,
+				formatSubmit: 'yyyy-mm-dd',
+			});
+		},
+		runTimePicker() {
+			$('.pickatime').pickatime({
+				format: 'HH:i',
+				formatSubmit: 'HH:i',
+				hiddenName: true,
+			});
 		},
 		runICheck() {
 			$('.skin-square input').iCheck({
