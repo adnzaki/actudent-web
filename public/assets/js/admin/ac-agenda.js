@@ -92,8 +92,46 @@ const agenda = new Vue({
                 timeStart = `${timeStart}:00`
                 timeEnd = `${timeEnd}:00`
             }
-            this.agendaStart = `${dateStart} ${timeStart}`
-            this.agendaEnd = `${dateEnd} ${timeEnd}`
+
+            // convert date to timestamp and parse to string
+            let eventStart =  Date.parse(`${dateStart}T${timeStart}`).toString(),
+                eventEnd = Date.parse(`${dateEnd}T${timeEnd}`).toString()
+
+            // only get the first 10 chars to match PHP timestamp
+            this.agendaStart = eventStart.substr(0,10)
+            this.agendaEnd = eventEnd.substr(0,10)
+
+            let obj = this
+            $.ajax({
+                url: `${this.agenda}save`,
+                type: 'POST',
+                dataType: 'json',
+                data: form.serialize(),
+                success: res => {
+                    if(res.code === '500') {
+                        obj.error = res.msg
+                    } else {
+                        console.log('Uploading file...')
+                        this.uploadFile()    
+                        obj.error = []
+                    }
+                }
+            })
+        },
+        uploadFile() {
+            let form = document.forms.namedItem('upload-file'),
+                data = new FormData(form),
+                req = new XMLHttpRequest
+
+            req.open('POST', `${this.agenda}upload`, true)
+            req.onload = obj => {
+                if(req.response === 'OK') {
+                    console.log('Process completed.')
+                } else {
+                    console.warn('Unable to upload the file')
+                }
+            }
+            req.send(data)
         },
         filterGuest() {
             // filter guest IDs before send them to server, no duplicate!
@@ -222,5 +260,28 @@ const agenda = new Vue({
                 } 
             }
         },
+    },
+    computed: {
+        timepickerStatus() {
+            if(this.helper.fullDayEvent) {
+                return 'cursor-disabled'
+            } else {
+                return ''
+            }
+        },
+        fullDayTimeStart() {
+            if(this.helper.fullDayEvent) {
+                return '00:00'
+            } else {
+                return this.lang.agenda_label_timestart
+            }
+        },
+        fullDayTimeEnd() {
+            if(this.helper.fullDayEvent) {
+                return '23:59'
+            } else {
+                return this.lang.agenda_label_timeend
+            }
+        }
     },
 })

@@ -82,4 +82,97 @@ class Agenda extends \CodeIgniter\Controller
             return $this->response->setJSON($output);
         }        
     }
+
+    public function save()
+    {
+        $validator = \Config\Services::validation();
+        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+        if(! $this->validate($validation[0], $validation[1]))
+        {
+            return $this->response->setJSON([
+                'code' => '500',
+                'msg' => $validator->getErrors(),
+            ]);
+        }
+        else 
+        {
+            return $this->response->setJSON([
+                'code' => '200',
+            ]);
+        }
+    }
+
+    private function validation()
+    {
+        $form = $this->formData();
+        $rules = [
+                'agenda_name' => 'required',
+                'agenda_start' => 'required|less_than['.$form['agenda_end'].']',
+                'agenda_end' => 'required|greater_than['.$form['agenda_start'].']',
+                'agenda_priority' => 'in_list[high,normal,low]',
+        ];
+
+        $messages = [
+            'agenda_name' => [
+                'required' => lang('AdminAgenda.agenda_err_name_required'),
+            ],
+            'agenda_start' => [
+                'required' => lang('AdminAgenda.agenda_err_eventstart_required'),
+                'less_than' => lang('AdminAgenda.agenda_err_eventstart_invalid'),
+            ],
+            'agenda_end' => [
+                'required' => lang('AdminAgenda.agenda_err_eventend_required'),
+                'greater_than' => lang('AdminAgenda.agenda_err_eventend_invalid'),
+            ],
+            'agenda_priority' => [
+                'in_list' => lang('AdminAgenda.agenda_err_priority'),
+            ],
+        ];            
+
+        return [$rules, $messages];
+    }
+
+    private function formData()
+    {
+        $data = [
+            'agenda_name' => $this->request->getPost('agenda_name'),
+            'agenda_start' => $this->request->getPost('agenda_start'),
+            'agenda_end' => $this->request->getPost('agenda_end'),
+            'agenda_description' => $this->request->getPost('agenda_description'),
+            'agenda_priority' => $this->request->getPost('agenda_priority'),
+            'agenda_location' => $this->request->getPost('agenda_location'),
+        ];
+
+        return $data;
+    }
+
+    public function uploadFile()
+    {
+        $fileRules = [
+            'agenda_attachment' => [
+                'uploaded[agenda_attachment]|
+                mime_in[agenda_attachment,application/pdf]|
+                max_size[agenda_attachment,4096]'
+            ]
+        ];
+        $fileMessages = [
+            'agenda_attachment' => [
+                'uploaded' => 'File has been uploaded',
+                'mime_in' => lang('Admin.invalid_filetype'),
+                'max_size' => lang('Admin.file_too_large'),
+            ]
+        ];
+        $validated = $this->validate($fileRules, $fileMessages);
+
+        if($validated) 
+        {
+            $attachment = $this->request->getFile('agenda_attachment');
+            $attachment->move(WRITEPATH . 'uploads');
+            echo 'OK';
+        }
+        else 
+        {
+            echo 'FAIL';
+        }
+    }
 }

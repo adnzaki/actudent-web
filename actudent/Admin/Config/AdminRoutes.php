@@ -18,6 +18,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('agenda/get-events', 'Agenda::getEvents');
 	$routes->add('agenda/search-guest/(:any)', 'Agenda::searchGuest/$1');
 	$routes->add('agenda/search-guest', 'Agenda::searchGuest/$1');
+	$routes->add('agenda/save', 'Agenda::save');
+	$routes->add('agenda/upload', 'Agenda::uploadFile');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

@@ -10,72 +10,84 @@ aria-hidden="true">
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form" id="formTambahAgenda">
+                <form class="form" id="formTambahAgenda" enctype="multipart/form-data">
                     <div class="form-body">                        
                         <div class="form-group">
                             <label>{{ lang.agenda_label_nama }}</label>
                             <input class="form-control border-primary" type="text" :placeholder="lang.agenda_input_nama" name="agenda_name">
                             <form-error :msg="error.agenda_name" />
                         </div>
-                        <div class="form-group">
-                            <input type="hidden" name="agenda_start" v-model="agendaStart">
-                            <label>{{ lang.agenda_label_start }}</label>
-                            <div class="input-group">
-                                <input type='text' name="agendaDateStart"
-                                class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_start" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text border-primary">
-                                        <span class="la la-calendar-o"></span>
-                                    </span>
-                                </div>
-                            </div>                            
+                        <div class="row">
+                            <div class="col-12"><label>{{ lang.agenda_label_start }}</label></div>
                         </div>
-                        <div class="form-group">
-                            <input type="hidden" name="agenda_end" v-model="agendaEnd">
-                            <label>{{ lang.agenda_label_end }}</label>
-                            <div class="input-group">
-                                <input type='text' name="agendaDateEnd"
-                                class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_end" />
-                                <div class="input-group-append">
-                                    <span class="input-group-text border-primary">
-                                        <span class="la la-calendar-o"></span>
-                                    </span>
+                        <div class="row">
+                            <div class="col-md-7 col-sm-7 col-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="agenda_start" v-model="agendaStart">
+                                    <div class="input-group">
+                                        <input type='text' name="agendaDateStart"
+                                        class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_start" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text border-primary">
+                                                <span class="la la-calendar-o"></span>
+                                            </span>
+                                        </div>
+                                    </div>                            
+                                    <form-error :msg="error.agenda_start" />
                                 </div>
-                            </div> 
+                            </div>
+                            <div class="col-md-5 col-sm-5 col-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-primary">
+                                                <span class="ft-clock"></span>
+                                            </span>
+                                        </div>
+                                        <input type='text' name="timestart" :disabled="helper.fullDayEvent"
+                                        :class="['form-control border-primary pickatime', timepickerStatus]" :placeholder="fullDayTimeStart" />
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
+                        <div class="row">
+                            <div class="col-12"><label>{{ lang.agenda_label_end }}</label></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-7 col-sm-7 col-12">
+                                <div class="form-group">
+                                    <input type="hidden" name="agenda_end" v-model="agendaEnd">
+                                    <div class="input-group">
+                                        <input type='text' name="agendaDateEnd"
+                                        class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_end" />
+                                        <div class="input-group-append">
+                                            <span class="input-group-text border-primary">
+                                                <span class="la la-calendar-o"></span>
+                                            </span>
+                                        </div>
+                                    </div> 
+                                    <form-error :msg="error.agenda_end" />
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-sm-5 col-12">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text border-primary">
+                                                <span class="ft-clock"></span>
+                                            </span>
+                                        </div>
+                                        <input type='text' name="timeend" :disabled="helper.fullDayEvent"
+                                        :class="['form-control border-primary pickatime', timepickerStatus]" :placeholder="fullDayTimeEnd" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                        
                         <div class="form-group mt-1">
                             <input type="checkbox" id="allDayEvent" class="switchery"/>
                             <label for="allDayEvent">{{ lang.agenda_label_allday }}</label>
                         </div>
-                        <div class="row" v-if="helper.fullDayEvent === false">
-                            <div class="col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text border-primary">
-                                                <span class="ft-clock"></span>
-                                            </span>
-                                        </div>
-                                        <input type='text' name="timestart" 
-                                        class="form-control border-primary pickatime" :placeholder="lang.agenda_label_timestart" />
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6 col-sm-6 col-12">
-                                <div class="form-group">
-                                    <div class="input-group">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text border-primary">
-                                                <span class="ft-clock"></span>
-                                            </span>
-                                        </div>
-                                        <input type='text' name="timeend" 
-                                        class="form-control border-primary pickatime" :placeholder="lang.agenda_label_timeend" />
-                                    </div>
-                                </div>
-                            </div>
-                            <form-error :msg="error.agenda_datetime" />   
-                        </div>                        
                         <div class="form-group">
                             <label for="userinput6">{{ lang.agenda_label_desc }}</label>
                             <textarea class="form-control border-primary" type="text" :placeholder="lang.agenda_input_desc" name="agenda_description"></textarea>
@@ -168,13 +180,15 @@ aria-hidden="true">
                                 </a>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>{{ lang.agenda_label_att }}</label>
-                            <input class="form-control border-primary" type="file" name="agenda_attachment">
-                            <form-error :msg="error.agenda_attachment" />
-                        </div>
                     </div>
                 </form>
+                <div class="form-group">
+                    <label>{{ lang.agenda_label_att }}</label>
+                    <form action="" name="upload-file" method="post" enctype="multipart/form-data">
+                        <input class="form-control border-primary" type="file" name="agenda_attachment">
+                    </form>
+                    <form-error :msg="error.agenda_attachment" />
+                </div>
                 <alert-msg :alert-class="alert.class" :header="alert.header" :text="alert.text" v-if="alert.show" />
             </div>
             <div class="modal-footer">

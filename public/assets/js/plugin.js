@@ -103,7 +103,7 @@ const plugin = {
 		runSwitchery() {
 			var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
 			elems.forEach(function(html) {
-				var switchery = new Switchery(html, { 
+				var switchery = new Switchery(html, {
 					secondaryColor: '#6b6b6b',
 					size: 'small'
 				});

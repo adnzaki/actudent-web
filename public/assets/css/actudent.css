@@ -18,6 +18,10 @@
 	cursor: pointer;
 }
 
+.cursor-disabled {
+	cursor: not-allowed;
+}
+
 .nav-link-white {
 	color: #F2F2F2 !important;
 }

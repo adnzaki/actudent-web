@@ -29,4 +29,11 @@ return [
     'agenda_input_guest' => 'Attendance',
     'agenda_close_result'=> 'Clear result',
     'agenda_label_semua' => 'All',
+    'agenda_err_name_required'          => 'Event name is required',
+    'agenda_err_eventstart_required'    => 'Event time start is required',
+    'agenda_err_eventstart_invalid'     => 'Event time start is not valid',
+    'agenda_err_eventend_required'      => 'Event time end is required',
+    'agenda_err_eventend_invalid'       => 'Event time end is not valid',
+    'agenda_err_priority'               => 'Priority field is not valid',
+    'agenda_err_attachment'             => 'File type is not valid',
 ];

@@ -29,4 +29,11 @@ return [
     'agenda_input_guest'        => 'Tamu',
     'agenda_close_result'       => 'Bersihkan hasil',
     'agenda_label_semua'        => 'Semua',
+    'agenda_err_name_required'          => 'Nama kegiatan wajib diisi',
+    'agenda_err_eventstart_required'    => 'Waktu mulai kegiatan harus diisi',
+    'agenda_err_eventstart_invalid'     => 'Waktu mulai kegiatan tidak valid',
+    'agenda_err_eventend_required'      => 'Waktu selesai kegiatan wajib diisi',
+    'agenda_err_eventend_invalid'       => 'Waktu selesai kegiatan tidak valid',
+    'agenda_err_priority'               => 'Isian prioritas tidak valid',
+    'agenda_err_attachment'             => 'Tipe file tidak valid',
 ];

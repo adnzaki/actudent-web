@@ -32,5 +32,7 @@ return [
     'terapkan'            => 'Terapkan',
     'english'             => 'Inggris (AS)',
     'indonesia'           => 'Bahasa Indonesia',
+    'file_too_large'      => 'Ukuran file terlalu besar',
+    'invalid_filetype'    => 'Format file tidak valid',
 ];
 
