@@ -45,7 +45,7 @@ aria-hidden="true">
                                             </span>
                                         </div>
                                         <input type='text' name="timestart" :disabled="helper.fullDayEvent"
-                                        :class="['form-control border-primary pickatime', timepickerStatus]" :placeholder="fullDayTimeStart" />
+                                        :class="['form-control border-primary pickatime', timepickerStatus]" :placeholder="lang.agenda_label_timestart" />
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +79,7 @@ aria-hidden="true">
                                             </span>
                                         </div>
                                         <input type='text' name="timeend" :disabled="helper.fullDayEvent"
-                                        :class="['form-control border-primary pickatime', timepickerStatus]" :placeholder="fullDayTimeEnd" />
+                                        :class="['form-control border-primary pickatime', timepickerStatus]" :placeholder="lang.agenda_label_timeend" />
                                     </div>
                                 </div>
                             </div>

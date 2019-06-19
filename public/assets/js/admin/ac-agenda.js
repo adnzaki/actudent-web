@@ -22,7 +22,7 @@ const agenda = new Vue({
         },
         helper: {
             saveAndClose: false, fullDayEvent: false,
-            timeStart: '00:00:00', timeEnd: '23:59:00',
+            timeStart: '00:00', timeEnd: '23:59',
         },
         locale: {
             english: 'en', indonesia: 'id'
@@ -80,58 +80,70 @@ const agenda = new Vue({
         save() {
             this.filterGuest()
             let form = $('#formTambahAgenda')
-            let dateStart = $('input[name=agendaDateStart]').val(),
-                dateEnd = $('input[name=agendaDateEnd]').val(),
-                timeStart = $('input[name=timestart]').val(),
-                timeEnd = $('input[name=timeend]').val()       
-            
-            if(this.helper.fullDayEvent) {
-                timeStart = this.helper.timeStart
-                timeEnd = this.helper.timeEnd
-            } else {
-                timeStart = `${timeStart}:00`
-                timeEnd = `${timeEnd}:00`
+            let beforeRequest = () => {
+                let dateStart = $('input[name=agendaDateStart]').val(),
+                    dateEnd = $('input[name=agendaDateEnd]').val(),
+                    timeStart = $('input[name=timestart]').val(),
+                    timeEnd = $('input[name=timeend]').val()       
+                
+                if(this.helper.fullDayEvent) {
+                    timeStart = this.helper.timeStart
+                    timeEnd = this.helper.timeEnd                    
+                } 
+    
+                // convert date to timestamp and parse to string
+                let eventStart =  Date.parse(`${dateStart}T${timeStart}`).toString(),
+                    eventEnd = Date.parse(`${dateEnd}T${timeEnd}`).toString()
+    
+                // only get the first 10 chars to match PHP timestamp
+                this.agendaStart = eventStart.substr(0,10)
+                this.agendaEnd = eventEnd.substr(0,10)
             }
 
-            // convert date to timestamp and parse to string
-            let eventStart =  Date.parse(`${dateStart}T${timeStart}`).toString(),
-                eventEnd = Date.parse(`${dateEnd}T${timeEnd}`).toString()
-
-            // only get the first 10 chars to match PHP timestamp
-            this.agendaStart = eventStart.substr(0,10)
-            this.agendaEnd = eventEnd.substr(0,10)
-
             let obj = this
-            $.ajax({
-                url: `${this.agenda}save`,
-                type: 'POST',
-                dataType: 'json',
-                data: form.serialize(),
-                success: res => {
-                    if(res.code === '500') {
-                        obj.error = res.msg
-                    } else {
-                        console.log('Uploading file...')
-                        this.uploadFile()    
-                        obj.error = []
+            async function postRequest() {
+                // wait until beforeRequest() is done 
+                await beforeRequest()
+
+                // do the post request!
+                let data = form.serialize()                   
+                $.ajax({
+                    url: `${obj.agenda}save`,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    success: res => {
+                        if(res.code === '500') {
+                            obj.error = res.msg
+                        } else {
+                            obj.error = {}
+                            obj.uploadFile()
+                        }
                     }
-                }
-            })
+                })  
+            }
+
+            // execute them all!!
+            postRequest()
         },
         uploadFile() {
             let form = document.forms.namedItem('upload-file'),
                 data = new FormData(form),
-                req = new XMLHttpRequest
+                req = new XMLHttpRequest,
+                fileInput = $('input[name=agenda_attachment]').val()
 
-            req.open('POST', `${this.agenda}upload`, true)
-            req.onload = obj => {
-                if(req.response === 'OK') {
-                    console.log('Process completed.')
-                } else {
-                    console.warn('Unable to upload the file')
+            if(fileInput !== '') {
+                req.open('POST', `${this.agenda}upload`, true)
+                req.responseType = 'json'
+                req.onload = obj => {
+                    if(req.response.msg === 'OK') {
+                        this.error = {}
+                    } else {
+                        this.error = req.response
+                    }
                 }
+                req.send(data)
             }
-            req.send(data)
         },
         filterGuest() {
             // filter guest IDs before send them to server, no duplicate!
@@ -253,6 +265,8 @@ const agenda = new Vue({
             let obj = this
             fullDay.onchange = function() {
                 obj.helper.fullDayEvent = fullDay.checked
+                $('input[name=timestart]').val(obj.helper.timeStart)
+                $('input[name=timeend]').val(obj.helper.timeEnd)
                 if(!fullDay.checked) {
                     setTimeout(() => {
                         obj.runTimePicker()
@@ -269,19 +283,5 @@ const agenda = new Vue({
                 return ''
             }
         },
-        fullDayTimeStart() {
-            if(this.helper.fullDayEvent) {
-                return '00:00'
-            } else {
-                return this.lang.agenda_label_timestart
-            }
-        },
-        fullDayTimeEnd() {
-            if(this.helper.fullDayEvent) {
-                return '23:59'
-            } else {
-                return this.lang.agenda_label_timeend
-            }
-        }
     },
 })

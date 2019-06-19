@@ -17,7 +17,7 @@ return [
     'agenda_check_guru'  => 'Teacher',
     'agenda_check_ortu'  => 'Parent',
     'agenda_sw_certain'  => 'Certain People',
-    'agenda_label_att'   => 'File Attachment',
+    'agenda_label_att'   => 'File Attachment (Maximum file size: 2 MB)',
     'agenda_input_nama'  => 'Required',
     'agenda_input_start' => 'Event date start',
     'agenda_input_end'   => 'Event date end',

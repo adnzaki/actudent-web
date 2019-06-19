@@ -17,7 +17,7 @@ return [
     'agenda_check_guru'         => 'Guru',
     'agenda_check_ortu'         => 'Orang Tua',
     'agenda_sw_certain'         => 'Orang Tertentu',
-    'agenda_label_att'          => 'Lampiran Berkas',
+    'agenda_label_att'          => 'Lampiran Berkas (Ukuran file maksimum: 2 MB)',
     'agenda_input_nama'         => 'Wajib diisi',
     'agenda_input_start'        => 'Tanggal mulai kegiatan',
     'agenda_input_end'          => 'Tanggal selesai kegiatan',

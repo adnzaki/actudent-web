@@ -43,6 +43,11 @@ class Actudent extends \CodeIgniter\Controller
      */
     public static $lang;
 
+    /**
+     * @var \CodeIgniter\Validation\Validation
+     */
+    public static $validation;
+
     public function __construct()
     {
         $this->sekolah  = new SekolahModel;
@@ -51,6 +56,7 @@ class Actudent extends \CodeIgniter\Controller
         self::$parser   = Services::parser();
         self::$session  = Services::session();
         self::$lang     = Services::language($this->getUserLanguage());
+        self::$validation = Services::validation();
         helper('Actudent\Core\Helpers\ostium');
     }
     /**

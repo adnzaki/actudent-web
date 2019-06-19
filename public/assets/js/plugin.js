@@ -91,7 +91,6 @@ const plugin = {
 			$('.pickatime').pickatime({
 				format: 'HH:i',
 				formatSubmit: 'HH:i',
-				hiddenName: true,
 			});
 		},
 		runICheck() {

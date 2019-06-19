@@ -85,13 +85,12 @@ class Agenda extends \CodeIgniter\Controller
 
     public function save()
     {
-        $validator = \Config\Services::validation();
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]
         if(! $this->validate($validation[0], $validation[1]))
         {
             return $this->response->setJSON([
                 'code' => '500',
-                'msg' => $validator->getErrors(),
+                'msg' => Actudent::$validation->getErrors(),
             ]);
         }
         else 
@@ -149,11 +148,7 @@ class Agenda extends \CodeIgniter\Controller
     public function uploadFile()
     {
         $fileRules = [
-            'agenda_attachment' => [
-                'uploaded[agenda_attachment]|
-                mime_in[agenda_attachment,application/pdf]|
-                max_size[agenda_attachment,4096]'
-            ]
+            'agenda_attachment' => 'uploaded[agenda_attachment]|mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
         ];
         $fileMessages = [
             'agenda_attachment' => [
@@ -168,11 +163,11 @@ class Agenda extends \CodeIgniter\Controller
         {
             $attachment = $this->request->getFile('agenda_attachment');
             $attachment->move(WRITEPATH . 'uploads');
-            echo 'OK';
+            return $this->response->setJSON(['msg' => 'OK']);
         }
         else 
         {
-            echo 'FAIL';
+            return $this->response->setJSON(Actudent::$validation->getErrors());
         }
     }
 }
