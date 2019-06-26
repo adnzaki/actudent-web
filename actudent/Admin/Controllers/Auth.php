@@ -56,6 +56,7 @@ class Auth extends \CodeIgniter\Controller
             $username = $this->request->getPost('username');
             $pengguna = $this->auth->getDataPengguna($username);
             $session = [
+                'id'        => $pengguna->user_id,
                 'email'     => $username,
                 'nama'      => $pengguna->user_name,
                 'userLevel' => $pengguna->user_level,

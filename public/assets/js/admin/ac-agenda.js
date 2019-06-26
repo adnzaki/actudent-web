@@ -106,7 +106,10 @@ const agenda = new Vue({
                 await beforeRequest()
 
                 // do the post request!
-                let data = form.serialize()                   
+                let data = form.serialize(),
+                    fileInput = $('input[name=agenda_attachment]').val(),
+                    hasAttachment
+                (fileInput !== '') ? hasAttachment = 'yes' : hasAttachment = 'no'
                 $.ajax({
                     url: `${obj.agenda}save`,
                     type: 'POST',
@@ -117,23 +120,23 @@ const agenda = new Vue({
                             obj.error = res.msg
                         } else {
                             obj.error = {}
-                            obj.uploadFile()
+                            if(hasAttachment === 'yes') {
+                                obj.uploadFile(res.insertID)
+                            }
                         }
-                    }
+                    },
+                    error: () => console.error('Network error')
                 })  
             }
 
             // execute them all!!
             postRequest()
         },
-        uploadFile() {
+        uploadFile(insertID) {
             let form = document.forms.namedItem('upload-file'),
                 data = new FormData(form),
-                req = new XMLHttpRequest,
-                fileInput = $('input[name=agenda_attachment]').val()
-
-            if(fileInput !== '') {
-                req.open('POST', `${this.agenda}upload`, true)
+                req = new XMLHttpRequest
+                req.open('POST', `${this.agenda}upload/${insertID}`, true)
                 req.responseType = 'json'
                 req.onload = obj => {
                     if(req.response.msg === 'OK') {
@@ -143,7 +146,6 @@ const agenda = new Vue({
                     }
                 }
                 req.send(data)
-            }
         },
         filterGuest() {
             // filter guest IDs before send them to server, no duplicate!

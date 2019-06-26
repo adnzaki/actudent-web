@@ -3,18 +3,22 @@
 class AgendaModel extends \Actudent\Core\Models\ModelHandler
 {
     /**
-     * Query Builder untuk tabel tb_agenda
+     * The Query Builders
      */
     private $QBAgenda;
 
     private $QBParent;
 
+    private $QBAgendaUser;
+
     /**
-     * Tabel definition
+     * Table definition
      * 
      * @var string
      */
     private $agenda = 'tb_agenda';
+
+    private $agendaUser = 'tb_agenda_user';
 
     private $parent = 'tb_parent';
 
@@ -30,23 +34,16 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
 
     private $teacher = 'tb_teacher';
 
-     /**
-     * Tabel tb_agenda_user
-     * 
-     * @var string
-     */
-    private $agendaUser = 'tb_agenda_user';
-
     public function __construct()
     {
         parent:: __construct();
         $this->QBAgenda = $this->db->table($this->agenda);
         $this->QBParent = $this->db->table($this->parent);
+        $this->QBAgendaUser = $this->db->table($this->agendaUser);
     }
 
     /**
-     * Menarik data dari tb_agenda untuk dimasukkkan
-     * ke dalam plugin FullCalendar
+     * Grab data from tb_agenda and put them in FullCalendar plugin
      * 
      * @return object
      */
@@ -58,6 +55,71 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         return $query;
     }
 
+    /**
+     * Insert data from user input to tb_agenda and its relations
+     * 
+     * @param array $data
+     * @return int
+     */
+    public function insert($data)
+    {
+        $this->QBAgenda->insert([
+            'agenda_name'           => $data['agenda_name'],
+            'agenda_start'          => date('Y-m-d H:i:s', $data['agenda_start']),
+            'agenda_end'            => date('Y-m-d H:i:s', $data['agenda_end']),
+            'agenda_description'    => $data['agenda_description'],
+            'agenda_priority'       => $data['agenda_priority'],
+            'agenda_location'       => $data['agenda_location'],
+            'user_id'               => session()->get('id'),
+            'modified'              => date('Y-m-d H:i:s'),
+        ]);
+        
+        // insert data to tb_agenda
+        $insertID = $this->db->insertID();
+
+        // insert guest IDs to tb_agenda_user
+        $this->insertAgendaGuests($data['agenda_guest'], $insertID);
+
+        return $insertID;
+    }
+
+    /**
+     * Set the attachment from user input
+     * 
+     * @param string $filename
+     * @param int $id
+     * 
+     * @return void
+     */
+    public function setAttachment($filename, $id)
+    {        
+        $this->QBAgenda->where('agenda_id', $id)->update(['agenda_attachment' => $filename]);
+    }
+
+    /**
+     * Insert guest IDs to tb_agenda_user
+     * 
+     * @param string $data
+     * @param int $id
+     * 
+     * @return void
+     */
+    public function insertAgendaGuests($data, $id)
+    {
+        $this->QBAgendaUser->insert([
+            'agenda_id' => $id,
+            'guests'   => $data,
+            'modified'  => date('Y-m-d H:i:s'),
+        ]);
+    }
+
+    /**
+     * Search the guests!
+     * 
+     * @param string $search
+     * 
+     * @return object
+     */
     public function searchGuest($search)
     {
         return $this->joinAndSearchQuery($search)->get()->getResult();
@@ -84,7 +146,6 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
                 ->like("{$this->grade}.grade_name", $search)->orLike("{$this->parent}.parent_father_name", $search)
                 ->orLike("{$this->parent}.parent_mother_name", $search)->orLike("{$this->teacher}.teacher_name", $search);
         
-        return $query;
-                
+        return $query;                
     }
 }

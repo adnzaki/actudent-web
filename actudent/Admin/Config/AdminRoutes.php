@@ -19,11 +19,13 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('agenda/search-guest/(:any)', 'Agenda::searchGuest/$1');
 	$routes->add('agenda/search-guest', 'Agenda::searchGuest/$1');
 	$routes->add('agenda/save', 'Agenda::save');
-	$routes->add('agenda/upload', 'Agenda::uploadFile');
+	$routes->add('agenda/upload/(:any)', 'Agenda::uploadFile/$1');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');
 	$routes->add('test-match', 'Test::testMatch');
 	$routes->add('hash/(:any)', 'Test::hash/$1');
 	$routes->add('test-login', 'Test::validateLogin');
+	$routes->add('test-path', 'Test::getAttPath');
+	$routes->add('test-insert-id', 'Test::insertIDTest');
 });

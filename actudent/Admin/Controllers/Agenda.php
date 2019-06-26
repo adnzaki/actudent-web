@@ -95,8 +95,10 @@ class Agenda extends \CodeIgniter\Controller
         }
         else 
         {
+            $data = $this->formData();
             return $this->response->setJSON([
                 'code' => '200',
+                'insertID' => $this->agenda->insert($data), // return the insert_id
             ]);
         }
     }
@@ -105,10 +107,10 @@ class Agenda extends \CodeIgniter\Controller
     {
         $form = $this->formData();
         $rules = [
-                'agenda_name' => 'required',
-                'agenda_start' => 'required|less_than['.$form['agenda_end'].']',
-                'agenda_end' => 'required|greater_than['.$form['agenda_start'].']',
-                'agenda_priority' => 'in_list[high,normal,low]',
+            'agenda_name' => 'required',
+            'agenda_start' => 'required|less_than['.$form['agenda_end'].']',
+            'agenda_end' => 'required|greater_than['.$form['agenda_start'].']',
+            'agenda_priority' => 'in_list[high,normal,low]',
         ];
 
         $messages = [
@@ -131,21 +133,7 @@ class Agenda extends \CodeIgniter\Controller
         return [$rules, $messages];
     }
 
-    private function formData()
-    {
-        $data = [
-            'agenda_name' => $this->request->getPost('agenda_name'),
-            'agenda_start' => $this->request->getPost('agenda_start'),
-            'agenda_end' => $this->request->getPost('agenda_end'),
-            'agenda_description' => $this->request->getPost('agenda_description'),
-            'agenda_priority' => $this->request->getPost('agenda_priority'),
-            'agenda_location' => $this->request->getPost('agenda_location'),
-        ];
-
-        return $data;
-    }
-
-    public function uploadFile()
+    public function uploadFile($insertID)
     {
         $fileRules = [
             'agenda_attachment' => 'uploaded[agenda_attachment]|mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
@@ -162,7 +150,11 @@ class Agenda extends \CodeIgniter\Controller
         if($validated) 
         {
             $attachment = $this->request->getFile('agenda_attachment');
-            $attachment->move(WRITEPATH . 'uploads');
+            $newFilename = $attachment->getRandomName();
+            $attachment->move(PUBLICPATH . 'attachments/agenda', $newFilename);
+
+            // Set attachment
+            $this->agenda->setAttachment($newFilename, $insertID);
             return $this->response->setJSON(['msg' => 'OK']);
         }
         else 
@@ -170,4 +162,19 @@ class Agenda extends \CodeIgniter\Controller
             return $this->response->setJSON(Actudent::$validation->getErrors());
         }
     }
+
+    private function formData()
+    {
+        $data = [
+            'agenda_name'           => $this->request->getPost('agenda_name'),
+            'agenda_start'          => $this->request->getPost('agenda_start'),
+            'agenda_end'            => $this->request->getPost('agenda_end'),
+            'agenda_description'    => $this->request->getPost('agenda_description'),
+            'agenda_priority'       => $this->request->getPost('agenda_priority'),
+            'agenda_location'       => $this->request->getPost('agenda_location'),
+            'agenda_guest'          => $this->request->getPost('agenda_guest'),
+        ];
+
+        return $data;
+    }    
 }

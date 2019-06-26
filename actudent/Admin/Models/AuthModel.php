@@ -43,7 +43,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getDataPengguna($username)
     {
-        $query = $this->user->select('user_name, user_email, user_level')
+        $query = $this->user->select('user_id, user_name, user_email, user_level')
                 ->where('user_email', $username)->get()->getResult();
         return $query[0];
     }
