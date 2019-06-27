@@ -77,8 +77,11 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         // insert data to tb_agenda
         $insertID = $this->db->insertID();
 
-        // insert guest IDs to tb_agenda_user
-        $this->insertAgendaGuests($data['agenda_guest'], $insertID);
+        if(! empty($data['agenda_guest']))
+        {
+            // insert guest IDs to tb_agenda_user
+            $this->insertAgendaGuests($data['agenda_guest'], $insertID);
+        }
 
         return $insertID;
     }
@@ -104,7 +107,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function insertAgendaGuests($data, $id)
+    private function insertAgendaGuests($data, $id)
     {
         $this->QBAgendaUser->insert([
             'agenda_id' => $id,
@@ -127,7 +130,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
 
     /**
      * Join And Search Query
-     * Pencarian data kelas, guru atau orang tua dengan join tabel
+     * Search for grade, teacher or parent with join table
      * 
      * @param string $search
      * @return object
