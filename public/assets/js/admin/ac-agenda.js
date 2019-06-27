@@ -2,7 +2,7 @@
  * Actudent Agenda scripts
  * 
  * @author      Adnan Zaki
- * @copyright   Wolestech (c) 2018
+ * @copyright   Wolestech (c) 2019
  */
 
 const agenda = new Vue({
@@ -109,7 +109,7 @@ const agenda = new Vue({
                 let data = form.serialize(),
                     fileInput = $('input[name=agenda_attachment]').val(),
                     hasAttachment
-                (fileInput !== '') ? hasAttachment = 'yes' : hasAttachment = 'no'
+                (fileInput !== '') ? hasAttachment = true : hasAttachment = false
                 $.ajax({
                     url: `${obj.agenda}save`,
                     type: 'POST',
@@ -120,7 +120,7 @@ const agenda = new Vue({
                             obj.error = res.msg
                         } else {
                             obj.error = {}
-                            if(hasAttachment === 'yes') {
+                            if(hasAttachment) {
                                 obj.uploadFile(res.insertID)
                             }
                         }
