@@ -119,7 +119,29 @@ const agenda = new Vue({
                         if(res.code === '500') {
                             obj.error = res.msg
                         } else {
+                            // clear error messages if exists
                             obj.error = {}
+
+                            // reset form
+                            form.trigger('reset')
+
+                            // set fullDayEvent to false
+                            let switchery = document.querySelector('#allDayEvent')
+                            obj.helper.fullDayEvent = false
+                            switchery.click()
+                            if(switchery.checked === true) {
+                                switchery.click()
+                                obj.helper.fullDayEvent = false
+                            }                            
+
+                            // set priority to normal by re-running iCheck
+                            obj.runICheck()
+
+                            // reset guest
+                            obj.guestToDisplay = []
+                            obj.guestWrapper = []
+
+                            // if the form has attachment, upload it
                             if(hasAttachment) {
                                 obj.uploadFile(res.insertID)
                             }
@@ -141,6 +163,7 @@ const agenda = new Vue({
                 req.onload = obj => {
                     if(req.response.msg === 'OK') {
                         this.error = {}
+                        document.getElementById('upload-file').reset()
                     } else {
                         this.error = req.response
                     }
@@ -272,6 +295,8 @@ const agenda = new Vue({
                 if(!fullDay.checked) {
                     setTimeout(() => {
                         obj.runTimePicker()
+                        $('input[name=timestart]').val('')
+                        $('input[name=timeend]').val('')
                     }, 200)
                 } 
             }
