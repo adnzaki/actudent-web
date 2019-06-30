@@ -12,16 +12,11 @@ const agenda = new Vue({
         agenda: `${admin}agenda/`,
         error: {},
         alert: {
-            class: 'alert bg-danger', show: false,
-            header: 'Sukses', text: 'heheheh',
-        },
-        flashAlert: {
-            class: 'bg-success', show: false, title: 'Sukses',
-            text: 'Data peserta didik baru berhasil disimpan',
-            icon: 'la-thumbs-o-up'
+            class: 'bg-primary', show: false,
+            header: '', text: '',
         },
         helper: {
-            saveAndClose: false, fullDayEvent: false,
+            fullDayEvent: false,
             timeStart: '00:00', timeEnd: '23:59',
         },
         locale: {
@@ -115,10 +110,28 @@ const agenda = new Vue({
                     type: 'POST',
                     dataType: 'json',
                     data: data,
+                    beforeSend: () => {
+                        obj.alert.text = obj.lang.agenda_saving_progress
+                        obj.alert.show = true
+                    },
                     success: res => {
                         if(res.code === '500') {
                             obj.error = res.msg
+
+                            // set error alert
+                            obj.alert.class = 'bg-danger'
+                            obj.alert.header = 'Error!'
+                            obj.alert.text = obj.lang.agenda_error_text
+
+                            // hide after 3000 ms and change the class and text
+                            setTimeout(() => {
+                                obj.alert.show = false
+                                obj.alert.class = 'bg-primary'
+                                obj.alert.header = ''
+                                obj.alert.text = obj.lang.agenda_saving_progress
+                            }, 3000);
                         } else {
+                            obj.alert.show = false
                             // clear error messages if exists
                             obj.error = {}
 
@@ -145,6 +158,19 @@ const agenda = new Vue({
                             if(hasAttachment) {
                                 obj.uploadFile(res.insertID)
                             }
+
+                            // reload events on calendar
+                            $('#fc-agenda-views').fullCalendar('destroy')
+                            obj.getEvents()
+
+                            // show success alert and close the modal
+                            obj.alert.show = true
+                            $('#agendaModal').modal('hide')
+
+                            // hide success alert after 3500 ms
+                            setTimeout(() => {
+                                obj.alert.show = false
+                            }, 3500);
                         }
                     },
                     error: () => console.error('Network error')
@@ -203,7 +229,7 @@ const agenda = new Vue({
                 })
                 
                 let text
-                (type === 'wali_kelas') ? text = 'Semua wali kelas' : text = 'Semua wali murid'
+                (type === 'wali_kelas') ? text = this.lang.agenda_all_walikelas : text = this.lang.agenda_all_parent
     
                 // display guest by type such as "wali_kelas" or "wali_murid"
                 this.guestToDisplay.push({

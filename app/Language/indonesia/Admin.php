@@ -21,6 +21,7 @@ return [
     'navbar_keluar'  => 'Keluar',
                 
     // teks umum
+    'semua'               => 'Semua',
     'baris'               => 'baris',
     'tambah'              => 'Tambah',
     'hapus'               => 'Hapus',
@@ -28,7 +29,7 @@ return [
     'batal'               => 'Batal',
     'simpan'              => 'Simpan',
     'simpan_tutup'        => 'Simpan dan tutup',
-    'sukses'              => 'Sukses',
+    'sukses'              => 'Sukses!',
     'terapkan'            => 'Terapkan',
     'english'             => 'Inggris (AS)',
     'indonesia'           => 'Bahasa Indonesia',

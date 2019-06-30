@@ -1,6 +1,12 @@
 <!-- Modal -->
+<alert-msg alert-class="bg-success" 
+    header="{+ lang Admin.sukses +}" :text="lang.agenda_insert_success" v-if="alert.show">
+</alert-msg>
 <div class="modal fade text-left" id="agendaModal" role="dialog" aria-labelledby="myModalLabel2"
 aria-hidden="true">
+    <alert-msg :alert-class="alert.class" 
+        :header="alert.header" :text="alert.text" v-if="alert.show">
+    </alert-msg>
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header {modalHeaderColor} white">
@@ -151,18 +157,18 @@ aria-hidden="true">
                             </div>                            
                             <div class="list-group list-group-custom add-margin-top-5px" v-if="searchResultWrapper">
                             	<a href="javascript:void()" class="list-group-item active list-group-item-custom">
-                            		Semua
+                            		{+ lang Admin.semua +}
                             	</a>
                                 <a href="javascript:void()" class="list-group-item list-group-item-action
                                 list-group-item-custom" @click="pushAll('wali_kelas')">
-                                    Semua Wali Kelas "{{ searchParam }}"
+                                    {{ lang.agenda_all_walikelas }} "{{ searchParam }}"
                                 </a>
                                 <a href="javascript:void()" class="list-group-item list-group-item-action 
                                 list-group-item-custom" @click="pushAll('wali_murid')">
-                                    Semua Wali Murid "{{ searchParam }}"
+                                    {{ lang.agenda_all_parent }} "{{ searchParam }}"
                                 </a>
                                 <a href="javascript:void()" class="list-group-item active">
-                            		Daftar Wali Kelas "{{ searchParam }}"
+                            		{{ lang.agenda_walikelas_list }} "{{ searchParam }}"
                                 </a>
                                 <a href="javascript:void()" class="list-group-item list-group-item-action 
                                 list-group-item-custom"
@@ -171,7 +177,7 @@ aria-hidden="true">
                                 </a>
                                 <a href="javascript:void()" class="list-group-item active 
                                 list-group-item-custom">
-                            		Daftar Wali Murid "{{ searchParam }}"
+                                    {{ lang.agenda_parent_list }} "{{ searchParam }}"
                             	</a>
                                 <a href="javascript:void()" class="list-group-item list-group-item-action 
                                 list-group-item-custom"
@@ -189,12 +195,10 @@ aria-hidden="true">
                     </form>
                     <form-error :msg="error.agenda_attachment" />
                 </div>
-                <alert-msg :alert-class="alert.class" :header="alert.header" :text="alert.text" v-if="alert.show" />
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
                 <button type="button" class="btn btn-outline-primary" @click="save"> {+ lang Admin.simpan +}</button>
-                <button type="button" class="btn btn-outline-success"> {+ lang Admin.simpan_tutup +}</button>
             </div>
         </div>
     </div>

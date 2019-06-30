@@ -12,7 +12,7 @@
                     <li><a data-action="close"><i class="ft-x"></i></a></li>
                     </ul>
                 </div>
-            </div>
+            </div>            
             {+ include Actudent\Admin\Views\agenda\calendar +} 
             {+ include Actudent\Admin\Views\agenda\FormTambahAgenda +} 
         </div>

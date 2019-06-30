@@ -28,9 +28,11 @@
 
 .fly-alert {
 	position: fixed;
-	z-index: 9;
+	z-index: 99;
 	top: 40%;
-	width: 80%;
+	width: 80%;	
+	text-align: center;
+	left: 5% !important;
 }
 
 @media (min-width: 576px) {
@@ -42,6 +44,7 @@
 @media (min-width: 768px) {
 	.fly-alert {
 		width: 80%;
+		left: 10% !important;
 	}
 }
 
@@ -49,6 +52,7 @@
 	.fly-alert {
 		left: 30%;		
 		width: 50%;
+		left: 24% !important;
 	}
 }
 
@@ -76,4 +80,8 @@
 
 .add-margin-left-5px {
 	margin-left: 5px;
+}
+
+.fc-title {
+	color: #000;
 }

@@ -36,4 +36,11 @@ return [
     'agenda_err_eventend_invalid'       => 'Event time end is not valid',
     'agenda_err_priority'               => 'Priority field is not valid',
     'agenda_err_attachment'             => 'File type is not valid',
+    'agenda_saving_progress'            => 'Saving data...',
+    'agenda_error_text'                 => 'Please fill the form correctly.',
+    'agenda_insert_success'             => 'Successfully added new agenda.',
+    'agenda_all_walikelas'              => 'All homeroom teachers',
+    'agenda_all_parent'                 => 'All parents',
+    'agenda_walikelas_list'             => 'Homeroom teacher list',
+    'agenda_parent_list'                => 'Parent list'
 ];

@@ -36,4 +36,11 @@ return [
     'agenda_err_eventend_invalid'       => 'Waktu selesai kegiatan tidak valid',
     'agenda_err_priority'               => 'Isian prioritas tidak valid',
     'agenda_err_attachment'             => 'Tipe file tidak valid',
+    'agenda_saving_progress'            => 'Menyimpan data...',
+    'agenda_error_text'                 => 'Silakan isi form dengan benar.',
+    'agenda_insert_success'             => 'Berhasil menambahkan agenda baru.',
+    'agenda_all_walikelas'              => 'Semua wali kelas',
+    'agenda_all_parent'                 => 'Semua orang tua murid',
+    'agenda_walikelas_list'             => 'Daftar wali kelas',
+    'agenda_parent_list'                => 'Daftar orang tua murid'
 ];
