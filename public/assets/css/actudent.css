@@ -85,3 +85,7 @@
 .fc-title {
 	color: #000;
 }
+
+.expand-card-body {
+	min-height: 800px;
+}

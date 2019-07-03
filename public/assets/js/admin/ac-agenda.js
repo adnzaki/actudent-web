@@ -296,8 +296,8 @@ const agenda = new Vue({
         eventNav() {
             let obj = this
             function run() {
+                obj.showCalendar = false
                 setTimeout(() => {
-                    obj.showCalendar = false
                     let my = obj.eventLoadTrigger(),    
                         view = moment([my[0], my[1]]).format('YYYY-MM')                  
                     setTimeout(() => {
@@ -305,19 +305,23 @@ const agenda = new Vue({
                         $('#fc-agenda-views').fullCalendar('destroy')
                         obj.getEvents(view)   
                     }, 300);
-                }, 100)
+                }, 300)
             }
             
             $('body').on('click', 'button.fc-prev-button', function() {
                 obj.transitionClass.enter = 'animated slideInRight'
                 obj.transitionClass.leave = 'animated slideOutLeft'
-                run()                
+                setTimeout(() => {
+                    run()              
+                }, 50);
             })
 
             $('body').on('click', 'button.fc-next-button', function() {
                 obj.transitionClass.enter = 'animated slideInLeft'
                 obj.transitionClass.leave = 'animated slideOutRight'
-                run()
+                setTimeout(() => {
+                    run()              
+                }, 50);
             })            
         },
         eventLoadTrigger() {
