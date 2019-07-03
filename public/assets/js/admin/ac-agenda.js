@@ -15,6 +15,11 @@ const agenda = new Vue({
             class: 'bg-primary', show: false,
             header: '', text: '',
         },
+        showCalendar: true,
+        transitionClass: {
+            enter: 'animated slideInLeft',
+            leave: 'animated slideOutRight'
+        },
         helper: {
             fullDayEvent: false,
             timeStart: '00:00', timeEnd: '23:59',
@@ -35,7 +40,11 @@ const agenda = new Vue({
         agendaStart: '', agendaEnd: '',
     },
     mounted() {
-        this.getEvents()
+        let view = moment().format('YYYY-MM')
+        this.getEvents(view)
+        setTimeout(() => {
+            this.eventNav()            
+        }, 1000);
         this.runDatePicker()
         this.runTimePicker()
         this.runICheck()
@@ -161,7 +170,7 @@ const agenda = new Vue({
 
                             // reload events on calendar
                             $('#fc-agenda-views').fullCalendar('destroy')
-                            obj.getEvents()
+                            obj.getEvents(moment().format('YYYY-MM'))
 
                             // show success alert and close the modal
                             obj.alert.show = true
@@ -284,9 +293,44 @@ const agenda = new Vue({
             this.searchParam = ''
             this.guests = []
         },
-        getEvents() {
+        eventNav() {
+            let obj = this
+            function run() {
+                setTimeout(() => {
+                    obj.showCalendar = false
+                    let my = obj.eventLoadTrigger(),    
+                        view = moment([my[0], my[1]]).format('YYYY-MM')                  
+                    setTimeout(() => {
+                        obj.showCalendar = true
+                        $('#fc-agenda-views').fullCalendar('destroy')
+                        obj.getEvents(view)   
+                    }, 300);
+                }, 100)
+            }
+            
+            $('body').on('click', 'button.fc-prev-button', function() {
+                obj.transitionClass.enter = 'animated slideInRight'
+                obj.transitionClass.leave = 'animated slideOutLeft'
+                run()                
+            })
+
+            $('body').on('click', 'button.fc-next-button', function() {
+                obj.transitionClass.enter = 'animated slideInLeft'
+                obj.transitionClass.leave = 'animated slideOutRight'
+                run()
+            })            
+        },
+        eventLoadTrigger() {
+            let getView = $('#fc-agenda-views').fullCalendar('getView').intervalStart,    
+                date = getView._d,
+                month = date.getMonth(),
+                year = date.getFullYear()       
+                
+            return [year, month]
+        },
+        getEvents(view) {
             $.ajax({
-                url: `${this.agenda}get-events`,
+                url: `${this.agenda}get-events/${view}`,
                 type: 'get',
                 dataType: 'json',
                 success: data => {
@@ -296,7 +340,7 @@ const agenda = new Vue({
                             center: 'title',
                             right: 'month,agendaWeek,agendaDay'
                         },
-                        defaultDate: moment().format('YYYY-MM-DD'),
+                        defaultDate: moment(`${view}-01`).format('YYYY-MM-DD'),
                         defaultView: 'month',
                         editable: false,
                         eventLimit: true,

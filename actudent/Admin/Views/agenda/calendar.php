@@ -9,6 +9,10 @@
                 </div>
             </div>
         </div>
-        <div id="fc-agenda-views"></div>
+        <transition :enter-active-class="transitionClass.enter" :leave-active-class="transitionClass.leave">
+            <div v-if="showCalendar">
+                <div id="fc-agenda-views"></div>                    
+            </div>
+        </transition>
     </div>
 </div>
