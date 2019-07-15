@@ -10,7 +10,7 @@
             </div>
         </div>
         <transition :enter-active-class="transitionClass.enter" :leave-active-class="transitionClass.leave">
-            <div v-if="showCalendar">
+            <div v-if="fullCalendar.show">
                 <div id="fc-agenda-views"></div>                    
             </div>
         </transition>

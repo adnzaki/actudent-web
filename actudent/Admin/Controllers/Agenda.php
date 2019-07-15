@@ -30,9 +30,9 @@ class Agenda extends \CodeIgniter\Controller
                 ->render('Actudent\Admin\Views\agenda\agenda-view');
     }
 
-    public function getEvents($view)
+    public function getEvents($viewStart, $viewEnd)
     {
-        $events = $this->agenda->getEvents($view);
+        $events = $this->agenda->getEvents($viewStart, $viewEnd);
         $formatted = [];
         foreach($events as $key)
         {

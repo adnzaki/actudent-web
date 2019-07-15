@@ -47,10 +47,13 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return object
      */
-    public function getEvents($view)
+    public function getEvents($viewStart, $viewEnd)
     {
         $query = $this->QBAgenda->select('agenda_id, agenda_name, agenda_start, agenda_end')
-                 ->like("{$this->agenda}.agenda_start", $view)
+                 ->where([
+                     "{$this->agenda}.agenda_start >=" => $viewStart,
+                     "{$this->agenda}.agenda_start <" => $viewEnd
+                 ])
                  ->get()->getResult();
         
         return $query;
