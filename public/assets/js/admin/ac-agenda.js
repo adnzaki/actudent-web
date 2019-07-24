@@ -306,31 +306,14 @@ const agenda = new Vue({
         },
         eventNav() {
             let obj = this
-            function run(today = false) {
-                obj.fullCalendar.show = false
-                setTimeout(() => {
-                    let my = obj.eventLoadTrigger(),    
-                        view,
-                        start, end
-                    
-                    if(today) {
-                        start = obj.fullCalendar.defaultStart
-                        end = obj.fullCalendar.defaultEnd
-                    } else {
-                        start = moment([my.start[2], my.start[1], my.start[0]]).format('YYYY-MM-DD') 
-                        end = moment([my.end[2], my.end[1], my.end[0]]).format('YYYY-MM-DD') 
-                    }
-                    obj.execFullCalendar(start, end)
-                }, 300)
-            }
             
             $('body').on('click', 'button.fc-prev-button', function() {
                 obj.transitionClass.enter = 'animated slideInRight'
                 obj.transitionClass.leave = 'animated slideOutLeft'
                 setTimeout(() => {
-                    run()           
+                    obj.execNav()           
                     setTimeout(() => {
-                        todayButton()
+                        obj.todayButton()
                     }, 800);      
                 }, 50);
             })
@@ -339,20 +322,84 @@ const agenda = new Vue({
                 obj.transitionClass.enter = 'animated slideInLeft'
                 obj.transitionClass.leave = 'animated slideOutRight'
                 setTimeout(() => {
-                    run()    
+                    obj.execNav()    
                     setTimeout(() => {
-                        todayButton()
+                        obj.todayButton()
                     }, 800);          
                 }, 50);
             }) 
+        },        
+        setView() {
+            let obj = this
 
-            function todayButton() {
-                $('button.fc-today-button').on('click', function() {
-                    setTimeout(() => {
-                        run(true)              
-                    }, 50);
-                })
-            }   
+            $('body').on('click', 'button.fc-month-button', function() {
+                obj.fullCalendar.view = 'month'
+                getInterval()
+                let dateInt = obj.eventLoadTrigger(),
+                    start = moment([dateInt.start[2], dateInt.start[1]]).startOf(obj.calendarUnit).format('YYYY-MM-DD'),
+                    end = moment([dateInt.start[2], dateInt.start[1]]).endOf(obj.calendarUnit).format('YYYY-MM-DD')                
+                obj.fullCalendar.show = false 
+                obj.execFullCalendar(start, end)
+            })
+
+            $('body').on('click', 'button.fc-agendaDay-button', function() {
+                obj.fullCalendar.view = 'agendaDay'
+                getInterval()
+                obj.execNav(true)   
+                setTimeout(() => {
+                    obj.todayButton()
+                }, 800);  
+            })
+
+            $('body').on('click', 'button.fc-agendaWeek-button', function() {
+                obj.fullCalendar.view = 'agendaWeek'
+                getInterval()
+                let dateInt = obj.eventLoadTrigger(),
+                    start   = moment([
+                        dateInt.start[2], dateInt.start[1], dateInt.start[0]
+                    ]).startOf(obj.calendarUnit).format('YYYY-MM-DD HH:mm:ss'),
+                    
+                    end = moment([
+                        dateInt.start[2], dateInt.start[1], dateInt.start[0]
+                    ]).endOf(obj.calendarUnit).format('YYYY-MM-DD HH:mm:ss')
+                
+                obj.fullCalendar.show = false 
+                obj.execFullCalendar(start, end)
+                setTimeout(() => {
+                    obj.todayButton()
+                }, 800);    
+            })
+
+            function getInterval() {
+                obj.fullCalendar.defaultStart = moment().startOf(obj.calendarUnit).format('YYYY-MM-DD')
+                obj.fullCalendar.defaultEnd = moment().endOf(obj.calendarUnit).format('YYYY-MM-DD')
+            }
+        },
+        todayButton() {
+            let obj = this
+            $('button.fc-today-button').on('click', function() {
+                setTimeout(() => {
+                    obj.execNav(true)             
+                }, 50);
+            })
+        },
+        execNav(today = false) {
+            let obj = this
+            obj.fullCalendar.show = false
+            setTimeout(() => {
+                let my = obj.eventLoadTrigger(),    
+                    view,
+                    start, end
+                
+                if(today) {
+                    start = obj.fullCalendar.defaultStart
+                    end = obj.fullCalendar.defaultEnd
+                } else {
+                    start = moment([my.start[2], my.start[1], my.start[0]]).format('YYYY-MM-DD') 
+                    end = moment([my.end[2], my.end[1], my.end[0]]).format('YYYY-MM-DD') 
+                }
+                obj.execFullCalendar(start, end)
+            }, 300)
         },
         eventLoadTrigger() {
             let intervalStart = $('#fc-agenda-views').fullCalendar('getView').intervalStart,    
@@ -370,45 +417,6 @@ const agenda = new Vue({
             return {
                 start: [dayStart, monthStart, year],
                 end: [dayEnd, monthEnd, year]
-            }
-        },
-        setView() {
-            let obj = this
-
-            $('body').on('click', 'button.fc-month-button', function() {
-                obj.fullCalendar.view = 'month'
-                getInterval()
-                let dateInt = obj.eventLoadTrigger(),
-                    start = moment([dateInt.start[2], dateInt.start[1]]).startOf(obj.calendarUnit).format('YYYY-MM-DD'),
-                    end = moment([dateInt.start[2], dateInt.start[1]]).endOf(obj.calendarUnit).format('YYYY-MM-DD')                
-                obj.fullCalendar.show = false 
-                obj.execFullCalendar(start, end)
-            })
-
-            $('body').on('click', 'button.fc-agendaDay-button', function() {
-                obj.fullCalendar.view = 'agendaDay'
-                getInterval()
-            })
-
-            $('body').on('click', 'button.fc-agendaWeek-button', function() {
-                obj.fullCalendar.view = 'agendaWeek'
-                getInterval()
-                let dateInt = obj.eventLoadTrigger(),
-                    start   = moment([
-                        dateInt.start[2], dateInt.start[1], dateInt.start[0]
-                    ]).startOf(obj.calendarUnit).format('YYYY-MM-DD HH:mm:ss'),
-                    
-                    end = moment([
-                        dateInt.start[2], dateInt.start[1], dateInt.start[0]
-                    ]).endOf(obj.calendarUnit).format('YYYY-MM-DD HH:mm:ss')
-                
-                obj.fullCalendar.show = false 
-                obj.execFullCalendar(start, end)
-            })
-
-            function getInterval() {
-                obj.fullCalendar.defaultStart = moment().startOf(obj.calendarUnit).format('YYYY-MM-DD')
-                obj.fullCalendar.defaultEnd = moment().endOf(obj.calendarUnit).format('YYYY-MM-DD')
             }
         },
         execFullCalendar(start, end) {
