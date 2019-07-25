@@ -198,7 +198,7 @@ function init() {
     var infowindow = new google.maps.InfoWindow();
 
     var marker, i;
-    var image = 'img/logo-map.png';
+    var image = img + 'logo-map.png';
 
     for (i = 0; i < locations.length; i++) {
         marker = new google.maps.Marker({
