@@ -74,9 +74,16 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-// Actudent Modules Routing 
+/**
+ * --------------------------------------------------------------------
+ * Actudent Modules Routing
+ * --------------------------------------------------------------------
+ */
 // Admin section 
 require ACTUDENTPATH . 'Admin/Config/AdminRoutes.php';
+
+// Showcase section
+require ACTUDENTPATH . 'Showcase/Config/ShowcaseRoutes.php';
 
 // Core application section 
 $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
