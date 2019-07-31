@@ -6,11 +6,6 @@ use Actudent\Admin\Models\AuthModel;
 class Auth extends \CodeIgniter\Controller
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
-     */
-    private $actudent;
-
-    /**
      * @var Actudent\Core\Models\AuthModel
      */
     private $auth;
@@ -23,7 +18,7 @@ class Auth extends \CodeIgniter\Controller
      */
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->auth = new AuthModel;
     }
 
@@ -35,7 +30,7 @@ class Auth extends \CodeIgniter\Controller
         }
         else 
         {            
-            $data = $this->actudent->common();
+            $data = Actudent::common();
 
             // mengatur bahasa awal aplikasi ketika belum ada pilihan bahasa dari pengguna
             // atur bahasa awal ke bahasa Indonesia jika belum ada session 'actudent_lang
@@ -76,7 +71,7 @@ class Auth extends \CodeIgniter\Controller
     public function logout()
     {
         // simpan pilihan bahasa pengguna setelah dia logout dari aplikasi
-        Actudent::setLanguage($this->actudent->getUserLanguage());
+        Actudent::setLanguage(Actudent::getUserLanguage());
         $this->auth->statusJaringan('offline', $_SESSION['email']);
         Actudent::$session->remove(['email', 'nama', 'userLevel', 'logged_in']);
         return redirect()->to(site_url('admin/login'));

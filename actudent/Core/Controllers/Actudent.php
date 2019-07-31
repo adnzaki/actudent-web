@@ -4,6 +4,8 @@
  * ACTUDENT - Attitude Control for Student
  * This is the core of Actudent web app version. Everything is set to make this source
  * code maintainable for long-time use.
+ * This class must be initialized in the constructor of other classes
+ * that would call any static method or property in this class.
  * 
  * @copyright   Wolestech (c) 2019
  * @author      WolesDev Team
@@ -15,72 +17,73 @@ use Actudent\Admin\Models\SekolahModel;
 use Actudent\Admin\Models\SettingModel;
 use Actudent\Admin\Models\AuthModel;
 
-class Actudent extends \CodeIgniter\Controller 
+class Actudent
 {
     /**
      * SekolahModel
      * 
      * @var object
      */
-    private $sekolah;
+    static private $sekolah;
 
     /**
      * SettingModel
      * 
      * @var object
      */
-    private $setting;
+    static private $setting;
 
     /**
      * AuthModel
      * 
      * @var object
      */
-    private $auth;
+    static private $auth;
 
     /**
      * @var \CodeIgniter\View\Parser
      */
-    public static $parser;
+    static public $parser;
 
     /**
      * @var \CodeIgniter\Session\Session
      */
-    public static $session;
+    static public $session;
 
     /**
      * @var \CodeIgniter\Language\Language
      */
-    public static $lang;
+    static public $lang;
 
     /**
      * @var \CodeIgniter\Validation\Validation
      */
-    public static $validation;
+    static public $validation;
 
-    public function __construct()
+    function __construct()
     {
-        $this->sekolah  = new SekolahModel;
-        $this->setting  = new SettingModel;
-        $this->auth     = new AuthModel;
-        self::$parser   = Services::parser();
-        self::$session  = Services::session();
-        self::$lang     = Services::language($this->getUserLanguage());
-        self::$validation = Services::validation();
+        static::$sekolah  = new SekolahModel;
+        static::$setting  = new SettingModel;
+        static::$auth     = new AuthModel;
+        static::$parser   = Services::parser();
+        static::$session  = Services::session();
+        static::$lang     = Services::language(static::getUserLanguage());
+        static::$validation = Services::validation();
         helper('Actudent\Core\Helpers\ostium');
     }
+    
     /**
      * Fungsi yang menyuplai variabel global untuk aplikasi 
      * 
      * @return array
      */
-    public function common()
+    public static function common()
     {
-        $pengguna = $this->getDataPengguna();        
-        $sekolah = $this->getDataSekolah();
-        $theme = $this->getUserThemes()['data'];
-        $userTheme = $this->getUserThemes()['selectedTheme'];
-        $bahasa = $this->getUserLanguage();
+        $pengguna = static::getDataPengguna();        
+        $sekolah = static::getDataSekolah();
+        $theme = static::getUserThemes()['data'];
+        $userTheme = static::getUserThemes()['selectedTheme'];
+        $bahasa = static::getUserLanguage();
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . 'assets/',
@@ -114,11 +117,11 @@ class Actudent extends \CodeIgniter\Controller
      * @param int $schoolID
      * @return object
      */
-    protected function getDataSekolah()
+    public static function getDataSekolah()
     {
         if(isset($_SESSION['email']))
         {
-            return $this->sekolah->getDataSekolah()[0];
+            return static::$sekolah->getDataSekolah()[0];
         }        
     }
 
@@ -127,11 +130,11 @@ class Actudent extends \CodeIgniter\Controller
      * 
      * @return void
      */
-    protected function getDataPengguna()
+    public static function getDataPengguna()
     {
         if(isset($_SESSION['email']))
         {
-            return $this->auth->getDataPengguna($_SESSION['email']);
+            return static::$auth->getDataPengguna($_SESSION['email']);
         }
     }
 
@@ -140,12 +143,12 @@ class Actudent extends \CodeIgniter\Controller
      * 
      * @return void
      */
-    protected function getUserThemes()
+    public static function getUserThemes()
     {
         if(isset($_SESSION['email']))
         {
-            $userTheme = $this->auth->getUserThemes($_SESSION['email']);
-            $theme = $this->setting->themeComponents($userTheme[0]->theme);
+            $userTheme = static::$auth->getUserThemes($_SESSION['email']);
+            $theme = static::$setting->themeComponents($userTheme[0]->theme);
             $wrapper = [];
             foreach($theme as $key)
             {
@@ -171,7 +174,7 @@ class Actudent extends \CodeIgniter\Controller
         Services::language($lang);
 
         // simpan ke dalam session
-        self::$session->set('actudent_lang', $lang);
+        static::$session->set('actudent_lang', $lang);
     }
 
     /**
@@ -179,11 +182,11 @@ class Actudent extends \CodeIgniter\Controller
      * 
      * @return string
      */
-    public function getUserLanguage()
+    public static function getUserLanguage()
     {
         if(isset($_SESSION['email']))
         {
-            $lang = $this->auth->getUserLanguage($_SESSION['email']);
+            $lang = static::$auth->getUserLanguage($_SESSION['email']);
             return $lang[0]->user_language;
         }
     }

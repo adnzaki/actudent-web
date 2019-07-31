@@ -6,24 +6,19 @@ use Actudent\Admin\Models\AgendaModel;
 class Agenda extends \CodeIgniter\Controller
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
-     */
-    private $actudent;
-
-    /**
      * @var Actudent\Admin\Models\AgendaModel
      */
     private $agenda;
 
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->agenda = new AgendaModel;
     }
 
     public function index()
 	{
-        $data = $this->actudent->common();
+        $data = Actudent::common();
         $data['title'] = 'Agenda';
 
         return Actudent::$parser->setData($data)

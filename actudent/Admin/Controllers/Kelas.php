@@ -6,24 +6,19 @@ use Actudent\Admin\Models\KelasModel;
 class Kelas extends \CodeIgniter\Controller
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
-     */
-    private $actudent;
-
-    /**
      * @var Actudent\Admin\Models\KelasModel
      */
     private $kelas;
 
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->kelas = new KelasModel;
     }
 
     public function index()
 	{
-        $data = $this->actudent->common();
+        $data = Actudent::common();
         $data['title'] = 'Kelas';
 
         return Actudent::$parser->setData($data)
