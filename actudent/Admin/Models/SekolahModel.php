@@ -3,7 +3,7 @@
 class SekolahModel extends \Actudent\Core\Models\ModelHandler
 {
     /**
-     * Query Builder untuk tabel tb_sekolah
+     * Query Builder for table tb_sekolah
      * 
      * @var object
      */
@@ -16,7 +16,7 @@ class SekolahModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Mengambil data sekolah 
+     * Get school data
      * 
      * @return object
      */

@@ -10,12 +10,6 @@ class Auth extends \CodeIgniter\Controller
      */
     private $auth;
 
-    /**
-     * Auth class constructor
-     * Call all classes needed in this controller 
-     * 
-     * @return void
-     */
     public function __construct()
     {
         new Actudent;
@@ -32,11 +26,11 @@ class Auth extends \CodeIgniter\Controller
         {            
             $data = Actudent::common();
 
-            // mengatur bahasa awal aplikasi ketika belum ada pilihan bahasa dari pengguna
-            // atur bahasa awal ke bahasa Indonesia jika belum ada session 'actudent_lang
+            // set default language when no there is no language option
+            // default language will be set to Bahasa Indonesia if there is no session found
             $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';
 
-            // set bahasa aplikasi berdasarkan bahasa awal
+            // set app language based on default language
             Actudent::setLanguage($defaultLang);
             $data['title'] = 'Autentikasi';
             return Actudent::$parser->setData($data)
@@ -70,7 +64,7 @@ class Auth extends \CodeIgniter\Controller
 
     public function logout()
     {
-        // simpan pilihan bahasa pengguna setelah dia logout dari aplikasi
+        // save language option after user has been logged out from the app
         Actudent::setLanguage(Actudent::getUserLanguage());
         $this->auth->statusJaringan('offline', $_SESSION['email']);
         Actudent::$session->remove(['email', 'nama', 'userLevel', 'logged_in']);

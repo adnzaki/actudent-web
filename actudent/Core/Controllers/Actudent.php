@@ -60,6 +60,9 @@ class Actudent
      */
     static public $validation;
 
+    /**
+     * Initialize any classes needed and core helper for this class
+     */
     function __construct()
     {
         static::$sekolah  = new SekolahModel;
@@ -73,7 +76,7 @@ class Actudent
     }
     
     /**
-     * Fungsi yang menyuplai variabel global untuk aplikasi 
+     * Function that supplies global variables for the whole app
      * 
      * @return array
      */
@@ -112,7 +115,7 @@ class Actudent
     }
 
     /**
-     * Mengambil data sekolah dari SekolahModel
+     * Get school data from SekolahModel
      * 
      * @param int $schoolID
      * @return object
@@ -126,7 +129,7 @@ class Actudent
     }
 
     /**
-     * Mengambil data pengguna yang sudah login
+     * Get user's data who has been logged in
      * 
      * @return void
      */
@@ -139,7 +142,7 @@ class Actudent
     }
 
     /**
-     * Mengambil tema berdasarkan user yang sedang login
+     * Get theme based on user who is logging into the app
      * 
      * @return void
      */
@@ -163,7 +166,7 @@ class Actudent
     }
 
     /**
-     * Mengatur bahasa yang dipilih pengguna
+     * Set app language
      * 
      * @param string $lang
      * @return void
@@ -178,7 +181,7 @@ class Actudent
     }
 
     /**
-     * Mengambil preferensi bahasa pengguna 
+     * Get the user's language preference
      * 
      * @return string
      */

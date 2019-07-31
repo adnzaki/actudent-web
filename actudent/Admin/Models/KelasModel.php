@@ -8,7 +8,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     private $QBKelas;
 
      /**
-     * Tabel tb_grade
+     * Table tb_grade
      * 
      * @var string
      */
@@ -24,7 +24,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Query untuk mengambil data siswa 
+     * Query for getting student data
      * 
      * @param int $limit 
      * @param int $offset 
@@ -44,7 +44,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Menghitung jumlah baris data kelas keseluruhan
+     * Count all rows of whole grade data
      * 
      * @param string $searchBy
      * @param string $search
@@ -58,8 +58,8 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Query join tabel tb_student, tb_student_grade dan tb_grade
-     * serta query untuk pencarian data dengan "LIKE" 
+     * Join table for tb_student, tb_student_grade dan tb_grade
+     * and query to search data with "LIKE" keyword
      * 
      * @param string $searchBy
      * @param string $search
@@ -73,9 +73,6 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
         
         if(! empty($search))
         {
-            // Menampung parameter pencarian "studentNis-studentName-gradeName",
-            // sehingga parameter bisa berdasarkan field studentNis, studentName atau gradeName.
-            // Kode ini tidak berkaitan dengan plugin SSPaging yang hanya mendukung 1 parameter pencarian
             if(strpos($searchBy, '-') !== false)
             {
                 $searchBy = explode('-', $searchBy);
@@ -84,7 +81,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
             }
             else 
             {
-                $this->db->like($searchBy, $search); // cari berdasarkan satu parameter saja
+                $this->db->like($searchBy, $search);
             }
         }
         
@@ -92,7 +89,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Mengambil daftar kelas 
+     * Get the grade list
      * 
      * @return void
      */
