@@ -36,124 +36,116 @@
  * @filesource
  */
 
-namespace CodeIgniter\Config;
+namespace CodeIgniter\Session\Handlers;
+
+use CodeIgniter\Session\Exceptions\SessionException;
+use CodeIgniter\Config\BaseConfig;
+use CodeIgniter\Database\BaseConnection;
+use Config\Database;
 
 /**
- * Class Config
- *
- * @package CodeIgniter\Config
+ * Session handler using static array for storage.
+ * Intended only for use during testing.
  */
-class Config
+class ArrayHandler extends BaseHandler implements \SessionHandlerInterface
 {
-	/**
-	 * Cache for instance of any configurations that
-	 * have been requested as "shared" instance.
-	 *
-	 * @var array
-	 */
-	static private $instances = [];
+	protected static $cache = [];
 
 	//--------------------------------------------------------------------
 
 	/**
-	 * Create new configuration instances or return
-	 * a shared instance
+	 * Open
 	 *
-	 * @param string  $name      Configuration name
-	 * @param boolean $getShared Use shared instance
+	 * Ensures we have an initialized database connection.
 	 *
-	 * @return mixed|null
+	 * @param string $savePath Path to session files' directory
+	 * @param string $name     Session cookie name
+	 *
+	 * @return boolean
+	 * @throws \Exception
 	 */
-	public static function get(string $name, bool $getShared = true)
+	public function open($savePath, $name): bool
 	{
-		$class = $name;
-		if (($pos = strrpos($name, '\\')) !== false)
-		{
-			$class = substr($name, $pos + 1);
-		}
-
-		if (! $getShared)
-		{
-			return self::createClass($name);
-		}
-
-		if (! isset( self::$instances[$class] ))
-		{
-			self::$instances[$class] = self::createClass($name);
-		}
-		return self::$instances[$class];
+		return true;
 	}
 
 	//--------------------------------------------------------------------
 
 	/**
-	 * Helper method for injecting mock instances while testing.
+	 * Read
 	 *
-	 * @param string   $class
-	 * @param $instance
+	 * Reads session data and acquires a lock
+	 *
+	 * @param string $sessionID Session ID
+	 *
+	 * @return string    Serialized session data
 	 */
-	public static function injectMock(string $class, $instance)
+	public function read($sessionID): string
 	{
-		self::$instances[$class] = $instance;
+		return '';
 	}
 
 	//--------------------------------------------------------------------
 
 	/**
-	 * Resets the instances array
+	 * Write
+	 *
+	 * Writes (create / update) session data
+	 *
+	 * @param string $sessionID   Session ID
+	 * @param string $sessionData Serialized session data
+	 *
+	 * @return boolean
 	 */
-	public static function reset()
+	public function write($sessionID, $sessionData): bool
 	{
-		static::$instances = [];
+		return true;
 	}
 
 	//--------------------------------------------------------------------
 
 	/**
-	 * Find configuration class and create instance
+	 * Close
 	 *
-	 * @param string $name Classname
+	 * Releases locks and closes file descriptor.
 	 *
-	 * @return mixed|null
+	 * @return boolean
 	 */
-	private static function createClass(string $name)
+	public function close(): bool
 	{
-		if (class_exists($name))
-		{
-			return new $name();
-		}
-		
-		$locator = Services::locator();
-		$file    = $locator->locateFile($name, 'Config');
-		
-		if (empty($file))
-		{
-			// No file found - check if the class was namespaced
-			if (strpos($name, '\\') !== false)
-			{
-				// Class was namespaced and locateFile couldn't find it
-				return null;
-			}
-			
-			// Check all namespaces
-			$files = $locator->search('Config/' . $name);
-			if (empty($files))
-			{
-				return null;
-			}
-			
-			// Get the first match (prioritizes user and framework)
-			$file = reset($files);
-		}
+		return true;
+	}
 
-		$name = $locator->getClassname($file);
+	//--------------------------------------------------------------------
 
-		if (empty($name))
-		{
-			return null;
-		}
+	/**
+	 * Destroy
+	 *
+	 * Destroys the current session.
+	 *
+	 * @param string $sessionID
+	 *
+	 * @return boolean
+	 */
+	public function destroy($sessionID): bool
+	{
+		return true;
+	}
 
-		return new $name();
+	//--------------------------------------------------------------------
+
+	/**
+	 * Garbage Collector
+	 *
+	 * Deletes expired sessions
+	 *
+	 * @param integer $maxlifetime Maximum lifetime of sessions
+	 *
+	 * @return boolean
+	 */
+	public function gc($maxlifetime): bool
+	{
+		return true;
 	}
 
 	//--------------------------------------------------------------------

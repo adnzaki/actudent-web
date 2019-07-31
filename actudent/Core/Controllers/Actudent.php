@@ -1,5 +1,15 @@
 <?php namespace Actudent\Core\Controllers;
 
+/**
+ * ACTUDENT - Attitude Control for Student
+ * This is the core of Actudent web app version. Everything is set to make this source
+ * code maintainable for long-time use.
+ * 
+ * @copyright   Wolestech (c) 2019
+ * @author      WolesDev Team
+ * @version     1.0.0-dev
+ */
+
 use Config\Services;
 use Actudent\Admin\Models\SekolahModel;
 use Actudent\Admin\Models\SettingModel;

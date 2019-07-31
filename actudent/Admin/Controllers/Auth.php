@@ -51,9 +51,10 @@ class Auth extends \CodeIgniter\Controller
 
     public function validasi()
     {
-        if($this->auth->validasi())
+        $username = $this->request->getPost('username');
+        $password = $this->request->getPost('password');
+        if($this->auth->validasi($username, $password))
         {
-            $username = $this->request->getPost('username');
             $pengguna = $this->auth->getDataPengguna($username);
             $session = [
                 'id'        => $pengguna->user_id,

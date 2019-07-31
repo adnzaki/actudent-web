@@ -95,15 +95,12 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return bool
      */
-    public function validasi()
+    public function validasi($username, $password)
     {
-        $username = $this->input->getPost('username');
-        $password = $this->input->getPost('password');
         $find = $this->user->where(['user_email' => $username]);
         if($find->countAllResults() > 0 && $this->userAktif($username))
         {
-            $getUserPassword = $this->user->where(['user_email' => $username]);
-            $userAktif = $getUserPassword->get()->getResult();
+            $userAktif = $find->get()->getResult();
             if(password_verify($password, $userAktif[0]->user_password))
             {
                 return true;
