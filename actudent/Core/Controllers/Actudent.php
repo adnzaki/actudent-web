@@ -65,13 +65,13 @@ class Actudent
      */
     function __construct()
     {
-        static::$sekolah  = new SekolahModel;
-        static::$setting  = new SettingModel;
-        static::$auth     = new AuthModel;
-        static::$parser   = Services::parser();
-        static::$session  = Services::session();
-        static::$lang     = Services::language(static::getUserLanguage());
-        static::$validation = Services::validation();
+        self::$sekolah  = new SekolahModel;
+        self::$setting  = new SettingModel;
+        self::$auth     = new AuthModel;
+        self::$parser   = Services::parser();
+        self::$session  = Services::session();
+        self::$lang     = Services::language(self::getUserLanguage());
+        self::$validation = Services::validation();
         helper('Actudent\Core\Helpers\ostium');
     }
     
@@ -82,11 +82,11 @@ class Actudent
      */
     public static function common()
     {
-        $pengguna = static::getDataPengguna();        
-        $sekolah = static::getDataSekolah();
-        $theme = static::getUserThemes()['data'];
-        $userTheme = static::getUserThemes()['selectedTheme'];
-        $bahasa = static::getUserLanguage();
+        $pengguna = self::getDataPengguna();        
+        $sekolah = self::getDataSekolah();
+        $theme = self::getUserThemes()['data'];
+        $userTheme = self::getUserThemes()['selectedTheme'];
+        $bahasa = self::getUserLanguage();
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . 'assets/',
@@ -124,7 +124,7 @@ class Actudent
     {
         if(isset($_SESSION['email']))
         {
-            return static::$sekolah->getDataSekolah()[0];
+            return self::$sekolah->getDataSekolah()[0];
         }        
     }
 
@@ -137,7 +137,7 @@ class Actudent
     {
         if(isset($_SESSION['email']))
         {
-            return static::$auth->getDataPengguna($_SESSION['email']);
+            return self::$auth->getDataPengguna($_SESSION['email']);
         }
     }
 
@@ -150,8 +150,8 @@ class Actudent
     {
         if(isset($_SESSION['email']))
         {
-            $userTheme = static::$auth->getUserThemes($_SESSION['email']);
-            $theme = static::$setting->themeComponents($userTheme[0]->theme);
+            $userTheme = self::$auth->getUserThemes($_SESSION['email']);
+            $theme = self::$setting->themeComponents($userTheme[0]->theme);
             $wrapper = [];
             foreach($theme as $key)
             {
@@ -177,7 +177,7 @@ class Actudent
         Services::language($lang);
 
         // simpan ke dalam session
-        static::$session->set('actudent_lang', $lang);
+        self::$session->set('actudent_lang', $lang);
     }
 
     /**
@@ -189,7 +189,7 @@ class Actudent
     {
         if(isset($_SESSION['email']))
         {
-            $lang = static::$auth->getUserLanguage($_SESSION['email']);
+            $lang = self::$auth->getUserLanguage($_SESSION['email']);
             return $lang[0]->user_language;
         }
     }
