@@ -61,7 +61,7 @@ $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('Home');
 $routes->setDefaultMethod('index');
 $routes->setTranslateURIDashes(false);
-$routes->set404Override('Actudent\Admin\Controllers\Error::show404');
+$routes->set404Override('Actudent\Core\Controllers\Error::show404');
 $routes->setAutoRoute(true);
 
 /**
