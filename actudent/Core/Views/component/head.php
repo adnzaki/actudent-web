@@ -26,6 +26,7 @@
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/cryptocoins/cryptocoins.css">
   <!-- END Page Level CSS-->
   <!-- BEGIN Custom CSS-->
+  <link rel="stylesheet" type="text/css" href="{assets}css/animate.css">
   <link rel="stylesheet" type="text/css" href="{assets}css/style.css">
   <link rel="stylesheet" type="text/css" href="{assets}css/actudent.css">
   {if $theme === 'night-vision'}

@@ -5,7 +5,7 @@ Vue.component('form-error', {
 
 Vue.component('alert-msg', {
 	props: ['alertClass', 'header', 'text'],
-	template: `<div :class="['alert', alertClass]" role="alert">
-		<span class="text-bold-600">{{ header }}</span> {{ text }}
+	template: `<div :class="['alert alert-dismissible mb-2 fly-alert', alertClass]" role="alert">
+		<strong>{{ header }}</strong> {{ text }}
 		</div>`
 })

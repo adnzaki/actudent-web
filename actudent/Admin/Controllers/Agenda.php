@@ -6,33 +6,28 @@ use Actudent\Admin\Models\AgendaModel;
 class Agenda extends \CodeIgniter\Controller
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
-     */
-    private $actudent;
-
-    /**
      * @var Actudent\Admin\Models\AgendaModel
      */
     private $agenda;
 
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->agenda = new AgendaModel;
     }
 
     public function index()
 	{
-        $data = $this->actudent->common();
+        $data = Actudent::common();
         $data['title'] = 'Agenda';
 
         return Actudent::$parser->setData($data)
                 ->render('Actudent\Admin\Views\agenda\agenda-view');
     }
 
-    public function getEvents()
+    public function getEvents($viewStart, $viewEnd)
     {
-        $events = $this->agenda->getEvents();
+        $events = $this->agenda->getEvents($viewStart, $viewEnd);
         $formatted = [];
         foreach($events as $key)
         {
@@ -82,4 +77,99 @@ class Agenda extends \CodeIgniter\Controller
             return $this->response->setJSON($output);
         }        
     }
+
+    public function save()
+    {
+        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+        if(! $this->validate($validation[0], $validation[1]))
+        {
+            return $this->response->setJSON([
+                'code' => '500',
+                'msg' => Actudent::$validation->getErrors(),
+            ]);
+        }
+        else 
+        {
+            $data = $this->formData();
+            return $this->response->setJSON([
+                'code' => '200',
+                'insertID' => $this->agenda->insert($data), // return the insert_id
+            ]);
+        }
+    }
+
+    private function validation()
+    {
+        $form = $this->formData();
+        $rules = [
+            'agenda_name' => 'required',
+            'agenda_start' => 'required|less_than['.$form['agenda_end'].']',
+            'agenda_end' => 'required|greater_than['.$form['agenda_start'].']',
+            'agenda_priority' => 'in_list[high,normal,low]',
+        ];
+
+        $messages = [
+            'agenda_name' => [
+                'required' => lang('AdminAgenda.agenda_err_name_required'),
+            ],
+            'agenda_start' => [
+                'required' => lang('AdminAgenda.agenda_err_eventstart_required'),
+                'less_than' => lang('AdminAgenda.agenda_err_eventstart_invalid'),
+            ],
+            'agenda_end' => [
+                'required' => lang('AdminAgenda.agenda_err_eventend_required'),
+                'greater_than' => lang('AdminAgenda.agenda_err_eventend_invalid'),
+            ],
+            'agenda_priority' => [
+                'in_list' => lang('AdminAgenda.agenda_err_priority'),
+            ],
+        ];            
+
+        return [$rules, $messages];
+    }
+
+    public function uploadFile($insertID)
+    {
+        $fileRules = [
+            'agenda_attachment' => 'uploaded[agenda_attachment]|mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
+        ];
+        $fileMessages = [
+            'agenda_attachment' => [
+                'uploaded' => 'File has been uploaded',
+                'mime_in' => lang('Admin.invalid_filetype'),
+                'max_size' => lang('Admin.file_too_large'),
+            ]
+        ];
+        $validated = $this->validate($fileRules, $fileMessages);
+
+        if($validated) 
+        {
+            $attachment = $this->request->getFile('agenda_attachment');
+            $newFilename = $attachment->getRandomName();
+            $attachment->move(PUBLICPATH . 'attachments/agenda', $newFilename);
+
+            // Set attachment
+            $this->agenda->setAttachment($newFilename, $insertID);
+            return $this->response->setJSON(['msg' => 'OK']);
+        }
+        else 
+        {
+            return $this->response->setJSON(Actudent::$validation->getErrors());
+        }
+    }
+
+    private function formData()
+    {
+        $data = [
+            'agenda_name'           => $this->request->getPost('agenda_name'),
+            'agenda_start'          => $this->request->getPost('agenda_start'),
+            'agenda_end'            => $this->request->getPost('agenda_end'),
+            'agenda_description'    => $this->request->getPost('agenda_description'),
+            'agenda_priority'       => $this->request->getPost('agenda_priority'),
+            'agenda_location'       => $this->request->getPost('agenda_location'),
+            'agenda_guest'          => $this->request->getPost('agenda_guest'),
+        ];
+
+        return $data;
+    }    
 }

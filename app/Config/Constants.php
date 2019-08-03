@@ -21,6 +21,14 @@ define('APP_NAMESPACE', 'App');
  */
 define('ACTUDENTPATH', ROOTPATH . 'actudent/');
 
+/**
+ * -----------------------------------------------------------------------
+ * Actudent Public Path
+ * -----------------------------------------------------------------------
+ * Path to actudent root directory
+ */
+define('PUBLICPATH', ROOTPATH . 'public/');
+
 /*
 |--------------------------------------------------------------------------
 | Composer Path

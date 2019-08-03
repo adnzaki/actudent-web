@@ -2,7 +2,7 @@
  * Actudent Agenda scripts
  * 
  * @author      Adnan Zaki
- * @copyright   Wolestech (c) 2018
+ * @copyright   Wolestech (c) 2019
  */
 
 const agenda = new Vue({
@@ -12,17 +12,22 @@ const agenda = new Vue({
         agenda: `${admin}agenda/`,
         error: {},
         alert: {
-            class: 'alert bg-danger', show: false,
-            header: 'Sukses', text: 'heheheh',
+            class: 'bg-primary', show: false,
+            header: '', text: '',
         },
-        flashAlert: {
-            class: 'bg-success', show: false, title: 'Sukses',
-            text: 'Data peserta didik baru berhasil disimpan',
-            icon: 'la-thumbs-o-up'
+        fullCalendar: {
+            show: true,
+            view: 'month',
+            defaultStart: '',
+            defaultEnd: '',
+        },        
+        transitionClass: {
+            enter: 'animated slideInLeft',
+            leave: 'animated slideOutRight'
         },
         helper: {
-            saveAndClose: false, fullDayEvent: false,
-            timeStart: '00:00:00', timeEnd: '23:59:00',
+            fullDayEvent: false,
+            timeStart: '00:00', timeEnd: '23:59',
         },
         locale: {
             english: 'en', indonesia: 'id'
@@ -40,7 +45,17 @@ const agenda = new Vue({
         agendaStart: '', agendaEnd: '',
     },
     mounted() {
-        this.getEvents()
+        this.fullCalendar.defaultStart = moment().startOf('month').format('YYYY-MM-DD')
+        this.fullCalendar.defaultEnd = moment().endOf('month').format('YYYY-MM-DD')
+        this.getEvents(
+            this.fullCalendar.view, 
+            this.fullCalendar.defaultStart, 
+            this.fullCalendar.defaultEnd
+        )
+        setTimeout(() => {
+            this.eventNav()  
+            this.setView()          
+        }, 1000);
         this.runDatePicker()
         this.runTimePicker()
         this.runICheck()
@@ -80,20 +95,126 @@ const agenda = new Vue({
         save() {
             this.filterGuest()
             let form = $('#formTambahAgenda')
-            let dateStart = $('input[name=agendaDateStart]').val(),
-                dateEnd = $('input[name=agendaDateEnd]').val(),
-                timeStart = $('input[name=timestart]').val(),
-                timeEnd = $('input[name=timeend]').val()       
-            
-            if(this.helper.fullDayEvent) {
-                timeStart = this.helper.timeStart
-                timeEnd = this.helper.timeEnd
-            } else {
-                timeStart = `${timeStart}:00`
-                timeEnd = `${timeEnd}:00`
+            let beforeRequest = () => {
+                let dateStart = $('input[name=agendaDateStart]').val(),
+                    dateEnd = $('input[name=agendaDateEnd]').val(),
+                    timeStart = $('input[name=timestart]').val(),
+                    timeEnd = $('input[name=timeend]').val()       
+                
+                if(this.helper.fullDayEvent) {
+                    timeStart = this.helper.timeStart
+                    timeEnd = this.helper.timeEnd                    
+                } 
+    
+                // convert date to timestamp and parse to string
+                let eventStart =  Date.parse(`${dateStart}T${timeStart}`).toString(),
+                    eventEnd = Date.parse(`${dateEnd}T${timeEnd}`).toString()
+    
+                // only get the first 10 chars to match PHP timestamp
+                this.agendaStart = eventStart.substr(0,10)
+                this.agendaEnd = eventEnd.substr(0,10)
             }
-            this.agendaStart = `${dateStart} ${timeStart}`
-            this.agendaEnd = `${dateEnd} ${timeEnd}`
+
+            let obj = this
+            async function postRequest() {
+                // wait until beforeRequest() is done 
+                await beforeRequest()
+
+                // do the post request!
+                let data = form.serialize(),
+                    fileInput = $('input[name=agenda_attachment]').val(),
+                    hasAttachment
+                (fileInput !== '') ? hasAttachment = true : hasAttachment = false
+                $.ajax({
+                    url: `${obj.agenda}save`,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: data,
+                    beforeSend: () => {
+                        obj.alert.text = obj.lang.agenda_saving_progress
+                        obj.alert.show = true
+                    },
+                    success: res => {
+                        if(res.code === '500') {
+                            obj.error = res.msg
+
+                            // set error alert
+                            obj.alert.class = 'bg-danger'
+                            obj.alert.header = 'Error!'
+                            obj.alert.text = obj.lang.agenda_error_text
+
+                            // hide after 3000 ms and change the class and text
+                            setTimeout(() => {
+                                obj.alert.show = false
+                                obj.alert.class = 'bg-primary'
+                                obj.alert.header = ''
+                                obj.alert.text = obj.lang.agenda_saving_progress
+                            }, 3000);
+                        } else {
+                            obj.alert.show = false
+                            // clear error messages if exists
+                            obj.error = {}
+
+                            // reset form
+                            form.trigger('reset')
+
+                            // set fullDayEvent to false
+                            let switchery = document.querySelector('#allDayEvent')
+                            obj.helper.fullDayEvent = false
+                            switchery.click()
+                            if(switchery.checked === true) {
+                                switchery.click()
+                                obj.helper.fullDayEvent = false
+                            }                            
+
+                            // set priority to normal by re-running iCheck
+                            obj.runICheck()
+
+                            // reset guest
+                            obj.guestToDisplay = []
+                            obj.guestWrapper = []
+
+                            // if the form has attachment, upload it
+                            if(hasAttachment) {
+                                obj.uploadFile(res.insertID)
+                            }
+
+                            // reload events on calendar
+                            $('#fc-agenda-views').fullCalendar('destroy')
+                            obj.getEvents(obj.fullCalendar.view, obj.fullCalendar.defaultStart, obj.fullCalendar.defaultEnd)
+
+                            // show success alert and close the modal
+                            obj.alert.show = true
+                            $('#agendaModal').modal('hide')
+
+                            // hide success alert after 3500 ms
+                            setTimeout(() => {
+                                obj.alert.show = false
+                            }, 3500);
+                        }
+                    },
+                    error: () => console.error('Network error')
+                })  
+            }
+
+            // execute them all!!
+            postRequest()
+        },
+        uploadFile(insertID) {
+            let form = document.forms.namedItem('upload-file'),
+                data = new FormData(form),
+                req = new XMLHttpRequest
+                req.open('POST', `${this.agenda}upload/${insertID}`, true)
+                req.responseType = 'json'
+                req.onload = obj => {
+                    if(req.response.msg === 'OK') {
+                        this.error = {}
+                        document.getElementById('upload-file').reset()
+                    } else {
+                        this.error = req.response
+                    }
+                }
+                req.send(data)
         },
         filterGuest() {
             // filter guest IDs before send them to server, no duplicate!
@@ -128,7 +249,7 @@ const agenda = new Vue({
                 })
                 
                 let text
-                (type === 'wali_kelas') ? text = 'Semua wali kelas' : text = 'Semua wali murid'
+                (type === 'wali_kelas') ? text = this.lang.agenda_all_walikelas : text = this.lang.agenda_all_parent
     
                 // display guest by type such as "wali_kelas" or "wali_murid"
                 this.guestToDisplay.push({
@@ -183,23 +304,146 @@ const agenda = new Vue({
             this.searchParam = ''
             this.guests = []
         },
-        getEvents() {
+        eventNav() {
+            let obj = this
+            
+            $('body').on('click', 'button.fc-prev-button', function() {
+                obj.transitionClass.enter = 'animated slideInRight'
+                obj.transitionClass.leave = 'animated slideOutLeft'
+                setTimeout(() => {
+                    obj.execNav()           
+                    setTimeout(() => {
+                        obj.todayButton()
+                    }, 800);      
+                }, 50);
+            })
+
+            $('body').on('click', 'button.fc-next-button', function() {
+                obj.transitionClass.enter = 'animated slideInLeft'
+                obj.transitionClass.leave = 'animated slideOutRight'
+                setTimeout(() => {
+                    obj.execNav()    
+                    setTimeout(() => {
+                        obj.todayButton()
+                    }, 800);          
+                }, 50);
+            }) 
+        },        
+        setView() {
+            let obj = this
+
+            $('body').on('click', 'button.fc-month-button', function() {
+                obj.fullCalendar.view = 'month'
+                getInterval()
+                let dateInt = obj.eventLoadTrigger(),
+                    start = moment([dateInt.start[2], dateInt.start[1]]).startOf(obj.calendarUnit).format('YYYY-MM-DD'),
+                    end = moment([dateInt.start[2], dateInt.start[1]]).endOf(obj.calendarUnit).format('YYYY-MM-DD')                
+                obj.fullCalendar.show = false 
+                obj.execFullCalendar(start, end)
+            })
+
+            $('body').on('click', 'button.fc-agendaDay-button', function() {
+                obj.fullCalendar.view = 'agendaDay'
+                getInterval()
+                obj.execNav(true)   
+                setTimeout(() => {
+                    obj.todayButton()
+                }, 800);  
+            })
+
+            $('body').on('click', 'button.fc-agendaWeek-button', function() {
+                obj.fullCalendar.view = 'agendaWeek'
+                getInterval()
+                let dateInt = obj.eventLoadTrigger(),
+                    start   = moment([
+                        dateInt.start[2], dateInt.start[1], dateInt.start[0]
+                    ]).startOf(obj.calendarUnit).format('YYYY-MM-DD HH:mm:ss'),
+                    
+                    end = moment([
+                        dateInt.start[2], dateInt.start[1], dateInt.start[0]
+                    ]).endOf(obj.calendarUnit).format('YYYY-MM-DD HH:mm:ss')
+                
+                obj.fullCalendar.show = false 
+                obj.execFullCalendar(start, end)
+                setTimeout(() => {
+                    obj.todayButton()
+                }, 800);    
+            })
+
+            function getInterval() {
+                obj.fullCalendar.defaultStart = moment().startOf(obj.calendarUnit).format('YYYY-MM-DD')
+                obj.fullCalendar.defaultEnd = moment().endOf(obj.calendarUnit).format('YYYY-MM-DD')
+            }
+        },
+        todayButton() {
+            let obj = this
+            $('button.fc-today-button').on('click', function() {
+                setTimeout(() => {
+                    obj.execNav(true)             
+                }, 50);
+            })
+        },
+        execNav(today = false) {
+            let obj = this
+            obj.fullCalendar.show = false
+            setTimeout(() => {
+                let my = obj.eventLoadTrigger(),    
+                    view,
+                    start, end
+                
+                if(today) {
+                    start = obj.fullCalendar.defaultStart
+                    end = obj.fullCalendar.defaultEnd
+                } else {
+                    start = moment([my.start[2], my.start[1], my.start[0]]).format('YYYY-MM-DD') 
+                    end = moment([my.end[2], my.end[1], my.end[0]]).format('YYYY-MM-DD') 
+                }
+                obj.execFullCalendar(start, end)
+            }, 300)
+        },
+        eventLoadTrigger() {
+            let intervalStart = $('#fc-agenda-views').fullCalendar('getView').intervalStart,    
+                intervalEnd = $('#fc-agenda-views').fullCalendar('getView').intervalEnd,
+                dateStart = intervalStart._d,
+                dateEnd = intervalEnd._d
+                dayStart = dateStart.getDate(),
+                dayEnd = dateEnd.getDate(),
+                monthStart = dateStart.getMonth(),
+                monthEnd = dateEnd.getMonth(),
+
+                // year must be the same
+                year = dateStart.getFullYear()       
+                
+            return {
+                start: [dayStart, monthStart, year],
+                end: [dayEnd, monthEnd, year]
+            }
+        },
+        execFullCalendar(start, end) {
+            setTimeout(() => {
+                this.fullCalendar.show = true
+                $('#fc-agenda-views').fullCalendar('destroy')
+                this.getEvents(this.fullCalendar.view, start, end)   
+            }, 300);
+        },
+        getEvents(defaultView, viewStart, viewEnd) {
             $.ajax({
-                url: `${this.agenda}get-events`,
+                url: `${this.agenda}get-events/${viewStart}/${viewEnd}`,
                 type: 'get',
                 dataType: 'json',
                 success: data => {
                     $('#fc-agenda-views').fullCalendar({
+                        events: data,
                         header: {
                             left: 'prev,next today',
                             center: 'title',
                             right: 'month,agendaWeek,agendaDay'
                         },
-                        defaultDate: moment().format('YYYY-MM-DD'),
-                        defaultView: 'month',
+                        defaultDate: moment(viewStart).format('YYYY-MM-DD'),
+                        defaultView: defaultView,
                         editable: false,
-                        eventLimit: true,
-                        events: data,
+                        eventLimit: true, 
+                        firstDay: 0,   
                         locale: this.locale[bahasa],
                         timeFormat: 'HH:mm',
                         slotLabelFormat: 'HH:mm',
@@ -215,11 +459,35 @@ const agenda = new Vue({
             let obj = this
             fullDay.onchange = function() {
                 obj.helper.fullDayEvent = fullDay.checked
+                $('input[name=timestart]').val(obj.helper.timeStart)
+                $('input[name=timeend]').val(obj.helper.timeEnd)
                 if(!fullDay.checked) {
                     setTimeout(() => {
                         obj.runTimePicker()
+                        $('input[name=timestart]').val('')
+                        $('input[name=timeend]').val('')
                     }, 200)
                 } 
+            }
+        },
+    },
+    computed: {
+        calendarUnit() {
+            let unit
+            switch (this.fullCalendar.view) {
+                case 'month': unit = 'month'; break;
+                case 'agendaWeek': unit = 'week'; break;
+                case 'agendaDay': unit = 'day'; break;
+                default: 'Unknown value'; break;
+            }
+
+            return unit
+        },
+        timepickerStatus() {
+            if(this.helper.fullDayEvent) {
+                return 'cursor-disabled'
+            } else {
+                return ''
             }
         },
     },

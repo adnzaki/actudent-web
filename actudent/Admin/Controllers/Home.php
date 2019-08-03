@@ -6,21 +6,19 @@ use Actudent\Admin\Models\AuthModel;
 class Home extends \CodeIgniter\Controller
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
+     * @var Actudent\Admin\Models\AuthModel
      */
-    private $actudent;
-    
     private $auth;
 
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->auth = new AuthModel;
     }
 
     public function index()
 	{
-        $data = $this->actudent->common();
+        $data = Actudent::common();
         $data['title'] = 'Actudent CI4 Home';
         return Actudent::$parser->setData($data)
                 ->render('Actudent\Admin\Views\dashboard\home');

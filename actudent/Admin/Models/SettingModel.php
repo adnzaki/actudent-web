@@ -34,7 +34,7 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Mengambil pengaturan
+     * Get settings
      * 
      * @return void
      */
@@ -44,7 +44,7 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Set warna tema aplikasi
+     * Set app theme
      * 
      * @param string $username
      * @param string $selectedTheme
@@ -59,7 +59,7 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Set bahasa aplikasi
+     * Set app language
      * 
      * @param string $username
      * @param string $selectedLanguage
@@ -74,7 +74,7 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Komponen tema 
+     * The theme components
      * 
      * @param string $theme
      * @return array

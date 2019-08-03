@@ -7,11 +7,6 @@ use Actudent\Admin\Models\KelasModel;
 class Siswa extends \CodeIgniter\Controller
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
-     */
-    private $actudent;
-
-    /**
      * @var Actudent\Admin\Models\SiswaModel
      */
     private $siswa;
@@ -23,14 +18,14 @@ class Siswa extends \CodeIgniter\Controller
 
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->siswa = new SiswaModel;
         $this->kelas = new KelasModel;
     }
 
     public function index()
 	{
-        $data = $this->actudent->common();
+        $data = Actudent::common();
         $data['title'] = 'Siswa';
 
         return Actudent::$parser->setData($data)

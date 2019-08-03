@@ -3,26 +3,26 @@
 class SiswaModel extends \Actudent\Core\Models\ModelHandler
 {
     /**
-     * Query Builder untuk tabel tb_siswa
+     * Query Builder for table tb_siswa
      */
     private $QBSiswa;
 
     /**
-     * Tabel tb_student 
+     * Table tb_student 
      * 
      * @var string
      */
     private $siswa = 'tb_student';
 
      /**
-     * Tabel tb_grade
+     * Table tb_grade
      * 
      * @var string
      */
     private $kelas = 'tb_grade';
 
      /**
-     * Tabel tb_student_grade
+     * Table tb_student_grade
      * 
      * @var string
      */
@@ -38,7 +38,7 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Query untuk mengambil data siswa 
+     * Query to get student data
      * 
      * @param int $limit 
      * @param int $offset 
@@ -58,7 +58,7 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Menghitung jumlah baris data siswa keseluruhan
+     * Count all rows of whole student data
      * 
      * @param string $searchBy
      * @param string $search
@@ -72,8 +72,8 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Query join tabel tb_student, tb_student_grade dan tb_grade
-     * serta query untuk pencarian data dengan "LIKE" 
+     * Join table for tb_student, tb_student_grade dan tb_grade
+     * and query to search data with "LIKE" keyword
      * 
      * @param string $searchBy
      * @param string $search
@@ -91,9 +91,9 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
         
         if(! empty($search))
         {
-            // Menampung parameter pencarian "studentNis-studentName-gradeName",
-            // sehingga parameter bisa berdasarkan field studentNis, studentName atau gradeName.
-            // Kode ini tidak berkaitan dengan plugin SSPaging yang hanya mendukung 1 parameter pencarian
+            // Store search parameter "studentNis-studentName-gradeName",
+            // so parameter could depends on field studentNis, studentName or gradeName.
+            // This code is not related to SSPaging plugin that only supports 1 search parameter
             if(strpos($searchBy, '-') !== false)
             {
                 $searchBy = explode('-', $searchBy);
@@ -103,7 +103,7 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
             }
             else 
             {
-                $join->like($searchBy, $search); // cari berdasarkan satu parameter saja
+                $join->like($searchBy, $search); // search by one parameter
             }
         }
         

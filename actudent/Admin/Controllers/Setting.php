@@ -6,24 +6,19 @@ use Actudent\Admin\Models\SettingModel;
 class Setting extends \CodeIgniter\Controller 
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
-     */
-    private $actudent;
-
-    /**
      * @var Actudent\Admin\Models\SiswaModel
      */
     private $setting;
 
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->setting = new SettingModel;
     }
 
     public function index()
 	{
-        $data = $this->actudent->common();
+        $data = Actudent::common();
         $data['title'] = 'Pengaturan';
         return Actudent::$parser->setData($data)
                 ->render('Actudent\Admin\Views\setting\setting-view');

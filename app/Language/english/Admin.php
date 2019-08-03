@@ -21,6 +21,7 @@ return [
     'navbar_keluar'      => 'Logout',   
     
     // teks umum
+    'semua'              => 'All',
     'baris'              => 'rows',
     'tambah'             => 'Add',
     'hapus'              => 'Delete',
@@ -28,8 +29,10 @@ return [
     'batal'              => 'Cancel',
     'simpan'             => 'Save',
     'simpan_tutup'       => 'Save and close',
-    'sukses'             => 'Success',
+    'sukses'             => 'Success!',
     'terapkan'           => 'Apply',
     'english'            => 'English (US)',
     'indonesia'          => 'Indonesian',
+    'file_too_large'     => 'File size is too large',
+    'invalid_filetype'   => 'File format is not valid',
 ];

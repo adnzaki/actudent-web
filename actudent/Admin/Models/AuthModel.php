@@ -11,7 +11,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
 
     /**
      * tb_user_themes table builder
-     * Untuk memuat tema setelah autentikasi berhasil
+     * To load theme after authentication successfully
      * 
      * @var object
      */
@@ -19,7 +19,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
 
     /**
      * tb_user_themes table builder
-     * Untuk memuat tema setelah autentikasi berhasil
+     * To load language after authentication successfully
      * 
      * @var object
      */
@@ -29,21 +29,21 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     {
         parent::__construct();
 
-        // Instantiasi query builder untuk masing-masing tabel
+        // Initialize Query Builder for each tables
         $this->user = $this->db->table('tb_user');
         $this->userThemes = $this->db->table('tb_user_themes');
         $this->userLanguage = $this->db->table('tb_user_language');
     }
 
     /**
-     * Mengambil data pengguna yang berhasil login 
+     * Get user data who has been logged in
      * 
      * @param string $username 
      * @return object 
      */
     public function getDataPengguna($username)
     {
-        $query = $this->user->select('user_name, user_email, user_level')
+        $query = $this->user->select('user_id, user_name, user_email, user_level')
                 ->where('user_email', $username)->get()->getResult();
         return $query[0];
     }
@@ -64,7 +64,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Mengambil preferensi bahasa pengguna
+     * Get user's language preference
      * 
      * @param string $username
      * @return object
@@ -78,7 +78,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Mengatur status jaringan pengguna menjadi "online" atau "offline"
+     * Set network status to "online" or "offline"
      * 
      * @param string $username
      * @return void
@@ -91,19 +91,16 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Validasi input user_name dan password 
+     * Validate username and possword
      * 
      * @return bool
      */
-    public function validasi()
+    public function validasi($username, $password)
     {
-        $username = $this->input->getPost('username');
-        $password = $this->input->getPost('password');
         $find = $this->user->where(['user_email' => $username]);
         if($find->countAllResults() > 0 && $this->userAktif($username))
         {
-            $getUserPassword = $this->user->where(['user_email' => $username]);
-            $userAktif = $getUserPassword->get()->getResult();
+            $userAktif = $find->get()->getResult();
             if(password_verify($password, $userAktif[0]->user_password))
             {
                 return true;
@@ -120,7 +117,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Mengecek apakah user yang login adalah user aktif atau bukan
+     * Check if user is active or not
      * 
      * @param string $username
      * @return bool

@@ -6,24 +6,13 @@ use Actudent\Admin\Models\AuthModel;
 class Auth extends \CodeIgniter\Controller
 {
     /**
-     * @var Actudent\Core\Controllers\Actudent
-     */
-    private $actudent;
-
-    /**
      * @var Actudent\Core\Models\AuthModel
      */
     private $auth;
 
-    /**
-     * Auth class constructor
-     * Call all classes needed in this controller 
-     * 
-     * @return void
-     */
     public function __construct()
     {
-        $this->actudent = new Actudent;
+        new Actudent;
         $this->auth = new AuthModel;
     }
 
@@ -35,13 +24,13 @@ class Auth extends \CodeIgniter\Controller
         }
         else 
         {            
-            $data = $this->actudent->common();
+            $data = Actudent::common();
 
-            // mengatur bahasa awal aplikasi ketika belum ada pilihan bahasa dari pengguna
-            // atur bahasa awal ke bahasa Indonesia jika belum ada session 'actudent_lang
+            // set default language when no there is no language option
+            // default language will be set to Bahasa Indonesia if there is no session found
             $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';
 
-            // set bahasa aplikasi berdasarkan bahasa awal
+            // set app language based on default language
             Actudent::setLanguage($defaultLang);
             $data['title'] = 'Autentikasi';
             return Actudent::$parser->setData($data)
@@ -51,11 +40,13 @@ class Auth extends \CodeIgniter\Controller
 
     public function validasi()
     {
-        if($this->auth->validasi())
+        $username = $this->request->getPost('username');
+        $password = $this->request->getPost('password');
+        if($this->auth->validasi($username, $password))
         {
-            $username = $this->request->getPost('username');
             $pengguna = $this->auth->getDataPengguna($username);
             $session = [
+                'id'        => $pengguna->user_id,
                 'email'     => $username,
                 'nama'      => $pengguna->user_name,
                 'userLevel' => $pengguna->user_level,
@@ -73,8 +64,8 @@ class Auth extends \CodeIgniter\Controller
 
     public function logout()
     {
-        // simpan pilihan bahasa pengguna setelah dia logout dari aplikasi
-        Actudent::setLanguage($this->actudent->getUserLanguage());
+        // save language option after user has been logged out from the app
+        Actudent::setLanguage(Actudent::getUserLanguage());
         $this->auth->statusJaringan('offline', $_SESSION['email']);
         Actudent::$session->remove(['email', 'nama', 'userLevel', 'logged_in']);
         return redirect()->to(site_url('admin/login'));
