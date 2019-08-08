@@ -1,6 +1,9 @@
 const plugin = {
 	data: {
-		lang: '',
+		lang: '', switchery: null, swObject: null,
+	},
+	mounted() {
+		this.swObject = document.getElementsByClassName('switchery-small')
 	},
 	methods: {
 		select2ShowPerPage(element) {
@@ -73,13 +76,9 @@ const plugin = {
 
 			})(window, document, jQuery);
 		},
-		runDatePicker() {
+		runDatePicker(el) {
 			// Month & Year selectors
-			$('.pickadate-selectors').pickadate({
-				labelMonthNext: 'Next month',
-				labelMonthPrev: 'Previous month',
-				labelMonthSelect: 'Pick a Month',
-				labelYearSelect: 'Pick a Year',
+			return $(el).pickadate({
 				selectMonths: true,
 				selectYears: true,
 				min: true, // set minimal tanggal hari ini
@@ -87,8 +86,8 @@ const plugin = {
 				formatSubmit: 'yyyy-mm-dd',
 			});
 		},
-		runTimePicker() {
-			$('.pickatime').pickatime({
+		runTimePicker(el) {
+			return $(el).pickatime({
 				format: 'HH:i',
 				formatSubmit: 'HH:i',
 			});
@@ -99,14 +98,22 @@ const plugin = {
 				radioClass: 'iradio_square-red',
 			});
 		},
-		runSwitchery() {
-			var elems = Array.prototype.slice.call(document.querySelectorAll('.switchery'));
-			elems.forEach(function(html) {
-				var switchery = new Switchery(html, {
+		runSwitchery(el) {
+			// make sure that there is no existing Switchery
+			if(this.swObject.length === 0) {
+				var elem = document.querySelector(el)
+				this.switchery = new Switchery(elem, {
 					secondaryColor: '#6b6b6b',
 					size: 'small'
-				});
-			});
-		}
+				})
+			}
+		},
+		resetSwitchery(elem) {
+			// remove existing Switchery 
+			let sw = this.swObject
+			if(sw.length === 1) {
+				sw[0].parentNode.removeChild(sw[0])
+			}
+        },
 	},
 }

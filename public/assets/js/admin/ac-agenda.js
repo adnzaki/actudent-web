@@ -27,7 +27,8 @@ const agenda = new Vue({
         },
         helper: {
             fullDayEvent: false,
-            timeStart: '00:00', timeEnd: '23:59',
+            timeStart: '00:00', timeEnd: '23:30',
+            hasAttachment: false,
         },
         locale: {
             english: 'en', indonesia: 'id'
@@ -43,6 +44,7 @@ const agenda = new Vue({
         // data that come from "Semua wali kelas xxx" or "Semua wali murid xxx"
         guestWrapperAll: [],
         agendaStart: '', agendaEnd: '',
+        eventDetail: { data: '', dataForPlugin: '', guests: '' },
     },
     mounted() {
         this.fullCalendar.defaultStart = moment().startOf('month').format('YYYY-MM-DD')
@@ -56,11 +58,12 @@ const agenda = new Vue({
             this.eventNav()  
             this.setView()          
         }, 1000);
-        this.runDatePicker()
-        this.runTimePicker()
-        this.runICheck()
-        this.runSwitchery()
-        this.setFullDayEvent()
+        this.runDatePicker('.pickadate-add')
+        this.runTimePicker('.pickatime-add')
+        this.runICheck()     
+        this.onModalClose('#agendaModal')
+        this.onModalClose('#editAgenda', true)
+        this.setFullDayEvent({ fullDay: '#allDayEvent', pickatime: '.pickatime-add' })
         this.getLanguageResources('AdminAgenda')
     },
     methods: {
@@ -91,6 +94,66 @@ const agenda = new Vue({
                     this.searchTimeout = false
                 }, 300)
             }
+        },
+        getEventDetail(eventID) {
+            let obj = this
+            $.ajax({
+                url: `${obj.agenda}get-event-detail/${eventID}`,
+                type: 'get',
+                dataType: 'json',
+                success: res => {
+                    obj.eventDetail = res
+                    obj.agendaStart = res.data.agenda_start
+                    obj.agendaEnd = res.data.agenda_end
+
+                    // set and re-initialize datepicker and timepicker
+                    let dateStart = obj.runDatePicker('#pickadate-edit-start').pickadate('picker')
+                    dateStart.set('select', res.dataForPlugin.agendaDateStart, { format: 'yyyy-mm-dd' })
+                    
+                    let dateEnd = obj.runDatePicker('#pickadate-edit-end').pickadate('picker')
+                    dateEnd.set('select', res.dataForPlugin.agendaDateEnd, { format: 'yyyy-mm-dd' })
+                    obj.setTimePicker({ 
+                        start: res.dataForPlugin.agendaTimeStart,
+                        end: res.dataForPlugin.agendaTimeEnd
+                    })
+                    
+                    // set fullDayEvent to true if started from 00:00 to 23:30
+                    if(res.dataForPlugin.agendaTimeStart === '00:00' 
+                    && res.dataForPlugin.agendaTimeEnd === '23:30') {
+                        obj.helper.fullDayEvent = true
+                    }
+
+                    // initialize full day event
+                    obj.setFullDayEvent({ fullDay: '#all-day-edit', pickatime: '.pickatime-edit' }, true)
+                    
+                    // initialize Switchery
+                    setTimeout(() => {
+                        obj.runSwitchery('#all-day-edit')
+                    }, 300);
+
+                    // set priority
+                    $(`input#${res.data.agenda_priority}`).iCheck('check')
+
+                    // loop guests from response, push them to guestWrapper, guestToDisplay
+                    res.guests.forEach(val => {
+                        obj.pushGuest({
+                            id: val.user_id,
+                            text: val.user_name,
+                        })
+                    })
+
+                    // show the modal
+                    $('#editAgenda').modal('show')                                            
+                }
+            })
+        },
+        setTimePicker(data) {
+            let timeStart = this.runTimePicker('#pickatime-edit-start').pickatime('picker')
+            timeStart.set('select', data.start)
+            setTimeout(() => {
+                let timeEnd = this.runTimePicker('#pickatime-edit-end').pickatime('picker')
+                timeEnd.set('select', data.end)                        
+            }, 50);
         },
         save() {
             this.filterGuest()
@@ -199,6 +262,37 @@ const agenda = new Vue({
 
             // execute them all!!
             postRequest()
+        },
+        showAddAgendaForm() {
+            $('#agendaModal').modal('show')
+
+            // as onModalClose() changes the value of this.helper.fullDayEvent
+            // to "false", we need to check if Switchery state is "checked" or not
+            // because we do not reset Switchery state when modal is closed
+            // so if Switchery is "checked", we have to change this.helper.fullDayEvent
+            // to "true" again so we can disable the time picker 
+            let sw = document.querySelector('#allDayEvent')
+            if(sw.checked) {
+                this.helper.fullDayEvent = true
+            }
+
+            // now initialize Switchery again
+            setTimeout(() => {
+                this.runSwitchery('#allDayEvent')                
+            }, 300);
+        },
+        onModalClose(target, isEditForm = false) {
+            let obj = this
+            $(target).on('hidden.bs.modal', function() {
+                obj.helper.fullDayEvent = false
+                obj.resetSwitchery()
+                if(isEditForm) {
+                    obj.guestWrapper = []
+                    obj.guestToDisplay = []
+                    obj.guestWrapperAll = []
+                    $('input#normal').iCheck('check')
+                }
+            })
         },
         uploadFile(insertID) {
             let form = document.forms.namedItem('upload-file'),
@@ -427,8 +521,9 @@ const agenda = new Vue({
             }, 300);
         },
         getEvents(defaultView, viewStart, viewEnd) {
+            let obj = this
             $.ajax({
-                url: `${this.agenda}get-events/${viewStart}/${viewEnd}`,
+                url: `${obj.agenda}get-events/${viewStart}/${viewEnd}`,
                 type: 'get',
                 dataType: 'json',
                 success: data => {
@@ -448,27 +543,35 @@ const agenda = new Vue({
                         timeFormat: 'HH:mm',
                         slotLabelFormat: 'HH:mm',
                         eventClick: function (calEvent, jsEvent, view) {
-                            alert(`Agenda ${calEvent.title} dengan ID ${calEvent.id}`)
+                            obj.getEventDetail(calEvent.id)
                         }
                     })
                 }
             })
         },
-        setFullDayEvent() {
-            let fullDay = document.querySelector('#allDayEvent')
+        setFullDayEvent(selector, isEdit = false) {
+            let fullDay = document.querySelector(selector.fullDay)
             let obj = this
             fullDay.onchange = function() {
                 obj.helper.fullDayEvent = fullDay.checked
                 $('input[name=timestart]').val(obj.helper.timeStart)
                 $('input[name=timeend]').val(obj.helper.timeEnd)
                 if(!fullDay.checked) {
-                    setTimeout(() => {
-                        obj.runTimePicker()
-                        $('input[name=timestart]').val('')
-                        $('input[name=timeend]').val('')
-                    }, 200)
+                    if(isEdit === false) {
+                        setTimeout(() => {
+                            obj.runTimePicker(selector.pickatime)
+                            $('input[name=timestart]').val('')
+                            $('input[name=timeend]').val('')
+                        }, 200)
+                    } else {
+                        obj.setTimePicker({
+                            start: obj.eventDetail.dataForPlugin.agendaTimeStart,
+                            end: obj.eventDetail.dataForPlugin.agendaTimeEnd,
+                        })
+                    }
                 } 
             }
+
         },
     },
     computed: {
@@ -490,5 +593,13 @@ const agenda = new Vue({
                 return ''
             }
         },
+        isFullDay() {
+            if(this.eventDetail.dataForPlugin.agendaTimeStart === '00:00' 
+            && this.eventDetail.dataForPlugin.agendaTimeEnd === '23:30') {
+                return 'checked'
+            } else {
+                return ''
+            }
+        }
     },
 })

@@ -15,6 +15,7 @@
             </div>            
             {+ include Actudent\Admin\Views\agenda\calendar +} 
             {+ include Actudent\Admin\Views\agenda\FormTambahAgenda +} 
+            {+ include Actudent\Admin\Views\agenda\FormEditAgenda +}
         </div>
     </div>
 </div>

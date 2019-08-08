@@ -11,6 +11,8 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
 
     private $QBAgendaUser;
 
+    private $QBUser;
+
     /**
      * Table definition
      * 
@@ -40,6 +42,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         $this->QBAgenda = $this->db->table($this->agenda);
         $this->QBParent = $this->db->table($this->parent);
         $this->QBAgendaUser = $this->db->table($this->agendaUser);
+        $this->QBUser = $this->db->table($this->user);
     }
 
     /**
@@ -57,6 +60,53 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
                  ->get()->getResult();
         
         return $query;
+    }
+
+    /**
+     * Get event's detail data
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getEventDetail($id)
+    {
+        return $this->QBAgenda->getWhere(['agenda_id' => $id])->getResult()[0];
+    }
+
+    /**
+     * Get event's guests
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getEventGuests($id)
+    {
+        $eventGuest = $this->QBAgendaUser->getWhere(['agenda_id' => $id])->getResult();
+
+        // process only if data is found
+        if(count($eventGuest) > 0)
+        {
+            $eventGuest = explode(',', $eventGuest[0]->guests);
+            $guests = [];
+            foreach($eventGuest as $g)
+            {
+                $guests[] = $this->findUser($g);
+            }
+    
+            return $guests;
+        }
+    }
+
+    /**
+     * Find a user based on user_id 
+     * 
+     * @param int $id
+     * @return object
+     */
+    private function findUser($id)
+    {
+        return $this->QBUser->select('user_id, user_name')
+               ->where('user_id', $id)->get()->getResult()[0];
     }
 
     /**

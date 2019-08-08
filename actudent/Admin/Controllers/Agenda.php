@@ -66,7 +66,7 @@ class Agenda extends \CodeIgniter\Controller
             {
                 // push the result into the wrapper
                 array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => "{$res->user_name}"]);
-                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->teacher_name} - {$res->grade_name}"]);
+                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->teacher_name}"]);
             }
 
             $output = [
@@ -77,6 +77,29 @@ class Agenda extends \CodeIgniter\Controller
             return $this->response->setJSON($output);
         }        
     }
+
+    public function getEventDetail($id)
+    {
+        $event          = $this->agenda->getEventDetail($id);
+        $agendaStart    = explode(' ', $event->agenda_start);
+        $agendaEnd      = explode(' ', $event->agenda_end);
+        
+        $dateTime = [
+            'agendaDateStart' => $agendaStart[0],
+            'agendaTimeStart' => substr($agendaStart[1], 0, 5),
+            'agendaDateEnd' => $agendaEnd[0],
+            'agendaTimeEnd' => substr($agendaEnd[1], 0, 5),
+        ];
+
+        $data = [
+            'data' => $event,
+            'dataForPlugin' => $dateTime,
+            'guests' => $this->agenda->getEventGuests($id),
+        ];
+
+        return $this->response->setJSON($data);
+    }
+    
 
     public function save()
     {
