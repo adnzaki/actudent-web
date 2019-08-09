@@ -135,12 +135,15 @@ const agenda = new Vue({
                     $(`input#${res.data.agenda_priority}`).iCheck('check')
 
                     // loop guests from response, push them to guestWrapper, guestToDisplay
-                    res.guests.forEach(val => {
-                        obj.pushGuest({
-                            id: val.user_id,
-                            text: val.user_name,
+                    if(res.guests !== null) {
+                        obj.hasAttachment = true
+                        res.guests.forEach(val => {
+                            obj.pushGuest({
+                                id: val.user_id,
+                                text: val.user_name,
+                            })
                         })
-                    })
+                    }
 
                     // show the modal
                     $('#editAgenda').modal('show')                                            
@@ -571,7 +574,6 @@ const agenda = new Vue({
                     }
                 } 
             }
-
         },
     },
     computed: {
