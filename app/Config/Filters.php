@@ -21,7 +21,7 @@ class Filters extends BaseConfig
 			// 'csrf',
 			'throttle',
 			'adminfilter' => ['except' => [
-				'admin/login', 'admin/login/validate', 'core/get-admin-lang',
+				'admin/login', 'admin/login/validate', 'core/get-admin-lang/*',
 				'showcase', 'admin/test-*',
 				]
 			],
