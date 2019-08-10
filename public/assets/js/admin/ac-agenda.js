@@ -28,7 +28,7 @@ const agenda = new Vue({
         helper: {
             fullDayEvent: false,
             timeStart: '00:00', timeEnd: '23:30',
-            hasAttachment: false,
+            hasAttachment: false, disableSaveButton: false,
         },
         locale: {
             english: 'en', indonesia: 'id'
@@ -65,6 +65,7 @@ const agenda = new Vue({
         this.onModalClose('#editAgenda', true)
         this.setFullDayEvent({ fullDay: '#allDayEvent', pickatime: '.pickatime-add' })
         this.getLanguageResources('AdminAgenda')
+        this.validateFile()
     },
     methods: {
         searchGuest() {
@@ -145,6 +146,10 @@ const agenda = new Vue({
                         })
                     }
 
+                    if(res.data.agenda_attachment !== null) {
+                        obj.helper.hasAttachment = true
+                    }
+
                     // show the modal
                     $('#editAgenda').modal('show')                                            
                 }
@@ -217,6 +222,11 @@ const agenda = new Vue({
                                 obj.alert.text = obj.lang.agenda_saving_progress
                             }, 3000);
                         } else {
+                            // if the form has attachment, upload it
+                            if(hasAttachment) {
+                                obj.uploadRequest(`${obj.agenda}upload/${res.insertID}`)
+                            }
+                            
                             obj.alert.show = false
                             // clear error messages if exists
                             obj.error = {}
@@ -238,12 +248,7 @@ const agenda = new Vue({
 
                             // reset guest
                             obj.guestToDisplay = []
-                            obj.guestWrapper = []
-
-                            // if the form has attachment, upload it
-                            if(hasAttachment) {
-                                obj.uploadFile(res.insertID)
-                            }
+                            obj.guestWrapper = []                            
 
                             // reload events on calendar
                             $('#fc-agenda-views').fullCalendar('destroy')
@@ -251,7 +256,8 @@ const agenda = new Vue({
 
                             // show success alert and close the modal
                             obj.alert.show = true
-                            $('#agendaModal').modal('hide')
+
+                            $('#agendaModal').modal('hide')                                
 
                             // hide success alert after 3500 ms
                             setTimeout(() => {
@@ -294,24 +300,38 @@ const agenda = new Vue({
                     obj.guestToDisplay = []
                     obj.guestWrapperAll = []
                     $('input#normal').iCheck('check')
+                    obj.helper.hasAttachment = false
                 }
             })
         },
         uploadFile(insertID) {
+            this.uploadRequest(`${this.agenda}upload/${insertID}`)
+        },
+        validateFile() {
+            let obj = this
+            $('input[name=agenda_attachment]').on('change', function() {
+                obj.uploadRequest(`${obj.agenda}validate-file`, true)
+            })
+        },
+        uploadRequest(url, validate = false) {
             let form = document.forms.namedItem('upload-file'),
                 data = new FormData(form),
                 req = new XMLHttpRequest
-                req.open('POST', `${this.agenda}upload/${insertID}`, true)
-                req.responseType = 'json'
-                req.onload = obj => {
-                    if(req.response.msg === 'OK') {
-                        this.error = {}
+            req.open('POST', url, true)
+            req.responseType = 'json'
+            req.onload = obj => {
+                if(req.response.msg === 'OK') {
+                    this.error = {}
+                    this.helper.disableSaveButton = false
+                    if(validate === false) {
                         document.getElementById('upload-file').reset()
-                    } else {
-                        this.error = req.response
                     }
+                } else {
+                    this.error = req.response
+                    this.helper.disableSaveButton = true
                 }
-                req.send(data)
+            }
+            req.send(data)
         },
         filterGuest() {
             // filter guest IDs before send them to server, no duplicate!

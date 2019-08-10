@@ -152,18 +152,8 @@ class Agenda extends \CodeIgniter\Controller
     }
 
     public function uploadFile($insertID)
-    {
-        $fileRules = [
-            'agenda_attachment' => 'uploaded[agenda_attachment]|mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
-        ];
-        $fileMessages = [
-            'agenda_attachment' => [
-                'uploaded' => 'File has been uploaded',
-                'mime_in' => lang('Admin.invalid_filetype'),
-                'max_size' => lang('Admin.file_too_large'),
-            ]
-        ];
-        $validated = $this->validate($fileRules, $fileMessages);
+    {        
+        $validated = $this->validateFile();
 
         if($validated) 
         {
@@ -179,6 +169,35 @@ class Agenda extends \CodeIgniter\Controller
         {
             return $this->response->setJSON(Actudent::$validation->getErrors());
         }
+    }
+
+    public function runFileValidation()
+    {
+        $validated = $this->validateFile();
+        if($validated)
+        {
+            return $this->response->setJSON(['msg' => 'OK']);
+        }
+        else 
+        {
+            return $this->response->setJSON(Actudent::$validation->getErrors());
+        }
+    }
+
+    private function validateFile()
+    {
+        $fileRules = [
+            'agenda_attachment' => 'uploaded[agenda_attachment]|mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
+        ];
+        $fileMessages = [
+            'agenda_attachment' => [
+                'uploaded' => 'File has been uploaded',
+                'mime_in' => lang('Admin.invalid_filetype'),
+                'max_size' => lang('Admin.file_too_large'),
+            ]
+        ];
+
+        return $this->validate($fileRules, $fileMessages);
     }
 
     private function formData()
