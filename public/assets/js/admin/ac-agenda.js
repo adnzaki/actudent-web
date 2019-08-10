@@ -304,9 +304,6 @@ const agenda = new Vue({
                 }
             })
         },
-        uploadFile(insertID) {
-            this.uploadRequest(`${this.agenda}upload/${insertID}`)
-        },
         validateFile() {
             let obj = this
             $('input[name=agenda_attachment]').on('change', function() {
