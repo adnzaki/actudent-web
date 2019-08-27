@@ -3,7 +3,7 @@
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\SettingModel;
 
-class Setting extends \CodeIgniter\Controller 
+class Setting extends Actudent
 {
     /**
      * @var Actudent\Admin\Models\SiswaModel
@@ -12,15 +12,14 @@ class Setting extends \CodeIgniter\Controller
 
     public function __construct()
     {
-        new Actudent;
         $this->setting = new SettingModel;
     }
 
     public function index()
 	{
-        $data = Actudent::common();
+        $data = $this->common();
         $data['title'] = 'Pengaturan';
-        return Actudent::$parser->setData($data)
+        return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\setting\setting-view');
     }
 

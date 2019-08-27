@@ -55,7 +55,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         $query = $this->QBAgenda->select('agenda_id, agenda_name, agenda_start, agenda_end')
                  ->where([
                      "{$this->agenda}.agenda_start >=" => $viewStart,
-                     "{$this->agenda}.agenda_start <" => $viewEnd
+                     "{$this->agenda}.agenda_start <=" => $viewEnd
                  ])
                  ->get()->getResult();
         
@@ -115,18 +115,11 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * @param array $data
      * @return int
      */
-    public function insert($data)
+    public function insert($value)
     {
-        $this->QBAgenda->insert([
-            'agenda_name'           => $data['agenda_name'],
-            'agenda_start'          => date('Y-m-d H:i:s', $data['agenda_start']),
-            'agenda_end'            => date('Y-m-d H:i:s', $data['agenda_end']),
-            'agenda_description'    => $data['agenda_description'],
-            'agenda_priority'       => $data['agenda_priority'],
-            'agenda_location'       => $data['agenda_location'],
-            'user_id'               => session()->get('id'),
-            'modified'              => date('Y-m-d H:i:s'),
-        ]);
+        $data = $this->fillAgendaField($value);
+        $data['user_id'] = session()->get('id');
+        $this->QBAgenda->insert($data);
         
         // insert data to tb_agenda
         $insertID = $this->db->insertID();
@@ -138,6 +131,45 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         }
 
         return $insertID;
+    }
+
+    /**
+     * Update agenda
+     * 
+     * @param array $data
+     * @param int $id
+     */
+    public function update($value, $id)
+    {
+        $data = $this->fillAgendaField($value);
+        $this->QBAgenda->update($data, ['agenda_id' => $id]);
+
+        if(! empty($data['agenda_guest']))
+        {
+            // insert guest IDs to tb_agenda_user
+            $this->updateAgendaGuests($data['agenda_guest'], $id);
+        }
+
+        return $id;
+    }
+
+    /**
+     * Data to be filled on tb_agenda
+     * 
+     * @param array $data
+     * @return array
+     */
+    private function fillAgendaField($data)
+    {
+        return [
+            'agenda_name'           => $data['agenda_name'],
+            'agenda_start'          => date('Y-m-d H:i:s', $data['agenda_start']),
+            'agenda_end'            => date('Y-m-d H:i:s', $data['agenda_end']),
+            'agenda_description'    => $data['agenda_description'],
+            'agenda_priority'       => $data['agenda_priority'],
+            'agenda_location'       => $data['agenda_location'],
+            'modified'              => date('Y-m-d H:i:s'),
+        ];
     }
 
     /**
@@ -168,6 +200,22 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
             'guests'   => $data,
             'modified'  => date('Y-m-d H:i:s'),
         ]);
+    }
+
+    /**
+     * Update guest IDs on tb_agenda_user
+     * 
+     * @param string $data
+     * @param int $id
+     * 
+     * @return void
+     */
+    private function updateAgendaGuests($data, $id)
+    {
+        $this->QBAgendaUser->update([
+            'guests'    => $data,
+            'modified'  => date('Y-m-d H:i:s'),
+        ], ['agenda_id' => $id]);
     }
 
     /**

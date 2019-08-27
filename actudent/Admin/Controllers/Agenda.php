@@ -3,7 +3,7 @@
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AgendaModel;
 
-class Agenda extends \CodeIgniter\Controller
+class Agenda extends Actudent
 {
     /**
      * @var Actudent\Admin\Models\AgendaModel
@@ -12,36 +12,42 @@ class Agenda extends \CodeIgniter\Controller
 
     public function __construct()
     {
-        new Actudent;
         $this->agenda = new AgendaModel;
     }
 
     public function index()
 	{
-        $data = Actudent::common();
+        $data = $this->common();
         $data['title'] = 'Agenda';
 
-        return Actudent::$parser->setData($data)
+        return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\agenda\agenda-view');
     }
 
     public function getEvents($viewStart, $viewEnd)
     {
-        $events = $this->agenda->getEvents($viewStart, $viewEnd);
-        $formatted = [];
-        foreach($events as $key)
+        if(session('email') !== null)
         {
-            $data = [];
-            
-            // match format that supported by FullCalendar
-            $data['id'] = $key->agenda_id;
-            $data['title'] = $key->agenda_name;
-            $data['start'] = str_replace(' ', 'T', $key->agenda_start);
-            $data['end'] = str_replace(' ', 'T', $key->agenda_end);
-            array_push($formatted, $data);
+            $events = $this->agenda->getEvents($viewStart, $viewEnd);
+            $formatted = [];
+            foreach($events as $key)
+            {
+                $data = [];
+                
+                // match format that supported by FullCalendar
+                $data['id'] = $key->agenda_id;
+                $data['title'] = $key->agenda_name;
+                $data['start'] = str_replace(' ', 'T', $key->agenda_start);
+                $data['end'] = str_replace(' ', 'T', $key->agenda_end);
+                array_push($formatted, $data);
+            }
+    
+            return $this->response->setJSON($formatted);
         }
-
-        return $this->response->setJSON($formatted);
+        else 
+        {
+            return $this->response->setJSON('Session expired');
+        }
     }
 
     public function searchGuest($keyword = '')
@@ -82,13 +88,15 @@ class Agenda extends \CodeIgniter\Controller
     {
         $event          = $this->agenda->getEventDetail($id);
         $agendaStart    = explode(' ', $event->agenda_start);
-        $agendaEnd      = explode(' ', $event->agenda_end);
+        $agendaEnd      = explode(' ', $event->agenda_end);        
         
         $dateTime = [
             'agendaDateStart' => $agendaStart[0],
             'agendaTimeStart' => substr($agendaStart[1], 0, 5),
             'agendaDateEnd' => $agendaEnd[0],
             'agendaTimeEnd' => substr($agendaEnd[1], 0, 5),
+            'agenda_start' => strtotime($event->agenda_start),
+            'agenda_end' => strtotime($event->agenda_end),
         ];
 
         $data = [
@@ -101,23 +109,40 @@ class Agenda extends \CodeIgniter\Controller
     }
     
 
-    public function save()
+    public function save($id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]
         if(! $this->validate($validation[0], $validation[1]))
         {
             return $this->response->setJSON([
                 'code' => '500',
-                'msg' => Actudent::$validation->getErrors(),
+                'msg' => $this->validation->getErrors(),
             ]);
         }
         else 
         {
             $data = $this->formData();
-            return $this->response->setJSON([
-                'code' => '200',
-                'insertID' => $this->agenda->insert($data), // return the insert_id
-            ]);
+            if($id === null) 
+            {
+                $response = [
+                    'code' => '200',
+                    'id' => $this->agenda->insert($data), // return the insert_id
+                ];
+            }
+            else 
+            {
+                if(! empty($data['file_uploaded']))
+                {
+                    $path = PUBLICPATH . 'attachments/agenda/';
+                    unlink($path . $data['file_uploaded']);
+                }
+                
+                $response = [
+                    'code' => '200',
+                    'id' => $this->agenda->update($data, $id), // return the agenda_id
+                ];
+            }
+            return $this->response->setJSON($response);
         }
     }
 
@@ -167,7 +192,7 @@ class Agenda extends \CodeIgniter\Controller
         }
         else 
         {
-            return $this->response->setJSON(Actudent::$validation->getErrors());
+            return $this->response->setJSON($this->validation->getErrors());
         }
     }
 
@@ -180,14 +205,14 @@ class Agenda extends \CodeIgniter\Controller
         }
         else 
         {
-            return $this->response->setJSON(Actudent::$validation->getErrors());
+            return $this->response->setJSON($this->validation->getErrors());
         }
     }
 
     private function validateFile()
     {
         $fileRules = [
-            'agenda_attachment' => 'uploaded[agenda_attachment]|mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
+            'agenda_attachment' => 'mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
         ];
         $fileMessages = [
             'agenda_attachment' => [
@@ -210,6 +235,7 @@ class Agenda extends \CodeIgniter\Controller
             'agenda_priority'       => $this->request->getPost('agenda_priority'),
             'agenda_location'       => $this->request->getPost('agenda_location'),
             'agenda_guest'          => $this->request->getPost('agenda_guest'),
+            'file_uploaded'         => $this->request->getPost('file_uploaded'),
         ];
 
         return $data;

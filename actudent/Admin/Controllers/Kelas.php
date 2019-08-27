@@ -3,7 +3,7 @@
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\KelasModel;
 
-class Kelas extends \CodeIgniter\Controller
+class Kelas extends Actudent
 {
     /**
      * @var Actudent\Admin\Models\KelasModel
@@ -12,16 +12,15 @@ class Kelas extends \CodeIgniter\Controller
 
     public function __construct()
     {
-        new Actudent;
         $this->kelas = new KelasModel;
     }
 
     public function index()
 	{
-        $data = Actudent::common();
+        $data = $this->common();
         $data['title'] = 'Kelas';
 
-        return Actudent::$parser->setData($data)
+        return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\kelas\kelas-view');
     }
 

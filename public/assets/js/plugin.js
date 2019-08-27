@@ -81,9 +81,9 @@ const plugin = {
 			return $(el).pickadate({
 				selectMonths: true,
 				selectYears: true,
-				min: true, // set minimal tanggal hari ini
 				hiddenName: true,
 				formatSubmit: 'yyyy-mm-dd',
+				firstDay: 0,
 			});
 		},
 		runTimePicker(el) {

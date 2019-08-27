@@ -3,7 +3,7 @@
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AuthModel;
 
-class Auth extends \CodeIgniter\Controller
+class Auth extends Actudent
 {
     /**
      * @var Actudent\Core\Models\AuthModel
@@ -12,7 +12,6 @@ class Auth extends \CodeIgniter\Controller
 
     public function __construct()
     {
-        new Actudent;
         $this->auth = new AuthModel;
     }
 
@@ -24,16 +23,16 @@ class Auth extends \CodeIgniter\Controller
         }
         else 
         {            
-            $data = Actudent::common();
+            $data = $this->common();
 
             // set default language when no there is no language option
             // default language will be set to Bahasa Indonesia if there is no session found
             $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';
 
             // set app language based on default language
-            Actudent::setLanguage($defaultLang);
+            $this->setLanguage($defaultLang);
             $data['title'] = 'Autentikasi';
-            return Actudent::$parser->setData($data)
+            return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\auth');
         }        
     }
@@ -52,7 +51,7 @@ class Auth extends \CodeIgniter\Controller
                 'userLevel' => $pengguna->user_level,
                 'logged_in' => true
             ];
-            Actudent::$session->set($session);
+            $this->session->set($session);
             $this->auth->statusJaringan('online', $username);
             echo 'valid';
         }
@@ -65,9 +64,9 @@ class Auth extends \CodeIgniter\Controller
     public function logout()
     {
         // save language option after user has been logged out from the app
-        Actudent::setLanguage(Actudent::getUserLanguage());
+        $this->setLanguage($this->getUserLanguage());
         $this->auth->statusJaringan('offline', $_SESSION['email']);
-        Actudent::$session->remove(['email', 'nama', 'userLevel', 'logged_in']);
+        $this->session->remove(['email', 'nama', 'userLevel', 'logged_in']);
         return redirect()->to(site_url('admin/login'));
     }
 }

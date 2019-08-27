@@ -200,7 +200,7 @@ aria-hidden="true">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-warning" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="save"> {+ lang Admin.simpan +}</button>
+                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="save()"> {+ lang Admin.simpan +}</button>
             </div>
         </div>
     </div>
