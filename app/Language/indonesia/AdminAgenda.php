@@ -45,5 +45,7 @@ return [
     'agenda_all_walikelas'              => 'Semua wali kelas terkait pencarian',
     'agenda_all_parent'                 => 'Semua orang tua murid terkait pencarian',
     'agenda_walikelas_list'             => 'Daftar wali kelas terkait pencarian',
-    'agenda_parent_list'                => 'Daftar orang tua murid terkait pencarian'
+    'agenda_parent_list'                => 'Daftar orang tua murid terkait pencarian',
+    'agenda_delete_progress'            => 'Menghapus agenda...',
+    'agenda_delete_success'             => 'Berhasil menghapus agenda',
 ];

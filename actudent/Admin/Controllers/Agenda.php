@@ -108,6 +108,11 @@ class Agenda extends Actudent
         return $this->response->setJSON($data);
     }
     
+    public function delete($id)
+    {
+        $this->agenda->delete($id);
+        return $this->response->setJSON(['status' => 'OK']);
+    }
 
     public function save($id = null)
     {
@@ -216,7 +221,6 @@ class Agenda extends Actudent
         ];
         $fileMessages = [
             'agenda_attachment' => [
-                'uploaded' => 'File has been uploaded',
                 'mime_in' => lang('Admin.invalid_filetype'),
                 'max_size' => lang('Admin.file_too_large'),
             ]

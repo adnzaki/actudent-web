@@ -55,7 +55,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         $query = $this->QBAgenda->select('agenda_id, agenda_name, agenda_start, agenda_end')
                  ->where([
                      "{$this->agenda}.agenda_start >=" => $viewStart,
-                     "{$this->agenda}.agenda_start <=" => $viewEnd
+                     "{$this->agenda}.agenda_start <" => $viewEnd
                  ])
                  ->get()->getResult();
         
@@ -151,6 +151,23 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         }
 
         return $id;
+    }
+
+    /**
+     * Delete agenda and related data
+     * 
+     * @param int $id 
+     * @return void
+     */
+    public function delete($id)
+    {
+        // transaction started
+        $this->db->transStart();
+        $this->QBAgendaUser->delete(['agenda_id' => $id]);
+        $this->QBAgenda->delete(['agenda_id' => $id]);
+
+        // transaction complete
+        $this->db->transComplete();
     }
 
     /**

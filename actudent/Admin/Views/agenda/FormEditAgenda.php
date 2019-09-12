@@ -1,6 +1,6 @@
 <!-- Success message -->
 <alert-msg alert-class="bg-success" 
-    header="{+ lang Admin.sukses +}" :text="lang.agenda_edit_success" v-if="alert.show">
+    header="{+ lang Admin.sukses +}" :text="alert.text" v-if="alert.show">
 </alert-msg>
 <!-- Start modal form -->
 <div class="modal fade text-left" id="editAgenda" role="dialog" aria-labelledby="myModalLabel2"
@@ -98,8 +98,8 @@ aria-hidden="true">
                         </div>  
 
                         <div class="form-group mt-1">
-                            <input type="checkbox" id="all-day-edit" :checked="isFullDay" class="switchery"/>
-                            <label for="allDayEvent">{{ lang.agenda_label_allday }}</label>
+                            <input type="checkbox" id="all-day-edit" class="switchery"/>
+                            <label for="all-day-edit">{{ lang.agenda_label_allday }}</label>
                         </div>
 
                         <div class="form-group">
@@ -216,10 +216,23 @@ aria-hidden="true">
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger"> {+ lang Admin.hapus +}</button>
-                <button type="button" class="btn btn-outline-warning" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" 
-                @click="save(true, eventDetail.data.agenda_id)"> {+ lang Admin.simpan +}</button>
+                <div class="col-12 text-right" v-if="helper.showSaveButton">
+                    <button type="button" class="btn btn-outline-danger" @click="toggleFormAction()"> {+ lang Admin.hapus +}</button>
+                    <button type="button" class="btn btn-outline-warning" data-dismiss="modal"> {+ lang Admin.batal +}</button>
+                    <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" 
+                    @click="save(true, eventDetail.data.agenda_id)"> {+ lang Admin.simpan +}</button>
+                </div>
+                <div class="col-12" v-if="helper.showDeleteButton">
+                    <div class="row">
+                        <div class="col-12"><p>{+ lang Admin.sure_to_delete +}</p></div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <button type="button" class="btn btn-outline-warning" @click="toggleFormAction('edit')"> {+ lang Admin.batal +}</button>
+                            <button type="button" class="btn btn-outline-danger" @click="deleteAgenda"> OK</button>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
