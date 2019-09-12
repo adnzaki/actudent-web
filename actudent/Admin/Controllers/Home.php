@@ -3,7 +3,7 @@
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AuthModel;
 
-class Home extends \CodeIgniter\Controller
+class Home extends Actudent
 {
     /**
      * @var Actudent\Admin\Models\AuthModel
@@ -12,15 +12,14 @@ class Home extends \CodeIgniter\Controller
 
     public function __construct()
     {
-        new Actudent;
         $this->auth = new AuthModel;
     }
 
     public function index()
 	{
-        $data = Actudent::common();
+        $data = $this->common();
         $data['title'] = 'Actudent CI4 Home';
-        return Actudent::$parser->setData($data)
+        return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\dashboard\home');
     }
 

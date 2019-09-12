@@ -45,5 +45,7 @@ return [
     'agenda_all_walikelas'              => 'All homeroom teachers related to',
     'agenda_all_parent'                 => 'All parents related to',
     'agenda_walikelas_list'             => 'Homeroom teacher list related to',
-    'agenda_parent_list'                => 'Parent list related to'
+    'agenda_parent_list'                => 'Parent list related to',
+    'agenda_delete_progress'            => 'Deleting agenda...',
+    'agenda_delete_success'             => 'Successfully deleted agenda',
 ];

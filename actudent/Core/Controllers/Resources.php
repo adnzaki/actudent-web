@@ -1,16 +1,7 @@
 <?php namespace Actudent\Core\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
-
-class Resources extends \CodeIgniter\Controller
+class Resources extends Actudent
 {
-
-    private $actudent;
-
-    public function __construct()
-    {
-        $this->actudent = new Actudent;
-    }
 
     /**
      * Admin locale resources
@@ -23,7 +14,7 @@ class Resources extends \CodeIgniter\Controller
     {
         if(isset($_SESSION['email']))
         {
-            $bahasa = $this->actudent->getUserLanguage();
+            $bahasa = $this->getUserLanguage();
         }
         elseif(isset($_SESSION['actudent_lang']))
         {

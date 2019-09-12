@@ -4,7 +4,7 @@ use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\SiswaModel;
 use Actudent\Admin\Models\KelasModel;
 
-class Siswa extends \CodeIgniter\Controller
+class Siswa extends Actudent
 {
     /**
      * @var Actudent\Admin\Models\SiswaModel
@@ -18,17 +18,16 @@ class Siswa extends \CodeIgniter\Controller
 
     public function __construct()
     {
-        new Actudent;
         $this->siswa = new SiswaModel;
         $this->kelas = new KelasModel;
     }
 
     public function index()
 	{
-        $data = Actudent::common();
+        $data = $this->common();
         $data['title'] = 'Siswa';
 
-        return Actudent::$parser->setData($data)
+        return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\siswa\siswa-view');
     }
 

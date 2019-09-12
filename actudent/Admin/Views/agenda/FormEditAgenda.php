@@ -1,6 +1,6 @@
 <!-- Success message -->
 <alert-msg alert-class="bg-success" 
-    header="{+ lang Admin.sukses +}" :text="lang.agenda_edit_success" v-if="alert.show">
+    header="{+ lang Admin.sukses +}" :text="alert.text" v-if="alert.show">
 </alert-msg>
 <!-- Start modal form -->
 <div class="modal fade text-left" id="editAgenda" role="dialog" aria-labelledby="myModalLabel2"
@@ -35,9 +35,9 @@ aria-hidden="true">
                         <div class="row">
                             <div class="col-md-7 col-sm-7 col-12">
                                 <div class="form-group">
-                                    <input type="hidden" name="agenda_start" v-model="agendaStart">
+                                    <input type="hidden" name="agenda_start" v-model="agendaStartEdit">
                                     <div class="input-group">
-                                        <input type='text' name="agendaDateStart" id="pickadate-edit-start"
+                                        <input type='text' name="agendaDateStartEdit" id="pickadate-edit-start"
                                         class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_start" />
                                         <div class="input-group-append">
                                             <span class="input-group-text border-primary">
@@ -56,7 +56,7 @@ aria-hidden="true">
                                                 <span class="ft-clock"></span>
                                             </span>
                                         </div>
-                                        <input type='text' name="timestart" :disabled="helper.fullDayEvent" id="pickatime-edit-start"
+                                        <input type='text' name="timestartEdit" :disabled="helper.fullDayEvent" id="pickatime-edit-start"
                                         :class="['form-control border-primary pickatime-edit', timepickerStatus]" :placeholder="lang.agenda_label_timestart" />
                                     </div>
                                 </div>
@@ -69,9 +69,9 @@ aria-hidden="true">
                         <div class="row">
                             <div class="col-md-7 col-sm-7 col-12">
                                 <div class="form-group">
-                                    <input type="hidden" name="agenda_end" v-model="agendaEnd">
+                                    <input type="hidden" name="agenda_end" v-model="agendaEndEdit">
                                     <div class="input-group">
-                                        <input type='text' name="agendaDateEnd" id="pickadate-edit-end"
+                                        <input type='text' name="agendaDateEndEdit" id="pickadate-edit-end"
                                         class="form-control border-primary pickadate-selectors" :placeholder="lang.agenda_input_end" />
                                         <div class="input-group-append">
                                             <span class="input-group-text border-primary">
@@ -90,7 +90,7 @@ aria-hidden="true">
                                                 <span class="ft-clock"></span>
                                             </span>
                                         </div>
-                                        <input type='text' name="timeend" :disabled="helper.fullDayEvent" id="pickatime-edit-end"
+                                        <input type='text' name="timeendEdit" :disabled="helper.fullDayEvent" id="pickatime-edit-end"
                                         :class="['form-control border-primary pickatime-edit', timepickerStatus]" :placeholder="lang.agenda_label_timeend" />
                                     </div>
                                 </div>
@@ -98,8 +98,8 @@ aria-hidden="true">
                         </div>  
 
                         <div class="form-group mt-1">
-                            <input type="checkbox" id="all-day-edit" :checked="isFullDay" class="switchery"/>
-                            <label for="allDayEvent">{{ lang.agenda_label_allday }}</label>
+                            <input type="checkbox" id="all-day-edit" class="switchery"/>
+                            <label for="all-day-edit">{{ lang.agenda_label_allday }}</label>
                         </div>
 
                         <div class="form-group">
@@ -200,24 +200,39 @@ aria-hidden="true">
                             </div>
                         </div>
                     </div>
+                    <input type="hidden" name="file_uploaded" id="file_uploaded" v-model="helper.fileUploaded">
                 </form>
-                <div class="form-group">
-                    <label v-if="helper.hasAttachment">{{ lang.agenda_label_att_name }} 
+                <div class="form-group">                    
+                    <label v-if="helper.hasAttachment">{{ lang.agenda_label_att_name }}                         
                         <a target="_blank" class="text-primary" :href="'{base_url}attachments/agenda/' + eventDetail.data.agenda_attachment">
                             <strong>{{ eventDetail.data.agenda_attachment }}</strong>
                         </a> 
                     </label>
                     <label>{{ lang.agenda_label_att }}</label>
-                    <form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
+                    <form action="" name="update-file" id="update-file" method="post" enctype="multipart/form-data">
                         <input class="form-control border-primary" type="file" name="agenda_attachment">
                     </form>
                     <form-error :msg="error.agenda_attachment" />
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger"> {+ lang Admin.hapus +}</button>
-                <button type="button" class="btn btn-outline-warning" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" class="btn btn-outline-primary" @click="save"> {+ lang Admin.simpan +}</button>
+                <div class="col-12 text-right" v-if="helper.showSaveButton">
+                    <button type="button" class="btn btn-outline-danger" @click="toggleFormAction()"> {+ lang Admin.hapus +}</button>
+                    <button type="button" class="btn btn-outline-warning" data-dismiss="modal"> {+ lang Admin.batal +}</button>
+                    <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" 
+                    @click="save(true, eventDetail.data.agenda_id)"> {+ lang Admin.simpan +}</button>
+                </div>
+                <div class="col-12" v-if="helper.showDeleteButton">
+                    <div class="row">
+                        <div class="col-12"><p>{+ lang Admin.sure_to_delete +}</p></div>
+                    </div>                    
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <button type="button" class="btn btn-outline-warning" @click="toggleFormAction('edit')"> {+ lang Admin.batal +}</button>
+                            <button type="button" class="btn btn-outline-danger" @click="deleteAgenda"> OK</button>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>

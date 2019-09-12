@@ -35,4 +35,5 @@ return [
     'indonesia'          => 'Indonesian',
     'file_too_large'     => 'File size is too large',
     'invalid_filetype'   => 'File format is not valid',
+    'sure_to_delete'     => 'Are you sure want to delete this data?',
 ];

@@ -35,5 +35,6 @@ return [
     'indonesia'           => 'Bahasa Indonesia',
     'file_too_large'      => 'Ukuran file terlalu besar',
     'invalid_filetype'    => 'Format file tidak valid',
+    'sure_to_delete'      => 'Apakah anda yakin ingin menghapus data ini?',
 ];
 

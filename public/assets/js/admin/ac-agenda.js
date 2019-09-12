@@ -23,12 +23,14 @@ const agenda = new Vue({
         },        
         transitionClass: {
             enter: 'animated slideInLeft',
-            leave: 'animated slideOutRight'
+            leave: 'animated slideOutRight',
         },
         helper: {
             fullDayEvent: false,
             timeStart: '00:00', timeEnd: '23:30',
             hasAttachment: false, disableSaveButton: false,
+            fileUploaded: '',
+            showSaveButton: true, showDeleteButton: false,
         },
         locale: {
             english: 'en', indonesia: 'id'
@@ -43,12 +45,20 @@ const agenda = new Vue({
         guestToDisplay: [],
         // data that come from "Semua wali kelas xxx" or "Semua wali murid xxx"
         guestWrapperAll: [],
-        agendaStart: '', agendaEnd: '',
+        agendaStart: '', agendaEnd: '', agendaStartEdit: '', agendaEndEdit: '',
         eventDetail: { data: '', dataForPlugin: '', guests: '' },
     },
     mounted() {
-        this.fullCalendar.defaultStart = moment().startOf('month').format('YYYY-MM-DD')
-        this.fullCalendar.defaultEnd = moment().endOf('month').format('YYYY-MM-DD')
+        let thisMonth, nextMonth, start, end
+            
+        thisMonth = moment().get('month')
+        nextMonth = thisMonth + 1
+
+        start = moment().startOf('month')
+        end = moment().month(nextMonth).startOf('month')
+        this.fullCalendar.defaultStart = start.format('YYYY-MM-DD')
+        this.fullCalendar.defaultEnd = end.format('YYYY-MM-DD')
+
         this.getEvents(
             this.fullCalendar.view, 
             this.fullCalendar.defaultStart, 
@@ -65,7 +75,6 @@ const agenda = new Vue({
         this.onModalClose('#editAgenda', true)
         this.setFullDayEvent({ fullDay: '#allDayEvent', pickatime: '.pickatime-add' })
         this.getLanguageResources('AdminAgenda')
-        this.validateFile()
     },
     methods: {
         searchGuest() {
@@ -97,6 +106,7 @@ const agenda = new Vue({
             }
         },
         getEventDetail(eventID) {
+            this.validateFile('update-file')
             let obj = this
             $.ajax({
                 url: `${obj.agenda}get-event-detail/${eventID}`,
@@ -104,8 +114,8 @@ const agenda = new Vue({
                 dataType: 'json',
                 success: res => {
                     obj.eventDetail = res
-                    obj.agendaStart = res.data.agenda_start
-                    obj.agendaEnd = res.data.agenda_end
+                    obj.agendaStartEdit = res.dataForPlugin.agenda_start
+                    obj.agendaEndEdit = res.dataForPlugin.agenda_end
 
                     // set and re-initialize datepicker and timepicker
                     let dateStart = obj.runDatePicker('#pickadate-edit-start').pickadate('picker')
@@ -118,26 +128,30 @@ const agenda = new Vue({
                         end: res.dataForPlugin.agendaTimeEnd
                     })
                     
-                    // set fullDayEvent to true if started from 00:00 to 23:30
-                    if(res.dataForPlugin.agendaTimeStart === '00:00' 
-                    && res.dataForPlugin.agendaTimeEnd === '23:30') {
-                        obj.helper.fullDayEvent = true
-                    }
-
-                    // initialize full day event
-                    obj.setFullDayEvent({ fullDay: '#all-day-edit', pickatime: '.pickatime-edit' }, true)
                     
                     // initialize Switchery
                     setTimeout(() => {
                         obj.runSwitchery('#all-day-edit')
+                        // set fullDayEvent to true if started from 00:00 to 23:30
+                        if(res.dataForPlugin.agendaTimeStart === '00:00' 
+                        && res.dataForPlugin.agendaTimeEnd === '23:30') {
+                            obj.helper.fullDayEvent = true
+                            let sw = document.querySelector('#all-day-edit')
+                            if(!sw.checked) {
+                                sw.click()
+                            }
+                        }
+    
+                        // initialize full day event
+                        obj.setFullDayEvent({ fullDay: '#all-day-edit', pickatime: '.pickatime-edit' }, true)
                     }, 300);
+                    
 
                     // set priority
                     $(`input#${res.data.agenda_priority}`).iCheck('check')
 
                     // loop guests from response, push them to guestWrapper, guestToDisplay
                     if(res.guests !== null) {
-                        obj.hasAttachment = true
                         res.guests.forEach(val => {
                             obj.pushGuest({
                                 id: val.user_id,
@@ -163,14 +177,35 @@ const agenda = new Vue({
                 timeEnd.set('select', data.end)                        
             }, 50);
         },
-        save() {
+        save(edit = false, id = null) {
             this.filterGuest()
-            let form = $('#formTambahAgenda')
+            var form, url, uploadSelector,
+                dateStartSelector, dateEndSelector,
+                timeStartSelector, timeEndSelector
+
+            if(edit) {
+                form = $('#formEditAgenda')
+                url = `${this.agenda}save/${id}`
+                uploadSelector = 'update-file'
+                dateStartSelector = 'agendaDateStartEdit'
+                dateEndSelector = 'agendaDateEndEdit'
+                timeStartSelector = 'timestartEdit'
+                timeEndSelector = 'timeendEdit'
+            } else {
+                form = $('#formTambahAgenda')
+                url = `${this.agenda}save`
+                uploadSelector = 'upload-file'
+                dateStartSelector = 'agendaDateStart'
+                dateEndSelector = 'agendaDateEnd'
+                timeStartSelector = 'timestart'
+                timeEndSelector = 'timeend'
+            }
+
             let beforeRequest = () => {
-                let dateStart = $('input[name=agendaDateStart]').val(),
-                    dateEnd = $('input[name=agendaDateEnd]').val(),
-                    timeStart = $('input[name=timestart]').val(),
-                    timeEnd = $('input[name=timeend]').val()       
+                let dateStart = $(`input[name=${dateStartSelector}]`).val(),
+                    dateEnd = $(`input[name=${dateEndSelector}]`).val(),
+                    timeStart = $(`input[name=${timeStartSelector}]`).val(),
+                    timeEnd = $(`input[name=${timeEndSelector}]`).val()       
                 
                 if(this.helper.fullDayEvent) {
                     timeStart = this.helper.timeStart
@@ -184,6 +219,8 @@ const agenda = new Vue({
                 // only get the first 10 chars to match PHP timestamp
                 this.agendaStart = eventStart.substr(0,10)
                 this.agendaEnd = eventEnd.substr(0,10)
+                this.agendaStartEdit = eventStart.substr(0,10)
+                this.agendaEndEdit = eventEnd.substr(0,10)
             }
 
             let obj = this
@@ -193,19 +230,27 @@ const agenda = new Vue({
 
                 // do the post request!
                 let data = form.serialize(),
-                    fileInput = $('input[name=agenda_attachment]').val(),
-                    hasAttachment
-                (fileInput !== '') ? hasAttachment = true : hasAttachment = false
+                    hasAttachment,
+                    fileInput = $(`#${uploadSelector} input[name=agenda_attachment]`).val()
+
+                if(fileInput !== '') {
+                    hasAttachment = true
+                } else {
+                    hasAttachment = false
+                }
+
                 $.ajax({
-                    url: `${obj.agenda}save`,
+                    url: url,
                     type: 'POST',
                     dataType: 'json',
                     data: data,
                     beforeSend: () => {
                         obj.alert.text = obj.lang.agenda_saving_progress
                         obj.alert.show = true
+                        obj.helper.disableSaveButton = true
                     },
                     success: res => {
+                        obj.helper.disableSaveButton = false
                         if(res.code === '500') {
                             obj.error = res.msg
 
@@ -214,7 +259,7 @@ const agenda = new Vue({
                             obj.alert.header = 'Error!'
                             obj.alert.text = obj.lang.agenda_error_text
 
-                            // hide after 3000 ms and change the class and text
+                            // hide after 3000 ms and change the class and text to default
                             setTimeout(() => {
                                 obj.alert.show = false
                                 obj.alert.class = 'bg-primary'
@@ -224,45 +269,15 @@ const agenda = new Vue({
                         } else {
                             // if the form has attachment, upload it
                             if(hasAttachment) {
-                                obj.uploadRequest(`${obj.agenda}upload/${res.insertID}`)
+                                obj.uploadRequest(`${obj.agenda}upload/${res.id}`, uploadSelector)
                             }
                             
-                            obj.alert.show = false
-                            // clear error messages if exists
-                            obj.error = {}
-
-                            // reset form
-                            form.trigger('reset')
-
-                            // set fullDayEvent to false
-                            let switchery = document.querySelector('#allDayEvent')
-                            obj.helper.fullDayEvent = false
-                            switchery.click()
-                            if(switchery.checked === true) {
-                                switchery.click()
-                                obj.helper.fullDayEvent = false
-                            }                            
-
-                            // set priority to normal by re-running iCheck
-                            obj.runICheck()
-
-                            // reset guest
-                            obj.guestToDisplay = []
-                            obj.guestWrapper = []                            
-
-                            // reload events on calendar
-                            $('#fc-agenda-views').fullCalendar('destroy')
-                            obj.getEvents(obj.fullCalendar.view, obj.fullCalendar.defaultStart, obj.fullCalendar.defaultEnd)
-
-                            // show success alert and close the modal
-                            obj.alert.show = true
-
-                            $('#agendaModal').modal('hide')                                
-
-                            // hide success alert after 3500 ms
-                            setTimeout(() => {
-                                obj.alert.show = false
-                            }, 3500);
+                            // reset everything
+                            if(edit) {
+                                obj.resetForm(form, 'edit')
+                            } else {
+                                obj.resetForm(form, 'insert')
+                            }
                         }
                     },
                     error: () => console.error('Network error')
@@ -271,9 +286,10 @@ const agenda = new Vue({
 
             // execute them all!!
             postRequest()
-        },
+        },        
         showAddAgendaForm() {
             $('#agendaModal').modal('show')
+            this.validateFile('upload-file')
 
             // as onModalClose() changes the value of this.helper.fullDayEvent
             // to "false", we need to check if Switchery state is "checked" or not
@@ -290,28 +306,115 @@ const agenda = new Vue({
                 this.runSwitchery('#allDayEvent')                
             }, 300);
         },
+        deleteAgenda() {
+            let obj = this
+            $.ajax({
+                url: `${this.agenda}delete/${this.eventDetail.data.agenda_id}`,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: () => {
+                    obj.alert.text = obj.lang.agenda_delete_progress
+                    obj.alert.show = true
+                    obj.helper.disableSaveButton = true
+                },
+                success: msg => {
+                    obj.helper.disableSaveButton = false
+                    this.helper.showDeleteButton = false
+                    this.helper.showSaveButton = true
+                    obj.resetForm($('#formEditAgenda'), 'delete')
+                }
+            })
+        },
+        resetForm(form, type) {
+            let obj = this
+            obj.alert.show = false
+            // clear error messages if exists
+            obj.error = {}
+
+            // reset form
+            form.trigger('reset')
+
+            // set fullDayEvent to false
+            let switchery
+            if(type === 'edit') {
+                switchery = document.querySelector('#all-day-edit')
+            } else {
+                switchery = document.querySelector('#allDayEvent')
+            }
+            obj.helper.fullDayEvent = false
+            switchery.click()
+            if(switchery.checked === true) {
+                switchery.click()
+                obj.helper.fullDayEvent = false
+            }                            
+
+            // set priority to normal by re-running iCheck
+            obj.runICheck()
+
+            // reset guest
+            obj.guestToDisplay = []
+            obj.guestWrapper = []                            
+
+            // reload events on calendar
+            $('#fc-agenda-views').fullCalendar('destroy')
+            obj.getEvents(obj.fullCalendar.view, obj.fullCalendar.defaultStart, obj.fullCalendar.defaultEnd)
+
+            // show success alert and close the modal
+            obj.alert.show = true    
+            if(type === 'insert') {
+                obj.alert.text = obj.lang.agenda_insert_success 
+            } else if(type === 'edit') {
+                obj.alert.text = obj.lang.agenda_edit_success                        
+            } else {
+                obj.alert.text = obj.lang.agenda_delete_success
+            }
+
+            $('#agendaModal').modal('hide')   
+            $('#editAgenda').modal('hide')
+
+            // hide success alert after 3500 ms
+            setTimeout(() => {
+                obj.alert.show = false
+            }, 3500);
+        },
+        toggleFormAction(event = 'delete') {
+            if(event === 'edit') {
+                this.helper.showDeleteButton = false
+                this.helper.showSaveButton = true
+            } else {
+                this.helper.showSaveButton = false
+                this.helper.showDeleteButton = true
+            }
+        },
         onModalClose(target, isEditForm = false) {
             let obj = this
             $(target).on('hidden.bs.modal', function() {
                 obj.helper.fullDayEvent = false
                 obj.resetSwitchery()
+                obj.error = {}
                 if(isEditForm) {
                     obj.guestWrapper = []
                     obj.guestToDisplay = []
                     obj.guestWrapperAll = []
                     $('input#normal').iCheck('check')
                     obj.helper.hasAttachment = false
+                    obj.helper.fileUploaded = ''
+                    let formUpload = document.forms.namedItem('update-file')
+                    formUpload.reset()
                 }
             })
         },
-        validateFile() {
+        validateFile(formName) {
             let obj = this
             $('input[name=agenda_attachment]').on('change', function() {
-                obj.uploadRequest(`${obj.agenda}validate-file`, true)
+                obj.uploadRequest(`${obj.agenda}validate-file`, formName, true)
+                if(obj.eventDetail.data.agenda_attachment !== undefined) {
+                    obj.helper.fileUploaded = obj.eventDetail.data.agenda_attachment
+                }
             })
         },
-        uploadRequest(url, validate = false) {
-            let form = document.forms.namedItem('upload-file'),
+        uploadRequest(url, formName, validate = false) {
+            let form = document.forms.namedItem(formName),
                 data = new FormData(form),
                 req = new XMLHttpRequest
             req.open('POST', url, true)
@@ -321,7 +424,7 @@ const agenda = new Vue({
                     this.error = {}
                     this.helper.disableSaveButton = false
                     if(validate === false) {
-                        document.getElementById('upload-file').reset()
+                        document.getElementById(formName).reset()
                     }
                 } else {
                     this.error = req.response
@@ -572,16 +675,24 @@ const agenda = new Vue({
         setFullDayEvent(selector, isEdit = false) {
             let fullDay = document.querySelector(selector.fullDay)
             let obj = this
+            let timestart, timeend
+            if(isEdit) {
+                timestart = 'timestartEdit'
+                timeend = 'timeendEdit'
+            } else {
+                timestart = 'timestart'
+                timeend = 'timeend'
+            }
             fullDay.onchange = function() {
                 obj.helper.fullDayEvent = fullDay.checked
-                $('input[name=timestart]').val(obj.helper.timeStart)
-                $('input[name=timeend]').val(obj.helper.timeEnd)
+                $(`input[name=${timestart}]`).val(obj.helper.timeStart)
+                $(`input[name=${timeend}]`).val(obj.helper.timeEnd)
                 if(!fullDay.checked) {
                     if(isEdit === false) {
                         setTimeout(() => {
                             obj.runTimePicker(selector.pickatime)
-                            $('input[name=timestart]').val('')
-                            $('input[name=timeend]').val('')
+                            $(`input[name=${timestart}]`).val('')
+                            $(`input[name=${timeend}]`).val('')
                         }, 200)
                     } else {
                         obj.setTimePicker({
@@ -612,13 +723,5 @@ const agenda = new Vue({
                 return ''
             }
         },
-        isFullDay() {
-            if(this.eventDetail.dataForPlugin.agendaTimeStart === '00:00' 
-            && this.eventDetail.dataForPlugin.agendaTimeEnd === '23:30') {
-                return 'checked'
-            } else {
-                return ''
-            }
-        }
     },
 })
