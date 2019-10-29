@@ -4,8 +4,7 @@
  * ACTUDENT - Attitude Control for Student
  * This is the core of Actudent web app version. Everything is set to make this source
  * code maintainable for long-time use.
- * This class must be initialized in the constructor of other classes
- * that would call any method or property in this class.
+ * Every controller must extend this class in order to make this app runs as expected
  * 
  * @copyright   Wolestech (c) 2019
  * @author      WolesDev Team
