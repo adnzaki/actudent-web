@@ -603,26 +603,24 @@ const agenda = new Vue({
         execNav(today = false) {
             let obj = this
             obj.fullCalendar.show = false
-            setTimeout(() => {
-                let my = obj.eventLoadTrigger(),    
-                    view,
-                    start, end
-                
-                if(today) {
-                    start = obj.fullCalendar.defaultStart
-                    end = obj.fullCalendar.defaultEnd
-                } else {
-                    start = moment([my.start[2], my.start[1], my.start[0]]).format('YYYY-MM-DD') 
-                    end = moment([my.end[2], my.end[1], my.end[0]]).format('YYYY-MM-DD') 
-                }
-                obj.execFullCalendar(start, end)
-            }, 300)
+            let my = obj.eventLoadTrigger(),    
+                view,
+                start, end
+            
+            if(today) {
+                start = obj.fullCalendar.defaultStart
+                end = obj.fullCalendar.defaultEnd
+            } else {
+                start = moment([my.start[2], my.start[1], my.start[0]]).format('YYYY-MM-DD') 
+                end = moment([my.end[2], my.end[1], my.end[0]]).format('YYYY-MM-DD') 
+            }
+            obj.execFullCalendar(start, end)
         },
         eventLoadTrigger() {
             let intervalStart = $('#fc-agenda-views').fullCalendar('getView').intervalStart,    
                 intervalEnd = $('#fc-agenda-views').fullCalendar('getView').intervalEnd,
                 dateStart = intervalStart._d,
-                dateEnd = intervalEnd._d
+                dateEnd = intervalEnd._d,
                 dayStart = dateStart.getDate(),
                 dayEnd = dateEnd.getDate(),
                 monthStart = dateStart.getMonth(),
