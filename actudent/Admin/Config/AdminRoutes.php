@@ -33,4 +33,6 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-path', 'Test::getAttPath');
 	$routes->add('test-insert-id', 'Test::insertIDTest');
 	$routes->add('test-data', 'Test::testData');
+	$routes->add('template/icons', 'Template::icons');
+	$routes->add('template/buttons', 'Template::buttons');
 });
