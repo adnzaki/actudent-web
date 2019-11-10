@@ -108,7 +108,14 @@ const plugin = {
 				})
 			}
 		},
-		resetSwitchery(elem) {
+		resetSwitchery(edit = false) {
+			if(edit) {
+				let sw = document.querySelector('#all-day-edit')
+				if(sw.checked) {
+					sw.click()
+				}
+			} 
+			
 			// remove existing Switchery 
 			let sw = this.swObject
 			if(sw.length === 1) {

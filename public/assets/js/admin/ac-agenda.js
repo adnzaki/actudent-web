@@ -397,6 +397,7 @@ const agenda = new Vue({
                     obj.guestToDisplay = []
                     obj.guestWrapperAll = []
                     $('input#normal').iCheck('check')
+                    obj.resetSwitchery(true)
                     obj.helper.hasAttachment = false
                     obj.helper.fileUploaded = ''
                     let formUpload = document.forms.namedItem('update-file')
