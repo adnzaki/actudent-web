@@ -24,6 +24,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('agenda/validate-file', 'Agenda::runFileValidation');
 	$routes->add('agenda/upload/(:any)', 'Agenda::uploadFile/$1');
 	$routes->add('agenda/delete/(:any)', 'Agenda::delete/$1');
+	$routes->add('timeline', 'Timeline::index');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

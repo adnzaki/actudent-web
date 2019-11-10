@@ -7,6 +7,7 @@ return [
     'menu_kehadiran'     => 'Presence',
     'menu_agenda'        => 'Agenda',
     'menu_jadwal'        => 'Schedules',
+    'menu_timeline'      => 'Timeline',
     'menu_pesan'         => 'Messages',
     'menu_nilai'         => 'Scores',
     'menu_pengaturan'    => 'Settings',
