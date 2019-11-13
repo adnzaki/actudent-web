@@ -14,7 +14,7 @@
         <a href="{admin}agenda"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_agenda +}</span></a>
       </li>
       <li class="{+ menu_active uri=timeline +} nav-item">
-        <a href="{admin}timeline"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>
+        <a href="{admin}timeline"><i class="la la-history"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>
       </li>
       <li class="{+ menu_active uri=siswa +} nav-item">
         <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_siswa +}</span></a>
