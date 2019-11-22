@@ -89,3 +89,13 @@
 .expand-card-body {
 	min-height: 800px;
 }
+
+#timeline.timeline-center .timeline-item:nth-child(odd),
+#timeline.timeline-center .timeline-item:nth-child(even) {
+	padding-bottom: 0 !important; 
+}
+
+.reduce-card-body {
+	padding-bottom: 0.5rem !important;
+	padding-top: 0.5rem !important;
+}

@@ -7,7 +7,7 @@
 
 const agenda = new Vue({
     el: '#agenda-content',
-    mixins: [SSPaging, plugin],
+    mixins: [plugin],
     data: {
         agenda: `${admin}agenda/`,
         error: {},

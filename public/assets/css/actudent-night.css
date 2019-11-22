@@ -175,3 +175,17 @@ select.picker__select--year option, select.picker__select--month option {
     border: 1px solid #43454A;
     color: #f5f5f5;
 }
+
+#timeline.timeline-center .timeline-item:nth-child(even):before {
+    border-left: 12px solid #2C303B !important;
+    z-index: 100 !important;
+}
+
+#timeline.timeline-center .timeline-item:nth-child(odd):before {
+    border-right: 12px solid #2C303B !important;
+    z-index: 100 !important;
+}
+
+.card-footer {
+	border-top: 1px solid #11041A24;
+}
