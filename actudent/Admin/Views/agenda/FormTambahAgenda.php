@@ -193,7 +193,7 @@ aria-hidden="true">
                 <div class="form-group">
                     <label>{{ lang.agenda_label_att }}</label>
                     <form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
-                        <input class="form-control border-primary" type="file" name="agenda_attachment">
+                        <input class="form-control border-primary" type="file" accept="application/pdf" name="agenda_attachment">
                     </form>
                     <form-error :msg="error.agenda_attachment" />
                 </div>
