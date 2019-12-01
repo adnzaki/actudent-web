@@ -40,6 +40,19 @@
                 height: 350,
                 focus: true,
                 lang: this.summernoteLang[bahasa],
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontname', ['fontname']],
+                    ['color', ['color']],
+                    ['para', ['paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['height', ['height']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+                codeviewFilter: true,
+                codeviewIframeFilter: true
             })
 
             $('.summernote .modal-header').addClass(`${modalHeaderColor}`)
