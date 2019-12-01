@@ -12,9 +12,11 @@
         timeline: `${admin}timeline/`,
         error: {},
         posts: [],
+        summernoteLang: { 'indonesia': 'id-ID', 'english': 'en-US' }
     },
     mounted() {
-        this.getLanguageResources('AdminAgenda')
+        this.runSummerNote()            
+        this.getLanguageResources('AdminTimeline')
         this.getPosts(10, 0)
     },
     methods: {
@@ -32,6 +34,25 @@
                     this.posts = data
                 }
             })
+        },
+        runSummerNote() {
+            $('#summernote').summernote({
+                height: 350,
+                focus: true,
+                lang: this.summernoteLang[bahasa],
+            })
+
+            $('.summernote .modal-header').addClass(`${modalHeaderColor}`)
+            $('.summernote .modal-title').addClass('white')
+            $('.summernote .note-image-input').removeClass('form-control-file')
+            $('.summernote .note-image-input').addClass('form-control')
+            $('.summernote .close').removeAttr('data-dismiss')
+            $('.summernote .close').on('click', function() { 
+                $('.summernote .modal').modal('hide') 
+            })
+		},
+        showAddPostForm() {
+            $('#addPostForm').modal('show')
         },
     }
  })

@@ -6,6 +6,10 @@
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/js/gallery/photo-swipe/photoswipe.css">
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/js/gallery/photo-swipe/default-skin/default-skin.css">
   <link rel="stylesheet" type="text/css" href="{appAssets}css/pages/timeline.css">
+  <!-- <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/editors/summernote.css"> -->
+  <link rel="stylesheet" type="text/css" href="{assets}js/lib/summernote/summernote.css">
+  <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/editors/codemirror.css">
+  <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/editors/theme/monokai.css">
 </head>
 <body class="vertical-layout vertical-menu 2-columns {bodyColor} menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
@@ -32,6 +36,14 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   {+ include Actudent\Core\Views\component\footer +} 
   <!-- BEGIN VENDOR JS-->
   {+ include Actudent\Core\Views\component\scripts +} 
+
+  <script src="{appAssets}vendors/js/editors/codemirror/lib/codemirror.js" type="text/javascript"></script>
+  <script src="{appAssets}vendors/js/editors/codemirror/mode/xml/xml.js" type="text/javascript"></script>
+  <!-- <script src="{appAssets}vendors/js/editors/summernote/summernote.min.js" type="text/javascript"></script> -->
+  <script src="{assets}js/lib/summernote/summernote.js" type="text/javascript"></script>
+  {if $bahasa === 'indonesia'}
+    <script src="{assets}js/lib/summernote/summernote-id-ID.js" type="text/javascript"></script>
+  {endif}
   <script src="{appAssets}vendors/js/gallery/masonry/masonry.pkgd.min.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/gallery/photo-swipe/photoswipe.min.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/gallery/photo-swipe/photoswipe-ui-default.min.js" type="text/javascript"></script>

@@ -189,3 +189,30 @@ select.picker__select--year option, select.picker__select--month option {
 .card-footer {
 	border-top: 1px solid #11041A24;
 }
+
+.note-btn.btn.btn-default.btn-sm {
+    background-color: #2b2626;
+	color: #f5f5f5;
+}
+
+.note-btn.btn.btn-default.btn-sm.note-current-color-button {
+	color: #000;
+}
+
+.note-editor.note-frame {
+	border: 1.5px solid #242424 !important;
+}
+
+.note-toolbar.panel-heading,
+.dropdown-menu {
+    background-color: #191a20;
+}
+
+.modal-header {
+    background-color: #464855 !important;
+    color: white;
+}
+
+kbd {
+    background-color: #435a88 !important;
+}

@@ -30,6 +30,7 @@ return [
     'batal'             => 'Cancel',
     'simpan'            => 'Save',
     'simpan_tutup'      => 'Save and close',
+    'perbarui'          => 'Update',
     'sukses'            => 'Success!',
     'terapkan'          => 'Apply',
     'english'           => 'English (US)',

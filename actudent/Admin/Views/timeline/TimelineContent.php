@@ -105,4 +105,5 @@
 			</div>
         </li>
 	</ul>
+	{+ include Actudent\Admin\Views\timeline\CreatePost +}
 </section>
