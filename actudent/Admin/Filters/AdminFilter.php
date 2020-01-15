@@ -10,7 +10,7 @@ class AdminFilter implements FilterInterface
     {
         if(session('email') === null || session('userLevel') !== '1')
         {
-            return redirect()->to(site_url('admin/login'));
+            return redirect()->to(base_url('admin/login'));
         }
     }
 
