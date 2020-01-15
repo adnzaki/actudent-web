@@ -2,9 +2,6 @@
 	<h3 class="page-title text-center {cardTitleColor}">{+ lang AdminTimeline.timeline_subtitle +}</h3>
 	<ul class="timeline">
 		<li class="timeline-line"></li>
-		<!-- <li class="timeline-group">
-			<a href="#" class="btn btn-primary"><i class="la la-calendar-o"></i> Today</a>
-		</li> -->
 	</ul>
 	<ul class="timeline">
 		<li class="timeline-line"></li>
@@ -64,31 +61,6 @@
 											</a>
 										</li>
 									</ul>
-									<!-- <div class="media">
-										<div class="media-left pr-1">
-											<a href="#">
-												<span class="avatar avatar-online">
-													<img src="{appAssets}images/portrait/small/avatar-s-18.png"
-														alt="avatar">
-												</span>
-											</a>
-										</div>
-										<div class="media-body">
-											<p class="text-bold-600 mb-0"><a href="#">Janice Johnston</a></p>
-											<p>Gravida nulla. Nulla vel metus scelerisque ante sollicitudin.</p>
-											<ul class="list-inline mb-1">
-												<li class="pr-1">
-													<a href="#" class="">
-														<span class="la la-thumbs-o-up"></span> Like</a>
-												</li>
-												<li class="pr-1">
-													<a href="#" class="">
-														<span class="la la-commenting-o"></span> Replay
-													</a>
-												</li>
-											</ul>
-										</div>
-									</div> -->
 								</div>
 							</div>
 						</div>
