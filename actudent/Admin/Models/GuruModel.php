@@ -68,7 +68,7 @@ class GuruModel extends \Actudent\Core\Models\ModelHandler
         //          JOIN tb_student_grade ON tb_student_grade.studentID = tb_student.studentID
         //          JOIN tb_grade ON tb_grade.gradeID = tb_student_grade.gradeID 
         $field = 'teacher_name, teacher_phone';
-        $join = $this->QBGuru->select($field)
+        $join = $this->QBGuru->select($field);
                 // ->join($this->kelasSiswa, "{$this->kelasSiswa}.student_id = {$this->siswa}.student_id")
                 // ->join($this->kelas, "{$this->kelas}.grade_id = {$this->kelasSiswa}.grade_id");
         
