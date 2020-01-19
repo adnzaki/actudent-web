@@ -4,6 +4,18 @@
       <li class="{+ menu_active uri=home +} nav-item">
         <a href="{admin}home"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_dashboard +}</span></a>
       </li>
+      <li class=" nav-item"><a href="#"><i class="la la-database"></i><span class="menu-title" data-i18n="nav.icons.main">{+ lang Admin.menu_master +}</span></a>
+        <ul class="menu-content">
+          <li class="{+ menu_active uri=siswa +}"><a class="menu-item" href="{admin}siswa" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_siswa +}</a>
+          </li>
+          <li class="{+ menu_active uri=aaa +}"><a class="menu-item" href="#" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_parent +}</a>
+          </li>
+          <li class="{+ menu_active uri=kelas +}"><a class="menu-item" href="{admin}siswa" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_kelas +}</a>
+          </li>
+          <li class="{+ menu_active uri=aaa +}"><a class="menu-item" href="#" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_guru +}</a>
+          </li>
+        </ul>
+      </li>
       <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kehadiran +}</span></a>
       </li>
@@ -15,15 +27,6 @@
       </li>
       <li class="{+ menu_active uri=timeline +} nav-item">
         <a href="{admin}timeline"><i class="la la-history"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>
-      </li>
-      <li class="{+ menu_active uri=siswa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_siswa +}</span></a>
-      </li>
-      <li class="{+ menu_active uri=kelas +} nav-item">
-        <a href="{admin}kelas"><i class="la la-bank"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kelas +}</span></a>
-      </li>
-      <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_guru +}</span></a>
       </li>
       <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="{admin}siswa"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span></a>

@@ -2,7 +2,9 @@
 return [   
     // teks side menu 
     'menu_dashboard'     => 'Dashboard',
+    'menu_master'        => 'Master Data',
     'menu_siswa'         => 'Student',
+    'menu_parent'        => 'Parent',
     'menu_kelas'         => 'Grade',
     'menu_kehadiran'     => 'Presence',
     'menu_agenda'        => 'Agenda',
