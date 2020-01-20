@@ -11,6 +11,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('siswa/get-kelas', 'Siswa::getKelas');
 	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5/$6');
 	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5');
+	$routes->add('orang-tua', 'Ortu::index');
+	$routes->add('orang-tua/get-ortu', 'Ortu::getParents');
 	$routes->add('kelas', 'Kelas::index');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
