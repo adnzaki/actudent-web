@@ -27,8 +27,13 @@ class Ortu extends Actudent
                 ->render('Actudent\Admin\Views\ortu\ortu-view');
     }
 
-    public function getParents()
+    public function getParents($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
-        return $this->response->setJSON($this->ortu->getParents());
+        $data = $this->ortu->getParents($limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->ortu->getParentRows($searchBy, $search);
+        return $this->response->setJSON([
+            'container' => $data,
+            'totalRows' => $rows,
+        ]);
     }
 }

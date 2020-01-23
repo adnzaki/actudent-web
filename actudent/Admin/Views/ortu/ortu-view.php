@@ -17,7 +17,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
     <div class="content-wrapper">
       <div class="content-header row">
       </div>
-      <div class="content-body" id="siswa-content">
+      <div class="content-body" id="ortu-content">
       {+ include Actudent\Admin\Views\ortu\content +} 
       </div>
     </div>
@@ -27,7 +27,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- BEGIN VENDOR JS-->
   {+ include Actudent\Core\Views\component\scripts +} 
   <script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
-  <script src="{assets}js/admin/ac-siswa.js" type="text/javascript"></script>
+  <script src="{assets}js/admin/ac-ortu.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>
