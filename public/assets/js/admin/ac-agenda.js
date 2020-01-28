@@ -70,7 +70,7 @@ const agenda = new Vue({
         }, 1000);
         this.runDatePicker('.pickadate-add')
         this.runTimePicker('.pickatime-add')
-        this.runICheck()     
+        this.runICheck('red')     
         this.onModalClose('#agendaModal')
         this.onModalClose('#editAgenda', true)
         this.setFullDayEvent({ fullDay: '#allDayEvent', pickatime: '.pickatime-add' })

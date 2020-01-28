@@ -92,10 +92,10 @@ const plugin = {
 				formatSubmit: 'HH:i',
 			});
 		},
-		runICheck() {
+		runICheck(color) {
 			$('.skin-square input').iCheck({
-				checkboxClass: 'icheckbox_square-red',
-				radioClass: 'iradio_square-red',
+				checkboxClass: 'icheckbox_square-' + color,
+				radioClass: 'iradio_square-' + color,
 			});
 		},
 		runSwitchery(el) {
