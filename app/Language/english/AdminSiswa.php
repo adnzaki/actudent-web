@@ -2,10 +2,11 @@
 
 return [
     // teks halaman data siswa
+    'page_title'         => 'Student',
     'siswa_title'        => 'Student Data',
     'siswa_cari'         => 'Search for name, NIS, grade',
     'siswa_nama'         => 'Student Name',
-    'siswa_kk'           => 'Family Card Number',
+    'siswa_kk'           => 'Family ID',
     'siswa_label_ayah'   => 'Father Name',
     'siswa_label_ibu'    => 'Mother Name',
     'siswa_label_telp'   => 'Phone Number',
@@ -13,7 +14,7 @@ return [
     'siswa_add_title'    => 'Add new student',
     'siswa_nis'          => 'Register Number',
     'siswa_input_nama'   => 'Student full name',
-    'siswa_input_kk'     => 'Family Card Number',
+    'siswa_input_kk'     => 'Valid Family ID Number',
     'siswa_input_ayah'   => 'Father full name',
     'siswa_input_ibu'    => 'Mother full name',
     'siswa_input_telp'   => 'Active phone/mobile number',

@@ -18,7 +18,7 @@ class Setting extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Pengaturan';
+        $data['title'] = lang('AdminSetting.page_title');
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\setting\setting-view');
     }
