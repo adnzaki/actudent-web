@@ -44,5 +44,7 @@ return [
     'balasan'           => 'balasan',
     'view'              => 'tampilan',
     'komentar'          => 'Komentar',
+    'bersihkan'         => 'Bersihkan',
+    'hasil_cari'        => 'Hasil pencarian untuk',
 ];
 
