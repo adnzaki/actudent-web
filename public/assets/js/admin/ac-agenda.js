@@ -89,6 +89,7 @@ const agenda = new Vue({
                     let keyword
                     if(this.searchParam === '') {
                         keyword = ''
+                        this.guests = []
                     } else {
                         keyword = `/${this.searchParam}`
                     }
