@@ -4,7 +4,7 @@
             <div class="col-12 col-md-4 col-lg-6 col-xl-7">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#iconModal">{+ lang Admin.tambah +}
+                        data-toggle="modal" data-target="#tambahOrtuModal">{+ lang Admin.tambah +}
                     </button>
                     <button type="button" class="btn btn-outline-danger"></i> {+ lang Admin.hapus +}</button>
                 </div>
@@ -22,7 +22,7 @@
                 <fieldset>
                     <div class="input-group">
                         <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
-                        placeholder="Cari nama, NIS, kelas" aria-describedby="button-addon2">
+                        placeholder="{+ lang AdminOrtu.ortu_cari +}" aria-describedby="button-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" @click="filter">Go</button>
                         </div>
@@ -33,18 +33,24 @@
     </div>
     <div class="table-responsive">
         <table class="table table-hover mb-0 cursor-pointer">
-        <thead>
+        <thead class="skin skin-square">
             <tr>
-                <th>#</th>
+                <th><input type="checkbox" id="input-1"></th>
                 <th @click="sortData('parent_family_card')">{+ lang AdminOrtu.ortu_kk +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_father_name')">{+ lang AdminOrtu.ortu_label_ayah +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_mother_name')">{+ lang AdminOrtu.ortu_label_ibu +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_phone_number')">{+ lang AdminOrtu.ortu_label_telp +}<i class="la la-sort"></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="">
             <tr v-for="(item, index) in data" :key="index">
-                <td scope="row">{{ index + 1 }}</td>
+                <td scope="row">
+                    <div class="skin skin-square">
+                        <fieldset>
+                            <input type="checkbox" :id="'p-' + index">
+                        </fieldset>                    
+                    </div>
+                </td>
                 <td>{{ item.parent_family_card }}</td>
                 <td>{{ item.parent_father_name }}</td>
                 <td>{{ item.parent_mother_name }}</td>

@@ -18,18 +18,16 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     private $QBStudent;
 
     /**
+     * Query Builder for table tb_user
+     */
+    private $QBUser;
+
+    /**
      * Table tb_parent
      * 
      * @var string
      */
     private $parent = 'tb_parent';
-    
-    /**
-     * Table tb_student_parent
-     * 
-     * @var string
-     */
-    private $studentParent = 'tb_student_parent';
 
     /**
      * Table tb_student
@@ -37,6 +35,13 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      * @var string
      */
     private $student = 'tb_student';
+
+    /**
+     * Table tb_user
+     * 
+     * @var string
+     */
+    private $user = 'tb_user';
     
     /**
      * Load the tables...
@@ -45,8 +50,8 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     {
         parent::__construct();
         $this->QBParent = $this->db->table($this->parent);
-        $this->QBStudentParent = $this->db->table($this->studentParent);
         $this->QBStudent = $this->db->table($this->student);
+        $this->QBUser = $this->db->table($this->user);
     }
 
     /**
@@ -78,6 +83,72 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
         $query = $this->search($searchBy, $search);
 
         return $query->countAllResults();
+    }
+
+    /**
+     * Insert parent data
+     * 
+     * @return
+     */
+    public function insert($value)
+    {
+        $data = $this->fillParentField($value);
+        $this->QBParent->insert($data);
+    }
+
+    /**
+     * Fill tb_parent field with these data
+     * 
+     * @param array $data
+     * @return array
+     */
+    private function fillParentField($data)
+    {
+        return [
+            'user_id'               => $data['user_id'],
+            'parent_family_card'    => $data['parent_family_card'],
+            'parent_father_name'    => $data['parent_father_name'],
+            'parent_mother_name'    => $data['parent_mother_name'],
+            'parent_phone_number'   => $data['parent_phone_number'],
+            'modified'              => date('Y-m-d H:i:s'),
+        ];
+    }
+
+    /**
+     * Select user account for parent user auth
+     * 
+     * @param int $userID
+     * @return bool|object
+     */
+    public function selectUser($userID)
+    {
+        $query = $this->QBParent->select('user_id')
+                 ->where('user_id', $userID);
+        if($query->countAllResults() > 0)
+        {
+            return false;
+        }
+        else 
+        {
+            $findUser = $this->QBUser->select('user_id, user_email, user_name')
+                        ->where('user_id', $userID);
+            return $findUser->get()->getResult();
+        }
+
+    }
+
+    /**
+     * Search user account
+     * 
+     * @param string $param
+     * @return object
+     */
+    public function searchUser($param)
+    {
+        $field = 'user_id, user_name, user_email';
+        $select = $this->QBUser->select($field);
+        $select->like('user_name', $param)->where('user_level', 3); 
+        return $select->orderBy('user_name', 'ASC')->get()->getResult();
     }
     
     /**
@@ -112,41 +183,5 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
         }
 
         return $select;
-    }
-
-    /**
-     * Get the children of a parent
-     * 
-     * @param int $id
-     * @return object
-     */
-    public function getParentChildren($id)
-    {
-        $parentChildren = $this->QBStudentParent->getWhere(['parent_id' => $id])->getResult();
-
-        // process only if data is found
-        if(count($parentChildren) > 0)
-        {
-            $parentChildren = explode(',', $parentChildren[0]->children);
-            $children = [];
-            foreach($parentChildren as $c)
-            {
-                $children[] = $this->findStudent($c);
-            }
-    
-            return $children;
-        }
-    }
-
-    /**
-     * Find a student based on student_id
-     * 
-     * @param int $id
-     * @return object
-     */
-    private function findStudent($id)
-    {
-        return $this->QBStudent->select('student_nis, student_name')
-               ->where('student_id', $id)->get()->getResult()[0];
     }
 }

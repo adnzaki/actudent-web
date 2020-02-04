@@ -14,6 +14,7 @@
                 </div>
             </div>
             {+ include Actudent\Admin\Views\ortu\DataOrtu +}
+            {+ include Actudent\Admin\Views\ortu\FormTambahOrtu +}
         </div>
     </div>
 </div>
