@@ -238,3 +238,7 @@ kbd {
 	word-wrap: break-word;
 	background-color: #464855 !important;
 }
+
+table tr:hover {
+    background-color: #2e3c45 !important;
+}
