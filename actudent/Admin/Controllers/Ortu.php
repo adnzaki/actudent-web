@@ -66,22 +66,6 @@ class Ortu extends Actudent
         }
     }
 
-    public function selectUser($userID)
-    {
-        $check = $this->ortu->selectUser($userID);
-        if(! $check)
-        {
-            return $this->response->setJSON(['msg' => lang('AdminOrtu.ortu_user_selected')]);
-        }
-        else 
-        {
-            return $this->response->setJSON([
-                'msg' => 'OK',
-                'data' => $check[0],
-            ]);
-        }
-    }
-
     private function validation($id)
     {
         $form = $this->formData();
@@ -138,13 +122,11 @@ class Ortu extends Actudent
 
             foreach($insertRules as $rule => $val)
             {
-                //array_push($rules[$rule], $val);
                 $rules[$rule] = $val;
             }
 
             foreach($insertMessages as $msg => $val)
             {
-                //array_push($messages[$key], $val);
                 $messages[$msg] = $val;
             }
         }
