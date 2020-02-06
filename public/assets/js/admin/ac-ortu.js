@@ -32,7 +32,7 @@ const ortu = new Vue({
         }, 200);
         this.domain = domainSekolah
         this.runSelect2()
-        this.select2ShowPerPage('#showRows')
+        this.select2ShowPerPage('#showRows', 'blue')
         this.getLanguageResources('AdminOrtu')
     },
     methods: {
@@ -52,6 +52,7 @@ const ortu = new Vue({
             })
         },
         getDetailOrtu(id) {
+            this.error = {}
             $('#editOrtuModal').modal('show')
             $.ajax({
                 url: `${this.ortu}detail/${id}`,
@@ -99,7 +100,7 @@ const ortu = new Vue({
                             obj.alert.show = false
                             obj.alert.class = 'bg-primary'
                             obj.alert.header = ''
-                            obj.alert.text = obj.lang.ortu_save_progress
+                            obj.alert.text = ''
                         }, 3000);
                     } else {
                         if(edit) {

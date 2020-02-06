@@ -56,13 +56,18 @@ class Ortu extends Actudent
         else 
         {
             $data = $this->formData();
-            $this->ortu->insert($data);
             if($id === null) 
             {
-                return $this->response->setJSON([
-                    'code' => '200',
-                ]);
+                $this->ortu->insert($data);
             }
+            else
+            {
+                $this->ortu->update($data, $id);
+            }
+            
+            return $this->response->setJSON([
+                'code' => '200',
+            ]);
         }
     }
 
@@ -70,10 +75,10 @@ class Ortu extends Actudent
     {
         $form = $this->formData();
         $rules = [
-            'parent_family_card'    => 'required|numeric|exact_length[16]|is_unique[tb_parent.parent_family_card]',
+            'parent_family_card'    => "required|numeric|exact_length[16]|is_unique[tb_parent.parent_family_card,parent_id,$id]",
             'parent_father_name'    => 'required',
             'parent_mother_name'    => 'required',
-            'parent_phone_number'   => 'required|numeric|min_length[11]|max_length[13]',            
+            'parent_phone_number'   => 'required|numeric|min_length[11]|max_length[13]',
         ];
 
         $messages = [

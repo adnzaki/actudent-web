@@ -6,13 +6,19 @@ const plugin = {
 		this.swObject = document.getElementsByClassName('switchery-small')
 	},
 	methods: {
-		select2ShowPerPage(element) {
+		select2ShowPerPage(element, iCheck = '') {
 			var obj = this
 			$(element).on('select2:select', function (e) {
 				var data = e.params.data
 				obj.rows = data.id
 				obj.showPerPage()
+				if(iCheck !== '') {
+					setTimeout(() => {
+						obj.runICheck(iCheck)					
+					}, 500);
+				}
 			})
+
 		},
 		getLanguageResources(files) {
 			$.ajax({

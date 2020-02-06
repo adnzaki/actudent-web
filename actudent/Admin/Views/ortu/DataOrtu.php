@@ -40,10 +40,11 @@
                 <th @click="sortData('parent_father_name')">{+ lang AdminOrtu.ortu_label_ayah +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_mother_name')">{+ lang AdminOrtu.ortu_label_ibu +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_phone_number')">{+ lang AdminOrtu.ortu_label_telp +}<i class="la la-sort"></th>
+                <th>{+ lang Admin.aksi +}</th>
             </tr>
         </thead>
-        <tbody class="">
-            <tr v-for="(item, index) in data" :key="index">
+        <tbody>
+            <tr v-for="(item, index) in data" :key="index" class="soft-dark">
                 <td scope="row">
                     <div class="skin skin-square">
                         <fieldset>
@@ -55,6 +56,17 @@
                 <td>{{ item.parent_father_name }}</td>
                 <td>{{ item.parent_mother_name }}</td>
                 <td>{{ item.parent_phone_number }}</td>
+                <td>
+                    <button type="button" class="btn btn-icon btn-info mr-1" 
+                        data-toggle="tooltip" data-placement="top" title="{+ lang Admin.perbarui +}"
+                        @click="getDetailOrtu(item.parent_id)">
+                        <i class="la la-pencil"></i>
+                    </button>
+                    <button type="button" class="btn btn-icon btn-danger mr-1"
+                        data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}">
+                        <i class="la la-trash"></i>
+                    </button>
+                </td>
             </tr>
         </tbody>
         </table>

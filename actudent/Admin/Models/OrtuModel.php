@@ -114,7 +114,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Insert parent data
      * 
-     * @return
+     * @return void
      */
     public function insert($value)
     {
@@ -130,6 +130,19 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
         $parent['user_id'] = $userID;
 
         $this->QBParent->insert($parent);
+    }
+
+    /**
+     * Update parent data
+     * 
+     * @param int $id 
+     * 
+     * @return void
+     */
+    public function update($value, $id)
+    {
+        $data = $this->fillParentField($value);
+        $this->QBParent->update($data, ['parent_id' => $id]);
     }
 
     /**
