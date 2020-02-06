@@ -20,7 +20,7 @@ const ortu = new Vue({
             showSaveButton: true, showDeleteButton: false,
         },
         parentDetail: [], userEmail: '', domain: '',
-        userName: '', motherName: '', fatherName: '',
+        motherName: '', fatherName: '',
     },
     mounted() {
         this.reset()
@@ -119,7 +119,10 @@ const ortu = new Vue({
 
             // reset form
             form.trigger('reset')
+            this.fatherName = ''
+            this.motherName = ''
 
+            // reload table
             this.getOrtu()
                 
             if(type === 'insert') {

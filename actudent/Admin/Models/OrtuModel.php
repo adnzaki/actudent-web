@@ -1,5 +1,7 @@
 <?php namespace Actudent\Admin\Models;
 
+use Actudent\Admin\Models\SekolahModel;
+
 class OrtuModel extends \Actudent\Core\Models\ModelHandler
 {
     /**
@@ -42,6 +44,11 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      * @var string
      */
     private $user = 'tb_user';
+
+    /**
+     * SekolahModel
+     */
+    private $sekolah;
     
     /**
      * Load the tables...
@@ -52,6 +59,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
         $this->QBParent = $this->db->table($this->parent);
         $this->QBStudent = $this->db->table($this->student);
         $this->QBUser = $this->db->table($this->user);
+        $this->sekolah = new SekolahModel;
     }
 
     /**
@@ -118,7 +126,9 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
         $userID = $this->db->insertID();
 
         // then insert parent data
-        $parent = $this->fillParentField($value, $userID);
+        $parent = $this->fillParentField($value);
+        $parent['user_id'] = $userID;
+
         $this->QBParent->insert($parent);
     }
 
@@ -127,12 +137,12 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param array $data
      * @param int $userID
+     * 
      * @return array
      */
-    private function fillParentField($data, $userID)
+    private function fillParentField($data)
     {
         return [
-            'user_id'               => $userID,
             'parent_family_card'    => $data['parent_family_card'],
             'parent_father_name'    => $data['parent_father_name'],
             'parent_mother_name'    => $data['parent_mother_name'],
@@ -147,9 +157,10 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     private function fillUserField($data)
     {
+        $sekolah = $this->sekolah->getDataSekolah()[0];
         return [
             'user_name'     => $data['user_name'],
-            'user_email'    => $data['user_email'],
+            'user_email'    => $data['user_email'] . '@' . $sekolah->school_domain,
             'user_password' => password_hash($data['user_password'], PASSWORD_BCRYPT),
             'user_level'    => 3,
         ];

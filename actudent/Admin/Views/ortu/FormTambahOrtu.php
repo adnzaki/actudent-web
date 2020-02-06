@@ -67,12 +67,11 @@ aria-hidden="true">
                         <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_email +}</label>
                             <div class="input-group">
-                                <input class="form-control border-primary" type="text" v-model="userEmail" placeholder="username" name="user_email_shown">
+                                <input class="form-control border-primary" type="text" placeholder="username" name="user_email">
                                 <div class="input-group-append">
                                     <button class="btn btn-light" disabled type="button">@{domainSekolah}</button>
                                 </div>    
                             </div>    
-                            <input type="hidden" name="user_email" :value="userEmail + '@' + domain">                            
                             <form-error :msg="error.user_email" />                     
                         </div>
                         <div class="form-group">

@@ -45,7 +45,7 @@ class Ortu extends Actudent
 
     public function save($id = null)
     {
-        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+        $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
         if(! $this->validate($validation[0], $validation[1]))
         {
             return $this->response->setJSON([
@@ -82,17 +82,14 @@ class Ortu extends Actudent
         }
     }
 
-    private function validation()
+    private function validation($id)
     {
         $form = $this->formData();
         $rules = [
             'parent_family_card'    => 'required|numeric|exact_length[16]|is_unique[tb_parent.parent_family_card]',
             'parent_father_name'    => 'required',
             'parent_mother_name'    => 'required',
-            'parent_phone_number'   => 'required|numeric|min_length[11]|max_length[13]',
-            'user_email'            => 'required|is_unique[tb_user.user_email]',
-            'user_password'         => 'required|min_length[8]',
-            'user_password_confirm' => 'required|matches[user_password]'
+            'parent_phone_number'   => 'required|numeric|min_length[11]|max_length[13]',            
         ];
 
         $messages = [
@@ -113,20 +110,44 @@ class Ortu extends Actudent
                 'numeric'       => lang('AdminOrtu.ortu_err_phone_num'),
                 'min_length'    => lang('AdminOrtu.ortu_err_phone_min'),
                 'max_length'    => lang('AdminOrtu.ortu_err_phone_max'),
-            ],
-            'user_email' => [
-                'required'      => lang('AdminUser.user_err_email_required'),
-                'is_unique'     => lang('AdminUser.user_err_email_unique'),
-            ],
-            'user_password' => [
-                'required'      => lang('AdminUser.user_err_pass_required'),
-                'min_length'    => lang('AdminUser.user_err_pass_minchars'),
-            ],
-            'user_password_confirm' => [
-                'required'      => lang('AdminUser.user_err_passconf_required'),
-                'matches'       => lang('AdminUser.user_err_pass_confirm'),
-            ],
+            ],            
         ];      
+
+        if($id === null) 
+        {
+            $insertRules = [
+                'user_email'            => 'required|is_unique[tb_user.user_email]',
+                'user_password'         => 'required|min_length[8]',
+                'user_password_confirm' => 'required|matches[user_password]'
+            ];
+
+            $insertMessages = [
+                'user_email' => [
+                    'required'      => lang('AdminUser.user_err_email_required'),
+                    'is_unique'     => lang('AdminUser.user_err_email_unique'),
+                ],
+                'user_password' => [
+                    'required'      => lang('AdminUser.user_err_pass_required'),
+                    'min_length'    => lang('AdminUser.user_err_pass_minchars'),
+                ],
+                'user_password_confirm' => [
+                    'required'      => lang('AdminUser.user_err_passconf_required'),
+                    'matches'       => lang('AdminUser.user_err_pass_confirm'),
+                ],
+            ];
+
+            foreach($insertRules as $rule => $val)
+            {
+                //array_push($rules[$rule], $val);
+                $rules[$rule] = $val;
+            }
+
+            foreach($insertMessages as $msg => $val)
+            {
+                //array_push($messages[$key], $val);
+                $messages[$msg] = $val;
+            }
+        }
         
         return [$rules, $messages];
     }
