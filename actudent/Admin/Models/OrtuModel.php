@@ -86,69 +86,73 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
+     * Get parent detail
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getParentDetail($id)
+    {
+        $field = 'parent_id, tb_parent.user_id, parent_family_card, 
+                  parent_father_name, parent_mother_name, parent_phone_number,
+                  user_name, user_email';
+        $select = $this->QBParent->select($field)
+                  ->join($this->user, "{$this->parent}.user_id = {$this->user}.user_id")
+                  ->where('parent_id', $id)->get();
+
+        return $select->getResult();                  
+    }
+
+    /**
      * Insert parent data
      * 
      * @return
      */
     public function insert($value)
     {
-        $data = $this->fillParentField($value);
-        $this->QBParent->insert($data);
+        // insert user data first
+        $user = $this->fillUserField($value);
+        $this->QBUser->insert($user);
+
+        // get the user_id
+        $userID = $this->db->insertID();
+
+        // then insert parent data
+        $parent = $this->fillParentField($value, $userID);
+        $this->QBParent->insert($parent);
     }
 
     /**
      * Fill tb_parent field with these data
      * 
      * @param array $data
+     * @param int $userID
      * @return array
      */
-    private function fillParentField($data)
+    private function fillParentField($data, $userID)
     {
         return [
-            'user_id'               => $data['user_id'],
+            'user_id'               => $userID,
             'parent_family_card'    => $data['parent_family_card'],
             'parent_father_name'    => $data['parent_father_name'],
             'parent_mother_name'    => $data['parent_mother_name'],
             'parent_phone_number'   => $data['parent_phone_number'],
-            'modified'              => date('Y-m-d H:i:s'),
         ];
     }
 
     /**
-     * Select user account for parent user auth
+     * Fill tb_user field with these data
      * 
-     * @param int $userID
-     * @return bool|object
+     * @param array $data
      */
-    public function selectUser($userID)
+    private function fillUserField($data)
     {
-        $query = $this->QBParent->select('user_id')
-                 ->where('user_id', $userID);
-        if($query->countAllResults() > 0)
-        {
-            return false;
-        }
-        else 
-        {
-            $findUser = $this->QBUser->select('user_id, user_email, user_name')
-                        ->where('user_id', $userID);
-            return $findUser->get()->getResult();
-        }
-
-    }
-
-    /**
-     * Search user account
-     * 
-     * @param string $param
-     * @return object
-     */
-    public function searchUser($param)
-    {
-        $field = 'user_id, user_name, user_email';
-        $select = $this->QBUser->select($field);
-        $select->like('user_name', $param)->where('user_level', 3); 
-        return $select->orderBy('user_name', 'ASC')->get()->getResult();
+        return [
+            'user_name'     => $data['user_name'],
+            'user_email'    => $data['user_email'],
+            'user_password' => password_hash($data['user_password'], PASSWORD_BCRYPT),
+            'user_level'    => 3,
+        ];
     }
     
     /**
@@ -162,7 +166,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     private function search($searchBy, $search)
     {
-        $field = 'parent_family_card, parent_father_name, parent_mother_name, parent_phone_number';
+        $field = 'parent_id, parent_family_card, parent_father_name, parent_mother_name, parent_phone_number';
         $select = $this->QBParent->select($field);
         if(! empty($search))
         {

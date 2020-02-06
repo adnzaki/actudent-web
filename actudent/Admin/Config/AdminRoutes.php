@@ -16,9 +16,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('orang-tua/get-ortu/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ortu::getParents/$1/$2/$3/$4/$5');
 	$routes->add('orang-tua/save', 'Ortu::save');
 	$routes->add('orang-tua/save/(:any)', 'Ortu::save/$1');
-	$routes->add('orang-tua/search-user/(:any)', 'Ortu::searchUser/$1');
-	$routes->add('orang-tua/search-user', 'Ortu::searchUser');
-	$routes->add('orang-tua/set-user/(:any)', 'Ortu::selectUser/$1');
+	$routes->add('orang-tua/detail/(:any)', 'Ortu::getParentDetail/$1');
 	$routes->add('kelas', 'Kelas::index');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');

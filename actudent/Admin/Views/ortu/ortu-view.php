@@ -26,6 +26,9 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   {+ include Actudent\Core\Views\component\footer +} 
   <!-- BEGIN VENDOR JS-->
   {+ include Actudent\Core\Views\component\scripts +} 
+  <script>
+    var domainSekolah = "{domainSekolah}"
+  </script>
   <script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
   <script src="{assets}js/admin/ac-ortu.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->

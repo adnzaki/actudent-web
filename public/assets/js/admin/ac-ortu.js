@@ -19,10 +19,8 @@ const ortu = new Vue({
             disableSaveButton: false,
             showSaveButton: true, showDeleteButton: false,
         },
-        searchParam: '', searchTimeout: false,
-        searchResultWrapper: false,
-        selectedUser: { text: '', data: '' }, 
-        users: [], userCheck: true, showSelectedUser: false,
+        parentDetail: [], userEmail: '', domain: '',
+        userName: '', motherName: '', fatherName: '',
     },
     mounted() {
         this.reset()
@@ -32,6 +30,7 @@ const ortu = new Vue({
                 this.runICheck('blue')            
             }, 1000);           
         }, 200);
+        this.domain = domainSekolah
         this.runSelect2()
         this.select2ShowPerPage('#showRows')
         this.getLanguageResources('AdminOrtu')
@@ -50,6 +49,17 @@ const ortu = new Vue({
                 linkNum: 4,
                 activeClass: 'active',
                 linkClass: 'page-item',
+            })
+        },
+        getDetailOrtu(id) {
+            $('#editOrtuModal').modal('show')
+            $.ajax({
+                url: `${this.ortu}detail/${id}`,
+                type: 'get',
+                dataType: 'json',
+                success: res => {
+                    this.parentDetail = res
+                }
             })
         },
         save(edit = false, id = null) {
@@ -107,9 +117,6 @@ const ortu = new Vue({
             // clear error messages if exists
             this.error = {}
 
-            // hide selected user text
-            this.showSelectedUser = false
-
             // reset form
             form.trigger('reset')
 
@@ -133,63 +140,6 @@ const ortu = new Vue({
             setTimeout(() => {
                 this.alert.show = false
             }, 3500);
-        },
-        selectUser(userID) {
-            $.ajax({
-                url: `${this.ortu}set-user/${userID}`,
-                type: 'get',
-                dataType: 'json',
-                beforeSend: () => {
-                    this.showSelectedUser = false
-                },
-                success: res => {
-                    this.showSelectedUser = true
-                    this.searchResultWrapper = false
-                    this.clearResult()
-                    if(res.msg === 'OK') {
-                        this.userCheck = true
-                        this.selectedUser.data = res.data
-                        this.selectedUser.text = `${res.data.user_name} (${res.data.user_email})`
-                    } else {
-                        this.userCheck = false
-                        this.selectedUser.text = res.msg
-                    }
-                }
-            })
-        },
-        searchUser() {
-            // open the result wrapper
-            this.searchResultWrapper = true
-            
-            // prevent request until searchTimeout is true
-            if(!this.searchTimeout) {
-                this.searchTimeout = true
-                // wait for 300ms before processing request to server
-                setTimeout(() => {
-                    let keyword
-                    if(this.searchParam === '') {
-                        keyword = ''
-                        this.users = []
-                    } else {
-                        keyword = `/${this.searchParam}`
-                    }
-                    $.ajax({
-                        url: `${this.ortu}search-user${keyword}`,
-                        type: 'get',
-                        dataType: 'json',
-                        success: data => {
-                            this.users = data
-                        }
-                    })
-                    // turn back searchTimeout to false
-                    this.searchTimeout = false
-                }, 300)
-            }
-        },
-        clearResult() {
-            this.searchResultWrapper = false 
-            this.searchParam = ''
-            this.users = []
         },
     }
 })

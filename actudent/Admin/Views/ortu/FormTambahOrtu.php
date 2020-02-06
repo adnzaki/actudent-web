@@ -22,7 +22,7 @@ aria-hidden="true">
             </div>
             <div class="modal-body">
                 <form class="form" id="formTambahOrtu">
-                    <div class="form-body">                        
+                    <div class="form-body skin skin-square">                        
                         <div class="form-group">
                             <label for="userinput5">{{ lang.ortu_kk }}</label>
                             <input class="form-control border-primary" type="text" minlength="16" maxlength ="16" :placeholder="lang.ortu_input_kk" name="parent_family_card">
@@ -30,12 +30,33 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{{ lang.ortu_label_ayah }}</label>
-                            <input class="form-control border-primary" type="text" :placeholder="lang.ortu_input_ayah" name="parent_father_name">
+                            <div class="input-group">
+                                <input class="form-control border-primary" type="text" v-model="fatherName" :placeholder="lang.ortu_input_ayah" name="parent_father_name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary disable-hover" 
+                                    data-toggle="tooltip" data-placement="left" :title="lang.ortu_set_acc_name" type="button">
+                                        <fieldset>
+                                            <input type="radio" name="user_name" checked id="ayah" :value="fatherName">
+                                        </fieldset>
+                                    </button>
+                                </div>    
+                            </div> 
                             <form-error :msg="error.parent_father_name" />
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{{ lang.ortu_label_ibu }}</label>
-                            <input class="form-control border-primary" type="text" :placeholder="lang.ortu_input_ibu" name="parent_mother_name">
+                            <div class="input-group">
+                                <input class="form-control border-primary" type="text"
+                                v-model="motherName" :placeholder="lang.ortu_input_ibu" name="parent_mother_name">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-primary disable-hover"
+                                    data-toggle="tooltip" data-placement="left" :title="lang.ortu_set_acc_name" type="button">
+                                        <fieldset>
+                                            <input type="radio" name="user_name" id="ibu" :value="motherName">
+                                        </fieldset>
+                                    </button>
+                                </div>    
+                            </div> 
                             <form-error :msg="error.parent_mother_name" />
                         </div>
                         <div class="form-group">
@@ -44,38 +65,27 @@ aria-hidden="true">
                             <form-error :msg="error.parent_phone_number" />
                         </div>
                         <div class="form-group">
-                            <label for="userinput6">{{ lang.ortu_label_user }}</label><br>
-                            <p class="text-success" v-if="userCheck && showSelectedUser">
-                                <strong>
-                                    {{ selectedUser.text }} <i class="la la-check"></i>
-                                </strong>
-                            </p>
-                            <p class="text-danger" v-if="!userCheck && showSelectedUser">
-                                <strong>
-                                    {{ lang.ortu_user_selected }} <i class="la la-close"></i>
-                                </strong>
-                            </p>
-                            <input type="hidden" name="user_id" v-model="selectedUser.data.user_id">
+                            <label for="userinput6">{+ lang AdminUser.user_email +}</label>
                             <div class="input-group">
-                                <input class="form-control border-primary" type="text" v-model="searchParam" 
-                                @focus="searchResultWrapper = true"
-                                :placeholder="lang.ortu_input_user" @keyup="searchUser">
+                                <input class="form-control border-primary" type="text" v-model="userEmail" placeholder="username" name="user_email_shown">
                                 <div class="input-group-append">
-                                    <button class="btn btn-primary" type="button" 
-                                    @click="clearResult">{+ lang Admin.bersihkan +}</button>
-                                </div>                                
-                            </div>  
-                            <div class="list-group list-group-custom add-margin-top-5px" v-if="searchResultWrapper">
-                                <a href="javascript:void()" class="list-group-item active list-group-item-custom">
-                                    {+ lang Admin.hasil_cari +} "{{ searchParam }}"
-                                </a>
-                                <a href="javascript:void()" class="list-group-item list-group-item-action 
-                                list-group-item-custom"
-                                v-for="item in users" @click="selectUser(item.user_id)">
-                                    {{ item.user_name }} ({{ item.user_email }})
-                                </a>
-                            </div>
-                            <form-error :msg="error.user_id" />
+                                    <button class="btn btn-light" disabled type="button">@{domainSekolah}</button>
+                                </div>    
+                            </div>    
+                            <input type="hidden" name="user_email" :value="userEmail + '@' + domain">                            
+                            <form-error :msg="error.user_email" />                     
+                        </div>
+                        <div class="form-group">
+                            <label for="userinput6">{+ lang AdminUser.user_pass +}</label>
+                            <input class="form-control border-primary" type="password" name="user_password"
+                            minlength="8" placeholder="{+ lang AdminUser.user_pass_input +}">
+                            <form-error :msg="error.user_password" />
+                        </div>
+                        <div class="form-group">
+                            <label for="userinput6">{+ lang AdminUser.user_pass_confirm +}</label>
+                            <input class="form-control border-primary" type="password" name="user_password_confirm"
+                            minlength="8" placeholder="{+ lang AdminUser.user_pass_confirm +}">
+                            <form-error :msg="error.user_password_confirm" />
                         </div>
                     </div>
                 </form>
