@@ -18,22 +18,23 @@ const ortu = new Vue({
         helper: {
             disableSaveButton: false,
             showSaveButton: true, showDeleteButton: false,
+            deleteProgress: false,
         },
         parentDetail: [], userEmail: '', domain: '',
         motherName: '', fatherName: '',
+        parents: [], checkAll: false,
     },
     mounted() {
         this.reset()
         setTimeout(() => {
-            this.getOrtu() 
-            setTimeout(() => {
-                this.runICheck('blue')            
-            }, 1000);           
+            this.getOrtu()                    
         }, 200);
         this.domain = domainSekolah
         this.runSelect2()
-        this.select2ShowPerPage('#showRows', 'blue')
+        this.select2ShowPerPage('#showRows')
         this.getLanguageResources('AdminOrtu')
+        this.getLanguageResources('Admin')
+        this.onModalClose('#hapusModal')
     },
     methods: {
         getOrtu() {
@@ -50,6 +51,11 @@ const ortu = new Vue({
                 activeClass: 'active',
                 linkClass: 'page-item',
             })
+        },
+        showAddParentForm() {
+            setTimeout(() => {
+                this.runICheck('blue')            
+            }, 500);    
         },
         getDetailOrtu(id) {
             this.error = {}
@@ -81,6 +87,7 @@ const ortu = new Vue({
                 dataType: 'json',
                 data: data,
                 beforeSend: () => {
+                    obj.alert.header = ''
                     obj.alert.text = obj.lang.ortu_save_progress
                     obj.alert.show = true
                     obj.helper.disableSaveButton = true
@@ -104,22 +111,92 @@ const ortu = new Vue({
                         }, 3000);
                     } else {
                         if(edit) {
-                            obj.resetForm(form, 'edit')
+                            obj.resetForm('edit', form)
                         } else {
-                            obj.resetForm(form, 'insert')
+                            obj.resetForm('insert', form)
                         }
                     }
                 },
                 error: () => console.error('Network error')
             })
         },
-        resetForm(form, type) {
+        deleteParent() {
+            let idString
+            if(this.parents.length > 1) {
+                idString = this.parents.join('&')
+            } else {
+                idString = this.parents[0]
+            }
+
+            // console.log(idString)
+
+            $.ajax({
+                url: `${this.ortu}/delete/${idString}`,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: () => {
+                    $('#hapusModal').modal('hide')
+                    // this.alert.text = this.lang.progress_hapus
+                    // this.alert.class = 'bg-primary'
+                    // this.alert.show = true
+                    this.helper.deleteProgress = true
+                    this.helper.disableSaveButton = true
+                },
+                success: msg => {
+                    this.helper.disableSaveButton = false
+                    this.helper.deleteProgress = false
+                    this.resetForm('delete')
+                }
+            })
+        },
+        singleDeleteConfirm(parentID, userID) {
+            if(this.parents.length > 0) {
+                this.parents = []
+                this.checkAll = false
+            } 
+
+            this.parents.push(`${parentID}-${userID}`)
+            $('#hapusModal').modal('show')
+        },
+        multiDeleteConfirm() {
+            if(this.parents.length === 0) {
+                this.alert.header = 'Error!'
+                this.alert.class = 'bg-danger'
+                this.alert.text = this.lang.pilih_data_dulu
+                this.alert.show = true
+                setTimeout(() => {
+                    this.alert.show = false
+                }, 3500);
+            } else {
+                $('#hapusModal').modal('show')
+            }
+        },
+        onModalClose(target) {
+            let obj = this
+            $(target).on('hidden.bs.modal', function() {
+                obj.parents = []
+                obj.checkAll = false
+            })
+        },
+        selectAll() {
+            if(this.checkAll) {
+                this.data.forEach(item => {
+                    this.parents.push(`${item.parent_id}-${item.user_id}`)
+                })
+            } else {
+                this.parents = []
+            }
+        },
+        resetForm(type, form = '') {
             this.alert.show = false
             // clear error messages if exists
             this.error = {}
 
             // reset form
-            form.trigger('reset')
+            if(form !== '') {
+                form.trigger('reset')
+            }
+
             this.fatherName = ''
             this.motherName = ''
 
@@ -133,8 +210,11 @@ const ortu = new Vue({
                 this.alert.text = this.lang.ortu_update_success   
                 $('#editOrtuModal').modal('hide')                     
             } else {
-                this.alert.text = this.lang.ortu_delete_success
+                this.alert.text = this.lang.ortu_delete_success                
             }
+
+            this.alert.header = this.lang.sukses
+            this.alert.class = 'bg-success'
             this.alert.show = true
             
             setTimeout(() => {
@@ -143,7 +223,16 @@ const ortu = new Vue({
 
             setTimeout(() => {
                 this.alert.show = false
+                this.alert.header = ''
+                this.alert.class = 'bg-primary'
+                this.alert.text = ''
             }, 3500);
         },
+    },
+    watch: {
+        data: function() {
+            this.checkAll = false
+            this.parents = []
+        }
     }
 })

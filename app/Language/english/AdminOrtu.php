@@ -38,4 +38,5 @@ return [
     'ortu_err_phone_max'    => 'Phone number must only have up to 13 characters',
     'ortu_add_sukses'       => 'New parent has been successfully added',
     'ortu_add_gagal'        => 'Unable to add new parent',
+    'ortu_pilih_data'       => 'Please choose parent data to be removed',
 ];

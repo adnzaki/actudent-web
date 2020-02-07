@@ -17,7 +17,7 @@ var Pager = {
                 <br><p>{{ rowRange }}</p>
             </div>
         </div>
-        <div class="col-lg-6 col-md-6 col-sm-12">
+        <div class="col-lg-6 col-md-6 col-sm-12" v-if="showPaging">
             <div class="text-center mb-3">
                 <nav aria-label="Page navigation">
                     <ul class="pagination justify-content-center pagination-round">
@@ -50,7 +50,7 @@ var Pager = {
     </div>
     `,
     props: [
-        'linkClass', 'pageLinks', 'numLinks', 'activeLink',
+        'showPaging', 'linkClass', 'pageLinks', 'numLinks', 'activeLink',
         'nav', 'first', 'prev', 'next', 'last', 'rowRange',
     ],
 }

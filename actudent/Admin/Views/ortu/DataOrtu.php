@@ -4,9 +4,9 @@
             <div class="col-12 col-md-4 col-lg-6 col-xl-7">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#tambahOrtuModal">{+ lang Admin.tambah +}
+                        data-toggle="modal" data-target="#tambahOrtuModal" @click="showAddParentForm">{+ lang Admin.tambah +}
                     </button>
-                    <button type="button" class="btn btn-outline-danger"></i> {+ lang Admin.hapus +}</button>
+                    <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm"></i> {+ lang Admin.hapus +}</button>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
@@ -33,9 +33,11 @@
     </div>
     <div class="table-responsive">
         <table class="table table-hover mb-0 cursor-pointer">
-        <thead class="skin skin-square">
+        <thead>
             <tr>
-                <th><input type="checkbox" id="input-1"></th>
+                <th class="decrease-col-size">
+                    <Checkbox v-model="checkAll" color="#0070ff" @change="selectAll"></Checkbox>
+                </th>
                 <th @click="sortData('parent_family_card')">{+ lang AdminOrtu.ortu_kk +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_father_name')">{+ lang AdminOrtu.ortu_label_ayah +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_mother_name')">{+ lang AdminOrtu.ortu_label_ibu +}<i class="la la-sort"></th>
@@ -45,12 +47,8 @@
         </thead>
         <tbody>
             <tr v-for="(item, index) in data" :key="index" class="soft-dark">
-                <td scope="row">
-                    <div class="skin skin-square">
-                        <fieldset>
-                            <input type="checkbox" :id="'p-' + index">
-                        </fieldset>                    
-                    </div>
+                <td scope="row" class="decrease-col-size">
+                    <Checkbox v-model="parents" :value="item.parent_id + '-' + item.user_id" color="#0070ff"></Checkbox>
                 </td>
                 <td>{{ item.parent_family_card }}</td>
                 <td>{{ item.parent_father_name }}</td>
@@ -63,7 +61,8 @@
                         <i class="la la-pencil"></i>
                     </button>
                     <button type="button" class="btn btn-icon btn-danger mr-1"
-                        data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}">
+                        data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}"
+                        @click="singleDeleteConfirm(item.parent_id, item.user_id)">
                         <i class="la la-trash"></i>
                     </button>
                 </td>
@@ -72,6 +71,7 @@
         </table>
     </div>
     <pager 
+        :show-paging="showPaging"
         :link-class="linkClass"
         :page-links="pageLinks"
         :num-links="numLinks"

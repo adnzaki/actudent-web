@@ -17,6 +17,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('orang-tua/save', 'Ortu::save');
 	$routes->add('orang-tua/save/(:any)', 'Ortu::save/$1');
 	$routes->add('orang-tua/detail/(:any)', 'Ortu::getParentDetail/$1');
+	$routes->add('orang-tua/delete/(:any)', 'Ortu::delete/$1');
 	$routes->add('kelas', 'Kelas::index');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
@@ -42,6 +43,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-path', 'Test::getAttPath');
 	$routes->add('test-insert-id', 'Test::insertIDTest');
 	$routes->add('test-data', 'Test::testData');
+	$routes->add('test-array', 'Test::arrayEach');
 	$routes->add('template/icons', 'Template::icons');
 	$routes->add('template/buttons', 'Template::buttons');
 });

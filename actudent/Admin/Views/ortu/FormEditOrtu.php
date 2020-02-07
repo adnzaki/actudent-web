@@ -1,8 +1,3 @@
-<!-- Success message -->
-<alert-msg alert-class="bg-success" 
-    header="{+ lang Admin.sukses +}" :text="alert.text" v-if="alert.show">
-</alert-msg>
-
 <!-- Modal -->
 <div class="modal fade text-left" id="editOrtuModal" role="dialog" aria-labelledby="myModalLabel2"
 aria-hidden="true">

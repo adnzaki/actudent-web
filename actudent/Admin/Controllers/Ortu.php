@@ -43,6 +43,26 @@ class Ortu extends Actudent
         return $this->response->setJSON($data[0]);
     }
 
+    public function delete($idString)
+    {
+        $idWrapper = [];
+        if(strpos($idString, '&') !== false)
+        {
+            $idWrapper = explode('&', $idString);
+            foreach($idWrapper as $id)
+            {
+                $toArray = explode('-', $id);
+                $this->ortu->delete($toArray[0], $toArray[1]);
+            }
+        }
+        else 
+        {
+            $toArray = explode('-', $idString);
+            $this->ortu->delete($toArray[0], $toArray[1]);
+        }
+        return $this->response->setJSON(['status' => 'OK']);
+    }
+
     public function save($id = null)
     {
         $validation = $this->validation($id); // [0 => $rules, 1 => $messages]

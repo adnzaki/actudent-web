@@ -38,4 +38,5 @@ return [
     'ortu_err_phone_max'    => 'Nomor telepon maksimal hanya sampai 13 karakter',
     'ortu_add_sukses'       => 'Berhasil menambahkan data orang tua',
     'ortu_add_gagal'        => 'Tidak bisa menambahkan orang tua',
+    'ortu_pilih_data'       => 'Silakan pilih data orang tua yang ingin dihapus',
 ];

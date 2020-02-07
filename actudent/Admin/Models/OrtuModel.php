@@ -25,6 +25,12 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     private $QBUser;
 
     /**
+     * Tables related to tb_user
+     */
+    private $QBTimelineComments;
+    private $QBTimelineLikes;
+
+    /**
      * Table tb_parent
      * 
      * @var string
@@ -45,6 +51,9 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     private $user = 'tb_user';
 
+    private $timelineComments = 'tb_timeline_comments';
+    private $timelineLikes = 'tb_timeline_likes';
+
     /**
      * SekolahModel
      */
@@ -59,6 +68,8 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
         $this->QBParent = $this->db->table($this->parent);
         $this->QBStudent = $this->db->table($this->student);
         $this->QBUser = $this->db->table($this->user);
+        $this->QBTimelineComments = $this->db->table($this->timelineComments);
+        $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
         $this->sekolah = new SekolahModel;
     }
 
@@ -146,6 +157,26 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
+     * Delete parent and their user account
+     * 
+     * @param int parent_id
+     * @param int user_id
+     * 
+     * @return void
+     */
+    public function delete($parentID, $userID)
+    {
+        $this->db->transStart();
+        $this->QBParent->delete(['parent_id' => $parentID]);
+        $this->QBTimelineComments->delete(['user_id' => $userID]);
+        $this->QBTimelineLikes->delete(['user_id' => $userID]);
+        $this->QBUser->delete(['user_id' => $userID]);
+
+        // transaction complete
+        $this->db->transComplete();
+    }
+
+    /**
      * Fill tb_parent field with these data
      * 
      * @param array $data
@@ -190,7 +221,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     private function search($searchBy, $search)
     {
-        $field = 'parent_id, parent_family_card, parent_father_name, parent_mother_name, parent_phone_number';
+        $field = 'parent_id, user_id, parent_family_card, parent_father_name, parent_mother_name, parent_phone_number';
         $select = $this->QBParent->select($field);
         if(! empty($search))
         {

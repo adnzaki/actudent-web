@@ -35,3 +35,4 @@
   <!-- END Custom CSS-->
   <!-- Vue JS kini harus ditempatkan di atas -->
   <script src="{assets}js/vue.js" type="text/javascript"></script>
+  <script src="{assets}js/vue-material-checkbox.js" type="text/javascript"></script>

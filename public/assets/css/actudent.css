@@ -126,3 +126,13 @@ html body .extend-la {
 .note-popover .popover-content .dropdown-menu, .panel-heading.note-toolbar .dropdown-menu {
 	min-width: 150px !important;
 }
+
+.m-chckbox--container {
+	margin-right: 0 !important;
+	height: 5px;
+}
+
+.decrease-col-size {
+	width: 30px;
+	padding-right: 0 !important;
+}

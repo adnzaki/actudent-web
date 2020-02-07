@@ -46,5 +46,8 @@ return [
     'komentar'          => 'Komentar',
     'bersihkan'         => 'Bersihkan',
     'hasil_cari'        => 'Hasil pencarian untuk',
+    'pilih_data_dulu'   => 'Silakan pilih data yang ingin dihapus',
+    'konfirmasi'        => 'Konfirmasi',
+    'progress_hapus'    => 'Menghapus data...',
 ];
 
