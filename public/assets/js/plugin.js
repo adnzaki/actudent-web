@@ -1,6 +1,6 @@
 const plugin = {
 	data: {
-		lang: '', switchery: null, swObject: null,
+		lang: [], switchery: null, swObject: null,
 	},
 	mounted() {
 		this.swObject = document.getElementsByClassName('switchery-small')
@@ -25,7 +25,13 @@ const plugin = {
 				url: `${baseURL}index.php/core/get-admin-lang/${files}`,
 				dataType: 'json',
 				success: data => {
-					this.lang = data
+					if(this.lang.length === 0) {
+						this.lang = data
+					} else {
+						for(item in data) {
+							this.lang[item] = data[item]
+						}
+					}
 				}
 			})
 		},
