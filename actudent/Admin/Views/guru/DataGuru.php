@@ -43,17 +43,15 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th @click="sortData('grade_name')">{+ lang AdminKelas.kelas_nama +}<i class="la la-sort"></th>
-                <th @click="sortData('period_from')">Periot Start<i class="la la-sort"></th>
-                <th @click="sortData('period_until')">Periot Last<i class="la la-sort"></th>
+                <th @click="sortData('teacher_name')">{+ lang AdminGuru.guru_nama +}<i class="la la-sort"></th>
+                <th @click="sortData('teacher_phone')">{+ lang AdminGuru.guru_telpon +}<i class="la la-sort"></th>
             </tr>
         </thead>
         <tbody>
             <tr v-for="(item, index) in data" :key="index">
                 <td scope="row">{{ index + 1 }}</td>
-                <td>{{ item.grade_name }}</td>
-                <td>{{ item.period_from }}</td>
-                <td>{{ item.period_until }}</td>
+                <td>{{ item.teacher_name }}</td>
+                <td>{{ item.teacher_phone }}</td>                
             </tr>
         </tbody>
         </table>

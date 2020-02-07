@@ -27,7 +27,7 @@ class Guru extends Actudent
     public function getDataGuru($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         $data = $this->guru->getGuruQuery($limit, $offset, $orderBy, $searchBy, $sort, $search);
-        $rows = $this->kelas->getGuruRows($searchBy, $search);
+        $rows = $this->guru->getGuruRows($searchBy, $search);
         return $this->response->setJSON([
             'container' => $data,
             'totalRows' => $rows,

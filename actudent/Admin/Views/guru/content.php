@@ -13,7 +13,7 @@
                     </ul>
                 </div>
             </div>
-            {+ include Actudent\Admin\Views\kelas\DataKelas +}
+            {+ include Actudent\Admin\Views\guru\DataGuru +}
         </div>
     </div>
 </div>

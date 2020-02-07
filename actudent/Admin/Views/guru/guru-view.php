@@ -17,8 +17,8 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
     <div class="content-wrapper">
       <div class="content-header row">
       </div>
-      <div class="content-body" id="kelas-content">
-        {+ include Actudent\Admin\Views\kelas\content +} 
+      <div class="content-body" id="guru-content">
+        {+ include Actudent\Admin\Views\guru\content +} 
       </div>
     </div>
   </div>
@@ -27,7 +27,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- BEGIN VENDOR JS-->
   {+ include Actudent\Core\Views\component\scripts +} 
   <script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
-  <script src="{assets}js/admin/ac-kelas.js" type="text/javascript"></script>
+  <script src="{assets}js/admin/ac-guru.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>
