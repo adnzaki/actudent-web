@@ -22,6 +22,10 @@
 	cursor: not-allowed;
 }
 
+.disable-hover:hover {
+	background-color: transparent;
+}
+
 .nav-link-white {
 	color: #F2F2F2 !important;
 }
@@ -58,7 +62,7 @@
 
 .list-group-custom {
 	overflow-y: scroll;
-	min-height: 100px;
+	min-height: 30px;
 	max-height: 300px;
 }
 

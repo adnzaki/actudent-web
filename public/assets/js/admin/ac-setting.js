@@ -19,7 +19,7 @@ const setting = new Vue({
         this.getWarnaTema()
         this.getLanguageResources('AdminSetting')
         this.getBahasa()
-        this.runICheck()
+        this.runICheck('blue')
         this.getThemeValue()
         this.getLangValue()
     },

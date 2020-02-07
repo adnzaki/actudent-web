@@ -102,6 +102,7 @@ class Actudent extends Controller
             'images'                => base_url() . 'images/',
             'admin'                 => base_url() . 'admin/',            
             'namaSekolah'           => $sekolah->school_name ?? '',
+            'domainSekolah'         => $sekolah->school_domain ?? '',
             'namaPengguna'          => $pengguna->user_name ?? '',
             'bahasa'                => $bahasa ?? '',
             'theme'                 => $userTheme ?? '',

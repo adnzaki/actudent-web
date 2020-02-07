@@ -1,25 +1,37 @@
 const plugin = {
 	data: {
-		lang: '', switchery: null, swObject: null,
+		lang: [], switchery: null, swObject: null,
 	},
 	mounted() {
 		this.swObject = document.getElementsByClassName('switchery-small')
 	},
 	methods: {
-		select2ShowPerPage(element) {
+		select2ShowPerPage(element, iCheck = '') {
 			var obj = this
 			$(element).on('select2:select', function (e) {
 				var data = e.params.data
 				obj.rows = data.id
 				obj.showPerPage()
+				if(iCheck !== '') {
+					setTimeout(() => {
+						obj.runICheck(iCheck)					
+					}, 500);
+				}
 			})
+
 		},
 		getLanguageResources(files) {
 			$.ajax({
 				url: `${baseURL}index.php/core/get-admin-lang/${files}`,
 				dataType: 'json',
 				success: data => {
-					this.lang = data
+					if(this.lang.length === 0) {
+						this.lang = data
+					} else {
+						for(item in data) {
+							this.lang[item] = data[item]
+						}
+					}
 				}
 			})
 		},
@@ -92,10 +104,10 @@ const plugin = {
 				formatSubmit: 'HH:i',
 			});
 		},
-		runICheck() {
+		runICheck(color) {
 			$('.skin-square input').iCheck({
-				checkboxClass: 'icheckbox_square-red',
-				radioClass: 'iradio_square-red',
+				checkboxClass: 'icheckbox_square-' + color,
+				radioClass: 'iradio_square-' + color,
 			});
 		},
 		runSwitchery(el) {

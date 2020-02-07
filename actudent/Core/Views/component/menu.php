@@ -8,7 +8,7 @@
         <ul class="menu-content">
           <li class="{+ menu_active uri=siswa +}"><a class="menu-item" href="{admin}siswa" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_siswa +}</a>
           </li>
-          <li class="{+ menu_active uri=aaa +}"><a class="menu-item" href="#" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_parent +}</a>
+          <li class="{+ menu_active uri=OrangTua +}"><a class="menu-item" href="{admin}orang-tua" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_parent +}</a>
           </li>
           <li class="{+ menu_active uri=kelas +}"><a class="menu-item" href="{admin}siswa" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_kelas +}</a>
           </li>
