@@ -25,7 +25,7 @@ class Siswa extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Siswa';
+        $data['title'] = lang('AdminSiswa.page_title');;
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\siswa\siswa-view');
