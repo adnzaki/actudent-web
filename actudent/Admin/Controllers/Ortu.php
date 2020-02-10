@@ -95,16 +95,16 @@ class Ortu extends Actudent
     {
         $form = $this->formData();
         $rules = [
-            'parent_family_card'    => "required|numeric|exact_length[16]|is_unique[tb_parent.parent_family_card,parent_id,$id]",
+            'parent_family_card'    => "required|is_natural|exact_length[16]|is_unique[tb_parent.parent_family_card,parent_id,$id]",
             'parent_father_name'    => 'required',
             'parent_mother_name'    => 'required',
-            'parent_phone_number'   => 'required|numeric|min_length[11]|max_length[13]',
+            'parent_phone_number'   => 'required|is_natural|min_length[11]|max_length[13]',
         ];
 
         $messages = [
             'parent_family_card' => [
                 'required'      => lang('AdminOrtu.ortu_err_kk_required'),
-                'numeric'       => lang('AdminOrtu.ortu_err_kk_numeric'),
+                'is_natural'       => lang('AdminOrtu.ortu_err_kk_numeric'),
                 'exact_length'  => lang('AdminOrtu.ortu_err_kk_exact'),
                 'is_unique'     => lang('AdminOrtu.ortu_err_kk_duplicate'),
             ],
@@ -116,7 +116,7 @@ class Ortu extends Actudent
             ],
             'parent_phone_number' => [
                 'required'      => lang('AdminOrtu.ortu_err_phone_require'),
-                'numeric'       => lang('AdminOrtu.ortu_err_phone_num'),
+                'is_natural'       => lang('AdminOrtu.ortu_err_phone_num'),
                 'min_length'    => lang('AdminOrtu.ortu_err_phone_min'),
                 'max_length'    => lang('AdminOrtu.ortu_err_phone_max'),
             ],            
@@ -161,6 +161,8 @@ class Ortu extends Actudent
 
     private function formData()
     {
+        $familyID = $this->request->getPost('parent_family_card');
+        $phone = $this->request->getPost('parent_phone_number');
         return [
             'parent_family_card'    => $this->request->getPost('parent_family_card'),
             'parent_father_name'    => $this->request->getPost('parent_father_name'),

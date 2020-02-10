@@ -128,24 +128,21 @@ const ortu = new Vue({
                 idString = this.parents[0]
             }
 
-            // console.log(idString)
-
             $.ajax({
                 url: `${this.ortu}/delete/${idString}`,
                 type: 'POST',
                 dataType: 'json',
                 beforeSend: () => {
-                    $('#hapusModal').modal('hide')
-                    // this.alert.text = this.lang.progress_hapus
-                    // this.alert.class = 'bg-primary'
-                    // this.alert.show = true
                     this.helper.deleteProgress = true
                     this.helper.disableSaveButton = true
                 },
                 success: msg => {
-                    this.helper.disableSaveButton = false
-                    this.helper.deleteProgress = false
+                    $('#hapusModal').modal('hide')
                     this.resetForm('delete')
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
                 }
             })
         },

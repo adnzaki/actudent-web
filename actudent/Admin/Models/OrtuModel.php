@@ -86,7 +86,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getParents($limit, $offset, $orderBy = 'parent_father_name', $searchBy = 'parent_father_name', $sort = 'ASC', $search = '')
     {
-        $query = $this->search($searchBy, $search)->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
 
@@ -99,7 +99,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getParentRows($searchBy = 'parent_father_name', $search = '')
     {
-        $query = $this->search($searchBy, $search);
+        $query = $this->search($searchBy, $search)->where('deleted', '0');
 
         return $query->countAllResults();
     }
@@ -166,11 +166,14 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     public function delete($parentID, $userID)
     {
+        $deleted = ['deleted' => '1'];
         $this->db->transStart();
-        $this->QBParent->delete(['parent_id' => $parentID]);
+
+        // start transcation
         $this->QBTimelineComments->delete(['user_id' => $userID]);
         $this->QBTimelineLikes->delete(['user_id' => $userID]);
-        $this->QBUser->delete(['user_id' => $userID]);
+        $this->QBParent->update($deleted, ['parent_id' => $parentID]);
+        $this->QBUser->update($deleted, ['user_id' => $userID]);
 
         // transaction complete
         $this->db->transComplete();
