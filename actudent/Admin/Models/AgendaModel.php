@@ -185,7 +185,6 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
             'agenda_description'    => $data['agenda_description'],
             'agenda_priority'       => $data['agenda_priority'],
             'agenda_location'       => $data['agenda_location'],
-            'modified'              => date('Y-m-d H:i:s'),
         ];
     }
 
@@ -215,7 +214,6 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         $this->QBAgendaUser->insert([
             'agenda_id' => $id,
             'guests'   => $data,
-            'modified'  => date('Y-m-d H:i:s'),
         ]);
     }
 
@@ -231,7 +229,6 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
     {
         $this->QBAgendaUser->update([
             'guests'    => $data,
-            'modified'  => date('Y-m-d H:i:s'),
         ], ['agenda_id' => $id]);
     }
 
