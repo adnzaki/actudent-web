@@ -53,7 +53,7 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
 
         // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
-        $query = $joinAndSearch->where('student_status', '1')->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where(["{$this->siswa}.student_tag !=" => '3'])->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
 
@@ -66,9 +66,9 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getSiswaRows($searchBy = 'student_name', $search = '')
     {
-        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
+        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search)->where(["{$this->siswa}.student_tag !=" => '3']);
 
-        return $joinAndSearch->where('student_status', '1')->countAllResults();
+        return $joinAndSearch->countAllResults();
     }
 
     /**
@@ -81,10 +81,10 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
      */
     public function joinAndSearchQuery($searchBy, $search)
     {
-        // Query:   SELECT studentNis, studentName, gradeName, studentStatus FROM tb_student
-        //          JOIN tb_student_grade ON tb_student_grade.studentID = tb_student.studentID
-        //          JOIN tb_grade ON tb_grade.gradeID = tb_student_grade.gradeID 
-        $field = 'student_nis, student_name, grade_name, student_status';
+        // Query:   SELECT student_nis, student_name, grade_name, tb_student.student_tag FROM tb_student
+        //          JOIN tb_student_grade ON tb_student_grade.student_id = tb_student.student_id
+        //          JOIN tb_grade ON tb_grade.grade_id = tb_student_grade.grade_id
+        $field = 'student_nis, student_name, grade_name, tb_student.student_tag';
         $join = $this->QBSiswa->select($field)
                 ->join($this->kelasSiswa, "{$this->kelasSiswa}.student_id = {$this->siswa}.student_id")
                 ->join($this->kelas, "{$this->kelas}.grade_id = {$this->kelasSiswa}.grade_id");
@@ -94,12 +94,14 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
             // Store search parameter "studentNis-studentName-gradeName",
             // so parameter could depends on field studentNis, studentName or gradeName.
             // This code is not related to SSPaging plugin that only supports 1 search parameter
+            // Query: WHERE (student_nis LIKE '%$search%' OR student_name LIKE '%$search%' OR grade_name LIKE '%$search%')
+            //        AND (tb_student.student_tag != '3')
             if(strpos($searchBy, '-') !== false)
             {
                 $searchBy = explode('-', $searchBy);
-                $join->like($searchBy[0], $search); 
-                $join->orLike($searchBy[1], $search); 
-                $join->orLike($searchBy[2], $search); 
+                $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR $searchBy[1]";
+                $like2 = "'%$search%' ESCAPE '!' OR $searchBy[2] LIKE '%$search%' ESCAPE '!')";
+                $join->like($like1, $like2, 'none', false); 
             }
             else 
             {

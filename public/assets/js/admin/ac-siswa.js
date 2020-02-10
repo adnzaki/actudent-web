@@ -46,7 +46,7 @@ const siswa = new Vue({
                 offset: 0,
                 orderBy: 'student_name',
                 searchBy: 'student_nis-student_name-grade_name',
-                sort: 'DESC',
+                sort: 'ASC',
                 search: '',
                 url: `${this.siswa}get-siswa/`,
                 linkNum: 4,
