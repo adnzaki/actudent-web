@@ -1,29 +1,23 @@
-<?php namespace Actudent\Core\Libraries;
+<?php
 
 /**
- * OstiumCMS
- * A simple, fast and extensible Content Management System
- * for website made by Wolestech (Software Development Agency)
- *
- * @copyright   Copyright (c) 2016-2017, Wolestech | Adnan Zaki
- * @license     MIT License | https://github.com/adnzaki/ostium_cms/blob/master/LICENSE
- * @author      Adnan Zaki
- * @link        http://wolestech.com
- */
-
-/**
- * OstiumCMS Indonesia Date Class
- *
- * Menyediakan sekumpulan fungsi untuk menampilkan tanggal dengan format berbahasa Indonesia
+ * OstiumDate 
+ * Pustaka format dan perhitungan tanggal untuk Bahasa Indonesia 
+ * Pustaka ini awalnya diambil dari project OstiumCMS milih Adnan Zaki, web developer Wolestech
  *
  * @package		Application
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Adnan Zaki
- * @link		http://wolestech.com
+ * @link		https://wolestech.com
  */
 
-class OstiumDate
+require_once 'OstiumDate/Calculation.php';
+
+/**
+ * Format dan perhitungan tanggal PHP untuk Bahasa Indonesia
+ */
+class OstiumDate extends Calculation
 {
     /**
      * Pemanggil fungsi getdate()
@@ -87,17 +81,7 @@ class OstiumDate
         }
 
         return $this->monthName[$mon];
-    }
-
-    protected function error($option, $hint)
-    {
-        $error = [
-            'date' => "Invalid date input: <b>" . $hint . "</b>",
-            'format' => "Invalid date format: <b>" . $hint . "</b",
-        ];
-
-        return $error[$option];
-    }
+    }    
 
     // --------------------------- DATE SETTER ----------------------------------------
 
@@ -267,7 +251,7 @@ class OstiumDate
                 return $this->error('format', $hint);
             }
 
-            if($pattern[2] === 'y' OR $pattern[2] === 'Y')
+            if($pattern[2] === 'y' || $pattern[2] === 'Y')
             {
                 $output .= $separator . $year;
             }
@@ -317,7 +301,7 @@ class OstiumDate
      */
     protected function dateValidation($date, $month, $year)
     {
-        if($month > 12 OR $month < 1 OR $date > $this->daysInMonth($month, $year) OR $date < 1)
+        if($month > 12 || $month < 1 || $date > $this->daysInMonth($month, $year) || $date < 1)
         {
             return false;
         }
@@ -339,7 +323,7 @@ class OstiumDate
     {
         $totalDays = [
             1 => 31, 2 => $this->daysOfFebruary($year), 3 => 31,
-            4 => 30, 5 => 31, 6 => 30, 7 => 31, 8 => 30,
+            4 => 30, 5 => 31, 6 => 30, 7 => 31, 8 => 31,
             9 => 30, 10 => 31, 11 => 30, 12 => 31
         ];
 
