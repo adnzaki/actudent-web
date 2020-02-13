@@ -1,20 +1,9 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Core\Controllers\Actudent;
-use Actudent\Admin\Models\SettingModel;
 
 class Setting extends Actudent
 {
-    /**
-     * @var Actudent\Admin\Models\SiswaModel
-     */
-    private $setting;
-
-    public function __construct()
-    {
-        $this->setting = new SettingModel;
-    }
-
     public function index()
 	{
         $data = $this->common();
