@@ -1,6 +1,6 @@
-<?php namespace Actudent\Admin\Models;
+<?php namespace Actudent\Core\Models;
 
-use Actudent\Admin\Models\AuthModel;
+use Actudent\Core\Models\AuthModel;
 
 class SettingModel extends \Actudent\Core\Models\ModelHandler
 {

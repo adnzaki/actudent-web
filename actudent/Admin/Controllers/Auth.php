@@ -1,20 +1,9 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Core\Controllers\Actudent;
-use Actudent\Admin\Models\AuthModel;
 
 class Auth extends Actudent
 {
-    /**
-     * @var Actudent\Core\Models\AuthModel
-     */
-    private $auth;
-
-    public function __construct()
-    {
-        $this->auth = new AuthModel;
-    }
-
     public function index()
     {
         if(isset($_SESSION['email']) && isset($_SESSION['userLevel']) === '1')
@@ -41,7 +30,7 @@ class Auth extends Actudent
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
-        if($this->auth->validasi($username, $password))
+        if($this->auth->validasi($username, $password, '1'))
         {
             $pengguna = $this->auth->getDataPengguna($username);
             $session = [

@@ -1,4 +1,4 @@
-<?php namespace Actudent\Admin\Models;
+<?php namespace Actudent\Core\Models;
 
 class SekolahModel extends \Actudent\Core\Models\ModelHandler
 {

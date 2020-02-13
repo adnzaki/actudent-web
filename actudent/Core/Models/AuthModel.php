@@ -1,4 +1,4 @@
-<?php namespace Actudent\Admin\Models;
+<?php namespace Actudent\Core\Models;
 
 class AuthModel extends \Actudent\Core\Models\ModelHandler
 {
@@ -92,13 +92,16 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
 
     /**
      * Validate username and possword
+     * @param string $username
+     * @param string $password
+     * @param string $userLevel
      * 
      * @return bool
      */
-    public function validasi($username, $password)
+    public function validasi($username, $password, $userLevel)
     {
         $find = $this->user->where(['user_email' => $username]);
-        if($find->countAllResults() > 0 && $this->userAktif($username))
+        if($find->countAllResults() > 0 && $this->userAktif($username, $userLevel))
         {
             $userAktif = $find->get()->getResult();
             if(password_verify($password, $userAktif[0]->user_password))
@@ -120,12 +123,13 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * Check if user is active or not
      * 
      * @param string $username
+     * @param string $userLevel
      * @return bool
      */
-    public function userAktif(string $username): bool
+    public function userAktif($username, $userLevel)
     {
         $query = $this->user->where('user_email', $username)->get()->getResult();
-        if($query[0]->deleted === '0' && $query[0]->user_level === '1')
+        if($query[0]->deleted === '0' && $query[0]->user_level === $userLevel)
         {
             return true;
         }

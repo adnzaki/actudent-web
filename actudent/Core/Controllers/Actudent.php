@@ -16,9 +16,9 @@ use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-use Actudent\Admin\Models\SekolahModel;
-use Actudent\Admin\Models\SettingModel;
-use Actudent\Admin\Models\AuthModel;
+use Actudent\Core\Models\SekolahModel;
+use Actudent\Core\Models\SettingModel;
+use Actudent\Core\Models\AuthModel;
 
 class Actudent extends Controller
 {
@@ -27,21 +27,21 @@ class Actudent extends Controller
      * 
      * @var object
      */
-    private $sekolah;
+    protected $sekolah;
 
     /**
      * SettingModel
      * 
      * @var object
      */
-    private $setting;
+    protected $setting;
 
     /**
      * AuthModel
      * 
      * @var object
      */
-    private $auth;
+    protected $auth;
 
     /**
      * @var \CodeIgniter\View\Parser

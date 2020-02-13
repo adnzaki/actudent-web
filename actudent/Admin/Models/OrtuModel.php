@@ -1,6 +1,6 @@
 <?php namespace Actudent\Admin\Models;
 
-use Actudent\Admin\Models\SekolahModel;
+use Actudent\Core\Models\SekolahModel;
 
 class OrtuModel extends \Actudent\Core\Models\ModelHandler
 {
