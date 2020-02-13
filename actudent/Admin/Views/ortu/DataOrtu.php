@@ -1,7 +1,7 @@
 <div class="card-content collapse show">
     <div class="card-body">
         <div class="row">
-            <div class="col-12 col-md-4 col-lg-6 col-xl-7">
+            <div class="col-12 col-md-4 col-lg-6 col-xl-6">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
                         data-toggle="modal" data-target="#tambahOrtuModal" @click="showAddParentForm">{+ lang Admin.tambah +}
@@ -18,7 +18,7 @@
                     <option value="250">250 {+ lang Admin.baris +}</option>
                 </select>
             </div>
-            <div class="col-3">
+            <div class="col-4">
                 <fieldset>
                     <div class="input-group">
                         <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
