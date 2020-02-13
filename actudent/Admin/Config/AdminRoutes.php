@@ -9,6 +9,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('home', 'Home::index');
 	$routes->add('siswa', 'Siswa::index');
 	$routes->add('siswa/get-kelas', 'Siswa::getKelas');
+	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5/$6/$7');
 	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5/$6');
 	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5');
 	$routes->add('orang-tua', 'Ortu::index');

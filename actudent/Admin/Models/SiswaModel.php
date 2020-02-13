@@ -48,12 +48,20 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
      * @param string $search 
      * @return object
      */
-    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = '')
+    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $whereClause = 'null', $search = '')
     {
-        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
+        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);    
+        $selector = ["{$this->siswa}.student_tag !=" => '3'];
+        if($whereClause !== 'null')
+        {
+            $selector = [
+                "{$this->siswa}.student_tag !=" => '3',
+                "{$this->kelas}.grade_id" => $whereClause,
+            ];
+        }
 
         // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
-        $query = $joinAndSearch->where(["{$this->siswa}.student_tag !=" => '3'])->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where($selector)->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
 
@@ -64,9 +72,17 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
      * @param string $search
      * @return int
      */
-    public function getSiswaRows($searchBy = 'student_name', $search = '')
+    public function getSiswaRows($searchBy = 'student_name', $whereClause = 'null', $search = '')
     {
-        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search)->where(["{$this->siswa}.student_tag !=" => '3']);
+        $selector = ["{$this->siswa}.student_tag !=" => '3'];
+        if($whereClause !== 'null')
+        {
+            $selector = [
+                "{$this->siswa}.student_tag !=" => '3',
+                "{$this->kelas}.grade_id" => $whereClause,
+            ];
+        }
+        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search)->where($selector);
 
         return $joinAndSearch->countAllResults();
     }

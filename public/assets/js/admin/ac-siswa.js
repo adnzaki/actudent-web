@@ -24,34 +24,47 @@ const siswa = new Vue({
         this.reset()
         setTimeout(() => {
             this.getSiswa()            
+            this.getKelas()
         }, 200);
         this.runSelect2()
+        this.getSiswaByKelas()
         this.select2ShowPerPage('#showRows')
         this.getLanguageResources('AdminSiswa')
     },
     methods: {
         showFormTambah() {
+        },
+        getSiswa() {
+            this.getData({
+                lang: bahasa,
+                limit: 25,
+                offset: 0,
+                orderBy: 'student_name',
+                searchBy: ['student_nis', 'student_name', 'grade_name'],
+                sort: 'ASC',
+                where: null,
+                search: '',
+                url: `${this.siswa}get-siswa/`,
+                linkNum: 4,
+                activeClass: 'active',
+                linkClass: 'page-item',
+            })
+        },
+        getSiswaByKelas() {
+            let obj = this
+            $('#selectGrade').on('select2:select', function (e) {
+                var data = e.params.data
+                obj.whereClause = data.id
+                obj.runPaging()
+            })
+        },
+        getKelas() {
             $.ajax({
                 url: `${this.siswa}get-kelas`,
                 dataType: 'json',
                 success: data => {
                     this.daftarKelas = data
                 }
-            })
-        },
-        getSiswa() {
-            this.getData({
-                lang: bahasa,
-                limit: 10,
-                offset: 0,
-                orderBy: 'student_name',
-                searchBy: 'student_nis-student_name-grade_name',
-                sort: 'ASC',
-                search: '',
-                url: `${this.siswa}get-siswa/`,
-                linkNum: 4,
-                activeClass: 'active',
-                linkClass: 'page-item',
             })
         }
     }

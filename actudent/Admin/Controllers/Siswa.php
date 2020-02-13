@@ -31,10 +31,10 @@ class Siswa extends Actudent
                 ->render('Actudent\Admin\Views\siswa\siswa-view');
     }
 
-    public function getDataSiswa($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    public function getDataSiswa($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
     {
-        $data = $this->siswa->getSiswaQuery($limit, $offset, $orderBy, $searchBy, $sort, $search);
-        $rows = $this->siswa->getSiswaRows($searchBy, $search);
+        $data = $this->siswa->getSiswaQuery($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
+        $rows = $this->siswa->getSiswaRows($searchBy, $whereClause, $search);
         return $this->response->setJSON([
             'container' => $data,
             'totalRows' => $rows,

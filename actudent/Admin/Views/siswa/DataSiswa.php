@@ -1,25 +1,30 @@
 <div class="card-content collapse show">
     <div class="card-body">
         <div class="row">
-            <div class="col-12 col-md-4 col-lg-6 col-xl-7">
+            <div class="col-12 col-md-4 col-lg-4 col-xl-3">
                 <div class="form-group">
                     <button @click="showFormTambah" type="button" class="btn btn-outline-info" 
                         data-toggle="modal" data-target="#iconModal">{+ lang Admin.tambah +}
                     </button>
                     <button type="button" class="btn btn-outline-danger"></i> {+ lang Admin.hapus +}</button>
-                    <button type="button" class="btn btn-outline-warning"> Filter</button>
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+                <select class="select2 form-control block" id="selectGrade" name="grade_id" style="width: 100%">
+                    <option selected value="null">Semua Kelas</option>
+                    <option v-for="item in daftarKelas" :value="item.grade_id">{{ item.grade_name }}</option>
+                </select>
+            </div>
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
                 <select class="select2 form-control" id="showRows" style="width: 100%;">
                     <option value="10">10 {+ lang Admin.baris +}</option>
-                    <option value="25">25 {+ lang Admin.baris +}</option>
+                    <option value="25" selected>25 {+ lang Admin.baris +}</option>
                     <option value="50">50 {+ lang Admin.baris +}</option>
                     <option value="100">100 {+ lang Admin.baris +}</option>
                     <option value="250">250 {+ lang Admin.baris +}</option>
                 </select>
             </div>
-            <div class="col-3">
+            <div class="col-12 col-xl-4">
                 <fieldset>
                     <div class="input-group">
                         <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
