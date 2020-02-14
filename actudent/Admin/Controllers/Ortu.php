@@ -161,8 +161,6 @@ class Ortu extends Actudent
 
     private function formData()
     {
-        $familyID = $this->request->getPost('parent_family_card');
-        $phone = $this->request->getPost('parent_phone_number');
         return [
             'parent_family_card'    => $this->request->getPost('parent_family_card'),
             'parent_father_name'    => $this->request->getPost('parent_father_name'),
