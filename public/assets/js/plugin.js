@@ -22,7 +22,7 @@ const plugin = {
 		},
 		getLanguageResources(files) {
 			$.ajax({
-				url: `${baseURL}index.php/core/get-admin-lang/${files}`,
+				url: `${baseURL}/core/get-admin-lang/${files}`,
 				dataType: 'json',
 				success: data => {
 					if(this.lang.length === 0) {
