@@ -12,6 +12,10 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5/$6/$7');
 	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5/$6');
 	$routes->add('siswa/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)', 'Siswa::getDataSiswa/$1/$2/$3/$4/$5');
+	$routes->add('siswa/cari-ortu/(:any)', 'Siswa::searchParents/$1');
+	$routes->add('siswa/cari-ortu', 'Siswa::searchParents');
+	$routes->add('siswa/save', 'Siswa::save');
+	$routes->add('siswa/save/(:any)', 'Siswa::save/$1');
 	$routes->add('orang-tua', 'Ortu::index');
 	$routes->add('orang-tua/get-ortu/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ortu::getParents/$1/$2/$3/$4/$5/$6');
 	$routes->add('orang-tua/get-ortu/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ortu::getParents/$1/$2/$3/$4/$5');

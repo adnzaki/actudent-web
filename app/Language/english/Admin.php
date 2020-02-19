@@ -49,4 +49,5 @@ return [
     'pilih_data_dulu'   => 'Please choose data to be removed',
     'konfirmasi'        => 'Confirm',
     'progress_hapus'    => 'Deleting data...',
+    'no_search_result'  => 'No results found for',
 ];

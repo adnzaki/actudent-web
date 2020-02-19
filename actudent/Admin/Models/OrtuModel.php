@@ -7,7 +7,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Query Builder for table tb_parent
      */
-    private $QBParent;
+    public $QBParent;
 
     /**
      * Query Builder for table tb_student_parent
@@ -35,7 +35,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @var string
      */
-    private $parent = 'tb_parent';
+    public $parent = 'tb_parent';
 
     /**
      * Table tb_student
@@ -183,8 +183,6 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      * Fill tb_parent field with these data
      * 
      * @param array $data
-     * @param int $userID
-     * 
      * @return array
      */
     private function fillParentField($data)

@@ -49,5 +49,6 @@ return [
     'pilih_data_dulu'   => 'Silakan pilih data yang ingin dihapus',
     'konfirmasi'        => 'Konfirmasi',
     'progress_hapus'    => 'Menghapus data...',
+    'no_search_result'  => 'Tidak ditemukan hasil pencarian untuk',
 ];
 
