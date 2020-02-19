@@ -17,6 +17,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('siswa/save', 'Siswa::save');
 	$routes->add('siswa/save/(:any)', 'Siswa::save/$1');
 	$routes->add('siswa/detail/(:any)', 'Siswa::getDetailSiswa/$1');
+	$routes->add('siswa/delete/(:any)', 'Siswa::delete/$1');
 	$routes->add('orang-tua', 'Ortu::index');
 	$routes->add('orang-tua/get-ortu/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ortu::getParents/$1/$2/$3/$4/$5/$6');
 	$routes->add('orang-tua/get-ortu/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ortu::getParents/$1/$2/$3/$4/$5');

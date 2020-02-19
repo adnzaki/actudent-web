@@ -6,7 +6,7 @@
                     <button type="button" class="btn btn-outline-info" 
                         data-toggle="modal" data-target="#tambahSiswaModal">{+ lang Admin.tambah +}
                     </button>
-                    <button type="button" class="btn btn-outline-danger"></i> {+ lang Admin.hapus +}</button>
+                    <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm"></i> {+ lang Admin.hapus +}</button>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
@@ -41,7 +41,9 @@
         <table class="table table-hover mb-0 cursor-pointer">
         <thead>
             <tr>
-                <th>#</th>
+                <th>
+                    <Checkbox v-model="checkAll" color="#0070ff" @change="selectAll"></Checkbox>
+                </th>
                 <th @click="sortData('student_nis')">{+ lang AdminSiswa.siswa_nis +}<i class="la la-sort"></th>
                 <th @click="sortData('student_name')">{+ lang AdminSiswa.siswa_nama +}<i class="la la-sort"></th>
                 <th @click="sortData('parent_father_name')">{+ lang AdminSiswa.siswa_label_ayah +}<i class="la la-sort"></th>
@@ -51,12 +53,14 @@
         </thead>
         <tbody>
             <tr v-for="(item, index) in data" :key="index" class="soft-dark">
-                <td scope="row" class="decrease-col-size">{{ index + 1 }}</td>
+                <td scope="row" class="decrease-col-size">
+                    <Checkbox v-model="students" :value="item.student_id" color="#0070ff"></Checkbox>
+                </td>
                 <td>{{ item.student_nis }}</td>
                 <td>{{ item.student_name }}</td>
                 <td>{{ item.parent_father_name }}</td>
                 <td>{{ item.parent_mother_name }}</td>
-                <td>
+                <td width="180">
                     <button type="button" class="btn btn-icon btn-info mr-1" 
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.perbarui +}"
                         @click="getDetailSiswa(item.student_id)">
@@ -64,7 +68,7 @@
                     </button>
                     <button type="button" class="btn btn-icon btn-danger mr-1"
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}"
-                        >
+                        @click="singleDeleteConfirm(item.student_id)">
                         <i class="la la-trash"></i>
                     </button>
                 </td>

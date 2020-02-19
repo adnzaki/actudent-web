@@ -175,6 +175,21 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
+     * Delete student from tb_student and tb_student_parent
+     * by updating 'deleted' field to 1 (true) for both tables
+     * and set student_tag to 3 (means deleted) in tb_student
+     * 
+     * @param int student_id
+     * @return void
+     */
+    public function delete($id)
+    {
+        $where = ['student_id' => $id];
+        $this->QBSiswa->update(['deleted' => '1', 'student_tag' => 3], $where);
+        $this->QBStudentParent->update(['deleted' => '1'], $where);
+    }
+
+    /**
      * Fill student data with these values
      * 
      * @param array $data
