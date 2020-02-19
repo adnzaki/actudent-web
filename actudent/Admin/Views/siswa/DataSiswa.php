@@ -50,7 +50,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(item, index) in data" :key="index">
+            <tr v-for="(item, index) in data" :key="index" class="soft-dark">
                 <td scope="row" class="decrease-col-size">{{ index + 1 }}</td>
                 <td>{{ item.student_nis }}</td>
                 <td>{{ item.student_name }}</td>
