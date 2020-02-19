@@ -39,4 +39,5 @@ return [
     'ortu_add_sukses'       => 'New parent has been successfully added',
     'ortu_add_gagal'        => 'Unable to add new parent',
     'ortu_pilih_data'       => 'Please choose parent data to be removed',
+    'ortu_daftar_anak'      => 'Children list',
 ];

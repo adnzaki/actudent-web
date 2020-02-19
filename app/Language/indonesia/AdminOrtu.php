@@ -39,4 +39,5 @@ return [
     'ortu_add_sukses'       => 'Berhasil menambahkan data orang tua',
     'ortu_add_gagal'        => 'Tidak bisa menambahkan orang tua',
     'ortu_pilih_data'       => 'Silakan pilih data orang tua yang ingin dihapus',
+    'ortu_daftar_anak'      => 'Daftar anak',
 ];

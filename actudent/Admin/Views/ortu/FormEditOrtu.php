@@ -42,6 +42,10 @@ aria-hidden="true">
                             minlength="11" maxlength="13" :placeholder="lang.ortu_input_telp" name="parent_phone_number">
                             <form-error :msg="error.parent_phone_number" />
                         </div>
+                        <div class="form-group" v-if="children.length > 0">
+                            <label>{{ lang.ortu_daftar_anak }}:</label>
+                            <li v-for="(item, index) in children" :key="index">{{ index + 1 }}. {{ item.student_name }}</li>
+                        </div>
                     </div>
                 </form>
             </div>

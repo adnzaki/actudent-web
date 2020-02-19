@@ -10,19 +10,14 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     public $QBParent;
 
     /**
-     * Query Builder for table tb_student_parent
+     * Query Builder for table tb_user
      */
-    private $QBStudentParent;
+    private $QBUser;
 
     /**
      * Query Builder for table tb_student
      */
     private $QBStudent;
-
-    /**
-     * Query Builder for table tb_user
-     */
-    private $QBUser;
 
     /**
      * Tables related to tb_user
@@ -38,11 +33,14 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     public $parent = 'tb_parent';
 
     /**
-     * Table tb_student
-     * 
      * @var string
      */
     private $student = 'tb_student';
+    
+    /**
+     * @var string
+     */
+    private $studentParent = 'tb_student_parent';
 
     /**
      * Table tb_user
@@ -55,7 +53,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     private $timelineLikes = 'tb_timeline_likes';
 
     /**
-     * SekolahModel
+     * @var Actudent\Core\Models\SekolahModel
      */
     private $sekolah;
     
@@ -120,6 +118,21 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
                   ->where('parent_id', $id)->get();
 
         return $select->getResult();                  
+    }
+
+    /**
+     * Get children list
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getChildren($id)
+    {
+        $field = 'student_nis, student_name';
+        $select = $this->QBStudent->select($field);
+        $select->join($this->studentParent, "{$this->studentParent}.student_id = {$this->student}.student_id");
+
+        return $select->getWhere(["{$this->studentParent}.parent_id" => $id])->getResult();
     }
 
     /**

@@ -39,8 +39,14 @@ class Ortu extends Actudent
 
     public function getParentDetail($id)
     {
-        $data = $this->ortu->getParentDetail($id);
-        return $this->response->setJSON($data[0]);
+        $parent = $this->ortu->getParentDetail($id);
+        $children = $this->ortu->getChildren($id);
+        $data = [
+            'parent' => $parent[0],
+            'children' => $children,
+        ];
+
+        return $this->response->setJSON($data);
     }
 
     public function delete($idString)

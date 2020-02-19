@@ -21,6 +21,7 @@ const ortu = new Vue({
             deleteProgress: false,
         },
         parentDetail: [], userEmail: '', domain: '',
+        children: [],
         motherName: '', fatherName: '',
         parents: [], checkAll: false,
     },
@@ -68,7 +69,8 @@ const ortu = new Vue({
                 type: 'get',
                 dataType: 'json',
                 success: res => {
-                    this.parentDetail = res
+                    this.parentDetail = res.parent
+                    this.children = res.children
                 }
             })
         },
