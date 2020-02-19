@@ -121,6 +121,24 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
+     * Get student detail data from tb_student and tb_student_parent
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getStudentDetail($id)
+    {
+        $field = "{$this->siswa}.student_id, student_nis, student_name, 
+                  {$this->ortu->parent}.parent_id, parent_father_name, parent_mother_name";
+
+        $select = $this->QBSiswa->select($field)
+                  ->join($this->studentParent, "{$this->studentParent}.student_id = {$this->siswa}.student_id")
+                  ->join($this->ortu->parent, "{$this->ortu->parent}.parent_id = {$this->studentParent}.parent_id");
+        
+        return $select->getWhere(["{$this->siswa}.student_id" => $id])->getResult();
+    }
+
+    /**
      * Insert student data into tb_student, tb_student_parent
      * 
      * @param array $value
@@ -129,6 +147,7 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
     public function insert($value)
     {
         $student = $this->fillStudentField($value);
+        $student['student_tag'] = 1;
         $this->QBSiswa->insert($student);
 
         $studentID = $this->db->insertID();
@@ -136,6 +155,23 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
         $studentParent = $this->fillStudentParentField($value);
         $studentParent['student_id'] = $studentID;
         $this->QBStudentParent->insert($studentParent);
+    }
+
+    /**
+     * Update student data on tb_student, tb_student_parent
+     * 
+     * @param array $value
+     * @param int $id
+     * @return
+     */
+    public function update($value, $id)
+    {
+        $student = $this->fillStudentField($value);
+        $student['student_tag'] = 2;
+        $this->QBSiswa->update($student, ['student_id' => $id]);
+
+        $studentParent = $this->fillStudentParentField($value);
+        $this->QBStudentParent->update($studentParent, ['student_id' => $id]);
     }
 
     /**
@@ -149,7 +185,6 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
         return [
             'student_nis'   => $data['student_nis'],
             'student_name'  => $data['student_name'],
-            'student_tag'   => 1,
         ];
     }
     
@@ -196,7 +231,7 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
     public function joinAndSearchQuery($where, $searchBy, $search)
     {
         // If $where is true, then include grade_name in $field
-        $field = 'student_nis, student_name, parent_father_name, parent_mother_name';
+        $field = "{$this->siswa}.student_id, student_nis, student_name, parent_father_name, parent_mother_name";
         if($where)
         {
             $field = $field . ', grade_name';

@@ -59,7 +59,7 @@
                 <td>
                     <button type="button" class="btn btn-icon btn-info mr-1" 
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.perbarui +}"
-                        >
+                        @click="getDetailSiswa(item.student_id)">
                         <i class="la la-pencil"></i>
                     </button>
                     <button type="button" class="btn btn-icon btn-danger mr-1"

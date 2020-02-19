@@ -13,6 +13,7 @@ return [
     'siswa_label_telp'          => 'Phone Number',
     'siswa_kelas'               => 'Grade',
     'siswa_add_title'           => 'Add new student',
+    'siswa_edit_title'          => 'Edit student data',
     'siswa_nis'                 => 'Register Number',
     'siswa_input_nama'          => 'Student full name',
     'siswa_input_kk'            => 'Search for family card ID, father or mother name',

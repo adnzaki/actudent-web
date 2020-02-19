@@ -27,6 +27,7 @@ const siswa = new Vue({
         selectedParent: {
             id: '', father: '', mother: ''
         },
+        detailSiswa: {},
         searchParam: '', searchTimeout: false,
         searchResultWrapper: false,
     },
@@ -66,6 +67,21 @@ const siswa = new Vue({
                 var data = e.params.data
                 obj.whereClause = data.id
                 obj.runPaging()
+            })
+        },
+        getDetailSiswa(id) {
+            this.error = {}
+            $('#editSiswaModal').modal('show')
+            $.ajax({
+                url: `${this.siswa}detail/${id}`,
+                type: 'get',
+                dataType: 'json',
+                success: res => {
+                    this.detailSiswa = res
+                    this.selectedParent.id = res.parent_id
+                    this.selectedParent.father = res.parent_father_name
+                    this.selectedParent.mother = res.parent_mother_name
+                }
             })
         },
         getKelas() {

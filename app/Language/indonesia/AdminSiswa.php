@@ -13,6 +13,7 @@ return [
     'siswa_label_telp'          => 'Nomor Telepon',
     'siswa_kelas'               => 'Kelas',
     'siswa_add_title'           => 'Tambah peserta didik baru',
+    'siswa_edit_title'          => 'Perbarui data siswa',
     'siswa_nis'                 => 'Nomor Induk Sekolah',
     'siswa_input_nama'          => 'Nama lengkap peserta didik',
     'siswa_input_kk'            => 'Cari nomor KK, nama ayah atau nama ibu',

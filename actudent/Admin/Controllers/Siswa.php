@@ -41,6 +41,12 @@ class Siswa extends Actudent
         ]);
     }
 
+    public function getDetailSiswa($id)
+    {
+        $data = $this->siswa->getStudentDetail($id);
+        return $this->response->setJSON($data[0]);
+    }
+
     public function save($id = null)
     {
         $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
@@ -58,10 +64,10 @@ class Siswa extends Actudent
             {
                 $this->siswa->insert($data);
             }
-            // else
-            // {
-            //     $this->ortu->update($data, $id);
-            // }
+            else
+            {
+                $this->siswa->update($data, $id);
+            }
             
             return $this->response->setJSON([
                 'code' => '200',

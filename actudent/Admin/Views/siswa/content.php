@@ -13,7 +13,9 @@
                 </div>
             </div>
             {+ include Actudent\Admin\Views\siswa\DataSiswa +}
+            {+ include Actudent\Admin\Views\ortu\alert +}
             {+ include Actudent\Admin\Views\siswa\FormTambahSiswa +}
+            {+ include Actudent\Admin\Views\siswa\FormEditSiswa +}
         </div>
     </div>
 </div>
