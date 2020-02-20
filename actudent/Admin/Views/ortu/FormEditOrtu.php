@@ -44,7 +44,10 @@ aria-hidden="true">
                         </div>
                         <div class="form-group" v-if="children.length > 0">
                             <label>{{ lang.ortu_daftar_anak }}:</label>
-                            <li v-for="(item, index) in children" :key="index">{{ index + 1 }}. {{ item.student_name }}</li>
+                            <li v-for="(item, index) in children" :key="index">
+                                {{ index + 1 }}. {{ item.student_name }} 
+                                <span v-if="item.deleted === '1'" class="text-danger">( {{ lang.ortu_anak_nonaktif }} )</span>
+                            </li>
                         </div>
                     </div>
                 </form>

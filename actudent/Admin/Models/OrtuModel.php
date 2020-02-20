@@ -128,7 +128,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getChildren($id)
     {
-        $field = 'student_nis, student_name';
+        $field = "student_nis, student_name, {$this->student}.deleted";
         $select = $this->QBStudent->select($field);
         $select->join($this->studentParent, "{$this->studentParent}.student_id = {$this->student}.student_id");
 
