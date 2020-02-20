@@ -56,6 +56,6 @@ class Auth extends Actudent
         $this->setLanguage($this->getUserLanguage());
         $this->auth->statusJaringan('offline', $_SESSION['email']);
         $this->session->remove(['email', 'nama', 'userLevel', 'logged_in']);
-        return redirect()->to(site_url('admin/login'));
+        return redirect()->to(base_url('admin/login'));
     }
 }
