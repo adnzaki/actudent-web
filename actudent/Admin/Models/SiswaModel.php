@@ -103,7 +103,8 @@ class SiswaModel extends SharedModel
      * Insert student data into tb_student, tb_student_parent
      * 
      * @param array $value
-     * @return
+     * 
+     * @return void
      */
     public function insert($value)
     {
@@ -123,16 +124,42 @@ class SiswaModel extends SharedModel
      * 
      * @param array $value
      * @param int $id
-     * @return
+     * 
+     * @return void
      */
     public function update($value, $id)
     {
         $student = $this->fillStudentField($value);
-        $student['student_tag'] = 2;
+        if($this->nameHasChanged($student['student_name'], $id))
+        {
+            $student['student_tag'] = 2;
+        }
+
         $this->QBStudent->update($student, ['student_id' => $id]);
 
         $studentParent = $this->fillStudentParentField($value);
         $this->QBStudentParent->update($studentParent, ['student_id' => $id]);
+    }
+
+    /**
+     * Has student name changed?
+     * 
+     * @param string $newName
+     * @param int $id
+     * 
+     * @return boolean
+     */
+    private function nameHasChanged($newName, $id)
+    {
+        $getName = $this->QBStudent->select('student_name')->getWhere(['student_id' => $id]);
+        if($getName->getResult()[0]->student_name === $newName)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }
 
     /**
