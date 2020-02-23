@@ -30,26 +30,27 @@ const kelas = new Vue({
     mounted() {
         this.reset()
         setTimeout(() => {
-            this.getSiswa()            
+            this.getKelas()            
         }, 200);
         this.runSelect2()
         this.select2ShowPerPage('#showRows')
         this.getLanguageResources('AdminKelas')
     },
     methods: {
-        getSiswa() {
+        getKelas() {
             this.getData({
                 lang: bahasa,
                 limit: 10,
                 offset: 0,
                 orderBy: 'grade_name',
                 searchBy: 'grade_name',
-                sort: 'DESC',
+                sort: 'ASC',
                 search: '',
                 url: `${this.kelas}get-kelas/`,
                 linkNum: 4,
                 activeClass: 'active',
                 linkClass: 'page-item',
+                autoReset: { active: true, timeout: 1000 }
             })
         }
     }

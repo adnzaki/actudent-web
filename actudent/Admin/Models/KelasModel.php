@@ -7,12 +7,19 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
      */
     private $QBKelas;
 
-     /**
+    /**
      * Table tb_grade
      * 
      * @var string
      */
     private $kelas = 'tb_grade';
+
+    /**
+     * Table tb_grade
+     * 
+     * @var string
+     */
+    private $teacher = 'tb_staff';
 
     /**
      * Load the tables...
@@ -58,7 +65,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Join table for tb_student, tb_student_grade dan tb_grade
+     * Join table for tb_grade and tb_staff (as teacher)
      * and query to search data with "LIKE" keyword
      * 
      * @param string $searchBy
@@ -68,21 +75,13 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     public function joinAndSearchQuery($searchBy, $search)
     {
         // Query:   SELECT grade_name, period_from, period_until, grade_status FROM tb_grade
-        $field = 'grade_name, period_from, period_until, grade_status';
-        $join = $this->QBKelas->select($field);
+        $field = 'grade_id, grade_name, period_from, period_until, staff_name';
+        $join = $this->QBKelas->select($field)
+                ->join($this->teacher, "{$this->teacher}.staff_id = {$this->kelas}.teacher_id");
         
         if(! empty($search))
         {
-            if(strpos($searchBy, '-') !== false)
-            {
-                $searchBy = explode('-', $searchBy);
-                $this->db->like($searchBy[0], $search); 
-                $this->db->or_like($searchBy[1], $search);                 
-            }
-            else 
-            {
-                $this->db->like($searchBy, $search);
-            }
+            $join->like($searchBy, $search);
         }
         
         return $join;
