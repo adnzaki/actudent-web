@@ -71,7 +71,23 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
-     * Insert student data into tb_grade
+     * Get class group detail data from tb_grade
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getClassDetail($id)
+    {
+        $field = 'grade_id, grade_name, teacher_id, staff_name';
+
+        $select = $this->QBKelas->select($field)
+                  ->join($this->teacher, "{$this->teacher}.staff_id = {$this->kelas}.teacher_id");
+        
+        return $select->getWhere(["{$this->kelas}.grade_id" => $id])->getResult()[0];
+    }
+
+    /**
+     * Insert grade data into tb_grade
      * 
      * @param array $value
      * 
@@ -85,6 +101,20 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
         $grade['grade_status']  = 1;
 
         $this->QBKelas->insert($grade);
+    }
+
+    /**
+     * Update grade data into tb_grade
+     * 
+     * @param array $value
+     * 
+     * @return void
+     */
+    public function update($value, $id)
+    {
+        $grade = $this->fillGradeField($value);
+
+        $this->QBKelas->update($grade, ['grade_id' => $id]);
     }
 
     /**

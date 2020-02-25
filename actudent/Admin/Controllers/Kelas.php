@@ -34,6 +34,11 @@ class Kelas extends Actudent
         ]);
     }
 
+    public function getClassDetail($id)
+    {
+        return $this->response->setJSON($this->kelas->getClassDetail($id));
+    }
+
     public function save($id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]
@@ -53,7 +58,7 @@ class Kelas extends Actudent
             }
             else
             {
-                //$this->siswa->update($data, $id);
+                $this->kelas->update($data, $id);
             }
             
             return $this->response->setJSON([

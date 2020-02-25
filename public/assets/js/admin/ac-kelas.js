@@ -29,6 +29,7 @@ const kelas = new Vue({
         selectedTeacher: {
             id: '', name: '',
         },
+        detailKelas: {}
     },
     mounted() {
         this.reset()
@@ -54,6 +55,20 @@ const kelas = new Vue({
                 activeClass: 'active',
                 linkClass: 'page-item',
                 autoReset: { active: true, timeout: 1000 }
+            })
+        },
+        getDetailKelas(id) {
+            this.error = {}
+            $('#editKelasModal').modal('show')
+            $.ajax({
+                url: `${this.kelas}detail/${id}`,
+                type: 'get',
+                dataType: 'json',
+                success: res => {
+                    this.detailKelas = res
+                    this.selectedTeacher.id = res.teacher_id
+                    this.selectedTeacher.name = res.staff_name
+                }
             })
         },
         save(edit = false, id = null) {
@@ -127,7 +142,7 @@ const kelas = new Vue({
                 this.alert.text = this.lang.kelas_insert_success 
                 $('#tambahKelasModal').modal('hide')
             } else if(type === 'edit') {
-                this.alert.text = this.lang.kelas_update_success
+                this.alert.text = this.lang.kelas_edit_success
                 $('#editKelasModal').modal('hide')                     
             } else {
                 this.alert.text = this.lang.kelas_delete_success                

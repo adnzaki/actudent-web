@@ -51,7 +51,7 @@
                 <td>
                     <button type="button" class="btn btn-icon btn-info"
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.perbarui +}"
-                        >
+                        @click="getDetailKelas(item.grade_id)">
                         <i class="la la-pencil"></i>
                     </button>
                     <button type="button" class="btn btn-icon btn-success"
