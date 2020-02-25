@@ -11,7 +11,7 @@
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                 <select class="select2 form-control block" id="selectGrade" name="grade_id" style="width: 100%">
-                    <option selected :value="null">{+ lang AdminSiswa.siswa_semua_kelas +}</option>
+                    <option selected value="null">{+ lang AdminSiswa.siswa_semua_kelas +}</option>
                     <option v-for="item in daftarKelas" :value="item.grade_id">{{ item.grade_name }}</option>
                 </select>
             </div>
