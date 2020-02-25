@@ -33,4 +33,66 @@ class Kelas extends Actudent
             'totalRows' => $rows,
         ]);
     }
+
+    public function save($id = null)
+    {
+        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+        if(! $this->validate($validation[0], $validation[1]))
+        {
+            return $this->response->setJSON([
+                'code' => '500',
+                'msg' => $this->validation->getErrors(),
+            ]);
+        }
+        else
+        {
+            $data = $this->formData();
+            if($id === null) 
+            {
+                $this->kelas->insert($data);
+            }
+            else
+            {
+                //$this->siswa->update($data, $id);
+            }
+            
+            return $this->response->setJSON([
+                'code' => '200',
+            ]);
+        }
+    }
+
+    private function validation()
+    {
+        $form = $this->formData();
+        $rules = [
+            'grade_name'    => 'required',
+            'teacher_id'    => 'required|is_natural',
+        ];
+
+        $messages = [
+            'grade_name' => [
+                'required'      => lang('AdminKelas.kelas_err_name_required'),
+            ],
+            'teacher_id' => [
+                'required'      => lang('AdminKelas.kelas_err_teacher_required'),
+                'is_natural'    => lang('AdminKelas.kelas_err_teacher_natural'),
+            ]
+        ];
+        
+        return [$rules, $messages];
+    }
+
+    public function findTeacher($keyword = '')
+    {
+        return $this->response->setJSON($this->kelas->findTeacher($keyword));
+    }
+
+    private function formData()
+    {
+        return [
+            'grade_name'    => $this->request->getPost('grade_name'),
+            'teacher_id'    => $this->request->getPost('teacher_id'),
+        ];
+    }
 }

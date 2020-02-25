@@ -4,7 +4,7 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-5 col-xl-6">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#iconModal">{+ lang Admin.tambah +}
+                        data-toggle="modal" data-target="#tambahKelasModal">{+ lang Admin.tambah +}
                     </button>
                     <button type="button" class="btn btn-outline-danger">{+ lang Admin.hapus +}</button> 
                 </div>
@@ -43,10 +43,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(item, index) in data" :key="index">
+            <tr v-for="(item, index) in data" :key="index" class="soft-dark">
                 <td scope="row">{{ index + 1 }}</td>
                 <td>{{ item.grade_name }}</td>
-                <td>{{ item.period_from }} / {{ item.period_until }}</td>
+                <td>{{ item.period_start }} / {{ item.period_end }}</td>
                 <td>{{ item.staff_name }}</td>
                 <td>
                     <button type="button" class="btn btn-icon btn-info"

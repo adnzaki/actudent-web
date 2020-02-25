@@ -35,6 +35,17 @@ const plugin = {
 				}
 			})
 		},
+		makeSentenceCase(words) {
+			if(words !== undefined) {
+				let sentence = words.split(' '),
+					lowerText = []
+				for(let i = 1; i < sentence.length; i++) {
+					lowerText.push(sentence[i].toLowerCase())
+				}
+	
+				return `${sentence[0]} ${lowerText.join(' ')}`				
+			}
+		},
 		runSelect2() {
 			(function (window, document, $) {
 				'use strict';
