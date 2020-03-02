@@ -62,7 +62,7 @@ aria-hidden="true">
                         <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_email +}</label>
                             <div class="input-group">
-                                <input class="form-control border-primary" type="text" placeholder="username" name="user_email">
+                                <input class="form-control border-primary" autocomplete="off" type="text" placeholder="username" name="user_email">
                                 <div class="input-group-append">
                                     <button class="btn btn-light" disabled type="button">@{domainSekolah}</button>
                                 </div>    
@@ -71,7 +71,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_pass +}</label>
-                            <input class="form-control border-primary" type="password" name="user_password"
+                            <input class="form-control border-primary" autocomplete="off" type="password" name="user_password"
                             minlength="8" placeholder="{+ lang AdminUser.user_pass_input +}">
                             <form-error :msg="error.user_password" />
                         </div>

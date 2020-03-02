@@ -2,7 +2,7 @@
     <div class="col-12">
         <div class="card {cardColor}">
             <div class="card-header {cardColor}">
-                <h4 class="card-title {cardTitleColor}">{+ lang AdminGuru.guru_title +}</h4>
+                <h4 class="card-title {cardTitleColor}">{+ lang AdminPegawai.staff_title +}</h4>
                 <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                 <div class="heading-elements">
                     <ul class="list-inline mb-0">
@@ -13,7 +13,11 @@
                     </ul>
                 </div>
             </div>
-            {+ include Actudent\Admin\Views\guru\DataGuru +}
+            {+ include Actudent\Admin\Views\pegawai\DataPegawai +}
+            {+ include Actudent\Admin\Views\pegawai\alert +}
+            {+ include Actudent\Admin\Views\pegawai\DeleteConfirm +}
+            {+ include Actudent\Admin\Views\pegawai\FormTambahPegawai +}
+            {+ include Actudent\Admin\Views\pegawai\FormEditPegawai +}
         </div>
     </div>
 </div>

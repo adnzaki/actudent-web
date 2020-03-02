@@ -27,9 +27,14 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas', 'Kelas::index');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
-	$routes->add('guru', 'Guru::index');
-	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5/$6');
-	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5');
+	$routes->add('pegawai', 'Pegawai::index');
+	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5/$6/$7');
+	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5/$6');
+	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5');
+	$routes->add('pegawai/save', 'Pegawai::save');
+	$routes->add('pegawai/save/(:any)', 'Pegawai::save/$1');
+	$routes->add('pegawai/detail/(:any)', 'Pegawai::getStaffDetail/$1');
+	$routes->add('pegawai/delete/(:any)', 'Pegawai::delete/$1');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');
