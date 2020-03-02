@@ -10,7 +10,7 @@
 <body class="vertical-layout vertical-menu 1-column   menu-expanded blank-page blank-page"
 data-open="click" data-menu="vertical-menu" data-col="1-column" style="background-color: #52545C !important;">
   <!-- ////////////////////////////////////////////////////////////////////////////-->
-  <div class="app-content content" id="login-content">
+  <div class="app-content content" id="login-content" v-cloak>
     <div class="content-wrapper">
       <div class="content-header row">
       </div>

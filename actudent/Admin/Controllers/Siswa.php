@@ -75,6 +75,24 @@ class Siswa extends Actudent
         }
     }
 
+    public function delete($idString)
+    {
+        $idWrapper = [];
+        if(strpos($idString, '-') !== false)
+        {
+            $idWrapper = explode('-', $idString);
+            foreach($idWrapper as $id)
+            {
+                $this->siswa->delete($id);
+            }
+        }
+        else 
+        {
+            $this->siswa->delete($idString);
+        }
+        return $this->response->setJSON(['status' => 'OK']);
+    }
+
     private function validation($id)
     {
         $form = $this->formData();

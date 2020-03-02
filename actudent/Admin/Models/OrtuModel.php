@@ -1,24 +1,10 @@
 <?php namespace Actudent\Admin\Models;
 
 use Actudent\Core\Models\SekolahModel;
+use Actudent\Admin\Models\SharedModel;
 
-class OrtuModel extends \Actudent\Core\Models\ModelHandler
+class OrtuModel extends SharedModel
 {
-    /**
-     * Query Builder for table tb_parent
-     */
-    public $QBParent;
-
-    /**
-     * Query Builder for table tb_user
-     */
-    private $QBUser;
-
-    /**
-     * Query Builder for table tb_student
-     */
-    private $QBStudent;
-
     /**
      * Tables related to tb_user
      */
@@ -26,29 +12,8 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     private $QBTimelineLikes;
 
     /**
-     * Table tb_parent
-     * 
-     * @var string
+     * Table definitions
      */
-    public $parent = 'tb_parent';
-
-    /**
-     * @var string
-     */
-    private $student = 'tb_student';
-    
-    /**
-     * @var string
-     */
-    private $studentParent = 'tb_student_parent';
-
-    /**
-     * Table tb_user
-     * 
-     * @var string
-     */
-    private $user = 'tb_user';
-
     private $timelineComments = 'tb_timeline_comments';
     private $timelineLikes = 'tb_timeline_likes';
 
@@ -63,9 +28,6 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
     public function __construct()
     {
         parent::__construct();
-        $this->QBParent = $this->db->table($this->parent);
-        $this->QBStudent = $this->db->table($this->student);
-        $this->QBUser = $this->db->table($this->user);
         $this->QBTimelineComments = $this->db->table($this->timelineComments);
         $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
         $this->sekolah = new SekolahModel;
@@ -128,7 +90,7 @@ class OrtuModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getChildren($id)
     {
-        $field = 'student_nis, student_name';
+        $field = "student_nis, student_name, {$this->student}.deleted";
         $select = $this->QBStudent->select($field);
         $select->join($this->studentParent, "{$this->studentParent}.student_id = {$this->student}.student_id");
 

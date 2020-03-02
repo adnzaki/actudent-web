@@ -30,6 +30,7 @@ const siswa = new Vue({
         detailSiswa: {},
         searchParam: '', searchTimeout: false,
         searchResultWrapper: false,
+        checkAll: false, students: [],
     },
     mounted() {
         this.reset()
@@ -142,6 +143,63 @@ const siswa = new Vue({
                 },
                 error: () => console.error('Network error')
             })
+        },
+        deleteStudent() {
+            let idString
+            if(this.students.length > 1) {
+                idString = this.students.join('-')
+            } else {
+                idString = this.students[0]
+            }
+
+            $.ajax({
+                url: `${this.siswa}/delete/${idString}`,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.deleteProgress = true
+                    this.helper.disableSaveButton = true
+                },
+                success: () => {
+                    $('#hapusModal').modal('hide')
+                    this.resetForm('delete')
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
+                }
+            })
+        },
+        singleDeleteConfirm(studentID) {
+            if(this.students.length > 0) {
+                this.students = []
+                this.checkAll = false
+            } 
+
+            this.students.push(studentID)
+            $('#hapusModal').modal('show')
+        },
+        multiDeleteConfirm() {
+            if(this.students.length === 0) {
+                this.alert.header = 'Error!'
+                this.alert.class = 'bg-danger'
+                this.alert.text = this.lang.pilih_data_dulu
+                this.alert.show = true
+                setTimeout(() => {
+                    this.alert.show = false
+                }, 3500);
+            } else {
+                $('#hapusModal').modal('show')
+            }
+        },
+        selectAll() {
+            if(this.checkAll) {
+                this.data.forEach(item => {
+                    this.students.push(item.student_id)
+                })
+            } else {
+                this.students = []
+            }
         },
         resetForm(type, form = '') {
             this.alert.show = false

@@ -14,6 +14,9 @@
                 </div>
             </div>
             {+ include Actudent\Admin\Views\kelas\DataKelas +}
+            {+ include Actudent\Admin\Views\siswa\alert +}
+            {+ include Actudent\Admin\Views\kelas\FormTambahKelas +}
+            {+ include Actudent\Admin\Views\kelas\FormEditKelas +}
         </div>
     </div>
 </div>

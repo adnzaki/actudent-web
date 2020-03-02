@@ -1,3 +1,6 @@
+[v-cloak] > * { display:none; }
+[v-cloak]::before { content: "Loading..."; }
+
 .error-text {
 	color: rgb(241, 89, 63) !important;
 }
