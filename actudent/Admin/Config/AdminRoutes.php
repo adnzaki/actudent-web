@@ -28,6 +28,14 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas', 'Kelas::index');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
+	$routes->add('pegawai', 'Pegawai::index');
+	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5/$6/$7');
+	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5/$6');
+	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5');
+	$routes->add('pegawai/save', 'Pegawai::save');
+	$routes->add('pegawai/save/(:any)', 'Pegawai::save/$1');
+	$routes->add('pegawai/detail/(:any)', 'Pegawai::getStaffDetail/$1');
+	$routes->add('pegawai/delete/(:any)', 'Pegawai::delete/$1');
 	$routes->add('kelas/cari-guru', 'Kelas::findTeacher');
 	$routes->add('kelas/cari-guru/(:any)', 'Kelas::findTeacher/$1');
 	$routes->add('kelas/save', 'Kelas::save');
