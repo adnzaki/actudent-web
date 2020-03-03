@@ -40,10 +40,8 @@ class Pegawai extends Actudent
     public function getStaffDetail($id)
     {
         $staff = $this->staff->getStaffDetail($id);
-        // $children = $this->ortu->getChildren($id);
         $data = [
             'staff' => $staff[0],
-            // 'children' => $children,
         ];
 
         return $this->response->setJSON($data);
