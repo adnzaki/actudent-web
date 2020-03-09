@@ -99,10 +99,11 @@ class Pegawai extends Actudent
     {
         $form = $this->formData();
         $rules = [
-            'staff_nik'    => "required|is_natural|exact_length[10]|is_unique[tb_staff.staff_nik,staff_id,$id]",
+            'staff_nik'     => "required|is_natural|exact_length[10]|is_unique[tb_staff.staff_nik,staff_id,$id]",
             'staff_name'    => 'required',            
             'staff_phone'   => 'required|is_natural|min_length[11]|max_length[13]',
             'staff_type'    => 'required',
+            'staff_title'    => 'required',
         ];
 
         $messages = [
@@ -123,7 +124,10 @@ class Pegawai extends Actudent
             ],
             'staff_type' => [
                 'required'  => lang('AdminPegawai.staff_err_type'),
-            ],                        
+            ],
+            'staff_title' => [
+                'required'  => lang('AdminPegawai.staff_err_title'),
+            ],
         ];      
 
         if($id === null) 
@@ -170,6 +174,7 @@ class Pegawai extends Actudent
             'staff_name'            => $this->request->getPost('staff_name'),
             'staff_phone'           => $this->request->getPost('staff_phone'),
             'staff_type'            => $this->request->getPost('staff_type'),
+            'staff_title'            => $this->request->getPost('staff_title'),
             'user_name'             => $this->request->getPost('staff_name'),
             'user_email'            => $this->request->getPost('user_email'),
             'user_password'         => $this->request->getPost('user_password'),

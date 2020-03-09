@@ -57,7 +57,13 @@ aria-hidden="true">
                                 </div>
                             </div>
                             <form-error :msg="error.staff_type" />
-                        </div>                       
+                        </div>
+                        <div class="form-group">
+                            <label for="userinput5">{{ lang.staff_label_jabatan }}</label>
+                            <input class="form-control border-primary" type="text" v-model="staffDetail.staff_title"
+                            :placeholder="lang.staff_input_jabatan" name="staff_title">
+                            <form-error :msg="error.staff_title" />
+                        </div>
 
                         
                     </div>

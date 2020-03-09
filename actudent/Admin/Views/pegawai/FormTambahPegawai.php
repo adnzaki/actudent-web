@@ -61,6 +61,18 @@ aria-hidden="true">
                             <form-error :msg="error.staff_type" />
                         </div>
                         <div class="form-group">
+                            <label for="userinput5">{{ lang.staff_label_jabatan }}</label>
+                            <input class="form-control border-primary" type="text" :placeholder="lang.staff_input_jabatan" name="staff_title">
+                            <form-error :msg="error.staff_title" />
+                        </div>
+                        <div class="form-group">
+                            <label>{{ lang.staff_label_photo }}</label>
+                            <form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
+                            <input class="form-control border-primary" type="file" accept="application/pdf" name="agenda_attachment">
+                             </form>                             
+                            <form-error :msg="error.agenda_attachment" />
+                        </div>
+                        <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_email +}</label>
                             <div class="input-group">
                                 <input class="form-control border-primary"  type="text" autocomplete="off" placeholder="username" name="user_email">

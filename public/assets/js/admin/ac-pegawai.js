@@ -51,7 +51,7 @@ const pegawai = new Vue({
                 orderBy: 'staff_name',
                 searchBy: [ 
                     'staff_nik', 'staff_name', 
-                    'staff_phone', 'staff_type'
+                    'staff_phone', 'staff_type', 'staff_title'
                 ],
                 sort: 'ASC',
                 where: null,

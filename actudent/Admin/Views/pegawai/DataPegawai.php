@@ -4,7 +4,7 @@
             <div class="col-12 col-md-4 col-lg-4 col-xl-3">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#tambahGuruModal"  @click="showAddPegawaiForm">{+ lang Admin.tambah +}                        
+                        data-toggle="modal" data-target="#tambahPegawaiModal"  @click="showAddPegawaiForm">{+ lang Admin.tambah +}                        
                     </button>
                     <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm">{+ lang Admin.hapus +}</button> 
                 </div>
@@ -49,6 +49,7 @@
                 <th @click="sortData('staff_name')">{+ lang AdminPegawai.staff_nama +}<i class="la la-sort"></th>
                 <th @click="sortData('staff_phone')">{+ lang AdminPegawai.staff_label_telp +}<i class="la la-sort"></th>
                 <th @click="sortData('staff_type')">{+ lang AdminPegawai.staff_label_jenis +}<i class="la la-sort"></th>
+                <th @click="sortData('staff_title')">{+ lang AdminPegawai.staff_label_jabatan +}<i class="la la-sort"></th>
                 <th>{+ lang Admin.aksi +}</th>
             </tr>
         </thead>
@@ -61,6 +62,7 @@
                 <td>{{ item.staff_name }}</td>
                 <td>{{ item.staff_phone }}</td>
                 <td>{{ item.staff_type }}</td>
+                <td>{{ item.staff_title }}</td>
                 <td>
                     <button type="button" class="btn btn-icon btn-info mr-1" 
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.perbarui +}"

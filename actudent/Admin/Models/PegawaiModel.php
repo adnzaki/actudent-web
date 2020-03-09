@@ -134,7 +134,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     public function getStaffDetail($id)
     {
         $field = 'staff_id, tb_staff.user_id, staff_nik, 
-                  staff_name, staff_phone, staff_type,
+                  staff_name, staff_phone, staff_type, staff_title,
                   user_name, user_email';
         $select = $this->QBStaff->select($field)
                   ->join($this->user, "{$this->staff}.user_id = {$this->user}.user_id")
@@ -214,6 +214,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
             'staff_name'    => $data['staff_name'],
             'staff_phone'   => $data['staff_phone'],
             'staff_type'    => $data['staff_type'],
+            'staff_title'    => $data['staff_title'],
         ];
     }
 
@@ -267,7 +268,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
 
 
         // If $where is true, then include grade_name in $field
-        $field = 'staff_id, user_id, staff_nik, staff_name, staff_phone, staff_type';
+        $field = 'staff_id, user_id, staff_nik, staff_name, staff_phone, staff_type, staff_title';
         if($where)
         {
             $field = $field . ', staff_type';
@@ -285,10 +286,17 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
         {
             if(strpos($searchBy, '-') !== false)
             {
+                // $searchBy = explode('-', $searchBy);
+                // $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR $searchBy[1]";
+                // $like2 = "'%$search%' ESCAPE '!')";
+                // $select->like($like1, $like2, 'none', false); 
+
                 $searchBy = explode('-', $searchBy);
-                $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR $searchBy[1]";
-                $like2 = "'%$search%' ESCAPE '!')";
-                $select->like($like1, $like2, 'none', false); 
+                $select->like($searchBy[0], $search); 
+                $select->orLike($searchBy[1], $search); 
+                $select->orLike($searchBy[2], $search); 
+                $select->orLike($searchBy[3], $search);
+                $select->orLike($searchBy[4], $search);
             }
             else 
             {
