@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 25, 2020 at 08:48 AM
+-- Generation Time: Mar 11, 2020 at 04:29 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -35,6 +35,7 @@ CREATE TABLE `tb_grade` (
   `period_end` varchar(4) DEFAULT NULL,
   `teacher_id` int(11) NOT NULL,
   `grade_status` tinyint(1) DEFAULT NULL,
+  `deleted` tinyint(1) NOT NULL DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -43,12 +44,11 @@ CREATE TABLE `tb_grade` (
 -- Dumping data for table `tb_grade`
 --
 
-INSERT INTO `tb_grade` (`grade_id`, `grade_name`, `period_start`, `period_end`, `teacher_id`, `grade_status`, `created`, `modified`) VALUES
-(1, 'X TKJ-1', '2019', '2020', 1, 1, '2019-03-29 05:51:07', '2020-02-23 06:59:24'),
-(2, 'XI Grafika1', '2019', '2020', 2, 1, '2019-03-28 07:37:57', '2020-02-23 06:59:24'),
-(3, 'X TKJ-2', '2019', '2020', 3, 1, '2019-03-29 05:54:53', '2020-02-23 06:59:24'),
-(4, 'X Grafika I', '2019', '2020', 3, 1, '2020-02-25 06:36:43', '2020-02-25 06:36:43'),
-(5, 'X Grafika 2', '2019', '2020', 2, 1, '2020-02-25 07:47:21', '2020-02-25 07:47:21');
+INSERT INTO `tb_grade` (`grade_id`, `grade_name`, `period_start`, `period_end`, `teacher_id`, `grade_status`, `deleted`, `created`, `modified`) VALUES
+(1, 'X TKJ 2', '2019', '2020', 2, 1, 1, '2019-03-29 05:51:07', '2020-03-11 15:20:47'),
+(2, 'X Grafika 1', '2019', '2020', 3, 1, 0, '2019-03-28 07:37:57', '2020-02-25 14:15:34'),
+(3, 'X TKJ 1', '2019', '2020', 1, 1, 0, '2019-03-29 05:54:53', '2020-02-25 14:16:55'),
+(6, 'X Animasi 1', '2019', '2020', 2, 1, 0, '2020-03-11 15:22:07', '2020-03-11 15:27:41');
 
 --
 -- Indexes for dumped tables
@@ -69,7 +69,7 @@ ALTER TABLE `tb_grade`
 -- AUTO_INCREMENT for table `tb_grade`
 --
 ALTER TABLE `tb_grade`
-  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `grade_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

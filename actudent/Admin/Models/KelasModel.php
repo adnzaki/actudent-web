@@ -64,9 +64,10 @@ class KelasModel extends SharedModel
     public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
+        $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
 
         // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
-        $query = $joinAndSearch->where('grade_status', '1')->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where($params)->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
 
@@ -80,8 +81,9 @@ class KelasModel extends SharedModel
     public function getKelasRows($searchBy = 'grade_name', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
+        $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
 
-        return $joinAndSearch->where('grade_status', '1')->countAllResults();
+        return $joinAndSearch->where($params)->countAllResults();
     }
 
     /**
@@ -246,6 +248,20 @@ class KelasModel extends SharedModel
     }
 
     /**
+     * Delete a class group
+     * 
+     * @param int $grade
+     * @return void
+     */
+    public function delete($grade)
+    {
+        $this->db->transStart();
+        $this->QBRombel->delete(['grade_id' => $grade]);
+        $this->QBKelas->update(['deleted' => 1], ['grade_id' => $grade]);
+        $this->db->transComplete();
+    }
+
+    /**
      * Fill grade data with these values
      * 
      * @param array $data
@@ -308,6 +324,6 @@ class KelasModel extends SharedModel
      */
     public function getKelas()
     {
-        return $this->QBKelas->get()->getResult();
+        return $this->QBKelas->getWhere(['deleted' => 0, 'grade_status' => '1'])->getResult();
     }
 }

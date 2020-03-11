@@ -36,11 +36,13 @@ const kelas = new Vue({
         },
         detailKelas: {},
         studentGroup: [],
-        filterStudent: '',
-        studentTemp: [],
         activeGroup: '',
+        gradeName: '',
         addMemberProgress: false,
         spinner: false,
+
+        // Class group to be deleted
+        classGroup: '',
     },
     mounted() {
         this.reset()
@@ -132,6 +134,29 @@ const kelas = new Vue({
                 error: () => console.error('Network error')
             })
         },
+        deleteConfirm(gradeID) {
+            this.classGroup = gradeID
+            $('#hapusModal').modal('show')
+        },
+        deleteGrade() {
+            $.ajax({
+                url: `${this.kelas}/delete/${this.classGroup}`,
+                type: 'POST',
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.deleteProgress = true
+                    this.helper.disableSaveButton = true
+                },
+                success: () => {
+                    $('#hapusModal').modal('hide')
+                    this.resetForm('delete')
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
+                }
+            })
+        },
         resetForm(type, form = '') {
             this.alert.show = false
             // clear error messages if exists
@@ -219,9 +244,9 @@ const kelas = new Vue({
                                     
             setTimeout(() => {
                 this.addMemberProgress = false
-            }, (t1-t0) + 200);
+            }, (t1-t0));
         },
-        showAnggotaRombel(id) {
+        showAnggotaRombel(id, name) {
             $('#anggotaRombel').modal('show')
             this.gradeWrapper = this.data
             this.gradePagingOptions = {
@@ -231,6 +256,7 @@ const kelas = new Vue({
             }
 
             this.activeGroup = id
+            this.gradeName = name
             this.getUnregisteredStudents()
             this.getAnggotaRombel(id)
         },
@@ -257,7 +283,6 @@ const kelas = new Vue({
                 dataType: 'json',
                 success: res => {
                     this.studentGroup = res
-                    this.studentTemp = res
                 }
             })
         },

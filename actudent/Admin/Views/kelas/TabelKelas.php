@@ -9,11 +9,11 @@
 			<i class="la la-pencil"></i>
 		</button>
 		<button type="button" class="btn btn-icon btn-success" data-toggle="tooltip" data-placement="top"
-			title="{+ lang AdminKelas.kelas_member +}" @click="showAnggotaRombel(item.grade_id)">
+			title="{+ lang AdminKelas.kelas_member +}" @click="showAnggotaRombel(item.grade_id, item.grade_name)">
 			<i class="la la-group"></i>
 		</button>
 		<button type="button" class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top"
-			title="{+ lang Admin.hapus +}">
+			title="{+ lang Admin.hapus +}" @click="deleteConfirm(item.grade_id)">
 			<i class="la la-trash"></i>
 		</button>
 	</td>

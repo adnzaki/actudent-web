@@ -18,6 +18,7 @@
             {+ include Actudent\Admin\Views\kelas\FormTambahKelas +}
             {+ include Actudent\Admin\Views\kelas\FormEditKelas +}
             {+ include Actudent\Admin\Views\kelas\AnggotaRombel +}
+            {+ include Actudent\Admin\Views\kelas\DeleteConfirm +}
         </div>
     </div>
 </div>

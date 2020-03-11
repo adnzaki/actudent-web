@@ -4,7 +4,9 @@ aria-hidden="true" data-backdrop="static">
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header {modalHeaderColor} white">
-                <h4 class="modal-title white" id="myModalLabel2"><i class="la la-road2"></i> {{ lang.kelas_group_member_title }}</h4>
+                <h4 class="modal-title white" id="myModalLabel2"><i class="la la-road2"></i> 
+                    {{ lang.kelas_group_member_title }} - <strong>{{ gradeName }}</strong>
+                </h4>
                 <button type="button" class="close" aria-label="Close" @click="closeAnggotaRombel">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -37,7 +39,7 @@ aria-hidden="true" data-backdrop="static">
                                 		<td>{{ index + 1 }}</td>
                                 		<td>{{ item.student_name }}</td>
                                 		<td>
-                                			<button type="button" class="btn btn-icon btn-info mr-1"
+                                			<button type="button" class="btn btn-icon btn-danger mr-1"
                                 				data-toggle="tooltip" data-placement="top" @click="removeGroupMember(item.student_id)"
                                 				title="{+ lang AdminKelas.kelas_hapus_member_title +}">
                                 				<i class="la la-minus"></i>

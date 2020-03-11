@@ -109,6 +109,14 @@ class Kelas extends Actudent
         }
     }
 
+    public function delete($grade)
+    {
+        $this->kelas->delete($grade);
+        return $this->response->setJSON([
+            'code' => 'OK',
+        ]);
+    }
+
     private function validation()
     {
         $form = $this->formData();
