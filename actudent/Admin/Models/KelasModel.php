@@ -13,11 +13,6 @@ class KelasModel extends SharedModel
     private $QBTeacher;
 
     /**
-     * Query Builder for tb_student_grade
-     */
-    private $QBRombel;
-
-    /**
      * Table tb_grade
      * 
      * @var string
@@ -29,14 +24,7 @@ class KelasModel extends SharedModel
      * 
      * @var string
      */
-    private $teacher = 'tb_staff';
-
-    /**
-     * Table tb_student_grade
-     * 
-     * @var string
-     */
-    private $rombel = 'tb_student_grade';
+    private $teacher = 'tb_staff';    
 
     /**
      * Load the tables...
@@ -45,8 +33,7 @@ class KelasModel extends SharedModel
     {
         parent::__construct();
         $this->QBKelas = $this->db->table($this->kelas);
-        $this->QBTeacher = $this->db->table($this->teacher);
-        $this->QBRombel = $this->db->table($this->rombel);
+        $this->QBTeacher = $this->db->table($this->teacher);        
     }
 
     /**

@@ -23,6 +23,11 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
     protected $QBStudentParent;
 
     /**
+     * Query Builder for table tb_student_grade
+     */
+    protected $QBRombel;
+
+    /**
      * Table tb_parent
      * 
      * @var string
@@ -51,6 +56,13 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
     protected $studentParent = 'tb_student_parent';
 
     /**
+     * Table tb_student_grade
+     * 
+     * @var string
+     */
+    protected $rombel = 'tb_student_grade';
+
+    /**
      * Load the tables...
      */
     public function __construct()
@@ -60,5 +72,6 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
         $this->QBStudent = $this->db->table($this->student);
         $this->QBStudentParent = $this->db->table($this->studentParent);
         $this->QBUser = $this->db->table($this->user);
+        $this->QBRombel = $this->db->table($this->rombel);
     }
 }

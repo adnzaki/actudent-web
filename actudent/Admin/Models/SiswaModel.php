@@ -11,14 +11,6 @@ class SiswaModel extends SharedModel
      */
     private $kelas = 'tb_grade';
 
-     /**
-     * Table tb_student_grade
-     * 
-     * @var string
-     */
-    private $kelasSiswa = 'tb_student_grade';
-
-
     /**
      * Query to get student data
      * 
@@ -175,6 +167,7 @@ class SiswaModel extends SharedModel
         $where = ['student_id' => $id];
         $this->QBStudent->update(['deleted' => '1', 'student_tag' => 3], $where);
         $this->QBStudentParent->update(['deleted' => '1'], $where);
+        $this->QBRombel->update(['student_tag' => 3], $where);
     }
 
     /**
@@ -246,8 +239,8 @@ class SiswaModel extends SharedModel
         // Create join table if $where is true
         if($where)
         {
-            $select->join($this->kelasSiswa, "{$this->kelasSiswa}.student_id = {$this->student}.student_id")
-                   ->join($this->kelas, "{$this->kelas}.grade_id = {$this->kelasSiswa}.grade_id");
+            $select->join($this->rombel, "{$this->rombel}.student_id = {$this->student}.student_id")
+                   ->join($this->kelas, "{$this->kelas}.grade_id = {$this->rombel}.grade_id");
         }
         
         if(! empty($search))
