@@ -17,6 +17,7 @@
             {+ include Actudent\Admin\Views\siswa\alert +}
             {+ include Actudent\Admin\Views\kelas\FormTambahKelas +}
             {+ include Actudent\Admin\Views\kelas\FormEditKelas +}
+            {+ include Actudent\Admin\Views\kelas\AnggotaRombel +}
         </div>
     </div>
 </div>

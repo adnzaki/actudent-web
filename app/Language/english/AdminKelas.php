@@ -23,4 +23,9 @@ return [
     'kelas_insert_success'          => 'Successfully added new class group',
     'kelas_edit_success'            => 'Successfully updated class group data',
     'kelas_delete_success'          => 'Successfully deleted class group data',
+    'kelas_group_member_title'      => 'Class Group Member',
+    'kelas_group_member_search'     => 'Search for student',
+    'kelas_kosongkan_rombel'        => 'Empty Group',
+    'kelas_add_member_title'        => 'Add to class group',
+    'kelas_hapus_member_title'      => 'Remove from group',
 ];

@@ -32,6 +32,7 @@ return [
     'batal'             => 'Batal',
     'simpan'            => 'Simpan',
     'simpan_tutup'      => 'Simpan dan tutup',
+    'tutup'             => 'Tutup',
     'perbarui'          => 'Perbarui',
     'sukses'            => 'Sukses!',
     'terapkan'          => 'Terapkan',
@@ -50,5 +51,6 @@ return [
     'konfirmasi'        => 'Konfirmasi',
     'progress_hapus'    => 'Menghapus data...',
     'no_search_result'  => 'Tidak ditemukan hasil pencarian untuk',
+    'no_data'           => 'Tidak ada data ditemukan',
 ];
 

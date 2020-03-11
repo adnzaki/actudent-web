@@ -23,4 +23,9 @@ return [
     'kelas_insert_success'          => 'Berhasil menambahkan rombongan belajar baru',
     'kelas_edit_success'            => 'Berhasil memperbarui data rombongan belajar',
     'kelas_delete_success'          => 'Berhasil menghapus data rombongan belajar',
+    'kelas_group_member_title'      => 'Anggota Rombel',
+    'kelas_group_member_search'     => 'Cari siswa',
+    'kelas_kosongkan_rombel'        => 'Kosongkan Rombel',
+    'kelas_add_member_title'        => 'Tambahkan ke rombel',
+    'kelas_hapus_member_title'      => 'Hapus dari rombel',
 ];

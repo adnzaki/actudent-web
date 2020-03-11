@@ -39,6 +39,48 @@ class Kelas extends Actudent
         return $this->response->setJSON($this->kelas->getClassDetail($id));
     }
 
+    public function addMember($id, $grade)
+    {
+        $this->kelas->addMember($id, $grade);
+        
+        return $this->response->setJSON([
+            'msg' => 'OK'
+        ]);
+    }
+
+    public function removeMember($id)
+    {
+        $this->kelas->removeMember($id);
+        
+        return $this->response->setJSON([
+            'msg' => 'OK'
+        ]);
+    }
+
+    public function emptyGroup($grade)
+    {
+        $this->kelas->emptyGroup($grade);
+        
+        return $this->response->setJSON([
+            'msg' => 'OK'
+        ]);
+    }
+
+    public function getClassMember($id)
+    {
+        return $this->response->setJSON($this->kelas->getClassMember($id));
+    }
+
+    public function getUnregisteredStudents($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+        $data = $this->kelas->getUnregisteredStudents($limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->kelas->unregisteredStudentsRows($searchBy, $search);
+        return $this->response->setJSON([
+            'container' => $data,
+            'totalRows' => $rows,
+        ]);
+    }
+
     public function save($id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]

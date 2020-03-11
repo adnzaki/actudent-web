@@ -73,6 +73,16 @@
 	padding: 0.35rem 1.25rem !important;
 }
 
+.list-group-custom-2 {
+	overflow-y: scroll;
+	min-height: 30px;
+	max-height: 400px;
+}
+
+.list-group-item-custom-2 {
+	padding: 0.65rem 1.25rem !important;
+}
+
 .add-margin-top-5px {
 	margin-top: 5px;
 }
@@ -138,4 +148,32 @@ html body .extend-la {
 .decrease-col-size {
 	width: 30px;
 	padding-right: 0 !important;
+}
+
+.grid-border-left {
+	border-left: solid 1px rgb(54, 155, 150);
+}
+
+.grid-border-right {
+	border-right: dotted 0.2px rgb(54, 155, 150);
+}
+
+.scroll-overheight {
+	max-height: 450px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.float-element {
+	position: fixed;
+	z-index: 999;
+}
+
+.fix-height-500 {
+	height: 470px;
+}
+
+.custom-loader-wrapper {
+	background-color: #525757e3;
+	height: 33em;
 }

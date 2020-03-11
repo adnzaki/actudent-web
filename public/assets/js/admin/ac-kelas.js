@@ -29,27 +29,38 @@ const kelas = new Vue({
         selectedTeacher: {
             id: '', name: '',
         },
-        detailKelas: {}
+        gradeWrapper: [],
+        gradePagingOptions: {
+            limit: 10, offset: 0, orderBy: 'grade_name',
+            sort: 'ASC', search: '',
+        },
+        detailKelas: {},
+        studentGroup: [],
+        filterStudent: '',
+        studentTemp: [],
+        activeGroup: '',
+        addMemberProgress: false,
+        spinner: false,
     },
     mounted() {
         this.reset()
         setTimeout(() => {
-            this.getKelas()            
+            this.getKelas(this.gradePagingOptions)
         }, 200);
         this.runSelect2()
         this.select2ShowPerPage('#showRows')
         this.getLanguageResources('AdminKelas')
     },
     methods: {
-        getKelas() {
+        getKelas(options) {
             this.getData({
                 lang: bahasa,
-                limit: 10,
-                offset: 0,
-                orderBy: 'grade_name',
+                limit: options.limit,
+                offset: options.offset,
+                orderBy: options.orderBy,
                 searchBy: 'grade_name',
-                sort: 'ASC',
-                search: '',
+                sort: options.sort,
+                search: options.search,
                 url: `${this.kelas}get-kelas/`,
                 linkNum: 4,
                 activeClass: 'active',
@@ -159,6 +170,107 @@ const kelas = new Vue({
                 this.alert.text = ''
             }, 3500);
         },
+        addGroupMember(id) {
+            $.ajax({
+                url: `${this.kelas}add-member/${id}/${this.activeGroup}`,
+                type: 'post',
+                dataType: 'json',
+                beforeSend: () => {
+                    this.addMemberProgress = true
+                },
+                success: () => {
+                    this.resetGroupDisplay()
+                }
+            })
+        },
+        removeGroupMember(id) {
+            $.ajax({
+                url: `${this.kelas}remove-member/${id}`,
+                type: 'post',
+                dataType: 'json',
+                beforeSend: () => {
+                    this.addMemberProgress = true
+                },
+                success: () => {
+                    this.resetGroupDisplay()
+                }
+            })
+        },
+        emptyGroup() {
+            $.ajax({
+                url: `${this.kelas}empty-group/${this.activeGroup}`,
+                type: 'post',
+                dataType: 'json',
+                beforeSend: () => {
+                    this.addMemberProgress = true
+                },
+                success: () => {                    
+                    this.resetGroupDisplay()
+                }
+            })
+        },
+        resetGroupDisplay() {
+            let t0 = performance.now();
+
+            this.getUnregisteredStudents()
+            this.getAnggotaRombel(this.activeGroup) 
+
+            let t1 = performance.now();
+                                    
+            setTimeout(() => {
+                this.addMemberProgress = false
+            }, (t1-t0) + 200);
+        },
+        showAnggotaRombel(id) {
+            $('#anggotaRombel').modal('show')
+            this.gradeWrapper = this.data
+            this.gradePagingOptions = {
+                limit: this.limit, offset: this.offset,
+                orderBy: this.orderBy, sort: this.sort,
+                search: this.search
+            }
+
+            this.activeGroup = id
+            this.getUnregisteredStudents()
+            this.getAnggotaRombel(id)
+        },
+        getUnregisteredStudents() {
+            this.reset()
+            this.getData({
+                lang: bahasa,
+                limit: 25,
+                offset: 0,
+                orderBy: 'student_name',
+                searchBy: 'student_name',
+                sort: 'ASC',
+                search: '',
+                url: `${this.kelas}get-siswa/`,
+                linkNum: 4,
+                activeClass: 'active',
+                linkClass: 'page-item',
+            })
+        },
+        getAnggotaRombel(id) {
+            $.ajax({
+                url: `${this.kelas}get-member/${id}`,
+                type: 'get',
+                dataType: 'json',
+                success: res => {
+                    this.studentGroup = res
+                    this.studentTemp = res
+                }
+            })
+        },
+        closeAnggotaRombel() {
+            this.data = []
+            this.gradeWrapper = []
+            this.getKelas(this.gradePagingOptions) 
+            this.spinner = true
+            $('#anggotaRombel').modal('hide')                
+            setTimeout(() => {
+                this.spinner = false
+            }, 1200); 
+        },
         searchTeacher() {
             // prevent request until searchTimeout is true
             if(!this.searchTimeout) {
@@ -202,5 +314,5 @@ const kelas = new Vue({
             this.searchParam = ''
             this.teachers = []
         },
-    }
+    },
 })

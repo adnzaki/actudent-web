@@ -1,6 +1,6 @@
 <?php namespace Actudent\Admin\Models;
 
-class KelasModel extends \Actudent\Core\Models\ModelHandler
+class KelasModel extends SharedModel
 {
     /**
      * Query Builder for tb_grade
@@ -11,6 +11,11 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
      * Query Builder for tb_staff
      */
     private $QBTeacher;
+
+    /**
+     * Query Builder for tb_student_grade
+     */
+    private $QBRombel;
 
     /**
      * Table tb_grade
@@ -27,6 +32,13 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     private $teacher = 'tb_staff';
 
     /**
+     * Table tb_student_grade
+     * 
+     * @var string
+     */
+    private $rombel = 'tb_student_grade';
+
+    /**
      * Load the tables...
      */
     public function __construct()
@@ -34,6 +46,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
         parent::__construct();
         $this->QBKelas = $this->db->table($this->kelas);
         $this->QBTeacher = $this->db->table($this->teacher);
+        $this->QBRombel = $this->db->table($this->rombel);
     }
 
     /**
@@ -45,6 +58,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
      * @param string $searchBy
      * @param string $sort
      * @param string $search 
+     * 
      * @return object
      */
     public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = '')
@@ -84,6 +98,120 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
                   ->join($this->teacher, "{$this->teacher}.staff_id = {$this->kelas}.teacher_id");
         
         return $select->getWhere(["{$this->kelas}.grade_id" => $id])->getResult()[0];
+    }
+
+    /**
+     * Remove all students from a class group
+     * 
+     * @param int $grade 
+     * @return void
+     */
+    public function emptyGroup($grade)
+    {
+        $this->QBRombel->delete(['grade_id' => $grade]);
+    }
+    
+    /**
+     * Add a student to a class group
+     * 
+     * @param int $id
+     * @param int $grade 
+     * 
+     * @return void
+     */
+    public function addMember($id, $grade)
+    {
+        $value = [
+            'student_id'    => $id,
+            'grade_id'      => $grade,
+            'student_tag'   => 1
+        ];
+
+        $this->QBRombel->insert($value);
+    }
+
+    /**
+     * Remove a student from a class group
+     * 
+     * @param int $id
+     * @param int $grade 
+     * 
+     * @return void
+     */
+    public function removeMember($id)
+    {
+        $this->QBRombel->delete(['student_id' => $id]);
+    }
+
+    /**
+     * Get member of a class group
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getClassMember($id)
+    {
+        $query = $this->QBRombel->select("{$this->rombel}.student_id, student_name")
+                 ->join($this->student, "{$this->student}.student_id = {$this->rombel}.student_id")
+                 ->where(['grade_id' => $id, "{$this->rombel}.student_tag !=" => 3]);
+        return $query->get()->getResult();
+    }
+
+    /**
+     * Get students where not in class group
+     * 
+     * @param int $limit 
+     * @param int $offset 
+     * @param string $orderBy
+     * @param string $searchBy
+     * @param string $sort
+     * @param string $search 
+     * 
+     * @return object
+     */
+    public function getUnregisteredStudents($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = '')
+    {
+        $select = $this->unregisteredStudentsQuery($searchBy, $search)->orderBy($orderBy, $sort)->limit($limit, $offset);
+
+        return $select->get()->getResult();
+    }
+
+    /**
+     * Count results of unregistered students
+     * 
+     * @param string $searchBy
+     * @param string $search
+     * 
+     * @return int
+     */
+    public function unregisteredStudentsRows($searchBy = 'student_name', $search = '')
+    {
+        $select = $this->unregisteredStudentsQuery($searchBy, $search);
+
+        return $select->countAllResults();
+    }
+
+    /**
+     * Get unregistered students query
+     * 
+     * @param string $searchBy
+     * @param string $search
+     * 
+     * @return QueryBuilder
+     */
+    private function unregisteredStudentsQuery($searchBy, $search)
+    {
+        $rombel = $this->QBRombel;
+        $query = $this->QBStudent->select('student_id, student_nis, student_name');
+
+        if(! empty($search))
+        {
+            $query->like($searchBy, $search);
+        }
+
+        return $query->whereNotIn('student_id', function($rombel) {
+            return $rombel->select('student_id')->from($this->rombel);
+        })->where('deleted', '0');
     }
 
     /**
