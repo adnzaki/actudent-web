@@ -16,8 +16,8 @@
           </li>
         </ul>
       </li>
-      <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal +}</span></a>
+      <li class="{+ menu_active uri=jadwal +} nav-item">
+        <a href="{admin}jadwal"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal +}</span></a>
       </li>
       <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kehadiran +}</span></a>

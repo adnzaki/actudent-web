@@ -2,6 +2,7 @@
 
 return [
     // teks halaman data kelas
+    'page_title'                    => 'Kelas',
     'kelas_title'                   => 'Data Kelas',
     'kelas_nama'                    => 'Rombongan Belajar',
     'kelas_cari'                    => 'Cari nama kelas',

@@ -2,6 +2,7 @@
 
 return [
     // teks halaman data kelas
+    'page_title'                    => 'Grade',
     'kelas_title'                   => 'Grade Data',
     'kelas_nama'                    => 'Class Group',
     'kelas_cari'                    => 'Search for grade name',
