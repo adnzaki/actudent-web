@@ -17,10 +17,10 @@
         </ul>
       </li>
       <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kehadiran +}</span></a>
+        <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal +}</span></a>
       </li>
       <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal +}</span></a>
+        <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kehadiran +}</span></a>
       </li>
       <li class="{+ menu_active uri=agenda +} nav-item">
         <a href="{admin}agenda"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_agenda +}</span></a>
