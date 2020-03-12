@@ -62,6 +62,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('agenda/validate-file', 'Agenda::runFileValidation');
 	$routes->add('agenda/upload/(:any)', 'Agenda::uploadFile/$1');
 	$routes->add('agenda/delete/(:any)', 'Agenda::delete/$1');
+	$routes->add('agenda/display-attachment/(:any)', 'Agenda::displayAttachment/$1');
 	$routes->add('timeline', 'Timeline::index');
 	$routes->add('timeline/get-posts/(:any)/(:any)', 'Timeline::getPosts/$1/$2');
 	//$routes->add('timeline/get-comments/(:any)/(:any)', 'Timeline::getPostComments/$1/$2');

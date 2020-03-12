@@ -108,6 +108,15 @@ class Agenda extends Actudent
 
         return $this->response->setJSON($data);
     }
+
+    public function displayAttachment($agendaID)
+    {
+        $data = $this->common();
+        $agenda = $this->agenda->getAttachment($agendaID);
+        $data['file'] = $agenda->agenda_attachment;
+
+        return redirect()->to(base_url('attachments/agenda/' . $data['file']));
+    }
     
     public function delete($id)
     {

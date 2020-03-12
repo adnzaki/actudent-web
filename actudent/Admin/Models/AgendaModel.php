@@ -73,6 +73,12 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         return $this->QBAgenda->getWhere(['agenda_id' => $id])->getResult()[0];
     }
 
+    public function getAttachment($id)
+    {
+        return $this->QBAgenda->select('agenda_attachment')
+                ->where(['agenda_id' => $id])->get()->getResult()[0];
+    }
+
     /**
      * Get event's guests
      * 
