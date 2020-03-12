@@ -26,7 +26,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
 
     private $user = 'tb_user';
 
-    private $userStudent = 'tb_user_student';
+    private $studentParent = 'tb_student_parent';
 
     private $student = 'tb_student';
 
@@ -34,7 +34,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
 
     private $grade = 'tb_grade';
 
-    private $teacher = 'tb_teacher';
+    private $teacher = 'tb_staff';
 
     public function __construct()
     {
@@ -253,17 +253,17 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      */
     private function joinAndSearchQuery($search)
     {
-        $field = 'tb_parent.user_id as user_parent, tb_teacher.user_id as user_guru,
-        parent_father_name, parent_mother_name, user_name,
-        tb_user_student.student_id, student_name, tb_student_grade.grade_id, grade_name, teacher_name';
-        $query = $this->QBParent->select($field)->join($this->user, "{$this->parent}.user_id = {$this->user}.user_id")
-                ->join($this->userStudent, "{$this->user}.user_id = {$this->userStudent}.user_id")
-                ->join($this->student, "{$this->userStudent}.student_id = {$this->student}.student_id")
-                ->join($this->studentGrade, "{$this->student}.student_id = {$this->studentGrade}.student_id")
-                ->join($this->grade, "{$this->studentGrade}.grade_id = {$this->grade}.grade_id and  {$this->grade}.grade_status = 1")
-                ->join($this->teacher, "{$this->grade}.teacher_id = {$this->teacher}.teacher_id")
+        $field = "{$this->parent}.user_id as user_parent,
+                  {$this->teacher}.user_id as user_guru, 
+                  parent_father_name, parent_mother_name, grade_name, staff_name";
+        $query = $this->QBParent->select($field)
+                ->join($this->studentParent, "{$this->studentParent}.parent_id = {$this->parent}.parent_id")
+                ->join($this->student, "{$this->student}.student_id = {$this->studentParent}.student_id")
+                ->join($this->studentGrade, "{$this->studentGrade}.student_id = {$this->student}.student_id and {$this->student}.deleted=0")
+                ->join($this->grade, "{$this->grade}.grade_id = {$this->studentGrade}.grade_id")
+                ->join($this->teacher, "{$this->teacher}.staff_id = {$this->grade}.teacher_id")
                 ->like("{$this->grade}.grade_name", $search)->orLike("{$this->parent}.parent_father_name", $search)
-                ->orLike("{$this->parent}.parent_mother_name", $search)->orLike("{$this->teacher}.teacher_name", $search);
+                ->orLike("{$this->parent}.parent_mother_name", $search)->orLike("{$this->teacher}.staff_name", $search);
         
         return $query;                
     }

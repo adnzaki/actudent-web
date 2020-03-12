@@ -71,8 +71,9 @@ class Agenda extends Actudent
             foreach($data as $res)
             {
                 // push the result into the wrapper
-                array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => "{$res->user_name}"]);
-                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->teacher_name}"]);
+                $userParent = "{$res->parent_father_name} & {$res->parent_mother_name}";
+                array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => $userParent]);
+                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->staff_name}"]);
             }
 
             $output = [
