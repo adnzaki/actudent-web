@@ -6,7 +6,6 @@
                     <button type="button" class="btn btn-outline-info" 
                         data-toggle="modal" data-target="#tambahKelasModal">{+ lang Admin.tambah +}
                     </button>
-                    <button type="button" class="btn btn-outline-danger">{+ lang Admin.hapus +}</button> 
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
