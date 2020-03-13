@@ -7,7 +7,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Query Builder for table tb_staff
      */
-    private $QBStaff;
+    public $QBStaff;
 
      /**
      * Query Builder for table tb_user
