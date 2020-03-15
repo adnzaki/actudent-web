@@ -71,9 +71,12 @@ const pegawai = new Vue({
             })
         },
         showAddPegawaiForm() {
+            $('#tambahPegawaiModal').modal('show')
+            this.validateFile('upload-file')
+            
             setTimeout(() => {
                 this.runICheck('blue')            
-            }, 500);    
+            }, 500);                
         },
         getDetailPegawai(id) {
             this.error = {}
@@ -94,14 +97,16 @@ const pegawai = new Vue({
             })
         },
         save(edit = false, id = null) {
-            let url, form
+            let url, form, uploadSelector
             let obj = this
             if(edit) {
                 url = `${this.pegawai}save/${id}`
                 form = $('#formEditPegawai')
+                uploadSelector = 'update-file'
             } else {
                 url = `${this.pegawai}save`
                 form = $('#formTambahPegawai')
+                uploadSelector = 'upload-file'
             }
 
             let data = form.serialize()
@@ -134,6 +139,12 @@ const pegawai = new Vue({
                             obj.alert.text = ''
                         }, 3000);
                     } else {
+                        // if the form has attachment, upload it
+                        if(hasAttachment) {
+                            obj.uploadRequest(`${obj.pegawai}upload/${res.id}`, uploadSelector)
+                        }
+                        
+                        // reset everything
                         if(edit) {
                             obj.resetForm('edit', form)
                         } else {
@@ -199,6 +210,35 @@ const pegawai = new Vue({
                 obj.checkAll = false
                 $('input#normal').iCheck('check')
             })
+        },
+        validateFile(formName) {
+            let obj = this
+            $('input[name=staff_photo]').on('change', function() {
+                obj.uploadRequest(`${obj.pegawai}validate-file`, formName, true)
+                if(obj.eventDetail.data.staff_photo !== undefined) {
+                    obj.helper.fileUploaded = obj.eventDetail.data.staff_photo
+                }
+            })
+        },
+        uploadRequest(url, formName, validate = false) {
+            let form = document.forms.namedItem(formName),
+                data = new FormData(form),
+                req = new XMLHttpRequest
+            req.open('POST', url, true)
+            req.responseType = 'json'
+            req.onload = obj => {
+                if(req.response.msg === 'OK') {
+                    this.error = {}
+                    this.helper.disableSaveButton = false
+                    if(validate === false) {
+                        document.getElementById(formName).reset()
+                    }
+                } else {
+                    this.error = req.response
+                    this.helper.disableSaveButton = true
+                }
+            }
+            req.send(data)
         },
         selectAll() {
             if(this.checkAll) {

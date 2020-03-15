@@ -68,9 +68,9 @@ aria-hidden="true">
                         <div class="form-group">
                             <label>{{ lang.staff_label_photo }}</label>
                             <form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
-                            <input class="form-control border-primary" type="file" accept="application/pdf" name="agenda_attachment">
+                            <input class="form-control border-primary" type="file" accept="application/jpg" name="staff_photo">
                              </form>                             
-                            <form-error :msg="error.agenda_attachment" />
+                            <form-error :msg="error.staff_photo" />
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_email +}</label>

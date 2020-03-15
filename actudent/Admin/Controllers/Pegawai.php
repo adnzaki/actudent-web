@@ -47,6 +47,15 @@ class Pegawai extends Actudent
         return $this->response->setJSON($data);
     }
 
+    public function displayPhoto($staffID)
+    {
+        $data = $this->common();
+        $staff = $this->staff->getPhoto($staffID);
+        $data['file'] = $staff->satff_photo;
+
+        return redirect()->to(base_url('images/pegawaicxx/' . $data['file']));
+    }
+
     public function delete($idString)
     {
         $idWrapper = [];
@@ -86,6 +95,12 @@ class Pegawai extends Actudent
             }
             else
             {
+                if(! empty($data['file_uploaded']))
+                {
+                    $path = PUBLICPATH . 'images/pegawai/';
+                    unlink($path . $data['file_uploaded']);
+                }
+
                 $this->staff->update($data, $id);
             }
             
@@ -167,6 +182,54 @@ class Pegawai extends Actudent
         return [$rules, $messages];
     }
 
+    public function uploadFile($insertID)
+    {        
+        $validated = $this->validateFile();
+
+        if($validated) 
+        {
+            $attachment = $this->request->getFile('staff_photo');
+            $newFilename = $attachment->getRandomName();
+            $attachment->move(PUBLICPATH . 'images/pegawai', $newFilename);
+
+            // Set attachment
+            $this->staff->setPhoto($newFilename, $insertID);
+            return $this->response->setJSON(['msg' => 'OK']);
+        }
+        else 
+        {
+            return $this->response->setJSON($this->validation->getErrors());
+        }
+    }
+
+    public function runFileValidation()
+    {
+        $validated = $this->validateFile();
+        if($validated)
+        {
+            return $this->response->setJSON(['msg' => 'OK']);
+        }
+        else 
+        {
+            return $this->response->setJSON($this->validation->getErrors());
+        }
+    }
+
+    private function validateFile()
+    {
+        $fileRules = [
+            'staff_photo' => 'mime_in[staff_photo,application/jpg]|max_size[staff_photo,5048]'
+        ];
+        $fileMessages = [
+            'staff_photo' => [
+                'mime_in' => lang('Admin.invalid_filetype'),
+                'max_size' => lang('Admin.file_too_large'),
+            ]
+        ];
+
+        return $this->validate($fileRules, $fileMessages);
+    }
+
     private function formData()
     {
         return [
@@ -178,6 +241,7 @@ class Pegawai extends Actudent
             'user_name'             => $this->request->getPost('staff_name'),
             'user_email'            => $this->request->getPost('user_email'),
             'user_password'         => $this->request->getPost('user_password'),
+            'file_uploaded'         => $this->request->getPost('file_uploaded'),
         ];
     }
 
