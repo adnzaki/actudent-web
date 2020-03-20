@@ -37,7 +37,7 @@
         },
         runSummerNote() {
             $('#summernote').summernote({
-                height: 350,
+                height: 250,
                 focus: true,
                 lang: this.summernoteLang[bahasa],
                 toolbar: [

@@ -9,10 +9,24 @@ aria-hidden="true">
                 </button>
             </div>
             <div class="modal-body">
-            <form class="summernote">
-               
-                <textarea name="editordata" id="summernote"></textarea>
-            </form>
+                <form class="summernote">
+                    <div class="form-group">
+                        <label>Judul Post</label>
+                        <input class="form-control border-primary" type="text" placeholder="Judul post"
+                            name="timeline_title">
+                        <!-- <form-error :msg="error.agenda_name" /> -->
+                    </div>
+                
+                    <textarea name="editordata" id="summernote"></textarea>
+                </form>
+                <br>
+                <div class="form-group">
+                    <label>Gambar fitur</label>
+                    <form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
+                        <input class="form-control border-primary" type="file" accept="image/*" name="timeline_image">
+                    </form>
+                    <!-- <form-error :msg="error.timeline_image" /> -->
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-warning" data-dismiss="modal"> {+ lang Admin.batal +}</button>
