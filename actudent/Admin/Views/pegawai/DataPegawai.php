@@ -48,7 +48,6 @@
                 <th @click="sortData('staff_nik')">{+ lang AdminPegawai.staff_id +}<i class="la la-sort"></th>
                 <th @click="sortData('staff_name')">{+ lang AdminPegawai.staff_nama +}<i class="la la-sort"></th>
                 <th @click="sortData('staff_phone')">{+ lang AdminPegawai.staff_label_telp +}<i class="la la-sort"></th>
-                <th @click="sortData('staff_type')">{+ lang AdminPegawai.staff_label_jenis +}<i class="la la-sort"></th>
                 <th @click="sortData('staff_title')">{+ lang AdminPegawai.staff_label_jabatan +}<i class="la la-sort"></th>
                 <th>{+ lang Admin.aksi +}</th>
             </tr>
@@ -61,7 +60,6 @@
                 <td>{{ item.staff_nik }}</td>
                 <td>{{ item.staff_name }}</td>
                 <td>{{ item.staff_phone }}</td>
-                <td>{{ item.staff_type }}</td>
                 <td>{{ item.staff_title }}</td>
                 <td>
                     <button type="button" class="btn btn-icon btn-info mr-1" 

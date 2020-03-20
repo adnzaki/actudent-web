@@ -143,6 +143,12 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
         return $select->getResult();                  
     }
 
+    public function getPhoto($id)
+    {
+        return $this->QBStaff->select('staff_photo')
+                ->where(['staff_id' => $id])->get()->getResult()[0];
+    }
+
     /**
      * Insert staff data
      * 
@@ -232,6 +238,19 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
             'user_password' => password_hash($data['user_password'], PASSWORD_BCRYPT),
             'user_level'    => 2,
         ];
+    }
+
+    /**
+     * Set the photo from user input
+     * 
+     * @param string $filename
+     * @param int $id
+     * 
+     * @return void
+     */
+    public function setPhoto($filename, $id)
+    {        
+        $this->QBStaff->where('staff_id', $id)->update(['staff_photo' => $filename]);
     }
 
     /**

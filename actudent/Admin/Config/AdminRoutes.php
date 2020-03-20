@@ -48,6 +48,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pegawai/save/(:any)', 'Pegawai::save/$1');
 	$routes->add('pegawai/detail/(:any)', 'Pegawai::getStaffDetail/$1');
 	$routes->add('pegawai/delete/(:any)', 'Pegawai::delete/$1');
+	$routes->add('pegawai/validate-file', 'Pegawai::runFileValidation');
+	$routes->add('pegawai/upload/(:any)', 'Pegawai::uploadFile/$1');
 	$routes->add('guru', 'Guru::index');
 	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5/$6');
 	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5');
