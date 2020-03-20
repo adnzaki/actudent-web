@@ -24,30 +24,17 @@ class Jadwal extends Actudent
     public function getLessons($grade)
     {
         $data = $this->jadwal->getLessons($grade);
-        $response = [];
+        $lessons = [];
         if($data !== false)
         {
-            // decode JSON string into PHP object
-            $response = $data[0];
-            $response->lessons = json_decode($response->lessons);
-    
-            // prepare the formatter to get teacher name
-            // of each lesson
-            $lessonFormatter = [];
-    
-            foreach($response->lessons as $res)
-            {
-                $teacher = $this->jadwal->getTeacherName($res->teacher_id)->staff_name;
-                $lessonFormatter[] = [
-                    'name' => $res->name,
-                    'teacher_id' => $res->teacher_id,
-                    'teacher_name' => $teacher
-                ];
-            }
-    
-            // replace original lessons data with the formatted one
-            $response->lessons = $lessonFormatter;
+            $lessons = $data;
         }
+
+        $className = $this->jadwal->rombel->getClassDetail($grade);
+        $response = [
+            'className' => $className->grade_name,
+            'lessons' => $lessons,
+        ];
 
         return $this->response->setJSON($response);
     }

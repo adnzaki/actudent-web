@@ -42,7 +42,7 @@ const jadwal = new Vue({
         let t1 = performance.now()
         setTimeout(() => {
             this.cardTitle = this.lang.jadwal_title            
-        }, (t1-t0));
+        }, (t1-t0) + 500);
     },
     methods: {
         getKelas() {
@@ -71,13 +71,11 @@ const jadwal = new Vue({
                     this.spinner = true
                 },
                 success: data => {
-                    if(data.lessons !== undefined) {
-                        this.lessonList = data.lessons
-                    }
+                    this.lessonList = data.lessons              
                     setTimeout(() => {
                         this.spinner = false
                         this.helper.showDaftarMapel = true     
-                        this.cardTitle = this.lang.jadwal_daftar_mapel        
+                        this.cardTitle = `${this.lang.jadwal_daftar_mapel} ${data.className}`
                     }, 800);
                 }
             })

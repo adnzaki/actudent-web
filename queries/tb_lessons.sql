@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 20, 2020 at 01:53 PM
+-- Generation Time: Mar 20, 2020 at 05:53 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -29,8 +29,10 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `tb_lessons` (
+  `lesson_id` int(11) NOT NULL,
   `grade_id` int(11) NOT NULL,
-  `lessons` text NOT NULL,
+  `lesson_name` varchar(100) NOT NULL,
+  `teacher_id` int(11) NOT NULL,
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -39,8 +41,9 @@ CREATE TABLE `tb_lessons` (
 -- Dumping data for table `tb_lessons`
 --
 
-INSERT INTO `tb_lessons` (`grade_id`, `lessons`, `created`, `modified`) VALUES
-(3, '[{\"name\": \"Matematika\",\"teacher_id\": 1},{\"name\": \"Bhs. Indonesia\",\"teacher_id\": 3},{\"name\": \"RPL\",\"teacher_id\": 4}]', '2020-03-13 07:14:46', '2020-03-13 07:47:56');
+INSERT INTO `tb_lessons` (`lesson_id`, `grade_id`, `lesson_name`, `teacher_id`, `created`, `modified`) VALUES
+(1, 3, 'Matematika', 2, '2020-03-13 07:14:46', '2020-03-20 23:10:21'),
+(2, 3, 'RPL', 4, '2020-03-20 23:11:06', '2020-03-20 23:11:06');
 
 --
 -- Indexes for dumped tables
@@ -50,7 +53,19 @@ INSERT INTO `tb_lessons` (`grade_id`, `lessons`, `created`, `modified`) VALUES
 -- Indexes for table `tb_lessons`
 --
 ALTER TABLE `tb_lessons`
-  ADD PRIMARY KEY (`grade_id`);
+  ADD PRIMARY KEY (`lesson_id`),
+  ADD KEY `fk_teacher_lesson` (`teacher_id`),
+  ADD KEY `fk_grade_lesson` (`grade_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `tb_lessons`
+--
+ALTER TABLE `tb_lessons`
+  MODIFY `lesson_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -60,7 +75,8 @@ ALTER TABLE `tb_lessons`
 -- Constraints for table `tb_lessons`
 --
 ALTER TABLE `tb_lessons`
-  ADD CONSTRAINT `fk_grade_lessons` FOREIGN KEY (`grade_id`) REFERENCES `tb_grade` (`grade_id`);
+  ADD CONSTRAINT `fk_grade_lesson` FOREIGN KEY (`grade_id`) REFERENCES `tb_grade` (`grade_id`),
+  ADD CONSTRAINT `fk_teacher_lesson` FOREIGN KEY (`teacher_id`) REFERENCES `tb_staff` (`staff_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

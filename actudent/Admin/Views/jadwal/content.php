@@ -1,7 +1,7 @@
 <div class="row">
 	<div class="col-12">
 		<div class="card {cardColor}">
-			<div class="card-header {cardColor}">
+			<div class="card-header {cardColor}" v-cloak>
 				<h4 class="card-title {cardTitleColor}">{{ cardTitle }}</h4>
 				<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 				<div class="heading-elements">

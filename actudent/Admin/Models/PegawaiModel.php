@@ -25,7 +25,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @var string
      */
-    private $staff = 'tb_staff';
+    public $staff = 'tb_staff';
     /**
      * Table tb_user
      * 

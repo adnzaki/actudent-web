@@ -17,7 +17,7 @@ class KelasModel extends SharedModel
      * 
      * @var string
      */
-    private $kelas = 'tb_grade';
+    public $kelas = 'tb_grade';
 
     /**
      * Table tb_grade

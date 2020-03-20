@@ -32,7 +32,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     /**
      * @var Actudent\Admin\Models\KelasModel
      */
-    private $kelas;
+    public $rombel;
 
     /**
      * @var Actudent\Admin\Models\PegawaiModel
@@ -47,7 +47,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
         parent::__construct();
         $this->QBJadwal = $this->db->table($this->jadwal);
         $this->QBMapel = $this->db->table($this->mapel);
-        $this->kelas = new KelasModel;
+        $this->rombel = new KelasModel;
         $this->pegawai = new PegawaiModel;
     }
 
@@ -62,25 +62,15 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
         $query = $this->QBMapel->where(['grade_id' => $grade]);
         if($query->countAllResults() > 0)
         {
-            return $query->get()->getResult();
+            $field  = 'lesson_id, lesson_name, staff_name as teacher';
+            $select = $this->QBMapel->select($field);
+            $join1  = $select->join($this->rombel->kelas, "{$this->rombel->kelas}.grade_id = {$this->mapel}.grade_id");
+            $join2  = $join1->join($this->pegawai->staff, "{$this->pegawai->staff}.staff_id = {$this->mapel}.teacher_id");
+            return $join2->get()->getResult();
         }
         else 
         {
             return false;
         }
-
-    }
-
-    /**
-     * Get teacher name
-     * 
-     * @var int $id
-     * @return object
-     */
-    public function getTeacherName($id)
-    {
-        $query = $this->pegawai->QBStaff->select('staff_name')->getWhere(['staff_id' => $id]);
-
-        return $query->getResult()[0];
     }
 }
