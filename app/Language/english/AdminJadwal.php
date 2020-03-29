@@ -7,4 +7,16 @@ return [
     'jadwal_jadwal_mapel'           => 'Schedule',
     'jadwal_nama_mapel'             => 'Lesson Name',
     'jadwal_guru_mapel'             => 'Teacher',
+    'jadwal_add_title'              => 'Add Lesson',
+    'jadwal_label_pilih_mapel'      => 'Choose a lesson',
+    'jadwal_label_pilih_guru'       => 'Subject teacher',
+    'jadwal_input_cari_mapel'       => 'Search for lesson name',
+    'jadwal_err_lesson_required'    => 'No lesson chosen',
+    'jadwal_err_lesson_natural'     => 'Invalid lesson ID',
+    'jadwal_save_progress'          => 'Saving lessons data...',
+    'jadwal_save_error'             => 'Unable to add lesson, please fill the form correctly',
+    'jadwal_insert_success'         => 'New lesson has been added successfully',
+    'jadwal_edit_success'           => 'Successfully updated lesson data',
+    'jadwal_delete_success'         => 'Successfully deleted lesson data',
+
 ];

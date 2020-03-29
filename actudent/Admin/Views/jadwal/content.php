@@ -22,6 +22,7 @@
 			{+ include Actudent\Admin\Views\siswa\alert +}
 			{+ include Actudent\Admin\Views\jadwal\DataKelas +}
 			{+ include Actudent\Admin\Views\jadwal\DataMapel +}
+			{+ include Actudent\Admin\Views\jadwal\FormTambahMapel +}
 		</div>
 	</div>
 </div>

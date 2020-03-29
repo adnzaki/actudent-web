@@ -26,8 +26,14 @@ const jadwal = new Vue({
         },
         lessonList: [],
         spinner: false,
-        cardTitle: '',
+        cardTitle: '', gradeID: null,
         checkAll: false, lessons: [],
+        searchParam: '', searchTimeout: false,
+        searchResultWrapper: false,
+        teachers: [], 
+        selectedTeacher: {
+            id: '', name: '',
+        },
     },
     mounted() {
         this.reset()
@@ -43,6 +49,7 @@ const jadwal = new Vue({
         setTimeout(() => {
             this.cardTitle = this.lang.jadwal_title            
         }, (t1-t0) + 500);
+        this.select2Ajax(`${this.jadwal}cari-mapel`, '.select2-mapel')
     },
     methods: {
         getKelas() {
@@ -61,21 +68,114 @@ const jadwal = new Vue({
                 autoReset: { active: true, timeout: 1000 }
             })
         },
-        showMapel(grade) {
+        saveMapel(grade, edit = false, id = null) {
+            let url, form
+            let obj = this
+            if(edit) {
+                url = `${this.jadwal}simpan-mapel/${grade}/${id}`
+                form = $('#formEditMapel')
+            } else {
+                url = `${this.jadwal}simpan-mapel/${grade}`
+                form = $('#formTambahMapel')
+            }
+            let data = form.serialize()
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: () => {
+                    obj.alert.header = ''
+                    obj.alert.text = obj.lang.jadwal_save_progress
+                    obj.alert.show = true
+                    obj.helper.disableSaveButton = true
+                },
+                success: res => {
+                    obj.helper.disableSaveButton = false
+                    if(res.code === '500') {
+                        obj.error = res.msg
+
+                        // set error alert
+                        obj.alert.class = 'bg-danger'
+                        obj.alert.header = 'Error!'
+                        obj.alert.text = obj.lang.jadwal_save_error
+
+                        // hide after 3000 ms and change the class and text to default
+                        setTimeout(() => {
+                            obj.alert.show = false
+                            obj.alert.class = 'bg-primary'
+                            obj.alert.header = ''
+                            obj.alert.text = ''
+                        }, 3000);
+                    } else {
+                        if(edit) {
+                            obj.resetForm('edit', form)
+                        } else {
+                            obj.resetForm('insert', form)
+                        }
+                    }
+                },
+                error: () => console.error('Network error')
+            })
+        },
+        resetForm(type, form = '') {
+            this.alert.show = false
+            // clear error messages if exists
+            this.error = {}
+
+            // reset form
+            if(form !== '') {
+                form.trigger('reset')
+            }
+
+            this.selectedTeacher = {
+                id: '', name: ''
+            }
+
+            // reload table
+            this.showMapel(this.gradeID, false)
+                
+            if(type === 'insert') {
+                this.alert.text = this.lang.jadwal_insert_success 
+                $('#tambahMapelModal').modal('hide')
+            } else if(type === 'edit') {
+                this.alert.text = this.lang.jadwal_edit_success
+                $('#editMapelModal').modal('hide')                     
+            } else {
+                this.alert.text = this.lang.jadwal_delete_success                
+            }
+
+            this.alert.header = this.lang.sukses
+            this.alert.class = 'bg-success'
+            this.alert.show = true
+
+            setTimeout(() => {
+                this.alert.show = false
+                this.alert.header = ''
+                this.alert.class = 'bg-primary'
+                this.alert.text = ''
+            }, 3500);
+        },
+        showMapel(grade, useSpinner = true) {
             $.ajax({
                 url: `${this.jadwal}daftar-mapel/${grade}`,
                 type: 'get',
                 dataType: 'json',
                 beforeSend: () => {
                     this.helper.showDaftarKelas = false
-                    this.spinner = true
+                    if(useSpinner) {
+                        this.spinner = true
+                    }
                 },
                 success: data => {
-                    this.lessonList = data.lessons              
+                    this.lessonList = data.lessons    
+                    this.gradeID = data.class_id          
                     setTimeout(() => {
-                        this.spinner = false
+                        if(useSpinner) {
+                            this.spinner = false
+                        }
                         this.helper.showDaftarMapel = true     
-                        this.cardTitle = `${this.lang.jadwal_daftar_mapel} ${data.className}`
+                        this.cardTitle = `${this.lang.jadwal_daftar_mapel} ${data.class_name}`
                     }, 800);
                 }
             })
@@ -96,6 +196,49 @@ const jadwal = new Vue({
         },
         selectAll() {
 
+        },
+        searchTeacher() {
+            // prevent request until searchTimeout is true
+            if(!this.searchTimeout) {
+                this.searchTimeout = true
+                // wait for 300ms before processing request to server
+                setTimeout(() => {
+                    let keyword
+                    if(this.searchParam === '') {
+                        keyword = ''
+                        this.teachers = []
+                    } else {
+                        keyword = `/${this.searchParam}`
+                    }
+                    $.ajax({
+                        url: `${this.kelas}cari-guru${keyword}`,
+                        type: 'get',
+                        dataType: 'json',
+                        success: data => {
+                            // open the result wrapper
+                            if(data === null) {
+                                this.searchResultWrapper = false
+                                this.teachers = []
+                            } else {
+                                this.searchResultWrapper = true
+                                this.teachers = data
+                            }
+                        }
+                    })
+                    // turn back searchTimeout to false
+                    this.searchTimeout = false
+                }, 300)
+            }
+        },
+        selectTeacher(value) {
+            this.selectedTeacher.id = value.staff_id
+            this.selectedTeacher.name = value.staff_name
+            this.clearResult()
+        },
+        clearResult() {
+            this.searchResultWrapper = false 
+            this.searchParam = ''
+            this.teachers = []
         },
     },
 })      

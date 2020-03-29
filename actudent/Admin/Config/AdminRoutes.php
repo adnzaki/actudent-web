@@ -55,6 +55,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5');
 	$routes->add('jadwal', 'Jadwal::index');
 	$routes->add('jadwal/daftar-mapel/(:any)', 'Jadwal::getLessons/$1');
+	$routes->add('jadwal/cari-mapel', 'Jadwal::searchLessons');
+	$routes->add('jadwal/simpan-mapel/(:any)', 'Jadwal::saveLesson/$1');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');

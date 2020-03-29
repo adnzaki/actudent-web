@@ -46,6 +46,27 @@ const plugin = {
 				return `${sentence[0]} ${lowerText.join(' ')}`				
 			}
 		},
+		select2Ajax(url, elem) {
+			$(elem).select2({
+                ajax: {
+                    url: url,
+                    type: 'post',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            searchTerm: params.term // search term
+                        }
+                    },
+                    processResults: function (response) {
+                        return {
+                            results: response
+                        }
+                    },
+                    cache: true
+                }
+            })
+		},
 		runSelect2() {
 			(function (window, document, $) {
 				'use strict';

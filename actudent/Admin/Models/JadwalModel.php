@@ -11,6 +11,11 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     private $QBJadwal;
 
     /**
+     * Query builder for tb_lessons_grade
+     */
+    private $QBMapelKelas;
+
+     /**
      * Query builder for tb_lessons
      */
     private $QBMapel;
@@ -21,6 +26,13 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      * @var string
      */
     private $jadwal = 'tb_schedule';
+
+    /**
+     * Table tb_lessons_grade
+     * 
+     * @var string
+     */
+    private $mapelKelas = 'tb_lessons_grade';
 
     /**
      * Table tb_lessons
@@ -46,6 +58,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     {
         parent::__construct();
         $this->QBJadwal = $this->db->table($this->jadwal);
+        $this->QBMapelKelas = $this->db->table($this->mapelKelas);
         $this->QBMapel = $this->db->table($this->mapel);
         $this->rombel = new KelasModel;
         $this->pegawai = new PegawaiModel;
@@ -59,18 +72,54 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getLessons($grade)
     {
-        $query = $this->QBMapel->where(['grade_id' => $grade]);
+        $query = $this->QBMapelKelas->where(['grade_id' => $grade]);
         if($query->countAllResults() > 0)
         {
-            $field  = 'lesson_id, lesson_name, staff_name as teacher';
-            $select = $this->QBMapel->select($field);
-            $join1  = $select->join($this->rombel->kelas, "{$this->rombel->kelas}.grade_id = {$this->mapel}.grade_id");
-            $join2  = $join1->join($this->pegawai->staff, "{$this->pegawai->staff}.staff_id = {$this->mapel}.teacher_id");
-            return $join2->get()->getResult();
+            $param = [
+                "{$this->mapel}.deleted" => '0',
+                "{$this->mapelKelas}.grade_id" => $grade,
+            ];
+
+            $field  = "{$this->mapelKelas}.lesson_id, lesson_name, staff_name as teacher";
+            $select = $this->QBMapelKelas->select($field);
+            $join1  = $select->join($this->mapel, "{$this->mapel}.lesson_id = {$this->mapelKelas}.lesson_id");
+            $join2  = $join1->join($this->rombel->kelas, "{$this->rombel->kelas}.grade_id = {$this->mapelKelas}.grade_id");
+            $join3  = $join2->join($this->pegawai->staff, "{$this->pegawai->staff}.staff_id = {$this->mapelKelas}.teacher_id");
+            return $join3->getWhere($param)->getResult();
         }
         else 
         {
             return false;
         }
+    }
+
+    /**
+     * Search lessons
+     * 
+     * @param string $search
+     * @return object
+     */
+    public function searchLessons($search)
+    {
+        return $this->QBMapel->like('lesson_name', $search)->get()->getResult();
+    }
+
+    /**
+     * Insert lessons to tb_lessons_grade
+     * 
+     * @param int $grade
+     * @param array $value
+     * 
+     * @return void
+     */
+    public function insert($grade, $value)
+    {
+        $value['grade_id'] = $grade;
+        $this->QBMapelKelas->insert($value);
+    }
+
+    public function update($grade, $value, $id)
+    {
+
     }
 }
