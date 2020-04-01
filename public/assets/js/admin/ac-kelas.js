@@ -10,10 +10,7 @@ const kelas = new Vue({
     mixins: [SSPaging, plugin],
     data: {
         kelas : `${admin}kelas/`,
-        error: { 
-            studentNis: '', studentName: '', 
-            gradeName: '',
-        },
+        error: {},
         alert: {
             class: 'bg-primary', show: false,
             header: '', text: '',
@@ -52,6 +49,7 @@ const kelas = new Vue({
         this.runSelect2()
         this.select2ShowPerPage('#showRows')
         this.getLanguageResources('AdminKelas')
+        this.onModalClose('#editKelasModal')
     },
     methods: {
         getKelas(options) {
@@ -338,6 +336,14 @@ const kelas = new Vue({
             this.searchResultWrapper = false 
             this.searchParam = ''
             this.teachers = []
+        },
+        onModalClose(target) {
+            let obj = this
+            $(target).on('hidden.bs.modal', function() {
+                obj.selectedTeacher = {
+                    id: '', name: '',
+                }
+            })
         },
     },
 })
