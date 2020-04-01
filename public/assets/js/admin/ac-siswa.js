@@ -43,6 +43,7 @@ const siswa = new Vue({
         this.select2ShowPerPage('#showRows')
         this.getLanguageResources('AdminSiswa')
         this.getLanguageResources('Admin')
+        this.onModalClose('#editSiswaModal')
     },
     methods: {
         getSiswa() {
@@ -282,6 +283,14 @@ const siswa = new Vue({
             this.searchResultWrapper = false 
             this.searchParam = ''
             this.family = []
+        },
+        onModalClose(target) {
+            let obj = this
+            $(target).on('hidden.bs.modal', function() {
+                obj.selectedParent = {
+                    id: '', father: '', mother: ''
+                }
+            })
         },
     },
     watch: {
