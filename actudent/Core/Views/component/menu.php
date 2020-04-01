@@ -6,13 +6,13 @@
       </li>
       <li class=" nav-item"><a href="#"><i class="la la-database"></i><span class="menu-title" data-i18n="nav.icons.main">{+ lang Admin.menu_master +}</span></a>
         <ul class="menu-content">
-          <li class="{+ menu_active uri=siswa +}"><a class="menu-item" href="{admin}siswa" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_siswa +}</a>
-          </li>
           <li class="{+ menu_active uri=OrangTua +}"><a class="menu-item" href="{admin}orang-tua" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_parent +}</a>
           </li>
-          <li class="{+ menu_active uri=kelas +}"><a class="menu-item" href="{admin}kelas" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_kelas +}</a>
+          <li class="{+ menu_active uri=siswa +}"><a class="menu-item" href="{admin}siswa" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_siswa +}</a>
           </li>
           <li class="{+ menu_active uri=pegawai +}"><a class="menu-item" href="{admin}pegawai" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_pegawai +}</a>
+          </li>
+          <li class="{+ menu_active uri=kelas +}"><a class="menu-item" href="{admin}kelas" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_kelas +}</a>
           </li>
         </ul>
       </li>
