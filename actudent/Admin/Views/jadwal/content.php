@@ -23,6 +23,7 @@
 			{+ include Actudent\Admin\Views\jadwal\DataKelas +}
 			{+ include Actudent\Admin\Views\jadwal\DataMapel +}
 			{+ include Actudent\Admin\Views\jadwal\FormTambahMapel +}
+			{+ include Actudent\Admin\Views\jadwal\FormEditMapel +}
 		</div>
 	</div>
 </div>

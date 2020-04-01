@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#tambahMapelModal">{+ lang Admin.tambah +}
+                        data-toggle="modal" @click="addMapelForm">{+ lang Admin.tambah +}
                     </button>
                     <button type="button" class="btn btn-outline-danger"></i> {+ lang Admin.hapus +}</button>
                     <button type="button" @click="closeMapel"
@@ -27,13 +27,13 @@
             <tbody>
                 <tr v-for="(item, index) in lessonList" :key="index" class="soft-dark">
                     <td scope="row" class="decrease-col-size">
-                        <Checkbox v-model="lessons" :value="index" color="#0070ff"></Checkbox>
+                        <Checkbox v-model="lessons" :value="item.lesson_id" color="#0070ff"></Checkbox>
                     </td>
                     <td>{{ item.lesson_name }}</td>
                     <td>{{ item.teacher }}</td>
                     <td>
                         <button type="button" class="btn btn-icon btn-info" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang Admin.perbarui +}">
+                            title="{+ lang Admin.perbarui +}" @click="getDetailMapel(item.lesson_id)">
                             <i class="la la-pencil"></i>
                         </button>
                         <button type="button" class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top"

@@ -8,6 +8,7 @@ return [
     'jadwal_nama_mapel'             => 'Nama Mata Pelajaran',
     'jadwal_guru_mapel'             => 'Guru',
     'jadwal_add_title'              => 'Tambah Mata Pelajaran',
+    'jadwal_edit_title'             => 'Perbarui mata pelajaran',
     'jadwal_label_pilih_mapel'      => 'Pilih mata pelajaran',
     'jadwal_label_pilih_guru'       => 'Guru bidang studi',
     'jadwal_input_cari_mapel'       => 'Cari nama mapel',

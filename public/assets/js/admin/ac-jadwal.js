@@ -24,7 +24,7 @@ const jadwal = new Vue({
             showDaftarMapel: false,
             showJadwalMapel: false,
         },
-        lessonList: [],
+        lessonList: [], prevLesson: '',
         spinner: false,
         cardTitle: '', gradeID: null,
         checkAll: false, lessons: [],
@@ -49,7 +49,7 @@ const jadwal = new Vue({
         setTimeout(() => {
             this.cardTitle = this.lang.jadwal_title            
         }, (t1-t0) + 500);
-        this.select2Ajax(`${this.jadwal}cari-mapel`, '.select2-mapel')
+        this.onModalClose('#editMapelModal')
     },
     methods: {
         getKelas() {
@@ -68,11 +68,11 @@ const jadwal = new Vue({
                 autoReset: { active: true, timeout: 1000 }
             })
         },
-        saveMapel(grade, edit = false, id = null) {
+        saveMapel(grade, edit = false) {
             let url, form
             let obj = this
             if(edit) {
-                url = `${this.jadwal}simpan-mapel/${grade}/${id}`
+                url = `${this.jadwal}simpan-mapel/${grade}/${this.prevLesson}`
                 form = $('#formEditMapel')
             } else {
                 url = `${this.jadwal}simpan-mapel/${grade}`
@@ -117,6 +117,34 @@ const jadwal = new Vue({
                 },
                 error: () => console.error('Network error')
             })
+        },
+        getDetailMapel(lesson) {
+            this.error = {}
+            $.ajax({
+                url: `${this.jadwal}detail-mapel/${lesson}/${this.gradeID}`,
+                type: 'get',
+                dataType: 'json',
+                success: data => {
+                    this.prevLesson = data.lesson_id
+                    // init select2 with ajax
+                    this.select2Ajax(`${this.jadwal}cari-mapel`, '#mapel-terpilih')
+
+                    // create new option set it to be defaul selected value
+                    let lesson = new Option(data.lesson_name, data.lesson_id, true, true)
+                    $('#mapel-terpilih').append(lesson).trigger('change')
+
+                    // push response to selectedTeacher 
+                    this.selectedTeacher.id = data.teacher_id
+                    this.selectedTeacher.name = data.teacher
+
+                    // show the modal
+                    $('#editMapelModal').modal('show')
+                }
+            })
+        },
+        addMapelForm() {
+            this.select2Ajax(`${this.jadwal}cari-mapel`, '.select2-mapel')
+            $('#tambahMapelModal').modal('show')
         },
         resetForm(type, form = '') {
             this.alert.show = false
@@ -239,6 +267,14 @@ const jadwal = new Vue({
             this.searchResultWrapper = false 
             this.searchParam = ''
             this.teachers = []
+        },
+        onModalClose(target) {
+            let obj = this
+            $(target).on('hidden.bs.modal', function() {
+                obj.selectedTeacher = {
+                    id: '', name: '',
+                }
+            })
         },
     },
 })      

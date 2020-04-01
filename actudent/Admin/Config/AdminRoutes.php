@@ -57,6 +57,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('jadwal/daftar-mapel/(:any)', 'Jadwal::getLessons/$1');
 	$routes->add('jadwal/cari-mapel', 'Jadwal::searchLessons');
 	$routes->add('jadwal/simpan-mapel/(:any)', 'Jadwal::saveLesson/$1');
+	$routes->add('jadwal/simpan-mapel/(:any)/(:any)', 'Jadwal::saveLesson/$1/$2');
+	$routes->add('jadwal/detail-mapel/(:any)/(:any)', 'Jadwal::getLessonDetail/$1/$2');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');

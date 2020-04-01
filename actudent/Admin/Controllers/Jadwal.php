@@ -40,6 +40,12 @@ class Jadwal extends Actudent
         return $this->response->setJSON($response);
     }
 
+    public function getLessonDetail($lesson, $grade)
+    {
+        $data = $this->jadwal->getLessonDetail($lesson, $grade);
+        return $this->response->setJSON($data[0]);
+    }
+
     public function searchLessons()
     {
         $search = $this->request->getPost('searchTerm');
