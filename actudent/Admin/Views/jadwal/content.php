@@ -24,6 +24,7 @@
 			{+ include Actudent\Admin\Views\jadwal\DataMapel +}
 			{+ include Actudent\Admin\Views\jadwal\FormTambahMapel +}
 			{+ include Actudent\Admin\Views\jadwal\FormEditMapel +}
+			{+ include Actudent\Admin\Views\jadwal\DeleteConfirm +}
 		</div>
 	</div>
 </div>

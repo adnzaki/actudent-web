@@ -78,6 +78,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
             $param = [
                 "{$this->mapel}.deleted" => '0',
                 "{$this->mapelKelas}.grade_id" => $grade,
+                "{$this->mapelKelas}.deleted" => '0',
             ];
 
             $join = $this->lessonsGradeJoin();
@@ -166,5 +167,23 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
         ];
 
         $this->QBMapelKelas->update($value, $where);
+    }
+
+    /**
+     * Mark lessons in tb_lessons_grade to "deleted"
+     * 
+     * @param int $grade
+     * @param int $lesson
+     * 
+     * @return void
+     */
+    public function delete($grade, $lesson)
+    {
+        $param = [
+            'grade_id' => $grade,
+            'lesson_id' => $lesson
+        ];
+
+        $this->QBMapelKelas->update(['deleted' => 1], $param);
     }
 }

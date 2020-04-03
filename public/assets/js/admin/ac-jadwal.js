@@ -45,11 +45,13 @@ const jadwal = new Vue({
         let t0 = performance.now()
         this.getLanguageResources('AdminJadwal')
         this.getLanguageResources('AdminKelas')
+        this.getLanguageResources('Admin')
         let t1 = performance.now()
         setTimeout(() => {
             this.cardTitle = this.lang.jadwal_title            
         }, (t1-t0) + 500);
         this.onModalClose('#editMapelModal')
+        this.onModalClose('#hapusModal')
     },
     methods: {
         getKelas() {
@@ -126,8 +128,6 @@ const jadwal = new Vue({
                 dataType: 'json',
                 success: data => {
                     this.prevLesson = data.lesson_id
-                    // init select2 with ajax
-                    this.select2Ajax(`${this.jadwal}cari-mapel`, '#mapel-terpilih')
 
                     // create new option set it to be defaul selected value
                     let lesson = new Option(data.lesson_name, data.lesson_id, true, true)
@@ -141,10 +141,6 @@ const jadwal = new Vue({
                     $('#editMapelModal').modal('show')
                 }
             })
-        },
-        addMapelForm() {
-            this.select2Ajax(`${this.jadwal}cari-mapel`, '.select2-mapel')
-            $('#tambahMapelModal').modal('show')
         },
         resetForm(type, form = '') {
             this.alert.show = false
@@ -185,6 +181,8 @@ const jadwal = new Vue({
             }, 3500);
         },
         showMapel(grade, useSpinner = true) {
+            this.select2Ajax(`${this.jadwal}cari-mapel`, '#pilih-mapel')
+            this.select2Ajax(`${this.jadwal}cari-mapel`, '#mapel-terpilih')
             $.ajax({
                 url: `${this.jadwal}daftar-mapel/${grade}`,
                 type: 'get',
@@ -212,6 +210,8 @@ const jadwal = new Vue({
             this.helper.showDaftarMapel = false
             this.lessonList = []
             this.spinner = true
+            $('#pilih-mapel').select2('destroy')
+            $('#mapel-terpilih').select2('destroy')
             setTimeout(() => {
                 this.spinner = false
                 this.helper.showDaftarKelas = true  
@@ -222,8 +222,63 @@ const jadwal = new Vue({
                 }, 300)         
             }, 500)
         },
-        selectAll() {
+        deleteLesson() {
+            let idString
+            if(this.lessons.length > 1) {
+                idString = this.lessons.join('&')
+            } else {
+                idString = this.lessons[0]
+            }
 
+            $.ajax({
+                url: `${this.jadwal}hapus-mapel`,
+                type: 'POST',
+                data: { id: idString },
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.deleteProgress = true
+                    this.helper.disableSaveButton = true
+                },
+                success: msg => {
+                    $('#hapusModal').modal('hide')
+                    this.resetForm('delete')
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
+                }
+            })
+        },
+        singleDeleteConfirm(lessonID) {
+            if(this.lessons.length > 0) {
+                this.lessons = []
+                this.checkAll = false
+            } 
+
+            this.lessons.push(`${this.gradeID}-${lessonID}`)
+            $('#hapusModal').modal('show')
+        },
+        multiDeleteConfirm() {
+            if(this.lessons.length === 0) {
+                this.alert.header = 'Error!'
+                this.alert.class = 'bg-danger'
+                this.alert.text = this.lang.pilih_data_dulu
+                this.alert.show = true
+                setTimeout(() => {
+                    this.alert.show = false
+                }, 3500);
+            } else {
+                $('#hapusModal').modal('show')
+            }
+        },
+        selectAll() {
+            if(this.checkAll) {
+                this.lessonList.forEach(item => {
+                    this.lessons.push(`${this.gradeID}-${item.lesson_id}`)
+                })
+            } else {
+                this.lessons = []
+            }
         },
         searchTeacher() {
             // prevent request until searchTimeout is true
@@ -271,6 +326,8 @@ const jadwal = new Vue({
         onModalClose(target) {
             let obj = this
             $(target).on('hidden.bs.modal', function() {
+                obj.lessons = []
+                obj.checkAll = false
                 obj.selectedTeacher = {
                     id: '', name: '',
                 }

@@ -66,6 +66,28 @@ class Jadwal extends Actudent
         return $this->response->setJSON($formatter);
     }
 
+    public function deleteLesson()
+    {
+        $idString = $this->request->getPost('id');
+        $idWrapper = [];
+        if(strpos($idString, '&') !== false)
+        {
+            $idWrapper = explode('&', $idString);
+            foreach($idWrapper as $id)
+            {
+                $toArray = explode('-', $id);
+                $this->jadwal->delete($toArray[0], $toArray[1]);
+            }
+        }
+        else 
+        {
+            $toArray = explode('-', $idString);
+            $this->jadwal->delete($toArray[0], $toArray[1]);
+        }
+
+        return $this->response->setJSON(['status' => 'OK']);
+    }
+
     public function saveLesson($grade, $id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]

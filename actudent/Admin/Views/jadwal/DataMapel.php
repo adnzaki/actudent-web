@@ -4,9 +4,9 @@
             <div class="col-12">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" @click="addMapelForm">{+ lang Admin.tambah +}
+                        data-toggle="modal" data-target="#tambahMapelModal">{+ lang Admin.tambah +}
                     </button>
-                    <button type="button" class="btn btn-outline-danger"></i> {+ lang Admin.hapus +}</button>
+                    <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm"></i> {+ lang Admin.hapus +}</button>
                     <button type="button" @click="closeMapel"
                         class="btn btn-outline-success"> {+ lang Admin.tutup +}
                     </button>
@@ -27,7 +27,7 @@
             <tbody>
                 <tr v-for="(item, index) in lessonList" :key="index" class="soft-dark">
                     <td scope="row" class="decrease-col-size">
-                        <Checkbox v-model="lessons" :value="item.lesson_id" color="#0070ff"></Checkbox>
+                        <Checkbox v-model="lessons" :value="gradeID + '-' + item.lesson_id" color="#0070ff"></Checkbox>
                     </td>
                     <td>{{ item.lesson_name }}</td>
                     <td>{{ item.teacher }}</td>
@@ -37,7 +37,7 @@
                             <i class="la la-pencil"></i>
                         </button>
                         <button type="button" class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang Admin.hapus +}">
+                            title="{+ lang Admin.hapus +}" @click="singleDeleteConfirm(item.lesson_id)">
                             <i class="la la-trash"></i>
                         </button>
                     </td>
