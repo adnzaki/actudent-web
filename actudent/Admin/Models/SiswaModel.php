@@ -167,7 +167,7 @@ class SiswaModel extends SharedModel
         $where = ['student_id' => $id];
         $this->QBStudent->update(['deleted' => '1', 'student_tag' => 3], $where);
         $this->QBStudentParent->update(['deleted' => '1'], $where);
-        $this->QBRombel->update(['student_tag' => 3], $where);
+        $this->QBRombel->update(['student_tag' => 3, 'deleted' => 1], $where);
     }
 
     /**

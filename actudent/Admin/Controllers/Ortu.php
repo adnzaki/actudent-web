@@ -49,8 +49,9 @@ class Ortu extends Actudent
         return $this->response->setJSON($data);
     }
 
-    public function delete($idString)
+    public function delete()
     {
+        $idString = $this->request->getPost('id');
         $idWrapper = [];
         if(strpos($idString, '&') !== false)
         {

@@ -154,8 +154,9 @@ const siswa = new Vue({
             }
 
             $.ajax({
-                url: `${this.siswa}/delete/${idString}`,
+                url: `${this.siswa}/delete`,
                 type: 'POST',
+                data: { id: idString },
                 dataType: 'json',
                 beforeSend: () => {
                     this.helper.deleteProgress = true

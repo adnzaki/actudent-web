@@ -17,14 +17,14 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('siswa/save', 'Siswa::save');
 	$routes->add('siswa/save/(:any)', 'Siswa::save/$1');
 	$routes->add('siswa/detail/(:any)', 'Siswa::getDetailSiswa/$1');
-	$routes->add('siswa/delete/(:any)', 'Siswa::delete/$1');
+	$routes->add('siswa/delete', 'Siswa::delete');
 	$routes->add('orang-tua', 'Ortu::index');
 	$routes->add('orang-tua/get-ortu/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ortu::getParents/$1/$2/$3/$4/$5/$6');
 	$routes->add('orang-tua/get-ortu/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ortu::getParents/$1/$2/$3/$4/$5');
 	$routes->add('orang-tua/save', 'Ortu::save');
 	$routes->add('orang-tua/save/(:any)', 'Ortu::save/$1');
 	$routes->add('orang-tua/detail/(:any)', 'Ortu::getParentDetail/$1');
-	$routes->add('orang-tua/delete/(:any)', 'Ortu::delete/$1');
+	$routes->add('orang-tua/delete', 'Ortu::delete');
 	$routes->add('kelas', 'Kelas::index');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
@@ -47,7 +47,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pegawai/save', 'Pegawai::save');
 	$routes->add('pegawai/save/(:any)', 'Pegawai::save/$1');
 	$routes->add('pegawai/detail/(:any)', 'Pegawai::getStaffDetail/$1');
-	$routes->add('pegawai/delete/(:any)', 'Pegawai::delete/$1');
+	$routes->add('pegawai/delete', 'Pegawai::delete');
 	$routes->add('pegawai/validate-file', 'Pegawai::runFileValidation');
 	$routes->add('pegawai/upload/(:any)', 'Pegawai::uploadFile/$1');
 	$routes->add('guru', 'Guru::index');

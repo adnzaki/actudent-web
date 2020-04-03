@@ -164,8 +164,9 @@ const pegawai = new Vue({
             }
 
             $.ajax({
-                url: `${this.pegawai}/delete/${idString}`,
+                url: `${this.pegawai}/delete`,
                 type: 'POST',
+                data: { id: idString },
                 dataType: 'json',
                 beforeSend: () => {
                     this.helper.deleteProgress = true

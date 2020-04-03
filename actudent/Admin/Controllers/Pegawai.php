@@ -56,8 +56,9 @@ class Pegawai extends Actudent
         return redirect()->to(base_url('images/pegawaicxx/' . $data['file']));
     }
 
-    public function delete($idString)
+    public function delete()
     {
+        $idString = $this->request->getPost('id');
         $idWrapper = [];
         if(strpos($idString, '&') !== false)
         {

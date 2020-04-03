@@ -134,8 +134,9 @@ const ortu = new Vue({
             }
 
             $.ajax({
-                url: `${this.ortu}/delete/${idString}`,
+                url: `${this.ortu}/delete`,
                 type: 'POST',
+                data: { id: idString },
                 dataType: 'json',
                 beforeSend: () => {
                     this.helper.deleteProgress = true

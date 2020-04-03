@@ -75,8 +75,9 @@ class Siswa extends Actudent
         }
     }
 
-    public function delete($idString)
+    public function delete()
     {
+        $idString = $this->request->getPost('id');
         $idWrapper = [];
         if(strpos($idString, '-') !== false)
         {
