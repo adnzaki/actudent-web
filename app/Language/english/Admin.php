@@ -16,6 +16,7 @@ return [
     'menu_pengguna'      => 'Users',
     'menu_aplikasi'      => 'Application',
     'menu_pegawai'       => 'Staff',
+    'menu_mapel'         => 'Lessons',
     
     // teks navbar
     'navbar_halo'        => 'Hello',
