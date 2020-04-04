@@ -127,12 +127,22 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Search lessons
      * 
+     * Expencted query:
+     * SELECT * FROM tb_lessons WHERE lesson_name LIKE '%ba%'
+     * AND lesson_id NOT IN 
+     * (SELECT lesson_id FROM tb_lessons_grade WHERE grade_id=2)
+     * 
      * @param string $search
      * @return object
      */
-    public function searchLessons($search)
+    public function searchLessons($search, $grade)
     {
-        return $this->QBMapel->like('lesson_name', $search)->get()->getResult();
+        $whereNotIn = " AND lesson_id NOT IN (SELECT lesson_id FROM {$this->mapelKelas} 
+                        WHERE grade_id={$grade} AND deleted=0)";
+        $param = "'%$search%' ESCAPE '!' $whereNotIn";
+        $like = $this->QBMapel->like('lesson_name', $param, 'none', false);
+
+        return $like->get()->getResult();
     }
 
     /**

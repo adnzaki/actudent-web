@@ -55,7 +55,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5');
 	$routes->add('jadwal', 'Jadwal::index');
 	$routes->add('jadwal/daftar-mapel/(:any)', 'Jadwal::getLessons/$1');
-	$routes->add('jadwal/cari-mapel', 'Jadwal::searchLessons');
+	$routes->add('jadwal/cari-mapel/(:any)', 'Jadwal::searchLessons/$1');
 	$routes->add('jadwal/simpan-mapel/(:any)', 'Jadwal::saveLesson/$1');
 	$routes->add('jadwal/simpan-mapel/(:any)/(:any)', 'Jadwal::saveLesson/$1/$2');
 	$routes->add('jadwal/hapus-mapel', 'Jadwal::deleteLesson');
@@ -84,6 +84,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-insert-id', 'Test::insertIDTest');
 	$routes->add('test-data', 'Test::testData');
 	$routes->add('test-array', 'Test::arrayEach');
+	$routes->add('test-result', 'Test::resultToArray');
 	$routes->add('template/icons', 'Template::icons');
 	$routes->add('template/buttons', 'Template::buttons');
 });

@@ -46,14 +46,14 @@ class Jadwal extends Actudent
         return $this->response->setJSON($data[0]);
     }
 
-    public function searchLessons()
+    public function searchLessons($grade)
     {
         $search = $this->request->getPost('searchTerm');
         
         $formatter = [];
         if(! empty($search))
         {
-            $data = $this->jadwal->searchLessons($search);
+            $data = $this->jadwal->searchLessons($search, $grade);
             foreach($data as $res)
             {
                 $formatter[] = [

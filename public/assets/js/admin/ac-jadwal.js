@@ -24,6 +24,7 @@ const jadwal = new Vue({
             showDaftarMapel: false,
             showJadwalMapel: false,
         },
+        scheduleList: {},
         lessonList: [], prevLesson: '',
         spinner: false,
         cardTitle: '', gradeID: null,
@@ -180,9 +181,12 @@ const jadwal = new Vue({
                 this.alert.text = ''
             }, 3500);
         },
+        showJadwal(grade, useSpinner = true) {
+
+        },
         showMapel(grade, useSpinner = true) {
-            this.select2Ajax(`${this.jadwal}cari-mapel`, '#pilih-mapel')
-            this.select2Ajax(`${this.jadwal}cari-mapel`, '#mapel-terpilih')
+            this.select2Ajax(`${this.jadwal}cari-mapel/${grade}`, '#pilih-mapel')
+            this.select2Ajax(`${this.jadwal}cari-mapel/${grade}`, '#mapel-terpilih')
             $.ajax({
                 url: `${this.jadwal}daftar-mapel/${grade}`,
                 type: 'get',
