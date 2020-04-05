@@ -25,7 +25,7 @@ const jadwal = new Vue({
             showJadwalMapel: false,
         },
         scheduleList: {},
-        lessonList: [], prevLesson: '',
+        lessonList: [], lessonsGradeID: '',
         spinner: false,
         cardTitle: '', gradeID: null,
         checkAll: false, lessons: [],
@@ -71,14 +71,14 @@ const jadwal = new Vue({
                 autoReset: { active: true, timeout: 1000 }
             })
         },
-        saveMapel(grade, edit = false) {
+        saveMapel(edit = false) {
             let url, form
             let obj = this
             if(edit) {
-                url = `${this.jadwal}simpan-mapel/${grade}/${this.prevLesson}`
+                url = `${this.jadwal}simpan-mapel/${this.lessonsGradeID}`
                 form = $('#formEditMapel')
             } else {
-                url = `${this.jadwal}simpan-mapel/${grade}`
+                url = `${this.jadwal}simpan-mapel`
                 form = $('#formTambahMapel')
             }
             let data = form.serialize()
@@ -121,14 +121,15 @@ const jadwal = new Vue({
                 error: () => console.error('Network error')
             })
         },
-        getDetailMapel(lesson) {
+        getDetailMapel(id) {
             this.error = {}
             $.ajax({
-                url: `${this.jadwal}detail-mapel/${lesson}/${this.gradeID}`,
+                url: `${this.jadwal}detail-mapel/${id}`,
                 type: 'get',
                 dataType: 'json',
                 success: data => {
-                    this.prevLesson = data.lesson_id
+                    // save ID
+                    this.lessonsGradeID = data.lessons_grade_id
 
                     // create new option set it to be defaul selected value
                     let lesson = new Option(data.lesson_name, data.lesson_id, true, true)
@@ -229,7 +230,7 @@ const jadwal = new Vue({
         deleteLesson() {
             let idString
             if(this.lessons.length > 1) {
-                idString = this.lessons.join('&')
+                idString = this.lessons.join('-')
             } else {
                 idString = this.lessons[0]
             }
@@ -253,13 +254,13 @@ const jadwal = new Vue({
                 }
             })
         },
-        singleDeleteConfirm(lessonID) {
+        singleDeleteConfirm(id) {
             if(this.lessons.length > 0) {
                 this.lessons = []
                 this.checkAll = false
             } 
 
-            this.lessons.push(`${this.gradeID}-${lessonID}`)
+            this.lessons.push(id)
             $('#hapusModal').modal('show')
         },
         multiDeleteConfirm() {
@@ -278,7 +279,7 @@ const jadwal = new Vue({
         selectAll() {
             if(this.checkAll) {
                 this.lessonList.forEach(item => {
-                    this.lessons.push(`${this.gradeID}-${item.lesson_id}`)
+                    this.lessons.push(item.lessons_grade_id)
                 })
             } else {
                 this.lessons = []

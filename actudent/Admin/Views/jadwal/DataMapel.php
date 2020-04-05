@@ -27,17 +27,17 @@
             <tbody>
                 <tr v-for="(item, index) in lessonList" :key="index" class="soft-dark">
                     <td scope="row" class="decrease-col-size">
-                        <Checkbox v-model="lessons" :value="gradeID + '-' + item.lesson_id" color="#0070ff"></Checkbox>
+                        <Checkbox v-model="lessons" :value="item.lessons_grade_id" color="#0070ff"></Checkbox>
                     </td>
                     <td>{{ item.lesson_name }}</td>
                     <td>{{ item.teacher }}</td>
                     <td>
                         <button type="button" class="btn btn-icon btn-info" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang Admin.perbarui +}" @click="getDetailMapel(item.lesson_id)">
+                            title="{+ lang Admin.perbarui +}" @click="getDetailMapel(item.lessons_grade_id)">
                             <i class="la la-pencil"></i>
                         </button>
                         <button type="button" class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang Admin.hapus +}" @click="singleDeleteConfirm(item.lesson_id)">
+                            title="{+ lang Admin.hapus +}" @click="singleDeleteConfirm(item.lessons_grade_id)">
                             <i class="la la-trash"></i>
                         </button>
                     </td>

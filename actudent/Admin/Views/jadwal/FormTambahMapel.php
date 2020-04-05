@@ -54,7 +54,8 @@ aria-hidden="true">
                         <div class="form-group">
                             <label for="userinput6">{{ lang.kelas_label_walikelas }}</label>
                             <input class="form-control border-primary" disabled type="text" :placeholder="lang.jadwal_label_pilih_guru" v-model="selectedTeacher.name">
-                            <input type="hidden" name="teacher_id" v-model="selectedTeacher.id">                            
+                            <input type="hidden" name="teacher_id" v-model="selectedTeacher.id">  
+                            <input type="hidden" name="grade_id" v-model="gradeID">                                
                             <form-error :msg="error.teacher_id" />
                         </div>
                     </div>
@@ -62,7 +63,7 @@ aria-hidden="true">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="saveMapel(gradeID)"> {+ lang Admin.simpan +}</button>
+                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="saveMapel()"> {+ lang Admin.simpan +}</button>
             </div>
         </div>
     </div>

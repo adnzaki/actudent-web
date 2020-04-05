@@ -62,7 +62,7 @@ aria-hidden="true">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="saveMapel(gradeID, true)"> {+ lang Admin.simpan +}</button>
+                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="saveMapel(true)"> {+ lang Admin.simpan +}</button>
             </div>
         </div>
     </div>

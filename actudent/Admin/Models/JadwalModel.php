@@ -93,20 +93,14 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Get detail of lesson list
      * 
-     * @param int $lesson
-     * @param int $grade
+     * @param int $id #lessons_grade_id
      * 
      * @return object
      */
-    public function getLessonDetail($lesson, $grade)
+    public function getLessonDetail($id)
     {
-        $param = [
-            "{$this->mapelKelas}.lesson_id" => $lesson,
-            'grade_id' => $grade,
-        ];
-
         $join = $this->lessonsGradeJoin();
-        return $join->getWhere($param)->getResult();
+        return $join->getWhere(['lessons_grade_id' => $id])->getResult();
     }
 
     /**
@@ -116,7 +110,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      */
     private function lessonsGradeJoin()
     {
-        $field  = "{$this->mapelKelas}.lesson_id, lesson_name, teacher_id, staff_name as teacher";
+        $field  = "lessons_grade_id, {$this->mapelKelas}.lesson_id, lesson_name, teacher_id, staff_name as teacher";
         $select = $this->QBMapelKelas->select($field);
         $join1  = $select->join($this->mapel, "{$this->mapelKelas}.lesson_id = {$this->mapel}.lesson_id");
         $join2  = $join1->join($this->pegawai->staff, "{$this->mapelKelas}.teacher_id = {$this->pegawai->staff}.staff_id");
@@ -148,52 +142,37 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Insert lessons to tb_lessons_grade
      * 
-     * @param int $grade
      * @param array $value
      * 
      * @return void
      */
-    public function insert($grade, $value)
+    public function insert($value)
     {
-        $value['grade_id'] = $grade;
         $this->QBMapelKelas->insert($value);
     }
 
     /**
      * Update tb_lessons_grade
      * 
-     * @param int $grade
      * @param array $value
-     * @param int $prevLesson #the previous lesson
+     * @param int $id #lessons_grade_id
      * 
      * @return void
      */
-    public function update($grade, $value, $prevLesson)
+    public function update($value, $id)
     {
-        $value['grade_id'] = $grade;
-        $where = [
-            'lesson_id' => $prevLesson,
-            'grade_id' => $grade,
-        ];
-
-        $this->QBMapelKelas->update($value, $where);
+        $this->QBMapelKelas->update($value, ['lessons_grade_id' => $id]);
     }
 
     /**
      * Mark lessons in tb_lessons_grade to "deleted"
      * 
-     * @param int $grade
-     * @param int $lesson
+     * @param int $id #lessons_grade_id
      * 
      * @return void
      */
-    public function delete($grade, $lesson)
+    public function delete($id)
     {
-        $param = [
-            'grade_id' => $grade,
-            'lesson_id' => $lesson
-        ];
-
-        $this->QBMapelKelas->update(['deleted' => 1], $param);
+        $this->QBMapelKelas->update(['deleted' => 1], ['lessons_grade_id' => $id]);
     }
 }

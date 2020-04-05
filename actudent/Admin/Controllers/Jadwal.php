@@ -40,9 +40,9 @@ class Jadwal extends Actudent
         return $this->response->setJSON($response);
     }
 
-    public function getLessonDetail($lesson, $grade)
+    public function getLessonDetail($id)
     {
-        $data = $this->jadwal->getLessonDetail($lesson, $grade);
+        $data = $this->jadwal->getLessonDetail($id);
         return $this->response->setJSON($data[0]);
     }
 
@@ -70,25 +70,23 @@ class Jadwal extends Actudent
     {
         $idString = $this->request->getPost('id');
         $idWrapper = [];
-        if(strpos($idString, '&') !== false)
+        if(strpos($idString, '-') !== false)
         {
-            $idWrapper = explode('&', $idString);
+            $idWrapper = explode('-', $idString);
             foreach($idWrapper as $id)
             {
-                $toArray = explode('-', $id);
-                $this->jadwal->delete($toArray[0], $toArray[1]);
+                $this->jadwal->delete($id);
             }
         }
         else 
         {
-            $toArray = explode('-', $idString);
-            $this->jadwal->delete($toArray[0], $toArray[1]);
+            $this->jadwal->delete($idString);
         }
 
         return $this->response->setJSON(['status' => 'OK']);
     }
 
-    public function saveLesson($grade, $id = null)
+    public function saveLesson($id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]
         if(! $this->validate($validation[0], $validation[1]))
@@ -103,11 +101,12 @@ class Jadwal extends Actudent
             $data = $this->formData();
             if($id === null) 
             {
-                $this->jadwal->insert($grade, $data);
+                $data['grade_id'] = $this->request->getPost('grade_id');
+                $this->jadwal->insert($data);
             }
             else
             {
-                $this->jadwal->update($grade, $data, $id);
+                $this->jadwal->update($data, $id);
             }
             
             return $this->response->setJSON([
