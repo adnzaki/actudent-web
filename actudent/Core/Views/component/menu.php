@@ -14,6 +14,8 @@
           </li>
           <li class="{+ menu_active uri=kelas +}"><a class="menu-item" href="{admin}kelas" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_kelas +}</a>
           </li>
+          <li class="{+ menu_active uri=mapel +}"><a class="menu-item" href="{admin}mapel" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_mapel +}</a>
+          </li>
         </ul>
       </li>
       <li class="{+ menu_active uri=jadwal +} nav-item">

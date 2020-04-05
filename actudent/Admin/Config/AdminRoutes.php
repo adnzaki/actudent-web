@@ -50,9 +50,13 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pegawai/delete', 'Pegawai::delete');
 	$routes->add('pegawai/validate-file', 'Pegawai::runFileValidation');
 	$routes->add('pegawai/upload/(:any)', 'Pegawai::uploadFile/$1');
-	$routes->add('guru', 'Guru::index');
-	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5/$6');
-	$routes->add('guru/get-guru/(:any)/(:any)/(:any)/(:any)/(:any)', 'Guru::getDataGuru/$1/$2/$3/$4/$5');
+	$routes->add('mapel', 'Mapel::index');
+	$routes->add('mapel/get-mapel/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Mapel::getLessons/$1/$2/$3/$4/$5/$6');
+	$routes->add('mapel/get-mapel/(:any)/(:any)/(:any)/(:any)/(:any)', 'Mapel::getLessons/$1/$2/$3/$4/$5');
+	$routes->add('mapel/save', 'Mapel::save');
+	$routes->add('mapel/save/(:any)', 'Mapel::save/$1');	
+	$routes->add('mapel/detail/(:any)', 'Mapel::getLessonDetail/$1');
+	$routes->add('mapel/delete/(:any)', 'Mapel::delete/$1');
 	$routes->add('jadwal', 'Jadwal::index');
 	$routes->add('jadwal/daftar-mapel/(:any)', 'Jadwal::getLessons/$1');
 	$routes->add('jadwal/cari-mapel/(:any)', 'Jadwal::searchLessons/$1');
