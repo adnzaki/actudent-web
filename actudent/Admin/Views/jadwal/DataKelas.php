@@ -48,8 +48,7 @@
                             <i class="la la-list-alt"></i>
                         </button>
                         <button type="button" class="btn btn-icon btn-success" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang AdminJadwal.jadwal_jadwal_mapel +}"
-                            >
+                            title="{+ lang AdminJadwal.jadwal_jadwal_mapel +}" @click="showJadwal(item.grade_id)">
                             <i class="la la-book"></i>
                         </button>
                     </td>

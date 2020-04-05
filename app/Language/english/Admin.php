@@ -52,4 +52,12 @@ return [
     'progress_hapus'    => 'Deleting data...',
     'no_search_result'  => 'No results found for',
     'no_data'           => 'No data found',
+
+    // hari-hari
+    'day1'              => 'Monday',
+    'day2'              => 'Tuesday',
+    'day3'              => 'Wednesday',
+    'day4'              => 'Thursday',
+    'day5'              => 'Friday',
+    'day6'              => 'Saturday',
 ];

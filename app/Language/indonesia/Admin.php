@@ -52,5 +52,13 @@ return [
     'progress_hapus'    => 'Menghapus data...',
     'no_search_result'  => 'Tidak ditemukan hasil pencarian untuk',
     'no_data'           => 'Tidak ada data ditemukan',
+
+    // hari-hari
+    'day1'              => 'Senin',
+    'day2'              => 'Selasa',
+    'day3'              => 'Rabu',
+    'day4'              => 'Kamis',
+    'day5'              => 'Jumat',
+    'day6'              => 'Sabtu',
 ];
 
