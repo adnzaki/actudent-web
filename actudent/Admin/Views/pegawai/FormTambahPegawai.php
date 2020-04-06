@@ -25,7 +25,7 @@ aria-hidden="true">
                     <div class="form-body skin skin-square">                        
                         <div class="form-group">
                             <label for="userinput5">{{ lang.staff_id }}</label>
-                            <input class="form-control border-primary" type="text" minlength="16" maxlength ="16" :placeholder="lang.staff_input_id" name="staff_nik">
+                            <input class="form-control border-primary" type="text" minlength="10" maxlength ="10" :placeholder="lang.staff_input_id" name="staff_nik">
                             <form-error :msg="error.staff_nik" />
                         </div>
                         <div class="form-group">
