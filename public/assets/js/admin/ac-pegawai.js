@@ -140,9 +140,9 @@ const pegawai = new Vue({
                         }, 3000);
                     } else {
                         // if the form has attachment, upload it
-                        if(hasAttachment) {
-                            obj.uploadRequest(`${obj.pegawai}upload/${res.id}`, uploadSelector)
-                        }
+                        // if(hasAttachment) {
+                        //     obj.uploadRequest(`${obj.pegawai}upload/${res.id}`, uploadSelector)
+                        // }
                         
                         // reset everything
                         if(edit) {
