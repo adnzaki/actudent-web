@@ -65,6 +65,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('jadwal/hapus-mapel', 'Jadwal::deleteLesson');
 	$routes->add('jadwal/detail-mapel/(:any)', 'Jadwal::getLessonDetail/$1');
 	$routes->add('jadwal/get-jadwal/(:any)', 'Jadwal::getSchedules/$1');
+	$routes->add('absensi', 'Absensi::index');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');
