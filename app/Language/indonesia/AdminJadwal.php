@@ -19,4 +19,9 @@ return [
     'jadwal_insert_success'         => 'Mata pelajaran baru berhasil ditambahkan',
     'jadwal_edit_success'           => 'Berhasil memperbarui data mata pelajaran',
     'jadwal_delete_success'         => 'Berhasil menghapus data mata pelajaran',
+    'jadwal_istirahat'              => 'Istirahat',
+    'jadwal_durasi'                 => 'Durasi',
+    'jadwal_waktu'                  => 'Waktu',
+    'jadwal_jam_pelajaran'          => 'Jam Pelajaran',
+    'jadwal_menit'                  => 'Menit',
 ];

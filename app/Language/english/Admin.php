@@ -53,6 +53,7 @@ return [
     'progress_hapus'    => 'Deleting data...',
     'no_search_result'  => 'No results found for',
     'no_data'           => 'No data found',
+    'kelola'            => 'Manage',
 
     // hari-hari
     'day1'              => 'Monday',

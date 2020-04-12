@@ -17,6 +17,14 @@
     font-weight: bold;
 }
 
+.text-1rem {
+	font-size: 1rem !important;
+}
+
+.text-bold {
+	font-weight: bold !important;
+}
+
 .cursor-pointer {
 	cursor: pointer;
 }
@@ -176,4 +184,10 @@ html body .extend-la {
 .custom-loader-wrapper {
 	background-color: #525757e3;
 	height: 33em;
+}
+
+.garis-pembatas {
+	border-bottom: dotted 1px;
+	margin-bottom: 10px;
+	padding-bottom: 3px;
 }

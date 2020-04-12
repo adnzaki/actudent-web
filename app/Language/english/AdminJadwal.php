@@ -19,5 +19,9 @@ return [
     'jadwal_insert_success'         => 'New lesson has been added successfully',
     'jadwal_edit_success'           => 'Successfully updated lesson data',
     'jadwal_delete_success'         => 'Successfully deleted lesson data',
-
+    'jadwal_istirahat'              => 'Break',
+    'jadwal_durasi'                 => 'Duration',
+    'jadwal_waktu'                  => 'Time',
+    'jadwal_jam_pelajaran'          => 'Lesson Hour',
+    'jadwal_menit'                  => 'Minutes',
 ];

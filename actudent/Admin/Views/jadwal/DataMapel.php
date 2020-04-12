@@ -7,7 +7,7 @@
                         data-toggle="modal" data-target="#tambahMapelModal">{+ lang Admin.tambah +}
                     </button>
                     <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm"></i> {+ lang Admin.hapus +}</button>
-                    <button type="button" @click="closeMapel"
+                    <button type="button" @click="close()"
                         class="btn btn-outline-success"> {+ lang Admin.tutup +}
                     </button>
                 </div>

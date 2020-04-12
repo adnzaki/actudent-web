@@ -11,6 +11,11 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     private $QBJadwal;
 
     /**
+     * Query builder for tb_schedule_settings
+     */
+    private $QBSettingJadwal;
+
+    /**
      * Query builder for tb_lessons_grade
      */
     private $QBMapelKelas;
@@ -26,6 +31,13 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      * @var string
      */
     private $jadwal = 'tb_schedule';
+
+    /**
+     * Table tb_schedule
+     * 
+     * @var string
+     */
+    private $settingJadwal = 'tb_schedule_settings';
 
     /**
      * Table tb_lessons_grade
@@ -58,6 +70,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     {
         parent::__construct();
         $this->QBJadwal = $this->db->table($this->jadwal);
+        $this->QBSettingJadwal = $this->db->table($this->settingJadwal);
         $this->QBMapelKelas = $this->db->table($this->mapelKelas);
         $this->QBMapel = $this->db->table($this->mapel);
         $this->rombel = new KelasModel;
@@ -174,5 +187,41 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     public function delete($id)
     {
         $this->QBMapelKelas->update(['deleted' => 1], ['lessons_grade_id' => $id]);
+    }
+
+    /**
+     * Get days of schedule on specific grade
+     * 
+     * @param int $grade
+     * @param string $day
+     * 
+     * @return object
+     */
+    public function getSchedules($grade, $day)
+    {
+        $field  = "{$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
+                   duration, schedule_start, schedule_end, staff_name as teacher";
+        $join   = $this->QBJadwal->select($field)
+                  ->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id = {$this->jadwal}.lessons_grade_id")
+                  ->join($this->mapel, "{$this->mapelKelas}.lesson_id={$this->mapel}.lesson_id")
+                  ->join($this->pegawai->staff, "{$this->pegawai->staff}.staff_id={$this->mapelKelas}.teacher_id");
+        
+        $param = [
+            'grade_id' => $grade,
+            'schedule_semester' => 1,
+            'schedule_day' => $day,
+        ];
+
+        return $join->getWhere($param)->getResult();
+    }
+
+    /**
+     * Get schedule time
+     * 
+     * @return object
+     */
+    public function getScheduleTime()
+    {
+        return $this->QBSettingJadwal->getWhere(['setting_name' => 'lesson_hour'])->getResult();
     }
 }

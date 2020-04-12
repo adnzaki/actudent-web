@@ -35,6 +35,7 @@ const jadwal = new Vue({
         selectedTeacher: {
             id: '', name: '',
         },
+        lessonClass: 'card-title lead text-1rem text-bold',
     },
     mounted() {
         this.reset()
@@ -183,7 +184,34 @@ const jadwal = new Vue({
             }, 3500);
         },
         showJadwal(grade, useSpinner = true) {
-
+            $.ajax({
+                url: `${this.jadwal}get-jadwal/${grade}`,
+                type: 'get',
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.showDaftarKelas = false
+                    if(useSpinner) {
+                        this.spinner = true
+                    }
+                },
+                success: data => {
+                    this.scheduleList = data.schedule   
+                    this.gradeID = grade        
+                    setTimeout(() => {
+                        if(useSpinner) {
+                            this.spinner = false
+                        }
+                        this.helper.showJadwalMapel = true   
+                        this.cardTitle = `${this.lang.jadwal_title} ${data.class_name}`
+                    }, 800);
+                }
+            })
+            this.helper.showDaftarKelas = false
+            this.spinner = true
+            setTimeout(() => {
+                this.spinner = false
+                this.helper.showJadwalMapel = true                
+            }, 500);
         },
         showMapel(grade, useSpinner = true) {
             this.select2Ajax(`${this.jadwal}cari-mapel/${grade}`, '#pilih-mapel')
@@ -211,12 +239,16 @@ const jadwal = new Vue({
                 }
             })
         },
-        closeMapel() {
+        close(section = 'mapel') {
+            this.helper.showJadwalMapel = false
             this.helper.showDaftarMapel = false
             this.lessonList = []
+            this.scheduleList = []
             this.spinner = true
-            $('#pilih-mapel').select2('destroy')
-            $('#mapel-terpilih').select2('destroy')
+            if(section === 'mapel') {
+                $('#pilih-mapel').select2('destroy')
+                $('#mapel-terpilih').select2('destroy')
+            }
             setTimeout(() => {
                 this.spinner = false
                 this.helper.showDaftarKelas = true  
@@ -338,5 +370,8 @@ const jadwal = new Vue({
                 }
             })
         },
+        isBreak(lessonGrade) {
+            return (lessonGrade === null) ? 'success-text' : ''
+        }
     },
 })      

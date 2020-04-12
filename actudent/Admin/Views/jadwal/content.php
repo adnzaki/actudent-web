@@ -9,6 +9,7 @@
 						<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
 						<li><a data-action="reload" @click="reloadData"><i class="ft-rotate-cw"></i></a></li>
 						<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+						<li><a v-if="helper.showJadwalMapel" @click="close('jadwal')"><i class="ft-x"></i></a></li>
 					</ul>
 				</div>
 			</div>
@@ -24,6 +25,7 @@
 			{+ include Actudent\Admin\Views\jadwal\DataMapel +}
 			{+ include Actudent\Admin\Views\jadwal\FormTambahMapel +}
 			{+ include Actudent\Admin\Views\jadwal\FormEditMapel +}
+			{+ include Actudent\Admin\Views\jadwal\JadwalPelajaran +}
 			{+ include Actudent\Admin\Views\jadwal\DeleteConfirm +}
 		</div>
 	</div>

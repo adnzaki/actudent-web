@@ -40,6 +40,87 @@ class Jadwal extends Actudent
         return $this->response->setJSON($response);
     }
 
+    public function getSchedules($grade)
+    {
+        $days = [
+            'senin', 'selasa', 'rabu',
+            'kamis', 'jumat', 'sabtu'
+        ];
+
+        $response = [];
+        $wrapper = [];
+        
+        foreach($days as $key => $val)
+        {
+            $response[$val] = $this->jadwal->getSchedules($grade, $val);
+        }
+        
+        foreach($response as $key => $val)
+        {
+            $formatter = [];
+            $finish = '';
+            $diff = 0;
+            $index = 0;
+            foreach($val as $arr)
+            {
+                if($index === 0)
+                {
+                    $formatter[] = $arr;
+                }
+                else 
+                {
+                    $diff = $this->countDiff($finish, $arr->schedule_start);
+                    if($diff > 0)
+                    {
+                        $breakDuration = round($diff * 60);
+                        $break = [
+                            'lesson_grade_id' => null,
+                            'lesson_code' => 'REST',
+                            'lesson_name' => lang('AdminJadwal.jadwal_istirahat'),
+                            'duration' => (string)$breakDuration,
+                            'schedule_start' => $finish,
+                            'schedule_end' => $arr->schedule_start,
+                        ];
+    
+                        $formatter[] = $break;
+                    }
+                    array_push($formatter, $arr);
+                }
+                $finish = $arr->schedule_end;
+                
+                $index++;
+            }
+            $wrapper[$key] = $formatter;            
+        }
+
+        $classGroup = $this->jadwal->rombel->getClassDetail($grade);
+
+        $data = [
+            'class_name' => $classGroup->grade_name,
+            'schedule' => $wrapper,
+        ];
+
+        return $this->response->setJSON($data);
+    }
+    
+    private function countDiff($time1, $time2)
+    {
+        $hour1 = $this->numberValue($time1);
+        $hour2 = $this->numberValue($time2);
+        $diff = $hour2 - $hour1;
+        
+        return $diff;
+    }
+
+    private function numberValue($string)
+    {
+        $minute = substr($string, 3, 2);
+        $decimal = $minute / 60;
+        $hour = substr($string, 0, 2);
+
+        return $hour + $decimal;
+    }
+
     public function getLessonDetail($id)
     {
         $data = $this->jadwal->getLessonDetail($id);
