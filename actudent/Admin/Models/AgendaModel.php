@@ -153,9 +153,12 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         if(! empty($value['agenda_guest']))
         {
             // insert guest IDs to tb_agenda_user
-            if($this->getEventGuests($id) == null){
+            if($this->getEventGuests($id) === null)
+            {
                 $this->insertAgendaGuests($value['agenda_guest'], $id);
-            } else {
+            } 
+            else 
+            {
                 $this->updateAgendaGuests($value['agenda_guest'], $id);
             }
         }
