@@ -130,10 +130,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         // insert data to tb_agenda
         $insertID = $this->db->insertID();
 
-        if(! empty($data['agenda_guest']))
+        if(! empty($value['agenda_guest']))
         {
             // insert guest IDs to tb_agenda_user
-            $this->insertAgendaGuests($data['agenda_guest'], $insertID);
+            $this->insertAgendaGuests($value['agenda_guest'], $insertID);
         }
 
         return $insertID;
@@ -150,10 +150,14 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         $data = $this->fillAgendaField($value);
         $this->QBAgenda->update($data, ['agenda_id' => $id]);
 
-        if(! empty($data['agenda_guest']))
+        if(! empty($value['agenda_guest']))
         {
             // insert guest IDs to tb_agenda_user
-            $this->updateAgendaGuests($data['agenda_guest'], $id);
+            if($this->getEventGuests($id) == null){
+                $this->insertAgendaGuests($value['agenda_guest'], $id);
+            } else {
+                $this->updateAgendaGuests($value['agenda_guest'], $id);
+            }
         }
 
         return $id;
