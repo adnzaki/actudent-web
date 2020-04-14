@@ -629,11 +629,12 @@ const agenda = new Vue({
                 monthEnd = dateEnd.getMonth(),
 
                 // year must be the same
-                year = dateStart.getFullYear()       
+                yearStart = dateStart.getFullYear()       
+                yearEnd = dateEnd.getFullYear()   
                 
             return {
-                start: [dayStart, monthStart, year],
-                end: [dayEnd, monthEnd, year]
+                start: [dayStart, monthStart, yearStart],
+                end: [dayEnd, monthEnd, yearEnd]
             }
         },
         execFullCalendar(start, end) {

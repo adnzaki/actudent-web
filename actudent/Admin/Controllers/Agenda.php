@@ -28,6 +28,15 @@ class Agenda extends Actudent
     {
         if(session('email') !== null)
         {
+            $arr = explode('-', $viewStart);
+            $prevMonth = (int)$arr[1] - 1;
+            if($prevMonth === 0)
+            {
+                $prevMonth = 12;
+            }
+
+            ($prevMonth < 10) ? $prevMonth = '0' . $prevMonth : $prevMonth = $prevMonth;
+            $viewStart = str_replace($arr[1], $prevMonth, $viewStart);
             $events = $this->agenda->getEvents($viewStart, $viewEnd);
             $formatted = [];
             foreach($events as $key)
