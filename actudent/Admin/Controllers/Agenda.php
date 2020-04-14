@@ -29,14 +29,17 @@ class Agenda extends Actudent
         if(session('email') !== null)
         {
             $arr = explode('-', $viewStart);
-            $prevMonth = (int)$arr[1] - 1;
-            if($prevMonth === 0)
+            $monthStart = (int)$arr[1] - 1;
+            $yearStart = (int)$arr[0];
+
+            if($monthStart === 0)
             {
-                $prevMonth = 12;
+                $monthStart = 12;
+                $yearStart -= 1;
             }
 
-            ($prevMonth < 10) ? $prevMonth = '0' . $prevMonth : $prevMonth = $prevMonth;
-            $viewStart = str_replace($arr[1], $prevMonth, $viewStart);
+            ($monthStart < 10) ? $monthStart = '0' . $monthStart : $monthStart = $monthStart;
+            $viewStart = $yearStart . '-' . $monthStart . '-01';
             $events = $this->agenda->getEvents($viewStart, $viewEnd);
             $formatted = [];
             foreach($events as $key)
