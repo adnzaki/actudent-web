@@ -145,11 +145,12 @@ const agenda = new Vue({
     
                         // initialize full day event
                         obj.setFullDayEvent({ fullDay: '#all-day-edit', pickatime: '.pickatime-edit' }, true)
+                        
+                        // set priority
+                        $(`input#${res.data.agenda_priority}`).iCheck('check')
                     }, 300);
                     
 
-                    // set priority
-                    $(`input#${res.data.agenda_priority}`).iCheck('check')
 
                     // loop guests from response, push them to guestWrapper, guestToDisplay
                     if(res.guests !== null) {
