@@ -123,7 +123,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      */
     private function lessonsGradeJoin()
     {
-        $field  = "lessons_grade_id, {$this->mapelKelas}.lesson_id, lesson_name, teacher_id, staff_name as teacher";
+        $field  = "lessons_grade_id, {$this->mapelKelas}.lesson_id, lesson_code, lesson_name, teacher_id, staff_name as teacher";
         $select = $this->QBMapelKelas->select($field);
         $join1  = $select->join($this->mapel, "{$this->mapelKelas}.lesson_id = {$this->mapel}.lesson_id");
         $join2  = $join1->join($this->pegawai->staff, "{$this->mapelKelas}.teacher_id = {$this->pegawai->staff}.staff_id");
@@ -146,7 +146,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     {
         $whereNotIn = " AND lesson_id NOT IN (SELECT lesson_id FROM {$this->mapelKelas} 
                         WHERE grade_id={$grade} AND deleted=0)";
-        $param = "'%$search%' ESCAPE '!' $whereNotIn";
+        $param = "'%$search%' ESCAPE '!' OR lesson_code LIKE '%$search%' ESCAPE '!' $whereNotIn";
         $like = $this->QBMapel->like('lesson_name', $param, 'none', false);
 
         return $like->get()->getResult();

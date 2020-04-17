@@ -8,6 +8,7 @@ return [
     'jadwal_nama_mapel'             => 'Lesson Name',
     'jadwal_guru_mapel'             => 'Teacher',
     'jadwal_add_title'              => 'Manage Schedules',
+    'jadwal_add_mapel_title'        => 'Add lesson',
     'jadwal_edit_title'             => 'Edit lesson',
     'jadwal_label_pilih_mapel'      => 'Choose a lesson',
     'jadwal_label_pilih_guru'       => 'Subject teacher',

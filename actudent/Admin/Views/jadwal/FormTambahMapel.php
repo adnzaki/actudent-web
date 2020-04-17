@@ -11,7 +11,7 @@ aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header {modalHeaderColor} white">
-                <h4 class="modal-title white" id="myModalLabel2"><i class="la la-road2"></i> {{ lang.jadwal_add_title }}</h4>
+                <h4 class="modal-title white" id="myModalLabel2"><i class="la la-road2"></i> {{ lang.jadwal_add_mapel_title }}</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

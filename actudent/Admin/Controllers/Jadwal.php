@@ -254,7 +254,7 @@ class Jadwal extends Actudent
             {
                 $formatter[] = [
                     'id' => $res->lesson_id,
-                    'text' => $res->lesson_name,
+                    'text' => "{$res->lesson_name} ({$res->lesson_code})",
                 ];
             }
         }
