@@ -212,7 +212,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
             'schedule_day' => $day,
         ];
 
-        return $join->getWhere($param)->getResult();
+        return $join->where($param)->orderBy('schedule_id', 'ASC')->get()->getResult();
     }
 
     /**

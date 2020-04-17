@@ -226,6 +226,7 @@ const jadwal = new Vue({
             this.scheduleManager.showInput = false
             this.scheduleManager.isBreak = false  
             this.scheduleManager.lessonsInput = []
+            this.scheduleManager.breakDuration = 0
             this.alert.text = this.lang.jadwal_save_success 
             
             // reload schedules
@@ -328,8 +329,7 @@ const jadwal = new Vue({
                 jadwal = { 
                     id: `break-${index}`,
                     val: 'null', 
-                    text: `${this.lang.jadwal_istirahat} 
-                          (${this.scheduleManager.breakDuration} ${this.lang.jadwal_menit})`,
+                    text: `${this.lang.jadwal_istirahat} (${this.scheduleManager.breakDuration} ${this.lang.jadwal_menit})`,
                     duration: this.scheduleManager.breakDuration
                 }
             }
@@ -373,12 +373,6 @@ const jadwal = new Vue({
                     }, 800);
                 }
             })
-            this.helper.showDaftarKelas = false
-            this.spinner = true
-            setTimeout(() => {
-                this.spinner = false
-                this.helper.showJadwalMapel = true                
-            }, 500);
         },
         showMapel(grade, useSpinner = true) {
             this.select2Ajax(`${this.jadwal}cari-mapel/${grade}`, '#pilih-mapel')
