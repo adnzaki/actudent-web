@@ -336,6 +336,12 @@ const jadwal = new Vue({
 
             this.scheduleManager.lessonsInput.push(jadwal)
         },
+        forceInteger() {
+            let durasi = this.scheduleManager.breakDuration
+            if(durasi.match(/[^0-9]/) !== null) {
+                this.scheduleManager.breakDuration = 0
+            }
+        },
         removeLesson(id) {
             // Remove item from this.scheduleManager.lessonsInput
             let lessons = this.scheduleManager.lessonsInput,

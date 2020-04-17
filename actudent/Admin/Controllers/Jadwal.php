@@ -134,21 +134,28 @@ class Jadwal extends Actudent
         foreach($array as $key => $val)
         {
             $duration = 0;
-            if(preg_match('/break/', $val['id']) === 1)
+            if(preg_match('/[^0-9]/', $val['duration']) === 1)
             {
-                $duration = $val['duration'];
+                continue;
             }
             else 
             {
-                $duration = $val['duration'] * $alokasi;
-            }
-
-            $formatted[] = [
-                'id' => $val['id'],
-                'val' => $val['val'],
-                'alokasi' => $val['duration'],
-                'durasi' => $duration,
-            ];
+                if(preg_match('/break/', $val['id']) === 1)
+                {
+                    $duration = $val['duration'];
+                }
+                else 
+                {
+                    $duration = $val['duration'] * $alokasi;
+                }
+    
+                $formatted[] = [
+                    'id' => $val['id'],
+                    'val' => $val['val'],
+                    'alokasi' => $val['duration'],
+                    'durasi' => $duration,
+                ];
+            }            
         }
 
         return $formatted;
