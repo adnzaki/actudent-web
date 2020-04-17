@@ -199,7 +199,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getSchedules($grade, $day)
     {
-        $field  = "{$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
+        $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
                    duration, schedule_start, schedule_end, staff_name as teacher";
         $join   = $this->QBJadwal->select($field)
                   ->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id = {$this->jadwal}.lessons_grade_id")
@@ -216,12 +216,73 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
+     * Save schedules
+     * It might be insert new schedule or update schedule
+     * if the value provided is existing in tb_schedule
+     * 
+     * @param array $data
+     * 
+     * @return void
+     */
+    public function saveSchedules($data)
+    {
+        foreach($data as $res)
+        {
+            $id = $res['schedule_id'];
+            $value = [
+                'lessons_grade_id'  => $res['lessons_grade_id'],
+                'schedule_semester' => 1,
+                'schedule_day'      => $res['schedule_day'],
+                'duration'          => $res['duration'],
+                'schedule_start'    => $res['schedule_start'],
+                'schedule_end'      => $res['schedule_end'],
+            ];
+
+            if(preg_match('/new/', $id) === 0 && preg_match('/break/', $id) === 0)
+            {
+                $this->QBJadwal->update($value, ['schedule_id' => $id]);
+            }
+            else 
+            {
+                if(preg_match('/new/', $id) === 1)
+                {
+                    $this->QBJadwal->insert($value);
+                }
+            }
+        }
+    }
+
+    /**
+     * Delete schedules
+     * 
+     * @param array $data
+     * @return void
+     */
+    public function deleteSchedules($data)
+    {
+        foreach($data as $val)
+        {
+            $this->QBJadwal->delete(['schedule_id' => $val]);
+        }
+    }
+
+    /**
      * Get schedule time
      * 
      * @return object
      */
     public function getScheduleTime()
     {
-        return $this->QBSettingJadwal->getWhere(['setting_name' => 'lesson_hour'])->getResult();
+        return $this->QBSettingJadwal->getWhere(['setting_name' => 'lesson_hour'])->getResult()[0];
+    }
+
+    /**
+     * Get start time
+     * 
+     * @return object
+     */
+    public function getStartTime()
+    {
+        return $this->QBSettingJadwal->getWhere(['setting_name' => 'start_time'])->getResult()[0];
     }
 }

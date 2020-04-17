@@ -1,5 +1,17 @@
 <div class="card-content collapse show" v-if="helper.showJadwalMapel">
     <div class="card-body">
+        <div class="row">         
+            <div class="col-12">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-info" 
+                        data-toggle="modal">{+ lang Admin.menu_pengaturan +}
+                    </button>
+                    <button type="button" @click="close('jadwal')"
+                        class="btn btn-outline-warning"> {+ lang Admin.tutup +}
+                    </button>
+                </div>
+            </div>            
+        </div>
         <div class="table-responsive">
             <table class="table table-hover mb-0 cursor-pointer">
                 <thead>
@@ -33,7 +45,7 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
+                                title="{+ lang Admin.perbarui +}" @click="showJadwalModal('senin')">{+ lang Admin.kelola +}
                             </button>
                         </td>
                         <td>
@@ -50,11 +62,11 @@
                                     {+ lang AdminJadwal.jadwal_waktu +}: {{ item.schedule_start }} - {{ item.schedule_end }} <br>
                                     <div v-if="item.lesson_grade_id !== null">
                                         {+ lang AdminJadwal.jadwal_guru_mapel +}: {{ item.teacher }}
-                                    </div><br>
+                                    </div>
                                 </div>
-                            </div><br>
+                            </div>
                             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
+                                @click="showJadwalModal('selasa')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
                         <td>
@@ -71,11 +83,11 @@
                                     {+ lang AdminJadwal.jadwal_waktu +}: {{ item.schedule_start }} - {{ item.schedule_end }} <br>
                                     <div v-if="item.lesson_grade_id !== null">
                                         {+ lang AdminJadwal.jadwal_guru_mapel +}: {{ item.teacher }}
-                                    </div><br>
+                                    </div>
                                 </div>
-                            </div><br>
+                            </div>
                             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
+                                @click="showJadwalModal('rabu')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
                         <td>
@@ -92,11 +104,11 @@
                                     {+ lang AdminJadwal.jadwal_waktu +}: {{ item.schedule_start }} - {{ item.schedule_end }} <br>
                                     <div v-if="item.lesson_grade_id !== null">
                                         {+ lang AdminJadwal.jadwal_guru_mapel +}: {{ item.teacher }}
-                                    </div><br>
+                                    </div>
                                 </div>
-                            </div><br>
+                            </div>
                             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
+                                @click="showJadwalModal('kamis')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
                         <td>
@@ -113,11 +125,11 @@
                                     {+ lang AdminJadwal.jadwal_waktu +}: {{ item.schedule_start }} - {{ item.schedule_end }} <br>
                                     <div v-if="item.lesson_grade_id !== null">
                                         {+ lang AdminJadwal.jadwal_guru_mapel +}: {{ item.teacher }}
-                                    </div><br>
+                                    </div>
                                 </div>
-                            </div><br>
+                            </div>
                             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
+                                @click="showJadwalModal('jumat')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
                         <td>
@@ -134,11 +146,11 @@
                                     {+ lang AdminJadwal.jadwal_waktu +}: {{ item.schedule_start }} - {{ item.schedule_end }} <br>
                                     <div v-if="item.lesson_grade_id !== null">
                                         {+ lang AdminJadwal.jadwal_guru_mapel +}: {{ item.teacher }}
-                                    </div><br>
+                                    </div>
                                 </div>
-                            </div><br>
+                            </div>
                             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
+                                @click="showJadwalModal('selasa')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
                     </tr>

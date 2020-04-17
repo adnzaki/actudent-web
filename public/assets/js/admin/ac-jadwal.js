@@ -22,11 +22,28 @@ const jadwal = new Vue({
             deleteProgress: false,
             showDaftarKelas: true,
             showDaftarMapel: false,
-            showJadwalMapel: false,
+            showJadwalMapel: false,            
         },
+        scheduleManager: {
+            isBreak: false,
+            showInput: false,
+            
+            // list of lessons in manage lessons form
+            lessonsInput: [],
+
+            selectedDay: '', breakDuration: 0,
+            toBeDeletedSchedule: [],
+        },        
+
+        // list of schedules from Monday to Saturday
         scheduleList: {},
+
         lessonList: [], lessonsGradeID: '',
+        lessonsInGrade: [],        
+
+        // spinner loader
         spinner: false,
+
         cardTitle: '', gradeID: null,
         checkAll: false, lessons: [],
         searchParam: '', searchTimeout: false,
@@ -42,7 +59,7 @@ const jadwal = new Vue({
         setTimeout(() => {
             this.getKelas()
         }, 200);
-        this.runSelect2()
+        this.runSelect2()        
         this.select2ShowPerPage('#showRows')
         let t0 = performance.now()
         this.getLanguageResources('AdminJadwal')
@@ -54,6 +71,7 @@ const jadwal = new Vue({
         }, (t1-t0) + 500);
         this.onModalClose('#editMapelModal')
         this.onModalClose('#hapusModal')
+        this.onModalClose('#kelolaJadwalModal')
     },
     methods: {
         getKelas() {
@@ -183,7 +201,156 @@ const jadwal = new Vue({
                 this.alert.text = ''
             }, 3500);
         },
-        showJadwal(grade, useSpinner = true) {
+        saveJadwal() {
+            let data = JSON.stringify(this.scheduleManager.lessonsInput),
+                toBeDeleted = JSON.stringify(this.scheduleManager.toBeDeletedSchedule)
+            $.ajax({
+                url: `${this.jadwal}simpan-jadwal/${this.scheduleManager.selectedDay}`,
+                type: 'POST',
+                data: { jadwal:  data, hapus: toBeDeleted },
+                dataType: 'json',
+                beforeSend: () => {
+                    this.alert.header = ''
+                    this.alert.text = this.lang.jadwal_save_progress
+                    this.alert.show = true
+                    this.helper.disableSaveButton = true
+                },
+                success: () => {
+                    this.helper.disableSaveButton = false
+                    this.resetScheduleManager()
+                },
+            })
+        },
+        resetScheduleManager() {
+            this.alert.show = false
+            this.scheduleManager.showInput = false
+            this.scheduleManager.isBreak = false  
+            this.scheduleManager.lessonsInput = []
+            this.alert.text = this.lang.jadwal_save_success 
+            
+            // reload schedules
+            this.showJadwal(this.gradeID, false)
+
+            // hide modal
+            $('#kelolaJadwalModal').modal('hide')
+            
+            // show success alert
+            this.alert.header = this.lang.sukses
+            this.alert.class = 'bg-success'
+            this.alert.show = true
+
+            setTimeout(() => {
+                this.alert.show = false
+                this.alert.header = ''
+                this.alert.class = 'bg-primary'
+                this.alert.text = ''
+            }, 3500);
+        },
+        showJadwalModal(day) {
+            if(this.scheduleList[day].length > 0) {
+                let jadwal = this.scheduleList[day]
+                jadwal.forEach((item, index) => {
+                    let satuan
+                    if(item.lesson_code !== 'REST') {
+                        satuan = this.lang.jadwal_jam_pelajaran
+                    } else {
+                        item.lessons_grade_id = 'null'
+                        item.schedule_id = `break-${index}`
+                        satuan = this.lang.jadwal_menit
+                    }
+                    
+                    this.scheduleManager.lessonsInput.push({
+                        id: item.schedule_id,
+                        val: item.lessons_grade_id,
+                        text: `${item.lesson_name} (${item.duration} ${satuan})`,
+                        duration: item.duration,
+                    })
+                })
+            } 
+
+            $('#kelolaJadwalModal').modal('show')     
+            this.scheduleManager.selectedDay = day                  
+        },
+        showInputJadwal() {
+            this.scheduleManager.showInput = true   
+            let obj = this
+            obj.prepareForm()
+            setTimeout(() => {
+                this.runICheck('red')
+                $('.skin-square input').on('ifChecked', function(event) {
+                    if($(this).val() === 'break') {
+                        obj.scheduleManager.isBreak = true 
+                    } else {
+                        obj.scheduleManager.isBreak = false                    
+                        obj.prepareForm()
+                    }
+                })                  
+            }, 400);
+        },
+        prepareForm() {
+            setTimeout(() => {
+                $('#durasi').select2()
+                $('#istirahat').select2() 
+                $('.select2-mapel').select2()               
+                $.ajax({
+                    url: `${this.jadwal}daftar-mapel-kelas/${this.gradeID}`,
+                    dataType: 'json',
+                    success: res => {
+                        $('.select2-mapel').select2({
+                            data: res
+                        })                            
+                    }
+                })                 
+            }, 50);
+        },
+        closeInputJadwal() {
+            this.pushLesson()
+            this.scheduleManager.showInput = false
+            this.scheduleManager.isBreak = false            
+        },
+        pushLesson() {
+            let jadwal, index = 0
+
+            if(this.scheduleManager.lessonsInput.length > 0) {
+                index = this.scheduleManager.lessonsInput.length
+            }
+
+            if(!this.scheduleManager.isBreak) {
+                let mapel = $('.select2-mapel').select2('data');
+                let durasi = $('#durasi').select2('val')
+                jadwal = { 
+                    id: `new-${index}`,
+                    val: mapel[0].id, 
+                    text: `${mapel[0].text} (${durasi} ${this.lang.jadwal_jam_pelajaran})`,
+                    duration: durasi
+                }
+            } else {
+                jadwal = { 
+                    id: `break-${index}`,
+                    val: 'null', 
+                    text: `${this.lang.jadwal_istirahat} 
+                          (${this.scheduleManager.breakDuration} ${this.lang.jadwal_menit})`,
+                    duration: this.scheduleManager.breakDuration
+                }
+            }
+
+            this.scheduleManager.lessonsInput.push(jadwal)
+        },
+        removeLesson(id) {
+            // Remove item from this.scheduleManager.lessonsInput
+            let lessons = this.scheduleManager.lessonsInput,
+                index = lessons.findIndex(el => {
+                    return el.id === id
+                })
+            lessons.splice(index, 1)
+
+            // If they are existing data from server,
+            // send them to this.scheduleManager.toBeDeletedSchedule
+            if(id.match(/break/) === null && id.match(/new/) === null) {
+                this.scheduleManager.toBeDeletedSchedule.push(id)
+            }
+        },
+        showJadwal(grade, useSpinner = true) {            
             $.ajax({
                 url: `${this.jadwal}get-jadwal/${grade}`,
                 type: 'get',
@@ -368,6 +535,7 @@ const jadwal = new Vue({
                 obj.selectedTeacher = {
                     id: '', name: '',
                 }
+                obj.scheduleManager.lessonsInput = []
             })
         },
         isBreak(lessonGrade) {

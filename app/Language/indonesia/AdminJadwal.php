@@ -7,7 +7,7 @@ return [
     'jadwal_jadwal_mapel'           => 'Jadwal Pelajaran',
     'jadwal_nama_mapel'             => 'Nama Mata Pelajaran',
     'jadwal_guru_mapel'             => 'Guru',
-    'jadwal_add_title'              => 'Tambah Mata Pelajaran',
+    'jadwal_add_title'              => 'Kelola Jadwal Pelajaran',
     'jadwal_edit_title'             => 'Perbarui mata pelajaran',
     'jadwal_label_pilih_mapel'      => 'Pilih mata pelajaran',
     'jadwal_label_pilih_guru'       => 'Guru bidang studi',
@@ -24,4 +24,8 @@ return [
     'jadwal_waktu'                  => 'Waktu',
     'jadwal_jam_pelajaran'          => 'Jam Pelajaran',
     'jadwal_menit'                  => 'Menit',
+    'jadwal_kosong'                 => 'Belum ada jadwal. Ketuk (+) untuk menambahkan jadwal pelajaran.',
+    'jadwal_tipe'                   => 'Jenis Jadwal',
+    'jadwal_belajar'                => 'Jam Belajar Normal',
+    'jadwal_save_success'           => 'Jadwal pelajaran berhasil diperbarui',
 ];

@@ -7,7 +7,7 @@ return [
     'jadwal_jadwal_mapel'           => 'Schedule',
     'jadwal_nama_mapel'             => 'Lesson Name',
     'jadwal_guru_mapel'             => 'Teacher',
-    'jadwal_add_title'              => 'Add Lesson',
+    'jadwal_add_title'              => 'Manage Schedules',
     'jadwal_edit_title'             => 'Edit lesson',
     'jadwal_label_pilih_mapel'      => 'Choose a lesson',
     'jadwal_label_pilih_guru'       => 'Subject teacher',
@@ -24,4 +24,8 @@ return [
     'jadwal_waktu'                  => 'Time',
     'jadwal_jam_pelajaran'          => 'Lesson Hour',
     'jadwal_menit'                  => 'Minutes',
+    'jadwal_kosong'                 => 'No schedule. Tap (+) to add a schedule',
+    'jadwal_tipe'                   => 'Schedule Type',
+    'jadwal_belajar'                => 'Normal Study Time',
+    'jadwal_save_success'           => 'Schedule has been updated successfully',
 ];

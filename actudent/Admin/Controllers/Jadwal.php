@@ -40,6 +40,120 @@ class Jadwal extends Actudent
         return $this->response->setJSON($response);
     }
 
+    public function getLessonsForSchedule($grade)
+    {
+        $data = $this->jadwal->getLessons($grade);
+        $response = [];
+        if($data !== false)
+        {
+            foreach($data as $res)
+            {
+                $response[] = [
+                    'id' => $res->lessons_grade_id,
+                    'text' => $res->lesson_name,
+                ];
+            }
+        }
+        
+        return $this->response->setJSON($response);
+    }
+
+    public function saveSchedules($day)
+    {
+        $request = $this->request->getPost('jadwal');
+        $deleteSchedules = $this->request->getPost('hapus');
+        $data = json_decode($request, true);
+        $deleteSchedules = json_decode($deleteSchedules, true);
+        $alokasi = $this->jadwal->getScheduleTime();
+        $mulai = $this->jadwal->getStartTime()->setting_value;
+
+        if(count($data) > 0)
+        {
+            $normalTimeSchedule = $this->exactDuration($data, $alokasi->setting_value);
+            $wrapper = [];
+    
+            foreach($normalTimeSchedule as $res)
+            {
+                $penambah = $res['durasi'] / 60;
+                $selesai = $mulai + $penambah;
+                $getMinute = $this->convertToMinute($selesai);
+                $waktuSelesai = $this->normalizeTime(floor($selesai)) . '.' . $this->normalizeTime($getMinute);
+    
+                // If $mulai is float/decimal value, convert it to minute
+                if(gettype($mulai) !== 'integer')
+                {
+                    $minute = $this->convertToMinute($mulai);
+                }
+                else
+                {
+                    $minute = '0';
+                }
+    
+                $wrapper[] = [
+                    'schedule_id'       => $res['id'],
+                    'lessons_grade_id'  => $res['val'],
+                    'schedule_semester' => 1,
+                    'schedule_day'      => $day,
+                    'duration'          => $res['alokasi'],
+                    'schedule_start'    => $this->normalizeTime(floor($mulai)) . '.' . $this->normalizeTime($minute),
+                    'schedule_end'      => $waktuSelesai,
+                ];
+    
+                $mulai = $selesai;
+            }
+
+            $this->jadwal->saveSchedules($wrapper);
+        }
+
+        if(count($deleteSchedules) > 0)
+        {
+            $this->jadwal->deleteSchedules($deleteSchedules);
+        }
+
+        return $this->response->setJSON([
+            'status' => '200',
+            'msg' => 'OK'
+        ]);
+    }
+
+    private function convertToMinute($decimalValue)
+    {
+        $floatToMinute = $decimalValue * 60;
+        return $floatToMinute % 60;
+    }
+
+    private function normalizeTime($value)
+    {
+        return ($value < 10) ? '0' . $value : $value;
+    }
+
+    private function exactDuration($array, $alokasi)
+    {
+        $formatted = [];
+
+        foreach($array as $key => $val)
+        {
+            $duration = 0;
+            if(preg_match('/break/', $val['id']) === 1)
+            {
+                $duration = $val['duration'];
+            }
+            else 
+            {
+                $duration = $val['duration'] * $alokasi;
+            }
+
+            $formatted[] = [
+                'id' => $val['id'],
+                'val' => $val['val'],
+                'alokasi' => $val['duration'],
+                'durasi' => $duration,
+            ];
+        }
+
+        return $formatted;
+    }
+
     public function getSchedules($grade)
     {
         $days = [
@@ -74,12 +188,13 @@ class Jadwal extends Actudent
                     {
                         $breakDuration = round($diff * 60);
                         $break = [
-                            'lesson_grade_id' => null,
-                            'lesson_code' => 'REST',
-                            'lesson_name' => lang('AdminJadwal.jadwal_istirahat'),
-                            'duration' => (string)$breakDuration,
-                            'schedule_start' => $finish,
-                            'schedule_end' => $arr->schedule_start,
+                            'schedule_id'       => null,
+                            'lesson_grade_id'   => null,
+                            'lesson_code'       => 'REST',
+                            'lesson_name'       => lang('AdminJadwal.jadwal_istirahat'),
+                            'duration'          => (string)$breakDuration,
+                            'schedule_start'    => $finish,
+                            'schedule_end'      => $arr->schedule_start,
                         ];
     
                         $formatter[] = $break;
