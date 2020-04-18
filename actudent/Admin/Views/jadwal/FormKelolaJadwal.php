@@ -70,7 +70,7 @@ aria-hidden="true">
                             <div class="form-group" v-else>
                                 <label for="userinput6">{{ lang.jadwal_istirahat }} ({{ lang.jadwal_menit }})</label>
                                 <input class="form-control border-primary" v-model="scheduleManager.breakDuration" 
-                                    @keyup="forceInteger" type="text" name="break">
+                                    @keyup="forceInteger('breakDuration')" type="text" name="break">
                             </div>
                             <div class="form-group">
                                 <label for="jenis-jadwal">{{ lang.jadwal_tipe }}</label>

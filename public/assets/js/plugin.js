@@ -130,10 +130,12 @@ const plugin = {
 				firstDay: 0,
 			});
 		},
-		runTimePicker(el) {
+		runTimePicker(el, interval = 30, min = [0,0], max = [23,30]) {
 			return $(el).pickatime({
 				format: 'HH:i',
 				formatSubmit: 'HH:i',
+				interval: interval,
+				min: min, max: max
 			});
 		},
 		runICheck(color) {

@@ -54,6 +54,7 @@ return [
     'no_search_result'  => 'Tidak ditemukan hasil pencarian untuk',
     'no_data'           => 'Tidak ada data ditemukan',
     'kelola'            => 'Kelola',
+    'peringatan'        => 'Peringatan!',
 
     // hari-hari
     'day1'              => 'Senin',

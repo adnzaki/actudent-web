@@ -58,6 +58,74 @@ class Jadwal extends Actudent
         return $this->response->setJSON($response);
     }
 
+    public function getScheduleSettings()
+    {
+        $alokasi = $this->jadwal->getScheduleTime();
+        $mulai = $this->jadwal->getStartTime();
+
+        // If $mulai is float/decimal value, convert it to minute
+        if(gettype($mulai) !== 'integer')
+        {
+            $minute = $this->convertToMinute($mulai);
+        }
+        else
+        {
+            $minute = '0';
+        }
+
+        return $this->response->setJSON([
+            'alokasi'   => $alokasi,
+            'mulai'     => $this->normalizeTime(floor($mulai)) . ':' . $this->normalizeTime($minute),
+        ]);
+    }
+
+    public function saveSettings()
+    {
+        $form = [
+            'lesson_hour'   => $this->request->getPost('lesson_hour'),
+            'start_time'    => $this->request->getPost('start_time')
+        ];
+
+        $validation = $this->settingValidation($form);
+        if(! $this->validate($validation[0], $validation[1]))
+        {
+            return $this->response->setJSON([
+                'code' => '500',
+                'msg' => $this->validation->getErrors(),
+            ]);
+        }
+        else
+        {
+            $this->jadwal->updateSettings($form);
+            
+            return $this->response->setJSON([
+                'code' => '200',
+            ]);
+        }
+    }
+
+    private function settingValidation($data)
+    {
+        $form = $data;
+        $rules = [
+            'lesson_hour' => 'required|is_natural',
+            'start_time'  => 'required|regex_match[([0-1]{1}[0-9]{1}|[2]{1}[0-3]{1}):[0-5]{1}[0-9]{1}]',
+        ];
+
+        $messages = [
+            'lesson_hour' => [
+                'required'      => lang('AdminJadwal.jadwal_alokasi_required'),
+                'is_natural'    => lang('AdminJadwal.jadwal_alokasi_natural'),
+            ],
+            'start_time' => [
+                'required'      => lang('AdminJadwal.jadwal_mulai_required'),
+                'regex_match'   => lang('AdminJadwal.jadwal_mulai_format'),
+            ]
+        ];
+        
+        return [$rules, $messages];
+    }
+
     public function saveSchedules($day)
     {
         $request = $this->request->getPost('jadwal');
@@ -65,11 +133,11 @@ class Jadwal extends Actudent
         $data = json_decode($request, true);
         $deleteSchedules = json_decode($deleteSchedules, true);
         $alokasi = $this->jadwal->getScheduleTime();
-        $mulai = $this->jadwal->getStartTime()->setting_value;
+        $mulai = $this->jadwal->getStartTime();
 
         if(count($data) > 0)
         {
-            $normalTimeSchedule = $this->exactDuration($data, $alokasi->setting_value);
+            $normalTimeSchedule = $this->exactDuration($data, $alokasi);
             $wrapper = [];
     
             foreach($normalTimeSchedule as $res)

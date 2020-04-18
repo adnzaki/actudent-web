@@ -13,6 +13,10 @@
 	color: #3dd926 !important;
 }
 
+.warning-text {
+	color: yellow;
+}
+
 .error-text, .loading-text, .success-text {
     font-weight: bold;
 }

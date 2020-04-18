@@ -4,7 +4,7 @@
             <div class="col-12">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal">{+ lang Admin.menu_pengaturan +}
+                        data-toggle="modal" @click="getPengaturan">{+ lang Admin.menu_pengaturan +}
                     </button>
                     <button type="button" @click="close('jadwal')"
                         class="btn btn-outline-warning"> {+ lang Admin.tutup +}

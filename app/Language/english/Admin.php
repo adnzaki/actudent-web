@@ -54,6 +54,7 @@ return [
     'no_search_result'  => 'No results found for',
     'no_data'           => 'No data found',
     'kelola'            => 'Manage',
+    'peringatan'        => 'Warning!',
 
     // hari-hari
     'day1'              => 'Monday',

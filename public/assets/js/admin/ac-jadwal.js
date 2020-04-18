@@ -33,6 +33,7 @@ const jadwal = new Vue({
 
             selectedDay: '', breakDuration: 0,
             toBeDeletedSchedule: [],
+            allocation: '',
         },        
 
         // list of schedules from Monday to Saturday
@@ -59,7 +60,7 @@ const jadwal = new Vue({
         setTimeout(() => {
             this.getKelas()
         }, 200);
-        this.runSelect2()        
+        this.runSelect2()                
         this.select2ShowPerPage('#showRows')
         let t0 = performance.now()
         this.getLanguageResources('AdminJadwal')
@@ -201,6 +202,89 @@ const jadwal = new Vue({
                 this.alert.text = ''
             }, 3500);
         },
+        savePengaturan() {
+            let data = $('#formPengaturan').serialize(),
+                obj = this
+            $.ajax({
+                url: `${this.jadwal}simpan-pengaturan`,
+                type: 'post',
+                dataType: 'json',
+                data: data,
+                beforeSend: () => {
+                    obj.alert.header = ''
+                    obj.alert.text = obj.lang.jadwal_update_setting_progress
+                    obj.alert.show = true
+                    obj.helper.disableSaveButton = true
+                },
+                success: res => {
+                    obj.helper.disableSaveButton = false
+                    if(res.code === '500') {
+                        obj.error = res.msg
+
+                        // set error alert
+                        obj.alert.class = 'bg-danger'
+                        obj.alert.header = 'Error!'
+                        obj.alert.text = obj.lang.jadwal_unable_update_setting
+
+                        // hide after 3000 ms and change the class and text to default
+                        setTimeout(() => {
+                            obj.alert.show = false
+                            obj.alert.class = 'bg-primary'
+                            obj.alert.header = ''
+                            obj.alert.text = ''
+                        }, 3000);
+                    } else {
+                        this.resetSettingForm()
+                    }
+                }
+            })
+        },
+        resetSettingForm() {
+            this.alert.show = false
+            this.error = {}
+            this.scheduleManager.allocation = ''
+            this.alert.text = this.lang.jadwal_success_update_setting 
+            
+            // reload schedules
+            this.showJadwal(this.gradeID, false)
+
+            // hide modal
+            $('#pengaturanModal').modal('hide')
+            
+            // show success alert
+            this.alert.header = this.lang.sukses
+            this.alert.class = 'bg-success'
+            this.alert.show = true
+
+            setTimeout(() => {
+                this.alert.show = false
+                this.alert.header = ''
+                this.alert.class = 'bg-primary'
+                this.alert.text = ''
+            }, 3500);
+        },
+        getPengaturan() {
+            $.ajax({
+                url: `${this.jadwal}get-pengaturan`,
+                type: 'get',
+                dataType: 'json',
+                success: data => {
+                    this.scheduleManager.allocation = data.alokasi
+                    let timeStart = this.runTimePicker('.pickatime', 15, [6,0], [13,0]).pickatime('picker')
+                    timeStart.set('select', data.mulai)
+                }
+            })
+
+            $('#pengaturanModal').modal('show')
+        },
+        setTimePicker(data) {
+            let timeStart = this.runTimePicker('#pickatime-edit-start').pickatime('picker')
+            timeStart.set('select', data.start)
+            setTimeout(() => {
+                let timeEnd = this.runTimePicker('#pickatime-edit-end').pickatime('picker')
+                timeEnd.set('select', data.end)                        
+            }, 50);
+        },
         saveJadwal() {
             let data = JSON.stringify(this.scheduleManager.lessonsInput),
                 toBeDeleted = JSON.stringify(this.scheduleManager.toBeDeletedSchedule)
@@ -336,10 +420,9 @@ const jadwal = new Vue({
 
             this.scheduleManager.lessonsInput.push(jadwal)
         },
-        forceInteger() {
-            let durasi = this.scheduleManager.breakDuration
-            if(durasi.match(/[^0-9]/) !== null) {
-                this.scheduleManager.breakDuration = 0
+        forceInteger(prop) {
+            if(this.scheduleManager[prop].match(/[^0-9]/) !== null) {
+                this.scheduleManager[prop] = 0
             }
         },
         removeLesson(id) {

@@ -28,6 +28,7 @@
 			{+ include Actudent\Admin\Views\jadwal\FormEditMapel +}
 			{+ include Actudent\Admin\Views\jadwal\JadwalPelajaran +}
 			{+ include Actudent\Admin\Views\jadwal\FormKelolaJadwal +}
+			{+ include Actudent\Admin\Views\jadwal\FormPengaturan +}
 			{+ include Actudent\Admin\Views\jadwal\DeleteConfirm +}
 		</div>
 	</div>

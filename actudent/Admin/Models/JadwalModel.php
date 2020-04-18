@@ -267,13 +267,35 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
+     * Save schedule settings
+     * 
+     * @param array $data
+     * @return void
+     */
+    public function updateSettings($data)
+    {
+        $start = $data['start_time'];
+        $start = explode(':', $start);
+        $hour = (int)$start[0];
+        $minute = $start[1] / 60;
+        $time = $hour + $minute;
+
+        $lessonHour = ['setting_value' => $data['lesson_hour']];
+        $startTime = ['setting_value' => $time];
+
+        $this->QBSettingJadwal->update($lessonHour, ['setting_name' => 'lesson_hour']);
+        $this->QBSettingJadwal->update($startTime, ['setting_name' => 'start_time']);
+    }
+
+    /**
      * Get schedule time
      * 
      * @return object
      */
     public function getScheduleTime()
     {
-        return $this->QBSettingJadwal->getWhere(['setting_name' => 'lesson_hour'])->getResult()[0];
+        $result = $this->QBSettingJadwal->getWhere(['setting_name' => 'lesson_hour'])->getResult()[0];
+        return $result->setting_value;
     }
 
     /**
@@ -283,6 +305,7 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getStartTime()
     {
-        return $this->QBSettingJadwal->getWhere(['setting_name' => 'start_time'])->getResult()[0];
+        $result = $this->QBSettingJadwal->getWhere(['setting_name' => 'start_time'])->getResult()[0];
+        return $result->setting_value;
     }
 }
