@@ -150,7 +150,7 @@
                                 </div>
                             </div>
                             <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="top"
-                                @click="showJadwalModal('selasa')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
+                                @click="showJadwalModal('sabtu')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
                     </tr>
