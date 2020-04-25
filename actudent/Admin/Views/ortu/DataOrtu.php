@@ -18,7 +18,7 @@
                     <option value="250">250 {+ lang Admin.baris +}</option>
                 </select>
             </div>
-            <div class="col-4">
+            <div class="col-12 col-sm-6 col-md-4">
                 <fieldset>
                     <div class="input-group">
                         <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
