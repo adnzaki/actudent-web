@@ -127,6 +127,7 @@ const plugin = {
 				selectYears: true,
 				hiddenName: true,
 				formatSubmit: 'yyyy-mm-dd',
+				format: 'dddd, d mmmm yyyy',
 				firstDay: 0,
 			});
 		},
