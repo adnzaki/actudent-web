@@ -18,7 +18,7 @@ class Absensi extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Kehadiran';
+        $data['title'] = lang('AdminAbsensi.page_title');
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\absensi\absensi-view');

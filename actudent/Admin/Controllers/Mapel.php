@@ -18,7 +18,7 @@ class Mapel extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Mata Pelajaran';
+        $data['title'] = lang('AdminMapel.page_title');
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\mapel\mapel-view');

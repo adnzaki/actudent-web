@@ -2,8 +2,8 @@
 
 return [
     // teks halaman data kelas
-    'page_title'                      => 'Absensi',
-    'absensi_title'                   => 'Absensi Data',
+    'page_title'                      => 'Present',
+    'absensi_title'                   => 'Present Data',
     //'mapel_save_progress'           => 'Saving lessons data...',
     // 'mapel_error_text'              => 'Can not save data, fill the form corectly please',
     // 'mapel_insert_success'          => 'Successfully added lesson data',
