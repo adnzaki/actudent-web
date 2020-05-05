@@ -5,7 +5,7 @@ return [
     'page_title'            => 'Parent',
     'ortu_title'            => 'Parent Data',
     'ortu_save_progress'    => 'Saving parent data...',
-    'ortu_error_text'       => 'Tidak dapat menyimpan data, silakan isi form dengan benar',
+    'ortu_error_text'       => 'Can not save data, fill the form corectly please',
     'ortu_insert_success'   => 'Successfully added parent data',
     'ortu_update_success'   => 'Parent data has been updated successfully',
     'ortu_delete_success'   => 'Parent data has been deleted successfully',

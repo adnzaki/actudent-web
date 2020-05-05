@@ -1,26 +1,9 @@
 <?php
 
 return [
-<<<<<<< HEAD
-    // teks halaman absensi
-    'page_title'                    => 'Presence',
-    'absensi_title'                 => 'Student Presence',
-    'absensi_alfa'                  => 'Absent',
-    'absensi_hadir'                 => 'Present',
-    'absensi_izin'                  => 'Permission',
-    'absensi_sakit'                 => 'Sick',
-    'absensi_keterangan'            => 'Add. Information',
-    'absensi_pilih_kelas'           => 'Select a grade',
-    'absensi_isi_jurnal'            => 'Journal',
-    'absensi_jurnal_title'          => 'Lesson Journal',
-    'absensi_konten_jurnal'         => 'Journal content...',
-    'absensi_sertakan_pr'           => 'Include homework',
-    'absensi_label_pr'              => 'Homework',
-    'absensi_detail_pr'             => 'Homework details',
-=======
     // teks halaman data kelas
-    'page_title'                      => 'Present',
-    'absensi_title'                   => 'Present Data',
+    'page_title'                      => 'Room',
+    'ruang_title'                     => 'Room Data',
     //'mapel_save_progress'           => 'Saving lessons data...',
     // 'mapel_error_text'              => 'Can not save data, fill the form corectly please',
     // 'mapel_insert_success'          => 'Successfully added lesson data',
@@ -40,5 +23,4 @@ return [
     // 'mapel_err_code_max'            => 'Lesson Code must only have up to 10 characters',
     // 'mapel_err_code_duplicate'      => 'Lesson Code has been used',
     // 'mapel_err_name_req'            => 'Lesson name is required',
->>>>>>> ec668cabd06fdf0a2ddd886e1841bda7f66905a2
 ];

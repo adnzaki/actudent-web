@@ -18,7 +18,7 @@ class Kelas extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Kelas';
+        $data['title'] = lang('AdminKelas.page_title');
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\kelas\kelas-view');

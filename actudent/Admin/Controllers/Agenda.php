@@ -18,7 +18,7 @@ class Agenda extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Agenda';
+        $data['title'] = lang('AdminAgenda.agenda_title');
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\agenda\agenda-view');
