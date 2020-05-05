@@ -30,7 +30,7 @@ class Jadwal extends Actudent
             $lessons = $data;
         }
 
-        $className = $this->jadwal->rombel->getClassDetail($grade);
+        $className = $this->jadwal->kelas->getClassDetail($grade);
         $response = [
             'class_name'    => $className->grade_name,
             'class_id'      => $className->grade_id,
@@ -283,7 +283,7 @@ class Jadwal extends Actudent
             $wrapper[$key] = $formatter;            
         }
 
-        $classGroup = $this->jadwal->rombel->getClassDetail($grade);
+        $classGroup = $this->jadwal->kelas->getClassDetail($grade);
 
         $data = [
             'class_name' => $classGroup->grade_name,

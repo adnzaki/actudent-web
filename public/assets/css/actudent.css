@@ -75,6 +75,25 @@
 	}
 }
 
+@media (max-width: 576px) {
+	.card {
+		width: 115%;
+		left: -7%;
+	}
+
+	.hide-on-mobile {
+		display: none;
+	}
+
+	.mb-10 {
+		margin-bottom: 10px;
+	}
+
+	.small-pad-left {
+		padding-left: 5px !important;
+	}	
+}
+
 .list-group-custom {
 	overflow-y: scroll;
 	min-height: 30px;
@@ -206,4 +225,8 @@ html body .extend-la {
 	border-bottom: dotted 1px;
 	margin-bottom: 10px;
 	padding-bottom: 3px;
+}
+
+.action-list {
+	padding: 0.45rem 1.5rem !important;
 }

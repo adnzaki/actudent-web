@@ -3,13 +3,8 @@
 use Actudent\Admin\Models\KelasModel;
 use Actudent\Admin\Models\PegawaiModel;
 
-class JadwalModel extends \Actudent\Core\Models\ModelHandler
+class JadwalModel extends \Actudent\Admin\Models\SharedModel
 {
-    /**
-     * Query builder for tb_schedule
-     */
-    private $QBJadwal;
-
     /**
      * Query builder for tb_schedule_settings
      */
@@ -30,33 +25,12 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @var string
      */
-    private $jadwal = 'tb_schedule';
-
-    /**
-     * Table tb_schedule
-     * 
-     * @var string
-     */
     private $settingJadwal = 'tb_schedule_settings';
-
-    /**
-     * Table tb_lessons_grade
-     * 
-     * @var string
-     */
-    private $mapelKelas = 'tb_lessons_grade';
-
-    /**
-     * Table tb_lessons
-     * 
-     * @var string
-     */
-    private $mapel = 'tb_lessons';
 
     /**
      * @var Actudent\Admin\Models\KelasModel
      */
-    public $rombel;
+    public $kelas;
 
     /**
      * @var Actudent\Admin\Models\PegawaiModel
@@ -68,12 +42,11 @@ class JadwalModel extends \Actudent\Core\Models\ModelHandler
      */
     public function __construct()
     {
-        parent::__construct();
-        $this->QBJadwal = $this->db->table($this->jadwal);
+        parent::__construct();        
         $this->QBSettingJadwal = $this->db->table($this->settingJadwal);
         $this->QBMapelKelas = $this->db->table($this->mapelKelas);
         $this->QBMapel = $this->db->table($this->mapel);
-        $this->rombel = new KelasModel;
+        $this->kelas = new KelasModel;
         $this->pegawai = new PegawaiModel;
     }
 

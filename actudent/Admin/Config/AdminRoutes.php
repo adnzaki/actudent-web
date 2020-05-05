@@ -70,6 +70,10 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('jadwal/get-pengaturan', 'Jadwal::getScheduleSettings');
 	$routes->add('jadwal/simpan-pengaturan', 'Jadwal::saveSettings');
 	$routes->add('absensi', 'Absensi::index');
+	$routes->add('absensi/get-siswa/(:any)', 'Absensi::getAnggotaRombel/$1');
+	$routes->add('absensi/get-absen/(:any)/(:any)/(:any)', 'Absensi::getListAbsensi/$1/$2/$3');
+	$routes->add('absensi/get-rombel', 'Absensi::getRombel');
+	$routes->add('absensi/get-jadwal/(:any)/(:any)', 'Absensi::getJadwal/$1/$2');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');

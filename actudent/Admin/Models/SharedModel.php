@@ -28,6 +28,11 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
     protected $QBRombel;
 
     /**
+     * Query builder for tb_schedule
+     */
+    protected $QBJadwal;
+
+    /**
      * Table tb_parent
      * 
      * @var string
@@ -63,6 +68,27 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
     protected $rombel = 'tb_student_grade';
 
     /**
+     * Table tb_schedule
+     * 
+     * @var string
+     */
+    protected $jadwal = 'tb_schedule';
+
+    /**
+     * Table tb_lessons_grade
+     * 
+     * @var string
+     */
+    protected $mapelKelas = 'tb_lessons_grade';
+
+    /**
+     * Table tb_lessons
+     * 
+     * @var string
+     */
+    protected $mapel = 'tb_lessons';
+
+    /**
      * Load the tables...
      */
     public function __construct()
@@ -73,5 +99,6 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
         $this->QBStudentParent = $this->db->table($this->studentParent);
         $this->QBUser = $this->db->table($this->user);
         $this->QBRombel = $this->db->table($this->rombel);
+        $this->QBJadwal = $this->db->table($this->jadwal);
     }
 }

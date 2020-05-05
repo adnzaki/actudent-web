@@ -5,6 +5,16 @@ const plugin = {
 	mounted() {
 		this.swObject = document.getElementsByClassName('switchery-small')
 	},
+	filters: {
+		substr: (value, num) => {
+			if(!value) return ''
+			let displayText
+			(value.length > num) 
+				? displayText = `${value.substr(0, num)}...`
+				: displayText = value
+			return displayText
+		}
+	},
 	methods: {
 		select2ShowPerPage(element, iCheck = '') {
 			var obj = this
@@ -73,51 +83,6 @@ const plugin = {
 
 				// Basic Select2 select
 				$(".select2").select2();
-
-				// Single Select Placeholder
-				$(".select2-placeholder").select2({
-					placeholder: "Select a state",
-					allowClear: true
-				});
-
-				// Select With Icon
-				$(".select2-icons").select2({
-					minimumResultsForSearch: Infinity,
-					templateResult: iconFormat,
-					templateSelection: iconFormat,
-					escapeMarkup: function (es) {
-						return es;
-					}
-				});
-
-				// Format icon
-				function iconFormat(icon) {
-					var originalOption = icon.element;
-					if (!icon.id) {
-						return icon.text;
-					}
-					var $icon = "<i class='la la-" + $(icon.element).data('icon') + "'></i>" + icon.text;
-
-					return $icon;
-				}
-
-				// Multiple Select Placeholder
-				$(".select2-placeholder-multiple").select2({
-					placeholder: "Select State",
-				});
-
-				// Hiding the search box
-				$(".hide-search").select2({
-					minimumResultsForSearch: Infinity
-				});
-
-				// Limiting the number of selections
-				$(".max-length").select2({
-					maximumSelectionLength: 2,
-					placeholder: "Select maximum 2 items"
-				});
-
-
 			})(window, document, jQuery);
 		},
 		runDatePicker(el) {
@@ -169,5 +134,10 @@ const plugin = {
 				sw[0].parentNode.removeChild(sw[0])
 			}
         },
+	},
+	computed: {
+		isSmallScreen() {
+			return (window.innerWidth <= 576) ? true : false
+		}
 	},
 }

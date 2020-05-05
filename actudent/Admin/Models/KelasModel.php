@@ -5,7 +5,7 @@ class KelasModel extends SharedModel
     /**
      * Query Builder for tb_grade
      */
-    private $QBKelas;
+    public $QBKelas;
 
     /**
      * Query Builder for tb_staff

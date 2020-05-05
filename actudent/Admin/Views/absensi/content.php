@@ -12,8 +12,9 @@
                     </ul>
                 </div>
             </div>
-            
-           
+            {+ include Actudent\Admin\Views\siswa\alert +}   
+            {+ include Actudent\Admin\Views\absensi\AbsensiSiswa +}          
+            {+ include Actudent\Admin\Views\absensi\FormJurnal +}
         </div>
     </div>
 </div>
