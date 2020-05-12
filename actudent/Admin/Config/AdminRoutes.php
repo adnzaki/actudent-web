@@ -51,6 +51,12 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pegawai/validate-file', 'Pegawai::runFileValidation');
 	$routes->add('pegawai/upload/(:any)', 'Pegawai::uploadFile/$1');
 	$routes->add('ruang', 'Ruang::index');
+	$routes->add('ruang/get-ruang/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ruang::getRooms/$1/$2/$3/$4/$5/$6');
+	$routes->add('ruang/get-ruang/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ruang::getRooms/$1/$2/$3/$4/$5');
+	$routes->add('ruang/save', 'Ruang::save');
+	$routes->add('ruang/save/(:any)', 'Ruang::save/$1');
+	$routes->add('ruang/detail/(:any)', 'Ruang::getRoomDetail/$1');
+	$routes->add('ruang/delete/(:any)', 'Ruang::delete/$1');
 	$routes->add('mapel', 'Mapel::index');
 	$routes->add('mapel/get-mapel/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Mapel::getLessons/$1/$2/$3/$4/$5/$6');
 	$routes->add('mapel/get-mapel/(:any)/(:any)/(:any)/(:any)/(:any)', 'Mapel::getLessons/$1/$2/$3/$4/$5');

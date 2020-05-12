@@ -12,8 +12,11 @@
                     </ul>
                 </div>
             </div>
-            
-           
+            {+ include Actudent\Admin\Views\ruang\DataRuang +}
+            {+ include Actudent\Admin\Views\ruang\FormTambahRuang +}     
+            {+ include Actudent\Admin\Views\ruang\FormEditRuang +}            
+            {+ include Actudent\Admin\Views\ruang\DeleteConfirm +}
+            {+ include Actudent\Admin\Views\ruang\alert +}           
         </div>
     </div>
 </div>

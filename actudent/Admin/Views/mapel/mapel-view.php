@@ -3,8 +3,8 @@
 <head>
   <title>Actudent - {title}</title>
   {+ include Actudent\Core\Views\component\head +}
-  <!-- <link rel="stylesheet" type="text/css" href="{appAssets}css/plugins/loaders/loaders.min.css">
-  <link rel="stylesheet" type="text/css" href="{appAssets}css/core/colors/palette-loader.css"> -->
+  <link rel="stylesheet" type="text/css" href="{appAssets}css/plugins/loaders/loaders.min.css">
+  <link rel="stylesheet" type="text/css" href="{appAssets}css/core/colors/palette-loader.css">
 </head>
 <body class="vertical-layout vertical-menu 2-columns {bodyColor} menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
