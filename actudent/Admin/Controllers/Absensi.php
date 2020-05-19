@@ -82,6 +82,19 @@ class Absensi extends Actudent
         return $this->response->setJSON($formatter);
     }
 
+    public function checkJournal($scheduleID, $date)
+    {
+        $jurnal = $this->absensi->journalExists($scheduleID, $date);
+        if($jurnal)
+        {
+            return $this->response->setJSON('true');
+        }
+        else 
+        {
+            return $this->response->setJSON('false');
+        }
+    }
+
     public function getRombel()
     {
         $data = $this->absensi->getRombel();

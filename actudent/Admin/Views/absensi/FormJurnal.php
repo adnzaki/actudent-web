@@ -21,21 +21,42 @@ aria-hidden="true">
                     <div class="form-body">
                     	<div class="form-group">
                     		<label for="userinput6">{{ lang.absensi_isi_jurnal }}</label>
-                    		<textarea class="form-control border-primary"
+                    		<textarea class="form-control border-primary" rows="6"
                     			name="description" :placeholder="lang.absensi_konten_jurnal">
                             </textarea>
                             <form-error :msg="error.lesson_hour" />
                     	</div>
                         <div class="form-group">
-                            <Checkbox v-model="helper.homework" color="#0070ff">{{ lang.absensi_sertakan_pr }}</Checkbox>
+                            <Checkbox v-model="helper.homework" @change="addHomework" color="#0070ff">{{ lang.absensi_sertakan_pr }}</Checkbox>
                         </div>
-                        <div class="form-group" v-if="helper.homework">
-                    		<label for="userinput6">{{ lang.absensi_label_pr }}</label>
-                    		<textarea class="form-control border-primary"
-                    			name="homework" :placeholder="lang.absensi_detail_pr">
-                            </textarea>
-                            <form-error :msg="error.lesson_hour" />
-                    	</div>
+                        <div v-if="helper.homework" id="homework">
+                            <div class="form-group">
+                                <label for="userinput6">{{ lang.absensi_label_judul }}</label>
+                                <input class="form-control border-primary" type="text" name="homework_title"
+                                    :placeholder="lang.absensi_input_judul">
+                                <form-error :msg="error.lesson_hour" />
+                            </div>
+                            <div class="form-group">
+                                <label for="userinput6">{{ lang.absensi_label_pr }}</label>
+                                <textarea class="form-control border-primary" rows="5"
+                                    name="homework_description" :placeholder="lang.absensi_detail_pr">
+                                </textarea>
+                                <form-error :msg="error.lesson_hour" />
+                            </div>
+                            <div class="form-group">
+                                <label for="userinput6">{{ lang.absensi_label_deadline }}</label>
+                                <div class="input-group">
+                                    <input type='text' name="due_date"
+                                    class="form-control border-primary pickadate-selectors pickadate-add" />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text border-primary">
+                                            <span class="la la-calendar-o"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <form-error :msg="error.lesson_hour" />
+                            </div>
+                        </div>                        
                     </div>
                 </form>
             </div>

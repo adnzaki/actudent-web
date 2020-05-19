@@ -15,6 +15,11 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     private $QBJurnal;
 
     /**
+     * Query Builder for tb_homework
+     */
+    private $QBHomework;
+
+    /**
      * Table tb_presence
      * 
      * @var string
@@ -27,6 +32,13 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @var string
      */
     public $jurnal = 'tb_journal';
+    
+    /**
+     * Table tb_homework
+     * 
+     * @var string
+     */
+    public $homework = 'tb_homework';
 
     /**
      * @var Actudent\Admin\Models\KelasModel
@@ -41,6 +53,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         parent::__construct();
         $this->QBAbsen = $this->db->table($this->absensi);
         $this->QBJurnal = $this->db->table($this->jurnal);
+        $this->QBHomework = $this->db->table($this->homework);
         $this->kelas = new KelasModel;
     }
 
@@ -89,6 +102,29 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         $params = ['schedule_day' => $day, 'grade_id' => $grade];
 
         return $join2->where($params)->orderBy('schedule_id', 'ASC')->get()->getResult();
+    }
+
+    /**
+     * Check if a journal in schedule is exist
+     * 
+     * @param int $scheduleID
+     * @param string $date
+     * 
+     * @return boolean
+     */
+    public function journalExists($scheduleID, $date)
+    {
+        $like = $this->QBJurnal->like('created', $date);
+        $result = $like->where('schedule_id', $scheduleID);
+        
+        if($result->countAllResults() > 0)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 }

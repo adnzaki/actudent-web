@@ -5,7 +5,7 @@
  * @copyright   Wolestech (c) 2018
  */
 
-const mapel = new Vue({
+const absensi = new Vue({
     el: '#absensi-content', 
     mixins: [SSPaging, plugin],
     data: {
@@ -20,7 +20,8 @@ const mapel = new Vue({
             showSaveButton: true, showDeleteButton: false,
             deleteProgress: false,
             day: '', gradeID: '', jadwalLength: 0,
-            homework: false,
+            homework: false, scheduleID: '',
+            activeDate: '',
         },
         checkAll: false,
         siswa: [
@@ -59,7 +60,7 @@ const mapel = new Vue({
         this.getRombel()        
         this.getLanguageResources('AdminAbsensi')
         this.getLanguageResources('Admin')
-        this.setDatePicker()
+        this.setDatePicker()        
         // this.onModalClose('#hapusModal')
     },
     methods: {
@@ -74,16 +75,38 @@ const mapel = new Vue({
                     })              
                     setTimeout(() => {
                         this.onRombelChanged()
+                        this.onMapelChanged()
                     }, 50);              
                 }
             })   
         },
+        checkJurnal() {
+            $.ajax({
+                url: `${this.absensi}cek-jurnal/${this.helper.scheduleID}/${this.helper.activeDate}`,
+                dataType: 'json',
+                success: res => {
+                    console.log('Query has been successfully executed')
+                }
+            })  
+        },
+        addHomework() {
+            setTimeout(() => {
+                this.runDatePicker('.pickadate-add')
+            }, 200);
+        },
+        onMapelChanged() {
+            let obj = this
+            $('#pilihMapel').on('select2:select', function(e) {
+                let data = e.params.data
+                obj.helper.scheduleID = data.id
+                obj.checkJurnal()
+            })
+        },
         onRombelChanged() {
             let obj = this
             $('#pilihKelas').on('select2:select', function(e) {
-                let data = e.params.data,
-                    date
-                obj.helper.gradeID = data.id                
+                let data = e.params.data
+                obj.helper.gradeID = data.id 
                 obj.getJadwal()
             })
         },        
@@ -97,9 +120,15 @@ const mapel = new Vue({
                     },
                     success: res => {
                         this.helper.jadwalLength = res.length
+                        let t1 = performance.now()
                         $('#pilihMapel').html('').select2({
                             data: res
-                        })                                           
+                        })     
+                        let t2 = performance.now()
+                        setTimeout(() => {
+                            this.helper.scheduleID = $('#pilihMapel').val()      
+                            this.checkJurnal()                      
+                        }, (t2-t1) + 200);
                     }
                 })                  
             }
@@ -117,7 +146,9 @@ const mapel = new Vue({
                 onSet: context => {
                     let date = new Date(context.select)
                     obj.helper.day = date.getDay()
+                    obj.helper.activeDate = moment(date).format('YYYY-MM-DD')
                     obj.getJadwal()
+                    obj.checkJurnal()
                 }
             }).pickadate('picker')
 

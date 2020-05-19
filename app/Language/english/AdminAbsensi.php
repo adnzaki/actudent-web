@@ -14,6 +14,9 @@ return [
     'absensi_jurnal_title'          => 'Lesson Journal',
     'absensi_konten_jurnal'         => 'Journal content...',
     'absensi_sertakan_pr'           => 'Include homework',
-    'absensi_label_pr'              => 'Homework',
+    'absensi_label_judul'           => 'Title',
+    'absensi_input_judul'           => 'Homework title',
+    'absensi_label_pr'              => 'Detail',
     'absensi_detail_pr'             => 'Homework details',
+    'absensi_label_deadline'        => 'Due date',
 ];
