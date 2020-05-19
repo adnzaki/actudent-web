@@ -31,13 +31,6 @@
             </div>
         </div>
     </div>
-    <div class="loader-wrapper" v-if="spinner">
-    	<div class="loader-container">
-    		<div class="ball-rotate loader-danger">
-    			<div></div>
-    		</div>
-    	</div>
-    </div>
     <div class="table-responsive">
         <table class="table table-hover mb-0 cursor-pointer">
         <thead>
