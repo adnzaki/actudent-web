@@ -54,6 +54,16 @@ aria-hidden="true">
                                     <form-error :msg="error.lesson_id" />
                                 </div>
                                 <div class="form-group">
+                                    <label for="userinput6">{{ lang.jadwal_label_pilih_ruang }}</label>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <select class="select2-ruang" style="width: 100%;" id="pilih-ruang">
+                                            </select>                                
+                                        </div>
+                                    </div>
+                                    <form-error :msg="error.room_id" />
+                                </div>
+                                <div class="form-group">
                                     <label for="userinput6">{{ lang.jadwal_durasi }}</label>
                                     <div class="row">
                                         <div class="col-12">

@@ -25,7 +25,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @var string
      */
-    private $settingJadwal = 'tb_schedule_settings';
+    private $settingJadwal = 'tb_schedule_settings';    
 
     /**
      * @var Actudent\Admin\Models\KelasModel
@@ -38,6 +38,11 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     private $pegawai;
 
     /**
+     * @var Actudent\Admin\Models\RuangModel
+     */
+    private $ruangan;
+
+    /**
      * Build the tables and models..
      */
     public function __construct()
@@ -48,6 +53,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
         $this->QBMapel = $this->db->table($this->mapel);
         $this->kelas = new KelasModel;
         $this->pegawai = new PegawaiModel;
+        $this->ruangan = new RuangModel;
     }
 
     /**
@@ -173,8 +179,10 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     public function getSchedules($grade, $day)
     {
         $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
-                   duration, schedule_start, schedule_end, staff_name as teacher";
+                   duration, schedule_start, schedule_end, staff_name as teacher, 
+                   {$this->ruangan->ruang}.room_id, room_name, room_code";
         $join   = $this->QBJadwal->select($field)
+                  ->join($this->ruangan->ruang, "{$this->ruangan->ruang}.room_id = {$this->jadwal}.room_id")
                   ->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id = {$this->jadwal}.lessons_grade_id")
                   ->join($this->mapel, "{$this->mapelKelas}.lesson_id={$this->mapel}.lesson_id")
                   ->join($this->pegawai->staff, "{$this->pegawai->staff}.staff_id={$this->mapelKelas}.teacher_id");
@@ -186,6 +194,16 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
         ];
 
         return $join->where($param)->orderBy('schedule_id', 'ASC')->get()->getResult();
+    }
+
+    /**
+     * Get room list
+     * 
+     * @return object
+     */
+    public function getRoomList()
+    {
+        return $this->ruangan->QBRuang->get()->getResult();
     }
 
     /**
@@ -204,6 +222,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
             $id = $res['schedule_id'];
             $value = [
                 'lessons_grade_id'  => $res['lessons_grade_id'],
+                'room_id'           => $res['room_id'],
                 'schedule_semester' => 1,
                 'schedule_day'      => $res['schedule_day'],
                 'duration'          => $res['duration'],

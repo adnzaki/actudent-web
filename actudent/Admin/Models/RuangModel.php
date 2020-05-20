@@ -5,7 +5,7 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Query Builder for tb_room
      */
-    private $QBRuang;
+    public $QBRuang;
 
     /**
      * Table tb_room

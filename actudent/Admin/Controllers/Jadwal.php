@@ -160,6 +160,7 @@ class Jadwal extends Actudent
                 $wrapper[] = [
                     'schedule_id'       => $res['id'],
                     'lessons_grade_id'  => $res['val'],
+                    'room_id'           => $res['ruang'],
                     'schedule_semester' => 1,
                     'schedule_day'      => $day,
                     'duration'          => $res['alokasi'],
@@ -182,6 +183,24 @@ class Jadwal extends Actudent
             'status' => '200',
             'msg' => 'OK'
         ]);
+    }
+
+    public function getRooms()
+    {
+        $data = $this->jadwal->getRoomList();
+        $response = [];
+        if($data !== false)
+        {
+            foreach($data as $res)
+            {
+                $response[] = [
+                    'id' => $res->room_id,
+                    'text' => "$res->room_name ($res->room_code)",
+                ];
+            }
+        }
+        
+        return $this->response->setJSON($response);
     }
 
     private function convertToMinute($decimalValue)
@@ -220,6 +239,7 @@ class Jadwal extends Actudent
                 $formatted[] = [
                     'id' => $val['id'],
                     'val' => $val['val'],
+                    'ruang' => $val['room'],
                     'alokasi' => $val['duration'],
                     'durasi' => $duration,
                 ];
@@ -265,6 +285,7 @@ class Jadwal extends Actudent
                         $break = [
                             'schedule_id'       => null,
                             'lesson_grade_id'   => null,
+                            'room_id'           => null,
                             'lesson_code'       => 'REST',
                             'lesson_name'       => lang('AdminJadwal.jadwal_istirahat'),
                             'duration'          => (string)$breakDuration,

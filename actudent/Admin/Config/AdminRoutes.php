@@ -74,6 +74,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('jadwal/get-jadwal/(:any)', 'Jadwal::getSchedules/$1');
 	$routes->add('jadwal/daftar-mapel-kelas/(:any)', 'Jadwal::getLessonsForSchedule/$1');
 	$routes->add('jadwal/simpan-jadwal/(:any)', 'Jadwal::saveSchedules/$1');
+	$routes->add('jadwal/get-ruang', 'Jadwal::getRooms');
 	$routes->add('jadwal/get-pengaturan', 'Jadwal::getScheduleSettings');
 	$routes->add('jadwal/simpan-pengaturan', 'Jadwal::saveSettings');
 	$routes->add('absensi', 'Absensi::index');

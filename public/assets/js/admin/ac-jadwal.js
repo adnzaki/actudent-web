@@ -335,19 +335,22 @@ const jadwal = new Vue({
             if(this.scheduleList[day].length > 0) {
                 let jadwal = this.scheduleList[day]
                 jadwal.forEach((item, index) => {
-                    let satuan
+                    let satuan, ruang
                     if(item.lesson_code !== 'REST') {
                         satuan = this.lang.jadwal_jam_pelajaran
+                        ruang =  ` - ${item.room_code}`
                     } else {
                         item.lessons_grade_id = 'null'
                         item.schedule_id = `break-${index}`
                         satuan = this.lang.jadwal_menit
+                        ruang = ''
                     }
                     
                     this.scheduleManager.lessonsInput.push({
                         id: item.schedule_id,
                         val: item.lessons_grade_id,
-                        text: `${item.lesson_name} (${item.duration} ${satuan})`,
+                        room: item.room_id,
+                        text: `${item.lesson_name} (${item.duration} ${satuan}${ruang})`,
                         duration: item.duration,
                     })
                 })
@@ -377,6 +380,9 @@ const jadwal = new Vue({
                 $('#durasi').select2()
                 $('#istirahat').select2() 
                 $('.select2-mapel').select2()               
+                $('.select2-ruang').select2()
+                
+                // get lesson list
                 $.ajax({
                     url: `${this.jadwal}daftar-mapel-kelas/${this.gradeID}`,
                     dataType: 'json',
@@ -385,7 +391,18 @@ const jadwal = new Vue({
                             data: res
                         })                            
                     }
-                })                 
+                })   
+               
+                // get room list
+                $.ajax({
+                    url: `${this.jadwal}get-ruang`,
+                    dataType: 'json',
+                    success: res => {
+                        $('.select2-ruang').select2({
+                            data: res
+                        })                            
+                    }
+                })   
             }, 50);
         },
         closeInputJadwal() {
@@ -401,18 +418,26 @@ const jadwal = new Vue({
             }
 
             if(!this.scheduleManager.isBreak) {
-                let mapel = $('.select2-mapel').select2('data');
-                let durasi = $('#durasi').select2('val')
+                let mapel = $('.select2-mapel').select2('data'),
+                    ruang = $('.select2-ruang').select2('data'),
+                    durasi = $('#durasi').select2('val'),
+                    kodeRuang, namaRuang = ruang[0].text
+
+                let start = namaRuang.indexOf('(') + 1,
+                    end = namaRuang.length - 1
+                kodeRuang = namaRuang.substring(start, end)
                 jadwal = { 
                     id: `new-${index}`,
                     val: mapel[0].id, 
-                    text: `${mapel[0].text} (${durasi} ${this.lang.jadwal_jam_pelajaran})`,
+                    room: ruang[0].id, 
+                    text: `${mapel[0].text} (${durasi} ${this.lang.jadwal_jam_pelajaran} - ${kodeRuang})`,
                     duration: durasi
                 }
             } else {
                 jadwal = { 
                     id: `break-${index}`,
                     val: 'null', 
+                    room: 'null',
                     text: `${this.lang.jadwal_istirahat} (${this.scheduleManager.breakDuration} ${this.lang.jadwal_menit})`,
                     duration: this.scheduleManager.breakDuration
                 }
@@ -619,6 +644,7 @@ const jadwal = new Vue({
                     id: '', name: '',
                 }
                 obj.scheduleManager.lessonsInput = []
+                obj.scheduleManager.showInput = false
             })
         },
         isBreak(lessonGrade) {
