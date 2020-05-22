@@ -13,11 +13,11 @@
                     <td scope="row" class="decrease-col-size">
                         <Checkbox v-model="siswa" :value="'eek'" color="#0070ff"></Checkbox>
                     </td>
-                    <td class="small-pad-left" v-if="!isSmallScreen">{{ item.nama }}</td>
-                    <td class="small-pad-left" v-if="isSmallScreen">{{ item.nama | substr(22) }}</td>
-                    <td><div class="badge badge-success">Hadir</div></td>
+                    <td class="small-pad-left" v-if="!isSmallScreen">{{ item.name }}</td>
+                    <td class="small-pad-left" v-if="isSmallScreen">{{ item.name | substr(22) }}</td>
+                    <td><div class="badge badge-success">{{ item.status }}</div></td>
                     <td class="hide-on-mobile">
-                        <div class="btn-group" role="group" aria-label="Basic example">
+                        <div class="btn-group" role="group" aria-label="Basic example" v-if="helper.presenceButtons">
                             <button type="button" class="btn btn-icon btn-success" data-toggle="tooltip" data-placement="top"
                                 title="{+ lang AdminAbsensi.absensi_hadir +}">
                                 <i class="la la-check"></i>

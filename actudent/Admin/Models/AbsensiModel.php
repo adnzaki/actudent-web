@@ -78,7 +78,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         {          
             $presence = $result->get()->getResult()[0];
 
-            return $presence->presence_status;
+            return $presence;
         }
         else
         {
@@ -119,7 +119,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         
         if($result->countAllResults() > 0)
         {
-            return true;
+            return $result->get()->getResult();
         }
         else
         {

@@ -8,7 +8,7 @@
                     </button>
                 </div>
             </div> 
-            <div class="col-4 col-sm-2">
+            <div class="col-4 col-sm-2" v-if="helper.presenceButtons">
             	<div class="form-group">
             		<div class="btn-group mr-1 mb-1">
             			<button type="button" class="btn btn-outline-primary btn-min-width dropdown-toggle"
@@ -50,34 +50,6 @@
     <div class="table-responsive">
         <table class="table table-hover mb-0 cursor-pointer">
             {+ include Actudent\Admin\Views\absensi\ListAbsen +}   
-           
-            <!-- <thead>
-                <tr>
-                    <th>#</th>
-                    <th @click="sortData('grade_name')">{+ lang AdminKelas.kelas_nama +}<i class="la la-sort"></th>
-                    <th @click="sortData('period_from')">{+ lang AdminKelas.kelas_tahun +}<i class="la la-sort"></th>
-                    <th @click="sortData('staff_name')">{+ lang AdminKelas.kelas_wali +}<i class="la la-sort"></th>
-                    <th>{+ lang Admin.aksi +}</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="(item, index) in data" :key="index" class="soft-dark">
-                    <td scope="row">{{ index + 1 }}</td>
-                    <td>{{ item.grade_name }}</td>
-                    <td>{{ item.period_start }} / {{ item.period_end }}</td>
-                    <td>{{ item.staff_name }}</td>
-                    <td>
-                        <button type="button" class="btn btn-icon btn-info" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang AdminJadwal.jadwal_daftar_mapel +}" @click="showMapel(item.grade_id)">
-                            <i class="la la-list-alt"></i>
-                        </button>
-                        <button type="button" class="btn btn-icon btn-success" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang AdminJadwal.jadwal_jadwal_mapel +}" @click="showJadwal(item.grade_id)">
-                            <i class="la la-book"></i>
-                        </button>
-                    </td>
-                </tr>
-            </tbody> -->
         </table>
     </div>
     <!-- <pager 

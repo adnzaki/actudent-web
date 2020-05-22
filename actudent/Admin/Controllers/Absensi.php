@@ -10,11 +10,6 @@ class Absensi extends Actudent
      */
     private $absensi;
 
-    /**
-     * @var Actudent\Admin\Models\KelasModel
-     */
-    private $kelas;
-
     public function __construct()
     {
         $this->absensi = new AbsensiModel;
@@ -29,10 +24,23 @@ class Absensi extends Actudent
                 ->render('Actudent\Admin\Views\absensi\absensi-view');
     }
 
-    public function getListAbsensi($grade, $journal, $date = null)
+    /**
+     * Get list of presence data
+     * 
+     * @param int $grade
+     * @param int|string $journal
+     * @param string $date
+     */
+    public function getListAbsensi($grade, $journal, $date)
     {
+        // Get all member of a class group
         $student = $this->absensi->kelas->getClassMember($grade);
+
+        // Presence data to be wrapped
         $presenceWrapper = [];
+
+        // Presence status category
+        // Absent|Absen, Present|Hadir, Permit|Izin, Sick|Sakit
         $presenceCategory = [
             lang('AdminAbsensi.absensi_alfa'),
             lang('AdminAbsensi.absensi_hadir'),
@@ -41,15 +49,25 @@ class Absensi extends Actudent
         ];
 
         foreach($student as $key)
-        {
+        {            
+            // Set default presence data to empty
+            $presenceWrapper[] = [
+                'name'      => $key->student_name,
+                'status'    => '',
+                'note'      => '',
+            ];
+            
+            // Get presence of a student
             $presence = $this->absensi->getPresence($journal, $key->student_id, $date);
-            if($presence !== null)
+
+            if($presence !== null && $journal !== 'null')
             {
-                $presenceWrapper[$key->student_name] = $presenceCategory[$presence];
-            }
-            else 
-            {
-                $presenceWrapper[$key->student_name] = $presence;
+
+                $presenceWrapper[] = [
+                    'name'      => $key->student_name,
+                    'status'    => $presenceCategory[$presence->presence_status],
+                    'note'      => $presence->presence_remark,
+                ];
             }
         }
 
@@ -85,13 +103,19 @@ class Absensi extends Actudent
     public function checkJournal($scheduleID, $date)
     {
         $jurnal = $this->absensi->journalExists($scheduleID, $date);
-        if($jurnal)
+        if(! $jurnal)
         {
-            return $this->response->setJSON('true');
+            return $this->response->setJSON([
+                'status'    => 'false',
+                'id'        => null,
+            ]);
         }
         else 
         {
-            return $this->response->setJSON('false');
+            return $this->response->setJSON([
+                'status'    => 'true',
+                'id'        => $jurnal[0]->journal_id,
+            ]);
         }
     }
 

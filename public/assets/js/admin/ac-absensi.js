@@ -21,35 +21,13 @@ const absensi = new Vue({
             deleteProgress: false,
             day: '', gradeID: '', jadwalLength: 0,
             homework: false, scheduleID: '',
-            activeDate: '',
+            activeDate: '', presenceButtons: false,
         },
+        // The URL to get presence data
+        urlAbsen: '',
+
         checkAll: false,
-        siswa: [
-            {
-                nama: 'Davin Ardiyanto',
-                absen: null,
-            },
-            {
-                nama: 'Abdul Majid',
-                absen: null,
-            },
-            {
-                nama: 'Abdul Somad',
-                absen: null,
-            },
-            {
-                nama: 'Abdul Yazid Rizda',
-                absen: null,
-            },
-            {
-                nama: 'Abdul Rohman Soleh Bukhair Ridho Karim Jalili',
-                absen: null,
-            },
-            {
-                nama: 'Abdul Rohim',
-                absen: null,
-            },
-        ],
+        siswa: [],
     },
     mounted() {
         this.reset()
@@ -81,13 +59,25 @@ const absensi = new Vue({
             })   
         },
         checkJurnal() {
-            $.ajax({
-                url: `${this.absensi}cek-jurnal/${this.helper.scheduleID}/${this.helper.activeDate}`,
-                dataType: 'json',
-                success: res => {
-                    console.log('Query has been successfully executed')
-                }
-            })  
+            if(this.helper.scheduleID !== '' && this.helper.scheduleID !== null) {
+                $.ajax({
+                    url: `${this.absensi}cek-jurnal/${this.helper.scheduleID}/${this.helper.activeDate}`,
+                    dataType: 'json',
+                    success: res => {
+                        let baseURL = `${this.absensi}get-absen/${this.helper.gradeID}/`
+                        if(res.status === 'true') {
+                            this.helper.presenceButtons = true
+                            this.urlAbsen = `${baseURL}${res.id}/${this.helper.activeDate}`
+                        } else {
+                            this.helper.presenceButtons = false
+                            this.urlAbsen = `${baseURL}null/null`
+                        }
+    
+                        // get presence data
+                        this.getAbsensi(this.urlAbsen)
+                    }
+                })  
+            }
         },
         addHomework() {
             setTimeout(() => {
@@ -109,7 +99,16 @@ const absensi = new Vue({
                 obj.helper.gradeID = data.id 
                 obj.getJadwal()
             })
-        },        
+        },  
+        getAbsensi(url) {
+            $.ajax({
+                url: url,
+                dataType: 'json',
+                success: res => {
+                    this.siswa = res
+                }
+            })  
+        },   
         getJadwal() {
             if(this.helper.day !== '' && this.helper.gradeID !== '') {
                 $.ajax({
