@@ -5,9 +5,7 @@
   {+ include Actudent\Core\Views\component\head +}
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/pickers/daterange/daterangepicker.css">
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/pickers/pickadate/pickadate.css">
-  <link rel="stylesheet" type="text/css" href="{appAssets}css/plugins/pickers/daterange/daterange.css">
-  <link rel="stylesheet" type="text/css" href="{appAssets}css/plugins/loaders/loaders.min.css">
-  <link rel="stylesheet" type="text/css" href="{appAssets}css/core/colors/palette-loader.css">
+  <link rel="stylesheet" type="text/css" href="{appAssets}css/plugins/pickers/daterange/daterange.css">  
   <link rel="stylesheet" type="text/css" href="{assets}css/jadwal.css">
 </head>
 <body class="vertical-layout vertical-menu 2-columns {bodyColor} menu-expanded fixed-navbar"

@@ -230,3 +230,23 @@ html body .extend-la {
 .action-list {
 	padding: 0.45rem 1.5rem !important;
 }
+
+.loader-layer {
+	width: 100%;
+	height: 1200px;
+	position: fixed;
+	z-index: 999;
+	top: -100px;
+	left: 0;
+	overflow: hidden;
+}
+
+.loader-wrapper {
+	position: fixed;
+	left: 50%;
+	background-color: #241b1bcf !important;
+	width: 200px;
+	height: 70px;
+	border-radius: 10px;
+	top: 300px;
+}

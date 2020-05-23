@@ -28,6 +28,7 @@ const absensi = new Vue({
 
         checkAll: false,
         siswa: [],
+        spinner: false, spinnerTimeout: 250
     },
     mounted() {
         this.reset()
@@ -59,24 +60,36 @@ const absensi = new Vue({
             })   
         },
         checkJurnal() {
-            if(this.helper.scheduleID !== '' && this.helper.scheduleID !== null) {
-                $.ajax({
-                    url: `${this.absensi}cek-jurnal/${this.helper.scheduleID}/${this.helper.activeDate}`,
-                    dataType: 'json',
-                    success: res => {
-                        let baseURL = `${this.absensi}get-absen/${this.helper.gradeID}/`
-                        if(res.status === 'true') {
-                            this.helper.presenceButtons = true
-                            this.urlAbsen = `${baseURL}${res.id}/${this.helper.activeDate}`
-                        } else {
-                            this.helper.presenceButtons = false
-                            this.urlAbsen = `${baseURL}null/null`
-                        }
+            if(this.helper.gradeID !== '') {
+                let baseURL = `${this.absensi}get-absen/${this.helper.gradeID}/`
+                this.urlAbsen = `${baseURL}null/null`
     
-                        // get presence data
-                        this.getAbsensi(this.urlAbsen)
-                    }
-                })  
+                if(this.helper.scheduleID !== '' && this.helper.scheduleID !== null) {
+                    $.ajax({
+                        url: `${this.absensi}cek-jurnal/${this.helper.scheduleID}/${this.helper.activeDate}`,
+                        dataType: 'json',
+                        beforeSend: () => {
+                            this.spinner = true
+                        },
+                        success: res => {
+                            setTimeout(() => {
+                                this.spinner = false                                
+                            }, this.spinnerTimeout);
+                            if(res.status === 'true') {
+                                this.helper.presenceButtons = true
+                                this.urlAbsen = `${baseURL}${res.id}/${this.helper.activeDate}`
+                            } else {
+                                this.helper.presenceButtons = false                            
+                            }   
+                            
+                            // get presence data
+                            this.getAbsensi(this.urlAbsen)
+                        }
+                    })  
+                } else {
+                    this.helper.presenceButtons = false
+                    this.getAbsensi(this.urlAbsen, true)
+                }
             }
         },
         addHomework() {
@@ -100,11 +113,21 @@ const absensi = new Vue({
                 obj.getJadwal()
             })
         },  
-        getAbsensi(url) {
+        getAbsensi(url, useSpinner = false) {
             $.ajax({
                 url: url,
                 dataType: 'json',
+                beforeSend: () => {
+                    if(useSpinner) {
+                        this.spinner = true                    
+                    }
+                },
                 success: res => {
+                    if(useSpinner) {
+                        setTimeout(() => {
+                            this.spinner = false                            
+                        }, this.spinnerTimeout);
+                    }
                     this.siswa = res
                 }
             })  
@@ -114,9 +137,6 @@ const absensi = new Vue({
                 $.ajax({
                     url: `${this.absensi}get-jadwal/${this.helper.day}/${this.helper.gradeID}`,
                     dataType: 'json',
-                    beforeSend: () => {
-                         
-                    },
                     success: res => {
                         this.helper.jadwalLength = res.length
                         let t1 = performance.now()
@@ -147,7 +167,6 @@ const absensi = new Vue({
                     obj.helper.day = date.getDay()
                     obj.helper.activeDate = moment(date).format('YYYY-MM-DD')
                     obj.getJadwal()
-                    obj.checkJurnal()
                 }
             }).pickadate('picker')
 
