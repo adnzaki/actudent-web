@@ -21,10 +21,10 @@ aria-hidden="true">
                     <div class="form-body">
                     	<div class="form-group">
                     		<label for="userinput6">{{ lang.absensi_isi_jurnal }}</label>
-                    		<textarea class="form-control border-primary" rows="6"
+                    		<textarea class="form-control border-primary" rows="6" v-model="jurnal.description"
                     			name="description" :placeholder="lang.absensi_konten_jurnal">
                             </textarea>
-                            <form-error :msg="error.lesson_hour" />
+                            <form-error :msg="error.description" />
                     	</div>
                         <div class="form-group">
                             <Checkbox v-model="helper.homework" @change="addHomework" color="#0070ff">{{ lang.absensi_sertakan_pr }}</Checkbox>
@@ -33,15 +33,15 @@ aria-hidden="true">
                             <div class="form-group">
                                 <label for="userinput6">{{ lang.absensi_label_judul }}</label>
                                 <input class="form-control border-primary" type="text" name="homework_title"
-                                    :placeholder="lang.absensi_input_judul">
-                                <form-error :msg="error.lesson_hour" />
+                                    :placeholder="lang.absensi_input_judul" v-model="homework.homework_title">
+                                <form-error :msg="error.homework_title" />
                             </div>
                             <div class="form-group">
                                 <label for="userinput6">{{ lang.absensi_label_pr }}</label>
-                                <textarea class="form-control border-primary" rows="5"
+                                <textarea class="form-control border-primary" rows="5" v-model="homework.homework_description"
                                     name="homework_description" :placeholder="lang.absensi_detail_pr">
                                 </textarea>
-                                <form-error :msg="error.lesson_hour" />
+                                <form-error :msg="error.homework_description" />
                             </div>
                             <div class="form-group">
                                 <label for="userinput6">{{ lang.absensi_label_deadline }}</label>
@@ -54,7 +54,7 @@ aria-hidden="true">
                                         </span>
                                     </div>
                                 </div>
-                                <form-error :msg="error.lesson_hour" />
+                                <form-error :msg="error.due_date" />
                             </div>
                         </div>                        
                     </div>
@@ -62,7 +62,7 @@ aria-hidden="true">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
-                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary"> {+ lang Admin.simpan +}</button>
+                <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="saveJurnal"> {+ lang Admin.simpan +}</button>
             </div>
         </div>
     </div>

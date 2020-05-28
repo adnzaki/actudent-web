@@ -30,6 +30,8 @@ class Absensi extends Actudent
      * @param int $grade
      * @param int|string $journal
      * @param string $date
+     * 
+     * @return JSON
      */
     public function getListAbsensi($grade, $journal, $date)
     {
@@ -100,6 +102,139 @@ class Absensi extends Actudent
         return $this->response->setJSON($formatter);
     }
 
+    public function getRombel()
+    {
+        $data = $this->absensi->getRombel();
+        $formatter = [];
+        foreach($data as $res)
+        {
+            $formatter[] = [
+                'id' => $res->grade_id,
+                'text' => $res->grade_name
+            ];
+        }
+
+        return $this->response->setJSON($formatter);
+    }
+
+    public function getJournal($journalID)
+    {
+        $jurnal = $this->absensi->getJournal($journalID);
+        $formatter = [];
+
+        if($jurnal['homework'] !== null)
+        {
+            foreach($jurnal['homework'] as $key)
+            {
+                $date = explode(' ', $key->due_date);
+                $key->due_date = $date[0];
+            }
+        }
+
+        return $this->response->setJSON($jurnal);
+    }
+
+    public function save($scheduleID, $date, $includeHomework)
+    {
+        if($includeHomework === 'true')
+        {
+            $includeHomework = true;
+        }
+        else 
+        {
+            $includeHomework = false;
+        }
+
+        $validation = $this->validation($includeHomework); // [0 => $rules, 1 => $messages]
+
+        if(! $this->validate($validation[0], $validation[1]))
+        {
+            return $this->response->setJSON([
+                'code' => '500',
+                'msg' => $this->validation->getErrors(),
+            ]);
+        }
+        else 
+        {
+            $data = $this->formData();
+            $saved;
+            if($includeHomework) 
+            {
+                // save journal with homework
+                $saved = $this->absensi->saveJournal($data, $scheduleID, $date, true);
+            }
+            else
+            {
+                // save journal without homework
+                $saved = $this->absensi->saveJournal($data, $scheduleID, $date);
+            }
+            
+            return $this->response->setJSON([
+                'code' => '200',
+                'data' => $saved,
+            ]);
+        }
+    }
+
+    private function validation($includeHomework)
+    {
+        $form = $this->formData();
+
+        $rules = [
+            'description'   => 'required',
+        ];
+
+        $messages = [
+            'description' => [
+                'required' => lang('AdminAbsensi.absensi_err_jurnal_required')
+            ],
+        ];
+
+        if($includeHomework)
+        {
+            $homeworkRules = [
+                'homework_title'        => 'required',
+                'homework_description'  => 'required',
+                'due_date'              => 'required|valid_date[Y-m-d]'
+            ];
+
+            $homeworkMessages = [
+                'homework_title' => [
+                    'required' => lang('AdminAbsensi.absensi_err_title_required')
+                ],
+                'homework_description' => [
+                    'required' => lang('AdminAbsensi.absensi_err_desc_required')
+                ],
+                'due_date' => [
+                    'required'      => lang('AdminAbsensi.absensi_err_duedate_required'),
+                    'valid_date'    => lang('AdminAbsensi.absensi_err_duedate_format')
+                ],
+            ];
+
+            foreach($homeworkRules as $rule => $val)
+            {
+                $rules[$rule] = $val;
+            }
+
+            foreach($homeworkMessages as $msg => $val)
+            {
+                $messages[$msg] = $val;
+            }
+        }
+
+        return [$rules, $messages];
+    }
+
+    private function formData()
+    {
+        return [
+            'description'           => $this->request->getPost('description'),
+            'homework_title'        => $this->request->getPost('homework_title'),
+            'homework_description'  => $this->request->getPost('homework_description'),
+            'due_date'              => $this->request->getPost('due_date')
+        ];
+    }
+
     public function checkJournal($scheduleID, $date)
     {
         $jurnal = $this->absensi->journalExists($scheduleID, $date);
@@ -117,20 +252,5 @@ class Absensi extends Actudent
                 'id'        => $jurnal[0]->journal_id,
             ]);
         }
-    }
-
-    public function getRombel()
-    {
-        $data = $this->absensi->getRombel();
-        $formatter = [];
-        foreach($data as $res)
-        {
-            $formatter[] = [
-                'id' => $res->grade_id,
-                'text' => $res->grade_name
-            ];
-        }
-
-        return $this->response->setJSON($formatter);
     }
 }

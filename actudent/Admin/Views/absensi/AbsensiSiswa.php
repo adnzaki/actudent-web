@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-3 col-sm-1">
                 <div class="form-group">
-                    <button type="button" class="btn btn-outline-warning" data-target="#jurnalModal"
+                    <button type="button" class="btn btn-outline-warning" @click="openJurnalModal"
                         data-toggle="modal" :disabled="jurnalDisabled">{+ lang AdminAbsensi.absensi_isi_jurnal +}
                     </button>
                 </div>

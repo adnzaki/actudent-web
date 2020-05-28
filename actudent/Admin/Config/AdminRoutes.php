@@ -83,6 +83,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/get-rombel', 'Absensi::getRombel');
 	$routes->add('absensi/get-jadwal/(:any)/(:any)', 'Absensi::getJadwal/$1/$2');
 	$routes->add('absensi/cek-jurnal/(:any)/(:any)', 'Absensi::checkJournal/$1/$2');
+	$routes->add('absensi/save/(:any)/(:any)/(:any)', 'Absensi::save/$1/$2/$3');
+	$routes->add('absensi/get-jurnal/(:any)', 'Absensi::getJournal/$1');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');

@@ -19,4 +19,12 @@ return [
     'absensi_label_pr'              => 'Uraian',
     'absensi_detail_pr'             => 'Uraian tugas rumah',
     'absensi_label_deadline'        => 'Batas pengumpulan',
+    'absensi_err_jurnal_required'   => 'Uraian jurnal tidak boleh kosong',
+    'absensi_err_title_required'    => 'Judul tugas rumah tidak boleh kosong',
+    'absensi_err_desc_required'     => 'Uraian tugas rumah tidak boleh kosong',
+    'absensi_err_duedate_required'  => 'Batas pengumpulan tugas rumah tidak boleh kosong',
+    'absensi_err_duedate_format'    => 'Format batas pengumpulan tugas rumah tidak sesuai',
+    'absensi_jurnal_save_progress'  => 'Menyimpan jurnal...',
+    'absensi_jurnal_error_save'     => 'Tidak dapat menyimpan jurnal, silakan isi form dengan benar',
+    'absensi_jurnal_success_save'   => 'Jurnal berhasil disimpan',
 ];

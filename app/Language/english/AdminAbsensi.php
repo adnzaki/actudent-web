@@ -19,4 +19,12 @@ return [
     'absensi_label_pr'              => 'Detail',
     'absensi_detail_pr'             => 'Homework details',
     'absensi_label_deadline'        => 'Due date',
+    'absensi_err_jurnal_required'   => 'Journal description should not be empty',
+    'absensi_err_title_required'    => 'Homework title should not be empty',
+    'absensi_err_desc_required'     => 'Homework description should not be empty',
+    'absensi_err_duedate_required'  => 'Homework due date should not be empty',
+    'absensi_err_duedate_format'    => 'Homework due date format is incorrect',
+    'absensi_jurnal_save_progress'  => 'Saving journal...',
+    'absensi_jurnal_error_save'     => 'Unable to save journal, please fill the form correctly',
+    'absensi_jurnal_success_save'   => 'Journal has been saved successfully',
 ];
