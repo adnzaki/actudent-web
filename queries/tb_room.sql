@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.9
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Apr 2020 pada 17.12
--- Versi server: 10.1.31-MariaDB
--- Versi PHP: 7.2.3
+-- Generation Time: May 29, 2020 at 12:46 AM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -25,45 +25,48 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_room`
+-- Table structure for table `tb_room`
 --
 
 CREATE TABLE `tb_room` (
   `room_id` int(11) NOT NULL,
   `room_name` varchar(300) DEFAULT NULL,
   `room_code` varchar(50) DEFAULT NULL,
-  `deleted` tinyint(1) DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data untuk tabel `tb_room`
+-- Dumping data for table `tb_room`
 --
 
 INSERT INTO `tb_room` (`room_id`, `room_name`, `room_code`, `deleted`, `created`, `modified`) VALUES
 (1, 'Ruang 113', 'R113', 0, '2020-04-23 15:11:56', '2020-04-23 15:11:56'),
-(2, 'Ruang 114', 'R114', 0, '2020-04-23 15:11:56', '2020-04-23 15:11:56');
+(2, 'Ruang 114', 'R114', 0, '2020-04-23 15:11:56', '2020-04-23 15:11:56'),
+(3, 'Ruang 098', 'R098', 0, '2020-05-28 22:41:27', '2020-05-28 22:43:49'),
+(4, 'Laboratorium Komputer 1', 'LAB01', 0, '2020-05-28 22:42:00', '2020-05-28 22:43:51'),
+(5, 'Ruang 100', 'R100', 0, '2020-05-28 22:45:14', '2020-05-28 22:45:14');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `tb_room`
+-- Indexes for table `tb_room`
 --
 ALTER TABLE `tb_room`
   ADD PRIMARY KEY (`room_id`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `tb_room`
+-- AUTO_INCREMENT for table `tb_room`
 --
 ALTER TABLE `tb_room`
-  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
