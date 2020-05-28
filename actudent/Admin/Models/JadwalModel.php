@@ -203,7 +203,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      */
     public function getRoomList()
     {
-        return $this->ruangan->QBRuang->get()->getResult();
+        return $this->ruangan->QBRuang->orderBy('room_name', 'ASC')->get()->getResult();
     }
 
     /**

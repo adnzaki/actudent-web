@@ -6,3 +6,8 @@
 .picker__list-item {
     text-align: center;
 }
+
+.col-jadwal {
+    padding: 0.75rem !important;
+    width: 80px;    
+}

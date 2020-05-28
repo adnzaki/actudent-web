@@ -16,17 +16,17 @@
             <table class="table table-hover mb-0 cursor-pointer">
                 <thead>
                     <tr>
-                        <th>{+ lang Admin.day1 +}</th>
-                        <th>{+ lang Admin.day2 +}</th>
-                        <th>{+ lang Admin.day3 +}</th>
-                        <th>{+ lang Admin.day4 +}</th>
-                        <th>{+ lang Admin.day5 +}</th>
-                        <th>{+ lang Admin.day6 +}</th>
+                        <th class="col-jadwal">{+ lang Admin.day1 +}</th>
+                        <th class="col-jadwal">{+ lang Admin.day2 +}</th>
+                        <th class="col-jadwal">{+ lang Admin.day3 +}</th>
+                        <th class="col-jadwal">{+ lang Admin.day4 +}</th>
+                        <th class="col-jadwal">{+ lang Admin.day5 +}</th>
+                        <th class="col-jadwal">{+ lang Admin.day6 +}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="soft-dark">
-                        <td>
+                        <td class="col-jadwal">
                             <div class="text-left garis-pembatas" 
                              v-for="(item, index) in scheduleList.senin" :key="index">
                                 <a data-toggle="collapse" data-parent="#accordionWrap1" :href="'#accordion-senin-' + index"
@@ -48,7 +48,7 @@
                                 title="{+ lang Admin.perbarui +}" @click="showJadwalModal('senin')">{+ lang Admin.kelola +}
                             </button>
                         </td>
-                        <td>
+                        <td class="col-jadwal">
                             <div class="text-left garis-pembatas" v-for="(item, index) in scheduleList.selasa" :key="index">
                                 <a data-toggle="collapse" data-parent="#accordionWrap1" :href="'#accordion-selasa-' + index"
                                     aria-expanded="true" :aria-controls="'accordion-selasa-' + index" 
@@ -69,7 +69,7 @@
                                 @click="showJadwalModal('selasa')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
-                        <td>
+                        <td class="col-jadwal">
                             <div class="text-left garis-pembatas" v-for="(item, index) in scheduleList.rabu" :key="index">
                                 <a data-toggle="collapse" data-parent="#accordionWrap1" :href="'#accordion-rabu-' + index"
                                     aria-expanded="true" :aria-controls="'accordion-rabu-' + index" 
@@ -90,7 +90,7 @@
                                 @click="showJadwalModal('rabu')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
-                        <td>
+                        <td class="col-jadwal">
                             <div class="text-left garis-pembatas" v-for="(item, index) in scheduleList.kamis" :key="index">
                                 <a data-toggle="collapse" data-parent="#accordionWrap1" :href="'#accordion-kamis-' + index"
                                     aria-expanded="true" :aria-controls="'accordion-kamis-' + index" 
@@ -111,7 +111,7 @@
                                 @click="showJadwalModal('kamis')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
-                        <td>
+                        <td class="col-jadwal">
                             <div class="text-left garis-pembatas" v-for="(item, index) in scheduleList.jumat" :key="index">
                                 <a data-toggle="collapse" data-parent="#accordionWrap1" :href="'#accordion-jumat-' + index"
                                     aria-expanded="true" :aria-controls="'accordion-jumat-' + index" 
@@ -132,7 +132,7 @@
                                 @click="showJadwalModal('jumat')" title="{+ lang Admin.perbarui +}">{+ lang Admin.kelola +}
                             </button>
                         </td>
-                        <td>
+                        <td class="col-jadwal">
                             <div class="text-left garis-pembatas" v-for="(item, index) in scheduleList.sabtu" :key="index">
                                 <a data-toggle="collapse" data-parent="#accordionWrap1" :href="'#accordion-sabtu-' + index"
                                     aria-expanded="true" :aria-controls="'accordion-sabtu-' + index" 
