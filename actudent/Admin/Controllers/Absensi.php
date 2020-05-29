@@ -134,6 +134,28 @@ class Absensi extends Actudent
         return $this->response->setJSON($jurnal);
     }
 
+    public function copyJournal($scheduleID, $date)
+    {
+        $hasCreated = $this->absensi->journalHasCreatedBefore($scheduleID, $date);
+        $result = [];
+        if($hasCreated !== false)
+        {
+            return $this->response->setJSON([
+                'status'    => 'OK',
+                'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_sukses'),
+                'id'        => $hasCreated,
+            ]);
+        }
+        else 
+        {
+            return $this->response->setJSON([
+                'status'    => 'ERROR',
+                'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_gagal'),
+                'id'        => null
+            ]);
+        }
+    }
+
     public function save($scheduleID, $date, $includeHomework)
     {
         if($includeHomework === 'true')

@@ -214,6 +214,36 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     }
 
     /**
+     * Check if journal of a schedule has been created before on the same date
+     * 
+     * @param int $scheduleID
+     * @param string $date
+     * 
+     * @return object
+     */
+    public function journalHasCreatedBefore($scheduleID, $date)
+    {
+        // Get the lessons_grade_id of current schedule
+        $lessonGrade = $this->QBJadwal->select('lessons_grade_id')
+                        ->where('schedule_id', $scheduleID)
+                        ->get()
+                        ->getResult()[0]
+                        ->lessons_grade_id;
+
+        // Check if journal has been created by its lessons_grade_id and date
+        $field  = "journal_id, {$this->jurnal}.schedule_id, description, date, lessons_grade_id";
+        $select = $this->QBJurnal->select($field);
+        $join   = $select->join($this->jadwal, "{$this->jadwal}.schedule_id = {$this->jurnal}.schedule_id");
+        $previousJournal = $join->where([
+            'lessons_grade_id' => $lessonGrade,
+            'date' => $date,
+        ])->get()->getResult();
+
+        // return journal_id if exists, or false otherwise
+        return $previousJournal[0]->journal_id ?? false;
+    }
+
+    /**
      * Check if a homework is exist
      * 
      * @param int $journalID

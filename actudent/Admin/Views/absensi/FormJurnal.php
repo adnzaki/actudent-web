@@ -61,6 +61,9 @@ aria-hidden="true">
                 </form>
             </div>
             <div class="modal-footer">
+                <button type="button" v-if="helper.salinJurnal" :disabled="helper.disableSaveButton" @click="copyJurnal" class="btn btn-outline-success"> 
+                    {+ lang AdminAbsensi.absensi_salin_jurnal_label +}
+                </button>
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
                 <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" @click="saveJurnal"> {+ lang Admin.simpan +}</button>
             </div>

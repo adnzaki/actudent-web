@@ -85,6 +85,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/cek-jurnal/(:any)/(:any)', 'Absensi::checkJournal/$1/$2');
 	$routes->add('absensi/save/(:any)/(:any)/(:any)', 'Absensi::save/$1/$2/$3');
 	$routes->add('absensi/get-jurnal/(:any)', 'Absensi::getJournal/$1');
+	$routes->add('absensi/salin-jurnal/(:any)/(:any)', 'Absensi::copyJournal/$1/$2');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');
@@ -105,7 +106,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-match', 'Test::testMatch');
 	$routes->add('hash/(:any)', 'Test::hash/$1');
 	$routes->add('test-login', 'Test::validateLogin');
-	$routes->add('test-basic', 'Test::basicFunction');
+	$routes->add('test-basic', 'Test::testFunction');
 	$routes->add('test-insert-id', 'Test::insertIDTest');
 	$routes->add('test-data', 'Test::testData');
 	$routes->add('test-array', 'Test::arrayEach');

@@ -21,7 +21,7 @@ const absensi = new Vue({
             deleteProgress: false,
             day: '', gradeID: '', jadwalLength: 0,
             homework: false, scheduleID: '', journalID: '',
-            activeDate: '', presenceButtons: false,
+            activeDate: '', presenceButtons: false, salinJurnal: true,
             journalStatus: 'false',
         },
         // The URL to get presence data
@@ -130,7 +130,7 @@ const absensi = new Vue({
                     })  
                 } else {
                     this.helper.presenceButtons = false
-                    this.getAbsensi(this.urlAbsen, true)
+                    this.getAbsensi(this.urlAbsen, true) // use spinner
                 }
             }
         },
@@ -200,30 +200,66 @@ const absensi = new Vue({
                 this.alert.class = 'bg-primary'
                 this.alert.text = ''
             }, 3500);
-
-            // as we know that journal has been created and
-            // we have to make sure it is exist, we set it to 'true'
-            this.helper.journalStatus = 'true'
         },
         openJurnalModal() {
             if(this.helper.journalStatus === 'true') {
-                $.ajax({
-                    url: `${this.absensi}get-jurnal/${this.helper.journalID}`,
-                    dataType: 'json',
-                    success: res => {
-                        this.jurnal = res.journal
-                        if(res.homework !== null) {
-                            this.helper.homework = true
-                            this.homework = res.homework[0]
-                            setTimeout(() => {
-                                let dp = this.runDatePicker('.pickadate-add').pickadate('picker')
-                                dp.set('select', this.homework.due_date, { format: 'yyyy-mm-dd' })                                
-                            }, 500);
-                        }
-                    }
-                })
+                this.helper.salinJurnal = false
+                this.getJurnal()
             }
             $('#jurnalModal').modal('show')            
+        },
+        copyJurnal() {
+            $.ajax({
+                url: `${this.absensi}salin-jurnal/${this.helper.scheduleID}/${this.helper.activeDate}`,
+                dataType: 'json',
+                beforeSend: () => {
+                    this.alert.show = true
+                    this.alert.text = this.lang.absensi_salin_jurnal_progress
+                },
+                success: res => {
+                    if(res.status === 'OK') {
+                        this.helper.journalID = res.id
+                        let t1 = performance.now()
+                        this.getJurnal()
+                        let t2 = performance.now()
+
+                        setTimeout(() => {
+                            this.alert.header = this.lang.sukses
+                            this.alert.class = 'bg-success'
+                            this.alert.text = this.lang.absensi_salin_jurnal_sukses
+                            this.helper.salinJurnal = false
+                        }, (t2-t1) + 100);
+                    } else {
+                        this.alert.header = 'Error!'
+                        this.alert.class = 'bg-danger'
+                        this.alert.text = this.lang.absensi_salin_jurnal_gagal
+                    }
+
+                    setTimeout(() => {
+                        this.alert.show = false
+                        this.alert.header = ''
+                        this.alert.class = 'bg-primary'
+                        this.alert.text = ''
+                    }, 3600);
+                }
+            })
+        },
+        getJurnal() {
+            $.ajax({
+                url: `${this.absensi}get-jurnal/${this.helper.journalID}`,
+                dataType: 'json',
+                success: res => {
+                    this.jurnal = res.journal
+                    if(res.homework !== null) {
+                        this.helper.homework = true
+                        this.homework = res.homework[0]
+                        setTimeout(() => {
+                            let dp = this.runDatePicker('.pickadate-add').pickadate('picker')
+                            dp.set('select', this.homework.due_date, { format: 'yyyy-mm-dd' })                                
+                        }, 500);
+                    }
+                }
+            })
         },
         addHomework() {
             setTimeout(() => {
@@ -252,6 +288,7 @@ const absensi = new Vue({
                 obj.helper.homework = false
                 obj.jurnal = {}
                 obj.homework = {}
+                obj.helper.salinJurnal = true
             })
         },
         setDatePicker() {
