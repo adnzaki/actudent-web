@@ -213,6 +213,8 @@ const absensi = new Vue({
                 url: `${this.absensi}salin-jurnal/${this.helper.scheduleID}/${this.helper.activeDate}`,
                 dataType: 'json',
                 beforeSend: () => {
+                    this.alert.header = ''
+                    this.alert.class = 'bg-primary'
                     this.alert.show = true
                     this.alert.text = this.lang.absensi_salin_jurnal_progress
                 },

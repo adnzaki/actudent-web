@@ -172,8 +172,10 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         
         if(! $journal)
         {
+            $time = date('H:i:s', strtotime('now'));
+            $dateTime = "{$date} {$time}";
             $journalValues['schedule_id']   = $scheduleID;
-            $journalValues['date']          = $date;
+            $journalValues['created']       = $dateTime;
 
             // insert journal first
             $this->QBJurnal->insert($journalValues);
@@ -231,12 +233,12 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
                         ->lessons_grade_id;
 
         // Check if journal has been created by its lessons_grade_id and date
-        $field  = "journal_id, {$this->jurnal}.schedule_id, description, date, lessons_grade_id";
+        $field  = "journal_id, {$this->jurnal}.schedule_id, description, created, lessons_grade_id";
         $select = $this->QBJurnal->select($field);
         $join   = $select->join($this->jadwal, "{$this->jadwal}.schedule_id = {$this->jurnal}.schedule_id");
+        $like   = $join->like('created', $date);
         $previousJournal = $join->where([
             'lessons_grade_id' => $lessonGrade,
-            'date' => $date,
         ])->get()->getResult();
 
         // return journal_id if exists, or false otherwise
@@ -272,7 +274,8 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      */
     public function journalExists($scheduleID, $date)
     {
-        $result = $this->QBJurnal->where(['schedule_id' => $scheduleID, 'date' => $date]);
+        $like = $this->QBJurnal->like('created', $date);
+        $result = $like->where(['schedule_id' => $scheduleID]);
         $jurnal = $result->get()->getResult();
 
         if($result->countAllResults() > 0)
