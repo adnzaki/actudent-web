@@ -179,7 +179,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     public function getSchedules($grade, $day)
     {
         $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
-                   duration, schedule_start, schedule_end, staff_name as teacher, 
+                   duration, schedule_start, schedule_end, journal_filled, staff_name as teacher, 
                    {$this->ruangan->ruang}.room_id, room_name, room_code";
         $join   = $this->QBJadwal->select($field)
                   ->join($this->ruangan->ruang, "{$this->ruangan->ruang}.room_id = {$this->jadwal}.room_id")

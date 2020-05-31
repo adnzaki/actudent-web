@@ -291,6 +291,7 @@ class Jadwal extends Actudent
                             'duration'          => (string)$breakDuration,
                             'schedule_start'    => $finish,
                             'schedule_end'      => $arr->schedule_start,
+                            'journal_filled'    => null,
                         ];
     
                         $formatter[] = $break;

@@ -10,11 +10,6 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     private $QBAbsen;
 
     /**
-     * Query Builder for tb_journal
-     */
-    private $QBJurnal;
-
-    /**
      * Query Builder for tb_homework
      */
     private $QBHomework;
@@ -25,13 +20,6 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @var string
      */
     public $absensi = 'tb_presence';
-
-    /**
-     * Table tb_journal
-     * 
-     * @var string
-     */
-    public $jurnal = 'tb_journal';
     
     /**
      * Table tb_homework
@@ -51,8 +39,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     public function __construct()
     {
         parent::__construct();
-        $this->QBAbsen = $this->db->table($this->absensi);
-        $this->QBJurnal = $this->db->table($this->jurnal);
+        $this->QBAbsen = $this->db->table($this->absensi);        
         $this->QBHomework = $this->db->table($this->homework);
         $this->kelas = new KelasModel;
     }
@@ -176,6 +163,10 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
             $dateTime = "{$date} {$time}";
             $journalValues['schedule_id']   = $scheduleID;
             $journalValues['created']       = $dateTime;
+
+            // set "journal_filled" in tb_schedule to "ON"
+            // to mark them as "has filled in journal"
+            $this->QBJadwal->update(['journal_filled' => 'ON'], ['schedule_id' => $scheduleID]);
 
             // insert journal first
             $this->QBJurnal->insert($journalValues);

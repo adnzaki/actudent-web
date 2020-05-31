@@ -22,7 +22,7 @@ const jadwal = new Vue({
             deleteProgress: false,
             showDaftarKelas: true,
             showDaftarMapel: false,
-            showJadwalMapel: false,            
+            showJadwalMapel: false,   
         },
         scheduleManager: {
             isBreak: false,
@@ -352,6 +352,7 @@ const jadwal = new Vue({
                         room: item.room_id,
                         text: `${item.lesson_name} (${item.duration} ${satuan}${ruang})`,
                         duration: item.duration,
+                        journal: item.journal_filled,
                     })
                 })
             } 
@@ -649,6 +650,13 @@ const jadwal = new Vue({
         },
         isBreak(lessonGrade) {
             return (lessonGrade === null) ? 'success-text' : ''
-        }
+        },
+        deleteDisabled(jurnal) {
+            if(jurnal === 'ON') {
+                return true
+            } else {
+                return false
+            }
+        },
     },
 })      

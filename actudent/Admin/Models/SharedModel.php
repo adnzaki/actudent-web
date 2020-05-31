@@ -31,6 +31,11 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
      * Query builder for tb_schedule
      */
     protected $QBJadwal;
+    
+    /**
+     * Query Builder for tb_journal
+     */
+    protected $QBJurnal;
 
     /**
      * Table tb_parent
@@ -73,6 +78,13 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
      * @var string
      */
     protected $jadwal = 'tb_schedule';
+    
+    /**
+     * Table tb_journal
+     * 
+     * @var string
+     */
+    protected $jurnal = 'tb_journal';
 
     /**
      * Table tb_lessons_grade
@@ -100,5 +112,6 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
         $this->QBUser = $this->db->table($this->user);
         $this->QBRombel = $this->db->table($this->rombel);
         $this->QBJadwal = $this->db->table($this->jadwal);
+        $this->QBJurnal = $this->db->table($this->jurnal);
     }
 }

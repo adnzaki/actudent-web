@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 29, 2020 at 12:18 AM
+-- Generation Time: May 31, 2020 at 02:31 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -42,11 +42,9 @@ CREATE TABLE `tb_homework` (
 --
 
 INSERT INTO `tb_homework` (`journal_id`, `homework_title`, `homework_description`, `due_date`, `created`, `modified`) VALUES
-(2, 'bergaul', 'cobalah bergaul dengan temanmu', '2020-06-02 16:59:00', '2020-05-28 15:01:50', '2020-05-28 15:01:50'),
-(3, 'menghitung uang baba', 'coba hitung uang baba yg terselip di mana-mana', '2020-05-28 16:59:00', '2020-05-26 05:20:53', '2020-05-26 05:20:53'),
-(4, 'Menulis puisi', 'Bisakah anda menulis puisi seperti adnan zaki? huhu', '2020-06-04 16:59:00', '2020-05-26 05:29:36', '2020-05-28 08:43:42'),
-(5, 'Hafalan', 'Menghafal 3 surat terakhir dalam juz amma (juz 30)', '2020-06-08 16:59:00', '2020-05-28 15:03:34', '2020-05-28 15:03:34'),
-(7, 'Berdakwah di rumah', 'Siswa harus bisa menerapkan konsep-konsep dakwa Nabi Muhammad dari rumah dan mengumpulkan tugasnya dalam bentuk laporan bagaimana respon keluarga terhadap dakwah tersebut.', '2020-06-01 16:59:00', '2020-05-28 22:15:41', '2020-05-28 22:15:41');
+(14, 'Menulis ringkasan perjalanan Nabi Muhammad', 'Perjalanan Nabi dari lahir, masa kecil, masa muda, awal dakwah kenabian sampai dengan meninggal', '2020-06-01 16:59:00', '2020-05-31 12:08:30', '2020-05-31 12:08:30'),
+(16, 'Membuat makalah tentang penyimpangan sosial', 'ya gitu deh', '2020-06-01 16:59:00', '2020-05-31 12:13:01', '2020-05-31 12:13:01'),
+(17, 'Pola kerjasama masyarakat', 'hehehe', '2020-06-02 16:59:00', '2020-05-31 12:15:07', '2020-05-31 12:15:07');
 
 --
 -- Indexes for dumped tables
@@ -56,7 +54,6 @@ INSERT INTO `tb_homework` (`journal_id`, `homework_title`, `homework_description
 -- Indexes for table `tb_homework`
 --
 ALTER TABLE `tb_homework`
-  ADD PRIMARY KEY (`journal_id`),
   ADD KEY `journal_homework` (`journal_id`);
 
 --
