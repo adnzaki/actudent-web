@@ -30,5 +30,10 @@ return [
     'absensi_salin_jurnal_label'    => 'Copy journal from previous hour',
     'absensi_salin_jurnal_gagal'    => 'You have not fill journal for this schedule today',
     'absensi_salin_jurnal_sukses'   => 'Journal has been successfully copied',
-    'absensi_salin_jurnal_progress' => 'Checking journal and schedule...'
+    'absensi_salin_jurnal_progress' => 'Checking journal and schedule...',
+    'absensi_form_izin_title'       => 'Permission Form',
+    'absensi_izin_label'            => 'Permission Need',
+    'absensi_izin_input'            => 'Detail',
+    'absensi_izin_error'            => 'Unable to save presence, please fill the form correctly',
+    'absensi_izin_progress'         => 'Saving presence data...',
 ];

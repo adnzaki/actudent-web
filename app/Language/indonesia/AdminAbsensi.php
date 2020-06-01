@@ -30,5 +30,10 @@ return [
     'absensi_salin_jurnal_label'    => 'Salin jurnal dari jam sebelumnya',
     'absensi_salin_jurnal_gagal'    => 'Anda belum mengisi jurnal untuk jadwal ini hari ini',
     'absensi_salin_jurnal_sukses'   => 'Jurnal berhasil disalin',
-    'absensi_salin_jurnal_progress' => 'Mengecek jurnal dan jadwal...'
+    'absensi_salin_jurnal_progress' => 'Mengecek jurnal dan jadwal...',
+    'absensi_form_izin_title'       => 'Form Izin',
+    'absensi_izin_label'            => 'Keperluan Izin',
+    'absensi_izin_input'            => 'Uraian',
+    'absensi_izin_error'            => 'Tidak dapat menyimpan absensi, silakan isi form dengan benar',
+    'absensi_izin_progress'         => 'Menyimpan data kehadiran...',
 ];

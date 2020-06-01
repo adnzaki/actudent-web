@@ -61,16 +61,8 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         ];
 
         $result = $this->QBAbsen->like('created', $date)->where($params);
-        if($result->countAllResults() > 0)
-        {          
-            $presence = $result->get()->getResult()[0];
-
-            return $presence;
-        }
-        else
-        {
-            return null;
-        }
+        $presence = $result->get()->getResult();
+        return $presence[0] ?? null;
     }
 
     /**
@@ -123,6 +115,41 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
             'journal'   => $journal[0], 
             'homework'  => $homework,
         ];
+    }
+
+    /**
+     * Save presence data
+     * 
+     * @param array $data
+     * @param int $journalID
+     * @param string $date
+     * 
+     * @return void
+     */
+    public function savePresence($data, $journalID, $date)
+    {
+        $time = date('H:i:s', strtotime('now'));
+        $dateTime = "{$date} {$time}";
+        $values = [
+            'presence_status'   => $data['status'],
+            'presence_mark'     => $data['mark'],
+            'created'           => $dateTime
+        ];
+
+        if($this->presenceExists($journalID, $data['id']))
+        {
+            $this->QBAbsen->update($values, [
+                'journal_id' => $journalID,
+                'student_id' => $data['id']
+            ]);
+        }
+        else 
+        {
+            $values['journal_id'] = $journalID;
+            $values['student_id'] = $data['id'];
+            $this->QBAbsen->insert($values);
+        }
+
     }
 
     /**
@@ -250,6 +277,28 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
             return true;
         }
         else 
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Check if a presence exists
+     * 
+     * @param int $journalID
+     * @param int $studentID
+     * 
+     * @return object|boolean
+     */
+    public function presenceExists($journalID, $studentID)
+    {
+        $check = $this->QBAbsen->where(['journal_id' => $journalID, 'student_id' => $studentID]);
+
+        if($check->countAllResults() > 0)
+        {
+            return true;
+        }
+        else
         {
             return false;
         }

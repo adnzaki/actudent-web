@@ -14,11 +14,11 @@
             			<button type="button" class="btn btn-outline-primary btn-min-width dropdown-toggle"
             				data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{+ lang Admin.aksi +}</button>
             			<div class="dropdown-menu">
-            				<a class="dropdown-item action-list" href="#">{+ lang AdminAbsensi.absensi_hadir +}</a>
-            				<a class="dropdown-item action-list" href="#">{+ lang AdminAbsensi.absensi_sakit +}</a>
-            				<a class="dropdown-item action-list" href="#">{+ lang AdminAbsensi.absensi_izin +}</a>
+            				<a class="dropdown-item action-list" href="javascript:void(0)" @click="saveAbsen(1)">{+ lang AdminAbsensi.absensi_hadir +}</a>
+            				<a class="dropdown-item action-list" href="javascript:void(0)" @click="saveAbsen(3)">{+ lang AdminAbsensi.absensi_sakit +}</a>
+            				<a class="dropdown-item action-list" @click="multiPresence" href="javascript:void(0)">{+ lang AdminAbsensi.absensi_izin +}</a>
             				<div class="dropdown-divider"></div>
-            				<a class="dropdown-item action-list" href="#">{+ lang AdminAbsensi.absensi_alfa +}</a>
+            				<a class="dropdown-item action-list" href="javascript:void(0)" @click="saveAbsen(0)">{+ lang AdminAbsensi.absensi_alfa +}</a>
             			</div>
             		</div>
             	</div>

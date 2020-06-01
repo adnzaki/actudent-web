@@ -24,6 +24,7 @@
 			{+ include Actudent\Admin\Views\siswa\alert +}
 			{+ include Actudent\Admin\Views\absensi\AbsensiSiswa +}
 			{+ include Actudent\Admin\Views\absensi\FormJurnal +}
+			{+ include Actudent\Admin\Views\absensi\FormIzin +}
 		</div>
 	</div>
 </div>

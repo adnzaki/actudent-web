@@ -27,7 +27,7 @@ const absensi = new Vue({
         // The URL to get presence data
         urlAbsen: '',
 
-        checkAll: false, 
+        checkAll: false, absenSiswa: [], izinAbsen: '',
         siswa: [], jurnal: {}, homework: {},
         spinner: false, spinnerTimeout: 250
     },
@@ -42,6 +42,7 @@ const absensi = new Vue({
         this.getLanguageResources('Admin')
         this.setDatePicker()        
         this.onModalClose('#jurnalModal')
+        this.onModalClose('#izinModal')
     },
     methods: {
         getRombel() {
@@ -173,6 +174,52 @@ const absensi = new Vue({
                 }
             })
         },
+        saveAbsen(status, studentID = null, mark = '') {
+            let data = []
+            if(studentID === null) {
+                this.absenSiswa.forEach(id => {
+                    data.push({status: status, mark: mark, id: id})
+                })
+            } else {
+                data = [
+                    { status: status, mark: mark, id: studentID }
+                ]
+            }
+
+            absen = JSON.stringify(data)
+            $.ajax({
+                url: `${this.absensi}simpan-absen/${status}/${this.helper.journalID}/${this.helper.activeDate}`,
+                type: 'post',
+                dataType: 'json',
+                data: { absen: absen },
+                beforeSend: () => {
+                    this.spinner = true
+                },
+                success: () => {
+                    this.spinner = false
+                    this.absenSiswa = []
+                    if(this.checkAll) {
+                        this.checkAll = false
+                    }
+
+                    // reload presence data
+                    this.getAbsensi(this.urlAbsen)
+                }
+            })
+        },
+        multiPresence() {
+            if(this.absenSiswa.length === 0) {
+                this.alert.header = 'Error!'
+                this.alert.class = 'bg-danger'
+                this.alert.text = this.lang.pilih_data_dulu
+                this.alert.show = true
+                setTimeout(() => {
+                    this.alert.show = false
+                }, 3500);
+            } else {
+                $('#izinModal').modal('show')
+            }
+        },
         resetJournal(form = '') {
             this.alert.show = false
 
@@ -207,6 +254,50 @@ const absensi = new Vue({
                 this.getJurnal()
             }
             $('#jurnalModal').modal('show')            
+        },
+        openIzinModal(id, note) {
+            this.absenSiswa = []
+            this.absenSiswa.push(id)
+            this.izinAbsen = note
+            $('#izinModal').modal('show')
+        },
+        validasiIzin() {
+            let form = $('#formIzin').serialize()
+            $.ajax({
+                url: `${this.absensi}izin`,
+                type: 'POST',
+                dataType: 'json',
+                data: form,
+                beforeSend: () => {
+                    this.alert.header = ''
+                    this.alert.text = this.lang.absensi_izin_progress
+                    this.alert.show = true
+                    this.helper.disableSaveButton = true
+                },
+                success: res => {
+                    this.helper.disableSaveButton = false
+                    if(res.code === '500') {
+                        // set error alert
+                        this.alert.class = 'bg-danger'
+                        this.alert.header = 'Error!'
+                        this.alert.text = res.msg.presence_mark
+
+                        // hide after 3000 ms and change the class and text to default
+                        setTimeout(() => {
+                            this.alert.show = false
+                            this.alert.class = 'bg-primary'
+                            this.alert.header = ''
+                            this.alert.text = ''
+                        }, 3000);
+                    } else {
+                        this.alert.show = false
+
+                        $('#izinModal').modal('hide')
+                        this.saveAbsen(2, null, this.izinAbsen)
+                        this.izinAbsen = ''
+                    }
+                }
+            })
         },
         copyJurnal() {
             $.ajax({
@@ -291,7 +382,11 @@ const absensi = new Vue({
                 obj.jurnal = {}
                 obj.homework = {}
                 obj.helper.salinJurnal = true
+                if(modal === '#izinModal') {
+                    obj.izinAbsen = ''
+                }
             })
+
         },
         setDatePicker() {
             let obj = this
@@ -316,8 +411,29 @@ const absensi = new Vue({
             obj.helper.day = date.getDay()
         },
         selectAll() {
-
+            if(this.checkAll) {
+                this.siswa.forEach(item => {
+                    this.absenSiswa.push(item.id)
+                })
+            } else {
+                this.absenSiswa = []
+            }
         },
+        presenceClass(status) {
+            let statusClass
+            switch (status) {
+                case '0': statusClass = 'danger'; break;
+                case '1': statusClass = 'success'; break;
+                case '2': statusClass = 'info'; break;
+                case '3': statusClass = 'secondary'; break;
+                default: statusClass = 'primary'; break;
+            }
+
+            return `badge-${statusClass}`
+        },
+        statusNote(text) {
+            return (text !== '') ? text : '-'
+        }
     },
     computed: {
         jurnalDisabled() {

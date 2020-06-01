@@ -51,24 +51,29 @@ class Absensi extends Actudent
         ];
 
         foreach($student as $key)
-        {            
-            // Set default presence data to empty
-            $presenceWrapper[] = [
-                'name'      => $key->student_name,
-                'status'    => '',
-                'note'      => '',
-            ];
-            
+        {          
             // Get presence of a student
             $presence = $this->absensi->getPresence($journal, $key->student_id, $date);
 
             if($presence !== null && $journal !== 'null')
             {
-
                 $presenceWrapper[] = [
+                    'id'        => $key->student_id,
                     'name'      => $key->student_name,
                     'status'    => $presenceCategory[$presence->presence_status],
-                    'note'      => $presence->presence_remark,
+                    'note'      => $presence->presence_mark,
+                    'statusID'  => $presence->presence_status,
+                ];
+            }
+            else 
+            {
+                // Set default presence data to empty
+                $presenceWrapper[] = [
+                    'id'        => $key->student_id,
+                    'name'      => $key->student_name,
+                    'status'    => '',
+                    'note'      => '',
+                    'statusID'  => '',
                 ];
             }
         }
@@ -152,6 +157,51 @@ class Absensi extends Actudent
                 'status'    => 'ERROR',
                 'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_gagal'),
                 'id'        => null
+            ]);
+        }
+    }
+
+    public function savePresence($status, $journalID, $date)
+    {
+        $data = $this->request->getPost('absen');
+        $request = json_decode($data, true);
+
+        foreach($request as $key)
+        {
+            $this->absensi->savePresence($key, $journalID, $date);
+        }
+
+        return $this->response->setJSON(['status' => 'OK']);
+    }
+
+    public function validateMark()
+    {
+        $mark = ['presence_mark' => $this->request->getPost('presence_mark')];
+
+        $rules = [
+            'presence_mark' => 'required',
+        ];
+
+        $messages = [
+            'presence_mark' => [
+                'required' => lang('AdminAbsensi.absensi_izin_error')
+            ],
+        ];
+
+        $validation = [$rules, $messages];
+
+        if(! $this->validate($validation[0], $validation[1]))
+        {
+            return $this->response->setJSON([
+                'code' => '500',
+                'msg' => $this->validation->getErrors(),
+            ]);
+        }
+        else 
+        {
+            return $this->response->setJSON([
+                'code' => '200',
+                'msg' => 'OK',
             ]);
         }
     }
