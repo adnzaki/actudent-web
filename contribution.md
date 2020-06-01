@@ -15,6 +15,8 @@
 Root folder untuk semua modul Actudent. Modul yang ada saat ini adalah `Admin` dan `Core`
 - `app`<br>
 Folder aplikasi default dari CodeIgniter, digunakan untuk menyimpan global config dan locale resource
+- `public`<br>
+Folder tempat menyimpan file aset yang dapat dibaca oleh browser seperti CSS, Javascript, dokumen atau gambar
 - `queries` <br>
 Tempat menyimpan backup database berupa file `.sql`
 - `system` <br>
