@@ -29,9 +29,12 @@
   <link rel="stylesheet" type="text/css" href="{assets}css/animate.css">
   <link rel="stylesheet" type="text/css" href="{assets}css/style.css">
   <link rel="stylesheet" type="text/css" href="{assets}css/actudent.css">
+  <link rel="stylesheet" type="text/css" href="{appAssets}css/plugins/loaders/loaders.min.css">
+  <link rel="stylesheet" type="text/css" href="{appAssets}css/core/colors/palette-loader.css">
   {if $theme === 'night-vision'}
     <link rel="stylesheet" type="text/css" href="{assets}css/actudent-night.css">
   {endif}
   <!-- END Custom CSS-->
   <!-- Vue JS kini harus ditempatkan di atas -->
   <script src="{assets}js/vue.js" type="text/javascript"></script>
+  <script src="{assets}js/vue-material-checkbox.js" type="text/javascript"></script>

@@ -1,0 +1,13 @@
+.picker__holder {
+    width: 147%;
+    max-width: 500px;
+}
+
+.picker__list-item {
+    text-align: center;
+}
+
+.col-jadwal {
+    padding: 0.75rem !important;
+    width: 80px;    
+}

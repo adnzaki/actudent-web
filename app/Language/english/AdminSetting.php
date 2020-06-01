@@ -2,6 +2,7 @@
 
 return [
     // teks halaman pengaturan aplikasi
+    'page_title'         => 'Setting',
     'app_setting_title'  => 'Application Setting',
     'app_setting_theme'  => 'Color Theme',
     'app_setting_desc'   => 'App theme option to match your feel.',

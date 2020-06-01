@@ -5,7 +5,8 @@
  * @package     Pagination
  * @author      Adnan Zaki
  * @type        Libraries
- * @version     2.0.4
+ * @version     2.1.0
+ * @url         https://wolestech.com
  */
 
 const SSPaging = {
@@ -15,9 +16,20 @@ const SSPaging = {
         last: 0, setStart: 0, totalRows: 0,
         numLinks: true, activeClass: '', linkClass: '',
         showPaging: true, search: '', data: [],
-        orderBy: '', searchBy: '', sort: 'ASC',
+        orderBy: '', searchBy: '', sort: 'ASC', whereClause: '',
         url: '', ascendingSort: false, linkNum: 0,
         rows: 10, // custom limit
+
+        // Delay runPaging() on search filter
+        // Useful when you use v-on:keyup directive,
+        // so it won't send any request to server
+        // directly when user is typing keywords
+        delay: { active: false, timeout: 500 },
+
+        // auto reset data to its default 
+        // if search input is empty string
+        autoReset: { active: false, timeout: 3000 },
+
         sentences: {
             indonesia: {
                 noData: 'Tidak ada data yang ditampilkan',
@@ -73,8 +85,12 @@ const SSPaging = {
          * textbox / kotak pencarian
          */
         filter() {
-            this.offset = 0
-            this.runPaging()
+            let timeout
+            (this.delay.active) ? timeout = this.delay.timeout : timeout = 0
+            setTimeout(() => {
+                this.offset = 0
+                this.runPaging()                
+            }, timeout);
         },
         /**
          * Refresh data
@@ -120,12 +136,21 @@ const SSPaging = {
         		offset: this.offset,
         		orderBy: this.orderBy,
         		searchBy: this.searchBy,
-        		sort: this.sort,
+                sort: this.sort,
+                where: this.whereClause,
         		search: this.search,
         		url: this.url,
         		linkNum: this.linkNum,
         		activeClass: this.activeClass,
-        		linkClass: this.linkClass,
+                linkClass: this.linkClass,
+                autoReset: {
+                    active: this.autoReset.active,
+                    timeout: this.autoReset.timeout
+                },
+                delay: {
+                    active: this.delay.active,
+                    timeout: this.delay.timeout
+                }
         	})
         },
         /**
@@ -141,13 +166,41 @@ const SSPaging = {
         	this.limit = options.limit
             this.offset = options.offset * options.limit
             this.orderBy = options.orderBy
-            this.searchBy = options.searchBy
+
+            // options.searchBy could be a string or array
+            typeof options.searchBy === 'string'
+                ? this.searchBy = options.searchBy 
+                : this.searchBy = options.searchBy.join('-')
+
             this.sort = options.sort
             this.search = options.search
             let searchParam
             this.search === '' ? searchParam = '' : searchParam = '/'+this.search
+            options.where === undefined ? this.whereClause = '' : this.whereClause = options.where
+
+            let baseURL = `${options.url}${this.limit}/${this.offset}/${this.orderBy}/${this.searchBy}/${this.sort}`,
+                requestURL
+
+            this.whereClause === ''
+                ? requestURL = `${baseURL}${searchParam}` 
+                : requestURL = `${baseURL}/${this.whereClause}${searchParam}`
+            
+            if(options.autoReset !== undefined) {
+                this.autoReset.active = options.autoReset.active
+                if(options.autoReset.timeout !== undefined) {
+                    this.autoReset.timeout = options.autoReset.timeout
+                }
+            }
+            
+            if(options.delay !== undefined) {
+                this.delay.active = options.delay.active
+                if(options.delay.timeout !== undefined) {
+                    this.delay.timeout = options.delay.timeout
+                }
+            }
+
             $.ajax({
-                url: `${options.url}${this.limit}/${this.offset}/${this.orderBy}/${this.searchBy}/${this.sort}${searchParam}`,
+                url: requestURL,
                 type: 'GET',
                 dataType: 'json',
                 success: data => {
@@ -314,5 +367,15 @@ const SSPaging = {
                         ${this.sentences[this.pagingLang].rows}`
             }
         }
-    }
+    },
+    watch: {
+        search: function() {
+            if(this.search === '' && this.autoReset.active) {
+                setTimeout(() => {
+                    this.offset = 0
+                    this.runPaging()
+                }, this.autoReset.timeout)
+            }
+        }
+    },
 }

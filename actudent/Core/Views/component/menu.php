@@ -4,23 +4,33 @@
       <li class="{+ menu_active uri=home +} nav-item">
         <a href="{admin}home"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_dashboard +}</span></a>
       </li>
-      <li class="{+ menu_active uri=siswa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_siswa +}</span></a>
+      <li class=" nav-item"><a href="#"><i class="la la-database"></i><span class="menu-title" data-i18n="nav.icons.main">{+ lang Admin.menu_master +}</span></a>
+        <ul class="menu-content">
+          <li class="{+ menu_active uri=OrangTua +}"><a class="menu-item" href="{admin}orang-tua" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_parent +}</a>
+          </li>
+          <li class="{+ menu_active uri=siswa +}"><a class="menu-item" href="{admin}siswa" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_siswa +}</a>
+          </li>
+          <li class="{+ menu_active uri=pegawai +}"><a class="menu-item" href="{admin}pegawai" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_pegawai +}</a>
+          </li>
+          <li class="{+ menu_active uri=kelas +}"><a class="menu-item" href="{admin}kelas" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_kelas +}</a>
+          </li>
+          <li class="{+ menu_active uri=ruang +}"><a class="menu-item" href="{admin}ruang" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_ruang +}</a>
+          </li>
+          <li class="{+ menu_active uri=mapel +}"><a class="menu-item" href="{admin}mapel" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_mapel +}</a>
+          </li>
+        </ul>
       </li>
-      <li class="{+ menu_active uri=kelas +} nav-item">
-        <a href="{admin}kelas"><i class="la la-bank"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kelas +}</span></a>
+      <li class="{+ menu_active uri=jadwal +} nav-item">
+        <a href="{admin}jadwal"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal +}</span></a>
       </li>
-      <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kehadiran +}</span></a>
+      <li class="{+ menu_active uri=absensi +} nav-item">
+        <a href="{admin}absensi"><i class="la la-check-square"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_kehadiran +}</span></a>
       </li>
       <li class="{+ menu_active uri=agenda +} nav-item">
         <a href="{admin}agenda"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_agenda +}</span></a>
       </li>
-      <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal +}</span></a>
-      </li>
-      <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-group"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_guru +}</span></a>
+      <li class="{+ menu_active uri=timeline +} nav-item">
+        <a href="{admin}timeline"><i class="la la-history"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>
       </li>
       <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="{admin}siswa"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span></a>
@@ -39,9 +49,9 @@
       {if ENVIRONMENT === 'development'}
       <li class=" nav-item"><a href="#"><i class="la la-puzzle-piece"></i><span class="menu-title" data-i18n="nav.icons.main">Template</span></a>
         <ul class="menu-content">
-          <li class="{+ menu_active uri=ikon +}"><a class="menu-item" href="{base_url}template/ikon" data-i18n="nav.icons.icons_line_awesome">Icons</a>
+          <li class="{+ menu_active uri=icons +}"><a class="menu-item" href="{admin}template/icons" data-i18n="nav.icons.icons_line_awesome">Icons</a>
           </li>
-          <li class="{+ menu_active button active +}"><a class="menu-item" href="{base_url}template/button" data-i18n="nav.icons.icons_feather">Button</a>
+          <li class="{+ menu_active uri=buttons +}"><a class="menu-item" href="{admin}template/buttons" data-i18n="nav.icons.icons_feather">Button</a>
           </li>
         </ul>
       </li>

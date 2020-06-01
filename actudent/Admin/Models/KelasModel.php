@@ -1,18 +1,30 @@
 <?php namespace Actudent\Admin\Models;
 
-class KelasModel extends \Actudent\Core\Models\ModelHandler
+class KelasModel extends SharedModel
 {
     /**
-     * Query Builder
+     * Query Builder for tb_grade
      */
-    private $QBKelas;
+    public $QBKelas;
 
-     /**
+    /**
+     * Query Builder for tb_staff
+     */
+    private $QBTeacher;
+
+    /**
      * Table tb_grade
      * 
      * @var string
      */
-    private $kelas = 'tb_grade';
+    public $kelas = 'tb_grade';
+
+    /**
+     * Table tb_grade
+     * 
+     * @var string
+     */
+    private $teacher = 'tb_staff';    
 
     /**
      * Load the tables...
@@ -21,6 +33,7 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     {
         parent::__construct();
         $this->QBKelas = $this->db->table($this->kelas);
+        $this->QBTeacher = $this->db->table($this->teacher);        
     }
 
     /**
@@ -32,14 +45,16 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
      * @param string $searchBy
      * @param string $sort
      * @param string $search 
+     * 
      * @return object
      */
     public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
+        $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
 
         // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
-        $query = $joinAndSearch->where('grade_status', '1')->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where($params)->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
 
@@ -53,12 +68,221 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     public function getKelasRows($searchBy = 'grade_name', $search = '')
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
+        $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
 
-        return $joinAndSearch->where('grade_status', '1')->countAllResults();
+        return $joinAndSearch->where($params)->countAllResults();
     }
 
     /**
-     * Join table for tb_student, tb_student_grade dan tb_grade
+     * Get class group detail data from tb_grade
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getClassDetail($id)
+    {
+        $field = 'grade_id, grade_name, teacher_id, staff_name';
+
+        $select = $this->QBKelas->select($field)
+                  ->join($this->teacher, "{$this->teacher}.staff_id = {$this->kelas}.teacher_id");
+        
+        return $select->getWhere(["{$this->kelas}.grade_id" => $id])->getResult()[0];
+    }
+
+    /**
+     * Remove all students from a class group
+     * 
+     * @param int $grade 
+     * @return void
+     */
+    public function emptyGroup($grade)
+    {
+        $this->QBRombel->delete(['grade_id' => $grade]);
+    }
+    
+    /**
+     * Add a student to a class group
+     * 
+     * @param int $id
+     * @param int $grade 
+     * 
+     * @return void
+     */
+    public function addMember($id, $grade)
+    {
+        $value = [
+            'student_id'    => $id,
+            'grade_id'      => $grade,
+            'student_tag'   => 1
+        ];
+
+        $this->QBRombel->insert($value);
+    }
+
+    /**
+     * Remove a student from a class group
+     * 
+     * @param int $id
+     * @param int $grade 
+     * 
+     * @return void
+     */
+    public function removeMember($id)
+    {
+        $this->QBRombel->delete(['student_id' => $id]);
+    }
+
+    /**
+     * Get member of a class group
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getClassMember($id)
+    {
+        $query = $this->QBRombel->select("{$this->rombel}.student_id, student_name")
+                 ->join($this->student, "{$this->student}.student_id = {$this->rombel}.student_id")
+                 ->where(['grade_id' => $id, "{$this->rombel}.student_tag !=" => 3]);
+        return $query->get()->getResult();
+    }
+
+    /**
+     * Get students where not in class group
+     * 
+     * @param int $limit 
+     * @param int $offset 
+     * @param string $orderBy
+     * @param string $searchBy
+     * @param string $sort
+     * @param string $search 
+     * 
+     * @return object
+     */
+    public function getUnregisteredStudents($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = '')
+    {
+        $select = $this->unregisteredStudentsQuery($searchBy, $search)->orderBy($orderBy, $sort)->limit($limit, $offset);
+
+        return $select->get()->getResult();
+    }
+
+    /**
+     * Count results of unregistered students
+     * 
+     * @param string $searchBy
+     * @param string $search
+     * 
+     * @return int
+     */
+    public function unregisteredStudentsRows($searchBy = 'student_name', $search = '')
+    {
+        $select = $this->unregisteredStudentsQuery($searchBy, $search);
+
+        return $select->countAllResults();
+    }
+
+    /**
+     * Get unregistered students query
+     * 
+     * @param string $searchBy
+     * @param string $search
+     * 
+     * @return QueryBuilder
+     */
+    private function unregisteredStudentsQuery($searchBy, $search)
+    {
+        $rombel = $this->QBRombel;
+        $query = $this->QBStudent->select('student_id, student_nis, student_name');
+
+        if(! empty($search))
+        {
+            $query->like($searchBy, $search);
+        }
+
+        return $query->whereNotIn('student_id', function($rombel) {
+            return $rombel->select('student_id')->from($this->rombel);
+        })->where('deleted', '0');
+    }
+
+    /**
+     * Insert grade data into tb_grade
+     * 
+     * @param array $value
+     * 
+     * @return void
+     */
+    public function insert($value)
+    {
+        $grade = $this->fillGradeField($value);
+        $grade['period_start']  = '2019';
+        $grade['period_end']    = '2020';
+        $grade['grade_status']  = 1;
+
+        $this->QBKelas->insert($grade);
+    }
+
+    /**
+     * Update grade data into tb_grade
+     * 
+     * @param array $value
+     * 
+     * @return void
+     */
+    public function update($value, $id)
+    {
+        $grade = $this->fillGradeField($value);
+
+        $this->QBKelas->update($grade, ['grade_id' => $id]);
+    }
+
+    /**
+     * Delete a class group
+     * 
+     * @param int $grade
+     * @return void
+     */
+    public function delete($grade)
+    {
+        $this->db->transStart();
+        $this->QBRombel->delete(['grade_id' => $grade]);
+        $this->QBKelas->update(['deleted' => 1], ['grade_id' => $grade]);
+        $this->db->transComplete();
+    }
+
+    /**
+     * Fill grade data with these values
+     * 
+     * @param array $data
+     * @return array
+     */
+    private function fillGradeField($data)
+    {
+        return [
+            'grade_name'    => $data['grade_name'],
+            'teacher_id'    => $data['teacher_id'],
+        ];
+    }
+
+    /**
+     * Search for teachers to be homeroom teacher
+     * 
+     * @param string $keyword
+     * @return object
+     */
+    public function findTeacher($keyword = '')
+    {
+        if(! empty($keyword))
+        {            
+            $field = 'staff_id, staff_nik, staff_name';
+            // $like1 = "(staff_nik LIKE '%$keyword%' ESCAPE '!' OR staff_name";
+            // $like2 = "'%$keyword%' ESCAPE '!' OR parent_mother_name LIKE '%$keyword%' ESCAPE '!')";
+            $this->QBTeacher->select($field)->like('staff_nik', $keyword)->orLike('staff_name', $keyword);
+
+            return $this->QBTeacher->getWhere(['deleted' => '0'])->getResult();
+        }
+    }
+
+    /**
+     * Join table for tb_grade and tb_staff (as teacher)
      * and query to search data with "LIKE" keyword
      * 
      * @param string $searchBy
@@ -68,21 +292,13 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
     public function joinAndSearchQuery($searchBy, $search)
     {
         // Query:   SELECT grade_name, period_from, period_until, grade_status FROM tb_grade
-        $field = 'grade_name, period_from, period_until, grade_status';
-        $join = $this->QBKelas->select($field);
+        $field = 'grade_id, grade_name, period_start, period_end, staff_name';
+        $join = $this->QBKelas->select($field)
+                ->join($this->teacher, "{$this->teacher}.staff_id = {$this->kelas}.teacher_id");
         
         if(! empty($search))
         {
-            if(strpos($searchBy, '-') !== false)
-            {
-                $searchBy = explode('-', $searchBy);
-                $this->db->like($searchBy[0], $search); 
-                $this->db->or_like($searchBy[1], $search);                 
-            }
-            else 
-            {
-                $this->db->like($searchBy, $search);
-            }
+            $join->like($searchBy, $search);
         }
         
         return $join;
@@ -95,6 +311,6 @@ class KelasModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getKelas()
     {
-        return $this->QBKelas->get()->getResult();
+        return $this->QBKelas->getWhere(['deleted' => 0, 'grade_status' => '1'])->getResult();
     }
 }

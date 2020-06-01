@@ -1,41 +1,15 @@
 <?php namespace Actudent\Admin\Models;
 
-class SiswaModel extends \Actudent\Core\Models\ModelHandler
+use Actudent\Admin\Models\SharedModel;
+
+class SiswaModel extends SharedModel
 {
-    /**
-     * Query Builder for table tb_siswa
-     */
-    private $QBSiswa;
-
-    /**
-     * Table tb_student 
-     * 
-     * @var string
-     */
-    private $siswa = 'tb_student';
-
      /**
      * Table tb_grade
      * 
      * @var string
      */
     private $kelas = 'tb_grade';
-
-     /**
-     * Table tb_student_grade
-     * 
-     * @var string
-     */
-    private $kelasSiswa = 'tb_student_grade';
-
-    /**
-     * Load the tables...
-     */
-    public function __construct()
-    {
-        parent::__construct();
-        $this->QBSiswa = $this->db->table($this->siswa);
-    }
 
     /**
      * Query to get student data
@@ -48,12 +22,26 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
      * @param string $search 
      * @return object
      */
-    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = '')
-    {
-        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
+    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $whereClause = 'null', $search = '')
+    {        
+        if($whereClause !== 'null')
+        {
+            $selector = [
+                "{$this->student}.deleted" => '0',
+                "{$this->kelas}.grade_id" => $whereClause,
+            ];
+            $where = true;
+        }
+        else 
+        {
+            $where = false;
+            $selector = ["{$this->student}.deleted" => '0'];
+        }
+        
+        $joinAndSearch = $this->joinAndSearchQuery($where, $searchBy, $search);
 
         // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
-        $query = $joinAndSearch->where('student_status', '1')->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where($selector)->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
 
@@ -64,11 +52,168 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
      * @param string $search
      * @return int
      */
-    public function getSiswaRows($searchBy = 'student_name', $search = '')
+    public function getSiswaRows($searchBy = 'student_name', $whereClause = 'null', $search = '')
     {
-        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
+        if($whereClause !== 'null')
+        {
+            $selector = [
+                "{$this->student}.deleted" => '0',
+                "{$this->kelas}.grade_id" => $whereClause,
+            ];
+            $where = true;
+        }
+        else 
+        {
+            $where = false;
+            $selector = ["{$this->student}.deleted" => '0'];
+        }
 
-        return $joinAndSearch->where('student_status', '1')->countAllResults();
+        $joinAndSearch = $this->joinAndSearchQuery($where, $searchBy, $search)->where($selector);
+
+        return $joinAndSearch->countAllResults();
+    }
+
+    /**
+     * Get student detail data from tb_student and tb_student_parent
+     * 
+     * @param int $id
+     * @return object
+     */
+    public function getStudentDetail($id)
+    {
+        $field = "{$this->student}.student_id, student_nis, student_name, 
+                  {$this->parent}.parent_id, parent_father_name, parent_mother_name";
+
+        $select = $this->QBStudent->select($field)
+                  ->join($this->studentParent, "{$this->studentParent}.student_id = {$this->student}.student_id")
+                  ->join($this->parent, "{$this->parent}.parent_id = {$this->studentParent}.parent_id");
+        
+        return $select->getWhere(["{$this->student}.student_id" => $id])->getResult();
+    }
+
+    /**
+     * Insert student data into tb_student, tb_student_parent
+     * 
+     * @param array $value
+     * 
+     * @return void
+     */
+    public function insert($value)
+    {
+        $student = $this->fillStudentField($value);
+        $student['student_tag'] = 1;
+        $this->QBStudent->insert($student);
+
+        $studentID = $this->db->insertID();
+
+        $studentParent = $this->fillStudentParentField($value);
+        $studentParent['student_id'] = $studentID;
+        $this->QBStudentParent->insert($studentParent);
+    }
+
+    /**
+     * Update student data on tb_student, tb_student_parent
+     * 
+     * @param array $value
+     * @param int $id
+     * 
+     * @return void
+     */
+    public function update($value, $id)
+    {
+        $student = $this->fillStudentField($value);
+        if($this->nameHasChanged($student['student_name'], $id))
+        {
+            $student['student_tag'] = 2;
+        }
+
+        $this->QBStudent->update($student, ['student_id' => $id]);
+
+        $studentParent = $this->fillStudentParentField($value);
+        $this->QBStudentParent->update($studentParent, ['student_id' => $id]);
+    }
+
+    /**
+     * Has student name changed?
+     * 
+     * @param string $newName
+     * @param int $id
+     * 
+     * @return boolean
+     */
+    private function nameHasChanged($newName, $id)
+    {
+        $getName = $this->QBStudent->select('student_name')->getWhere(['student_id' => $id]);
+        if($getName->getResult()[0]->student_name === $newName)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /**
+     * Delete student from tb_student and tb_student_parent
+     * by updating 'deleted' field to 1 (true) for both tables
+     * and set student_tag to 3 (means deleted) in tb_student
+     * 
+     * @param int student_id
+     * @return void
+     */
+    public function delete($id)
+    {
+        $where = ['student_id' => $id];
+        $this->QBStudent->update(['deleted' => '1', 'student_tag' => 3], $where);
+        $this->QBStudentParent->update(['deleted' => '1'], $where);
+        $this->QBRombel->update(['student_tag' => 3, 'deleted' => 1], $where);
+    }
+
+    /**
+     * Fill student data with these values
+     * 
+     * @param array $data
+     * @return array
+     */
+    public function fillStudentField($data)
+    {
+        return [
+            'student_nis'   => $data['student_nis'],
+            'student_name'  => $data['student_name'],
+        ];
+    }
+    
+    /**
+     * Values for tb_student_parent
+     * 
+     * @param array $data
+     * @return array
+     */
+    public function fillStudentParentField($data)
+    {
+        return [
+            'parent_id' => $data['parent_id'],
+        ];
+    }
+
+    /**
+     * Get parent data
+     * 
+     * @param string $keyword
+     * @return object
+     */
+    public function getParents($keyword = '')
+    {
+        if(! empty($keyword))
+        {            
+            $field = 'parent_id, parent_family_card, parent_father_name, parent_mother_name';
+            $like1 = "(parent_family_card LIKE '%$keyword%' ESCAPE '!' OR parent_father_name";
+            $like2 = "'%$keyword%' ESCAPE '!' OR parent_mother_name LIKE '%$keyword%' ESCAPE '!')";
+            $this->QBParent->select($field)->like($like1, $like2, 'none', false);
+
+            return $this->QBParent->getWhere(['deleted' => '0'])->getResult();
+        }
     }
 
     /**
@@ -79,34 +224,40 @@ class SiswaModel extends \Actudent\Core\Models\ModelHandler
      * @param string $search
      * @return object
      */
-    public function joinAndSearchQuery($searchBy, $search)
+    public function joinAndSearchQuery($where, $searchBy, $search)
     {
-        // Query:   SELECT studentNis, studentName, gradeName, studentStatus FROM tb_student
-        //          JOIN tb_student_grade ON tb_student_grade.studentID = tb_student.studentID
-        //          JOIN tb_grade ON tb_grade.gradeID = tb_student_grade.gradeID 
-        $field = 'student_nis, student_name, grade_name, student_status';
-        $join = $this->QBSiswa->select($field)
-                ->join($this->kelasSiswa, "{$this->kelasSiswa}.student_id = {$this->siswa}.student_id")
-                ->join($this->kelas, "{$this->kelas}.grade_id = {$this->kelasSiswa}.grade_id");
+        // If $where is true, then include grade_name in $field
+        $field = "{$this->student}.student_id, student_nis, student_name, parent_father_name, parent_mother_name";
+        if($where)
+        {
+            $field = $field . ', grade_name';
+        }
+
+        $select = $this->QBStudent->select($field)
+                  ->join($this->studentParent, "{$this->studentParent}.student_id = {$this->student}.student_id")
+                  ->join($this->parent, "{$this->parent}.parent_id = {$this->studentParent}.parent_id");
+        // Create join table if $where is true
+        if($where)
+        {
+            $select->join($this->rombel, "{$this->rombel}.student_id = {$this->student}.student_id")
+                   ->join($this->kelas, "{$this->kelas}.grade_id = {$this->rombel}.grade_id");
+        }
         
         if(! empty($search))
         {
-            // Store search parameter "studentNis-studentName-gradeName",
-            // so parameter could depends on field studentNis, studentName or gradeName.
-            // This code is not related to SSPaging plugin that only supports 1 search parameter
             if(strpos($searchBy, '-') !== false)
             {
                 $searchBy = explode('-', $searchBy);
-                $join->like($searchBy[0], $search); 
-                $join->orLike($searchBy[1], $search); 
-                $join->orLike($searchBy[2], $search); 
+                $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR $searchBy[1]";
+                $like2 = "'%$search%' ESCAPE '!')";
+                $select->like($like1, $like2, 'none', false); 
             }
             else 
             {
-                $join->like($searchBy, $search); // search by one parameter
+                $select->like($searchBy, $search); // search by one parameter
             }
         }
         
-        return $join;
+        return $select;
     }
 }

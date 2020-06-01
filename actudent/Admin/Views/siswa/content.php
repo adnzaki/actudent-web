@@ -9,12 +9,14 @@
                     <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                     <li><a data-action="reload" @click="reloadData" ><i class="ft-rotate-cw"></i></a></li>
                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                    <li><a data-action="close"><i class="ft-x"></i></a></li>
                     </ul>
                 </div>
             </div>
             {+ include Actudent\Admin\Views\siswa\DataSiswa +}
+            {+ include Actudent\Admin\Views\siswa\alert +}
+            {+ include Actudent\Admin\Views\siswa\DeleteConfirm +}
             {+ include Actudent\Admin\Views\siswa\FormTambahSiswa +}
+            {+ include Actudent\Admin\Views\siswa\FormEditSiswa +}
         </div>
     </div>
 </div>

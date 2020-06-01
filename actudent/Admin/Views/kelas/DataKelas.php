@@ -1,35 +1,27 @@
 <div class="card-content collapse show">
     <div class="card-body">
-        <div class="row">   
-            <div class="col-sm-12">
-                <flash-alert :alert-class="flashAlert.class" :title="flashAlert.title" :icon="flashAlert.icon" 
-                :text="flashAlert.text" v-if="flashAlert.show" />
-            </div>
-        </div>
         <div class="row">         
-            <div class="col-12 col-md-4 col-lg-6 col-xl-7">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-5 col-xl-6">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#iconModal">{+ lang Admin.tambah +}
+                        data-toggle="modal" data-target="#tambahKelasModal">{+ lang Admin.tambah +}
                     </button>
-                    <button type="button" class="btn btn-outline-danger">{+ lang Admin.hapus +}</button> 
-                    <button type="button" class="btn btn-outline-warning">Filter</button>
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
                 <select class="select2 form-control" id="showRows" style="width: 100%;">
-                    <option value="10">10 {+ lang Admin.baris +}</option>
+                    <option value="10" selected>10 {+ lang Admin.baris +}</option>
                     <option value="25">25 {+ lang Admin.baris +}</option>
                     <option value="50">50 {+ lang Admin.baris +}</option>
                     <option value="100">100 {+ lang Admin.baris +}</option>
                     <option value="250">250 {+ lang Admin.baris +}</option>
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+            <div class="col-12 col-md-4">
                 <fieldset>
                     <div class="input-group">
                         <input type="text" class="form-control" @keyup.enter="filter" v-model="search"
-                        placeholder="{+ lang AdminSiswa.siswa_cari +}" aria-describedby="button-addon2">
+                        :placeholder="lang.kelas_cari" aria-describedby="button-addon2">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button" @click="filter">Go</button>
                         </div>
@@ -38,27 +30,32 @@
             </div>
         </div>
     </div>
-    <div class="table-responsive">
+    <div class="loader-wrapper" v-if="spinner">
+    	<div class="loader-container">
+    		<div class="ball-rotate loader-danger">
+    			<div></div>
+    		</div>
+    	</div>
+    </div>
+    <div class="table-responsive" v-else>
         <table class="table table-hover mb-0 cursor-pointer">
         <thead>
             <tr>
                 <th>#</th>
                 <th @click="sortData('grade_name')">{+ lang AdminKelas.kelas_nama +}<i class="la la-sort"></th>
-                <th @click="sortData('period_from')">Periot Start<i class="la la-sort"></th>
-                <th @click="sortData('period_until')">Periot Last<i class="la la-sort"></th>
+                <th @click="sortData('period_from')">{+ lang AdminKelas.kelas_tahun +}<i class="la la-sort"></th>
+                <th @click="sortData('staff_name')">{+ lang AdminKelas.kelas_wali +}<i class="la la-sort"></th>
+                <th>{+ lang Admin.aksi +}<i class="la la-sort"></th>
             </tr>
         </thead>
         <tbody>
-            <tr v-for="(item, index) in data" :key="index">
-                <td scope="row">{{ index + 1 }}</td>
-                <td>{{ item.grade_name }}</td>
-                <td>{{ item.period_from }}</td>
-                <td>{{ item.period_until }}</td>
-            </tr>
+            {+ include Actudent\Admin\Views\kelas\TabelKelasMirror +}
+            {+ include Actudent\Admin\Views\kelas\TabelKelas +}
         </tbody>
         </table>
     </div>
     <pager 
+        :show-paging="showPaging"
         :link-class="linkClass"
         :page-links="pageLinks"
         :num-links="numLinks"

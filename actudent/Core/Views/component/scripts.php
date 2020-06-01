@@ -2,6 +2,7 @@
     var baseURL = "{base_url}"
     var admin = "{admin}";
     var warnaTema = "{theme}";
+    var modalHeaderColor = "{modalHeaderColor}";
     var public = "{public}";
     var bahasa = "{bahasa}";
     var xhr = new XMLHttpRequest();

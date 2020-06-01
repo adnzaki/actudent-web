@@ -1,20 +1,9 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Core\Controllers\Actudent;
-use Actudent\Admin\Models\AuthModel;
 
 class Home extends Actudent
 {
-    /**
-     * @var Actudent\Admin\Models\AuthModel
-     */
-    private $auth;
-
-    public function __construct()
-    {
-        $this->auth = new AuthModel;
-    }
-
     public function index()
 	{
         $data = $this->common();

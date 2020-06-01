@@ -1,3 +1,6 @@
+[v-cloak] > * { display:none; }
+[v-cloak]::before { content: "Loading..."; }
+
 .error-text {
 	color: rgb(241, 89, 63) !important;
 }
@@ -10,8 +13,20 @@
 	color: #3dd926 !important;
 }
 
+.warning-text {
+	color: yellow;
+}
+
 .error-text, .loading-text, .success-text {
     font-weight: bold;
+}
+
+.text-1rem {
+	font-size: 1rem !important;
+}
+
+.text-bold {
+	font-weight: bold !important;
 }
 
 .cursor-pointer {
@@ -20,6 +35,10 @@
 
 .cursor-disabled {
 	cursor: not-allowed;
+}
+
+.disable-hover:hover {
+	background-color: transparent;
 }
 
 .nav-link-white {
@@ -56,14 +75,43 @@
 	}
 }
 
+@media (max-width: 576px) {
+	.card {
+		width: 115%;
+		left: -7%;
+	}
+
+	.hide-on-mobile {
+		display: none;
+	}
+
+	.mb-10 {
+		margin-bottom: 10px;
+	}
+
+	.small-pad-left {
+		padding-left: 5px !important;
+	}	
+}
+
 .list-group-custom {
 	overflow-y: scroll;
-	min-height: 100px;
+	min-height: 30px;
 	max-height: 300px;
 }
 
 .list-group-item-custom {
 	padding: 0.35rem 1.25rem !important;
+}
+
+.list-group-custom-2 {
+	overflow-y: scroll;
+	min-height: 30px;
+	max-height: 400px;
+}
+
+.list-group-item-custom-2 {
+	padding: 0.65rem 1.25rem !important;
 }
 
 .add-margin-top-5px {
@@ -88,4 +136,97 @@
 
 .expand-card-body {
 	min-height: 800px;
+}
+
+#timeline.timeline-center .timeline-item:nth-child(odd),
+#timeline.timeline-center .timeline-item:nth-child(even) {
+	padding-bottom: 0 !important; 
+}
+
+.reduce-card-body {
+	padding-bottom: 0.5rem !important;
+	padding-top: 0.5rem !important;
+}
+
+.floating {
+	position: fixed;
+	z-index: 999;
+	right: 30px;
+	bottom: 30px;
+	border: none;
+	min-width: 5rem;
+	min-height: 5rem;
+	border-radius: 100%;
+}
+
+.full-circle {
+	border-radius: 100%;
+	min-width: 4rem;
+	min-height: 4rem;
+	font-weight: bold;
+}
+
+.center-btn {
+	margin-left: 42%;
+	margin-top: 15px;
+}
+
+html body .extend-la {
+	font-size: 2.5em !important;
+}
+
+.dropdown-menu {
+	padding: 0.5rem 0.5rem;
+}
+
+.note-popover .popover-content .dropdown-menu, .panel-heading.note-toolbar .dropdown-menu {
+	min-width: 150px !important;
+}
+
+.m-chckbox--container {
+	margin-right: 0 !important;
+	height: 5px;
+}
+
+.decrease-col-size {
+	width: 30px;
+	padding-right: 0 !important;
+}
+
+.grid-border-left {
+	border-left: solid 1px rgb(54, 155, 150);
+}
+
+.grid-border-right {
+	border-right: dotted 0.2px rgb(54, 155, 150);
+}
+
+.scroll-overheight {
+	max-height: 450px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.float-element {
+	position: fixed;
+	z-index: 999;
+}
+
+.fix-height-500 {
+	height: 470px;
+}
+
+.custom-loader-wrapper {
+	background-color: #525757e3;
+	height: 33em;
+}
+
+.garis-pembatas {
+	border-bottom: dotted 1px;
+	margin-bottom: 10px;
+	padding-bottom: 3px;
+}
+
+.action-list {
+	padding: 0.45rem 1.5rem !important;
 }

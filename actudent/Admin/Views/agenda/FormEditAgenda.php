@@ -204,7 +204,8 @@ aria-hidden="true">
                 </form>
                 <div class="form-group">                    
                     <label v-if="helper.hasAttachment">{{ lang.agenda_label_att_name }}                         
-                        <a target="_blank" class="text-primary" :href="'{base_url}attachments/agenda/' + eventDetail.data.agenda_attachment">
+                        <a target="_blank" class="text-primary" 
+                            :href="agenda + 'display-attachment/' + eventDetail.data.agenda_id">
                             <strong>{{ eventDetail.data.agenda_attachment }}</strong>
                         </a> 
                     </label>

@@ -18,7 +18,7 @@ class Agenda extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Agenda';
+        $data['title'] = lang('AdminAgenda.agenda_title');
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\agenda\agenda-view');
@@ -28,6 +28,18 @@ class Agenda extends Actudent
     {
         if(session('email') !== null)
         {
+            $arr = explode('-', $viewStart);
+            $monthStart = (int)$arr[1] - 1;
+            $yearStart = (int)$arr[0];
+
+            if($monthStart === 0)
+            {
+                $monthStart = 12;
+                $yearStart -= 1;
+            }
+
+            ($monthStart < 10) ? $monthStart = '0' . $monthStart : $monthStart = $monthStart;
+            $viewStart = $yearStart . '-' . $monthStart . '-01';
             $events = $this->agenda->getEvents($viewStart, $viewEnd);
             $formatted = [];
             foreach($events as $key)
@@ -71,8 +83,9 @@ class Agenda extends Actudent
             foreach($data as $res)
             {
                 // push the result into the wrapper
-                array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => "{$res->user_name}"]);
-                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->teacher_name}"]);
+                $userParent = "{$res->parent_father_name} & {$res->parent_mother_name}";
+                array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => $userParent]);
+                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->staff_name}"]);
             }
 
             $output = [
@@ -106,6 +119,15 @@ class Agenda extends Actudent
         ];
 
         return $this->response->setJSON($data);
+    }
+
+    public function displayAttachment($agendaID)
+    {
+        $data = $this->common();
+        $agenda = $this->agenda->getAttachment($agendaID);
+        $data['file'] = $agenda->agenda_attachment;
+
+        return redirect()->to(base_url('attachments/agenda/' . $data['file']));
     }
     
     public function delete($id)

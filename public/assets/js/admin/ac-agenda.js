@@ -7,7 +7,7 @@
 
 const agenda = new Vue({
     el: '#agenda-content',
-    mixins: [SSPaging, plugin],
+    mixins: [plugin],
     data: {
         agenda: `${admin}agenda/`,
         error: {},
@@ -70,7 +70,7 @@ const agenda = new Vue({
         }, 1000);
         this.runDatePicker('.pickadate-add')
         this.runTimePicker('.pickatime-add')
-        this.runICheck()     
+        this.runICheck('red')     
         this.onModalClose('#agendaModal')
         this.onModalClose('#editAgenda', true)
         this.setFullDayEvent({ fullDay: '#allDayEvent', pickatime: '.pickatime-add' })
@@ -89,6 +89,7 @@ const agenda = new Vue({
                     let keyword
                     if(this.searchParam === '') {
                         keyword = ''
+                        this.guests = []
                     } else {
                         keyword = `/${this.searchParam}`
                     }
@@ -144,11 +145,12 @@ const agenda = new Vue({
     
                         // initialize full day event
                         obj.setFullDayEvent({ fullDay: '#all-day-edit', pickatime: '.pickatime-edit' }, true)
+                        
+                        // set priority
+                        $(`input#${res.data.agenda_priority}`).iCheck('check')
                     }, 300);
                     
 
-                    // set priority
-                    $(`input#${res.data.agenda_priority}`).iCheck('check')
 
                     // loop guests from response, push them to guestWrapper, guestToDisplay
                     if(res.guests !== null) {
@@ -397,6 +399,7 @@ const agenda = new Vue({
                     obj.guestToDisplay = []
                     obj.guestWrapperAll = []
                     $('input#normal').iCheck('check')
+                    obj.resetSwitchery(true)
                     obj.helper.hasAttachment = false
                     obj.helper.fileUploaded = ''
                     let formUpload = document.forms.namedItem('update-file')
@@ -603,37 +606,36 @@ const agenda = new Vue({
         execNav(today = false) {
             let obj = this
             obj.fullCalendar.show = false
-            setTimeout(() => {
-                let my = obj.eventLoadTrigger(),    
-                    view,
-                    start, end
-                
-                if(today) {
-                    start = obj.fullCalendar.defaultStart
-                    end = obj.fullCalendar.defaultEnd
-                } else {
-                    start = moment([my.start[2], my.start[1], my.start[0]]).format('YYYY-MM-DD') 
-                    end = moment([my.end[2], my.end[1], my.end[0]]).format('YYYY-MM-DD') 
-                }
-                obj.execFullCalendar(start, end)
-            }, 300)
+            let my = obj.eventLoadTrigger(),    
+                view,
+                start, end
+            
+            if(today) {
+                start = obj.fullCalendar.defaultStart
+                end = obj.fullCalendar.defaultEnd
+            } else {
+                start = moment([my.start[2], my.start[1], my.start[0]]).format('YYYY-MM-DD') 
+                end = moment([my.end[2], my.end[1], my.end[0]]).format('YYYY-MM-DD') 
+            }
+            obj.execFullCalendar(start, end)
         },
         eventLoadTrigger() {
             let intervalStart = $('#fc-agenda-views').fullCalendar('getView').intervalStart,    
                 intervalEnd = $('#fc-agenda-views').fullCalendar('getView').intervalEnd,
                 dateStart = intervalStart._d,
-                dateEnd = intervalEnd._d
+                dateEnd = intervalEnd._d,
                 dayStart = dateStart.getDate(),
                 dayEnd = dateEnd.getDate(),
                 monthStart = dateStart.getMonth(),
                 monthEnd = dateEnd.getMonth(),
 
                 // year must be the same
-                year = dateStart.getFullYear()       
+                yearStart = dateStart.getFullYear()       
+                yearEnd = dateEnd.getFullYear()   
                 
             return {
-                start: [dayStart, monthStart, year],
-                end: [dayEnd, monthEnd, year]
+                start: [dayStart, monthStart, yearStart],
+                end: [dayEnd, monthEnd, yearEnd]
             }
         },
         execFullCalendar(start, end) {

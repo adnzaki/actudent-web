@@ -8,6 +8,7 @@
  * This content is released under the MIT License (MIT)
  *
  * Copyright (c) 2014-2019 British Columbia Institute of Technology
+ * Copyright (c) 2019-2020 CodeIgniter Foundation
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +30,7 @@
  *
  * @package    CodeIgniter
  * @author     CodeIgniter Dev Team
- * @copyright  2014-2019 British Columbia Institute of Technology (https://bcit.ca/)
+ * @copyright  2019-2020 CodeIgniter Foundation
  * @license    https://opensource.org/licenses/MIT	MIT License
  * @link       https://codeigniter.com
  * @since      Version 4.0.0
@@ -248,7 +249,7 @@ class View implements RendererInterface
 
 		$this->logPerformance($this->renderVars['start'], microtime(true), $this->renderVars['view']);
 
-		if (CI_DEBUG && (! isset($options['debug']) || $options['debug'] === true))
+		if ($this->debug && (! isset($options['debug']) || $options['debug'] === true))
 		{
 			$toolbarCollectors = config(\Config\Toolbar::class)->collectors;
 
@@ -442,7 +443,7 @@ class View implements RendererInterface
 	/**
 	 *
 	 *
-	 * @throws \Zend\Escaper\Exception\RuntimeException
+	 * @throws \Laminas\Escaper\Exception\RuntimeException
 	 */
 	public function endSection()
 	{
@@ -479,9 +480,10 @@ class View implements RendererInterface
 			return;
 		}
 
-		foreach ($this->sections[$sectionName] as $contents)
+		foreach ($this->sections[$sectionName] as $key => $contents)
 		{
 			echo $contents;
+			unset($this->sections[$sectionName][$key]);
 		}
 	}
 
@@ -496,7 +498,7 @@ class View implements RendererInterface
 	 *
 	 * @return string
 	 */
-	public function include(string $view, array $options = null, $saveData = null): string
+	public function include(string $view, array $options = null, $saveData = true): string
 	{
 		return $this->render($view, $options, $saveData);
 	}

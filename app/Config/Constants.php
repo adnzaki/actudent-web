@@ -11,7 +11,7 @@
 // NOTE: changing this will require manually modifying the
 // existing namespaces of App\* namespaced-classes.
 //
-define('APP_NAMESPACE', 'App');
+defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
 
 /**
  * -----------------------------------------------------------------------
@@ -19,7 +19,7 @@ define('APP_NAMESPACE', 'App');
  * -----------------------------------------------------------------------
  * Path to actudent root directory
  */
-define('ACTUDENTPATH', ROOTPATH . 'actudent/');
+defined('ACTUDENTPATH') || define('ACTUDENTPATH', ROOTPATH . 'actudent/');
 
 /**
  * -----------------------------------------------------------------------
@@ -27,7 +27,7 @@ define('ACTUDENTPATH', ROOTPATH . 'actudent/');
  * -----------------------------------------------------------------------
  * Path to actudent root directory
  */
-define('PUBLICPATH', ROOTPATH . 'public/');
+defined('PUBLICPATH') || define('PUBLICPATH', ROOTPATH . 'public/');
 
 /*
 |--------------------------------------------------------------------------

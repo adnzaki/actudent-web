@@ -4,10 +4,9 @@
  * ACTUDENT - Attitude Control for Student
  * This is the core of Actudent web app version. Everything is set to make this source
  * code maintainable for long-time use.
- * This class must be initialized in the constructor of other classes
- * that would call any method or property in this class.
+ * Every controller must extend this class in order to make this app runs as expected
  * 
- * @copyright   Wolestech (c) 2019
+ * @copyright   Wolestech (c) 2020
  * @author      WolesDev Team
  * @version     1.0.0-dev
  */
@@ -17,9 +16,9 @@ use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
-use Actudent\Admin\Models\SekolahModel;
-use Actudent\Admin\Models\SettingModel;
-use Actudent\Admin\Models\AuthModel;
+use Actudent\Core\Models\SekolahModel;
+use Actudent\Core\Models\SettingModel;
+use Actudent\Core\Models\AuthModel;
 
 class Actudent extends Controller
 {
@@ -28,21 +27,21 @@ class Actudent extends Controller
      * 
      * @var object
      */
-    private $sekolah;
+    protected $sekolah;
 
     /**
      * SettingModel
      * 
      * @var object
      */
-    private $setting;
+    protected $setting;
 
     /**
      * AuthModel
      * 
      * @var object
      */
-    private $auth;
+    protected $auth;
 
     /**
      * @var \CodeIgniter\View\Parser
@@ -96,13 +95,14 @@ class Actudent extends Controller
         $bahasa = $this->getUserLanguage();
         $data = [
             'base_url'              => base_url(),
-            'assets'                => base_url() . 'assets/',
-            'appAssets'             => base_url() . 'app-assets/',
-            'css'                   => base_url() . 'css/',
-            'fonts'                 => base_url() . 'fonts/',
-            'images'                => base_url() . 'images/',
-            'admin'                 => site_url() . '/admin/',            
+            'assets'                => base_url() . '/assets/',
+            'appAssets'             => base_url() . '/app-assets/',
+            'css'                   => base_url() . '/css/',
+            'fonts'                 => base_url() . '/fonts/',
+            'images'                => base_url() . '/images/',
+            'admin'                 => base_url() . '/admin/',            
             'namaSekolah'           => $sekolah->school_name ?? '',
+            'domainSekolah'         => $sekolah->school_domain ?? '',
             'namaPengguna'          => $pengguna->user_name ?? '',
             'bahasa'                => $bahasa ?? '',
             'theme'                 => $userTheme ?? '',
