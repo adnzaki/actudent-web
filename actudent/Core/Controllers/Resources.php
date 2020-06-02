@@ -24,6 +24,15 @@ class Resources extends Actudent
         {
             $bahasa = 'indonesia';
         }
+
+        if(isset($_SESSION['email']))
+        {
+            $file = $file;
+        }
+        else 
+        {
+            $file = 'AdminAuth';
+        }
         
         $lang = require APPPATH . "Language/{$bahasa}/{$file}.php";
         return $this->response->setJSON($lang);
