@@ -24,13 +24,13 @@ class Filters extends BaseConfig
 			'adminfilter' => ['except' => [
 				'admin/login', 'admin/login/validate', 
 				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
-				'guru/*'
+				'guru/*', 'guru'
 				]
 			],
 			'gurufilter' => ['except' => [
 				'guru/login', 'guru/login/validate', 
 				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
-				'admin/*',
+				'admin/*', 'admin'
 				]
 			],
 		],

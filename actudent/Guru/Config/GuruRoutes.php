@@ -2,6 +2,7 @@
 
 $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($routes)
 {
+	$routes->get('/', 'Home::goToHome');
 	$routes->add('home', 'Home::index');
 	$routes->add('login', 'Auth::index');
 	$routes->add('login/validate', 'Auth::validasi');

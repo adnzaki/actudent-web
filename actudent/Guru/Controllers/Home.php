@@ -14,7 +14,7 @@ class Home extends Actudent
 
     public function goToHome()
     {
-        return redirect()->to(site_url('guru/home'));
+        return redirect()->to(base_url('guru/home'));
     }
 
     public function showQuery()
