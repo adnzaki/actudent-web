@@ -101,9 +101,9 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     public function validasi($username, $password, $userLevel)
     {
         $find = $this->user->where(['user_email' => $username]);
+        $userAktif = $find->get()->getResult();
         if($find->countAllResults() > 0 && $this->userAktif($username, $userLevel))
         {
-            $userAktif = $find->get()->getResult();
             if(password_verify($password, $userAktif[0]->user_password))
             {
                 return true;
