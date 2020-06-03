@@ -2,6 +2,7 @@
 
 return [
     // teks halaman login
+    'login_title'        => 'Authentication',
     'silakan_login'      => 'Please login to use Actudent',
     'input_password'     => 'Password',
     'lupa_password'      => 'Forgot password?',

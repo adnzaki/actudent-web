@@ -138,6 +138,13 @@ const plugin = {
 	computed: {
 		isSmallScreen() {
 			return (window.innerWidth <= 576) ? true : false
+		},
+		auth() {
+			if(actudentSection === 'admin') {
+				return admin
+			} else {
+				return guru
+			}
 		}
 	},
 }

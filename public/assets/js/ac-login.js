@@ -9,7 +9,6 @@ const login = new Vue({
 	el: '#login-content',
 	mixins: [plugin],
     data: {
-        auth: `${admin}`,
         username: '', password: '',
         msg: '', msgClass: 'error-text',
         showMsg: false, remember: false,
@@ -37,7 +36,7 @@ const login = new Vue({
                 		if (msg === 'valid') {
                 			this.msg = this.lang.login_sukses
                 			this.msgClass = 'success-text'
-                			window.location.href = `${admin}home`
+							window.location.href = `${this.auth}home`
                 		} else {
                 			this.msgClass = 'error-text'
                 			this.msg = this.lang.invalid_login
@@ -54,5 +53,5 @@ const login = new Vue({
                 })
             }
         }
-    },
+	}
 })

@@ -10,7 +10,7 @@ const setting = new Vue({
     mixins: [SSPaging, plugin],
     data: {
         setting: {
-            app: `${admin}pengaturan-aplikasi/`,
+            app: `${this.auth}pengaturan-aplikasi/`,
             user: `${admin}`
         },
         theme: '', appLang: '',
@@ -22,6 +22,7 @@ const setting = new Vue({
         this.runICheck('blue')
         this.getThemeValue()
         this.getLangValue()
+        this.setting.app = `${this.auth}pengaturan-aplikasi/`
     },
     methods: {
         setTheme() {

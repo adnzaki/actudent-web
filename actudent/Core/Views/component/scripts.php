@@ -1,11 +1,16 @@
   <script>
     var baseURL = "{base_url}"
     var admin = "{admin}";
+    var guru = "{guru}";
     var warnaTema = "{theme}";
     var modalHeaderColor = "{modalHeaderColor}";
     var public = "{public}";
     var bahasa = "{bahasa}";
     var xhr = new XMLHttpRequest();
+
+    let path = window.location.pathname,
+        split = path.split('/'),
+        actudentSection = split[3]
   </script>
 <script src="{appAssets}vendors/js/vendors.min.js" type="text/javascript"></script>
 <script src="{assets}js/select2.full.min_c.js" type="text/javascript"></script>

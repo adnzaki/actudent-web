@@ -18,6 +18,9 @@ return [
     'menu_pegawai'       => 'Staff',
     'menu_mapel'         => 'Lessons',
     'menu_ruang'         => 'Room',
+
+    // menu guru
+    'menu_jadwal_guru'  => 'Schedules and Presence',
     
     // teks navbar
     'navbar_halo'        => 'Hello',
