@@ -69,9 +69,13 @@ aria-hidden="true">
                             <label>{{ lang.staff_label_photo }}</label>
                             <form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
                             <input class="form-control border-primary" type="file" accept="application/jpg" name="staff_photo">
-                             </form>                             
+                            </form>
+                            <div class="card-content">
+                            <img class="img-fluid" src="http://localhost:70/Actudent/public\app-assets\images\portfolio\width-600\portfolio-1.jpg" alt="Timeline Image 1">
+                            </div>
                             <form-error :msg="error.staff_photo" />
                         </div>
+                        
                         <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_email +}</label>
                             <div class="input-group">

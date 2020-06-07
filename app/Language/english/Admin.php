@@ -18,6 +18,7 @@ return [
     'menu_pegawai'       => 'Staff',
     'menu_mapel'         => 'Lessons',
     'menu_ruang'         => 'Room',
+    'menu_feedback'      => 'Feedback',
 
     // menu guru
     'menu_jadwal_guru'  => 'Schedules and Presence',
@@ -59,6 +60,7 @@ return [
     'no_data'           => 'No data found',
     'kelola'            => 'Manage',
     'peringatan'        => 'Warning!',
+    'kirim'             => 'Send',
 
     // hari-hari
     'day1'              => 'Monday',
