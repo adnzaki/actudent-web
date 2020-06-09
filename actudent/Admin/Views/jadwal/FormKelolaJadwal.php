@@ -29,8 +29,7 @@ aria-hidden="true">
                                     <input type="hidden" name="lessons_grade_id" v-model="item.val">
                                     <input type="hidden" name="duration" v-model="item.duration">
                                     <div class="input-group-append">
-                                        <button class="btn btn-danger" 
-                                            :disabled="deleteDisabled(item.journal)" type="button" 
+                                        <button class="btn btn-danger" type="button" 
                                             @click="removeLesson(item.id)">
                                             <span>
                                                 <i class="la la-trash"></i>
@@ -97,6 +96,10 @@ aria-hidden="true">
                                                 <fieldset>
                                                     <input type="radio" name="agenda_priority" id="break" value="break">
                                                     <label>{{ lang.jadwal_istirahat }}</label>
+                                                </fieldset>
+                                                <fieldset>
+                                                    <input type="radio" name="agenda_priority" id="inactive" value="inactive">
+                                                    <label>{{ lang.jadwal_opsi_inaktif }}</label>
                                                 </fieldset>
                                             </div>
                                         </div>  

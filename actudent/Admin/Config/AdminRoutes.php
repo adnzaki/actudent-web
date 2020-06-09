@@ -72,6 +72,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('jadwal/hapus-mapel', 'Jadwal::deleteLesson');
 	$routes->add('jadwal/detail-mapel/(:any)', 'Jadwal::getLessonDetail/$1');
 	$routes->add('jadwal/get-jadwal/(:any)', 'Jadwal::getSchedules/$1');
+	$routes->add('jadwal/non-aktif/(:any)', 'Jadwal::getInactiveSchedules/$1');
 	$routes->add('jadwal/daftar-mapel-kelas/(:any)', 'Jadwal::getLessonsForSchedule/$1');
 	$routes->add('jadwal/simpan-jadwal/(:any)', 'Jadwal::saveSchedules/$1');
 	$routes->add('jadwal/get-ruang', 'Jadwal::getRooms');
@@ -88,6 +89,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/izin', 'Absensi::validateMark');
 	$routes->add('absensi/get-jurnal/(:any)', 'Absensi::getJournal/$1');
 	$routes->add('absensi/salin-jurnal/(:any)/(:any)', 'Absensi::copyJournal/$1/$2');
+	$routes->add('absensi/arsip-jurnal/(:any)/(:any)', 'Absensi::getJournalArchives/$1/$2');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');

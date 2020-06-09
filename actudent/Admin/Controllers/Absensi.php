@@ -81,6 +81,27 @@ class Absensi extends Actudent
         return $this->response->setJSON($presenceWrapper);
     }
 
+    public function getJournalArchives($gradeID, $date)
+    {
+        $data = $this->absensi->getJournalArchives($gradeID, $date);
+        if(count($data) > 0)
+        {
+            foreach($data as $res)
+            {
+                $res->homework = $this->absensi->getHomeworkArchive($res->journal_id);
+                if(! empty($res->homework))
+                {
+                    $res->homework = [
+                        'title' => $res->homework->homework_title,
+                        'due_date' => $res->homework->due_date
+                    ];
+                }
+            }
+        }
+
+        return $this->response->setJSON($data);
+    }
+
     public function getAnggotaRombel($grade)
     {
         $student = $this->absensi->kelas->getClassMember($grade);

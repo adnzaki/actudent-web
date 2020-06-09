@@ -59,6 +59,7 @@ return [
     'no_data'           => 'Tidak ada data ditemukan',
     'kelola'            => 'Kelola',
     'peringatan'        => 'Peringatan!',
+    'tanggal'           => 'Tanggal',
 
     // hari-hari
     'day1'              => 'Senin',

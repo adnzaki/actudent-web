@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 31, 2020 at 02:31 PM
+-- Generation Time: Jun 09, 2020 at 07:42 PM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 7.2.1
 
@@ -42,9 +42,7 @@ CREATE TABLE `tb_homework` (
 --
 
 INSERT INTO `tb_homework` (`journal_id`, `homework_title`, `homework_description`, `due_date`, `created`, `modified`) VALUES
-(14, 'Menulis ringkasan perjalanan Nabi Muhammad', 'Perjalanan Nabi dari lahir, masa kecil, masa muda, awal dakwah kenabian sampai dengan meninggal', '2020-06-01 16:59:00', '2020-05-31 12:08:30', '2020-05-31 12:08:30'),
-(16, 'Membuat makalah tentang penyimpangan sosial', 'ya gitu deh', '2020-06-01 16:59:00', '2020-05-31 12:13:01', '2020-05-31 12:13:01'),
-(17, 'Pola kerjasama masyarakat', 'hehehe', '2020-06-02 16:59:00', '2020-05-31 12:15:07', '2020-05-31 12:15:07');
+(30, 'Menghafal dan menjelaskan isi surat Al-Ikhlas', 'Dengan menghafal dan menghafal surat Al-Ikhlas, diharapkan siswa mampu menerapkannya dalam kehidupan sehari-hari', '2020-06-16 16:59:00', '2020-06-09 16:48:51', '2020-06-09 16:48:51');
 
 --
 -- Indexes for dumped tables

@@ -36,4 +36,8 @@ return [
     'absensi_izin_input'            => 'Detail',
     'absensi_izin_error'            => 'Unable to save presence, please fill the form correctly',
     'absensi_izin_progress'         => 'Saving presence data...',
+    'absensi_arsip_jurnal'          => 'Presence and Journal Archives',
+    'absensi_mapel'                 => 'Lesson',
+    'absensi_kembali_ke_arsip'      => 'Back to journal archive',
+    'absensi_teks_pr'               => 'Homework',
 ];

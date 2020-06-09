@@ -31,6 +31,7 @@ return [
     'jadwal_kosong'                 => 'Belum ada jadwal. Ketuk (+) untuk menambahkan jadwal pelajaran.',
     'jadwal_tipe'                   => 'Jenis Jadwal',
     'jadwal_belajar'                => 'Jam Belajar Normal',
+    'jadwal_opsi_inaktif'           => 'Ambil dari jadwal tidak aktif',
     'jadwal_save_success'           => 'Jadwal pelajaran berhasil diperbarui',
     'jadwal_label_alokasi'          => 'Alokasi Waktu',
     'jadwal_label_mulai'            => 'Waktu Mulai',

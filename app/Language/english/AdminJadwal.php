@@ -31,6 +31,7 @@ return [
     'jadwal_kosong'                 => 'No schedule. Tap (+) to add a schedule',
     'jadwal_tipe'                   => 'Schedule Type',
     'jadwal_belajar'                => 'Normal Study Time',
+    'jadwal_opsi_inaktif'           => 'Get from inactive schedules',
     'jadwal_save_success'           => 'Schedule has been updated successfully',
     'jadwal_label_alokasi'          => 'Time Allocation',
     'jadwal_label_mulai'            => 'Start Time',

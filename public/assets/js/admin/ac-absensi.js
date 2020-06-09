@@ -22,24 +22,33 @@ const absensi = new Vue({
             day: '', gradeID: '', jadwalLength: 0,
             homework: false, scheduleID: '', journalID: '',
             activeDate: '', presenceButtons: false, salinJurnal: true,
-            journalStatus: 'false',
+            journalStatus: 'false', archivePage: true,
+            presenceGrid: true, backToArchive: false,
         },
         // The URL to get presence data
         urlAbsen: '',
 
         checkAll: false, absenSiswa: [], izinAbsen: '',
         siswa: [], jurnal: {}, homework: {},
-        spinner: false, spinnerTimeout: 250
+        spinner: false, spinnerTimeout: 250,
+        journalArchive: [], presenceArchive: { 
+            lesson: '', journal: '', 
+            homework: '', dueDate: '' 
+        }
     },
     mounted() {
-        this.reset()
         // setTimeout(() => {
         //     this.getMapel()
         // }, 200);
         this.runSelect2()
         this.getRombel()        
+        let t0 = performance.now()
         this.getLanguageResources('AdminAbsensi')
         this.getLanguageResources('Admin')
+        let t1 = performance.now()
+        setTimeout(() => {
+            this.cardTitle = this.lang.absensi_title            
+        }, (t1-t0) + 500);
         this.setDatePicker()        
         this.onModalClose('#jurnalModal')
         this.onModalClose('#izinModal')
@@ -337,6 +346,49 @@ const absensi = new Vue({
                 }
             })
         },
+        showPresenceArchive(journalID, date, lesson, description, homework) {
+            date = date.substr(0, 10)
+            let url = `${this.absensi}get-absen/${this.helper.gradeID}/${journalID}/${date}`
+            this.helper.presenceGrid = true
+            this.helper.backToArchive = true
+            this.presenceArchive.lesson = lesson
+            this.presenceArchive.journal = description
+            if(homework !== '') {
+                this.presenceArchive.homework = homework.title
+                this.presenceArchive.dueDate = homework.due_date
+            }
+            this.getAbsensi(url, true)
+        },
+        showArchive() {
+            $.ajax({
+                url: `${this.absensi}arsip-jurnal/${this.helper.gradeID}/${this.helper.activeDate}`,
+                dataType: 'json',
+                beforeSend: () => {
+                    this.spinner = true   
+                },
+                success: res => {
+                    this.journalArchive = res             
+                    this.helper.archivePage = false
+                    this.helper.jadwalLength = 0
+                    this.helper.presenceGrid = false
+                    this.helper.presenceButtons = false
+                    this.helper.backToArchive = false
+                    this.siswa = []
+                    setTimeout(() => {
+                        this.spinner = false                            
+                    }, this.spinnerTimeout);
+                }
+            })  
+        },
+        closeArchive() {
+            this.helper.archivePage = true
+            setTimeout(() => {
+                this.helper.gradeID = ''
+                this.runSelect2()
+                this.getRombel()   
+                this.setDatePicker()                 
+            }, 100);
+        },
         getJurnal() {
             $.ajax({
                 url: `${this.absensi}get-jurnal/${this.helper.journalID}`,
@@ -372,6 +424,12 @@ const absensi = new Vue({
             $('#pilihKelas').on('select2:select', function(e) {
                 let data = e.params.data
                 obj.helper.gradeID = data.id 
+                if(data.id === '' || data.id === 'null') {
+                    obj.helper.archivePage = false 
+
+                } else {
+                    obj.helper.archivePage = true
+                }
                 obj.getJadwal()
             })
         },      
@@ -437,11 +495,10 @@ const absensi = new Vue({
     },
     computed: {
         jurnalDisabled() {
-            if(this.helper.jadwalLength > 0) {
-                return false
-            } else {
-                return true
-            }
+            return (this.helper.jadwalLength > 0) ? false : true
         },
+        archiveStatus() {
+            return (this.helper.gradeID === '' || this.helper.gradeID === 'null') ? false : true
+        }
     },
 })

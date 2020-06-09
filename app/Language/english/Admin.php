@@ -59,6 +59,7 @@ return [
     'no_data'           => 'No data found',
     'kelola'            => 'Manage',
     'peringatan'        => 'Warning!',
+    'tanggal'           => 'Date',
 
     // hari-hari
     'day1'              => 'Monday',

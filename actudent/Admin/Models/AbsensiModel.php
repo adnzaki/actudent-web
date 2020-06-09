@@ -91,9 +91,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         $select = $this->QBJadwal->select($field);
         $join1  = $select->join($this->mapelKelas, "{$this->jadwal}.lessons_grade_id = {$this->mapelKelas}.lessons_grade_id");
         $join2  = $join1->join($this->mapel, "{$this->mapelKelas}.lesson_id = {$this->mapel}.lesson_id");
-        $params = ['schedule_day' => $day, 'grade_id' => $grade];
+        $params = ['schedule_day' => $day, 'grade_id' => $grade, 'schedule_status' => 'active'];
 
-        return $join2->where($params)->orderBy('schedule_id', 'ASC')->get()->getResult();
+        return $join2->where($params)->orderBy('schedule_order', 'ASC')->get()->getResult();
     }
 
     /**
@@ -115,6 +115,46 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
             'journal'   => $journal[0], 
             'homework'  => $homework,
         ];
+    }
+
+    /**
+     * Get journal archives
+     * 
+     * @param int $gradeID
+     * @param string $date
+     * 
+     * @return object
+     */
+    public function getJournalArchives($gradeID, $date)
+    {
+        $field = "journal_id, description, lesson_name, grade_name, {$this->jurnal}.created";
+        $select = $this->QBJurnal->select($field);
+        $join1 = $select->join($this->jadwal, "{$this->jadwal}.schedule_id={$this->jurnal}.schedule_id");
+        $join2 = $join1->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id={$this->jadwal}.lessons_grade_id");
+        $join3 = $join2->join($this->mapel, "{$this->mapel}.lesson_id={$this->mapelKelas}.lesson_id");
+        $join4 = $join3->join($this->kelas->kelas, "{$this->mapelKelas}.grade_id={$this->kelas->kelas}.grade_id");
+
+        $params = ['is_archive' => 1, "{$this->mapelKelas}.grade_id" => $gradeID];
+        $result = $join4->like("{$this->jurnal}.created", $date)
+                        ->where($params)
+                        ->get()
+                        ->getResult();
+        
+        return $result;                        
+        
+    }
+
+    /**
+     * Get homework from a journal archive
+     * 
+     * @param int $journalID
+     * @return object|string
+     */
+    public function getHomeWorkArchive($journalID)
+    {
+        $homework = $this->QBHomework->getWhere(['journal_id' => $journalID])->getResult();
+
+        return (count($homework) > 0) ? $homework[0] : '';
     }
 
     /**
@@ -190,10 +230,6 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
             $dateTime = "{$date} {$time}";
             $journalValues['schedule_id']   = $scheduleID;
             $journalValues['created']       = $dateTime;
-
-            // set "journal_filled" in tb_schedule to "ON"
-            // to mark them as "has filled in journal"
-            $this->QBJadwal->update(['journal_filled' => 'ON'], ['schedule_id' => $scheduleID]);
 
             // insert journal first
             $this->QBJurnal->insert($journalValues);
