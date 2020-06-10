@@ -22,7 +22,7 @@ const absensi = new Vue({
             day: '', gradeID: '', jadwalLength: 0,
             homework: false, scheduleID: '', journalID: '',
             activeDate: '', presenceButtons: false, salinJurnal: true,
-            journalStatus: 'false', archivePage: true,
+            journalStatus: 'false', archivePage: true, archiveButton: false,
             presenceGrid: true, backToArchive: false,
         },
         // The URL to get presence data
@@ -347,6 +347,10 @@ const absensi = new Vue({
             })
         },
         showPresenceArchive(journalID, date, lesson, description, homework) {
+            // reset homework and due date if it exists
+            this.presenceArchive.homework = ''
+            this.presenceArchive.dueDate = ''
+            
             date = date.substr(0, 10)
             let url = `${this.absensi}get-absen/${this.helper.gradeID}/${journalID}/${date}`
             this.helper.presenceGrid = true
@@ -369,6 +373,7 @@ const absensi = new Vue({
                 success: res => {
                     this.journalArchive = res             
                     this.helper.archivePage = false
+                    this.helper.archiveButton = false
                     this.helper.jadwalLength = 0
                     this.helper.presenceGrid = false
                     this.helper.presenceButtons = false
@@ -382,6 +387,7 @@ const absensi = new Vue({
         },
         closeArchive() {
             this.helper.archivePage = true
+            this.helper.archiveButton = true            
             setTimeout(() => {
                 this.helper.gradeID = ''
                 this.runSelect2()
@@ -425,10 +431,9 @@ const absensi = new Vue({
                 let data = e.params.data
                 obj.helper.gradeID = data.id 
                 if(data.id === '' || data.id === 'null') {
-                    obj.helper.archivePage = false 
-
+                    obj.helper.archiveButton = false
                 } else {
-                    obj.helper.archivePage = true
+                    obj.helper.archiveButton = true
                 }
                 obj.getJadwal()
             })

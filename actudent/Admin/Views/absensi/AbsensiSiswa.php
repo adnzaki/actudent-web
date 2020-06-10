@@ -23,7 +23,7 @@
             		</div>
             	</div>
             </div>
-            <div class="col-12 col-sm-4" v-if="archiveStatus && helper.archivePage">
+            <div class="col-12 col-sm-4" v-if="archiveStatus && helper.archiveButton">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-danger" @click="showArchive"
                         data-toggle="modal">{+ lang AdminAbsensi.absensi_arsip_jurnal +}
