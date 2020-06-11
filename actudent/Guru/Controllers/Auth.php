@@ -55,7 +55,7 @@ class Auth extends Actudent
         // save language option after user has been logged out from the app
         $this->setLanguage($this->getUserLanguage());
         $this->auth->statusJaringan('offline', $_SESSION['email']);
-        $this->session->remove(['email', 'nama', 'userLevel', 'logged_in']);
+        $this->session->remove(['id', 'email', 'nama', 'userLevel', 'logged_in']);
         return redirect()->to(base_url('guru/login'));
     }
 }
