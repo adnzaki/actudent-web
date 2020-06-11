@@ -351,7 +351,7 @@ const agenda = new Vue({
             }                            
 
             // set priority to normal by re-running iCheck
-            obj.runICheck()
+            obj.runICheck('red')
 
             // reset guest
             obj.guestToDisplay = []
@@ -392,6 +392,7 @@ const agenda = new Vue({
             let obj = this
             $(target).on('hidden.bs.modal', function() {
                 obj.helper.fullDayEvent = false
+                obj.helper.disableSaveButton = true
                 obj.resetSwitchery()
                 obj.error = {}
                 if(isEditForm) {
@@ -420,8 +421,15 @@ const agenda = new Vue({
             let form = document.forms.namedItem(formName),
                 data = new FormData(form),
                 req = new XMLHttpRequest
+
+            // disable save button while attachment is being validated
+            req.upload.addEventListener("progress", () => {
+                this.helper.disableSaveButton = true
+            })
+
             req.open('POST', url, true)
             req.responseType = 'json'
+
             req.onload = obj => {
                 if(req.response.msg === 'OK') {
                     this.error = {}
