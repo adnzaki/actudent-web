@@ -35,6 +35,10 @@
     <link rel="stylesheet" type="text/css" href="{assets}css/actudent-night.css">
   {endif}
   <!-- END Custom CSS-->
-  <!-- Vue JS kini harus ditempatkan di atas -->
-  <script src="{assets}js/vue.js" type="text/javascript"></script>
+  {if ENVIRONMENT === 'development'}
+    <script src="{assets}js/vue.js" type="text/javascript"></script>
+  {elseif ENVIRONMENT === 'production'}
+    <script src="{assets}js/vue.min.js" type="text/javascript"></script>
+  {endif}
+
   <script src="{assets}js/vue-material-checkbox.js" type="text/javascript"></script>
