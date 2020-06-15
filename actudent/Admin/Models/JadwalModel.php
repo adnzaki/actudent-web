@@ -13,7 +13,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Query builder for tb_lessons_grade
      */
-    private $QBMapelKelas;
+    public $QBMapelKelas;
 
      /**
      * Query builder for tb_lessons
@@ -40,7 +40,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     /**
      * @var Actudent\Admin\Models\RuangModel
      */
-    private $ruangan;
+    public $ruangan;
 
     /**
      * Build the tables and models..
@@ -268,6 +268,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
                     $split = explode('-', $id);
                     $value['schedule_status'] = 'active';
                     $this->QBJadwal->update($value, ['schedule_id' => $split[1]]);
+                    $this->QBJurnal->update(['is_archive' => 0], ['schedule_id' => $split[1]]);
                 }
             }
 

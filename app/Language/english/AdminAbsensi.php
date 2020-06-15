@@ -40,4 +40,5 @@ return [
     'absensi_mapel'                 => 'Lesson',
     'absensi_kembali_ke_arsip'      => 'Back to journal archive',
     'absensi_teks_pr'               => 'Homework',
+    'absensi_tutup_arsip'           => 'Close Archive',
 ];

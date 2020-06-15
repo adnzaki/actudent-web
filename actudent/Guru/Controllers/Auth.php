@@ -8,7 +8,7 @@ class Auth extends Actudent
     {
         if(isset($_SESSION['email']) && isset($_SESSION['userLevel']) === '2')
         {
-            return redirect()->to(site_url('guru/home'));
+            return redirect()->to(base_url('guru/home'));
         }
         else 
         {            

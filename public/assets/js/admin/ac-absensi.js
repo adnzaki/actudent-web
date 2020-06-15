@@ -9,7 +9,6 @@ const absensi = new Vue({
     el: '#absensi-content', 
     mixins: [SSPaging, plugin],
     data: {
-        absensi: `${admin}absensi/`,
         error: {},
         alert: {
             class: 'bg-primary', show: false,
@@ -34,6 +33,13 @@ const absensi = new Vue({
         journalArchive: [], presenceArchive: { 
             lesson: '', journal: '', 
             homework: '', dueDate: '' 
+        },
+        guru: {
+            jadwal: [], 
+            helper: {
+                showJadwal: true, showAbsen: false,
+                closePresenceButton: false,
+            }
         }
     },
     mounted() {
@@ -41,19 +47,53 @@ const absensi = new Vue({
         //     this.getMapel()
         // }, 200);
         this.runSelect2()
-        this.getRombel()        
+
+        if(actudentSection === 'admin') {
+            this.getRombel()        
+        }
+
         let t0 = performance.now()
         this.getLanguageResources('AdminAbsensi')
         this.getLanguageResources('Admin')
-        let t1 = performance.now()
-        setTimeout(() => {
-            this.cardTitle = this.lang.absensi_title            
-        }, (t1-t0) + 500);
+        this.getLanguageResources('GuruAbsensi')
         this.setDatePicker()        
         this.onModalClose('#jurnalModal')
         this.onModalClose('#izinModal')
+        let t1 = performance.now()
+
+        if(actudentSection === 'guru') {
+            setTimeout(() => {
+                this.getJadwalGuru()
+            }, (t1-t0) + 200);
+        }
     },
     methods: {
+        showPresencePage(grade, schedule) {
+            this.guru.helper.showAbsen = true
+            this.guru.helper.closePresenceButton = true
+            this.guru.helper.showJadwal = false
+            this.helper.gradeID = grade
+            this.helper.scheduleID = schedule
+            this.checkJurnal()
+        },
+        closePresencePage() {
+            this.guru.helper.showAbsen = false
+            this.guru.helper.closePresenceButton = false
+            this.guru.helper.showJadwal = true
+            setTimeout(() => {
+                this.setDatePicker()                        
+            }, 200);
+        },
+        getJadwalGuru() {
+            $.ajax({
+                url: `${this.absensi}daftar-jadwal/${this.helper.day}`,
+                dataType: 'json',
+                success: res => {
+                    this.guru.jadwal = res
+                }
+            }) 
+        },
+        //------------------------- Admin Section here --------------------------
         getRombel() {
             $('#pilihKelas').select2()               
             $.ajax({
@@ -346,26 +386,32 @@ const absensi = new Vue({
                 }
             })
         },
-        showPresenceArchive(journalID, date, lesson, description, homework) {
+        showPresenceArchive(params) {
             // reset homework and due date if it exists
             this.presenceArchive.homework = ''
             this.presenceArchive.dueDate = ''
             
-            date = date.substr(0, 10)
-            let url = `${this.absensi}get-absen/${this.helper.gradeID}/${journalID}/${date}`
+            date = params.created.substr(0, 10)
+            let url = `${this.absensi}get-absen/${params.grade_id}/${params.journal_id}/${date}`
             this.helper.presenceGrid = true
             this.helper.backToArchive = true
-            this.presenceArchive.lesson = lesson
-            this.presenceArchive.journal = description
-            if(homework !== '') {
+            if(actudentSection === 'guru') {
+                this.guru.helper.showAbsen = true
+            }
+
+            this.presenceArchive.lesson = params.lesson_name
+            this.presenceArchive.journal = params.description
+            if(params.homework !== '') {
                 this.presenceArchive.homework = homework.title
                 this.presenceArchive.dueDate = homework.due_date
             }
             this.getAbsensi(url, true)
         },
         showArchive() {
+            let grade
+            (actudentSection === 'admin') ? grade = this.helper.gradeID : grade = 'null'
             $.ajax({
-                url: `${this.absensi}arsip-jurnal/${this.helper.gradeID}/${this.helper.activeDate}`,
+                url: `${this.absensi}arsip-jurnal/${grade}/${this.helper.activeDate}`,
                 dataType: 'json',
                 beforeSend: () => {
                     this.spinner = true   
@@ -378,6 +424,8 @@ const absensi = new Vue({
                     this.helper.presenceGrid = false
                     this.helper.presenceButtons = false
                     this.helper.backToArchive = false
+                    this.guru.helper.showJadwal = false
+                    this.guru.helper.showAbsen = false
                     this.siswa = []
                     setTimeout(() => {
                         this.spinner = false                            
@@ -387,11 +435,16 @@ const absensi = new Vue({
         },
         closeArchive() {
             this.helper.archivePage = true
-            this.helper.archiveButton = true            
+            this.helper.archiveButton = true  
+            this.guru.helper.showJadwal = true          
             setTimeout(() => {
                 this.helper.gradeID = ''
-                this.runSelect2()
-                this.getRombel()   
+
+                if(actudentSection === 'admin') {
+                    this.runSelect2()
+                    this.getRombel()   
+                }
+
                 this.setDatePicker()                 
             }, 100);
         },
@@ -465,7 +518,13 @@ const absensi = new Vue({
                     let date = new Date(context.select)
                     obj.helper.day = date.getDay()
                     obj.helper.activeDate = moment(date).format('YYYY-MM-DD')
-                    obj.getJadwal()
+                    if(actudentSection === 'admin') {
+                        obj.getJadwal()
+                    }
+
+                    if(actudentSection === 'guru') {
+                        obj.getJadwalGuru()
+                    }
                 }
             }).pickadate('picker')
 
@@ -504,6 +563,13 @@ const absensi = new Vue({
         },
         archiveStatus() {
             return (this.helper.gradeID === '' || this.helper.gradeID === 'null') ? false : true
+        },
+        absensi() {
+            if(actudentSection === 'admin') {
+                return `${admin}absensi/`
+            } else {
+                return `${guru}jadwal-kehadiran/`
+            }
         }
     },
 })

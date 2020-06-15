@@ -125,23 +125,30 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return object
      */
-    public function getJournalArchives($gradeID, $date)
+    public function getJournalArchives($gradeID, $date, $teacher = null)
     {
-        $field = "journal_id, description, lesson_name, grade_name, {$this->jurnal}.created";
+        $field = "journal_id, description, lesson_name, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
         $select = $this->QBJurnal->select($field);
         $join1 = $select->join($this->jadwal, "{$this->jadwal}.schedule_id={$this->jurnal}.schedule_id");
         $join2 = $join1->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id={$this->jadwal}.lessons_grade_id");
         $join3 = $join2->join($this->mapel, "{$this->mapel}.lesson_id={$this->mapelKelas}.lesson_id");
         $join4 = $join3->join($this->kelas->kelas, "{$this->mapelKelas}.grade_id={$this->kelas->kelas}.grade_id");
 
-        $params = ['is_archive' => 1, "{$this->mapelKelas}.grade_id" => $gradeID];
+        if($gradeID === 'null')
+        {
+            $params = ['is_archive' => 1, "{$this->mapelKelas}.teacher_id" => $teacher];
+        }
+        else 
+        {
+            $params = ['is_archive' => 1, "{$this->mapelKelas}.grade_id" => $gradeID];
+        }
+
         $result = $join4->like("{$this->jurnal}.created", $date)
                         ->where($params)
                         ->get()
                         ->getResult();
         
-        return $result;                        
-        
+        return $result;                       
     }
 
     /**

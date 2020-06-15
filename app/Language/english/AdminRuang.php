@@ -10,8 +10,6 @@ return [
     'ruang_update_success'          => 'Room data has been updated successfully',
     'ruang_delete_success'          => 'Room data has been deleted successfully',
     'ruang_cari'                    => 'Search for Rooms code and rooms name',
-    'ruang_kode'                    => 'Rooms Code',
-    'ruang_nama'                    => 'Rooms Name',
     'ruang_form_add_title'          => 'Add New Room',    
     'ruang_edit_title'              => 'Edit room data',
     'ruang_kode'                    => 'Room code',
