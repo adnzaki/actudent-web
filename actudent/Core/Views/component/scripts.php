@@ -9,8 +9,9 @@
     var xhr = new XMLHttpRequest();
 
     let path = window.location.pathname,
-        split = path.split('/'),
-        actudentSection = split[3]
+        findSection = path.search('admin'),
+        actudentSection
+    (findSection === -1) ? actudentSection = 'guru' : actudentSection = 'admin'
   </script>
 <script src="{appAssets}vendors/js/vendors.min.js" type="text/javascript"></script>
 <script src="{assets}js/select2.full.min_c.js" type="text/javascript"></script>
