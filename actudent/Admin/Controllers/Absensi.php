@@ -2,6 +2,7 @@
 
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AbsensiModel;
+use Actudent\Guru\Models\SchedulePresenceModel;
 
 class Absensi extends Actudent
 {
@@ -10,9 +11,15 @@ class Absensi extends Actudent
      */
     private $absensi;
 
+    /**
+     * @var Actudent\Guru\Models\SchedulePresenceModel
+     */
+    protected $jadwalHadir;
+
     public function __construct()
     {
         $this->absensi = new AbsensiModel;
+        $this->jadwalHadir = new SchedulePresenceModel;
     }
 
     public function index()
@@ -79,6 +86,36 @@ class Absensi extends Actudent
         }
 
         return $this->response->setJSON($presenceWrapper);
+    }
+
+    public function getJournalArchives($gradeID, $date)
+    {
+        if($_SESSION['userLevel'] === '1')
+        {
+            $data = $this->absensi->getJournalArchives($gradeID, $date);
+        }
+        else 
+        {
+            $teacher = $this->jadwalHadir->getTeacherByUserID($_SESSION['id']);
+            $data = $this->absensi->getJournalArchives($gradeID, $date, $teacher->staff_id);
+        }
+
+        if(count($data) > 0)
+        {
+            foreach($data as $res)
+            {
+                $res->homework = $this->absensi->getHomeworkArchive($res->journal_id);
+                if(! empty($res->homework))
+                {
+                    $res->homework = [
+                        'title' => $res->homework->homework_title,
+                        'due_date' => $res->homework->due_date
+                    ];
+                }
+            }
+        }
+
+        return $this->response->setJSON($data);
     }
 
     public function getAnggotaRombel($grade)

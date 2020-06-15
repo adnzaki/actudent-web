@@ -79,6 +79,24 @@ class Jadwal extends Actudent
         ]);
     }
 
+    public function getInactiveSchedules($grade)
+    {
+        $data = $this->jadwal->getInactiveSchedules($grade);
+        $response = [];
+        if(count($data) > 0)
+        {
+            foreach($data as $res)
+            {
+                $response[] = [
+                    'id' => "{$res->schedule_id}-{$res->lessons_grade_id}",
+                    'text' => $res->lesson_name
+                ];
+            }
+        }
+
+        return $this->response->setJSON($response);
+    }
+
     public function saveSettings()
     {
         $form = [
@@ -166,6 +184,7 @@ class Jadwal extends Actudent
                     'duration'          => $res['alokasi'],
                     'schedule_start'    => $this->normalizeTime(floor($mulai)) . '.' . $this->normalizeTime($minute),
                     'schedule_end'      => $waktuSelesai,
+                    'schedule_order'    => $res['index'],
                 ];
     
                 $mulai = $selesai;
@@ -181,7 +200,7 @@ class Jadwal extends Actudent
 
         return $this->response->setJSON([
             'status' => '200',
-            'msg' => 'OK'
+            'msg' => 'OK',
         ]);
     }
 
@@ -237,11 +256,12 @@ class Jadwal extends Actudent
                 }
     
                 $formatted[] = [
-                    'id' => $val['id'],
-                    'val' => $val['val'],
+                    'id' => $val['id'], // schedule_id or new schedule index
+                    'val' => $val['val'], // lessons_grade_id
                     'ruang' => $val['room'],
                     'alokasi' => $val['duration'],
                     'durasi' => $duration,
+                    'index' => $val['index'],
                 ];
             }            
         }

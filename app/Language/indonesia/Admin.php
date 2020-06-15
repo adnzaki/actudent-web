@@ -17,7 +17,11 @@ return [
     'menu_aplikasi'     => 'Aplikasi',
     'menu_pegawai'      => 'Pegawai',
     'menu_mapel'        => 'Mata Pelajaran',
-    'menu_ruang'         => 'Ruangan',
+    'menu_ruang'        => 'Ruangan',
+    'menu_feedback'     => 'Umpan Balik',
+    
+    // menu guru
+    'menu_jadwal_guru'  => 'Jadwal dan Kehadiran',
     
     // teks navbar
     'navbar_halo'  => 'Halo',
@@ -56,6 +60,8 @@ return [
     'no_data'           => 'Tidak ada data ditemukan',
     'kelola'            => 'Kelola',
     'peringatan'        => 'Peringatan!',
+    'tanggal'           => 'Tanggal',
+    'kirim'             => 'Kirim',
 
     // hari-hari
     'day1'              => 'Senin',

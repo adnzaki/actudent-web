@@ -82,6 +82,9 @@ $routes->get('/', 'Home::index');
 // Admin section 
 require ACTUDENTPATH . 'Admin/Config/AdminRoutes.php';
 
+// Teacher section 
+require ACTUDENTPATH . 'Guru/Config/GuruRoutes.php';
+
 // Showcase section
 require ACTUDENTPATH . 'Showcase/Config/ShowcaseRoutes.php';
 

@@ -18,6 +18,10 @@ return [
     'menu_pegawai'       => 'Staff',
     'menu_mapel'         => 'Lessons',
     'menu_ruang'         => 'Room',
+    'menu_feedback'      => 'Feedback',
+
+    // menu guru
+    'menu_jadwal_guru'  => 'Schedules and Presence',
     
     // teks navbar
     'navbar_halo'        => 'Hello',
@@ -56,6 +60,8 @@ return [
     'no_data'           => 'No data found',
     'kelola'            => 'Manage',
     'peringatan'        => 'Warning!',
+    'tanggal'           => 'Date',
+    'kirim'             => 'Send',
 
     // hari-hari
     'day1'              => 'Monday',

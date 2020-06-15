@@ -72,6 +72,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('jadwal/hapus-mapel', 'Jadwal::deleteLesson');
 	$routes->add('jadwal/detail-mapel/(:any)', 'Jadwal::getLessonDetail/$1');
 	$routes->add('jadwal/get-jadwal/(:any)', 'Jadwal::getSchedules/$1');
+	$routes->add('jadwal/non-aktif/(:any)', 'Jadwal::getInactiveSchedules/$1');
 	$routes->add('jadwal/daftar-mapel-kelas/(:any)', 'Jadwal::getLessonsForSchedule/$1');
 	$routes->add('jadwal/simpan-jadwal/(:any)', 'Jadwal::saveSchedules/$1');
 	$routes->add('jadwal/get-ruang', 'Jadwal::getRooms');
@@ -82,12 +83,13 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/get-absen/(:any)/(:any)/(:any)', 'Absensi::getListAbsensi/$1/$2/$3');
 	$routes->add('absensi/get-rombel', 'Absensi::getRombel');
 	$routes->add('absensi/get-jadwal/(:any)/(:any)', 'Absensi::getJadwal/$1/$2');
+	$routes->add('absensi/get-jurnal/(:any)', 'Absensi::getJournal/$1');
 	$routes->add('absensi/cek-jurnal/(:any)/(:any)', 'Absensi::checkJournal/$1/$2');
 	$routes->add('absensi/save/(:any)/(:any)/(:any)', 'Absensi::save/$1/$2/$3');
 	$routes->add('absensi/simpan-absen/(:any)/(:any)/(:any)', 'Absensi::savePresence/$1/$2/$3');
 	$routes->add('absensi/izin', 'Absensi::validateMark');
-	$routes->add('absensi/get-jurnal/(:any)', 'Absensi::getJournal/$1');
 	$routes->add('absensi/salin-jurnal/(:any)/(:any)', 'Absensi::copyJournal/$1/$2');
+	$routes->add('absensi/arsip-jurnal/(:any)/(:any)', 'Absensi::getJournalArchives/$1/$2');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');
@@ -105,6 +107,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');
+	$routes->add('umpan-balik', 'Feedback::index');
 	$routes->add('test-match', 'Test::testMatch');
 	$routes->add('hash/(:any)', 'Test::hash/$1');
 	$routes->add('test-login', 'Test::validateLogin');

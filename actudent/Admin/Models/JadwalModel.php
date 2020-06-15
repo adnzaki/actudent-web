@@ -13,7 +13,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Query builder for tb_lessons_grade
      */
-    private $QBMapelKelas;
+    public $QBMapelKelas;
 
      /**
      * Query builder for tb_lessons
@@ -40,7 +40,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     /**
      * @var Actudent\Admin\Models\RuangModel
      */
-    private $ruangan;
+    public $ruangan;
 
     /**
      * Build the tables and models..
@@ -179,7 +179,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     public function getSchedules($grade, $day)
     {
         $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
-                   duration, schedule_start, schedule_end, journal_filled, staff_name as teacher, 
+                   duration, schedule_start, schedule_end, schedule_order, staff_name as teacher, 
                    {$this->ruangan->ruang}.room_id, room_name, room_code";
         $join   = $this->QBJadwal->select($field)
                   ->join($this->ruangan->ruang, "{$this->ruangan->ruang}.room_id = {$this->jadwal}.room_id")
@@ -188,12 +188,31 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
                   ->join($this->pegawai->staff, "{$this->pegawai->staff}.staff_id={$this->mapelKelas}.teacher_id");
         
         $param = [
-            'grade_id' => $grade,
+            'grade_id'          => $grade,
             'schedule_semester' => 1,
-            'schedule_day' => $day,
+            'schedule_day'      => $day,
+            'schedule_status'   => 'active',
         ];
 
-        return $join->where($param)->orderBy('schedule_id', 'ASC')->get()->getResult();
+        return $join->where($param)->orderBy('schedule_order', 'ASC')->get()->getResult();
+    }
+
+    /**
+     * Get inactive schedules 
+     * 
+     * @param int $grade
+     * 
+     * @return object
+     */
+    public function getInactiveSchedules($grade)
+    {
+        $field  = "schedule_id, {$this->jadwal}.lessons_grade_id, lesson_name";
+        $select = $this->QBJadwal->select($field);
+        $join1  = $select->join($this->mapelKelas, "{$this->jadwal}.lessons_grade_id = {$this->mapelKelas}.lessons_grade_id");
+        $join2  = $join1->join($this->mapel, "{$this->mapelKelas}.lesson_id = {$this->mapel}.lesson_id");
+        $params = ['grade_id' => $grade, 'schedule_status' => 'inactive'];
+
+        return $join2->where($params)->orderBy('lesson_name', 'ASC')->get()->getResult();
     }
 
     /**
@@ -217,6 +236,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      */
     public function saveSchedules($data)
     {
+        $insertedValues = [];
         foreach($data as $res)
         {
             $id = $res['schedule_id'];
@@ -228,9 +248,12 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
                 'duration'          => $res['duration'],
                 'schedule_start'    => $res['schedule_start'],
                 'schedule_end'      => $res['schedule_end'],
+                'schedule_order'    => $res['schedule_order'],
             ];
 
-            if(preg_match('/new/', $id) === 0 && preg_match('/break/', $id) === 0)
+            if(preg_match('/new/', $id) === 0 
+                && preg_match('/break/', $id) === 0
+                && preg_match('/inactive/', $id) === 0)
             {
                 $this->QBJadwal->update($value, ['schedule_id' => $id]);
             }
@@ -240,12 +263,33 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
                 {
                     $this->QBJadwal->insert($value);
                 }
+                else 
+                {
+                    $split = explode('-', $id);
+                    $value['schedule_status'] = 'active';
+                    $this->QBJadwal->update($value, ['schedule_id' => $split[1]]);
+                    $this->QBJurnal->update(['is_archive' => 0], ['schedule_id' => $split[1]]);
+                }
             }
+
+            if(preg_match('/inactive/', $id) === 1)
+            {
+                $id = explode('-', $id);
+                $id = $id[1];
+                $value['schedule_status'] = 'active';
+            }
+
+            $insertedValues[] = [
+                'value' => $value,
+                'id' => $id,
+            ];
         }
+
+        return $insertedValues;
     }
 
     /**
-     * Delete schedules
+     * Set schedules to 'inactive' status
      * 
      * @param array $data
      * @return void
@@ -254,7 +298,8 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     {
         foreach($data as $val)
         {
-            $this->QBJadwal->delete(['schedule_id' => $val]);
+            $this->QBJadwal->update(['schedule_status' => 'inactive'], ['schedule_id' => $val]);
+            $this->QBJurnal->update(['is_archive' => 1], ['schedule_id' => $val]);
         }
     }
 

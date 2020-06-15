@@ -35,10 +35,12 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <script src="{appAssets}vendors/js/pickers/pickadate/picker.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/pickers/pickadate/picker.date.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/pickers/pickadate/picker.time.js" type="text/javascript"></script>
+  
   {if $bahasa === 'indonesia'}
     <script src="{assets}js/admin/pickadate-id.js" type="text/javascript"></script>
   {endif}
   <script src="{assets}js/admin/ac-absensi.js" type="text/javascript"></script>
+  <script src="{assets}js/locales.min.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>

@@ -6,16 +6,28 @@ const plugin = {
 		this.swObject = document.getElementsByClassName('switchery-small')
 	},
 	filters: {
-		substr: (value, num) => {
+		substr: (value, num, dots = '...') => {
 			if(!value) return ''
 			let displayText
 			(value.length > num) 
-				? displayText = `${value.substr(0, num)}...`
+				? displayText = `${value.substr(0, num)}${dots}`
 				: displayText = value
 			return displayText
-		}
+		},
+		formatDate(value, format = 'D MMMM YYYY') {
+			// languages that supported by Actudent
+			let locale = {
+				english: 'en', indonesia: 'id'
+			}
+
+			// set locale
+			moment.locale(locale[bahasa])
+
+			// set formatted date
+			return moment(value).format(format)				
+		},
 	},
-	methods: {
+	methods: {		
 		select2ShowPerPage(element, iCheck = '') {
 			var obj = this
 			$(element).on('select2:select', function (e) {
@@ -138,6 +150,13 @@ const plugin = {
 	computed: {
 		isSmallScreen() {
 			return (window.innerWidth <= 576) ? true : false
+		},
+		auth() {
+			if(actudentSection === 'admin') {
+				return admin
+			} else {
+				return guru
+			}
 		}
 	},
 }

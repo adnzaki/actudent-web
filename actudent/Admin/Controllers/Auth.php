@@ -8,7 +8,7 @@ class Auth extends Actudent
     {
         if(isset($_SESSION['email']) && isset($_SESSION['userLevel']) === '1')
         {
-            return redirect()->to(site_url('admin/home'));
+            return redirect()->to(base_url('admin/home'));
         }
         else 
         {            
@@ -20,7 +20,7 @@ class Auth extends Actudent
 
             // set app language based on default language
             $this->setLanguage($defaultLang);
-            $data['title'] = 'Autentikasi';
+            $data['title'] = lang('AdminAuth.login_title');
             return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\auth');
         }        
@@ -55,7 +55,7 @@ class Auth extends Actudent
         // save language option after user has been logged out from the app
         $this->setLanguage($this->getUserLanguage());
         $this->auth->statusJaringan('offline', $_SESSION['email']);
-        $this->session->remove(['email', 'nama', 'userLevel', 'logged_in']);
+        $this->session->remove(['id', 'email', 'nama', 'userLevel', 'logged_in']);
         return redirect()->to(base_url('admin/login'));
     }
 }

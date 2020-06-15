@@ -7,11 +7,12 @@ class Filters extends BaseConfig
 	// Makes reading things below nicer,
 	// and simpler to change out script that's used.
 	public $aliases = [
-		'csrf'		=> \CodeIgniter\Filters\CSRF::class,
-		'toolbar'	=> \CodeIgniter\Filters\DebugToolbar::class,
-		'honeypot'	=> \CodeIgniter\Filters\Honeypot::class,
-		'adminfilter' => \Actudent\Admin\Filters\AdminFilter::class,
-		'throttle'	=> \App\Filters\Throttle::class,
+		'csrf'			=> \CodeIgniter\Filters\CSRF::class,
+		'toolbar'		=> \CodeIgniter\Filters\DebugToolbar::class,
+		'honeypot'		=> \CodeIgniter\Filters\Honeypot::class,
+		'adminfilter' 	=> \Actudent\Admin\Filters\AdminFilter::class,
+		'gurufilter' 	=> \Actudent\Guru\Filters\GuruFilter::class,
+		'throttle'		=> \App\Filters\Throttle::class,
 	];
 
 	// Always applied before every request
@@ -21,8 +22,15 @@ class Filters extends BaseConfig
 			// 'csrf',
 			'throttle',
 			'adminfilter' => ['except' => [
-				'admin/login', 'admin/login/validate', 'core/get-admin-lang/*',
-				'showcase', 'admin/test-*',
+				'admin/login', 'admin/login/validate', 
+				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
+				'guru/*', 'guru', 'admin/template/*'
+				]
+			],
+			'gurufilter' => ['except' => [
+				'guru/login', 'guru/login/validate', 
+				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
+				'admin/*', 'admin'
 				]
 			],
 		],

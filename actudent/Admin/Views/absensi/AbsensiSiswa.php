@@ -1,7 +1,7 @@
-<div class="card-content collapse show">
+<div class="card-content collapse show" v-cloak>
     <div class="card-body">
         <div class="row">
-            <div class="col-3 col-sm-1">
+            <div class="col-3 col-sm-1" v-if="helper.archivePage">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-warning" @click="openJurnalModal"
                         data-toggle="modal" :disabled="jurnalDisabled">{+ lang AdminAbsensi.absensi_isi_jurnal +}
@@ -23,8 +23,30 @@
             		</div>
             	</div>
             </div>
+            <div class="col-12 col-sm-4" v-if="archiveStatus && helper.archiveButton">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-danger" @click="showArchive"
+                        data-toggle="modal">{+ lang AdminAbsensi.absensi_arsip_jurnal +}
+                    </button>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4" v-if="!helper.archivePage && !helper.backToArchive">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-danger" @click="closeArchive"
+                        data-toggle="modal">{+ lang AdminAbsensi.absensi_tutup_arsip +}
+                    </button>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4" v-if="helper.backToArchive">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-primary" @click="showArchive"
+                        data-toggle="modal">{+ lang AdminAbsensi.absensi_kembali_ke_arsip +}
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="row">  
+        
+        <div class="row" v-if="helper.archivePage">  
             <div class="col-12 col-sm-6 col-lg-4 mb-10">
                 <select class="select2 form-control mb-10" id="pilihKelas" style="width: 100%;">
                     <option selected value="null">{+ lang AdminAbsensi.absensi_pilih_kelas +}</option>
@@ -46,22 +68,24 @@
                 </select>
             </div>
         </div>
-    </div>    
-    <div class="table-responsive">
+        <div class="row" v-if="helper.backToArchive">
+            <div class="col-12">
+                <p><strong>{+ lang AdminAbsensi.absensi_mapel +}:</strong> {{ presenceArchive.lesson }}</p>
+                <p><strong>{+ lang AdminAbsensi.absensi_isi_jurnal +}:</strong> {{ presenceArchive.journal }}</p>
+                <p v-if="presenceArchive.homework !== ''">
+                    <strong>{+ lang AdminAbsensi.absensi_teks_pr +}:</strong> {{ presenceArchive.homework }} 
+                    ({+ lang AdminAbsensi.absensi_label_deadline +}: {{ presenceArchive.dueDate | substr(10, '') | formatDate }})
+                </p>
+            </div>
+        </div>
+    </div>        
+    <div class="table-responsive" v-if="helper.archivePage || helper.presenceGrid">
         <table class="table table-hover mb-0 cursor-pointer">
             {+ include Actudent\Admin\Views\absensi\ListAbsen +}   
         </table>
     </div>
-    <!-- <pager 
-        :show-paging="showPaging"
-        :link-class="linkClass"
-        :page-links="pageLinks"
-        :num-links="numLinks"
-        :active-link="activeLink"
-        :nav="nav" 
-        :first="first" :prev="prev"
-        :next="next" :last="last"
-        :row-range="rowRange"
-    /> -->
+    <div class="table-responsive" v-if="!helper.archivePage && !helper.presenceGrid">
+        {+ include Actudent\Admin\Views\absensi\ArsipJurnal +}   
+    </div>
 </div>
 

@@ -36,4 +36,9 @@ return [
     'absensi_izin_input'            => 'Uraian',
     'absensi_izin_error'            => 'Tidak dapat menyimpan absensi, silakan isi form dengan benar',
     'absensi_izin_progress'         => 'Menyimpan data kehadiran...',
+    'absensi_arsip_jurnal'          => 'Arsip Jurnal dan Kehadiran',
+    'absensi_mapel'                 => 'Mata Pelajaran',
+    'absensi_kembali_ke_arsip'      => 'Kembali ke arsip jurnal',
+    'absensi_teks_pr'               => 'Tugas Rumah',
+    'absensi_tutup_arsip'           => 'Tutup Arsip',
 ];
