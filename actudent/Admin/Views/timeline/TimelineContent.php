@@ -14,7 +14,7 @@
 				<div class="card-header {cardColor}">
 					<h4 class="card-title {cardTitleColor}"><a href="#">{{ item.timeline_title }}</a></h4>
 					<p class="card-subtitle text-muted mb-0 pt-1">
-						<span class="font-small-3">{{ item.timeline_date }}</span>
+						<span class="font-small-3">{{ item.timeline_date | formatDate('D MMMM YYYY | HH:mm') }}</span>
 					</p>
 					<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 				</div>

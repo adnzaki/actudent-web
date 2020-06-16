@@ -9,7 +9,7 @@
                     <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm">{+ lang Admin.hapus +}</button>                     
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-10">
                 <select class="select2 form-control" id="showRows" style="width: 100%;">
                     <option value="10">10 {+ lang Admin.baris +}</option>
                     <option value="25">25 {+ lang Admin.baris +}</option>

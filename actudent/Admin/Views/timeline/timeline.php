@@ -36,7 +36,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   {+ include Actudent\Core\Views\component\footer +} 
   <!-- BEGIN VENDOR JS-->
   {+ include Actudent\Core\Views\component\scripts +} 
-
+  <script src="{appAssets}vendors/js/extensions/moment.min.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/editors/codemirror/lib/codemirror.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/editors/codemirror/mode/xml/xml.js" type="text/javascript"></script>
   <!-- <script src="{appAssets}vendors/js/editors/summernote/summernote.min.js" type="text/javascript"></script> -->
