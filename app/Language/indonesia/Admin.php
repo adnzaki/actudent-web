@@ -62,6 +62,7 @@ return [
     'peringatan'        => 'Peringatan!',
     'tanggal'           => 'Tanggal',
     'kirim'             => 'Kirim',
+    'meta_desc'         => 'Actudent adalah pengendalian sikap untuk murid anak murid anda. Buat jadwal, agenda, mengisi kehadiran dan berbicara dengan orang tua dalam satu aplikasi web yang modern',
 
     // hari-hari
     'day1'              => 'Senin',

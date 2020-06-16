@@ -72,7 +72,9 @@ class Autoload extends \CodeIgniter\Config\AutoloadConfig
 		 *       'MyClass'   => '/path/to/class/file.php'
 		 *   ];
 		 */
-		$classmap = [];
+		$classmap = [
+			'OstiumDate' => ROOTPATH . 'actudent/Core/Libraries/OstiumDate.php',
+		];
 
 		//--------------------------------------------------------------------
 		// Do Not Edit Below This Line

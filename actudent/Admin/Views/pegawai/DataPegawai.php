@@ -9,14 +9,14 @@
                     <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm">{+ lang Admin.hapus +}</button> 
                 </div>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3 mb-10">
                 <select class="select2 form-control block" id="selectStaff" name="staff_type" style="width: 100%">
                     <option selected value="null">{+ lang AdminPegawai.staff_semua_bagian +}</option>
                     <option value="teacher">{+ lang AdminPegawai.staff_guru +}</option>
                     <option value="staff">{+ lang AdminPegawai.staff_pegawai +}</option>
                 </select>
             </div>
-            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-2 mb-10">
                 <select class="select2 form-control" id="showRows" style="width: 100%;">
                     <option value="10">10 {+ lang Admin.baris +}</option>
                     <option value="25">25 {+ lang Admin.baris +}</option>

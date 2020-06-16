@@ -62,6 +62,7 @@ return [
     'peringatan'        => 'Warning!',
     'tanggal'           => 'Date',
     'kirim'             => 'Send',
+    'meta_desc'         => 'Actudent is Attitude Control for your Student. Create schedules, agenda, fill presence and talk with parent in one modern web app.',
 
     // hari-hari
     'day1'              => 'Monday',
