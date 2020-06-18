@@ -25,7 +25,10 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                       <img src="{images}logo-woles-small.png" alt="branding logo">
                     </div>
                   </div>
-                  <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2">
+                  <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2" v-if="!isSmallScreen">
+                    <span>{+ lang AdminAuth.silakan_login +}</span>
+                  </h6>
+                  <h6 class="card-subtitle text-muted text-center font-small-3 pt-2" v-else>
                     <span>{+ lang AdminAuth.silakan_login +}</span>
                   </h6>
                 </div>
