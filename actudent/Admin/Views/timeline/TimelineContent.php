@@ -17,6 +17,16 @@
 						<span class="font-small-3">{{ item.timeline_date | formatDate('D MMMM YYYY | HH:mm') }}</span>
 					</p>
 					<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+					<div class="heading-elements">
+						<div class="btn-group mr-1 mb-1">
+							<button type="button" class="btn btn-outline-primary more-action"
+								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="la la-ellipsis-v"></i></button>
+							<div class="dropdown-menu">
+								<a class="dropdown-item action-list" href="javascript:void(0)">{+ lang Admin.perbarui +}</a>
+								<a class="dropdown-item action-list" href="javascript:void(0)">{+ lang Admin.hapus +}</a>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="card-content">
 					<img class="img-fluid" src="{appAssets}images/portfolio/width-1200/portfolio-1.jpg"

@@ -230,3 +230,13 @@ html body .extend-la {
 .action-list {
 	padding: 0.45rem 1.5rem !important;
 }
+
+.more-action, .more-action:hover, .more-action:active {
+	background-color: transparent !important;
+	border: none;
+}
+
+.more-action {
+	right: -30px;
+	top: -10px;
+}
