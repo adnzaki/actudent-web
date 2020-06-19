@@ -62,6 +62,16 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
     }
 
     /**
+     * Get total rows of timeline
+     * 
+     * @return int
+     */
+    public function getTimelineRows()
+    {
+        return $this->QBTimeline->countAllResults();
+    }
+
+    /**
      * Get post's comments
      * 
      * @param int $limit
