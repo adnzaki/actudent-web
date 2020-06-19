@@ -92,6 +92,13 @@
 	.small-pad-left {
 		padding-left: 5px !important;
 	}	
+
+	.floating {
+		right: 5px !important;
+		bottom: 5px !important;
+		min-width: 4rem !important;
+		min-height: 4.4rem !important;
+	}
 }
 
 .list-group-custom {
@@ -237,6 +244,10 @@ html body .extend-la {
 }
 
 .more-action {
-	right: -30px;
+	right: -20px;
 	top: -10px;
+}
+
+.bg-transparent {
+	background-color: transparent !important;
 }

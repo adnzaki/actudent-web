@@ -12,12 +12,13 @@
         timeline: `${admin}timeline/`,
         error: {},
         posts: [],
-        summernoteLang: { 'indonesia': 'id-ID', 'english': 'en-US' }
+        summernoteLang: { 'indonesia': 'id-ID', 'english': 'en-US' },
+        postLimit: 10, loadMoreButton: true
     },
     mounted() {
         this.runSummerNote()            
         this.getLanguageResources('AdminTimeline')
-        this.getPosts(10, 0)
+        this.getPosts(this.postLimit, 0)
     },
     methods: {
         evenOrOdd(index) {
@@ -31,9 +32,20 @@
                 type: 'get',
                 dataType: 'json',
                 success: data => {
-                    this.posts = data
+                    if(data.timeline.length > 0) {
+                        data.timeline.forEach(item => {
+                            this.posts.push(item)
+                        })
+                        
+                        if(data.rows === this.posts.length) {
+                            this.loadMoreButton = false
+                        }
+                    } 
                 }
             })
+        },
+        loadMorePosts() {
+            this.getPosts(this.postLimit, this.posts.length)
         },
         runSummerNote() {
             $('#summernote').summernote({
@@ -56,8 +68,6 @@
 
             $('.summernote .modal-header').addClass(`${modalHeaderColor}`)
             $('.summernote .modal-title').addClass('white')
-            $('.summernote .note-image-input').removeClass('form-control-file')
-            $('.summernote .note-image-input').addClass('form-control')
             $('.summernote .close').removeAttr('data-dismiss')
             $('.summernote .close').on('click', function() { 
                 $('.summernote .modal').modal('hide') 

@@ -41,7 +41,10 @@ class Timeline extends Actudent
             array_push($formatted, $d);
         }
         
-        return $this->response->setJSON($data);
+        return $this->response->setJSON([
+            'timeline' => $data,
+            'rows' => $this->timeline->getTimelineRows(),
+        ]);
     }
 
     private function getPostComments($timelineID, $limit, $offset)
