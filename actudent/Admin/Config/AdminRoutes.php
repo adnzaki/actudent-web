@@ -50,6 +50,12 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pegawai/delete', 'Pegawai::delete');
 	$routes->add('pegawai/validate-file', 'Pegawai::runFileValidation');
 	$routes->add('pegawai/upload/(:any)', 'Pegawai::uploadFile/$1');
+	$routes->add('pengguna', 'Pengguna::index');
+	$routes->add('pengguna/get-pengguna/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pengguna::getUser/$1/$2/$3/$4/$5/$6/$7');
+	$routes->add('pengguna/get-pengguna/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pengguna::getUser/$1/$2/$3/$4/$5/$6');
+	$routes->add('pengguna/get-pengguna/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pengguna::getUser/$1/$2/$3/$4/$5');
+	$routes->add('pengguna/detail/(:any)', 'Pengguna::getUserDetail/$1');
+	$routes->add('pengguna/save/(:any)', 'Pengguna::save/$1');
 	$routes->add('ruang', 'Ruang::index');
 	$routes->add('ruang/get-ruang/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ruang::getRooms/$1/$2/$3/$4/$5/$6');
 	$routes->add('ruang/get-ruang/(:any)/(:any)/(:any)/(:any)/(:any)', 'Ruang::getRooms/$1/$2/$3/$4/$5');
