@@ -1,0 +1,23 @@
+<?php
+
+return [
+    // teks halaman data guru
+    'page_title'             => 'User',
+    'user_title'            => 'User Data',
+    'user_save_progress'    => 'Saving user data...',
+    'user_error_text'       => 'Can not save data, fill the form corectly please',
+    'user_update_success'   => 'User password has been updated successfully',
+    'user_update_title'     => 'Reset password',
+    'user_cari'             => 'Search for user name, or user mail',
+    'user_label_nama'       => 'User Name',
+    'user_label_email'      => 'Email',
+    'user_label_level'      => 'User Level',
+    'pengguna_staff'        => 'Staff',
+    'pengguna_admin'        => 'Admin',
+    'pengguna_guru'         => 'Teacher',
+    'pengguna_ortu'         => 'Parent',
+    'user_semua_bagian'     => 'All user',
+    'user_admin'            => 'Admin',
+    'user_pegawai'          => 'Staff',
+    'user_ortu'             => 'Parents',
+];
