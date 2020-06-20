@@ -161,7 +161,10 @@ class Agenda extends Actudent
                 if(! empty($data['file_uploaded']))
                 {
                     $path = PUBLICPATH . 'attachments/agenda/';
-                    unlink($path . $data['file_uploaded']);
+                    if(file_exists($path . $data['file_uploaded']))
+                    {
+                        unlink($path . $data['file_uploaded']);
+                    }
                 }
                 
                 $response = [
