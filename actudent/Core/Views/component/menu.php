@@ -40,7 +40,7 @@
       </li>
       <li class=" nav-item"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.icons.main">{+ lang Admin.menu_pengaturan +}</span></a>
         <ul class="menu-content">
-          <li class="{+ menu_active uri=aaa +}"><a class="menu-item" href="#" data-i18n="nav.icons.icons_feather">{+ lang Admin.menu_pengguna +}</a>
+          <li class="{+ menu_active uri=pengguna +}"><a class="menu-item" href="{admin}pengguna" data-i18n="nav.icons.icons_feather">{+ lang Admin.menu_pengguna +}</a>
           </li>
           <li class="{+ menu_active uri=PengaturanAplikasi +}"><a class="menu-item" href="{admin}pengaturan-aplikasi" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_aplikasi +}</a>
           </li>

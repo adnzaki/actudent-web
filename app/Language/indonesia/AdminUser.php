@@ -1,6 +1,25 @@
 <?php 
 
 return [
+    // teks halaman data user management
+    'page_title'                => 'Pegawai',
+    'user_title'                => 'Data Pegawai',
+    'user_save_progress'        => 'Menyimpan data pegawai...',
+    'user_error_text'           => 'Tidak dapat menyimpan data, silakan isi form dengan benar',
+    'user_update_success'       => 'Password pegawai berhasil diperbarui',
+    'user_update_title'         => 'Reset password',
+    'user_cari'                 => 'Cari nama pengguna, atau email pengguna', 
+    'user_label_nama'           => 'Nama Pengguna',
+    'user_label_email'          => 'Email',
+    'user_label_level'          => 'Level Pengguna',
+    'pengguna_staff'            => 'Pegawai',
+    'pengguna_admin'            => 'Admin',
+    'pengguna_guru'             => 'Guru',
+    'pengguna_ortu'             => 'Orang tua',
+    'user_semua_bagian'         => 'Semua pengguna',
+    'user_admin'                => 'Admin',
+    'user_pegawai'              => 'Pegawai',
+    'user_ortu'                 => 'Orang tua',
     'user_email'                => 'Email pengguna',
     'user_pass'                 => 'Kata sandi',
     'user_pass_input'           => 'Ketik kata sandi minimal 8 karakter',
@@ -11,4 +30,6 @@ return [
     'user_err_pass_minchars'    => 'Kata sandi harus memiliki setidaknya 8 karakter',
     'user_err_pass_confirm'     => 'Konfirmasi kata sandi harus sama dengan kata sandi yang dipilih',
     'user_err_passconf_required'=> 'Konfirmasi password tidak boleh kosong',
+    'user_newPass'              => 'Kata sandi baru',
+    'user_newPass_confirm'      => 'Konfirmasi password baru',
 ];
