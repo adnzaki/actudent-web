@@ -109,7 +109,10 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('agenda/display-attachment/(:any)', 'Agenda::displayAttachment/$1');
 	$routes->add('timeline', 'Timeline::index');
 	$routes->add('timeline/get-posts/(:any)/(:any)', 'Timeline::getPosts/$1/$2');
-	//$routes->add('timeline/get-comments/(:any)/(:any)', 'Timeline::getPostComments/$1/$2');
+	$routes->add('timeline/simpan/(:any)', 'Timeline::save/$1');
+	$routes->add('timeline/simpan/(:any)/(:any)', 'Timeline::save/$1/$2');
+	$routes->add('timeline/upload-gambar/(:any)', 'Timeline::uploadFile/$1');
+	$routes->add('timeline/validasi-gambar', 'Timeline::runFileValidation');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

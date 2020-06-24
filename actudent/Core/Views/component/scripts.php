@@ -4,7 +4,6 @@
     var guru = "{guru}";
     var warnaTema = "{theme}";
     var modalHeaderColor = "{modalHeaderColor}";
-    var public = "{public}";
     var bahasa = "{bahasa}";
     var xhr = new XMLHttpRequest();
 

@@ -47,7 +47,7 @@
 
 .fly-alert {
 	position: fixed;
-	z-index: 99;
+	z-index: 999;
 	top: 40%;
 	width: 80%;	
 	text-align: center;
