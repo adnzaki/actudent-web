@@ -7,6 +7,7 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      */
     private $QBTimeline;
     private $QBTimelineComments;
+    private $QBTimelineLikes;
 
     /**
      * tb_timeline table
@@ -21,6 +22,13 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * @var string
      */
     private $timelineComments = 'tb_timeline_comments';
+
+    /**
+     * tb_timeline_likes table
+     * 
+     * @var string
+     */
+    private $timelineLikes = 'tb_timeline_likes';
 
     /**
      * tb_user
@@ -40,6 +48,7 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
         parent:: __construct();
         $this->QBTimeline = $this->db->table($this->timeline);
         $this->QBTimelineComments = $this->db->table($this->timelineComments);
+        $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
     }
 
     /**
@@ -111,5 +120,86 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
         $join = $this->QBTimelineComments->select($field)->join($this->user, "{$this->user}.user_id = {$this->timelineComments}.user_id");
 
         return $join;
+    }
+
+    /**
+     * Insert data from user input to tb_timeline 
+     * 
+     * @param string $status
+     * @param array $data
+     * @return int
+     */
+    public function insert($status, $value)
+    {
+        $data = $this->fillTimelineField($value);
+        $data['user_id'] = session()->get('id');
+        $data['timeline_status'] = $status;
+        $this->QBTimeline->insert($data);
+
+        // return the insertID
+        return $this->db->insertID();
+    }
+
+    /**
+     * Update timeline
+     * 
+     * @param string $status
+     * @param array $data
+     * @param int $id
+     */
+    public function update($status, $value, $id)
+    {
+        $data = $this->fillTimelineField($value);
+        $data['timeline_status'] = $status;
+        $this->QBTimeline->update($data, ['timeline_id' => $id]);
+
+        // return the ID for image upload
+        return $id;
+    }
+
+    /**
+     * Delete timeline and related data
+     * 
+     * @param int $id 
+     * @return void
+     */
+    public function delete($id)
+    {
+        // transaction started
+        $this->db->transStart();
+        $this->QBTimelineComments->delete(['timeline_id' => $id]);
+        $this->QBTimelineLikes->delete(['timeline_id' => $id]);
+        $this->QBTimeline->delete(['timeline_id' => $id]);
+
+        // transaction complete
+        $this->db->transComplete();
+    }
+
+    /**
+     * Data to be filled in tb_timeline
+     * 
+     * @param array $data
+     * @return array
+     */
+    private function fillTimelineField($data)
+    {
+        return [
+            'timeline_title'    => $data['timeline_title'],
+            'timeline_content'  => $data['timeline_content'],
+            'timeline_date'     => date('Y-m-d H:i:s'),
+        ];
+    }
+
+    /**
+     * Set the attachment from user input
+     * 
+     * @param string $filename
+     * @param int $id
+     * 
+     * @return void
+     */
+    public function setAttachment($filename, $id)
+    {        
+        $this->QBTimeline->where('timeline_id', $id)->update(['timeline_image' => $filename]);
     }
 }

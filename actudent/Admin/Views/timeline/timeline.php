@@ -23,7 +23,17 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <div class="app-content content">
     <div class="content-wrapper">
       <div class="content-body" id="timeline-content">
+        {+ include Actudent\Admin\Views\siswa\alert +}
         {+ include Actudent\Admin\Views\timeline\TimelineContent +}
+        <div class="loader-layer" v-if="spinner">
+            <div class="loader-wrapper">
+                <div class="loader-container">
+                    <div class="ball-rotate loader-danger">
+                        <div></div>
+                    </div>
+                </div>
+            </div>            
+        </div>
       </div>
     </div>
   </div>
@@ -32,22 +42,10 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- BEGIN VENDOR JS-->
   {+ include Actudent\Core\Views\component\scripts +} 
   <script src="{appAssets}vendors/js/extensions/moment.min.js" type="text/javascript"></script>
-  <script src="{appAssets}vendors/js/editors/codemirror/lib/codemirror.js" type="text/javascript"></script>
-  <script src="{appAssets}vendors/js/editors/codemirror/mode/xml/xml.js" type="text/javascript"></script>
-  <!-- <script src="{appAssets}vendors/js/editors/summernote/summernote.min.js" type="text/javascript"></script> -->
-  <script src="{assets}js/lib/summernote/summernote.js" type="text/javascript"></script>
-  {if $bahasa === 'indonesia'}
-    <script src="{assets}js/lib/summernote/summernote-id-ID.js" type="text/javascript"></script>
-  {endif}
   <script src="{appAssets}vendors/js/gallery/masonry/masonry.pkgd.min.js" type="text/javascript"></script>
-  <script src="{appAssets}vendors/js/gallery/photo-swipe/photoswipe.min.js" type="text/javascript"></script>
-  <script src="{appAssets}vendors/js/gallery/photo-swipe/photoswipe-ui-default.min.js" type="text/javascript"></script>
-  <script src="{appAssets}vendors/js/charts/echarts/echarts.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
-  <script src="{appAssets}js/scripts/charts/echarts/bar-column/stacked-column.js" type="text/javascript"></script>
-  <script src="{appAssets}js/scripts/charts/echarts/radar-chord/non-ribbon-chord.js" type="text/javascript"></script>
-  <script src="{appAssets}js/scripts/gallery/photo-swipe/photoswipe-script.js" type="text/javascript"></script>
   <script src="{appAssets}js/scripts/pages/timeline.js" type="text/javascript"></script>
   <script src="{assets}js/admin/ac-timeline.js" type="text/javascript"></script>
+  <script src="{assets}js/locales.min.js" type="text/javascript"></script>
 </body>
 </html>

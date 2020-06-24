@@ -12,9 +12,16 @@
 			</div>
 			<div class="timeline-card card border-grey border-lighten-2 {cardColor} cursor-pointer">
 				<div class="card-header {cardColor}">
-					<h4 class="card-title {cardTitleColor}"><a href="#">{{ item.timeline_title }}</a></h4>
+					<h4 class="card-title {cardTitleColor}">
+						<a href="#">
+							<span class="success-text" v-if="item.timeline_status === 'draft'">[Draft]</span> {{ item.timeline_title }}
+						</a>
+					</h4>
 					<p class="card-subtitle text-muted mb-0 pt-1">
-						<span class="font-small-3">{{ item.timeline_date | formatDate('D MMMM YYYY | HH:mm') }}</span>
+						<span class="font-small-3">
+							{{ item.timeline_date | formatDate('D MMMM YYYY | HH:mm') }} - 
+							{+ lang AdminTimeline.timeline_posted_by +}: {{ item.author }} 
+						</span>
 					</p>
 					<div class="heading-elements bg-transparent">
 						<div class="btn-group mb-1">
@@ -29,7 +36,9 @@
 				</div>
 				<div class="card-content">
 					<img class="img-fluid" src="{appAssets}images/portfolio/width-1200/portfolio-1.jpg"
-						alt="Timeline Image 1">
+						alt="Timeline Image 1" v-if="item.timeline_image === null">
+					<img class="img-fluid" :src="helper.imageURL + item.timeline_image"
+						alt="Timeline Image 1" v-else>
 					<div class="card-content">
 						<div class="card-body">
 							<p class="card-text">
@@ -91,10 +100,10 @@
 			</div>
         </li>
 	</ul>
-	<ul class="timeline" id="bottom-line" v-if="loadMoreButton">
+	<ul class="timeline" id="view-more" v-if="loadMoreButton">
 		<li class="timeline-line" v-if="!isSmallScreen"></li>
 		<li class="timeline-group">
-			<a href="#bottom-line" class="btn btn-primary" @click="loadMorePosts"> {+ lang AdminTimeline.timeline_loadmore +}</a>
+			<a href="#view-more" class="btn btn-primary" @click="loadMorePosts"> {+ lang AdminTimeline.timeline_loadmore +}</a>
 		</li>
 	</ul>
 	{+ include Actudent\Admin\Views\timeline\CreatePost +}
