@@ -1,4 +1,9 @@
 <div class="row">
+	<!-- Error message -->
+    <alert-msg :alert-class="alert.class" 
+        :header="alert.header" :text="alert.text" v-if="alert.show">
+    </alert-msg>
+    <!-- #End error message -->
 	<div class="col-12">
 		<div class="card {cardColor}">
 			<div class="card-header {cardColor}">
@@ -13,25 +18,25 @@
 					</ul>
 				</div>
 			</div>
-			<div class="card-content">
+			<div class="card-content">				
 				<div class="card-body">
-					<p>{+ lang AdminFeedback.app_feedback_type +}</p>
-					<div class="row">
+					
+					<form class="form" id="sendFeedback">
 						<div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
-							<div class="form-group">	
-						
-								<select class="select2 form-control block" id="selectStaff" name="staff_type" style="width: 100%">
-                    			<option selected value="null">Saran</option>
-                    			<option value="teacher">Bug</option>
-                    			<option value="staff">Bantuan</option>
+							<div class="form-group">
+								<label>{{ lang.app_feedback_type }}</label>				
+								<select class="select2 form-control block" id="selectFeedback" name="feedback_type" style="width: 100%">
+                    			<option selected value="Saran">Saran</option>
+                    			<option value="Bug">Bug</option>
+                    			<option value="Bantuan">Bantuan</option>
                 				</select>
 							</div>
 						</div>
 						<div class="col-12">
 							<div class="form-group">
                             	<label for="userinput6">{{ lang.feedback_label_desc }}</label>
-                           		<textarea class="form-control border-primary" type="text" :placeholder="lang.feedback_input_desc" name="agenda_description"></textarea>
-                            	<!-- <form-error :msg="error.agenda_description" /> -->
+                           		<textarea class="form-control border-primary" type="text" minlength="20" :placeholder="lang.feedback_input_desc" name="feedback_description"></textarea>
+                            	<form-error :msg="error.feedback_description" />
                         	</div>
 						</div>
 						<div class="col-12">
@@ -47,10 +52,10 @@
 							<div class="form-group">
 								<p></p>
 								<button type="button" class="btn btn-outline-info btn-min-width mr-1 mb-1"
-								@click="setTheme">{+ lang Admin.kirim +}</button>
+								@click="send()">{+ lang Admin.kirim +}</button>
 							</div>
 						</div>						
-					</div>
+					</form>
 				</div>
 			</div>
 			{# Tambah content di sini #}
