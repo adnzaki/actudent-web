@@ -19,7 +19,7 @@
 					</h4>
 					<p class="card-subtitle text-muted mb-0 pt-1">
 						<span class="font-small-3">
-							{{ item.timeline_date | formatDate('D MMMM YYYY | HH:mm') }} - 
+							{{ item.created | formatDate('D MMMM YYYY | HH:mm') }} - 
 							{+ lang AdminTimeline.timeline_posted_by +}: {{ item.author }} 
 						</span>
 					</p>
@@ -28,7 +28,7 @@
 							<button type="button" class="btn btn-outline-primary more-action"
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="la la-ellipsis-v"></i></button>
 							<div class="dropdown-menu">
-								<a class="dropdown-item action-list" href="javascript:void(0)">{+ lang Admin.perbarui +}</a>
+								<a class="dropdown-item action-list" href="javascript:void(0)" @click="getPostDetail(item.timeline_id)">{+ lang Admin.perbarui +}</a>
 								<a class="dropdown-item action-list" href="javascript:void(0)">{+ lang Admin.hapus +}</a>
 							</div>
 						</div>
@@ -47,12 +47,6 @@
 									<strong v-if="item.timeline_content.length > 100">{+ lang AdminTimeline.timeline_readmore +}</strong>								
 								</a>
 							</p>
-							<!-- <ul class="list-inline">
-								<li class="pr-1">
-									<a href="#" class="">
-										<span class="la la-commenting-o"></span> {+ lang Admin.komentar +}</a>
-								</li>
-							</ul> -->
 							<ul class="list-inline">
 								<li>
 									<strong>999 {+ lang Admin.view +}</strong>
@@ -107,4 +101,5 @@
 		</li>
 	</ul>
 	{+ include Actudent\Admin\Views\timeline\CreatePost +}
+	{+ include Actudent\Admin\Views\timeline\EditPost +}
 </section>

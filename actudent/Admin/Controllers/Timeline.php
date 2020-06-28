@@ -61,6 +61,11 @@ class Timeline extends Actudent
         return $groupedComments;
     }
 
+    public function getPostDetail($timelineID)
+    {
+        return $this->response->setJSON($this->timeline->getPostDetail($timelineID)[0]);
+    }
+
     public function save($status, $id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]
@@ -83,12 +88,12 @@ class Timeline extends Actudent
             }
             else 
             {
-                if(! empty($data['file_uploaded']))
+                if($data['current_image'] !== $data['image_feature'])
                 {
                     $path = PUBLICPATH . 'attachments/timeline/';
-                    if(file_exists($path . $data['file_uploaded']))
+                    if(file_exists($path . $data['current_image']))
                     {
-                        unlink($path . $data['file_uploaded']);
+                        unlink($path . $data['current_image']);
                     }
                 }
                 
@@ -181,6 +186,7 @@ class Timeline extends Actudent
             'timeline_title'    => $this->request->getPost('timeline_title'),
             'timeline_content'  => $this->request->getPost('timeline_content'),
             'image_feature'     => $this->request->getPost('image_feature'),
+            'current_image'     => $this->request->getPost('current_image'),
         ];
 
         return $data;
