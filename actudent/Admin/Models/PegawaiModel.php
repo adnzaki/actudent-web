@@ -263,29 +263,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      */
     private function search($where, $searchBy, $search)
     {
-        // $field = 'staff_id, user_id, staff_nik, staff_name, staff_phone, staff_type';
-        // $select = $this->QBStaff->select($field);        
-        // if(! empty($search))
-        // {            
-        //     // This code is not related to SSPaging plugin that only supports 1 search parameter
-        //     if(strpos($searchBy, '-') !== false)
-        //     {
-        //         $searchBy = explode('-', $searchBy);
-        //         $select->like($searchBy[0], $search); 
-        //         $select->orLike($searchBy[1], $search); 
-        //         $select->orLike($searchBy[2], $search); 
-        //         $select->orLike($searchBy[3], $search);
-        //     }
-        //     else 
-        //     {
-        //         $select->like($searchBy, $search); // search by one parameter
-        //     }
-        // }
-
-        // return $select;
-        ///
-
-
+        
         // If $where is true, then include grade_name in $field
         $field = 'staff_id, user_id, staff_nik, staff_name, staff_phone, staff_type, staff_title';
         if($where)
@@ -305,17 +283,11 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
         {
             if(strpos($searchBy, '-') !== false)
             {
-                // $searchBy = explode('-', $searchBy);
-                // $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR $searchBy[1]";
-                // $like2 = "'%$search%' ESCAPE '!')";
-                // $select->like($like1, $like2, 'none', false); 
-
                 $searchBy = explode('-', $searchBy);
-                $select->like($searchBy[0], $search); 
-                $select->orLike($searchBy[1], $search); 
-                $select->orLike($searchBy[2], $search); 
-                $select->orLike($searchBy[3], $search);
-                $select->orLike($searchBy[4], $search);
+                $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR  $searchBy[1] LIKE '%$search%' ESCAPE '!' 
+                    OR  $searchBy[2] LIKE '%$search%' ESCAPE '!' OR  $searchBy[3]";                
+                $like2 = "'%$search%' ESCAPE '!')";
+                $select->like($like1, $like2, 'none', false); 
             }
             else 
             {
