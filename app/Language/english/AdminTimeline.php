@@ -21,4 +21,7 @@ return [
     'timeline_save_draft'       => 'Post have been saved as draft',
     'timeline_delete_success'   => 'Post have been deleted successfully',
     'timeline_posted_by'        => 'Posted by',
+    'timeline_delete_confirm'   => 'Are you sure want to remove this post?',
+    'timeline_delete_progress'  => 'Removing post...',
+    'timeline_delete_success'   => 'Post deleted successfully',
 ];

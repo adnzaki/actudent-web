@@ -22,8 +22,9 @@
             disableSaveButton: false, fileUploaded: '',
             filename: '', uploadProgress: false, imageURL: `${baseURL}/attachments/timeline/`,
             currentImage: '', timelineID: null, validImage: false,
+            deleteProgress: false,
         },
-        timelineDetail: {},
+        timelineDetail: {}, 
     },
     mounted() {
         this.getLanguageResources('AdminTimeline')
@@ -158,6 +159,28 @@
                 error: () => console.error('Network error')
             })
         },
+        deleteConfirm(id) {
+            this.helper.timelineID = id
+            $('#hapusModal').modal('show')
+        },
+        removePost() {
+            $.ajax({
+                url: `${this.timeline}hapus/${this.helper.timelineID}`,
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.deleteProgress = true    
+                    this.helper.disableSaveButton = true
+                },
+                success: msg => {
+                    $('#hapusModal').modal('hide')
+                    this.resetForm('delete')
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
+                }
+            })
+        },
         resetForm(type, status, form = '') {
             this.alert.show = false
             // clear error messages if exists
@@ -172,11 +195,11 @@
             }
 
             // reload timeline
+            let id = this.helper.timelineID
             if(type === 'insert') {
                 this.getPosts(1, 0, false, true)
             } else if(type === 'edit') {
                 // prepare timelineID
-                let id = this.helper.timelineID
 
                 // get post detail again
                 this.getPostDetail(id, true)
@@ -187,9 +210,17 @@
                     index = this.posts.findIndex(el => {
                         return el.timeline_id === id
                     })                
-                    this.posts.splice(index, 1, this.timelineDetail)                    
+                    this.posts.splice(index, 1, this.timelineDetail)    
                 }, 500);
+            } else {
+                index = this.posts.findIndex(el => {
+                    return el.timeline_id === id
+                })                
+                this.posts.splice(index, 1)   
             }
+
+            // reset timelineID
+            this.helper.timelineID = null  
 
             if(status === 'public') {
                 this.alert.text = this.lang.timeline_save_public

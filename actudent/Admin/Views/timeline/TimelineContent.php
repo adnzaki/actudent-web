@@ -29,7 +29,7 @@
 								data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="la la-ellipsis-v"></i></button>
 							<div class="dropdown-menu">
 								<a class="dropdown-item action-list" href="javascript:void(0)" @click="getPostDetail(item.timeline_id)">{+ lang Admin.perbarui +}</a>
-								<a class="dropdown-item action-list" href="javascript:void(0)">{+ lang Admin.hapus +}</a>
+								<a class="dropdown-item action-list" href="javascript:void(0)" @click="deleteConfirm(item.timeline_id)">{+ lang Admin.hapus +}</a>
 							</div>
 						</div>
 					</div>
@@ -102,4 +102,5 @@
 	</ul>
 	{+ include Actudent\Admin\Views\timeline\CreatePost +}
 	{+ include Actudent\Admin\Views\timeline\EditPost +}
+	{+ include Actudent\Admin\Views\timeline\DeleteConfirm +}
 </section>

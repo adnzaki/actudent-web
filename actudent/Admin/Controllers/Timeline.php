@@ -107,6 +107,21 @@ class Timeline extends Actudent
         }
     }
 
+    public function delete($id)
+    {
+        $timeline = $this->timeline->getPostDetail($id)[0];
+        
+        // remove featured image from storage
+        $featuredImage = PUBLICPATH . 'attachments/timeline/' . $timeline->timeline_image;
+        if(file_exists($featuredImage))
+        {
+            unlink($featuredImage);
+        }
+
+        $this->timeline->delete($id);
+        return $this->response->setJSON(['status' => 'OK']);
+    }
+
     private function validation()
     {
         $form = $this->formData();
