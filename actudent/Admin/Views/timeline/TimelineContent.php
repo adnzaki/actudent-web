@@ -1,4 +1,4 @@
-<section id="timeline" class="timeline-center timeline-wrapper" v-cloak>
+<section id="timeline" class="timeline-center timeline-wrapper" v-cloak v-if="helper.postList">
 	<h3 class="page-title text-center {cardTitleColor}">{+ lang AdminTimeline.timeline_subtitle +}</h3>
 	<ul class="timeline">
 		<li class="timeline-line"></li>
@@ -10,7 +10,7 @@
 				<span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right"
 					:title="item.author"><i class="la la-plane"></i></span>
 			</div>
-			<div class="timeline-card card border-grey border-lighten-2 {cardColor} cursor-pointer">
+			<div class="timeline-card card border-grey border-lighten-2 {cardColor} cursor-pointer" @click="readPost(item)">
 				<div class="card-header {cardColor}">
 					<h4 class="card-title {cardTitleColor}">
 						<a href="#">
@@ -43,7 +43,7 @@
 						<div class="card-body">
 							<p class="card-text">
 								{{ item.timeline_content | substr(100) }} 
-								<a href="javascript:void(0)">
+								<a href="javascript:void(0)" @click="readPost(item)">
 									<strong v-if="item.timeline_content.length > 100">{+ lang AdminTimeline.timeline_readmore +}</strong>								
 								</a>
 							</p>
@@ -99,7 +99,7 @@
 		<li class="timeline-group">
 			<a href="#view-more" class="btn btn-primary" @click="loadMorePosts"> {+ lang AdminTimeline.timeline_loadmore +}</a>
 		</li>
-	</ul>
+	</ul>	
 	{+ include Actudent\Admin\Views\timeline\CreatePost +}
 	{+ include Actudent\Admin\Views\timeline\EditPost +}
 	{+ include Actudent\Admin\Views\timeline\DeleteConfirm +}

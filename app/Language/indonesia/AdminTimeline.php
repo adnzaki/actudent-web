@@ -24,4 +24,5 @@ return [
     'timeline_delete_confirm'   => 'Apakah anda yakin ingin menghapus post ini?',
     'timeline_delete_progress'  => 'Menghapus post...',
     'timeline_delete_success'   => 'Post berhasil dihapus',
+    'timeline_other_post_title' => 'Postingan lainnya',
 ];

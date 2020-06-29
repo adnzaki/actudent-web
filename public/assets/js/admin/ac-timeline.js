@@ -16,13 +16,12 @@
             header: '', text: '',
         },
         posts: [],
-        summernoteLang: { 'indonesia': 'id-ID', 'english': 'en-US' },
         postLimit: 10, loadMoreButton: false, spinner: false,
         helper: {
             disableSaveButton: false, fileUploaded: '',
             filename: '', uploadProgress: false, imageURL: `${baseURL}/attachments/timeline/`,
             currentImage: '', timelineID: null, validImage: false,
-            deleteProgress: false,
+            deleteProgress: false, postList: true, postReader: false,
         },
         timelineDetail: {}, 
     },
@@ -180,6 +179,22 @@
                     }, 1000);
                 }
             })
+        },
+        readPost(post, serverSide = false) {
+            if(serverSide) {
+                this.getPostDetail(post.timeline_id, true)
+            } else {
+                this.timelineDetail = post
+            }
+            this.helper.postList = false
+            this.helper.postReader = true
+            this.helper.timelineID = post.timeline_id
+        },
+        closePostReader() {
+            this.timelineDetail = {}
+            this.helper.postList = true
+            this.helper.postReader = false
+            this.helper.timelineID = null
         },
         resetForm(type, status, form = '') {
             this.alert.show = false

@@ -73,6 +73,14 @@
 		width: 50%;
 		left: 24% !important;
 	}
+	
+	.reduce-right-position {
+		left: -20px;
+	}
+	
+	.add-top-position {
+		top: 10px;
+	}
 }
 
 @media (max-width: 576px) {
@@ -250,4 +258,10 @@ html body .extend-la {
 
 .bg-transparent {
 	background-color: transparent !important;
+}
+
+.timeline-item-without-arrow::before {
+	border-top: 0 !important;
+	border-bottom: 0 !important;
+	border-right: 0 !important;
 }

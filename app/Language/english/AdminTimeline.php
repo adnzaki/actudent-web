@@ -24,4 +24,5 @@ return [
     'timeline_delete_confirm'   => 'Are you sure want to remove this post?',
     'timeline_delete_progress'  => 'Removing post...',
     'timeline_delete_success'   => 'Post deleted successfully',
+    'timeline_other_post_title' => 'Other posts',
 ];
