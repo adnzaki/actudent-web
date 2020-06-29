@@ -16,13 +16,14 @@
             header: '', text: '',
         },
         posts: [],
-        summernoteLang: { 'indonesia': 'id-ID', 'english': 'en-US' },
         postLimit: 10, loadMoreButton: false, spinner: false,
         helper: {
             disableSaveButton: false, fileUploaded: '',
-            filename: '', uploadProgress: false, imageURL: `${baseURL}/attachments/timeline/`
+            filename: '', uploadProgress: false, imageURL: `${baseURL}/attachments/timeline/`,
+            currentImage: '', timelineID: null, validImage: false,
+            deleteProgress: false, postList: true, postReader: false,
         },
-        timelineDetail: {},
+        timelineDetail: {}, 
     },
     mounted() {
         this.getLanguageResources('AdminTimeline')
@@ -39,9 +40,6 @@
                 url: `${this.timeline}get-posts/${limit}/${offset}`,
                 type: 'get',
                 dataType: 'json',
-                beforeSend: () => {
-                    if(useSpinner) this.spinner = true
-                },
                 success: data => {                    
                     if(data.timeline.length > 0) {
                         if(!reloadAfterSave) {
@@ -61,7 +59,33 @@
                     if(useSpinner) this.spinner = false
                 }
             })
+            
         },
+        getPostDetail(timelineID, forReload = false) {
+            this.validateFile('update-file')
+            $.ajax({
+                url: `${this.timeline}get-detail/${timelineID}`,
+                type: 'get',
+                dataType: 'json',
+                success: data => {                    
+                    this.timelineDetail = data                    
+                    if(! forReload) {
+                        this.helper.validImage = false
+                        // filename to be validated
+                        this.helper.filename = data.timeline_image
+
+                        // only store current featured image
+                        this.helper.currentImage = data.timeline_image
+
+                        // save timelineID
+                        this.helper.timelineID = data.timeline_id
+
+                        // show the modal
+                        $('#editPostModal').modal('show')
+                    }
+                }
+            })
+        },  
         save(status = 'public', id = null) {
             let url, form, uploadSelector
             if(id === null) {
@@ -108,20 +132,69 @@
                             this.alert.text = ''
                         }, 3000);
                     } else {
-                        let t1 = performance.now()
-                        this.uploadRequest(`${this.timeline}upload-gambar/${res.id}`, uploadSelector)
-                        let t2 = performance.now()
-                        setTimeout(() => {
+                        let obj = this
+                        let uploadImage = new Promise((resolve, reject) => {
+                            // only do upload if filename and currentImage do not have the same value
+                            // for insert event, currentImage will always empty
+                            // for update event, both might have the same value and we will ignore file uploading
+                            if(obj.helper.filename !== obj.helper.currentImage) {
+                                obj.uploadRequest(`${obj.timeline}upload-gambar/${res.id}`, uploadSelector)
+                            }
+                            // wait 3 seconds
+                            setTimeout(resolve, 3000)
+                        })
+
+                        function resetForm() {
                             if(id === null) {
-                                this.resetForm('insert', status, form)
+                                obj.resetForm('insert', status, form)
                             } else {
-                                this.resetForm('edit', status, form)
+                                obj.resetForm('edit', status, form)
                             }                            
-                        }, (t2-t1) + 500);
+                        }
+
+                        uploadImage.then(resetForm)
                     }
                 },
                 error: () => console.error('Network error')
             })
+        },
+        deleteConfirm(id) {
+            this.helper.timelineID = id
+            $('#hapusModal').modal('show')
+        },
+        removePost() {
+            $.ajax({
+                url: `${this.timeline}hapus/${this.helper.timelineID}`,
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.deleteProgress = true    
+                    this.helper.disableSaveButton = true
+                },
+                success: msg => {
+                    $('#hapusModal').modal('hide')
+                    this.resetForm('delete')
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
+                }
+            })
+        },
+        readPost(post, serverSide = false) {
+            if(serverSide) {
+                this.getPostDetail(post.timeline_id, true)
+            } else {
+                this.timelineDetail = post
+            }
+            this.helper.postList = false
+            this.helper.postReader = true
+            this.helper.timelineID = post.timeline_id
+        },
+        closePostReader() {
+            this.timelineDetail = {}
+            this.helper.postList = true
+            this.helper.postReader = false
+            this.helper.timelineID = null
         },
         resetForm(type, status, form = '') {
             this.alert.show = false
@@ -137,16 +210,38 @@
             }
 
             // reload timeline
-            this.getPosts(1, 0, false, true)
+            let id = this.helper.timelineID
+            if(type === 'insert') {
+                this.getPosts(1, 0, false, true)
+            } else if(type === 'edit') {
+                // prepare timelineID
+
+                // get post detail again
+                this.getPostDetail(id, true)
+
+                setTimeout(() => {
+                    // find index and replace existing post with the new one
+                    // with splice() method
+                    index = this.posts.findIndex(el => {
+                        return el.timeline_id === id
+                    })                
+                    this.posts.splice(index, 1, this.timelineDetail)    
+                }, 500);
+            } else {
+                index = this.posts.findIndex(el => {
+                    return el.timeline_id === id
+                })                
+                this.posts.splice(index, 1)   
+            }
+
+            // reset timelineID
+            this.helper.timelineID = null  
 
             if(status === 'public') {
                 this.alert.text = this.lang.timeline_save_public
             } else {
                 this.alert.text = this.lang.timeline_save_draft
             }
-                
-            // (status === 'public') ? this.lang.timeline_save_public
-            //                       : this.lang.timeline_save_draft
 
             if(type === 'insert') {
                 $('#addPostModal').modal('hide')
@@ -175,9 +270,6 @@
                 }
                 obj.helper.filename = $(this).val()
                 obj.uploadRequest(`${obj.timeline}validasi-gambar`, formName, true)
-                // if(obj.timelineDetail.data.timeline_image !== undefined) {
-                //     obj.helper.fileUploaded = obj.timelineDetail.data.timeline_image
-                // }
             })
         },
         uploadRequest(url, formName, validate = false) {
@@ -200,6 +292,7 @@
                 if(req.response.msg === 'OK') {
                     this.error = {}
                     this.helper.disableSaveButton = false
+                    this.helper.validImage = true
                     if(validate === false) {
                         document.getElementById(formName).reset()
                     }

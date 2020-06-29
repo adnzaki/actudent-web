@@ -61,11 +61,11 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getPosts($limit, $offset)
     {
-        $field = 'timeline_id, timeline_title, timeline_content, timeline_date, 
-                  timeline_image, timeline_status, user_name as author';
+        $field = "timeline_id, timeline_title, timeline_content, timeline_date, 
+                  timeline_image, timeline_status, {$this->timeline}.created, user_name as author";
         $join = $this->QBTimeline->select($field)
                 ->join($this->user, "{$this->user}.user_id = {$this->timeline}.user_id");
-        $query = $join->orderBy('timeline_date', 'DESC')->limit($limit, $offset);
+        $query = $join->orderBy("{$this->timeline}.created", 'DESC')->limit($limit, $offset);
 
         return $query->get()->getResult();        
     }
@@ -120,6 +120,21 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
         $join = $this->QBTimelineComments->select($field)->join($this->user, "{$this->user}.user_id = {$this->timelineComments}.user_id");
 
         return $join;
+    }
+
+    /**
+     * Get post detail
+     * 
+     * @param int $timelineID
+     * @return object
+     */
+    public function getPostDetail($timelineID)
+    {
+        $field = "timeline_id, timeline_title, timeline_content, timeline_date, 
+                  timeline_image, timeline_status, {$this->timeline}.created, user_name as author";
+        $join = $this->QBTimeline->select($field)
+                ->join($this->user, "{$this->user}.user_id = {$this->timeline}.user_id");
+        return $join->where(['timeline_id' => $timelineID])->get()->getResult();
     }
 
     /**

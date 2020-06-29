@@ -6,10 +6,6 @@
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/js/gallery/photo-swipe/photoswipe.css">
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/js/gallery/photo-swipe/default-skin/default-skin.css">
   <link rel="stylesheet" type="text/css" href="{appAssets}css/pages/timeline.css">
-  <!-- <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/editors/summernote.css"> -->
-  <link rel="stylesheet" type="text/css" href="{assets}js/lib/summernote/summernote.css">
-  <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/editors/codemirror.css">
-  <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/editors/theme/monokai.css">
 </head>
 <body class="vertical-layout vertical-menu 2-columns {bodyColor} menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
@@ -25,6 +21,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
       <div class="content-body" id="timeline-content">
         {+ include Actudent\Admin\Views\siswa\alert +}
         {+ include Actudent\Admin\Views\timeline\TimelineContent +}
+        {+ include Actudent\Admin\Views\timeline\SinglePost +}
         <div class="loader-layer" v-if="spinner">
             <div class="loader-wrapper">
                 <div class="loader-container">

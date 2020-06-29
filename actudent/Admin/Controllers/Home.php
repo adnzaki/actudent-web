@@ -8,8 +8,10 @@ class Home extends Actudent
 	{
         $data = $this->common();
         $data['title'] = 'Actudent CI4 Home';
-        $data['changelog'] = "- Added feedback validation
-        - Added create post feature - Added changelog info in dashboard page";
+        $data['changelog'] = "- [Staff] Fixed bug on filtering data
+        - [Timeline] Added edit post feature
+        - [Timeline] Added remove post feature
+        - [Timeline] Added read post view";
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\dashboard\home');
     }
