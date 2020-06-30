@@ -13,7 +13,8 @@ class Home extends Actudent
         - [Timeline] Added window.scrollTo when clicking a post
         - [Timeline] Temporarily disable comments
         - [Core] Temporarily removed Message menu
-        - [Core] Fixed some inactive menu URL";
+        - [Core] Fixed some inactive menu URL
+        - [Staff] Fixed pagination does not appear";
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\dashboard\home');
     }
