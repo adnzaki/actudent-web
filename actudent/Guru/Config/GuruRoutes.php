@@ -19,4 +19,7 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('jadwal-kehadiran/simpan-absen/(:any)/(:any)/(:any)', 'SchedulePresence::savePresence/$1/$2/$3');
 	$routes->add('jadwal-kehadiran/izin', 'SchedulePresence::validateMark');
 	$routes->add('jadwal-kehadiran/arsip-jurnal/(:any)/(:any)', 'SchedulePresence::getJournalArchives/$1/$2');
+	$routes->add('timeline', 'ReadTimeline::page');
+	$routes->add('timeline/get-posts/(:any)/(:any)', 'ReadTimeline::getPosts/$1/$2');
+	$routes->add('timeline/get-detail/(:any)', 'ReadTimeline::getPostDetail/$1');
 });
