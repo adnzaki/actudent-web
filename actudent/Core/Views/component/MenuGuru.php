@@ -2,22 +2,22 @@
   <div class="main-menu-content">
     <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
       <li class="{+ menu_active uri=home +} nav-item">
-        <a href="{admin}home"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_dashboard +}</span></a>
+        <a href="{guru}home"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_dashboard +}</span></a>
       </li>
       <li class="{+ menu_active uri=JadwalKehadiran +} nav-item">
         <a href="{guru}jadwal-kehadiran"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal_guru +}</span></a>
       </li>
       <li class="{+ menu_active uri=agenda +} nav-item">
-        <a href="{admin}agenda"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_agenda +}</span></a>
+        <a href="#"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_agenda +}</span></a>
       </li>
       <li class="{+ menu_active uri=timeline +} nav-item">
-        <a href="{admin}timeline"><i class="la la-history"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>
+        <a href="{guru}timeline"><i class="la la-history"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>
       </li>
-      <li class="{+ menu_active uri=aaa +} nav-item">
+      <!-- <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="{admin}siswa"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span></a>
-      </li>
+      </li> -->
       <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="{admin}siswa"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>
+        <a href="#"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>
       </li>
       <li class=" nav-item"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.icons.main">{+ lang Admin.menu_pengaturan +}</span></a>
         <ul class="menu-content">

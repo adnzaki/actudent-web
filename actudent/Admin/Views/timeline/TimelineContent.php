@@ -10,10 +10,10 @@
 				<span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="right"
 					:title="item.author"><i class="la la-plane"></i></span>
 			</div>
-			<div class="timeline-card card border-grey border-lighten-2 {cardColor} cursor-pointer" @click="readPost(item)">
+			<div class="timeline-card card border-grey border-lighten-2 {cardColor} cursor-pointer">
 				<div class="card-header {cardColor}">
-					<h4 class="card-title {cardTitleColor}">
-						<a href="#">
+					<h4 class="card-title {cardTitleColor}" @click="readPost(item)">
+						<a href="#post-reader">
 							<span class="success-text" v-if="item.timeline_status === 'draft'">[Draft]</span> {{ item.timeline_title }}
 						</a>
 					</h4>
@@ -23,6 +23,7 @@
 							{+ lang AdminTimeline.timeline_posted_by +}: {{ item.author }} 
 						</span>
 					</p>
+					{if $_SESSION['userLevel'] === '1'}
 					<div class="heading-elements bg-transparent">
 						<div class="btn-group mb-1">
 							<button type="button" class="btn btn-outline-primary more-action"
@@ -33,8 +34,9 @@
 							</div>
 						</div>
 					</div>
+					{endif}
 				</div>
-				<div class="card-content">
+				<div class="card-content" @click="readPost(item)">
 					<img class="img-fluid" src="{appAssets}images/portfolio/width-1200/portfolio-1.jpg"
 						alt="Timeline Image 1" v-if="item.timeline_image === null">
 					<img class="img-fluid" :src="helper.imageURL + item.timeline_image"
@@ -43,18 +45,18 @@
 						<div class="card-body">
 							<p class="card-text">
 								{{ item.timeline_content | substr(100) }} 
-								<a href="javascript:void(0)" @click="readPost(item)">
+								<a href="#post-reader" @click="readPost(item)">
 									<strong v-if="item.timeline_content.length > 100">{+ lang AdminTimeline.timeline_readmore +}</strong>								
 								</a>
 							</p>
-							<ul class="list-inline">
+							<!-- <ul class="list-inline">
 								<li>
 									<strong>999 {+ lang Admin.view +}</strong>
 								</li>
-							</ul>
+							</ul> -->
 						</div>
 					</div>
-					<div class="card-footer px-0 py-0 {cardColor}">
+					<!-- <div class="card-footer px-0 py-0 {cardColor}">
 						<div class="card-body reduce-card-body" v-for="(comment, index) in item.comments" :key="index">
 							<div class="media">
 								<div class="media-left pr-1">
@@ -89,7 +91,7 @@
 								</div>
 							</fieldset>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
         </li>

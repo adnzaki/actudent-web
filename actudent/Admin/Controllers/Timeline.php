@@ -23,7 +23,7 @@ class Timeline extends Actudent
     public function index()
     {
         $data = $this->common();
-        $data['title'] = 'Timeline';
+        $data['title'] = lang('AdminTimeline.timeline_title');
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\timeline\timeline');
     }

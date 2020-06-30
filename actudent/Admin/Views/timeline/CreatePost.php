@@ -48,10 +48,11 @@ aria-hidden="true">
     </div>
 
 </div>
-
+{if $_SESSION['userLevel'] === '1'}
 <button type="button" class="btn btn-primary box-shadow-4
 floating round btn-min-width mr-1 mb-1" @click="showAddPostModal">
     <strong>
         <span class="la la-pencil extend-la"></span>
     </strong>
 </button>
+{endif}

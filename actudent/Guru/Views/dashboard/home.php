@@ -17,8 +17,8 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
     <div class="content-wrapper">
       <div class="content-header row">
       </div>
-      <div class="content-body">
-      {+ menu_active uri=siswa +}
+      <div class="content-body" id="dashboard-content">
+        {+ include Actudent\Admin\Views\dashboard\changelog +} 
         <!-- App Content Here -->
       </div>
     </div>
@@ -27,7 +27,11 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   {+ include Actudent\Core\Views\component\footer +} 
   <!-- BEGIN VENDOR JS-->
   {+ include Actudent\Core\Views\component\scripts +} 
+  <script>
+    var changelog = `{changelog}`;
+  </script>
   <script src="{appAssets}js/scripts/pages/dashboard-crypto.js" type="text/javascript"></script>
+  <script src="{assets}js/admin/ac-dashboard.js" type="text/javascript"></script>
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>
