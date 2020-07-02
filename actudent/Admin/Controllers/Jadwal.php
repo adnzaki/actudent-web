@@ -442,7 +442,7 @@ class Jadwal extends Actudent
                 'is_natural'    => lang('AdminJadwal.jadwal_err_lesson_natural'),
             ],
             'teacher_id' => [
-                'required'      => lang('AdminKelas.kelas_err_teacher_required'),
+                'required'      => lang('AdminJadwal.jadwal_err_teacher_required'),
                 'is_natural'    => lang('AdminKelas.kelas_err_teacher_natural'),
             ]
         ];
