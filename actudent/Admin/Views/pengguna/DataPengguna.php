@@ -78,6 +78,7 @@
         </table>
     </div>
     <pager 
+        :show-paging="showPaging"
         :link-class="linkClass"
         :page-links="pageLinks"
         :num-links="numLinks"
