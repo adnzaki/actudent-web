@@ -9,7 +9,6 @@
     el: '#timeline-content',
     mixins: [plugin],
     data: {
-        timeline: `${admin}timeline/`,
         error: {},
         alert: {
             class: 'bg-primary', show: false,
@@ -189,6 +188,11 @@
             this.helper.postList = false
             this.helper.postReader = true
             this.helper.timelineID = post.timeline_id
+            window.scrollTo({
+                top: 0,
+                left: 0,
+                behavior: 'smooth'
+            });
         },
         closePostReader() {
             this.timelineDetail = {}
@@ -310,5 +314,14 @@
             this.validateFile('upload-file')
             $('#addPostModal').modal('show')
         },
+    },
+    computed: {
+        timeline() {
+            if(actudentSection === 'admin') {
+                return `${admin}timeline/`
+            } else {
+                return `${guru}timeline/`
+            }
+        }
     }
  })

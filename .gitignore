@@ -8,6 +8,7 @@
 .LSOverride
 
 # Actudent ignored files 
+public/.htaccess
 public/app-assets
 public/app-assets.zip
 public/assets/js/admin/trash
