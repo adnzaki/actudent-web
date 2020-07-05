@@ -115,7 +115,7 @@ class Pegawai extends Actudent
     {
         $form = $this->formData();
         $rules = [
-            'staff_nik'     => "required|is_natural|exact_length[10]|is_unique[tb_staff.staff_nik,staff_id,$id]",
+            'staff_nik'     => "required|is_natural|exact_length[10]|is_unique[tb_staff.staff_nik,tb_staff.user_id,$id]",
             'staff_name'    => 'required',            
             'staff_phone'   => 'required|is_natural|min_length[11]|max_length[13]',
             'staff_type'    => 'required',

@@ -64,7 +64,7 @@
                 <td>
                     <button type="button" class="btn btn-icon btn-info mr-1" 
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.perbarui +}"
-                        @click="getDetailPegawai(item.staff_id)">
+                        @click="getDetailPegawai(item.user_id)">
                         <i class="la la-pencil"></i>
                     </button>
                     <button type="button" class="btn btn-icon btn-danger mr-1"

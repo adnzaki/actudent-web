@@ -21,7 +21,7 @@ aria-hidden="true">
                         <div class="form-group">
                             <label for="userinput5">{{ lang.staff_id }}</label>
                             <input class="form-control border-primary" type="text" v-model="staffDetail.staff_nik"
-                            minlength="16" maxlength ="16" :placeholder="lang.staff_input_id" name="staff_nik">
+                            minlength="10" maxlength ="10" :placeholder="lang.staff_input_id" name="staff_nik">
                             <form-error :msg="error.staff_nik" />
                         </div>
                         <div class="form-group">
@@ -72,7 +72,7 @@ aria-hidden="true">
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal"> {+ lang Admin.batal +}</button>
                 <button type="button" :disabled="helper.disableSaveButton" class="btn btn-outline-primary" 
-                    @click="save(true, staffDetail.staff_id)"> {+ lang Admin.simpan +}
+                    @click="save(true, staffDetail.user_id)"> {+ lang Admin.simpan +}
                 </button>
             </div>
         </div>
