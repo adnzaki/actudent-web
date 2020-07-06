@@ -19,4 +19,4 @@ function is_https()
 };
 $root = (is_https() ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'];
 $root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
-header("Location: {$root}public/admin/home");
+header("Location: {$root}public/guru/home");
