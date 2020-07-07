@@ -81,7 +81,7 @@ class KelasModel extends SharedModel
      */
     public function getClassDetail($id)
     {
-        $field = 'grade_id, grade_name, teacher_id, staff_name';
+        $field = 'grade_id, grade_name, teacher_id, staff_name, staff_nik';
 
         $select = $this->QBKelas->select($field)
                   ->join($this->teacher, "{$this->teacher}.staff_id = {$this->kelas}.teacher_id");

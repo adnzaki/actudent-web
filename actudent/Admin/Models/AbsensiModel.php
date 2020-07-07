@@ -34,6 +34,13 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     public $kelas;
 
     /**
+     * Table tb_staff
+     * 
+     * @var string
+     */
+    public $staff = 'tb_staff';
+
+    /**
      * Load the tables...
      */
     public function __construct()
@@ -63,6 +70,41 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         $result = $this->QBAbsen->like('created', $date)->where($params);
         $presence = $result->get()->getResult();
         return $presence[0] ?? null;
+    }
+
+    /**
+     * Get journals by selected date
+     * 
+     * @param string $date
+     * @param int $grade
+     */
+    public function getJournalByDate($date, $grade)
+    {
+        $field = "journal_id, description, lesson_name, staff_name, schedule_start, schedule_end, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
+        $select = $this->QBJurnal->select($field);
+        $join1 = $select->join($this->jadwal, "{$this->jadwal}.schedule_id={$this->jurnal}.schedule_id");
+        $join2 = $join1->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id={$this->jadwal}.lessons_grade_id");
+        $join3 = $join2->join($this->mapel, "{$this->mapel}.lesson_id={$this->mapelKelas}.lesson_id");
+        $join4 = $join3->join($this->kelas->kelas, "{$this->mapelKelas}.grade_id={$this->kelas->kelas}.grade_id");
+        $join5 = $join4->join($this->staff, "{$this->mapelKelas}.teacher_id={$this->staff}.staff_id");
+        return $join5->like("{$this->jurnal}.created", $date)->where("{$this->mapelKelas}.grade_id", $grade)->get()->getResult();
+    }
+
+    /**
+     * Get the number of presence
+     * 
+     * @param int $journalID
+     * @return array
+     */
+    public function getPresenceCount($journalID)
+    {
+        $present = $this->QBAbsen->getWhere(['journal_id' => $journalID, 'presence_status' => '1'])->getResult();
+        $absent = $this->QBAbsen->getWhere(['journal_id' => $journalID, 'presence_status !=' => '1'])->getResult();
+
+        return [
+            'present' => count($present),
+            'absent' => count($absent)
+        ];
     }
 
     /**

@@ -1,14 +1,14 @@
 <div class="card-content collapse show" v-cloak>
     <div class="card-body">
         <div class="row">
-            <div class="col-3 col-sm-1" v-if="helper.archivePage">
+            <div class="col-3 col-lg-1" v-if="helper.archivePage">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-warning" @click="openJurnalModal"
                         data-toggle="modal" :disabled="jurnalDisabled">{+ lang AdminAbsensi.absensi_isi_jurnal +}
                     </button>
                 </div>
             </div> 
-            <div class="col-4 col-sm-2" v-if="helper.presenceButtons">
+            <div class="col-4 col-lg-2" v-if="helper.presenceButtons">
             	<div class="form-group">
             		<div class="btn-group mr-1 mb-1">
             			<button type="button" class="btn btn-outline-primary btn-min-width dropdown-toggle"
@@ -23,7 +23,14 @@
             		</div>
             	</div>
             </div>
-            <div class="col-12 col-sm-4" v-if="archiveStatus && helper.archiveButton">
+            <div class="col-12 col-lg-2" v-if="!jurnalDisabled">
+                <div class="form-group">
+                    <a class="btn btn-outline-success" :href="reportURL" target="_blank"
+                        >{+ lang AdminAbsensi.absensi_cetak_laporan +}
+                    </a>
+                </div>
+            </div>
+            <div class="col-12 col-lg-2" v-if="archiveStatus && helper.archiveButton">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-danger" @click="showArchive"
                         data-toggle="modal">{+ lang AdminAbsensi.absensi_arsip_jurnal +}

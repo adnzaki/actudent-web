@@ -23,8 +23,18 @@
             		</div>
             	</div>
             </div>
+            <!-- Print report button -->
+            {# if $isHomeroom === true #}
+            <!-- <div class="col-12 col-lg-2" v-if="guru.helper.showAbsen && helper.archivePage">
+                <div class="form-group">
+                    <a class="btn btn-outline-success" :href="reportURL" target="_blank"
+                        >{+ lang AdminAbsensi.absensi_cetak_laporan +}
+                    </a>
+                </div>
+            </div> -->
+            {# endif #}
             <!-- Button to close presence page -->
-            <div class="col-3 col-sm-1" v-if="guru.helper.closePresenceButton">
+            <div class="col-12 col-lg-2" v-if="guru.helper.closePresenceButton">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-danger" @click="closePresencePage"
                         data-toggle="modal">{+ lang Admin.tutup +}
@@ -33,14 +43,14 @@
             </div> 
 
             <!-- Button to close journal and presence archive -->
-            <div class="col-12 col-sm-4" v-if="!helper.archivePage && !helper.backToArchive">
+            <div class="col-12 col-lg-4" v-if="!helper.archivePage && !helper.backToArchive">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-danger" @click="closeArchive"
                         data-toggle="modal">{+ lang AdminAbsensi.absensi_tutup_arsip +}
                     </button>
                 </div>
             </div>
-            <div class="col-12 col-sm-4" v-if="helper.backToArchive">
+            <div class="col-12 col-lg-4" v-if="helper.backToArchive">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-primary" @click="showArchive"
                         data-toggle="modal">{+ lang AdminAbsensi.absensi_kembali_ke_arsip +}

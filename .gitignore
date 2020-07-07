@@ -11,6 +11,7 @@
 public/.htaccess
 public/app-assets
 public/app-assets.zip
+public/dompdf.zip
 public/assets/js/admin/trash
 public/assets/scss
 public/assets/js/vue-2.6.10
@@ -110,8 +111,8 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-vendor/
-composer.lock
+# vendor/
+# composer.lock
 
 #-------------------------
 # IDE / Development Files

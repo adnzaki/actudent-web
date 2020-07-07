@@ -16,6 +16,22 @@ class SchedulePresenceModel extends MainModel
         $this->jadwalModel = new JadwalModel();
     }
 
+    /**
+     * Check if a teacher is homeroom teacher or not
+     * 
+     * @param int $userID
+     * @return boolean
+     */
+    public function isHomeroomTeacher($userID)
+    {
+        $query = $this->jadwalModel->kelas
+                      ->QBKelas
+                      ->getWhere(['teacher_id' => $userID])
+                      ->getResult();
+        
+        return (count($query) > 0) ? true : false;
+    }
+
     public function getTeacherSchedules($day)
     {
         $teacher = $this->getTeacherByUserID($_SESSION['id']);

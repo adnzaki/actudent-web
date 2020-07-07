@@ -93,6 +93,7 @@ class Actudent extends Controller
         $theme = $this->getUserThemes()['data'];
         $userTheme = $this->getUserThemes()['selectedTheme'];
         $bahasa = $this->getUserLanguage();
+        $letterhead = $this->getLetterHead();
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . '/assets/',
@@ -103,7 +104,20 @@ class Actudent extends Controller
             'admin'                 => base_url() . '/admin/',  
             'guru'                  => base_url() . '/guru/',
             'namaSekolah'           => $sekolah->school_name ?? '',
+            'alamatSekolah'         => $sekolah->school_address ?? '',
+            'lokasiSekolah'         => $letterhead->city ?? '',
+            'emailSekolah'          => $letterhead->email ?? '',
+            'webSekolah'            => $letterhead->website ?? '',
+            'telpSekolah'           => $sekolah->school_telephone ?? '',
             'domainSekolah'         => $sekolah->school_domain ?? '',
+            'logoSekolah'           => $letterhead->school_logo ?? '',
+            'logoOPD'               => $letterhead->opd_logo ?? '',
+            'namaOPD'               => $letterhead->opd_name ?? '',
+            'subOPD'                => $letterhead->sub_opd_name ?? '',
+            'kepalaSekolah'         => $letterhead->headmaster ?? '',
+            'wakaKurikulum'         => $letterhead->co_headmaster ?? '',
+            'nipKepsek'             => $letterhead->headmaster_nip ?? '',
+            'nipWakasek'            => $letterhead->co_headmaster_nip ?? '',
             'namaPengguna'          => $pengguna->user_name ?? '',
             'bahasa'                => $bahasa ?? '',
             'theme'                 => $userTheme ?? '',
@@ -120,6 +134,44 @@ class Actudent extends Controller
         ];
 
         return $data;
+    }
+
+    /**
+     * The PDF report header
+     */
+    public function reportHeader()
+    {
+        return view('Actudent\Core\Views\report\kop-sekolah');
+    }
+
+    /**
+     * Headmaster sign for PDF Report
+     */
+    public function masterSign()
+    {
+        return view('Actudent\Core\Views\report\tanda-tangan-full');
+    }
+
+    /**
+     * Grade leader sign
+     */
+    public function gradeLeaderSign()
+    {
+        return view('Actudent\Core\Views\report\tanda-tangan');
+    }
+
+    /**
+     * Get letter head data
+     * 
+     * @return object
+     */
+    protected function getLetterHead()
+    {
+        if(isset($_SESSION['email']))
+        {
+            $sekolah = $this->getDataSekolah();
+            return json_decode($sekolah->school_letterhead);
+        }  
     }
 
     /**
