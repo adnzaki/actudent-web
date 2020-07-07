@@ -123,20 +123,23 @@ const plugin = {
 			});
 		},
 		runSwitchery(el) {
-			// make sure that there is no existing Switchery
 			if(this.swObject.length === 0) {
 				var elem = document.querySelector(el)
-				this.switchery = new Switchery(elem, {
-					secondaryColor: '#6b6b6b',
-					size: 'small'
-				})
+				if(elem !== null) {
+					this.switchery = new Switchery(elem, {
+						secondaryColor: '#6b6b6b',
+						size: 'small'
+					})
+				}
 			}
 		},
 		resetSwitchery(edit = false) {
 			if(edit) {
 				let sw = document.querySelector('#all-day-edit')
-				if(sw.checked) {
-					sw.click()
+				if(sw !== null) {
+					if(sw.checked) {
+						sw.click()
+					}
 				}
 			} 
 			

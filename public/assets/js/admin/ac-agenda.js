@@ -9,7 +9,6 @@ const agenda = new Vue({
     el: '#agenda-content',
     mixins: [plugin],
     data: {
-        agenda: `${admin}agenda/`,
         error: {},
         alert: {
             class: 'bg-primary', show: false,
@@ -47,6 +46,8 @@ const agenda = new Vue({
         guestWrapperAll: [],
         agendaStart: '', agendaEnd: '', agendaStartEdit: '', agendaEndEdit: '',
         eventDetail: { data: '', dataForPlugin: '', guests: '' },
+        // for teacher only
+        agendaPriority: ''
     },
     mounted() {
         let thisMonth, nextMonth, start, end
@@ -138,8 +139,10 @@ const agenda = new Vue({
                         && res.dataForPlugin.agendaTimeEnd === '23:30') {
                             obj.helper.fullDayEvent = true
                             let sw = document.querySelector('#all-day-edit')
-                            if(!sw.checked) {
-                                sw.click()
+                            if(sw !== null) {
+                                if(!sw.checked) {
+                                    sw.click()
+                                }                                
                             }
                         }
     
@@ -148,6 +151,7 @@ const agenda = new Vue({
                         
                         // set priority
                         $(`input#${res.data.agenda_priority}`).iCheck('check')
+                        obj.agendaPriority = res.data.agenda_priority
                     }, 300);
                     
 
@@ -403,7 +407,9 @@ const agenda = new Vue({
                     obj.helper.hasAttachment = false
                     obj.helper.fileUploaded = ''
                     let formUpload = document.forms.namedItem('update-file')
-                    formUpload.reset()
+                    if(formUpload !== null) {
+                        formUpload.reset()
+                    }
                 }
             })
         },
@@ -692,28 +698,52 @@ const agenda = new Vue({
                 timestart = 'timestart'
                 timeend = 'timeend'
             }
-            fullDay.onchange = function() {
-                obj.helper.fullDayEvent = fullDay.checked
-                $(`input[name=${timestart}]`).val(obj.helper.timeStart)
-                $(`input[name=${timeend}]`).val(obj.helper.timeEnd)
-                if(!fullDay.checked) {
-                    if(isEdit === false) {
-                        setTimeout(() => {
-                            obj.runTimePicker(selector.pickatime)
-                            $(`input[name=${timestart}]`).val('')
-                            $(`input[name=${timeend}]`).val('')
-                        }, 200)
-                    } else {
-                        obj.setTimePicker({
-                            start: obj.eventDetail.dataForPlugin.agendaTimeStart,
-                            end: obj.eventDetail.dataForPlugin.agendaTimeEnd,
-                        })
-                    }
-                } 
+            if(fullDay !== null) {
+                fullDay.onchange = function() {
+                    obj.helper.fullDayEvent = fullDay.checked
+                    $(`input[name=${timestart}]`).val(obj.helper.timeStart)
+                    $(`input[name=${timeend}]`).val(obj.helper.timeEnd)
+                    if(!fullDay.checked) {
+                        if(isEdit === false) {
+                            setTimeout(() => {
+                                obj.runTimePicker(selector.pickatime)
+                                $(`input[name=${timestart}]`).val('')
+                                $(`input[name=${timeend}]`).val('')
+                            }, 200)
+                        } else {
+                            obj.setTimePicker({
+                                start: obj.eventDetail.dataForPlugin.agendaTimeStart,
+                                end: obj.eventDetail.dataForPlugin.agendaTimeEnd,
+                            })
+                        }
+                    } 
+                }
             }
-        },
+        },        
     },
     computed: {
+        setPriority() {
+            let priority
+            switch (this.agendaPriority) {
+                case 'high': priority = this.lang.agenda_input_highprior; break;
+                case 'normal': priority = this.lang.agenda_input_normalprior; break;
+                case 'low': priority = this.lang.agenda_input_lowprior; break;
+                default: 'Invalid priority'; break;
+            }
+
+            return priority
+        },
+        priorityClass() {
+            let priority
+            switch (this.agendaPriority) {
+                case 'high': priority = 'danger'; break;
+                case 'normal': priority = 'warning'; break;
+                case 'low': priority = 'success'; break;
+                default: 'Invalid priority'; break;
+            }
+
+            return `badge-${priority}`
+        },
         calendarUnit() {
             let unit
             switch (this.fullCalendar.view) {
@@ -730,6 +760,13 @@ const agenda = new Vue({
                 return 'cursor-disabled'
             } else {
                 return ''
+            }
+        },
+        agenda() {
+            if(actudentSection === 'admin') {
+                return `${admin}agenda/`
+            } else {
+                return `${guru}agenda/`
             }
         },
     },

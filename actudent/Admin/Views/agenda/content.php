@@ -7,7 +7,11 @@
             </div>            
             {+ include Actudent\Admin\Views\agenda\calendar +} 
             {+ include Actudent\Admin\Views\agenda\FormTambahAgenda +} 
-            {+ include Actudent\Admin\Views\agenda\FormEditAgenda +}
+            {if $_SESSION['userLevel'] === '1'}
+                {+ include Actudent\Admin\Views\agenda\FormEditAgenda +}
+            {elseif $_SESSION['userLevel'] === '2'}
+                {+ include Actudent\Admin\Views\agenda\DetailAgenda +}
+            {endif}
         </div>
     </div>
 </div>

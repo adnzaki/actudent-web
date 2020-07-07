@@ -9,7 +9,8 @@ class Home extends Actudent
         $data = $this->common();
         $data['title'] = 'Actudent CI4 Home';
         $data['changelog'] = 
-        "- [Core] Changed default page to teacher section";
+        "- [Core] Changed default page to teacher section
+        - [Agenda] Added read-only agenda";
         return $this->parser->setData($data)
                 ->render('Actudent\Guru\Views\dashboard\home');
     }
