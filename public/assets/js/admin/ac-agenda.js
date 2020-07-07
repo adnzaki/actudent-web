@@ -392,7 +392,6 @@ const agenda = new Vue({
             let obj = this
             $(target).on('hidden.bs.modal', function() {
                 obj.helper.fullDayEvent = false
-                obj.helper.disableSaveButton = true
                 obj.resetSwitchery()
                 obj.error = {}
                 if(isEditForm) {

@@ -16,6 +16,7 @@ return [
     'jadwal_input_cari_mapel'       => 'Cari nama mapel',
     'jadwal_err_lesson_required'    => 'Belum ada mata pelajaran yang dipilih',
     'jadwal_err_lesson_natural'     => 'ID mata pelajaran tidak valid',
+    'jadwal_err_teacher_required'   => 'Silakan pilih guru pengajar terlebih dahulu',
     'jadwal_err_room_required'      => 'Tidak ada ruang yang dipilih',
     'jadwal_err_room_natural'       => 'ID ruang tidak valid',
     'jadwal_save_progress'          => 'Menyimpan data mata pelajaran...',

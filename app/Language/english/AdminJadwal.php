@@ -16,6 +16,7 @@ return [
     'jadwal_input_cari_mapel'       => 'Search for lesson name',
     'jadwal_err_lesson_required'    => 'No lesson selected',
     'jadwal_err_lesson_natural'     => 'Invalid lesson ID',
+    'jadwal_err_teacher_required'   => 'Please select a teacher first',
     'jadwal_err_room_required'      => 'No room selected',
     'jadwal_err_room_natural'       => 'Invalid room ID',
     'jadwal_save_progress'          => 'Saving lessons data...',

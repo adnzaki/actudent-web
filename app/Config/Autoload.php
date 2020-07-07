@@ -50,10 +50,10 @@ class Autoload extends \CodeIgniter\Config\AutoloadConfig
 		 *   `];
 		 */
 		$psr4 = [
-			'Config'      => APPPATH . 'Config',
-			APP_NAMESPACE => APPPATH,                // For custom namespace
-			'App'         => APPPATH,                // To ensure filters, etc still found,
-			'Actudent'	  => ROOTPATH . 'actudent',
+			'Config'      	=> APPPATH . 'Config',
+			APP_NAMESPACE 	=> APPPATH,                // For custom namespace
+			'App'         	=> APPPATH,                // To ensure filters, etc still found,
+			'Actudent'	  	=> ROOTPATH . 'actudent',			
 		];
 
 		/**
@@ -73,7 +73,8 @@ class Autoload extends \CodeIgniter\Config\AutoloadConfig
 		 *   ];
 		 */
 		$classmap = [
-			'OstiumDate' => ROOTPATH . 'actudent/Core/Libraries/OstiumDate.php',
+			'OstiumDate' 	=> ROOTPATH . 'actudent/Core/Libraries/OstiumDate.php',
+			'PDFCreator'	=> ROOTPATH . 'actudent/Core/Libraries/PDFCreator.php'
 		];
 
 		//--------------------------------------------------------------------

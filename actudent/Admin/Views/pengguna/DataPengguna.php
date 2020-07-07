@@ -12,7 +12,6 @@
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                 <select class="select2 form-control block" id="selectUser" name="user_level" style="width: 100%">
                     <option selected value="null">{+ lang AdminUser.user_semua_bagian +}</option>
-                    <option value="1">{+ lang AdminUser.user_admin +}</option>
                     <option value="2">{+ lang AdminUser.user_pegawai +}</option>
                     <option value="3">{+ lang AdminUser.user_ortu +}</option>
                 </select>
@@ -78,6 +77,7 @@
         </table>
     </div>
     <pager 
+        :show-paging="showPaging"
         :link-class="linkClass"
         :page-links="pageLinks"
         :num-links="numLinks"

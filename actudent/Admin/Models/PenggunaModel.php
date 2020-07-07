@@ -53,7 +53,10 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
         else 
         {
             $where = false;
-            $selector = ["{$this->user}.deleted" => '0'];
+            $selector = [
+                "{$this->user}.deleted" => '0',
+                "{$this->user}.user_level !=" => '1'
+            ];
         }
         
         $joinAndSearch = $this->search($where, $searchBy, $search);
@@ -87,7 +90,10 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
         else 
         {
             $where = false;
-            $selector = ["{$this->user}.deleted" => '0'];
+            $selector = [
+                "{$this->user}.deleted" => '0',
+                "{$this->user}.user_level !=" => '1'
+            ];
         }
 
         $joinAndSearch = $this->search($where, $searchBy, $search)->where($selector);

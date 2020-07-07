@@ -3,6 +3,8 @@
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Guru\Models\SchedulePresenceModel;
+use PDFCreator;
+use OstiumDate;
 
 class Absensi extends Actudent
 {
@@ -16,10 +18,21 @@ class Absensi extends Actudent
      */
     protected $jadwalHadir;
 
+    private $pdfCreator;
+
+    private $ostiumDate;
+
+    private $days = [
+        'minggu', 'senin', 'selasa',
+        'rabu', 'kamis', 'jumat', 'sabtu'
+    ];
+
     public function __construct()
     {
         $this->absensi = new AbsensiModel;
         $this->jadwalHadir = new SchedulePresenceModel;
+        $this->pdfCreator = new PDFCreator;
+        $this->ostiumDate = new OstiumDate;
     }
 
     public function index()
@@ -29,6 +42,41 @@ class Absensi extends Actudent
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\absensi\absensi-view');
+    }
+
+    public function exportJournal($gradeID, $day, $date)
+    {
+        $data                   = $this->common();
+        $data['title']          = lang('AdminAbsensi.absensi_judul_laporan_jurnal');
+        $data['grade']          = $this->absensi->kelas->getClassDetail($gradeID);
+        $gradeMember            = $this->absensi->kelas->getClassMember($gradeID);
+        $data['gradeMember']    = count($gradeMember);
+        $data['day']            = $this->days[$day];
+        $data['date']           = $this->ostiumDate->format('d-MM-Y', reverse($date, '-', '-'));
+        $journals               = $this->absensi->getJournalByDate($date, $gradeID);
+        $data['journals']       = $journals;
+
+        // get number of presence
+        $presenceWrapper = [];
+        $absentStudents = [];
+        foreach($journals as $j)
+        {
+            $presenceWrapper[] = $this->absensi->getPresenceCount($j->journal_id);
+            
+            // get absent student(s)
+            $getPresence = $this->_getListAbsensi($gradeID, $j->journal_id, $date);
+            $absentStudents[] = array_filter($getPresence, function($item) {
+                return $item['statusID'] !== '1' && $item['statusID'] !== '';
+            });
+        }
+
+        $data['presence']       = $presenceWrapper;
+        $data['absence']        = $absentStudents;
+        $html                   = view('Actudent\Admin\Views\absensi\ekspor-jurnal', $data);
+        $filename               = 'Laporan Jurnal_'. time();
+
+        $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');
+        return $html;
     }
 
     /**
@@ -41,6 +89,20 @@ class Absensi extends Actudent
      * @return JSON
      */
     public function getListAbsensi($grade, $journal, $date)
+    {
+        return $this->response->setJSON($this->_getListAbsensi($grade, $journal, $date));
+    }
+
+    /**
+     * Get list of presence data
+     * 
+     * @param int $grade
+     * @param int|string $journal
+     * @param string $date
+     * 
+     * @return JSON
+     */
+    private function _getListAbsensi($grade, $journal, $date)
     {
         // Get all member of a class group
         $student = $this->absensi->kelas->getClassMember($grade);
@@ -85,7 +147,7 @@ class Absensi extends Actudent
             }
         }
 
-        return $this->response->setJSON($presenceWrapper);
+        return $presenceWrapper;
     }
 
     public function getJournalArchives($gradeID, $date)
@@ -125,13 +187,8 @@ class Absensi extends Actudent
     }
 
     public function getJadwal($day, $grade)
-    {
-        $days = [
-            'minggu', 'senin', 'selasa',
-            'rabu', 'kamis', 'jumat', 'sabtu'
-        ];
-
-        $schedule = $this->absensi->getJadwal($days[$day], $grade);
+    {       
+        $schedule = $this->absensi->getJadwal($this->days[$day], $grade);
         $formatter = [];
         foreach($schedule as $res)
         {

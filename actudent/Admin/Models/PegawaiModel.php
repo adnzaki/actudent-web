@@ -19,6 +19,9 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      */
     private $QBTimelineComments;
     private $QBTimelineLikes;
+    private $QBUserThemes;
+    private $QBUserLang;
+
 
     /**
      * Table tb_staff
@@ -35,6 +38,8 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
 
     private $timelineComments = 'tb_timeline_comments';
     private $timelineLikes = 'tb_timeline_likes';
+    private $userthemes = 'tb_user_themes';
+    private $userlang = 'tb_user_language';
     
     /**
      * @var Actudent\Core\Models\SekolahModel
@@ -51,6 +56,8 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
         $this->QBUser = $this->db->table($this->user);
         $this->QBTimelineComments = $this->db->table($this->timelineComments);
         $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
+        $this->QBUserThemes = $this->db->table($this->userthemes);
+        $this->QBUserLang = $this->db->table($this->userlang);
         $this->sekolah = new SekolahModel;
     }
 
@@ -133,12 +140,12 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      */
     public function getStaffDetail($id)
     {
-        $field = 'staff_id, tb_staff.user_id, staff_nik, 
+        $field = 'tb_staff.user_id, staff_id, staff_nik, 
                   staff_name, staff_phone, staff_type, staff_title,
                   user_name, user_email';
         $select = $this->QBStaff->select($field)
                   ->join($this->user, "{$this->staff}.user_id = {$this->user}.user_id")
-                  ->where('staff_id', $id)->get();
+                  ->where('tb_staff.user_id', $id)->get();
 
         return $select->getResult();                  
     }
@@ -158,16 +165,33 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     {
         // insert user data first
         $user = $this->fillUserField($value);
+        // then insert staff data
+        $staff = $this->fillStaffField($value);
+        //get user level
+        if($staff['staff_type'] == 'teacher')
+        {
+            $user['user_level'] = '2';
+        }
+        else
+        {
+            $user['user_level'] = '0';
+        };
+        //insert user table
         $this->QBUser->insert($user);
-
         // get the user_id
         $userID = $this->db->insertID();
-
-        // then insert parent data
-        $staff = $this->fillStaffField($value);
+        //isert staff table
         $staff['user_id'] = $userID;
         $staff['staff_tag'] = 1;
         $this->QBStaff->insert($staff);
+        //insert user themes table
+        $theme['user_id'] = $userID;
+        $theme['theme'] = 'light-blue';
+        $this->QBUserThemes->insert($theme);
+        //insert user language table
+        $lang['user_id'] = $userID;
+        $lang['user_language'] = 'indonesia';
+        $this->QBUserLang->insert($lang);
     }
    
 
@@ -181,7 +205,16 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     public function update($value, $id)
     {
         $data = $this->fillStaffField($value);
-        $this->QBStaff->update($data, ['staff_id' => $id]);
+        if($data['staff_type'] == 'teacher')
+        {
+            $user['user_level'] = '2';
+        }
+        else
+        {
+            $user['user_level'] = '0';
+        };        
+        $this->QBStaff->update($data, ['user_id' => $id]);
+        $this->QBUser->update($user, ['user_id' => $id]);
     }
 
     /**
@@ -220,7 +253,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
             'staff_name'    => $data['staff_name'],
             'staff_phone'   => $data['staff_phone'],
             'staff_type'    => $data['staff_type'],
-            'staff_title'    => $data['staff_title'],
+            'staff_title'   => $data['staff_title'],
         ];
     }
 
@@ -236,7 +269,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
             'user_name'     => $data['user_name'],
             'user_email'    => $data['user_email'] . '@' . $sekolah->school_domain,
             'user_password' => password_hash($data['user_password'], PASSWORD_BCRYPT),
-            'user_level'    => 2,
+            // 'user_level'    => $data['user_level'],
         ];
     }
 
