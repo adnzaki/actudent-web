@@ -8,7 +8,7 @@
         <a href="{guru}jadwal-kehadiran"><i class="la la-book"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_jadwal_guru +}</span></a>
       </li>
       <li class="{+ menu_active uri=agenda +} nav-item">
-        <a href="#"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_agenda +}</span></a>
+        <a href="{guru}agenda"><i class="la la-calendar-o"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_agenda +}</span></a>
       </li>
       <li class="{+ menu_active uri=timeline +} nav-item">
         <a href="{guru}timeline"><i class="la la-history"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>

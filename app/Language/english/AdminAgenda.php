@@ -5,6 +5,7 @@ return [
     'agenda_title'                      => 'School Agenda',
     'agenda_form_title'                 => 'Add New Agenda',
     'agenda_edit_title'                 => 'Edit Agenda',
+    'agenda_detail_title'               => 'Agenda Detail',
     'agenda_label_nama'                 => 'Event Name',
     'agenda_label_start'                => 'Start Date',
     'agenda_label_end'                  => 'End Date',

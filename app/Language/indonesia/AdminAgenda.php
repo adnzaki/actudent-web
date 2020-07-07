@@ -5,6 +5,7 @@ return [
     'agenda_title'                      => 'Agenda Sekolah',
     'agenda_form_title'                 => 'Tambah Agenda Baru',
     'agenda_edit_title'                 => 'Perbarui Agenda',
+    'agenda_detail_title'               => 'Detil Agenda',
     'agenda_label_nama'                 => 'Nama Kegiatan',
     'agenda_label_start'                => 'Tanggal Mulai',
     'agenda_label_end'                  => 'Tanggal Selesai',

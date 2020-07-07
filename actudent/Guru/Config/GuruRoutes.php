@@ -7,6 +7,10 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('login', 'Auth::index');
 	$routes->add('login/validate', 'Auth::validasi');
 	$routes->add('logout', 'Auth::logout');
+	$routes->add('agenda', 'ReadAgenda::page');
+	$routes->add('agenda/get-events/(:any)/(:any)', 'ReadAgenda::getEvents/$1/$2');
+	$routes->add('agenda/get-event-detail/(:any)', 'ReadAgenda::getEventDetail/$1');
+	$routes->add('agenda/display-attachment/(:any)', 'ReadAgenda::displayAttachment/$1');
 	$routes->add('pengaturan-aplikasi', 'Pengaturan::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Pengaturan::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Pengaturan::setBahasa/$1');
