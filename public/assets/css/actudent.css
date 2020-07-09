@@ -89,6 +89,11 @@
 		left: -7%;
 	}
 
+	.normal-card {
+		width: 100% !important;
+		left: 0 !important;
+	}
+
 	.hide-on-mobile {
 		display: none;
 	}
