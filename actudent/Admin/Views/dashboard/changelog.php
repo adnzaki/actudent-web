@@ -1,5 +1,5 @@
 <div class="modal fade text-left" id="changelog-modal" role="dialog" aria-labelledby="myModalLabel2"
-aria-hidden="true">
+aria-hidden="true" v-if="showChangelog">
     <div class="modal-dialog modal-md" role="document">
         <div class="modal-content">
             <div class="modal-header {modalHeaderColor} white">
@@ -14,6 +14,7 @@ aria-hidden="true">
                 </li>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-outline-warning" data-dismiss="modal" @click="toggleChangelog"> {+ lang Admin.jangan_tampilkan +}</button>
                 <button type="button" class="btn btn-outline-success" data-dismiss="modal"> {+ lang Admin.tutup +}</button>
             </div>
         </div>

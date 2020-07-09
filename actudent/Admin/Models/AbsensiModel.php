@@ -78,7 +78,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @param string $date
      * @param int $grade
      */
-    public function getJournalByDate($date, $grade)
+    public function getJournalByDate($date, $grade = null)
     {
         $field = "journal_id, description, lesson_name, staff_name, schedule_start, schedule_end, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
         $select = $this->QBJurnal->select($field);
@@ -104,6 +104,90 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         return [
             'present' => count($present),
             'absent' => count($absent)
+        ];
+    }
+
+    /**
+     * Get today's presence
+     * 
+     * @param int $status
+     * @param null|string $date
+     * 
+     * @return int
+     */
+    public function getTodayPresence($status, $date = null)
+    {
+        if($date === null)
+        {
+            $date = date('Y-m-d');
+        }
+
+        $grade = $this->getRombel();
+        $presence = 0;
+
+        foreach($grade as $key)
+        {
+            $journal = $this->getJournalByDate($date, $key->grade_id);
+            if(count($journal) > 0)
+            {
+                $query = $this->QBAbsen
+                            ->select('DISTINCT `student_id`', false)
+                            ->where(['presence_status' => $status, 'journal_id' => $journal[0]->journal_id])
+                            ->like('created', $date)
+                            ->get()->getResult();
+                
+                $presence += count($query);
+            }
+        }
+
+        return $presence;
+    }
+
+    /**
+     * Get today's absence with permission
+     * 
+     * @param null|string $date
+     * 
+     * @return int
+     */
+    public function getTodayAbsenceWithPermission($date = null)
+    {
+        if($date === null)
+        {
+            $date = date('Y-m-d');
+        }
+
+        $grade = $this->getRombel();
+        $presence = 0;
+        foreach($grade as $key)
+        {
+            $journal = $this->getJournalByDate($date, $key->grade_id);
+            if(count($journal) > 0)
+            {
+                $query = $this->QBAbsen
+                            ->like('created', $date)
+                            ->where('(presence_status = 2 or presence_status = 3)')
+                            ->where('journal_id', $journal[0]->journal_id)
+                            ->get()->getResult();
+                
+                $presence += count($query);
+            }
+        }
+
+        return $presence;
+    }
+
+    public function getPresencePercetage()
+    {
+        $countStudents = $this->QBStudent->countAllResults();
+        $present = $this->getTodayPresence('1');
+        $absent = $this->getTodayPresence('0');
+        $withPermission = $this->getTodayAbsenceWithPermission();
+
+        return [
+            'present' => ($present / $countStudents) * 100,
+            'absent' => ($absent / $countStudents) * 100,
+            'withPermission' => ($withPermission / $countStudents) * 100,
         ];
     }
 

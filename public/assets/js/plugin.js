@@ -149,7 +149,7 @@ const plugin = {
 				sw[0].parentNode.removeChild(sw[0])
 			}
         },
-	},
+	},	
 	computed: {
 		isSmallScreen() {
 			return (window.innerWidth <= 576) ? true : false
@@ -163,3 +163,10 @@ const plugin = {
 		}
 	},
 }
+
+$('#logout-btn').on('click', function() {
+	localStorage.removeItem('changelog')
+	let url
+	(actudentSection === 'admin') ? url = admin : url = guru
+	window.location.href = `${url}logout`
+})

@@ -15,7 +15,7 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Query Builder for table tb_student
      */
-    protected $QBStudent;
+    public $QBStudent;
 
     /**
      * Query Builder for table tb_student_parent

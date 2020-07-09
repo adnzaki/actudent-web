@@ -2,8 +2,9 @@
 
 $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($routes)
 {
-	$routes->get('/', 'Home::goToHome');
-	$routes->add('home', 'Home::index');
+	$routes->get('/', 'TeacherHome::goToHome');
+	$routes->add('home', 'TeacherHome::page');
+	$routes->add('home/absensi-seminggu', 'TeacherHome::getLastSevenDaysPresence');
 	$routes->add('login', 'Auth::index');
 	$routes->add('login/validate', 'Auth::validasi');
 	$routes->add('logout', 'Auth::logout');
