@@ -179,7 +179,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
 
     public function getPresencePercetage()
     {
-        $countStudents = $this->QBStudent->countAllResults();
+        $countStudents = $this->QBStudent->where('deleted', 0)->countAllResults();
         $present = $this->getTodayPresence('1');
         $absent = $this->getTodayPresence('0');
         $withPermission = $this->getTodayAbsenceWithPermission();

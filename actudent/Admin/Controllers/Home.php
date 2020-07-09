@@ -99,7 +99,7 @@ class Home extends Actudent
 
     private function percentage($input, $depth = 1)
     {
-        $countStudents = $this->absensi->QBStudent->countAllResults();
+        $countStudents = $this->absensi->QBStudent->where('deleted', 0)->countAllResults();
         return round(($input / $countStudents) * 100, $depth);
     }
 
