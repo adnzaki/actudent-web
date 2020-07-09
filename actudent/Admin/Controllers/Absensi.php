@@ -73,7 +73,7 @@ class Absensi extends Actudent
         $data['presence']       = $presenceWrapper;
         $data['absence']        = $absentStudents;
         $html                   = view('Actudent\Admin\Views\absensi\ekspor-jurnal', $data);
-        $filename               = 'Laporan Jurnal_'. time();
+        $filename               = 'Laporan Jurnal '. $data['grade']->grade_name . ' ' .$date .'_'. time();
 
         $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');
         return $html;

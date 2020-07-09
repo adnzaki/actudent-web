@@ -1,6 +1,6 @@
 <div class="pdf-header">
     <div class="logo-bekasi">
-        <img src="<?php echo $_SERVER['DOCUMENT_ROOT'] ?>/actudent/public/images/<?= $logoOPD ?>" alt="">
+        <!-- <img src="<?php //echo $_SERVER['DOCUMENT_ROOT'] ?>/actudent/public/images/<?//= $logoOPD ?>" alt=""> -->
     </div>
     <div class="kop-header">
         <div class="center-align kop-pemkot"><?= $namaOPD ?></div>
@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="logo-sekolah">
-        <img src="<?php echo $_SERVER['DOCUMENT_ROOT'] ?>/actudent/public/images/<?= $logoSekolah ?>" alt="">
+        <!-- <img src="<?php //echo $_SERVER['DOCUMENT_ROOT'] ?>/actudent/public/images/<?//= $logoSekolah ?>" alt=""> -->
     </div>
     <div class="kop-garis-tebal"></div><div class="kop-garis-tipis">.</div>
 </div>
