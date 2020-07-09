@@ -10,7 +10,8 @@ class TeacherHome extends Home
         $data = $this->common();
         $data['title'] = 'Actudent CI4 Home';
         $data['changelog'] = 
-        "- [Dashboard] Added some presence information!";
+        "- [Dashboard] Added presence information
+        - [Dashboard] Added option to hide changelog";
 
         $todayPresence = $this->getTodayPresence();
         $data['presence'] = $todayPresence['presence'];

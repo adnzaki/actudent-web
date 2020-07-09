@@ -35,9 +35,9 @@
                 <a class="dropdown-item" href="#"><i class="ft-layers"></i> {+ lang Admin.navbar_sekolah +}</a>
                 <div class="dropdown-divider"></div>
                 {if $_SESSION['userLevel'] === '1'}
-                  <a class="dropdown-item" href="{admin}logout"><i class="ft-power"></i> {+ lang Admin.navbar_keluar +}</a>
+                  <a class="dropdown-item" href="javascript:void(0)" id="logout-btn"><i class="ft-power"></i> {+ lang Admin.navbar_keluar +}</a>
                 {elseif $_SESSION['userLevel'] === '2'}
-                  <a class="dropdown-item" href="{guru}logout"><i class="ft-power"></i> {+ lang Admin.navbar_keluar +}</a>
+                  <a class="dropdown-item" href="javascript:void(0)" id="logout-btn"><i class="ft-power"></i> {+ lang Admin.navbar_keluar +}</a>
                 {endif}
               </div>
             </li>

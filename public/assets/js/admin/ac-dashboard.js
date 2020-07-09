@@ -19,6 +19,9 @@ const dashboard = new Vue({
         })
         $('#changelog-modal').modal('show')
         this.getLastSevenDaysPresence()
+        if(localStorage.getItem('changelog') === null) {
+            localStorage.setItem('changelog', 'yes')
+        }
     },
     methods: {
         getLastSevenDaysPresence() {
@@ -32,6 +35,14 @@ const dashboard = new Vue({
                     }, 1000);
                 }
             })
+        },
+        toggleChangelog() {
+            let changelog = localStorage.getItem('changelog')
+            if(changelog === 'yes') {
+                localStorage.setItem('changelog', 'no')
+            } else {
+                localStorage.setItem('changelog', 'yes')
+            }
         },
         runCharts() {
             let obj = this
@@ -245,6 +256,10 @@ const dashboard = new Vue({
         }
     },
     computed: {
+        showChangelog() {
+            let changelog = localStorage.getItem('changelog')
+            return (changelog === 'yes' || changelog === null) ? true : false                
+        },
         home() {
             if(actudentSection === 'admin') {
                 return `${admin}home/`
