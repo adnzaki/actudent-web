@@ -25,10 +25,10 @@ class Home extends Actudent
     public function index()
 	{
         $data = $this->common();
-        $data['title'] = 'Actudent CI4 Home';
+        $data['title'] = lang('AdminHome.dashboard_title');
         $data['changelog'] = 
-        "- [Dashboard] Added presence information
-        - [Dashboard] Added option to hide changelog";
+        "- [Core] Added Actudent logo
+        - [Core] Fixed incorrect navbar brand URL";
 
         $todayPresence = $this->getTodayPresence();
         $data['presence'] = $todayPresence['presence'];
