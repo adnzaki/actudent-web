@@ -1,6 +1,14 @@
 [v-cloak] > * { display:none; }
 [v-cloak]::before { content: "Loading..."; }
 
+.header-navbar .navbar-header .navbar-brand .brand-logo {
+	width: 46px !important;
+}
+
+.ac-logo {
+	max-width: 120px;
+}
+
 .error-text {
 	color: rgb(241, 89, 63) !important;
 }
