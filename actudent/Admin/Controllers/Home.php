@@ -27,8 +27,8 @@ class Home extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminHome.dashboard_title');
         $data['changelog'] = 
-        "- [Core] Added Actudent logo
-        - [Core] Fixed incorrect navbar brand URL";
+        "- [Login] Added background image in login page
+        - [Dashboard] Fixed chart's maximum value";
 
         $todayPresence = $this->getTodayPresence();
         $data['presence'] = $todayPresence['presence'];
