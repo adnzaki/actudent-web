@@ -76,7 +76,7 @@ const dashboard = new Vue({
                         display: false,
                         ticks: {
                             min: 0,
-                            max: 85
+                            max: 100
                         },
                     }]
                 },
@@ -146,7 +146,7 @@ const dashboard = new Vue({
                         display: false,
                         ticks: {
                             min: 0,
-                            max: 85
+                            max: 100
                         },
                     }]
                 },
@@ -214,7 +214,7 @@ const dashboard = new Vue({
                         display: false,
                         ticks: {
                             min: 0,
-                            max: 85
+                            max: 100
                         },
                     }]
                 },
