@@ -144,8 +144,12 @@ class Actudent extends Controller
      */
     public function getSection()
     {
-        $section = preg_match('/admin/', current_url());
-        return ($section === 1) ? 'admin' : 'guru';
+        $login = preg_match('/login/', current_url());
+        if($login === 1) 
+        {
+            $section = preg_match('/admin/', current_url());
+            return ($section === 1) ? 'admin' : 'guru';
+        }
     }
 
     /**
