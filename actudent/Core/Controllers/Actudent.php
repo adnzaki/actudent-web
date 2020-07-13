@@ -103,6 +103,7 @@ class Actudent extends Controller
             'images'                => base_url() . '/images/',
             'admin'                 => base_url() . '/admin/',  
             'guru'                  => base_url() . '/guru/',
+            'actudentSection'       => $this->getSection(),
             'namaSekolah'           => $sekolah->school_name ?? '',
             'alamatSekolah'         => $sekolah->school_address ?? '',
             'lokasiSekolah'         => $letterhead->city ?? '',
@@ -134,6 +135,17 @@ class Actudent extends Controller
         ];
 
         return $data;
+    }
+
+    /**
+     * Get current section whether it's admin or teacher
+     * 
+     * @return string
+     */
+    public function getSection()
+    {
+        $section = preg_match('/admin/', current_url());
+        return ($section === 1) ? 'admin' : 'guru';
     }
 
     /**

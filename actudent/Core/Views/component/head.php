@@ -44,4 +44,10 @@
     <script src="{assets}js/vue.min.js" type="text/javascript"></script>
   {endif}
 
+  {if $actudentSection === 'admin'}
+    <link rel="stylesheet" type="text/css" href="{assets}css/admin-login.css">
+  {elseif $actudentSection === 'guru'}
+    <link rel="stylesheet" type="text/css" href="{assets}css/guru-login.css">
+  {endif}
+  
   <script src="{assets}js/vue-material-checkbox.js" type="text/javascript"></script>
