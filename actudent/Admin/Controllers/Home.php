@@ -28,7 +28,7 @@ class Home extends Actudent
         $data['title'] = lang('AdminHome.dashboard_title');
         $data['changelog'] = 
         "- [Login] Added background image in login page
-        - [Dashboard] Fixed chart's maximum value";
+        - [Dashboard] Fixed maximum value on chart";
 
         $todayPresence = $this->getTodayPresence();
         $data['presence'] = $todayPresence['presence'];

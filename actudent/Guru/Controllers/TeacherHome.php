@@ -11,8 +11,9 @@ class TeacherHome extends Home
         $data['title'] = lang('AdminHome.dashboard_title');;
         $data['changelog'] = 
         "- [Login] Added background image in login page
-        - [Dashboard] Fixed chart's maximum value
-        - [Menu] Removed user menu";
+        - [Dashboard] Fixed maximum value on chart
+        - [Menu] Removed user menu
+        - [Schedule and Presence] Fixed schedule order";
 
         $todayPresence = $this->getTodayPresence();
         $data['presence'] = $todayPresence['presence'];
