@@ -48,11 +48,11 @@
                 {endif}
               </div>
             </li>
-            <li class="dropdown dropdown-notification nav-item">
-              <a class="nav-link {navlinkColor} nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-bell"></i>
-                <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">5</span>
+            <li class="dropdown dropdown-notification nav-item" id="show-changelog">
+              <a class="nav-link {navlinkColor} nav-link-label" href="#"><i class="ficon ft-alert-circle"></i>
+                <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">{countChangelog}</span>
               </a>
-              <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+              <!-- <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                 <li class="dropdown-menu-header">
                   <h6 class="dropdown-header m-0">
                     <span class="grey darken-2">Notifications</span>
@@ -120,7 +120,7 @@
                   </a>
                 </li>
                 <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all notifications</a></li>
-              </ul>
+              </ul> -->
             </li>
           </ul>
         </div>
