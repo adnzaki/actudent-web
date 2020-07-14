@@ -132,9 +132,49 @@ class Actudent extends Controller
             'navbarContainerColor'  => $theme['navbarContainerColor'],
             'modalHeaderColor'      => $theme['modalHeaderColor'],
             'navlinkColor'          => $theme['navlinkColor'],
+            'changelog'             => $this->getChangelog()['changelog'],
+            'countChangelog'        => $this->getChangelog()['countChangelog'],
+            'isDashboard'           => $this->isDashboard(),
         ];
 
         return $data;
+    }
+
+    private function isDashboard()
+    {
+        $dashboard = preg_match('/home/', current_url());
+        return ($dashboard === 1) ? true : false;
+    }
+
+    /**
+     * Get app changelog
+     * 
+     * @return array
+     */
+    private function getChangelog()
+    {
+        if(isset($_SESSION['userLevel']))
+        {
+            if($_SESSION['userLevel'] === '1')
+            {
+                $changelog = "- [Login] Added background image in login page
+                - [Dashboard] Fixed maximum value on chart
+                - [Navbar] Added show changelog button beside account button";
+            }
+            elseif($_SESSION['userLevel'] === '2')
+            {
+                $changelog = "- [Login] Added background image in login page
+                - [Dashboard] Fixed maximum value on chart
+                - [Menu] Removed user menu
+                - [Schedule and Presence] Fixed schedule order
+                - [Navbar] Added show changelog button beside account button";
+            }
+
+            return [
+                'changelog' => $changelog,
+                'countChangelog' => count(explode('-', $changelog)) - 1,
+            ];
+        }
     }
 
     /**
