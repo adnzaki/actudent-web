@@ -13,9 +13,11 @@ class TeacherHome extends Home
         "- [Login] Added background image in login page
         - [Dashboard] Fixed maximum value on chart
         - [Menu] Removed user menu
-        - [Schedule and Presence] Fixed schedule order";
+        - [Schedule and Presence] Fixed schedule order
+        - [Navbar] Added show changelog button beside account button";
 
         $todayPresence = $this->getTodayPresence();
+        $data['countChangelog'] = count(explode('-', $data['changelog'])) - 1;
         $data['presence'] = $todayPresence['presence'];
         $data['absence'] = $todayPresence['absence'];
         $data['permit'] = $todayPresence['permit'];

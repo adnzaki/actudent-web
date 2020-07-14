@@ -164,9 +164,15 @@ const plugin = {
 	},
 }
 
-$('#logout-btn').on('click', function() {
+const logoutBtn = document.querySelector('#logout-btn')
+logoutBtn.addEventListener('click', () => {
 	localStorage.removeItem('changelog')
 	let url
 	(actudentSection === 'admin') ? url = admin : url = guru
 	window.location.href = `${url}logout`
+})
+
+const changelogBtn = document.querySelector('#show-changelog')
+changelogBtn.addEventListener('click', () => {
+	$('#changelog-mirror').modal('show')
 })
