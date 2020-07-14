@@ -48,6 +48,7 @@
                 {endif}
               </div>
             </li>
+            {if $isDashboard === true}
             <li class="dropdown dropdown-notification nav-item" id="show-changelog">
               <a class="nav-link {navlinkColor} nav-link-label" href="#"><i class="ficon ft-alert-circle"></i>
                 <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">{countChangelog}</span>
@@ -122,6 +123,7 @@
                 <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all notifications</a></li>
               </ul> -->
             </li>
+            {endif}
           </ul>
         </div>
       </div>
