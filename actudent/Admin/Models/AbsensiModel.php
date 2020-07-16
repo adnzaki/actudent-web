@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Models;
 
 use Actudent\Admin\Models\KelasModel;
+use OstiumDate;
 
 class AbsensiModel extends \Actudent\Admin\Models\SharedModel
 {
@@ -40,6 +41,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      */
     public $staff = 'tb_staff';
 
+
     /**
      * Load the tables...
      */
@@ -47,7 +49,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     {
         parent::__construct();
         $this->QBAbsen = $this->db->table($this->absensi);        
-        $this->QBHomework = $this->db->table($this->homework);
+        $this->QBHomework = $this->db->table($this->homework);       
         $this->kelas = new KelasModel;
     }
 
@@ -307,7 +309,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
             'presence_status'   => $data['status'],
             'presence_mark'     => $data['mark'],
             'created'           => $dateTime
-        ];
+        ];        
 
         if($this->presenceExists($journalID, $data['id']))
         {
@@ -323,7 +325,30 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
             $this->QBAbsen->insert($values);
         }
 
-    }
+        $lesson = $this->getLessonName($journalID)[0];
+        $student = $this->getStudentName($data['id'])[0];
+
+        $content = [];
+        if($data['status'] === 1)
+        {
+            $content = [
+                'title' => 'Kehadiran Mata Pelajaran',
+                'body' => $student->student_name . ' mengikuti pelajaran ' . $lesson->lesson_name,
+            ];
+        }
+        elseif($data['status'] === 0)
+        {
+            $content = [
+                'title' => 'Kehadiran Mata Pelajaran',
+                'body' => $student->student_name . ' tidak mengikuti pelajaran ' . $lesson->lesson_name,
+            ];
+        }
+
+        if($data['status'] === 1 || $data['status'] === 0)
+        {
+            $this->sendNotification($data['id'], $content);
+        }
+    }    
 
     /**
      * Save the journal
@@ -356,7 +381,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         ];
 
         $journal = $this->journalExists($scheduleID, $date);
-        
+
         if(! $journal)
         {
             $time = date('H:i:s', strtotime('now'));
@@ -375,7 +400,8 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
                 $homeworkValues['journal_id'] = $journalID;
                 
                 // insert the homework
-                $this->QBHomework->insert($homeworkValues);
+                $this->QBHomework->insert($homeworkValues);    
+                $this->sendHomeworkNotification($scheduleID, $journalID, $homeworkValues, $date);
             }
         }
         else 
@@ -396,10 +422,89 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
                     // insert the homework
                     $this->QBHomework->insert($homeworkValues);
                 }
+
+                $this->sendHomeworkNotification($scheduleID, $journalID, $homeworkValues, $date);
             }
             
             return $journal;
         }
+    }
+
+    /**
+     * Send homework notification
+     * 
+     * @param int $scheduleID
+     * @param int $journalID
+     * 
+     * @return void
+     */
+    private function sendHomeworkNotification($scheduleID, $journalID, $homework, $date)
+    {
+        $classGroup = $this->getClassGroupBySchedule($scheduleID)[0];
+        $classMember = $this->kelas->getClassMember($classGroup->grade_id);
+        $ostium = new OstiumDate();
+        $lesson = $this->getLessonName($journalID)[0];
+        foreach($classMember as $member)
+        {
+            // notification content
+            $content = [
+                'title' => 'Pemberitahuan Tugas Baru untuk ' . $member->student_name,
+                'body'  => $lesson->lesson_name .
+                            ': ' . $homework['homework_title'] . 
+                            ' telah terbit, batas pengumpulan tugas ' . 
+                            $ostium->format('DD-MM-Y', reverse($date, '-', '-')),
+            ];
+
+            // send notification
+            $this->sendNotification($member->student_id, $content);
+        }
+    } 
+
+    /**
+     * Get class group by schedule_id
+     * 
+     * @param int $scheduleID
+     * 
+     * @return object
+     */
+    public function getClassGroupBySchedule($scheduleID)
+    {
+        $field = "schedule_id, {$this->mapelKelas}.grade_id, grade_name";
+        $select = $this->QBJadwal->select($field);
+        $join1 = $select->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id={$this->jadwal}.lessons_grade_id");
+        $join2 = $join1->join($this->kelas->kelas, "{$this->kelas->kelas}.grade_id={$this->mapelKelas}.grade_id");
+
+        return $join2->where('schedule_id', $scheduleID)->get()->getResult();
+    }
+
+    /**
+     * Get student name
+     * 
+     * @param int $studentID
+     * 
+     * @return object
+     */
+    public function getStudentName($studentID)
+    {
+        return $this->QBStudent->getWhere(['student_id' => $studentID])->getResult();
+    }
+
+    /**
+     * Get lesson name by journalID
+     * 
+     * @param int $journalID
+     * 
+     * @return object
+     */
+    public function getLessonName($journalID)
+    {
+        $field = "journal_id, description, lesson_name";
+        $select = $this->QBJurnal->select($field);
+        $join1 = $select->join($this->jadwal, "{$this->jadwal}.schedule_id={$this->jurnal}.schedule_id");
+        $join2 = $join1->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id={$this->jadwal}.lessons_grade_id");
+        $join3 = $join2->join($this->mapel, "{$this->mapel}.lesson_id={$this->mapelKelas}.lesson_id");
+
+        return $join3->where('journal_id', $journalID)->get()->getResult();
     }
 
     /**
