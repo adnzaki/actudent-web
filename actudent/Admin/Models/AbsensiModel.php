@@ -435,6 +435,8 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param int $scheduleID
      * @param int $journalID
+     * @param array $homework
+     * @param string $date
      * 
      * @return void
      */

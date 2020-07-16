@@ -19,6 +19,7 @@ use Psr\Log\LoggerInterface;
 use Actudent\Core\Models\SekolahModel;
 use Actudent\Core\Models\SettingModel;
 use Actudent\Core\Models\AuthModel;
+use Actudent\Core\Controllers\Resources;
 
 class Actudent extends Controller
 {
@@ -42,6 +43,13 @@ class Actudent extends Controller
      * @var object
      */
     protected $auth;
+
+    /**
+     * Resources controller
+     * 
+     * @var object
+     */
+    protected $resources;
 
     /**
      * @var \CodeIgniter\View\Parser
@@ -74,6 +82,7 @@ class Actudent extends Controller
         $this->sekolah  = new SekolahModel;
         $this->setting  = new SettingModel;
         $this->auth     = new AuthModel;
+        $this->resources= new Resources;
         $this->parser   = Services::parser();
         $this->session  = Services::session();
         $this->lang     = Services::language($this->getUserLanguage());
@@ -92,8 +101,9 @@ class Actudent extends Controller
         $sekolah = $this->getDataSekolah();
         $theme = $this->getUserThemes()['data'];
         $userTheme = $this->getUserThemes()['selectedTheme'];
-        $bahasa = $this->getUserLanguage();
+        $bahasa = $this->getUserLanguage($this->getUserLanguage());
         $letterhead = $this->getLetterHead();
+        $changelog = $this->resources->getChangelog($bahasa);
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . '/assets/',
@@ -132,8 +142,8 @@ class Actudent extends Controller
             'navbarContainerColor'  => $theme['navbarContainerColor'],
             'modalHeaderColor'      => $theme['modalHeaderColor'],
             'navlinkColor'          => $theme['navlinkColor'],
-            'changelog'             => $this->getChangelog()['changelog'],
-            'countChangelog'        => $this->getChangelog()['countChangelog'],
+            'changelog'             => $changelog['changelog'],
+            'countChangelog'        => $changelog['countChangelog'],
             'isDashboard'           => $this->isDashboard(),
         ];
 
@@ -144,37 +154,6 @@ class Actudent extends Controller
     {
         $dashboard = preg_match('/home/', current_url());
         return ($dashboard === 1) ? true : false;
-    }
-
-    /**
-     * Get app changelog
-     * 
-     * @return array
-     */
-    private function getChangelog()
-    {
-        if(isset($_SESSION['userLevel']))
-        {
-            if($_SESSION['userLevel'] === '1')
-            {
-                $changelog = "- [Login] Added background image in login page
-                - [Dashboard] Fixed maximum value on chart
-                - [Navbar] Added show changelog button beside account button";
-            }
-            elseif($_SESSION['userLevel'] === '2')
-            {
-                $changelog = "- [Login] Added background image in login page
-                - [Dashboard] Fixed maximum value on chart
-                - [Menu] Removed user menu
-                - [Schedule and Presence] Fixed schedule order
-                - [Navbar] Added show changelog button beside account button";
-            }
-
-            return [
-                'changelog' => $changelog,
-                'countChangelog' => count(explode('-', $changelog)) - 1,
-            ];
-        }
     }
 
     /**
