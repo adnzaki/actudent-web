@@ -19,7 +19,7 @@ return [
     'staff_label_telp'       => 'Nomor Telepon',
     'staff_label_jenis'      => 'Bagian',
     'staff_label_jabatan'    => 'Jabatan',
-    'staff_label_photo'      => 'Foto Pegawai',
+    'staff_label_photo'      => 'Foto Pegawai (Maks. 2MB)',
     'staff_input_id'         => 'Nomor induk pegawai',
     'staff_input_nama'       => 'Nama lengkap pegawai',
     'staff_input_telp'       => 'Nomer handphone yang aktif',
@@ -41,4 +41,5 @@ return [
     'staff_err_phone_max'    => 'Nomor telepon maksimal hanya sampai 13 karakter',
     'staff_err_type'         => 'Bagian pegawai harus terisi',
     'staff_err_title'        => 'Jabatan pegawai harus terisi',
+    'staff_foto_upload_progress' => 'Mengunggah gambar...',
 ];

@@ -65,7 +65,22 @@ aria-hidden="true">
                             <form-error :msg="error.staff_title" />
                         </div>
 
-                        
+                        <div class="form-group">
+                            <label>{{ lang.staff_label_photo }}</label>
+                            <form name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
+                                <input class="form-control border-primary" type="file" accept="image/*" name="staff_photo" >    
+                                <!-- @change="helper.filename"                      -->
+                                <p class="text-bold success-text" v-if="helper.uploadProgress">{+ lang.staff_label_photo +}</p>
+                                <form-error :msg="error.staff_photo" />
+                            </form>
+                        </div>
+                        <img class="img-thumbnail img-fluid" src="http://localhost:70/Actudent/public\images\pegawai\blank-profile-picture.jpg" alt="img02">
+
+                        <!-- <img class="img-thumbnail img-fluid" :src="helper.imageURL + timelineDetail.timeline_image"
+                            itemprop="thumbnail" alt="Image description" width="250" height="156" v-if="!helper.validImage" />
+                        <input type="hidden" name="image_feature" v-model="helper.filename">
+                        <input type="hidden" name="current_image" v-model="helper.currentImage"> -->
+
                     </div>
                 </form>
             </div>

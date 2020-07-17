@@ -16,9 +16,11 @@ const pegawai = new Vue({
             header: '', text: '',
         },        
         helper: {
-            disableSaveButton: false,
+            disableSaveButton: false, fileUploaded: '',
+            filename: '', uploadProgress: false, imageURL: `${baseURL}/images/pegawai/`,
+            currentImage: '', userID: null, validImage: false,
             showSaveButton: true, showDeleteButton: false,
-            deleteProgress: false,
+            deleteProgress: false, 
         },
         staffDetail: [], userEmail: '', domain: '',
         staffType:'',
@@ -38,7 +40,6 @@ const pegawai = new Vue({
         this.select2ShowPerPage('#showRows')
         this.runICheck('blue')     
         this.getLanguageResources('AdminPegawai')
-        this.getLanguageResources('AdminOrtu')
         this.getLanguageResources('Admin')
         this.onModalClose('#hapusModal')
     },
@@ -77,6 +78,9 @@ const pegawai = new Vue({
             setTimeout(() => {
                 this.runICheck('blue')            
             }, 500);                
+        },
+        showAddGambarForm() {
+            $('#tambahGambarModal').modal('show')                         
         },
         getDetailPegawai(id) {
             this.error = {}
@@ -125,6 +129,9 @@ const pegawai = new Vue({
                     obj.helper.disableSaveButton = false
                     if(res.code === '500') {
                         obj.error = res.msg
+                        if(this.helper.filename === '') {
+                            this.error.staff_photo = res.msg.image_feature
+                        }
 
                         // set error alert
                         obj.alert.class = 'bg-danger'
@@ -145,11 +152,32 @@ const pegawai = new Vue({
                         // }
                         
                         // reset everything
-                        if(edit) {
-                            obj.resetForm('edit', form)
-                        } else {
-                            obj.resetForm('insert', form)
+                        // if(edit) {
+                        //     obj.resetForm('edit', form)
+                        // } else {
+                        //     obj.resetForm('insert', form)
+                        // }
+                        let obj = this
+                        let uploadImage = new Promise((resolve, reject) => {
+                            // only do upload if filename and currentImage do not have the same value
+                            // for insert event, currentImage will always empty
+                            // for update event, both might have the same value and we will ignore file uploading
+                            if(obj.helper.filename !== obj.helper.currentImage) {
+                                obj.uploadRequest(`${obj.pegawai}upload/${res.id}`, uploadSelector)
+                            }
+                            // wait 3 seconds
+                            setTimeout(resolve, 3000)
+                        })
+
+                        function resetForm() {
+                            if(edit) {
+                                obj.resetForm('edit', form)
+                            } else {
+                                obj.resetForm('insert', form)
+                            }                          
                         }
+
+                        uploadImage.then(resetForm)
                     }
                 },
                 error: () => console.error('Network error')
@@ -215,22 +243,33 @@ const pegawai = new Vue({
         validateFile(formName) {
             let obj = this
             $('input[name=staff_photo]').on('change', function() {
-                obj.uploadRequest(`${obj.pegawai}validate-file`, formName, true)
-                if(obj.eventDetail.data.staff_photo !== undefined) {
-                    obj.helper.fileUploaded = obj.eventDetail.data.staff_photo
+                if(this.error !== undefined) {
+                    this.error.staff_photo = ''
                 }
+                obj.helper.filename = $(this).val()
+                obj.uploadRequest(`${obj.pegawai}validate-file`, formName, true)                
             })
         },
         uploadRequest(url, formName, validate = false) {
             let form = document.forms.namedItem(formName),
                 data = new FormData(form),
                 req = new XMLHttpRequest
+            
+                // disable save button while attachment is being validated
+            req.upload.addEventListener("progress", () => {
+                this.error = {}
+                this.helper.disableSaveButton = true
+                this.helper.uploadProgress = true
+            })
+
             req.open('POST', url, true)
             req.responseType = 'json'
             req.onload = obj => {
+                this.helper.uploadProgress = false
                 if(req.response.msg === 'OK') {
                     this.error = {}
                     this.helper.disableSaveButton = false
+                    this.helper.validImage = true
                     if(validate === false) {
                         document.getElementById(formName).reset()
                     }
@@ -292,6 +331,10 @@ const pegawai = new Vue({
                 this.alert.class = 'bg-primary'
                 this.alert.text = ''
             }, 3500);
+        },
+        showAddPostModal() {
+            this.validateFile('upload-file')
+            $('#tambahPegawaiModal').modal('show')
         },
 
 
