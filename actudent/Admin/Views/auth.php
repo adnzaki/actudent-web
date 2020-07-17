@@ -22,7 +22,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                 <div class="card-header border-0">
                   <div class="card-title text-center">
                     <div class="p-1">
-                      <img src="{images}logo-woles-small.png" alt="branding logo">
+                      <img src="{images}logo/actudent-logo-full-precised.png" alt="branding logo" class="ac-logo">
                     </div>
                   </div>
                   <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2" v-if="!isSmallScreen">
@@ -53,7 +53,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                         <div class="col-md-6 col-12 text-center text-md-left">
                           
                         </div>
-                        <div class="col-md-6 col-12 text-center text-md-right"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.lupa_password +}</a></div>
+                        <!-- <div class="col-md-6 col-12 text-center text-md-right"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.lupa_password +}</a></div> -->
                       </div>
                       <p v-bind:class="msgClass" v-if="showMsg">{{ msg }}</p>
                       <button type="button" @click="validasi" class="btn btn-info btn-lg btn-block"><i class="ft-unlock"></i> {+ lang AdminAuth.login +}</button>
@@ -62,8 +62,8 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                 </div>
                 <div class="card-footer">
                   <div class="">
-                    <p class="float-sm-left text-center m-0"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.pulihkan_password +}</a></p>
-                    <p class="float-sm-right text-center m-0">{+ lang AdminAuth.belum_daftar +} <a href="register-simple.html" class="card-link">{+ lang AdminAuth.daftar_disini +}</a></p>
+                    <!-- <p class="float-sm-left text-center m-0"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.pulihkan_password +}</a></p>
+                    <p class="float-sm-right text-center m-0">{+ lang AdminAuth.belum_daftar +} <a href="register-simple.html" class="card-link">{+ lang AdminAuth.daftar_disini +}</a></p> -->
                   </div>
                 </div>
               </div>

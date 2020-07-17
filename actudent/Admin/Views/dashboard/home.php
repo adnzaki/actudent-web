@@ -24,6 +24,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
       </div>
       <div class="content-body">
         {+ include Actudent\Admin\Views\dashboard\changelog +} 
+        {+ include Actudent\Admin\Views\dashboard\ChangelogMirror +}
         {+ include Actudent\Admin\Views\dashboard\FirstRow +}
         <!-- App Content Here -->
       </div>

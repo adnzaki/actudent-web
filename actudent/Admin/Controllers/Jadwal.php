@@ -344,7 +344,7 @@ class Jadwal extends Actudent
         return $diff;
     }
 
-    private function numberValue($string)
+    public function numberValue($string)
     {
         $minute = substr($string, 3, 2);
         $decimal = $minute / 60;

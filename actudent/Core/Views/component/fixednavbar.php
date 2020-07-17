@@ -4,10 +4,17 @@
         <ul class="nav navbar-nav flex-row">
           <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
           <li class="nav-item">
-            <a class="navbar-brand" href="index.html">
-              <img class="brand-logo" alt="modern admin logo" src="{appAssets}images/logo/logo.png">
+            {if $_SESSION['userLevel'] === '1'}
+            <a class="navbar-brand" href="{admin}home">
+              <img class="brand-logo" alt="modern admin logo" src="{images}logo/actudent-logo-only.png">
               <h3 class="brand-text">Actudent</h3>
             </a>
+            {elseif $_SESSION['userLevel'] === '2'}
+            <a class="navbar-brand" href="{guru}home">
+              <img class="brand-logo" alt="modern admin logo" src="{images}logo/actudent-logo-only.png">
+              <h3 class="brand-text">Actudent</h3>
+            </a>
+            {endif}
           </li>
           <li class="nav-item d-md-none">
             <a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="la la-ellipsis-v"></i></a>
@@ -41,11 +48,12 @@
                 {endif}
               </div>
             </li>
-            <li class="dropdown dropdown-notification nav-item">
-              <a class="nav-link {navlinkColor} nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-bell"></i>
-                <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">5</span>
+            {if $isDashboard === true}
+            <li class="dropdown dropdown-notification nav-item" id="show-changelog">
+              <a class="nav-link {navlinkColor} nav-link-label" href="#"><i class="ficon ft-alert-circle"></i>
+                <span class="badge badge-pill badge-default badge-danger badge-default badge-up badge-glow">{countChangelog}</span>
               </a>
-              <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+              <!-- <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
                 <li class="dropdown-menu-header">
                   <h6 class="dropdown-header m-0">
                     <span class="grey darken-2">Notifications</span>
@@ -113,8 +121,9 @@
                   </a>
                 </li>
                 <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all notifications</a></li>
-              </ul>
+              </ul> -->
             </li>
+            {endif}
           </ul>
         </div>
       </div>

@@ -4,9 +4,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
   <meta name="description" content="{+ lang Admin.meta_desc +}">
   <meta name="keywords" content="sekolah, aplikasi sekolah, aplikasi absensi, web absensi, modern web, aplikasi siswa, aplikasi orang tua">
-  <meta name="author" content="PIXINVENT">
-  <link rel="apple-touch-icon" href="{appAssets}images/ico/apple-icon-120.png">
-  <link rel="shortcut icon" type="image/x-icon" href="{appAssets}images/ico/favicon.ico">
+  <meta name="author" content="WOLESTECH">
+  <link rel="apple-touch-icon" sizes="180x180" href="{images}icon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="{images}icon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="{images}icon/favicon-16x16.png">
+  <link rel="manifest" href="{images}icon/site.webmanifest">
+  <link rel="shortcut icon" type="image/x-icon" href="{images}icon/favicon.ico">
   <!-- Fonts -->
   <link href="{fonts}fonts.css" rel="stylesheet">
   <!-- Line Awesome -->
@@ -41,4 +44,10 @@
     <script src="{assets}js/vue.min.js" type="text/javascript"></script>
   {endif}
 
+  {if $actudentSection === 'admin'}
+    <link rel="stylesheet" type="text/css" href="{assets}css/admin-login.css">
+  {elseif $actudentSection === 'guru'}
+    <link rel="stylesheet" type="text/css" href="{assets}css/guru-login.css">
+  {endif}
+  
   <script src="{assets}js/vue-material-checkbox.js" type="text/javascript"></script>

@@ -1,5 +1,7 @@
 <?php namespace Actudent\Admin\Models;
 
+use Actudent\Admin\Models\SharedModel;
+
 class AgendaModel extends \Actudent\Core\Models\ModelHandler
 {
     /**
@@ -36,6 +38,8 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
 
     private $teacher = 'tb_staff';
 
+    private $shared;
+
     public function __construct()
     {
         parent:: __construct();
@@ -43,6 +47,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         $this->QBParent = $this->db->table($this->parent);
         $this->QBAgendaUser = $this->db->table($this->agendaUser);
         $this->QBUser = $this->db->table($this->user);
+        $this->shared = new SharedModel();
     }
 
     /**
@@ -134,6 +139,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
         {
             // insert guest IDs to tb_agenda_user
             $this->insertAgendaGuests($value['agenda_guest'], $insertID);
+            $this->sendAgendaNotification($value['agenda_name'], $value['agenda_guest']);
         }
 
         return $insertID;
@@ -161,9 +167,33 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
             {
                 $this->updateAgendaGuests($value['agenda_guest'], $id);
             }
+
+            $this->sendAgendaNotification($value['agenda_name'], $value['agenda_guest']);
         }
 
         return $id;
+    }
+
+    /**
+     * Send agenda notification 
+     * 
+     * @param string $name => agenda_name
+     * @param string $guests
+     * 
+     * @return void
+     */
+    public function sendAgendaNotification($name, $guests)
+    {
+        $guestArray = explode(',', $guests);
+        $content = [
+            'title' => 'Undangan Kegiatan',
+            'body' => 'Anda diundang dalam kegiatan ' . $name,
+        ];
+
+        foreach($guestArray as $guest)
+        {
+            $this->shared->sendNotification($guest, $content, 'mixed');
+        }
     }
 
     /**

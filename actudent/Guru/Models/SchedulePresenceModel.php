@@ -40,7 +40,7 @@ class SchedulePresenceModel extends MainModel
 
         $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, {$this->mapelKelas}.grade_id, grade_name, 
                    {$this->mapelKelas}.lesson_id, lesson_code, lesson_name, {$this->mapelKelas}.teacher_id, 
-                   staff_name as teacher, room_name, duration, schedule_start, schedule_end";
+                   staff_name as teacher, room_name, duration, schedule_start, schedule_end, schedule_order";
         $select = $this->jadwalModel->QBMapelKelas->select($field);
         $join1  = $select->join($this->mapel, "{$this->mapelKelas}.lesson_id = {$this->mapel}.lesson_id");
         $join2  = $join1->join($this->staff, "{$this->mapelKelas}.teacher_id = {$this->staff}.staff_id");

@@ -19,6 +19,7 @@ use Psr\Log\LoggerInterface;
 use Actudent\Core\Models\SekolahModel;
 use Actudent\Core\Models\SettingModel;
 use Actudent\Core\Models\AuthModel;
+use Actudent\Core\Controllers\Resources;
 
 class Actudent extends Controller
 {
@@ -42,6 +43,13 @@ class Actudent extends Controller
      * @var object
      */
     protected $auth;
+
+    /**
+     * Resources controller
+     * 
+     * @var object
+     */
+    protected $resources;
 
     /**
      * @var \CodeIgniter\View\Parser
@@ -74,6 +82,7 @@ class Actudent extends Controller
         $this->sekolah  = new SekolahModel;
         $this->setting  = new SettingModel;
         $this->auth     = new AuthModel;
+        $this->resources= new Resources;
         $this->parser   = Services::parser();
         $this->session  = Services::session();
         $this->lang     = Services::language($this->getUserLanguage());
@@ -92,8 +101,9 @@ class Actudent extends Controller
         $sekolah = $this->getDataSekolah();
         $theme = $this->getUserThemes()['data'];
         $userTheme = $this->getUserThemes()['selectedTheme'];
-        $bahasa = $this->getUserLanguage();
+        $bahasa = $this->getUserLanguage($this->getUserLanguage());
         $letterhead = $this->getLetterHead();
+        $changelog = $this->resources->getChangelog($bahasa);
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . '/assets/',
@@ -103,6 +113,7 @@ class Actudent extends Controller
             'images'                => base_url() . '/images/',
             'admin'                 => base_url() . '/admin/',  
             'guru'                  => base_url() . '/guru/',
+            'actudentSection'       => $this->getSection(),
             'namaSekolah'           => $sekolah->school_name ?? '',
             'alamatSekolah'         => $sekolah->school_address ?? '',
             'lokasiSekolah'         => $letterhead->city ?? '',
@@ -131,9 +142,33 @@ class Actudent extends Controller
             'navbarContainerColor'  => $theme['navbarContainerColor'],
             'modalHeaderColor'      => $theme['modalHeaderColor'],
             'navlinkColor'          => $theme['navlinkColor'],
+            'changelog'             => $changelog['changelog'],
+            'countChangelog'        => $changelog['countChangelog'],
+            'isDashboard'           => $this->isDashboard(),
         ];
 
         return $data;
+    }
+
+    private function isDashboard()
+    {
+        $dashboard = preg_match('/home/', current_url());
+        return ($dashboard === 1) ? true : false;
+    }
+
+    /**
+     * Get current section whether it's admin or teacher
+     * 
+     * @return string
+     */
+    public function getSection()
+    {
+        $login = preg_match('/login/', current_url());
+        if($login === 1) 
+        {
+            $section = preg_match('/admin/', current_url());
+            return ($section === 1) ? 'admin' : 'guru';
+        }
     }
 
     /**
