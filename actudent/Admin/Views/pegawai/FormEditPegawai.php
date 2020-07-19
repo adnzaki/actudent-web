@@ -67,7 +67,7 @@ aria-hidden="true">
 
                         <div class="form-group">
                             <label>{{ lang.staff_label_photo }}</label>
-                            <form name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
+                            <form name="upload-file" id="update-file" method="post" enctype="multipart/form-data">
                                 <input class="form-control border-primary" type="file" accept="image/*" name="staff_photo" >    
                                 <!-- @change="helper.filename"                      -->
                                 <p class="text-bold success-text" v-if="helper.uploadProgress">{+ lang.staff_label_photo +}</p>

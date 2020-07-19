@@ -21,7 +21,7 @@ aria-hidden="true">
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form" id="formTambahPegawai">
+                <form id="formTambahPegawai">
                     <div class="form-body skin skin-square">                        
                         <div class="form-group">
                             <label for="userinput5">{{ lang.staff_id }}</label>
@@ -62,14 +62,16 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput5">{{ lang.staff_label_jabatan }}</label>
+                            <form name="upload-files" id="upload-files" method="post" enctype="multipart/form-data">
+                            </form>
                             <input class="form-control border-primary" type="text" :placeholder="lang.staff_input_jabatan" name="staff_title">
                             <form-error :msg="error.staff_title" />
                         </div>
                         <div class="form-group">
-                            <label>{{ lang.staff_label_photo }}</label>
+                            <label>{{ lang.staff_label_photo }}</label>                            
                             <form name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
                                 <input class="form-control border-primary" type="file" accept="image/*" name="staff_photo" @change="helper.filename">
-                                <p class="text-bold success-text" v-if="helper.uploadProgress">{+ AdminPegawai.staff_foto_upload_progress +}</p>
+                                <p class="text-bold success-text" v-if="helper.uploadProgress">{{ lang.staff_foto_upload_progress }}</p>
                                 <form-error :msg="error.staff_photo" />
                             </form>
                         </div>

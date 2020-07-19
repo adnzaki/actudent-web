@@ -233,7 +233,7 @@ class Pegawai extends Actudent
     private function validateFile()
     {
         $fileRules = [
-            'staff_photo' => 'mime_in[staff_photo,image/jpg]|max_size[staff_photo,2048]'
+            'staff_photo' => 'mime_in[staff_photo,image/jpeg]|max_size[staff_photo,2048]'
         ];
         $fileMessages = [
             'staff_photo' => [

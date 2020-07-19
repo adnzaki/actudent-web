@@ -37,7 +37,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <script src="{appAssets}js/scripts/customizer.js" type="text/javascript"></script>
   <script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
   <script src="{assets}js/admin/ac-pegawai.js" type="text/javascript"></script>
-  <script src="{appAssets}js/scripts/extensions/image-cropper.js" type="text/javascript"></script>
+  <!-- <script src="{appAssets}js/scripts/extensions/image-cropper.js" type="text/javascript"></script> -->
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>
