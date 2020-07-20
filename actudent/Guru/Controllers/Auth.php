@@ -6,7 +6,7 @@ class Auth extends Actudent
 {
     public function index()
     {
-        if(isset($_SESSION['email']) && isset($_SESSION['userLevel']) === '2')
+        if(session('email') !== null && session('userLevel') === '2')
         {
             return redirect()->to(base_url('guru/home'));
         }
