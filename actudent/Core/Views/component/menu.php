@@ -35,8 +35,8 @@
       <!-- <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="#"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span></a>
       </li> -->
-      <li class="{+ menu_active uri=aaa +} nav-item">
-        <a href="#"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>
+      <li class="{+ menu_active uri=nilai +} nav-item">
+        <a href="{admin}nilai"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>
       </li>
       <li class=" nav-item"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.icons.main">{+ lang Admin.menu_pengaturan +}</span></a>
         <ul class="menu-content">

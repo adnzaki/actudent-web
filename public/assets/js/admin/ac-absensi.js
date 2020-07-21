@@ -1,8 +1,8 @@
 /**
- * Actudent Data Absensi scripts
+ * Actudent Presence scripts
  * 
  * @author      Adnan Zaki
- * @copyright   Wolestech (c) 2018
+ * @copyright   Wolestech (c) 2020
  */
 
 const absensi = new Vue({
