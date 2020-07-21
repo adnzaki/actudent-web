@@ -40,14 +40,14 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [Login] Menambahkan gambar latar belakang di halaman login
-                - [Beranda] Memperbaiki nilai maksimal pada chart
-                - [Navbar] Menambahkan tombol tampilkan changelog di sebelah tombol akun"
+                "- [Login] Memperbaiki bug pengguna masih dapat membuka halaman login setelah login
+                - [Staff] Menambahkan fitur foto pegawai
+                - [Parent] Fixed bug cannot access Parent page"
             ],
             'english' => [
-                "- [Login] Added background image in login page
-                - [Dashboard] Fixed maximum value on chart
-                - [Navbar] Added show changelog button beside account button"
+                "- [Login] Fixed bug users can still open login page after they have been logged in
+                - [Staff] Added staff photo feature
+                - [Orang Tua] Memperbaiki bug tidak bisa akses ke halaman orang tua"
             ]
         ];
 
@@ -65,18 +65,10 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [Login] Menambahkan gambar latar belakang di halaman login
-                - [Beranda] Memperbaiki nilai maksimal pada chart
-                - [Menu] Menghapus menu pengguna
-                - [Jadwal dan Kehadiran] Memperbaiki urutan jadwal
-                - [Navbar] Menambahkan tombol tampilkan changelog di sebelah tombol akun"
+                "- [Login] Memperbaiki bug pengguna masih dapat membuka halaman login setelah login"
             ],
             'english' => [
-                "- [Login] Added background image in login page
-                - [Dashboard] Fixed maximum value on chart
-                - [Menu] Removed user menu
-                - [Schedule and Presence] Fixed schedule order
-                - [Navbar] Added show changelog button beside account button"
+                "- [Login] Fixed bug users can still open login page after they have been logged in"
             ]
         ];
 
