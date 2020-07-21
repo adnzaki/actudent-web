@@ -92,22 +92,31 @@ class Pegawai extends Actudent
             $data = $this->formData();
             if($id === null) 
             {
-                $this->staff->insert($data);
+                $response = [
+                    'code' => '200',
+                    'id' => $this->staff->insert($data), // return the insert_id
+                ];
             }
             else
             {
-                if(! empty($data['file_uploaded']))
+
+                if($data['current_image'] !== $data['image_feature'])
                 {
                     $path = PUBLICPATH . 'images/pegawai/';
-                    unlink($path . $data['file_uploaded']);
+                    if(file_exists($path . $data['current_image']))
+                    {
+                        unlink($path . $data['current_image']);
+                    }
                 }
-
-                $this->staff->update($data, $id);
+                
+                $response = [
+                    'code' => '200',
+                    'id' => $this->staff->update($data, $id), // return the timeline_id
+                ];
             }
+
+            return $this->response->setJSON($response);            
             
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
         }
     }
 
@@ -190,8 +199,13 @@ class Pegawai extends Actudent
         if($validated) 
         {
             $attachment = $this->request->getFile('staff_photo');
-            $newFilename = $attachment->getRandomName();
+            $newFilename ="img_" . $attachment->getRandomName();
             $attachment->move(PUBLICPATH . 'images/pegawai', $newFilename);
+
+            $image = \Config\Services::image();
+            $image->withFile(PUBLICPATH . 'images/pegawai' . $newFilename)
+                  ->fit(113, 113)
+                  ->save(PUBLICPATH . 'images/pegawai' . $newFilename);
 
             // Set attachment
             $this->staff->setPhoto($newFilename, $insertID);
@@ -219,7 +233,7 @@ class Pegawai extends Actudent
     private function validateFile()
     {
         $fileRules = [
-            'staff_photo' => 'mime_in[staff_photo,application/jpg]|max_size[staff_photo,5048]'
+            'staff_photo' => 'mime_in[staff_photo,image/jpeg]|max_size[staff_photo,2048]'
         ];
         $fileMessages = [
             'staff_photo' => [
@@ -241,8 +255,9 @@ class Pegawai extends Actudent
             'staff_title'            => $this->request->getPost('staff_title'),
             'user_name'             => $this->request->getPost('staff_name'),
             'user_email'            => $this->request->getPost('user_email'),
-            'user_password'         => $this->request->getPost('user_password'),
-            'file_uploaded'         => $this->request->getPost('file_uploaded'),
+            'user_password'         => $this->request->getPost('user_password'),            
+            'image_feature'         => $this->request->getPost('image_feature'),
+            'current_image'         => $this->request->getPost('current_image'),
         ];
     }
 

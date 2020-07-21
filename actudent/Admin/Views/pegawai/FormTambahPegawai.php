@@ -21,7 +21,7 @@ aria-hidden="true">
                 </button>
             </div>
             <div class="modal-body">
-                <form class="form" id="formTambahPegawai">
+                <form id="formTambahPegawai">
                     <div class="form-body skin skin-square">                        
                         <div class="form-group">
                             <label for="userinput5">{{ lang.staff_id }}</label>
@@ -62,24 +62,23 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput5">{{ lang.staff_label_jabatan }}</label>
+                            <form name="upload-files" id="upload-files" method="post" enctype="multipart/form-data">
+                            </form>
                             <input class="form-control border-primary" type="text" :placeholder="lang.staff_input_jabatan" name="staff_title">
                             <form-error :msg="error.staff_title" />
                         </div>
                         <div class="form-group">
-                            <label>{{ lang.staff_label_photo }}</label>
-                            <form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
-                            <input class="form-control border-primary" type="file" accept="application/jpg" name="staff_photo">
+                            <label>{{ lang.staff_label_photo }}</label>                            
+                            <form name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
+                                <input class="form-control border-primary" type="file" accept="image/*" name="staff_photo" @change="helper.filename">
+                                <p class="text-bold success-text" v-if="helper.uploadProgress">{{ lang.staff_foto_upload_progress }}</p>
+                                <form-error :msg="error.staff_photo" />
                             </form>
-                            <div class="card-content">
-                            <img class="img-fluid" src="http://localhost:70/Actudent/public\app-assets\images\portfolio\width-600\portfolio-1.jpg" alt="Timeline Image 1">
-                            </div>
-                            <form-error :msg="error.staff_photo" />
                         </div>
-                        
                         <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_email +}</label>
                             <div class="input-group">
-                                <input class="form-control border-primary"  type="text" autocomplete="off" placeholder="username" name="user_email">
+                                <input class="form-control border-primary"  type="text" placeholder="username" name="user_email" autocomplete="off" >
                                 <div class="input-group-append">
                                     <button class="btn btn-light" disabled type="button">@{domainSekolah}</button>
                                 </div>    
@@ -88,7 +87,7 @@ aria-hidden="true">
                         </div>
                         <div class="form-group">
                             <label for="userinput6">{+ lang AdminUser.user_pass +}</label>
-                            <input class="form-control border-primary" autocomplete="off" type="password" name="user_password"
+                            <input class="form-control border-primary" type="password" name="user_password" autocomplete="off"
                             minlength="8" placeholder="{+ lang AdminUser.user_pass_input +}">
                             <form-error :msg="error.user_password" />
                         </div>

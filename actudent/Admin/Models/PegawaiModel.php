@@ -283,7 +283,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      */
     public function setPhoto($filename, $id)
     {        
-        $this->QBStaff->where('staff_id', $id)->update(['staff_photo' => $filename]);
+        $this->QBStaff->where('user_id', $id)->update(['staff_photo' => $filename]);
     }
 
     /**

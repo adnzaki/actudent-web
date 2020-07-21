@@ -19,7 +19,7 @@ return [
     'staff_label_telp'       => 'Phone Number',
     'staff_label_jenis'      => 'Staff Type',
     'staff_label_jabatan'    => 'Staff Title',
-    'staff_label_photo'      => 'Staff Photo',
+    'staff_label_photo'      => 'Staff Photo (Max. 2MB)',
     'staff_input_id'         => 'Valid Staff ID Number',
     'staff_input_nama'       => 'Staff full name',
     'staff_input_telp'       => 'Active phone number',
@@ -41,4 +41,5 @@ return [
     'staff_err_phone_max'    => 'Phone number must only have up to 13 characters',
     'staff_err_type'         => 'Staff type is required',
     'staff_err_title'        => 'Staff title is required',
+    'staff_foto_upload_progress' => 'Uploading image...',
 ];
