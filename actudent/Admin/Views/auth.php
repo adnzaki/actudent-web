@@ -68,7 +68,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                 </div> -->
               </div>
             </div>
-            <div class="woles-logo">
+            <div :class="wolesLogo">
               <p class="center-align push-left">Powered by</p>
               <a href="https://wolestech.com" target="_blank" rel="noopener noreferrer">
                 <img class="woles-img" src="{images}logo-woles-small.png" alt="branding logo"> 
