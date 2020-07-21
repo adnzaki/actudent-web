@@ -16,7 +16,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
       </div>
       <div class="content-body">
         <section class="flexbox-container">
-          <div class="col-12 d-flex align-items-center justify-content-center">
+          <div class="col-12 d-flex align-items-center justify-content-center" style="margin-top: -20px;">
             <div class="col-md-4 col-10 box-shadow-2 p-0">
               <div class="card border-grey border-lighten-3 m-0">
                 <div class="card-header border-0">
@@ -60,14 +60,20 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                     </form>
                   </div>
                 </div>
-                <div class="card-footer">
+                <!-- <div class="card-footer">
                   <div class="">
-                    <!-- <p class="float-sm-left text-center m-0"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.pulihkan_password +}</a></p>
-                    <p class="float-sm-right text-center m-0">{+ lang AdminAuth.belum_daftar +} <a href="register-simple.html" class="card-link">{+ lang AdminAuth.daftar_disini +}</a></p> -->
+                    <p class="float-sm-left text-center m-0"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.pulihkan_password +}</a></p>
+                    <p class="float-sm-right text-center m-0">{+ lang AdminAuth.belum_daftar +} <a href="register-simple.html" class="card-link">{+ lang AdminAuth.daftar_disini +}</a></p>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
+            <div class="woles-logo">
+              <p class="center-align push-left">Powered by</p>
+              <a href="https://wolestech.com" target="_blank" rel="noopener noreferrer">
+                <img class="woles-img" src="{images}logo-woles-small.png" alt="branding logo"> 
+              </a>                         
+            </div>              
           </div>
         </section>
       </div>

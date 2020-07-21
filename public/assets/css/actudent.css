@@ -9,6 +9,26 @@
 	max-width: 120px;
 }
 
+.woles-logo {
+	position: absolute;
+	top: 480px;
+}
+
+.push-left {
+	margin-left: -40px;
+	color: #323333;
+	font-weight: bold;
+	font-family: "Quicksand", Georgia, "Times New Roman", Times, serif;
+}
+
+.woles-img {
+	max-height: 30px !important;
+	max-width: 180px !important;
+	bottom: 40px;
+	left: 50%;
+	position: relative;
+}
+
 .error-text {
 	color: rgb(241, 89, 63) !important;
 }
