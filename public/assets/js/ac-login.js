@@ -11,13 +11,15 @@ const login = new Vue({
     data: {
         username: '', password: '',
         msg: '', msgClass: 'error-text',
-        showMsg: false, remember: false,
+		showMsg: false, remember: false,
+		wolesLogo: 'woles-logo',
 	},
 	mounted() {
 		this.getLanguageResources('AdminAuth')
 	},
     methods: {
         validasi() {
+			this.wolesLogo = 'woles-logo-down'
             this.msg = ''
             this.showMsg = true
             if (this.username === '' || this.password === '') {
