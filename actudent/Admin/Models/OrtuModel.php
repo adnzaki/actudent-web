@@ -1,6 +1,5 @@
 <?php namespace Actudent\Admin\Models;
 
-use Actudent\Core\Models\SekolahModel;
 use Actudent\Admin\Models\SharedModel;
 
 class OrtuModel extends SharedModel
@@ -16,11 +15,6 @@ class OrtuModel extends SharedModel
      */
     private $timelineComments = 'tb_timeline_comments';
     private $timelineLikes = 'tb_timeline_likes';
-
-    /**
-     * @var Actudent\Core\Models\SekolahModel
-     */
-    private $sekolah;
     
     /**
      * Load the tables...
@@ -30,7 +24,6 @@ class OrtuModel extends SharedModel
         parent::__construct();
         $this->QBTimelineComments = $this->db->table($this->timelineComments);
         $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
-        $this->sekolah = new SekolahModel;
     }
 
     /**
