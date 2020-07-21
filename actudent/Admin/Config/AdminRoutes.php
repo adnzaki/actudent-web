@@ -117,6 +117,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('timeline/validasi-gambar', 'Timeline::runFileValidation');
 	$routes->add('timeline/get-detail/(:any)', 'Timeline::getPostDetail/$1');
 	$routes->add('timeline/hapus/(:any)', 'Timeline::delete/$1');
+	$routes->add('nilai', 'Nilai::index');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

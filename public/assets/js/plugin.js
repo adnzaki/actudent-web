@@ -173,6 +173,8 @@ logoutBtn.addEventListener('click', () => {
 })
 
 const changelogBtn = document.querySelector('#show-changelog')
-changelogBtn.addEventListener('click', () => {
-	$('#changelog-mirror').modal('show')
-})
+if(changelogBtn !== null) {
+	changelogBtn.addEventListener('click', () => {
+		$('#changelog-mirror').modal('show')
+	})
+}
