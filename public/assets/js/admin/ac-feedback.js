@@ -9,72 +9,121 @@ const feedback = new Vue({
     el: '#feedback-content',
     mixins: [SSPaging, plugin],
     data: {
-        // feedback: `${admin}umpan-balik/`,
-        feedback: {
-            app: `${this.auth}umpan-balik/`,
-            user: `${admin}`
-        },
         error: {},
         alert: {
             class: 'bg-primary', show: false,
             header: '', text: '',
         },
         helper: {
-            disableSaveButton: false,
+            disableSaveButton: false, uploadProgress: false,
+            validImage: false, filename: '',
             showSaveButton: true, showDeleteButton: false,
             deleteProgress: false,
         },
+        attachment: '',
     },
     mounted() {        
         this.getLanguageResources('AdminFeedback')
         this.runSelect2()        
         this.runICheck('blue')
-        this.feedback.app = `${this.auth}umpan-balik/`
+        this.validateFile('upload-file')            
     },
     methods: {
         send() {
-            let url, form
-            let obj = this
-            url = `${this.feedback.app}send`
-            form = $('#sendFeedback')
+            let form = $('#sendFeedback'),
+                url = `${this.feedback}send`
 
             let data = form.serialize()
             $.ajax({
-                url: url,
+                url: `${this.feedback}validasi`,
                 type: 'POST',
                 dataType: 'json',
                 data: data,
                 beforeSend: () => {                    
-                    obj.alert.header = ''
-                    obj.alert.text = obj.lang.feedback_send_progress
-                    obj.alert.show = true
-                    obj.helper.disableSaveButton = true
+                    this.alert.header = ''
+                    this.alert.text = this.lang.feedback_send_progress
+                    this.alert.show = true
+                    this.helper.disableSaveButton = true
                 },
                 success: res => {
-                    obj.helper.disableSaveButton = false
+                    this.helper.disableSaveButton = false
                     if(res.code === '500') {
-                        obj.error = res.msg
+                        this.error = res.msg
 
                         // set error alert
-                        obj.alert.class = 'bg-danger'
-                        obj.alert.header = 'Error!'
-                        obj.alert.text = obj.lang.feedback_error_text
+                        this.alert.class = 'bg-danger'
+                        this.alert.header = 'Error!'
+                        this.alert.text = this.lang.feedback_error_text
 
                         // hide after 3000 ms and change the class and text to default
                         setTimeout(() => {
-                            obj.alert.show = false
-                            obj.alert.class = 'bg-primary'
-                            obj.alert.header = ''
-                            obj.alert.text = ''
+                            this.alert.show = false
+                            this.alert.class = 'bg-primary'
+                            this.alert.header = ''
+                            this.alert.text = ''
                         }, 3000);
-                    } else {                        
-                        obj.resetForm(form)
+                    } else {
+                        if(this.helper.filename !== '') {
+                            this.uploadRequest(`${this.feedback}upload-gambar`, 'upload-file')
+                            url = `${url}/${this.attachment}`
+                        }
+                        $.ajax({
+                            url: url,
+                            type: 'POST',
+                            dataType: 'json',
+                            data: data,
+                            success: res => {
+                                this.resetForm(form)
+                            }
+                        })
                     }
                 },
                 error: () => console.error('Network error')
             })
         },
-        
+        validateFile(formName) {
+            let obj = this
+            $('input[name=feedback_image]').on('change', function() {
+                if(obj.error !== undefined) {
+                    obj.error.feedback_image = ''
+                }
+                obj.helper.filename = $(this).val()
+                obj.uploadRequest(`${obj.feedback}validasi-gambar`, formName, true)
+            })
+        },
+        uploadRequest(url, formName, validate = false) {
+            let form = document.forms.namedItem(formName),
+                data = new FormData(form),
+                req = new XMLHttpRequest
+
+            // disable save button while attachment is being validated
+            req.upload.addEventListener("progress", () => {
+                this.error = {}
+                this.helper.disableSaveButton = true
+                this.helper.uploadProgress = true
+            })
+
+            req.open('POST', url, true)
+            req.responseType = 'json'
+
+            req.onload = () => {
+                this.helper.uploadProgress = false
+                if(req.response.msg === 'OK') {
+                    this.error = {}
+                    this.helper.disableSaveButton = false
+                    
+                    //this.helper.validImage = true
+                    if(validate === false) {
+                        this.attachment = req.response.attachment
+                        document.getElementById(formName).reset()
+                    }
+                } else {
+                    this.error = req.response
+                    this.helper.disableSaveButton = true
+                }
+            }
+            req.send(data)
+        },
         resetForm(form = '') {
             this.alert.show = false
             // clear error messages if exists
@@ -90,6 +139,7 @@ const feedback = new Vue({
             this.alert.header = this.lang.sukses
             this.alert.class = 'bg-success'
             this.alert.show = true
+            this.alert.text = 'Email sent successfully'
 
             setTimeout(() => {
                 this.alert.show = false
@@ -97,10 +147,15 @@ const feedback = new Vue({
                 this.alert.class = 'bg-primary'
                 this.alert.text = ''
             }, 3500);
-        },
-        
+        },        
     },
     computed: {
-        
+        feedback() {
+            if(actudentSection === 'admin') {
+                return `${admin}umpan-balik/`
+            } else {
+                return `${guru}umpan-balik/`
+            }
+        }
     }
 })

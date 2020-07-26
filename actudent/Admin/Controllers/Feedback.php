@@ -12,9 +12,9 @@ class Feedback extends Actudent
                 ->render('Actudent\Admin\Views\feedback\feedback-view');
     }
 
-    public function send($id = null)
+    public function feedbackValidation()
     {
-        $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
         if(! $this->validate($validation[0], $validation[1]))
         {
             return $this->response->setJSON([
@@ -23,23 +23,113 @@ class Feedback extends Actudent
             ]);
         }
         else 
-        {
-            $data = $this->formData();
-            
-            // $this->mapel->insert($data);
-           
+        {           
             return $this->response->setJSON([
                 'code' => '200',
             ]);
         }
     }
 
-    private function validation($id)
+    public function send($attachment = '')
+    {
+        $data = $this->formData();
+
+        if(! empty($attachment))
+        {
+            $path = PUBLICPATH . 'attachments/email/' . $attachment;
+            $file = new \CodeIgniter\Files\File($path);
+            $attachment = $file->getRealPath();
+        }        
+
+        $email = \Config\Services::email();
+        $config = [
+            'protocol'      => 'smtp',
+            'SMTPHost'      => 'ssl://mail.actudent.com',
+            'SMTPPort'      => 465,
+            'SMTPUser'      => 'feedback@actudent.com',
+            'SMTPPass'      => '(GvY(.n@OQ1W',
+            'SMTPCrypto'    => 'ssl',
+            'charset'       => 'iso-8859-1',
+            'mailType'      => 'html',
+        ];
+        $email->initialize($config);
+
+        $common         = $this->common();
+        $type           = $data['feedback_type'];
+        $description    = $data['feedback_description'];
+        $sender         = 'feedback@' . $common['domainSekolah'];
+        $email->setFrom($sender, $common['namaSekolah']);
+        $email->setTo('wolesproject@gmail.com');
+        $email->setSubject("{$type} dari " . session('nama') . '(' . session('email') . ')');
+        $email->setMessage($description);
+
+        if(! empty($attachment))
+        {
+            $email->attach($attachment);
+        }
+
+        if($email->send())
+        {
+            return $this->response->setJSON(['msg' => 'Feedback sent successfully']);
+        }
+        else
+        {
+            return $this->response->setJSON(['msg' => $email->printDebugger()]);
+        }
+    }
+
+    public function uploadFile()
+    {        
+        $validated = $this->validateFile();
+
+        if($validated) 
+        {
+            $attachment = $this->request->getFile('feedback_image');
+            $newFilename = 'attachment_' . $attachment->getRandomName();
+            $attachment->move(PUBLICPATH . 'attachments/email', $newFilename);           
+
+            return $this->response->setJSON(['msg' => 'OK', 'attachment' => $newFilename]);
+        }
+        else 
+        {
+            return $this->response->setJSON($this->validation->getErrors());
+        }
+    }
+
+    public function runFileValidation()
+    {
+        $validated = $this->validateFile();
+        if($validated)
+        {
+            return $this->response->setJSON(['msg' => 'OK']);
+        }
+        else 
+        {
+            return $this->response->setJSON($this->validation->getErrors());
+        }
+    }
+
+    private function validateFile()
+    {
+        $fileRules = [
+            'feedback_image' => 'mime_in[feedback_image,image/jpeg]|max_size[feedback_image,2048]'
+        ];
+        $fileMessages = [
+            'feedback_image' => [
+                'mime_in' => lang('Admin.invalid_filetype'),
+                'max_size' => lang('Admin.file_too_large'),
+            ]
+        ];
+
+        return $this->validate($fileRules, $fileMessages);
+    }
+
+    private function validation()
     {
         $form = $this->formData();
         $rules = [
             'feedback_type'           => 'required',
-            'feedback_description'    => "required|min_length[20]",            
+            'feedback_description'    => "required|min_length[10]",            
         ];
 
         $messages = [
@@ -62,16 +152,4 @@ class Feedback extends Actudent
             'feedback_description'    => $this->request->getPost('feedback_description'),
         ];
     }
-
-    // public function setWarnaTema($tema)
-    // {
-    //     $this->setting->setTheme($_SESSION['email'], $tema);
-    //     return redirect()->to(base_url('admin/pengaturan-aplikasi'));
-    // }
-
-    // public function setBahasa($bahasa)
-    // {
-    //     $this->setting->setUserLanguage($_SESSION['email'], $bahasa);
-    //     return redirect()->to(base_url('admin/pengaturan-aplikasi'));
-    // }
 }
