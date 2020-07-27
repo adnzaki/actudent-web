@@ -56,7 +56,7 @@ class Feedback extends Actudent
 
         $email->setFrom($sender, $common['namaSekolah']);
         $email->setTo('wolesproject@gmail.com');
-        $email->setSubject("{$type} dari " . session('nama') . ' (' . session('email') . ')');
+        $email->setSubject($subjectText . session('nama') . ' (' . session('email') . ')');
         $email->setMessage($description);
 
         if(! empty($attachment))
