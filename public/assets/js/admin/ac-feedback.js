@@ -145,12 +145,10 @@ const feedback = new Vue({
                 form.trigger('reset')
             }
             
-            this.alert.text = this.lang.feedback_send_success
-            
             this.alert.header = this.lang.sukses
             this.alert.class = 'bg-success'
             this.alert.show = true
-            this.alert.text = 'Email sent successfully'
+            this.alert.text = lang.feedback_send_success
             this.helper.filename = ''
             this.attachment = ''
 
