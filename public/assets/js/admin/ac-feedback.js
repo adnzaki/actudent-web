@@ -75,7 +75,8 @@ const feedback = new Vue({
                         uploadImage.then(sendEmail)
 
                         function sendEmail() {
-                            url = `${url}/${obj.attachment}`
+                            (obj.attachment !== '') ? url = `${url}/${obj.attachment}` : url = url
+                            url = url
                             $.ajax({
                                 url: url,
                                 type: 'POST',
