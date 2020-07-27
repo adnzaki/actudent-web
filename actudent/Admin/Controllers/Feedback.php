@@ -41,23 +41,19 @@ class Feedback extends Actudent
             $attachment = $file->getRealPath();
         }        
 
-        $email = \Config\Services::email();
-        // $config = [
-        //     'protocol'      => 'smtp',
-        //     'SMTPHost'      => 'ssl://mail.actudent.com',
-        //     'SMTPPort'      => 465,
-        //     'SMTPUser'      => 'feedback@actudent.com',
-        //     'SMTPPass'      => '(GvY(.n@OQ1W',
-        //     'SMTPCrypto'    => 'ssl',
-        //     'charset'       => 'iso-8859-1',
-        //     'mailType'      => 'html',
-        // ];
-        // $email->initialize($config);
-
+        $email          = \Config\Services::email();
         $common         = $this->common();
         $type           = $data['feedback_type'];
         $description    = $data['feedback_description'];
         $sender         = 'feedback@' . $common['domainSekolah'];
+        $subjectText    = '';
+        switch ($type) {
+            case 'Saran': $subjectText = "$type dari "; break;            
+            case 'Bug': $subjectText = "Informasi $type dari "; break;
+            case 'Bantuan': $subjectText = "Permintaan $type dari "; break;
+            default: 'Unindentified subject'; break;
+        }
+
         $email->setFrom($sender, $common['namaSekolah']);
         $email->setTo('wolesproject@gmail.com');
         $email->setSubject("{$type} dari " . session('nama') . ' (' . session('email') . ')');
@@ -65,12 +61,16 @@ class Feedback extends Actudent
 
         if(! empty($attachment))
         {
-            $email->attach($attachment);
+            $email->attach($attachment);            
         }
 
         if($email->send())
         {
             $email->send();
+            if(file_exists($attachment))
+            {
+                unlink($attachment);
+            }
             return $this->response->setJSON(['msg' => 'Feedback sent successfully']);
         }
         else

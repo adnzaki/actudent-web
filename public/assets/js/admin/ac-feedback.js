@@ -63,19 +63,29 @@ const feedback = new Vue({
                             this.alert.text = ''
                         }, 3000);
                     } else {
-                        if(this.helper.filename !== '') {
-                            this.uploadRequest(`${this.feedback}upload-gambar`, 'upload-file')
-                            url = `${url}/${this.attachment}`
-                        }
-                        $.ajax({
-                            url: url,
-                            type: 'POST',
-                            dataType: 'json',
-                            data: data,
-                            success: res => {
-                                this.resetForm(form)
+                        let obj = this
+                        let uploadImage = new Promise((resolve, reject) => {
+                            if(obj.helper.filename !== '') {
+                                obj.uploadRequest(`${this.feedback}upload-gambar`, 'upload-file')
                             }
+                            // wait 3 seconds
+                            setTimeout(resolve, 3000)
                         })
+
+                        uploadImage.then(sendEmail)
+
+                        function sendEmail() {
+                            url = `${url}/${obj.attachment}`
+                            $.ajax({
+                                url: url,
+                                type: 'POST',
+                                dataType: 'json',
+                                data: data,
+                                success: res => {
+                                    obj.resetForm(form)
+                                }
+                            })
+                        }
                     }
                 },
                 error: () => console.error('Network error')
@@ -140,6 +150,8 @@ const feedback = new Vue({
             this.alert.class = 'bg-success'
             this.alert.show = true
             this.alert.text = 'Email sent successfully'
+            this.helper.filename = ''
+            this.attachment = ''
 
             setTimeout(() => {
                 this.alert.show = false

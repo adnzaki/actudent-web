@@ -126,7 +126,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('umpan-balik/send/', 'Feedback::send');
 	$routes->add('umpan-balik/send/(:any)', 'Feedback::send/$1');
 	$routes->add('umpan-balik/validasi-gambar', 'Feedback::runFileValidation');
-	$routes->add('umpan-balik/upload-gambar/(:any)', 'Feedback::uploadFile/$1');
+	$routes->add('umpan-balik/upload-gambar', 'Feedback::uploadFile');
 	$routes->add('test-match', 'Test::testMatch');
 	$routes->add('hash/(:any)', 'Test::hash/$1');
 	$routes->add('test-login', 'Test::validateLogin');

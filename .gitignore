@@ -8,6 +8,7 @@
 .LSOverride
 
 # Actudent ignored files 
+actudent/Trash
 public/.htaccess
 public/app-assets
 public/app-assets.zip
