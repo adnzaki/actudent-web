@@ -12,7 +12,11 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   <!-- ////////////////////////////////////////////////////////////////////////////-->
   
   <!-- Menu -->
-  {+ include Actudent\Core\Views\component\menu +} 
+  {if $_SESSION['userLevel'] === '1'}
+    {+ include Actudent\Core\Views\component\menu +}
+  {else} 
+    {+ include Actudent\Core\Views\component\MenuGuru +}
+  {endif}
   <!-- ////////////////////////////////////////////////////////////////////////////-->
   <div class="app-content content">
     <div class="content-wrapper">
