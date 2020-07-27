@@ -40,14 +40,10 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [Login] Memperbaiki bug pengguna masih dapat membuka halaman login setelah login
-                - [Pegawai] Menambahkan fitur foto pegawai
-                - [Orang Tua] Memperbaiki bug tidak bisa akses ke halaman orang tua"
+                "- Menambahkan fitur Umpan Balik!"
             ],
             'english' => [
-                "- [Login] Fixed bug users can still open login page after they have been logged in
-                - [Staff] Added staff photo feature
-                - [Parent] Fixed bug cannot access Parent page"
+                "- Added Feedback feature!"
             ]
         ];
 
@@ -65,10 +61,10 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [Login] Memperbaiki bug pengguna masih dapat membuka halaman login setelah login"
+                "- Menambahkan fitur Umpan Balik!"
             ],
             'english' => [
-                "- [Login] Fixed bug users can still open login page after they have been logged in"
+                "- Added Feedback feature!"
             ]
         ];
 
