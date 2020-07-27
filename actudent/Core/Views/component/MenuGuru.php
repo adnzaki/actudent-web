@@ -23,6 +23,8 @@
         <ul class="menu-content">
           <li class="{+ menu_active uri=PengaturanAplikasi +}"><a class="menu-item" href="{guru}pengaturan-aplikasi" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_aplikasi +}</a>
           </li>
+          <li class="{+ menu_active uri=UmpanBalik +}"><a class="menu-item" href="{guru}umpan-balik" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_feedback +}</a>
+          </li>
         </ul>
       </li>
       {if ENVIRONMENT === 'development'}

@@ -27,4 +27,10 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('timeline', 'ReadTimeline::page');
 	$routes->add('timeline/get-posts/(:any)/(:any)', 'ReadTimeline::getPosts/$1/$2');
 	$routes->add('timeline/get-detail/(:any)', 'ReadTimeline::getPostDetail/$1');
+	$routes->add('umpan-balik', 'GuruFeedback::page');
+	$routes->add('umpan-balik/validasi', 'GuruFeedback::FeedbackValidation');
+	$routes->add('umpan-balik/send/', 'GuruFeedback::send');
+	$routes->add('umpan-balik/send/(:any)', 'GuruFeedback::send/$1');
+	$routes->add('umpan-balik/validasi-gambar', 'GuruFeedback::runFileValidation');
+	$routes->add('umpan-balik/upload-gambar', 'GuruFeedback::uploadFile');
 });
