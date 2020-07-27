@@ -42,17 +42,17 @@ class Feedback extends Actudent
         }        
 
         $email = \Config\Services::email();
-        $config = [
-            'protocol'      => 'smtp',
-            'SMTPHost'      => 'ssl://mail.actudent.com',
-            'SMTPPort'      => 465,
-            'SMTPUser'      => 'feedback@actudent.com',
-            'SMTPPass'      => '(GvY(.n@OQ1W',
-            'SMTPCrypto'    => 'ssl',
-            'charset'       => 'iso-8859-1',
-            'mailType'      => 'html',
-        ];
-        $email->initialize($config);
+        // $config = [
+        //     'protocol'      => 'smtp',
+        //     'SMTPHost'      => 'ssl://mail.actudent.com',
+        //     'SMTPPort'      => 465,
+        //     'SMTPUser'      => 'feedback@actudent.com',
+        //     'SMTPPass'      => '(GvY(.n@OQ1W',
+        //     'SMTPCrypto'    => 'ssl',
+        //     'charset'       => 'iso-8859-1',
+        //     'mailType'      => 'html',
+        // ];
+        // $email->initialize($config);
 
         $common         = $this->common();
         $type           = $data['feedback_type'];
@@ -70,6 +70,7 @@ class Feedback extends Actudent
 
         if($email->send())
         {
+            $email->send();
             return $this->response->setJSON(['msg' => 'Feedback sent successfully']);
         }
         else

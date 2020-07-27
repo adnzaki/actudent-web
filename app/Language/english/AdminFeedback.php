@@ -14,5 +14,5 @@ return [
     'feedback_send_success'     => 'Feedback has been sent successfully',
     'feedback_err_type_req'     => 'Feedback type is required',
     'feedback_err_desc_req'     => 'Feedback description is required',
-    'feedback_err_desc_min'     => 'Feedback description must have at least 20 characters',
+    'feedback_err_desc_min'     => 'Feedback description must have at least 10 characters',
 ];

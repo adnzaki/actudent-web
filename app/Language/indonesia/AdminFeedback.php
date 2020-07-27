@@ -14,5 +14,5 @@ return [
     'feedback_send_success'     => 'Umpan balik berhasil dikirim',
     'feedback_err_type_req'     => 'Jenis umpan balik harus terisi',
     'feedback_err_desc_req'     => 'Deskripsi umpan balik harus terisi',
-    'feedback_err_desc_min'     => 'Deskripsi umpan balik minimal berisi 20 karakter',
+    'feedback_err_desc_min'     => 'Deskripsi umpan balik minimal berisi 10 karakter',
 ];
