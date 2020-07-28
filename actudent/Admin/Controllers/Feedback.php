@@ -59,9 +59,9 @@ class Feedback extends Actudent
             // send back email to user
             $reply = 'Halo, ' . session('nama') . '! Terima kasih telah mengirimkan umpan balik
                     ke Wolestech, informasi anda sangat berguna untuk pengembangan Actudent selanjutnya. 
-                    Silakan balas pesan ini untuk kontak lebih lanjut dengan kami. <i>See you!</i></i><br><br>
-                    Hormat Kami, <br><br><br>ActudentDev Team (Wolestech)';
-            $email->setFrom('contact@actudent.com', 'Actudent Service');
+                    Silakan balas pesan ini untuk kontak lebih lanjut dengan kami.<br><br>
+                    Salam Hangat, <br><br><br>ActudentDev Team (Wolestech)';
+            $email->setFrom('support@actudent.com', 'Actudent Support Service');
             $email->setTo($data['feedback_email']);
             $email->setSubject('Terima kasih telah mengirim umpan balik untuk Actudent!');
             $email->setMessage($reply);
