@@ -41,6 +41,14 @@
 						</div>
 						<div class="col-12">
 							<div class="form-group">
+								<label>{+ lang AdminFeedback.feedback_label_email +}</label>
+								<input class="form-control border-primary" type="email" 
+									placeholder="{+ lang AdminFeedback.feedback_input_email +}" name="feedback_email">
+								<form-error :msg="error.feedback_email" />
+							</div>
+						</div>
+						<div class="col-12">
+							<div class="form-group">
 								<label>{{ lang.feedback_label_att }}</label>
 								<form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data"></form>
 								<form action="" name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
