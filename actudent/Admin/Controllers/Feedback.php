@@ -51,7 +51,6 @@ class Feedback extends Actudent
 
         if($email->send())
         {
-            $email->send();
             if(file_exists($attachment))
             {
                 unlink($attachment);
@@ -62,6 +61,7 @@ class Feedback extends Actudent
                     ke Wolestech, informasi anda sangat berguna untuk pengembangan Actudent selanjutnya. 
                     Silakan balas pesan ini untuk kontak lebih lanjut dengan kami.<br><br>
                     Salam Hangat, <br><br><br>ActudentDev Team (Wolestech)';
+            $email->clear(true);
             $email->setFrom('support@actudent.com', 'Actudent Support Service');
             $email->setTo($data['feedback_email']);
             $email->setSubject('Terima kasih telah mengirim umpan balik untuk Actudent!');
