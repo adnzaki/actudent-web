@@ -10,7 +10,7 @@ return [
     'feedback_label_att'        => 'Lampiran',
     'feedback_label_email'      => 'Alamat Email',
     'feedback_input_desc'       => 'Deskripsikan umpan balik anda disini..',
-    'feedback_input_email'      => 'Email aktif anda (opsional)',
+    'feedback_input_email'      => 'Email aktif anda',
     'feedback_send_progress'    => 'Mengirim umpan balik...',
     'feedback_error_text'       => 'Tidak dapat mengirim umpan balik, silakan isi form dengan benar',
     'feedback_send_success'     => 'Umpan balik berhasil dikirim. Terima kasih atas partisipasi anda!',
@@ -18,4 +18,5 @@ return [
     'feedback_err_desc_req'     => 'Deskripsi umpan balik harus terisi',
     'feedback_err_desc_min'     => 'Deskripsi umpan balik minimal berisi 10 karakter',
     'feedback_err_invalid_email'=> 'Mohon isi dengan email yang valid',
+    'feedback_err_email_req'    => 'Mohon isi alamat email anda',
 ];

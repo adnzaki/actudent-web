@@ -144,18 +144,19 @@ class Feedback extends Actudent
         $rules = [
             'feedback_type'         => 'required',
             'feedback_description'  => "required|min_length[10]",    
-            'feedback_email'        => 'valid_email',
+            'feedback_email'        => 'required|valid_email',
         ];
 
         $messages = [
             'feedback_type' => [
-                'required'  => lang('AdminFeedback.feedback_err_type_req'),
+                'required'      => lang('AdminFeedback.feedback_err_type_req'),
             ], 
             'feedback_description' => [
                 'required'      => lang('AdminFeedback.feedback_err_desc_req'),
                 'min_length'    => lang('AdminFeedback.feedback_err_desc_min'),                
             ],         
             'feedback_email' => [
+                'required'      => lang('AdminFeedback.feedback_err_email_req'),
                 'valid_email'   => lang('AdminFeedback.feedback_err_invalid_email')
             ],
         ];
