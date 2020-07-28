@@ -50,7 +50,6 @@ class Feedback extends Actudent
 
         if($email->send())
         {
-            $email->send();
             if(file_exists($attachment))
             {
                 unlink($attachment);

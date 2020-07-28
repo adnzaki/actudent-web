@@ -65,11 +65,13 @@ const feedback = new Vue({
                     } else {
                         let obj = this
                         let uploadImage = new Promise((resolve, reject) => {
+                            let t0 = performance.now()
                             if(obj.helper.filename !== '') {
                                 obj.uploadRequest(`${this.feedback}upload-gambar`, 'upload-file')
                             }
+                            let t1 = performance.now()
                             // wait 3 seconds
-                            setTimeout(resolve, 3000)
+                            setTimeout(resolve, (t1-t0) + 3000)
                         })
 
                         uploadImage.then(sendEmail)
