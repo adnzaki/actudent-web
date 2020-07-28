@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Core\Controllers\Actudent;
+use CodeIgniter\Files\File;
 
 class Feedback extends Actudent
 {
@@ -19,7 +20,7 @@ class Feedback extends Actudent
         if(! empty($attachment))
         {
             $path = PUBLICPATH . 'attachments/email/' . $attachment;
-            $file = new \CodeIgniter\Files\File($path);
+            $file = new File($path);
             $attachment = $file->getRealPath();
         }        
 
@@ -99,9 +100,16 @@ class Feedback extends Actudent
         {
             $attachment = $this->request->getFile('feedback_image');
             $newFilename = 'attachment_' . $attachment->getRandomName();
-            $attachment->move(PUBLICPATH . 'attachments/email', $newFilename);           
+            $attachment->move(PUBLICPATH . 'attachments/email', $newFilename);    
+            
+            $path = PUBLICPATH . 'attachments/email/' . $newFilename;
+            $file = new File($path);
 
-            return $this->response->setJSON(['msg' => 'OK', 'attachment' => $newFilename]);
+            return $this->response->setJSON([
+                'msg' => 'OK', 
+                'attachment' => $newFilename,
+                'filesize' => ($file->getSize() / 1000),
+            ]);
         }
         else 
         {

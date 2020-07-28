@@ -31,6 +31,7 @@ public/assets/js/lib/summernote/summernote-lite.min.js
 public/attachments/absensi
 public/attachments/agenda
 public/attachments/timeline
+public/attachments/email
 actudent/Admin/Controllers/Test.php
 queries/query_test.sql
 .commitnote

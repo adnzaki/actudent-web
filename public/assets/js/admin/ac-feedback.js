@@ -20,7 +20,7 @@ const feedback = new Vue({
             showSaveButton: true, showDeleteButton: false,
             deleteProgress: false,
         },
-        attachment: '',
+        attachment: '', filesize: '',
     },
     mounted() {        
         this.getLanguageResources('AdminFeedback')
@@ -65,13 +65,11 @@ const feedback = new Vue({
                     } else {
                         let obj = this
                         let uploadImage = new Promise((resolve, reject) => {
-                            let t0 = performance.now()
                             if(obj.helper.filename !== '') {
                                 obj.uploadRequest(`${this.feedback}upload-gambar`, 'upload-file')
                             }
-                            let t1 = performance.now()
                             // wait 3 seconds
-                            setTimeout(resolve, (t1-t0) + 3000)
+                            setTimeout(resolve, obj.filesize + 3000)
                         })
 
                         uploadImage.then(sendEmail)
@@ -128,6 +126,7 @@ const feedback = new Vue({
                     //this.helper.validImage = true
                     if(validate === false) {
                         this.attachment = req.response.attachment
+                        this.filesize = req.response.filesize
                         document.getElementById(formName).reset()
                     }
                 } else {
