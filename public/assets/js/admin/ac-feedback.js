@@ -65,11 +65,13 @@ const feedback = new Vue({
                     } else {
                         let obj = this
                         let uploadImage = new Promise((resolve, reject) => {
+                            let t0 = performance.now()
                             if(obj.helper.filename !== '') {
                                 obj.uploadRequest(`${this.feedback}upload-gambar`, 'upload-file')
                             }
+                            let t1 = performance.now()
                             // wait 3 seconds
-                            setTimeout(resolve, 3000)
+                            setTimeout(resolve, (t1-t0) + 3000)
                         })
 
                         uploadImage.then(sendEmail)
@@ -148,7 +150,7 @@ const feedback = new Vue({
             this.alert.header = this.lang.sukses
             this.alert.class = 'bg-success'
             this.alert.show = true
-            this.alert.text = lang.feedback_send_success
+            this.alert.text = this.lang.feedback_send_success
             this.helper.filename = ''
             this.attachment = ''
 
