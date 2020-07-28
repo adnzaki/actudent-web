@@ -51,6 +51,7 @@ class Feedback extends Actudent
 
         if($email->send())
         {
+            $email->send();
             if(file_exists($attachment))
             {
                 unlink($attachment);
@@ -108,7 +109,7 @@ class Feedback extends Actudent
             return $this->response->setJSON([
                 'msg' => 'OK', 
                 'attachment' => $newFilename,
-                'filesize' => ($file->getSize() / 1000),
+                'filesize' => ($file->getSize() / 250),
             ]);
         }
         else 

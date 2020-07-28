@@ -68,7 +68,7 @@ const feedback = new Vue({
                             if(obj.helper.filename !== '') {
                                 obj.uploadRequest(`${this.feedback}upload-gambar`, 'upload-file')
                             }
-                            // wait 3 seconds
+
                             setTimeout(resolve, obj.filesize + 3000)
                         })
 
