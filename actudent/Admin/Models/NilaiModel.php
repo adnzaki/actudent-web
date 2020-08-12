@@ -44,12 +44,17 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return object
      */
-    public function getScores($gradeID, $scoreType)
+    public function getScores($gradeID, $lesson, $scoreType)
     {
         $field = "score_category, score_description, {$this->nilai}.modified";
         $select = $this->QBNilai->select($field);
         $join1 = $select->join($this->mapelKelas, "{$this->nilai}.lessons_grade_id={$this->mapelKelas}.lessons_grade_id");
-        $params = ["{$this->nilai}.deleted" => 0, 'grade_id' => $gradeID, 'score_type' => $scoreType];
+        $params = [
+            "{$this->nilai}.deleted"            => 0, 
+            'grade_id'                          => $gradeID, 
+            'score_type'                        => $scoreType,
+            "{$this->nilai}.lessons_grade_id"   => $lesson,
+        ];
         return $join1->where($params)->get()->getResult();
     }
 

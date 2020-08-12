@@ -24,9 +24,9 @@ class Nilai extends Actudent
                 ->render('Actudent\Admin\Views\nilai\nilai-view');
     }
 
-    public function getScores($gradeID, $scoreType)
+    public function getScores($gradeID, $lesson, $scoreType)
     {
-        $data = $this->nilai->getScores($gradeID, $scoreType);
+        $data = $this->nilai->getScores($gradeID, $lesson, $scoreType);
         $kategori = [
             'Tugas'     => 'Tugas',
             'UH'        => 'Ulangan Harian',

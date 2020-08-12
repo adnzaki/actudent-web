@@ -27,13 +27,10 @@
             </div>            
         </div>
     </div>        
-    <!-- <div class="table-responsive" v-if="helper.archivePage || helper.presenceGrid">
+    <div class="table-responsive">
         <table class="table table-hover mb-0 cursor-pointer">
-            {+ include Actudent\Admin\Views\absensi\ListAbsen +}   
+            {+ include Actudent\Admin\Views\nilai\ListNilai +}   
         </table>
     </div>
-    <div class="table-responsive" v-if="!helper.archivePage && !helper.presenceGrid">
-        {+ include Actudent\Admin\Views\absensi\ArsipJurnal +}   
-    </div> -->
 </div>
 
