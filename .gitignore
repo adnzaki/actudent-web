@@ -35,6 +35,7 @@ public/attachments/email
 actudent/Admin/Controllers/Test.php
 queries/query_test.sql
 .commitnote
+index.php
 
 # OS X Thumbnails
 ._*
