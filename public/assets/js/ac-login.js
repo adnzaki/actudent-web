@@ -5,7 +5,7 @@
  * @copyright   Wolestech (c) 2018
  */
 
-const login = new Vue({
+const login = {
 	el: '#login-content',
 	mixins: [plugin],
     data: {
@@ -43,7 +43,8 @@ const login = new Vue({
                 			this.msgClass = 'error-text'
                 			this.msg = this.lang.invalid_login
                 			setTimeout(() => {
-                				this.showMsg = false
+								this.showMsg = false
+								this.wolesLogo = 'woles-logo'
                 			}, 4000)
                 		}
                 	},
@@ -56,4 +57,6 @@ const login = new Vue({
             }
         }
 	}
-})
+}
+
+new Vue(login)
