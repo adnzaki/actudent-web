@@ -100,14 +100,14 @@ class Pegawai extends Actudent
             else
             {
 
-                if($data['current_image'] !== $data['image_feature'])
-                {
-                    $path = PUBLICPATH . 'images/pegawai/';
-                    if(file_exists($path . $data['current_image']))
-                    {
-                        unlink($path . $data['current_image']);
-                    }
-                }
+                // if($data['current_image'] !== $data['image_feature'])
+                // {
+                //     $path = PUBLICPATH . 'images/pegawai/';
+                //     if(file_exists($path . $data['current_image']))
+                //     {
+                //         unlink($path . $data['current_image']);
+                //     }
+                // }
                 
                 $response = [
                     'code' => '200',
@@ -129,6 +129,7 @@ class Pegawai extends Actudent
             'staff_phone'   => 'required|is_natural|min_length[11]|max_length[13]',
             'staff_type'    => 'required',
             'staff_title'    => 'required',
+            'image_feature' => 'required',
         ];
 
         $messages = [
@@ -151,6 +152,9 @@ class Pegawai extends Actudent
                 'required'  => lang('AdminPegawai.staff_err_type'),
             ],
             'staff_title' => [
+                'required'  => lang('AdminPegawai.staff_err_title'),
+            ],
+            'image_feature' => [
                 'required'  => lang('AdminPegawai.staff_err_title'),
             ],
         ];      
@@ -203,12 +207,24 @@ class Pegawai extends Actudent
             $attachment->move(PUBLICPATH . 'images/pegawai', $newFilename);
 
             $image = \Config\Services::image();
-            $image->withFile(PUBLICPATH . 'images/pegawai' . $newFilename)
+            $image->withFile(PUBLICPATH . 'images/pegawai/' . $newFilename)
                   ->fit(113, 113)
-                  ->save(PUBLICPATH . 'images/pegawai' . $newFilename);
-
+                  ->save(PUBLICPATH . 'images/pegawai/' . $newFilename);
+            // Get the image and convert into string
+            $img = file_get_contents('images/pegawai/' . $newFilename);
+            // Encode the image string data into base64 
+            $data = base64_encode($img);            
+           
             // Set attachment
-            $this->staff->setPhoto($newFilename, $insertID);
+            $this->staff->setPhoto($data, $insertID);     
+            
+            // Delete File
+            $path = PUBLICPATH . 'images/pegawai/' . $newFilename;
+            if(file_exists($path))
+            {
+                unlink($path);
+            }
+
             return $this->response->setJSON(['msg' => 'OK']);
         }
         else 
@@ -222,7 +238,31 @@ class Pegawai extends Actudent
         $validated = $this->validateFile();
         if($validated)
         {
-            return $this->response->setJSON(['msg' => 'OK']);
+            $attachment = $this->request->getFile('staff_photo');
+            $newFilename ="img_" . $attachment->getRandomName();
+            $attachment->move(PUBLICPATH . 'images/pegawai', $newFilename);
+
+            $image = \Config\Services::image();
+            $image->withFile(PUBLICPATH . 'images/pegawai/' . $newFilename)
+                  ->fit(113, 113)
+                  ->save(PUBLICPATH . 'images/pegawai/' . $newFilename);
+            // Get the image and convert into string
+            $img = file_get_contents('images/pegawai/' . $newFilename);
+            // Encode the image string data into base64 
+            $data = base64_encode($img);            
+                       
+            // Delete File
+            $path = PUBLICPATH . 'images/pegawai/' . $newFilename;
+            if(file_exists($path))
+            {
+                unlink($path);
+            }
+            $response = [
+                'msg' => 'OK',
+                'img' => $data, // return base64 image
+            ];
+
+            return $this->response->setJSON($response);
         }
         else 
         {

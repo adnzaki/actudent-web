@@ -142,7 +142,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     {
         $field = 'tb_staff.user_id, staff_id, staff_nik, 
                   staff_name, staff_phone, staff_type, staff_title,
-                  user_name, user_email';
+                  user_name, user_email, staff_photo';
         $select = $this->QBStaff->select($field)
                   ->join($this->user, "{$this->staff}.user_id = {$this->user}.user_id")
                   ->where('tb_staff.user_id', $id)->get();
@@ -192,6 +192,8 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
         $lang['user_id'] = $userID;
         $lang['user_language'] = 'indonesia';
         $this->QBUserLang->insert($lang);
+        // return the insertID
+        return $userID;
     }
    
 

@@ -9,7 +9,8 @@ aria-hidden="true" v-if="showChangelog">
                 </button>
             </div>
             <div class="modal-body">
-                <li style="list-style: inside; padding-bottom: 5px;"
+                <p v-if="changelogList.length === 1">{{ changelogList[0] }}</p>
+                <li v-else style="list-style: inside; padding-bottom: 5px;"
                     v-for="(item, index) in changelogList.slice(1)" :key="index">{{ item }}
                 </li>
             </div>

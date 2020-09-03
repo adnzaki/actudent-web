@@ -24,8 +24,28 @@ class Resources extends Actudent
 
             return [
                 'changelog' => $changelog,
-                'countChangelog' => count(explode('-', $changelog)) - 1,
+                'countChangelog' => $this->countChangelog($changelog),
             ];
+        }
+    }
+
+    /**
+     * Count the number of changelog
+     * If no changelog detected, '!' sign will be provided
+     * 
+     * @param string $changelog
+     * 
+     * @return string|int
+     */
+    private function countChangelog($changelog)
+    {
+        if(strpos($changelog, '-') === false)
+        {
+            return '!';
+        }
+        else
+        {
+            return count(explode('-', $changelog)) - 1;
         }
     }
 
@@ -40,10 +60,14 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- Menambahkan fitur Umpan Balik!"
+                "- Menambahkan fitur unggah foto pegawai
+                - Perbaikan kecil pada halaman login
+                - Fitur Nilai sedang dalam pengembangan!"
             ],
             'english' => [
-                "- Added Feedback feature!"
+                "- Added staff photo upload feature
+                - Little fixes on login page
+                - Scores feature is currently developed!"
             ]
         ];
 
@@ -59,12 +83,14 @@ class Resources extends Actudent
      */
     private function guruChangelog($lang)
     {
-        $changelog = [
+        $$changelog = [
             'indonesia' => [
-                "- Menambahkan fitur Umpan Balik!"
+                "- Perbaikan kecil pada halaman login
+                - Fitur Nilai sedang dalam pengembangan!"
             ],
             'english' => [
-                "- Added Feedback feature!"
+                "- Little fixes on login page
+                - Scores feature is currently developed!"
             ]
         ];
 

@@ -66,7 +66,9 @@ aria-hidden="true">
                             </form>
                             <input class="form-control border-primary" type="text" :placeholder="lang.staff_input_jabatan" name="staff_title">
                             <form-error :msg="error.staff_title" />
+                                                  
                         </div>
+                        <input type="hidden"  name="image_feature" v-model="helper.filename">      
                         <div class="form-group">
                             <label>{{ lang.staff_label_photo }}</label>                            
                             <form name="upload-file" id="upload-file" method="post" enctype="multipart/form-data">
