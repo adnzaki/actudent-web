@@ -60,12 +60,14 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "Halo Sobat Actudent, saat ini kami sedang menyiapkan fitur Nilai. Progress
-                pengembangan fitur ini bisa dilihat di Instagram resmi @wolestech."
+                "- Menambahkan fitur unggah foto pegawai
+                - Perbaikan kecil pada halaman login
+                - Fitur Nilai sedang dalam pengembangan!"
             ],
             'english' => [
-                "Hello Actudent Friends, we are currently working on Scores feature. Development
-                progress of this feature can be seen at our official Instagram @wolestech."
+                "- Added staff photo upload feature
+                - Little fixes on login page
+                - Scores feature is currently developed!"
             ]
         ];
 
@@ -83,12 +85,12 @@ class Resources extends Actudent
     {
         $$changelog = [
             'indonesia' => [
-                "Halo Sobat Actudent, saat ini kami sedang menyiapkan fitur Nilai. Progress
-                pengembangan fitur ini bisa dilihat di Instagram resmi @wolestech."
+                "- Perbaikan kecil pada halaman login
+                - Fitur Nilai sedang dalam pengembangan!"
             ],
             'english' => [
-                "Hello Actudent Friends, we are currently working on Scores feature. Development
-                progress of this feature can be seen at our official Instagram @wolestech."
+                "- Little fixes on login page
+                - Scores feature is currently developed!"
             ]
         ];
 
