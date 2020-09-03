@@ -24,8 +24,28 @@ class Resources extends Actudent
 
             return [
                 'changelog' => $changelog,
-                'countChangelog' => count(explode('-', $changelog)) - 1,
+                'countChangelog' => $this->countChangelog($changelog),
             ];
+        }
+    }
+
+    /**
+     * Count the number of changelog
+     * If no changelog detected, '!' sign will be provided
+     * 
+     * @param string $changelog
+     * 
+     * @return string|int
+     */
+    private function countChangelog($changelog)
+    {
+        if(strpos($changelog, '-') === false)
+        {
+            return '!';
+        }
+        else
+        {
+            return count(explode('-', $changelog)) - 1;
         }
     }
 
@@ -40,10 +60,12 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- Menambahkan fitur Umpan Balik!"
+                "Halo Sobat Actudent, saat ini kami sedang menyiapkan fitur Nilai. Progress
+                pengembangan fitur ini bisa dilihat di Instagram resmi @wolestech."
             ],
             'english' => [
-                "- Added Feedback feature!"
+                "Hello Actudent Friends, we are currently working on Scores feature. Development
+                progress of this feature can be seen at our official Instagram @wolestech."
             ]
         ];
 
@@ -59,12 +81,14 @@ class Resources extends Actudent
      */
     private function guruChangelog($lang)
     {
-        $changelog = [
+        $$changelog = [
             'indonesia' => [
-                "- Menambahkan fitur Umpan Balik!"
+                "Halo Sobat Actudent, saat ini kami sedang menyiapkan fitur Nilai. Progress
+                pengembangan fitur ini bisa dilihat di Instagram resmi @wolestech."
             ],
             'english' => [
-                "- Added Feedback feature!"
+                "Hello Actudent Friends, we are currently working on Scores feature. Development
+                progress of this feature can be seen at our official Instagram @wolestech."
             ]
         ];
 

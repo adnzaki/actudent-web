@@ -13,10 +13,14 @@ const dashboard = new Vue({
         sevenDaysPresence: {},
     },
     mounted() {
-        let split = changelog.split('- ')
-        split.forEach(item => {
-            this.changelogList.push(item)
-        })
+        if(changelog.indexOf('-') === -1) {
+            this.changelogList.push(changelog)            
+        } else {
+            let split = changelog.split('- ')
+            split.forEach(item => {
+                this.changelogList.push(item)
+            })
+        }
         $('#changelog-modal').modal('show')
         this.getLastSevenDaysPresence()
         if(localStorage.getItem('changelog') === null) {
