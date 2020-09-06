@@ -4,7 +4,8 @@
             <div class="col-3 col-lg-1">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-warning"
-                        data-toggle="modal">Tambah
+                        :disabled="disableAddBtn"
+                        @click="showFormTambahNilai">{+ lang Admin.tambah +}
                     </button>
                 </div>
             </div> 

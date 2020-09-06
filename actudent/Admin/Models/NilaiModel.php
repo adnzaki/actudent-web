@@ -46,7 +46,7 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      */
     public function getScores($gradeID, $lesson, $scoreType)
     {
-        $field = "score_category, score_description, {$this->nilai}.modified";
+        $field = "score_category, score_description, {$this->nilai}.lessons_grade_id, {$this->nilai}.modified";
         $select = $this->QBNilai->select($field);
         $join1 = $select->join($this->mapelKelas, "{$this->nilai}.lessons_grade_id={$this->mapelKelas}.lessons_grade_id");
         $params = [
@@ -56,6 +56,22 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
             "{$this->nilai}.lessons_grade_id"   => $lesson,
         ];
         return $join1->where($params)->get()->getResult();
+    }
+
+    /**
+     * Add a score
+     * 
+     * @param array $data
+     * @param int $lesson
+     * @param string $lessonType
+     * 
+     * @return void
+     */
+    public function insert($data, $lesson, $lessonType)
+    {
+        $data['lessons_grade_id']   = $lesson;
+        $data['score_type']         = $lessonType;
+        $this->QBNilai->insert($data);
     }
 
 }

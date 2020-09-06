@@ -23,6 +23,7 @@
             </div>
 			{+ include Actudent\Admin\Views\siswa\alert +}
 			{+ include Actudent\Admin\Views\nilai\NilaiSiswa +}
+			{+ include Actudent\Admin\Views\nilai\FormTambahNilai +}
 		</div>
 	</div>
 </div>

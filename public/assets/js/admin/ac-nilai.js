@@ -67,6 +67,96 @@ const nilai = new Vue({
                 }
             })   
         },
+        save(edit = false, id = null) {
+            let url = `${this.nilai}save/${this.helper.selectedMapel}/${this.helper.mapelType}`, 
+                form,
+                obj = this
+
+            if(edit) {
+                url = `${url}/${id}`
+                form = $('#formEditNilai')
+            } else {
+                form = $('#formTambahNilai')
+            }
+            let data = form.serialize()
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                beforeSend: () => {
+                    obj.alert.header = ''
+                    obj.alert.text = obj.lang.nilai_save_progress
+                    obj.alert.show = true
+                    obj.helper.disableSaveButton = true
+                },
+                success: res => {
+                    obj.helper.disableSaveButton = false
+                    if(res.code === '500') {
+                        obj.error = res.msg
+
+                        // set error alert
+                        obj.alert.class = 'bg-danger'
+                        obj.alert.header = 'Error!'
+                        obj.alert.text = obj.lang.nilai_save_error
+
+                        // hide after 3000 ms and change the class and text to default
+                        setTimeout(() => {
+                            obj.alert.show = false
+                            obj.alert.class = 'bg-primary'
+                            obj.alert.header = ''
+                            obj.alert.text = ''
+                        }, 3000);
+                    } else {
+                        if(edit) {
+                            obj.resetForm('edit', form)
+                        } else {
+                            obj.resetForm('insert', form)
+                        }
+                    }
+                },
+                error: () => console.error('Network error')
+            })
+        },
+        resetForm(type, form = '') {
+            this.alert.show = false
+            // clear error messages if exists
+            this.error = {}
+
+            // reset form
+            if(form !== '') {
+                form.trigger('reset')
+            }
+
+            // reload table 
+            this.getNilai()
+                
+            if(type === 'insert') {
+                this.alert.text = this.lang.nilai_insert_success 
+                $('#tambahNilaiModal').modal('hide')
+            } else if(type === 'edit') {
+                this.alert.text = this.lang.nilai_edit_success
+                $('#editNilaiModal').modal('hide')                     
+            } else {
+                this.alert.text = this.lang.nilai_delete_success                
+            }
+
+            this.alert.header = this.lang.sukses
+            this.alert.class = 'bg-success'
+            this.alert.show = true
+
+            setTimeout(() => {
+                this.alert.show = false
+                this.alert.header = ''
+                this.alert.class = 'bg-primary'
+                this.alert.text = ''
+            }, 3500);
+        },
+        showFormTambahNilai() {
+            if(this.helper.gradeID !== '' || this.helper.selectedMapel !== '') {
+                $('#tambahNilaiModal').modal('show')
+            }
+        },
         onRombelChanged() {
             let obj = this
             $('#pilihKelas').on('select2:select', function(e) {
@@ -114,6 +204,13 @@ const nilai = new Vue({
                 return `${admin}nilai/`
             } else {
                 return `${guru}nilai/`
+            }
+        },
+        disableAddBtn() {
+            if(this.helper.gradeID === '' || this.helper.selectedMapel === '') {
+                return true
+            } else {
+                return false
             }
         }
     },
