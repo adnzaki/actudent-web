@@ -120,7 +120,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('nilai', 'Nilai::index');
 	$routes->add('nilai/get-kategori/(:any)/(:any)/(:any)', 'Nilai::getScores/$1/$2/$3');
 	$routes->add('nilai/save/(:num)/(:alpha)', 'Nilai::save/$1/$2');
-	$routes->add('nilai/save/(:num)/(:alpha)/(:any)', 'Nilai::save/$1/$2/$3');
+	$routes->add('nilai/save/(:any)/(:any)/(:any)', 'Nilai::save/$1/$2/$3');
+	$routes->add('nilai/detail/(:any)', 'Nilai::getScoreDetail/$1');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

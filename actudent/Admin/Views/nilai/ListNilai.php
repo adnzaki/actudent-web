@@ -19,7 +19,7 @@
                     <td>{{ item.modified }}</td>
                     <td>
                         <button type="button" class="btn btn-icon btn-info" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang Admin.perbarui +}">
+                            title="{+ lang Admin.perbarui +}" @click="getDetailNilai(item.score_id)">
                             <i class="la la-pencil"></i>
                         </button>
                         <button type="button" class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top"

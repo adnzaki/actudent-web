@@ -24,6 +24,7 @@
 			{+ include Actudent\Admin\Views\siswa\alert +}
 			{+ include Actudent\Admin\Views\nilai\NilaiSiswa +}
 			{+ include Actudent\Admin\Views\nilai\FormTambahNilai +}
+			{+ include Actudent\Admin\Views\nilai\FormEditNilai +}
 		</div>
 	</div>
 </div>

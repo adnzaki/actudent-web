@@ -45,7 +45,22 @@ class Nilai extends Actudent
 
         return $this->response->setJSON($data);
     }
-    
+
+    public function getScoreDetail($scoreID)
+    {
+        return $this->response->setJSON($this->nilai->getScoreDetail($scoreID));
+    }
+ 
+    /**
+     * Validate request
+     * Save them to database, or throw errors if fail
+     * 
+     * @param int|string $lesson
+     * @param string
+     * @param null|int
+     * 
+     * @return JSON
+     */
     public function save($lesson, $lessonType, $id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]
@@ -65,7 +80,7 @@ class Nilai extends Actudent
             }
             else
             {
-                //$this->jadwal->update($data, $id);
+                $this->nilai->update($data, $id);
             }
             
             return $this->response->setJSON([

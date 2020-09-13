@@ -24,10 +24,12 @@ const nilai = new Vue({
         },
         spinner: false,
         scoreList: [],
+        scoreDetail: '',
     },
     mounted() {
         this.runSelect2()
         this.getLanguageResources('AdminNilai')
+        this.getLanguageResources('Admin')
 
         if(actudentSection === 'admin') {
             this.getRombel()        
@@ -67,15 +69,32 @@ const nilai = new Vue({
                 }
             })   
         },
+        getDetailNilai(scoreID) {
+            this.error = {}
+            $('#editNilaiModal').modal('show')
+            $.ajax({
+                url: `${this.nilai}detail/${scoreID}`,
+                type: 'get',
+                dataType: 'json',
+                beforeSend: () => {
+                    $('#editTipe').select2()
+                },
+                success: res => {
+                    this.scoreDetail = res
+                    $('#editTipe').val(res.score_category).trigger('change')
+                }
+            })
+        },
         save(edit = false, id = null) {
-            let url = `${this.nilai}save/${this.helper.selectedMapel}/${this.helper.mapelType}`, 
+            let url = `${this.nilai}save/`, 
                 form,
                 obj = this
 
             if(edit) {
-                url = `${url}/${id}`
+                url = `${url}null/null/${id}`
                 form = $('#formEditNilai')
             } else {
+                url = `${url}${this.helper.selectedMapel}/${this.helper.mapelType}`
                 form = $('#formTambahNilai')
             }
             let data = form.serialize()
