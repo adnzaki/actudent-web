@@ -25,6 +25,7 @@ const nilai = new Vue({
         spinner: false,
         scoreList: [],
         scoreDetail: '',
+        scoreToDelete: '',
     },
     mounted() {
         this.runSelect2()
@@ -136,6 +137,30 @@ const nilai = new Vue({
                 },
                 error: () => console.error('Network error')
             })
+        },
+        deleteScore() {
+            $.ajax({
+                url: `${this.nilai}hapus`,
+                type: 'POST',
+                data: { id: this.scoreToDelete },
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.deleteProgress = true
+                    this.helper.disableSaveButton = true
+                },
+                success: msg => {
+                    $('#hapusModal').modal('hide')
+                    this.resetForm('delete')
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
+                }
+            })
+        },
+        showDeleteConfirm(id) {
+            this.scoreToDelete = id
+            $('#hapusModal').modal('show')
         },
         resetForm(type, form = '') {
             this.alert.show = false

@@ -89,9 +89,11 @@ class Nilai extends Actudent
         }
     }
 
-    public function delete()
+    public function deleteScore()
     {
-
+        $id = $this->request->getPost('id');
+        $this->nilai->delete($id);
+        return $this->response->setJSON(['status' => 'OK']);
     }
 
     private function validation()

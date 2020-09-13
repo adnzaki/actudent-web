@@ -99,4 +99,16 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
         $this->QBNilai->update($data, ['score_id' => $scoreID]);
     }
 
+    /**
+     * Tag score as "deleted"
+     * 
+     * @param int $scoreID
+     * 
+     * @return void
+     */
+    public function delete($scoreID)
+    {
+        $this->QBNilai->update(['deleted' => 1], ['score_id' => $scoreID]);
+    }
+
 }

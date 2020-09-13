@@ -23,7 +23,7 @@
                             <i class="la la-pencil"></i>
                         </button>
                         <button type="button" class="btn btn-icon btn-danger" data-toggle="tooltip" data-placement="top"
-                            title="{+ lang Admin.hapus +}">
+                            title="{+ lang Admin.hapus +}" @click="showDeleteConfirm(item.score_id)">
                             <i class="la la-trash"></i>
                         </button>
                     </td>
