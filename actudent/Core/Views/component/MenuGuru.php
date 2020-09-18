@@ -16,15 +16,9 @@
       <!-- <li class="{+ menu_active uri=aaa +} nav-item">
         <a href="{admin}siswa"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span></a>
       </li> -->
-      {if ENVIRONMENT === 'development'}
       <li class="{+ menu_active uri=nilai +} nav-item">
-        <a href="#"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>
+        <a href="{guru}nilai"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>
       </li>
-      {else}
-      <li class="{+ menu_active uri=nilai +} nav-item">
-        <a href="#"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>
-      </li>
-      {endif}
       <li class=" nav-item"><a href="#"><i class="la la-gears"></i><span class="menu-title" data-i18n="nav.icons.main">{+ lang Admin.menu_pengaturan +}</span></a>
         <ul class="menu-content">
           <li class="{+ menu_active uri=PengaturanAplikasi +}"><a class="menu-item" href="{guru}pengaturan-aplikasi" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_aplikasi +}</a>

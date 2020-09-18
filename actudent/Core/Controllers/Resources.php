@@ -60,14 +60,14 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- Menambahkan fitur unggah foto pegawai
-                - Perbaikan kecil pada halaman login
-                - Fitur Nilai sedang dalam pengembangan!"
+                "- Menambahkan fitur Nilai
+                - Memperbarui tahun pelajaran ke 2020/2021
+                - Memindahkan menu pengaturan jadwal ke halaman awal Jadwal"
             ],
             'english' => [
-                "- Added staff photo upload feature
-                - Little fixes on login page
-                - Scores feature is currently developed!"
+                "- Added Scores feature
+                - Updated lesson period to 2020/2021
+                - Moved schedule settings menu to Schedule main page"
             ]
         ];
 
@@ -83,14 +83,14 @@ class Resources extends Actudent
      */
     private function guruChangelog($lang)
     {
-        $$changelog = [
+        $changelog = [
             'indonesia' => [
-                "- Perbaikan kecil pada halaman login
-                - Fitur Nilai sedang dalam pengembangan!"
+                "- Menambahkan fitur Nilai
+                - Memperbaiki teks menu Jadwal dan Kehadiran yang hilang di mode Bahasa Inggris"
             ],
             'english' => [
-                "- Little fixes on login page
-                - Scores feature is currently developed!"
+                "- Added Scores feature
+                - Fixed menu text Schedule and Presence disappear in English mode"
             ]
         ];
 

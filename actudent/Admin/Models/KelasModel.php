@@ -135,7 +135,7 @@ class KelasModel extends SharedModel
     /**
      * Get member of a class group
      * 
-     * @param int $id
+     * @param int $id grade_id
      * @return object
      */
     public function getClassMember($id)
@@ -213,8 +213,8 @@ class KelasModel extends SharedModel
     public function insert($value)
     {
         $grade = $this->fillGradeField($value);
-        $grade['period_start']  = '2019';
-        $grade['period_end']    = '2020';
+        $grade['period_start']  = '2020';
+        $grade['period_end']    = '2021';
         $grade['grade_status']  = 1;
 
         $this->QBKelas->insert($grade);

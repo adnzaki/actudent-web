@@ -303,3 +303,24 @@ html body .extend-la {
 	border-bottom: 0 !important;
 	border-right: 0 !important;
 }
+
+.line-input {
+	border-right: 0 !important;
+	border-left: 0 !important;
+	border-top: 0 !important;
+	border-radius: 0 !important;
+}
+
+.lineless-input {
+	border: 0 !important;
+	border-radius: 0 !important;
+	background-color: transparent !important;
+}
+
+input.lineless-input:focus {
+	border: 1px solid #666EE8 !important;
+}
+
+.left-35-loader {
+	left: 35% !important;
+}
