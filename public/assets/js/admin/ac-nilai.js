@@ -21,6 +21,7 @@ const nilai = new Vue({
             showSaveButton: true, showDeleteButton: false,
             deleteProgress: false, mapelLength: 0, 
             gradeID: '', mapelType: '', selectedMapel: '',
+            daftarNilai: true, daftarPelajaran: false
         },
         saveScoreProgress: false,
         spinner: false,
@@ -29,6 +30,9 @@ const nilai = new Vue({
         scoreToDelete: '',
         scoreID: '',
         studentList: [],
+        guru: {
+            lessons: []
+        }
     },
     mounted() {
         this.runSelect2()
@@ -37,21 +41,57 @@ const nilai = new Vue({
 
         if(actudentSection === 'admin') {
             this.getRombel()        
+            setTimeout(() => {
+                this.helper.mapelType = $('#pilihTipe').val()            
+            }, 200);
+        } else {
+            this.getDaftarPelajaran()
+            this.helper.daftarPelajaran = true
+            this.helper.daftarNilai = false
         }
-
-        setTimeout(() => {
-            this.helper.mapelType = $('#pilihTipe').val()            
-        }, 200);
     },
     methods: {
+        // -------------------- Teacher Section  --------------------
+        getDaftarPelajaran() {
+            $.ajax({
+                url: `${this.nilai}daftar-pelajaran`,
+                dataType: 'json',
+                success: res => {
+                    this.guru.lessons = res     
+                    this.spinner = false               
+                }
+            }) 
+        },
+        showDaftarNilai(gradeID, lessonsGradeID) {     
+            this.helper.daftarPelajaran = false
+            this.helper.daftarNilai = true
+            this.helper.gradeID = gradeID
+            this.helper.selectedMapel = lessonsGradeID
+            setTimeout(() => {
+                this.onMapelTypeChanged()
+                this.helper.mapelType = $('#pilihTipe').val() 
+                this.getNilai()                
+            }, 200);
+        },
+        closeDaftarNilai() {
+            this.spinner = true
+            this.helper.daftarPelajaran = true
+            this.helper.daftarNilai = false
+            this.getDaftarPelajaran()
+        },
+        // -------------------- Admin Section  --------------------
         getNilai() {
             if(this.helper.gradeID !== '' && this.helper.selectedMapel !== '') {
                 let url = `${this.nilai}get-kategori/${this.helper.gradeID}/${this.helper.selectedMapel}/${this.helper.mapelType}`
                 $.ajax({
                     url: url,
                     dataType: 'json',
+                    beforeSend: () => {
+                        this.spinner = true
+                    },
                     success: res => {
                         this.scoreList = res
+                        this.spinner = false
                     }
                 })
             }
@@ -248,6 +288,7 @@ const nilai = new Vue({
         showFormTambahNilai() {
             if(this.helper.gradeID !== '' || this.helper.selectedMapel !== '') {
                 $('#tambahNilaiModal').modal('show')
+                $('#tipeNilai').select2()
             }
         },
         showKelolaNilai(scoreID) {
@@ -273,6 +314,7 @@ const nilai = new Vue({
         }, 
         onMapelTypeChanged() {
             let obj = this
+            $('#pilihTipe').select2()
             $('#pilihTipe').on('select2:select', function(e) {
                 let data = e.params.data
                 obj.helper.mapelType = data.id 

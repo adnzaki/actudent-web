@@ -3,6 +3,7 @@
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\NilaiModel;
 use Actudent\Admin\Models\KelasModel;
+use Actudent\Guru\Models\NilaiModel as NilaiGuru;
 
 class Nilai extends Actudent
 {
@@ -16,10 +17,16 @@ class Nilai extends Actudent
      */
     private $kelas;
 
+    /**
+     * @var Actudent\Guru\Models\NilaiModel
+     */
+    protected $nilaiGuru;
+
     public function __construct()
     {
         $this->nilai = new NilaiModel;
         $this->kelas = new KelasModel;
+        $this->nilaiGuru = new NilaiGuru;
     }
 
     public function index()

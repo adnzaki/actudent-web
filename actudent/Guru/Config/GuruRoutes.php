@@ -27,6 +27,15 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('timeline', 'ReadTimeline::page');
 	$routes->add('timeline/get-posts/(:any)/(:any)', 'ReadTimeline::getPosts/$1/$2');
 	$routes->add('timeline/get-detail/(:any)', 'ReadTimeline::getPostDetail/$1');
+	$routes->add('nilai', 'GuruNilai::page');
+	$routes->add('nilai/daftar-pelajaran', 'GuruNilai::getTeacherLessons');
+	$routes->add('nilai/get-kategori/(:any)/(:any)/(:any)', 'GuruNilai::getScores/$1/$2/$3');
+	$routes->add('nilai/save/(:num)/(:alpha)', 'GuruNilai::save/$1/$2');
+	$routes->add('nilai/save/(:any)/(:any)/(:any)', 'GuruNilai::save/$1/$2/$3');
+	$routes->add('nilai/detail/(:any)', 'GuruNilai::getScoreDetail/$1');
+	$routes->add('nilai/hapus', 'GuruNilai::deleteScore');
+	$routes->add('nilai/kelola/(:num)/(:num)', 'GuruNilai::getStudentScore/$1/$2');
+	$routes->add('nilai/simpan-nilai/(:any)', 'GuruNilai::saveScores/$1');
 	$routes->add('umpan-balik', 'GuruFeedback::page');
 	$routes->add('umpan-balik/validasi', 'GuruFeedback::FeedbackValidation');
 	$routes->add('umpan-balik/send/', 'GuruFeedback::send');

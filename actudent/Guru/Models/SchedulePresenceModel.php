@@ -8,7 +8,7 @@ class SchedulePresenceModel extends MainModel
     /**
      * @var Actudent\Admin\Models\JadwalModel
      */
-    private $jadwalModel;
+    protected $jadwalModel;
 
     public function __construct()
     {

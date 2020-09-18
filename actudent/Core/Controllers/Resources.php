@@ -83,14 +83,14 @@ class Resources extends Actudent
      */
     private function guruChangelog($lang)
     {
-        $$changelog = [
+        $changelog = [
             'indonesia' => [
                 "- Menambahkan fitur Nilai
-                - Memperbarui tahun pelajaran ke 2020/2021"
+                - Memperbaiki teks menu Jadwal dan Kehadiran yang hilang di mode Bahasa Inggris"
             ],
             'english' => [
                 "- Added Scores feature
-                - Updated lesson period to 2020/2021"
+                - Fixed menu text Schedule and Presence disappear in English mode"
             ]
         ];
 

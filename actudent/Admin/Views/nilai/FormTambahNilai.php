@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade text-left" id="tambahNilaiModal" role="dialog" aria-labelledby="myModalLabel2"
-aria-hidden="true">
+aria-hidden="true" v-if="helper.daftarNilai">
     <!-- Error message -->
     <alert-msg :alert-class="alert.class" 
         :header="alert.header" :text="alert.text" v-if="alert.show">
@@ -20,7 +20,7 @@ aria-hidden="true">
                     <div class="form-body skin skin-square">                        
                         <div class="form-group">
                             <label for="userinput5">{{ lang.nilai_label_kategori }}</label>
-                            <select class="select2 form-control mb-10" id="pilihTipe" style="width: 100%;" name="score_category">
+                            <select class="select2 form-control mb-10" id="tipeNilai" style="width: 100%;" name="score_category">
                                 <option selected value="Tugas">Tugas</option>
                                 <option value="UH">Ulangan Harian</option>
                                 <option value="PTS">Penilaian Tengah Semester</option>

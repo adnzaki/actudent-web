@@ -21,7 +21,7 @@ return [
     'menu_feedback'      => 'Feedback',
 
     // menu guru
-    'menu_jadwal_guru'  => 'Schedules and Presence',
+    'menu_jadwal_guru'  => 'Schedule and Presence',
     
     // teks navbar
     'navbar_halo'        => 'Hello',
