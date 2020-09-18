@@ -2,6 +2,11 @@
     <div class="card-body">
         <div class="row">         
             <div class="col-12 col-sm-6 col-md-4 col-lg-5 col-xl-6">
+                <div class="form-group">
+                    <button type="button" class="btn btn-outline-info" 
+                        data-toggle="modal" @click="getPengaturan">{+ lang Admin.menu_pengaturan +}
+                    </button>
+                </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 mb-10">
                 <select class="select2 form-control" id="showRows" style="width: 100%;">
