@@ -26,6 +26,7 @@
 			{+ include Actudent\Admin\Views\nilai\FormTambahNilai +}
 			{+ include Actudent\Admin\Views\nilai\FormEditNilai +}
 			{+ include Actudent\Admin\Views\nilai\DeleteConfirm +}
+			{+ include Actudent\Admin\Views\nilai\KelolaNilai +}
 		</div>
 	</div>
 </div>

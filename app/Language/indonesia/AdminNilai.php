@@ -15,5 +15,8 @@ return [
     'nilai_insert_success'      => 'Nilai berhasil ditambahkan',
     'nilai_edit_success'        => 'Nilai berhasil diperbarui',
     'nilai_delete_success'      => 'Nilai berhasil dihapus',
-    
+    'nilai_daftar_nilai'        => 'Daftar Nilai',
+    'nilai_kelola_title'        => 'Kelola Nilai',
+    'nilai_score_note'          => 'Catatan',
+    'nilai_sukses_simpan'       => 'Nilai berhasil disimpan',
 ];

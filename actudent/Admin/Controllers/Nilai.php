@@ -2,6 +2,7 @@
 
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\NilaiModel;
+use Actudent\Admin\Models\KelasModel;
 
 class Nilai extends Actudent
 {
@@ -10,9 +11,15 @@ class Nilai extends Actudent
      */
     private $nilai;
 
+    /**
+     * @var KelasModel
+     */
+    private $kelas;
+
     public function __construct()
     {
         $this->nilai = new NilaiModel;
+        $this->kelas = new KelasModel;
     }
 
     public function index()
@@ -49,6 +56,61 @@ class Nilai extends Actudent
     public function getScoreDetail($scoreID)
     {
         return $this->response->setJSON($this->nilai->getScoreDetail($scoreID));
+    }
+
+    public function getStudentScore($gradeID, $scoreID)
+    {
+        $classMember = $this->kelas->getClassMember($gradeID);
+        $wrapper = [];
+        foreach($classMember as $res)
+        {
+            $scores = $this->nilai->getStudentScore($scoreID, $res->student_id);
+            if(count($scores) > 0)
+            {
+                $scores = $scores[0];
+                $wrapper[] = [
+                    'id'        => $res->student_id,
+                    'student'   => $res->student_name,
+                    'score'     => $scores->score,
+                    'note'      => $scores->score_note
+                ];
+            }
+            else
+            {
+                $wrapper[] = [
+                    'id'        => $res->student_id,
+                    'student'   => $res->student_name,
+                    'score'     => '',
+                    'note'      => '',
+                ];
+            }
+        }
+
+        return $this->response->setJSON($wrapper);
+    }
+
+    public function saveScores($scoreID)
+    {
+        $request = $this->request->getPost('params');
+        $toArray = json_decode($request, true);
+        foreach($toArray as $res)
+        {
+            if(! is_numeric($res['score']))
+            {
+                $res['score'] = 0;
+            }
+            
+            $values = [
+                'score_id'      => $scoreID,
+                'student_id'    => $res['id'],
+                'score'         => $res['score'],
+                'score_note'    => $res['note']
+            ];
+
+            $this->nilai->saveScores($scoreID, $res['id'], $values);
+        }
+
+        return $this->response->setJSON(['status' => 'OK']);
     }
  
     /**

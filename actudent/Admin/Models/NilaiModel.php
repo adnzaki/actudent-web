@@ -71,6 +71,48 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
     }
 
     /**
+     * Get student's score
+     * 
+     * @param int $scoreID
+     * @param int $studentID
+     * 
+     * @return object
+     */
+    public function getStudentScore($scoreID, $studentID)
+    {
+        return $this->QBNilaiSiswa
+                    ->getWhere(['score_id' => $scoreID, 'student_id' => $studentID])
+                    ->getResult();
+    }
+
+    /**
+     * Save student score
+     * 
+     * @param int $scoreID
+     * @param int $studentID
+     * @param array $data
+     * 
+     * @return void
+     */
+    public function saveScores(int $scoreID, int $studentID, array $data): void
+    {
+        $check = $this->QBNilaiSiswa
+                      ->where(['score_id' => $scoreID, 'student_id' => $studentID])
+                      ->countAllResults();
+
+        if($check > 0)
+        {
+            $this->QBNilaiSiswa->update($data, [
+                'score_id' => $scoreID, 'student_id' => $studentID
+            ]);
+        }
+        else
+        {
+            $this->QBNilaiSiswa->insert($data);
+        }
+    }
+
+    /**
      * Add a score
      * 
      * @param array $data

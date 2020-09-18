@@ -15,5 +15,8 @@ return [
     'nilai_insert_success'      => 'Score added successfully',
     'nilai_edit_success'        => 'Score updated successfully',
     'nilai_delete_success'      => 'Score deleted successfully',
-
+    'nilai_daftar_nilai'        => 'Score List',
+    'nilai_kelola_title'        => 'Manage Scores',
+    'nilai_score_note'          => 'Notes',
+    'nilai_sukses_simpan'       => 'Scores has been saved successfully',
 ];

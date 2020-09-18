@@ -26,6 +26,10 @@
                             title="{+ lang Admin.hapus +}" @click="showDeleteConfirm(item.score_id)">
                             <i class="la la-trash"></i>
                         </button>
+                        <button type="button" class="btn btn-icon btn-success" data-toggle="tooltip" data-placement="top"
+                            title="{+ lang AdminNilai.nilai_daftar_nilai +}" @click="showKelolaNilai(item.score_id)">
+                            <i class="la la-clipboard"></i>
+                        </button>
                     </td>
                 </tr>
             </tbody>

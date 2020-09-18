@@ -22,10 +22,13 @@ const nilai = new Vue({
             deleteProgress: false, mapelLength: 0, 
             gradeID: '', mapelType: '', selectedMapel: '',
         },
+        saveScoreProgress: false,
         spinner: false,
         scoreList: [],
         scoreDetail: '',
         scoreToDelete: '',
+        scoreID: '',
+        studentList: [],
     },
     mounted() {
         this.runSelect2()
@@ -83,6 +86,15 @@ const nilai = new Vue({
                 success: res => {
                     this.scoreDetail = res
                     $('#editTipe').val(res.score_category).trigger('change')
+                }
+            })
+        },
+        getNilaiSiswa(scoreID) {
+            $.ajax({
+                url: `${this.nilai}kelola/${this.helper.gradeID}/${scoreID}`,
+                dataType: 'json',
+                success: res => {
+                    this.studentList = res
                 }
             })
         },
@@ -196,10 +208,52 @@ const nilai = new Vue({
                 this.alert.text = ''
             }, 3500);
         },
+        saveScores() {
+            let toBeSaved = this.studentList.filter(item => item.score !== '')                
+
+            for(let i = 0; i < toBeSaved.length; i++) {
+                toBeSaved[i].score = parseFloat(toBeSaved[i].score)
+                if(isNaN(toBeSaved[i].score)) {
+                    toBeSaved[i].score = 0
+                }
+            }
+
+            let params = JSON.stringify(toBeSaved)
+
+            $.ajax({
+                url: `${this.nilai}simpan-nilai/${this.scoreID}`,
+                type: 'post',
+                dataType: 'json',
+                data: { params },
+                beforeSend: () => {
+                    this.saveScoreProgress = true
+                    this.helper.disableSaveButton = true
+                },
+                success: res => {
+                    this.saveScoreProgress = false
+                    this.helper.disableSaveButton = false
+                    this.getNilaiSiswa(this.scoreID)
+
+                    // show alert
+                    this.alert.show = true
+                    this.alert.header = this.lang.sukses
+                    this.alert.class = 'bg-success'
+                    this.alert.text = this.lang.nilai_sukses_simpan
+                    setTimeout(() => {
+                        this.alert.show = false
+                    }, 3500);
+                }
+            })            
+        },
         showFormTambahNilai() {
             if(this.helper.gradeID !== '' || this.helper.selectedMapel !== '') {
                 $('#tambahNilaiModal').modal('show')
             }
+        },
+        showKelolaNilai(scoreID) {
+            $('#kelolaNilaiModal').modal('show')
+            this.scoreID = scoreID
+            this.getNilaiSiswa(scoreID)
         },
         onRombelChanged() {
             let obj = this
