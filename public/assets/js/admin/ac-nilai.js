@@ -19,9 +19,10 @@ const nilai = new Vue({
         helper: {
             disableSaveButton: false,
             showSaveButton: true, showDeleteButton: false,
-            deleteProgress: false, mapelLength: 0, 
+            deleteProgress: false,
             gradeID: '', mapelType: '', selectedMapel: '',
-            daftarNilai: true, daftarPelajaran: false
+            daftarNilai: true, daftarPelajaran: false,
+            afterSave: false,
         },
         saveScoreProgress: false,
         spinner: false,
@@ -70,13 +71,26 @@ const nilai = new Vue({
             setTimeout(() => {
                 this.onMapelTypeChanged()
                 this.helper.mapelType = $('#pilihTipe').val() 
-                this.getNilai()                
-            }, 200);
+                this.getNilai()  
+
+                // the worst solution ever to fix a bug 
+                if(this.helper.afterSave) {
+                    this.helper.daftarNilai = false
+                    setTimeout(() => {
+                        this.helper.daftarNilai = true 
+                        setTimeout(() => {
+                            $('#pilihTipe').select2()                                             
+                            this.helper.afterSave = false
+                        }, 500);
+                    }, 100);
+                }
+            }, 300);
         },
         closeDaftarNilai() {
             this.spinner = true
             this.helper.daftarPelajaran = true
             this.helper.daftarNilai = false
+            this.scoreList = []
             this.getDaftarPelajaran()
         },
         // -------------------- Admin Section  --------------------
@@ -180,6 +194,7 @@ const nilai = new Vue({
                             obj.alert.text = ''
                         }, 3000);
                     } else {
+                        this.helper.afterSave = true
                         if(edit) {
                             obj.resetForm('edit', form)
                         } else {
