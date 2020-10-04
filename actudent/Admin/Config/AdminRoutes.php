@@ -142,6 +142,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-data', 'Test::testData');
 	$routes->add('test-array', 'Test::arrayEach');
 	$routes->add('test-result', 'Test::resultToArray');
+	$routes->add('test-pdf', 'Test::testPdf');
 	$routes->add('template/icons', 'Template::icons');
 	$routes->add('template/buttons', 'Template::buttons');
 });
