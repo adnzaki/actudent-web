@@ -76,7 +76,7 @@ class Absensi extends Actudent
         $filename               = 'Laporan Jurnal '. $data['grade']->grade_name . ' ' .$date .'_'. time();
 
         $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');
-        return $html;
+        //return $html;
     }
 
     /**
