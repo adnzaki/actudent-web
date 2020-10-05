@@ -2,12 +2,13 @@
 
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Core\Libraries\Tcpdf\Pdf;
+use Actudent\Core\Libraries\FpdfRunner;
 
 class Test extends Actudent
 {
     public function testPdf()
     {
-        $pdf = new Pdf('SMKN 999 Kota Bekasi', 'Laporan absensi', 'Laporan', 'laporan, absensi, aplikasi');
+        $pdf = new Pdf();
         $pdf->run();
         //echo 'Ini bukan pdf';
     }
