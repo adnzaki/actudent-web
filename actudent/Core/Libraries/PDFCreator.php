@@ -3,8 +3,9 @@
 require_once APPPATH . 'ThirdParty/dompdf/vendor/autoload.php';
 
 use Dompdf\Dompdf;
+use CodeIgniter\Controller;
 
-class PDFCreator
+class PDFCreator extends Controller
 {
     public function create($html, $filename = '', $stream = true, $paper = 'A4', $orientation = 'portrait')
     {
@@ -21,5 +22,7 @@ class PDFCreator
         {
             return $dompdf->output();
         }
+
+        $this->response->setContentType('application/pdf');
     }
 }
