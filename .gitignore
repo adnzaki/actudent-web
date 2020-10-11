@@ -32,6 +32,9 @@ public/attachments/absensi
 public/attachments/agenda
 public/attachments/timeline
 public/attachments/email
+public/admin-login/index.html
+public/admin-login/js
+public/admin-login/images/icons
 actudent/Admin/Controllers/Test.php
 queries/query_test.sql
 .commitnote

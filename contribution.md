@@ -1,4 +1,4 @@
-# Panduan Untuk Kontribusi Dalam Project Actudent
+# Panduan Untuk Kontribusi Dalam Project Actudent (Web Version only)
 <i>Panduan ini hanya diperuntukkan untuk developer Actudent</i>
 
 ## Panduan Umum
@@ -6,10 +6,8 @@
 - Server-side Language : PHP 7.2
 - Web Framework : CodeIgniter 4.0.2
 - UI Framework : Vue.js 2.6.10
-- Android UI : Java
-- Android Backend : CodeIgniter 3.1.9
 - Database : MySQL
-- API Response : JSON
+- API Response Format : JSON
 
 ### Struktur Folder Utama
 - `actudent`<br>
@@ -27,7 +25,7 @@ Tempat menyimpan logs, session, cache dan file yang diupload
 
 ## Panduan Pengembangan di Sisi Server
 ### Modularisasi
-Basis kode Actudent menggunakan konsep modularisasi untuk memudahkan development dan maintenance aplikasi. Konsep ini dipilih karena memungkinkan Actudent dibagi ke dalam beberapa sub-sistem, seperti panel Admin, Guru dan Core. 
+Basis kode Actudent menggunakan konsep modularisasi untuk memudahkan development dan maintenance aplikasi. Konsep ini dipilih karena memungkinkan Actudent dibagi ke dalam beberapa sub-sistem, seperti panel Admin, Guru dan Core System. 
 
 ### Struktur Modul
 - `Admin`
@@ -38,7 +36,7 @@ Merupakan tempat menyimpan shared classes atau class inti yang dipakai oleh bebe
 Merupakan tempat menyimpan kode sumber modul Guru.
 
 ### Core Controller
-`Actudent` merupakan core controller yang wajib ada di semua controller Actudent. Tanpa class ini, Actudent tidak akan dapat berjalan sebagaimana mestinya. Hanya kontributor inti yang diperkenankan memodifikasi class ini. Class ini tersedia dengan namespace `Actudet\Core\Controlles\Actudent`.
+`Actudent` merupakan core controller yang wajib ada di semua controller Actudent. Tanpa class ini, Actudent tidak akan dapat berjalan sebagaimana mestinya. Hanya kontributor inti yang diperkenankan memodifikasi class ini. Class ini tersedia dengan namespace `Actudet\Core\Controllers\Actudent`.
 
 ### Core Model
 Actudent juga memiliki sebuah core model yaitu `ModelHandler`. Model ini berperan sebagai database connector dan semua model pada Actudent harus meng-extend class ini. Class ini tersedia dengan namespace `Actudent\Core\Models\ModelHandler`.
@@ -79,9 +77,7 @@ Template Actudent menggunakan Bootstrap sebagai frameworknya. Pengetahuan tentan
 Bahasa script yang digunakan adalah Javascript dengan standar ECMASCRIPT (ES) 6. Kontributor wajib memahami standar penulisan kode ES6 seperti `let`, `const`, `(arrowFunction) => {}`, `Promise` dan lain-lain. Penggunaan ES6 dimaksudkan untuk memaksimalkan kemampuan Javascript dalam membangun web yang semakin kompleks. Untuk mengetahui fitur-fitur terbaru ES6 dapat anda lihat di [halaman ini](http://es6-features.org).
 
 ### Javascript Framework
-Actudent menggunakan Vue.js sebagai framework Javascript-nya. Vue.js dipilih karena memiliki fitur yang lengkap, penulisan kode yang menggunakan konsep <i>declarative rendering</i> serta performa yang tinggi. Panduan lengkap penggunaan Vue.js dapat anda lihat di [sini](https://vuejs.org/v2/guide/).
+Actudent menggunakan Vue.js sebagai framework Javascript-nya. Vue.js dipilih karena memiliki fitur yang lengkap, penulisan kode yang mudah dengan konsep <i>declarative rendering</i> serta performa yang tinggi. Panduan lengkap penggunaan Vue.js dapat anda lihat di [sini](https://vuejs.org/v2/guide/).
 
 ### Javascript Libraries
 Template Actudent dibangun menggunakan jQuery sebagai library utamanya. Pengetahuan tentang jQuery sangat dibutuhkan agar dapat mengintegrasikan framework utama Vue.js dan library UI yang sebagian besar menggunakan jQuery.
-
-## Panduan Pengembangan Mobile App (Android)

@@ -1,0 +1,30 @@
+/* .ac-logo {
+	max-width: 120px;
+} */
+
+.login-text {
+	font-size: 0.9em;
+	text-align: center;
+	width: 100%;
+}
+
+.wrap-login100 {
+    margin-top: -35px;
+}
+
+.woles-logo {
+	top: 575px !important;
+}
+
+.woles-logo-down {
+	top: 595px !important;
+}
+
+.push-left {
+    padding-bottom: 12px;
+    color: #d5d7c6 !important;
+}
+
+.container-login100 {
+	min-height: 104vh !important;
+}

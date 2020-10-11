@@ -129,9 +129,16 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     public function userAktif($username, $userLevel)
     {
         $query = $this->user->where('user_email', $username)->get()->getResult();
-        if($query[0]->deleted === '0' && $query[0]->user_level === $userLevel)
+        if(count($query) > 0)
         {
-            return true;
+            if($query[0]->deleted === '0' && $query[0]->user_level === $userLevel)
+            {
+                return true;
+            }
+            else 
+            {
+                return false;
+            }
         }
         else 
         {
