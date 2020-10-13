@@ -13,18 +13,20 @@
 }
 
 .woles-logo {
-	top: 575px !important;
+	/* top: 575px !important; */
+	top: 280px !important;
+	position: relative !important;
+	left: -270px;
 }
 
 .woles-logo-down {
-	top: 595px !important;
+	/* top: 595px !important; */
+	top: 310px !important;
+	position: relative !important;
+	left: -270px;
 }
 
 .push-left {
     padding-bottom: 12px;
     color: #d5d7c6 !important;
-}
-
-.container-login100 {
-	min-height: 104vh !important;
 }
