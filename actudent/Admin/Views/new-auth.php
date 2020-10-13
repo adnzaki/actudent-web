@@ -73,17 +73,16 @@
 						<button type="button" class="login100-form-btn" @click="validasi">
                             {+ lang AdminAuth.login +}
 						</button>
-					</div>
-					</div>
-                </form>
-                <div :class="wolesLogo">
-                    <p class="center-align push-left">Powered by</p>
-                    <a href="https://wolestech.com" target="_blank" rel="noopener noreferrer">
-                        <img class="woles-img" src="{images}LOGO-WOLES-white-small.png" alt="branding logo"> 
-                    </a>                         
-                </div>  
+					</div>					
+                </form>                
+                 
             </div>
-            
+            <div :class="wolesLogo">
+                <p class="center-align push-left">Powered by</p>
+                <a href="https://wolestech.com" target="_blank" rel="noopener noreferrer">
+                    <img class="woles-img" src="{images}LOGO-WOLES-white-small.png" alt="branding logo"> 
+                </a>                         
+            </div> 
 		</div>
 	</div>
 	
