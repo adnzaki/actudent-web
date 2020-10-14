@@ -22,7 +22,7 @@ const SSPaging = {
 
         // Delay runPaging() on search filter
         // Useful when you use v-on:keyup directive,
-        // so it won't send any request to server
+        // if set to true, it won't send any request to server
         // directly when user is typing keywords
         delay: { active: false, timeout: 500 },
 
@@ -51,9 +51,8 @@ const SSPaging = {
     },
     methods: {
         /**
-         * Fungsi untuk mengeksekusi getData() agar mencegah
-         * terjadinya kesalahan perhitungan offset
-         * setelah menyimpan atau update data
+         * Method for excetuing getData() to avoid incorrect
+         * offset calculation after insert or update data
          * 
          * @return void
          */
@@ -72,17 +71,20 @@ const SSPaging = {
             }, 500)
         },
         /**
-         * Fungsi navigasi halaman pagination
+         * Method for navigating the page
          * 
          * @param {int} page 
+         * 
+         * @return void
          */
         nav(page) {
             this.offset = page
             this.runPaging()
         },
         /**
-         * Pencarian data berdasarkan parameter pencarian pada 
-         * textbox / kotak pencarian
+         * Search data based on parameters in the search box
+         * 
+         * @return void
          */
         filter() {
             let timeout
@@ -94,16 +96,19 @@ const SSPaging = {
         },
         /**
          * Refresh data
+         * 
+         * @return void
          */
         reloadData() {
             this.offset = (this.activePage - 1)
             this.runPaging()
         },
         /**
-         * Fungsi untuk sorting data berdasarkan kolom
-         * yang ada di tabel
+         * Method for sorting data based on table's field
          * 
          * @param {string} orderBy 
+         * 
+         * @return void
          */
         sortData(orderBy) {
             (this.sort === 'ASC') ? this.ascendingSort = true: this.ascendingSort = false
@@ -118,7 +123,9 @@ const SSPaging = {
             this.runPaging()
         },
         /**
-         * Opsi untuk menampilkan jumlah data per halaman 
+         * Option to show number of data per page
+         * 
+         * @return void
          */
         showPerPage() {
             this.limit = parseInt(this.rows)
@@ -126,8 +133,10 @@ const SSPaging = {
             this.runPaging()
         },
         /**
-         * Menjalankan fungsi ambil data berdasarkan current state / 
-         * state yang sedang aktif saat ini
+         * Method for excecuting getData() based on current state
+         * like limit, offset and filter
+         * 
+         * @return void
          */
         runPaging() {
         	this.getData({
@@ -159,6 +168,8 @@ const SSPaging = {
          *          search, linkNum, activeClass, linkClass
          * 
          * @param {object} options 
+         * 
+         * @return void
          */
         getData(options) {
             this.pagingLang = options.lang
@@ -220,6 +231,8 @@ const SSPaging = {
          * 
          * @param {object} settings 
          * @param #settings.rows, setting.start, settings.activeClass, settings.linkClass, settings.linkNum
+         * 
+         * @return void
          */
         create(settings) {
             this.totalRows = settings.rows
@@ -272,9 +285,11 @@ const SSPaging = {
             settings.start === this.first ? this.prev = settings.start : this.prev = settings.start - 1
         },
         /**
-         * Fungsi untuk menandai link yang sedang aktif 
+         * Method for marking active link
          * 
          * @param {number} link 
+         * 
+         * @return string
          */
         activeLink(link) {   
             if (link === this.activePage) {
@@ -303,7 +318,7 @@ const SSPaging = {
     },
     computed: {
         /**
-         * Membaca halaman yang sedang aktif
+         * Get active page
          * 
          * @return int
          */
@@ -311,7 +326,7 @@ const SSPaging = {
             return ((this.offset / this.limit) + 1)
         },
         /**
-         * Mengambil rentang data akhir 
+         * Get the last data range
          * 
          * @return int
          */
@@ -331,7 +346,7 @@ const SSPaging = {
             return range
         },
         /**
-         * Mengambil rentang data awal 
+         * Get the first data range 
          * 
          * @return void
          */
@@ -350,7 +365,7 @@ const SSPaging = {
             return from
         },
         /**
-         * Men-generate rentang baris data pagination 
+         * Generate data range
          * 
          * @return string
          */
