@@ -10,6 +10,11 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     private $user;
 
     /**
+     * tb_user_token builder
+     */
+    private $token;
+
+    /**
      * tb_user_themes table builder
      * To load theme after authentication successfully
      * 
@@ -33,6 +38,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
         $this->user = $this->db->table('tb_user');
         $this->userThemes = $this->db->table('tb_user_themes');
         $this->userLanguage = $this->db->table('tb_user_language');
+        $this->token = $this->db->table('tb_user_token');
     }
 
     /**
@@ -88,6 +94,50 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
         $this->user->update([
             'network' => $status
         ], ['user_email' => $username]);
+    }
+
+    /**
+     * Create user token for remembering password
+     * 
+     * @param string $token
+     * 
+     * @return void
+     */
+    public function createToken($token)
+    {
+        $this->token->insert(['token_value' => $token]);
+    }
+
+    /**
+     * Get user token, return false if not found
+     * 
+     * @param string $token
+     * 
+     * @return string|boolean
+     */
+    public function getUserToken($token)
+    {
+        $check = $this->token->getWhere(['token_value' => $token])->getResult();
+        if(count($check) > 0)
+        {
+            return $check[0]->token_value;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Delete user token
+     * 
+     * @param string $token
+     * 
+     * @return void
+     */
+    public function deleteToken($token)
+    {
+        $this->token->delete(['token_value' => $token]);
     }
 
     /**

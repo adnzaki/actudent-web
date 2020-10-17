@@ -15,4 +15,5 @@ return [
     'login_sukses'       => 'Login successfully, redirecting...',
     'invalid_login'      => 'Incorrect username or password',
     'login_error'        => 'Unable to connect to the server',
+    'remember_me'        => 'Remember me',
 ];

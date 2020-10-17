@@ -9,7 +9,14 @@
 }
 
 .wrap-login100 {
-    margin-top: -35px;
+	margin-top: -45px;
+	margin-left: 85px !important;
+}
+
+@media (max-width: 640px) {
+	.wrap-login100 {
+		margin-left: 0 !important;
+	}
 }
 
 .woles-logo {
@@ -21,7 +28,7 @@
 
 .woles-logo-down {
 	/* top: 595px !important; */
-	top: 310px !important;
+	top: 300px !important;
 	position: relative !important;
 	left: -270px;
 }

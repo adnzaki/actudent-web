@@ -42,12 +42,12 @@
 	
 	<div class="limiter" id="login-content">
 		<div class="container-login100">
-			<div class="wrap-login100 p-l-50 p-r-50 p-t-30 p-b-30">
+			<div class="wrap-login100 p-l-50 p-r-50 p-t-20 p-b-30">
 				<form class="login100-form" id="form-login" novalidate>                    
                     <span class="login100-form-title p-b-20">
                         <img src="{images}logo/actudent-logo-full-precised.png" alt="branding logo" class="ac-logo">                        
                     </span>
-                    <span class="login-text p-t-20 p-b-30">
+                    <span class="login-text p-t-10 p-b-20">
                         {+ lang AdminAuth.silakan_login +}
                     </span>
 
@@ -68,7 +68,15 @@
 							<span class="lnr lnr-lock"></span>
 						</span>
                     </div>
-                    <p v-bind:class="msgClass" v-if="showMsg">{{ msg }}</p>
+                    <div class="contact100-form-checkbox m-l-4">
+						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
+						<label class="label-checkbox100" for="ckb1">
+						{+ lang AdminAuth.remember_me +}
+						</label>
+					</div>
+					<div class="contact100-form-checkbox m-l-4" style="width: 100%;">
+						<p v-bind:class="msgClass" v-if="showMsg">{{ msg }}</p>
+					</div>
 					<div class="container-login100-form-btn p-t-25">
 						<button type="button" class="login100-form-btn" @click="validasi">
                             {+ lang AdminAuth.login +}

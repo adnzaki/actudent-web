@@ -271,7 +271,11 @@ class App extends BaseConfig
 	public function __construct()
 	{
 		parent:: __construct();
-		helper('Actudent\Core\Helpers\ostium');
+		helper([
+			'Actudent\Core\Helpers\ostium', 
+			'cookie', 'session'
+		]);
+
 		$root = (is_https() ? 'https' : 'http').'://'.$_SERVER['HTTP_HOST'];
 		$root .= str_replace(basename($_SERVER['SCRIPT_NAME']),"",$_SERVER['SCRIPT_NAME']);
 		$this->baseURL = $root;
