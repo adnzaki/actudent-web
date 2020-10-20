@@ -52,5 +52,8 @@ return [
     'absensi_jurnal_namaguru'       => 'Teacher name',
     'absensi_jurnal_materi'         => 'Lesson content',
     'absensi_jurnal_ketidakhadiran' => 'Absence',
-    'absensi_cetak_laporan'         => 'Print Daily Journal',
+    'absensi_cetak_laporan'         => 'Print Report',
+    'absensi_cetak_jurnal'          => 'Daily Journal',
+    'absensi_cetak_absen'           => 'Daily Presence',
+    'absensi_judul_laporan_absen'   => 'Daily Presence Report',
 ];

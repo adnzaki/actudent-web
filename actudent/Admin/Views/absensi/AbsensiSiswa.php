@@ -25,9 +25,14 @@
             </div>
             <div class="col-12 col-lg-2" v-if="!jurnalDisabled">
                 <div class="form-group">
-                    <a class="btn btn-outline-success" :href="reportURL" target="_blank"
-                        >{+ lang AdminAbsensi.absensi_cetak_laporan +}
-                    </a>
+                    <div class="btn-group mr-1 mb-1">
+            			<button type="button" class="btn btn-outline-success btn-min-width dropdown-toggle"
+            				data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">{+ lang AdminAbsensi.absensi_cetak_laporan +}</button>
+            			<div class="dropdown-menu">
+            				<a class="dropdown-item action-list" :href="journalReportURL" target="_blank">{+ lang AdminAbsensi.absensi_cetak_jurnal +}</a>
+            				<a class="dropdown-item action-list" :href="presenceReportURL" target="_blank">{+ lang AdminAbsensi.absensi_cetak_absen +}</a>
+            			</div>
+            		</div>
                 </div>
             </div>
             <div class="col-12 col-lg-2" v-if="archiveStatus && helper.archiveButton">

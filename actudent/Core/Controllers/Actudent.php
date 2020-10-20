@@ -189,6 +189,14 @@ class Actudent extends Controller
     }
 
     /**
+     * Headmaster sign for PDF Report
+     */
+    public function homeroomSign()
+    {
+        return view('Actudent\Core\Views\report\tanda-tangan-walikelas');
+    }
+
+    /**
      * Grade leader sign
      */
     public function gradeLeaderSign()

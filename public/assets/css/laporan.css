@@ -168,3 +168,33 @@ tbody td {
 .text-capitalize {
     text-transform: capitalize;
 }
+
+.light-border {
+    border: solid 1px #3f3f3f;
+}
+
+.border-right {
+    border-right: solid 1px #3f3f3f;
+}
+
+.border-left {
+    border-left: solid 1px #3f3f3f;
+}
+
+.border-top {
+    border-top: solid 1px #3f3f3f;
+}
+
+.border-bottom {
+    border-bottom: solid 1px #3f3f3f;
+}
+
+/* Padding top and bottom 3px */
+.p-t-b-3 {
+    padding-top: 3px !important;
+    padding-bottom: 3px !important;
+}
+
+.grey-shading {
+    background-color: #dbdbdb;
+}
