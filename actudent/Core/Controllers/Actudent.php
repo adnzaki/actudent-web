@@ -105,6 +105,7 @@ class Actudent extends Controller
         $letterhead = $this->getLetterHead();
         $changelog = $this->resources->getChangelog($bahasa);
         $data = [
+            'ac_version'            => ACTUDENT_VERSION,
             'base_url'              => base_url(),
             'assets'                => base_url() . '/assets/',
             'appAssets'             => base_url() . '/app-assets/',
