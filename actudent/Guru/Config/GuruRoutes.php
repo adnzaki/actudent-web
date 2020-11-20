@@ -36,6 +36,7 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('nilai/hapus', 'GuruNilai::deleteScore');
 	$routes->add('nilai/kelola/(:num)/(:num)', 'GuruNilai::getStudentScore/$1/$2');
 	$routes->add('nilai/simpan-nilai/(:any)', 'GuruNilai::saveScores/$1');
+	$routes->add('nilai/ekspor/(:num)/(:num)', 'GuruNilai::exportScores/$1/$2');
 	$routes->add('umpan-balik', 'GuruFeedback::page');
 	$routes->add('umpan-balik/validasi', 'GuruFeedback::FeedbackValidation');
 	$routes->add('umpan-balik/send/', 'GuruFeedback::send');
