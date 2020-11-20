@@ -4,6 +4,8 @@ use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\NilaiModel;
 use Actudent\Admin\Models\KelasModel;
 use Actudent\Guru\Models\NilaiModel as NilaiGuru;
+use ExcelCreator;
+use Config\Mimes;
 
 class Nilai extends Actudent
 {
@@ -67,6 +69,161 @@ class Nilai extends Actudent
 
     public function getStudentScore($gradeID, $scoreID)
     {
+        return $this->response->setJSON($this->_getStudentScore($gradeID, $scoreID));
+    }
+
+    public function saveScores($scoreID)
+    {
+        $request = $this->request->getPost('params');
+        $toArray = json_decode($request, true);
+        foreach($toArray as $res)
+        {
+            if(! is_numeric($res['score']))
+            {
+                $res['score'] = 0;
+            }
+            
+            $values = [
+                'score_id'      => $scoreID,
+                'student_id'    => $res['id'],
+                'score'         => $res['score'],
+                'score_note'    => $res['note']
+            ];
+
+            $this->nilai->saveScores($scoreID, $res['id'], $values);
+        }
+
+        return $this->response->setJSON(['status' => 'OK']);
+    }
+
+    public function exportScores($gradeID, $scoreID)
+    {
+        // get data first
+        $scores = $this->_getStudentScore($gradeID, $scoreID);
+
+        $grade = $this->kelas->getClassDetail($gradeID);
+        $scoreDetail = $this->nilai->getScoreDetail($scoreID);
+
+        // initialize ExcelCreator() and PHPSpreadsheet
+        $excel = new ExcelCreator();
+        $spreadsheet = $excel->spreadsheet;
+        $scoreGrade = "{$scoreDetail->score_description} ({$grade->grade_name})";
+
+        // set properties
+        $spreadsheet->getProperties()
+                ->setCreator('Wolestech')
+                ->setLastModifiedBy('Actudent')
+                ->setTitle($scoreGrade);
+
+        $spreadsheet->setActiveSheetIndex(0);
+
+        $cellTitle = ["Nilai {$scoreDetail->score_description}"];
+        $lessonCell = ['Mata Pelajaran: ' . $this->nilai->getLessonName($scoreID)];
+        $gradeCell = ['Kelas: ' . $grade->grade_name];
+
+        $header = [
+            'No.', 'Nama Siswa', 'Nilai', 'Catatan'
+        ];
+
+        $data = [];
+        
+        $no = 1;
+        foreach($scores as $score)
+        {
+            $scoreData = [$no, $score['student'], $score['score'], $score['note']];
+
+            array_push($data, $scoreData);
+
+            $no++;
+        }
+
+        // fill data       
+        $excel->fillCell($cellTitle);
+        $excel->fillCell($lessonCell, 'A3');
+        $excel->fillCell($gradeCell, 'A4');
+        $excel->fillCell($header, 'A5');
+        $excel->fillCell($data, 'A6');
+
+        // merge and wrap title
+        $excel->mergeCells('A1:D1');
+
+        // set column's width and row's height
+        $columns = ['B', 'C', 'D'];
+        $excel->setMultipleColumnsWidth($columns, null);
+        $excel->setColumnWidth('A', 7);
+        $excel->setRowHeight('1', 40);
+        $excel->setRowHeight('5', 30);        
+
+        $dataStyle = [            
+            'font' => [
+                'name' => 'Arial',
+                'size' => 10,
+            ],
+            'borders' => [
+                'top' => ['borderStyle' => $excel->border::BORDER_THIN],
+                'bottom' => ['borderStyle' => $excel->border::BORDER_THIN],
+                'right' => ['borderStyle' => $excel->border::BORDER_THIN],
+                'left' => ['borderStyle' => $excel->border::BORDER_THIN],
+            ],
+        ];
+
+        $gradeAndLessonStyle = [
+            'font' => $dataStyle['font'],
+        ];
+
+        $headerStyle = [
+            'alignment' => [
+                'horizontal' => $excel->alignment::HORIZONTAL_CENTER,
+                'vertical' => $excel->alignment::VERTICAL_CENTER,
+            ],
+            'fill' => [
+                'fillType' => $excel->fill::FILL_SOLID,
+                'color' => ['argb' => 'D9E1F2'],
+            ],
+            'font' => [
+                'name' => 'Arial',
+                'size' => 11,
+                'bold' => true,
+            ],
+            'borders' => $dataStyle['borders']
+        ];
+
+        $cellTitleStyle = [
+            'font' => [
+                'name' => 'Arial',
+                'size' => 12,
+                'bold' => true,
+            ],
+            'alignment' => [
+                'horizontal' => $excel->alignment::HORIZONTAL_CENTER,
+                'vertical' => $excel->alignment::VERTICAL_CENTER,
+                'wrapText' => true
+            ],
+        ];
+
+        $numberStyle = [
+            'alignment' => [
+                'horizontal' => $excel->alignment::HORIZONTAL_CENTER,
+            ],
+            'borders' => $dataStyle['borders'],
+            'font' => $dataStyle['font'],
+        ];
+
+        // apply styles
+        $maxCellsRange = count($scores);
+        $excel->applyStyle($cellTitleStyle, 'A1:D1');
+        $excel->applyStyle($gradeAndLessonStyle, 'A3:A4');
+        $excel->applyStyle($headerStyle, 'A5:D5');
+        $excel->applyStyle($dataStyle, 'A6:D' . (5 + $maxCellsRange));    
+        $excel->applyStyle($numberStyle, 'A6:A' . (5 + $maxCellsRange));
+
+        // set content type header and then save it to client's browser
+        $this->response->setContentType(Mimes::guessTypeFromExtension('xlsx'));
+        $excel->save("Nilai $scoreGrade.xlsx");
+    }
+
+    private function _getStudentScore($gradeID, $scoreID)
+    {
         $classMember = $this->kelas->getClassMember($gradeID);
         $wrapper = [];
         foreach($classMember as $res)
@@ -93,31 +250,7 @@ class Nilai extends Actudent
             }
         }
 
-        return $this->response->setJSON($wrapper);
-    }
-
-    public function saveScores($scoreID)
-    {
-        $request = $this->request->getPost('params');
-        $toArray = json_decode($request, true);
-        foreach($toArray as $res)
-        {
-            if(! is_numeric($res['score']))
-            {
-                $res['score'] = 0;
-            }
-            
-            $values = [
-                'score_id'      => $scoreID,
-                'student_id'    => $res['id'],
-                'score'         => $res['score'],
-                'score_note'    => $res['note']
-            ];
-
-            $this->nilai->saveScores($scoreID, $res['id'], $values);
-        }
-
-        return $this->response->setJSON(['status' => 'OK']);
+        return $wrapper;
     }
  
     /**

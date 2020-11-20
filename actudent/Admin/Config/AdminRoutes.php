@@ -126,6 +126,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('nilai/hapus', 'Nilai::deleteScore');
 	$routes->add('nilai/kelola/(:num)/(:num)', 'Nilai::getStudentScore/$1/$2');
 	$routes->add('nilai/simpan-nilai/(:any)', 'Nilai::saveScores/$1');
+	$routes->add('nilai/ekspor/(:num)/(:num)', 'Nilai::exportScores/$1/$2');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');
