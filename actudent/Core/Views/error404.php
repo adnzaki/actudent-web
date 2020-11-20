@@ -24,7 +24,7 @@ DRIBBBLE: https://dribbble.com/shots/4330167-404-Page-Lost-In-Space
 			<div class="central-body">
 				<img class="image-404" src="{images}404/404-2.svg" width="300px">
 				<h3 class="hello-text">{+ lang Error.anda_hilang +}</h3>
-				<a href="{+ siteURL admin/home +}" class="btn-go-home">{+ lang Error.pulang_yuk +}</a>
+				<a href="{homeURL}" class="btn-go-home">{+ lang Error.pulang_yuk +}</a>
 			</div>
 			<div class="objects">
 				<img class="object_rocket" src="{images}404/rocket.svg" width="40px">

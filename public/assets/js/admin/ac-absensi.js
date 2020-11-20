@@ -558,8 +558,11 @@ const absensi = new Vue({
         }
     },
     computed: {
-        reportURL() {
+        journalReportURL() {
             return `${this.absensi}ekspor-jurnal/${this.helper.gradeID}/${this.helper.day}/${this.helper.activeDate}`
+        },
+        presenceReportURL() {
+            return `${this.absensi}ekspor-absen/${this.helper.gradeID}/${this.helper.day}/${this.helper.activeDate}`
         },
         jurnalDisabled() {
             return (this.helper.jadwalLength > 0) ? false : true

@@ -140,7 +140,7 @@ class KelasModel extends SharedModel
      */
     public function getClassMember($id)
     {
-        $query = $this->QBRombel->select("{$this->rombel}.student_id, student_name")
+        $query = $this->QBRombel->select("{$this->rombel}.student_id, student_nis, student_name")
                  ->join($this->student, "{$this->student}.student_id = {$this->rombel}.student_id")
                  ->where(['grade_id' => $id, "{$this->rombel}.student_tag !=" => 3]);
         return $query->get()->getResult();

@@ -57,6 +57,25 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
         ];
         return $join1->where($params)->get()->getResult();
     }
+
+    /**
+     * Get lesson name by score_id
+     * 
+     * @param int $scoreID
+     * 
+     * @return string
+     */
+    public function getLessonName($scoreID)
+    {
+        $field = "score_id, {$this->mapel}.lesson_name";
+        $select = $this->QBNilai->select($field);
+        $join1 = $select->join($this->mapelKelas, "{$this->nilai}.lessons_grade_id={$this->mapelKelas}.lessons_grade_id");
+        $join2 = $join1->join($this->mapel, "{$this->mapelKelas}.lesson_id={$this->mapel}.lesson_id");
+        $params = ['score_id' => $scoreID];
+        $result = $join2->where(['score_id' => $scoreID])->get()->getResult()[0];
+
+        return $result->lesson_name;
+    }
     
     /**
      * Get score detail

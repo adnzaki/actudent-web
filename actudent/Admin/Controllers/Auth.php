@@ -6,7 +6,9 @@ class Auth extends Actudent
 {
     public function index()
     {
-        if(session('email') !== null && session('userLevel') === '1')
+        $cookie = get_cookie('remember_login');
+        $userToken = $this->auth->getUserToken($cookie);
+        if(session('email') !== null && session('userLevel') === '1' || $userToken !== false)
         {
             return redirect()->to(base_url('admin/home'));
         }
@@ -30,6 +32,7 @@ class Auth extends Actudent
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
+        $remember = $this->request->getPost('remember-me') ?? '';
         if($this->auth->validasi($username, $password, '1'))
         {
             $pengguna = $this->auth->getDataPengguna($username);
@@ -40,6 +43,15 @@ class Auth extends Actudent
                 'userLevel' => $pengguna->user_level,
                 'logged_in' => true
             ];
+
+            if(! empty($remember))
+            {
+                $cookieValue = "{$username}-{$pengguna->user_level}";
+                $hash = base64_encode($cookieValue);
+                $this->auth->createToken($hash);
+                set_cookie('remember_login', $hash, (3600 * 24 * 30));
+            }
+
             $this->session->set($session);
             $this->auth->statusJaringan('online', $username);
             echo 'valid';
@@ -54,8 +66,20 @@ class Auth extends Actudent
     {
         // save language option after user has been logged out from the app
         $this->setLanguage($this->getUserLanguage());
+
+        // set network status to offline
         $this->auth->statusJaringan('offline', $_SESSION['email']);
+
+        // delete token from database
+        $this->auth->deleteToken(get_cookie('remember_login'));
+
+        // remove session...
         $this->session->remove(['id', 'email', 'nama', 'userLevel', 'logged_in']);
+
+        // delete cookie
+        delete_cookie('remember_login');
+
+        // redirect to login page
         return redirect()->to(base_url('admin/login'));
     }
 }

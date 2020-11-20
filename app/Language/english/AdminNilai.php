@@ -19,4 +19,5 @@ return [
     'nilai_kelola_title'        => 'Manage Scores',
     'nilai_score_note'          => 'Notes',
     'nilai_sukses_simpan'       => 'Scores has been saved successfully',
+    'nilai_ekspor_excel'        => 'Export scores to Excel',
 ];

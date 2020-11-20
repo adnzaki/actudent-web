@@ -19,4 +19,5 @@ return [
     'nilai_kelola_title'        => 'Kelola Nilai',
     'nilai_score_note'          => 'Catatan',
     'nilai_sukses_simpan'       => 'Nilai berhasil disimpan',
+    'nilai_ekspor_excel'        => 'Ekspor nilai ke Excel',
 ];

@@ -13,6 +13,7 @@ const login = {
         msg: '', msgClass: 'error-text',
 		showMsg: false, remember: false,
 		wolesLogo: 'woles-logo',
+		remember: [],
 	},
 	mounted() {
 		this.getLanguageResources('AdminAuth')

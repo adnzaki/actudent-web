@@ -15,7 +15,7 @@ aria-hidden="true" v-if="showChangelog">
                 </li>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-warning" data-dismiss="modal" @click="toggleChangelog"> {+ lang Admin.jangan_tampilkan +}</button>
+                <button type="button" class="btn btn-outline-warning" data-dismiss="modal" @click="hideChangelog"> {+ lang Admin.jangan_tampilkan +}</button>
                 <button type="button" class="btn btn-outline-success" data-dismiss="modal"> {+ lang Admin.tutup +}</button>
             </div>
         </div>

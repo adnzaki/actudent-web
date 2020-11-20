@@ -15,4 +15,5 @@ return [
     'login_sukses'          => 'Login berhasil, mengalihkan...',
     'invalid_login'         => 'Username atau password yang anda masukkan salah',
     'login_error'           => 'Tidak dapat terhubung ke server',
+    'remember_me'           => 'Ingatkan saya',
 ];

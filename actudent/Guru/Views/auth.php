@@ -51,7 +51,12 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                       </fieldset>
                       <div class="form-group row">
                         <div class="col-md-6 col-12 text-center text-md-left">
-                          
+                          <fieldset>
+                            <Checkbox v-model="remember" value="on" 
+                              color="#0070ff" name="remember-me">
+                              {+ lang AdminAuth.remember_me +}
+                            </Checkbox>
+                          </fieldset>
                         </div>
                         <!-- <div class="col-md-6 col-12 text-center text-md-right"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.lupa_password +}</a></div> -->
                       </div>

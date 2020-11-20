@@ -60,16 +60,16 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [PDF] Memperbaiki bug tidak bisa menampilkan PDF di browser
-                - [PDF] Menambahkan logo sekolah dan unit organisasi di hasil cetak laporan
-                - [Login] Mengganti tampilan baru untuk halaman login
-                - [Login] Memperbaiki bug error di server saat memasukkan username yang tidak terdaftar"
+                "- Menambahkan fitur Ingat Password
+                - Memperbaiki cara kerja Changelog
+                - [Kehadiran] Menambahkan laporan absensi harian
+                - [Nilai] Menambahkan fitur ekspor nilai ke Excel"
             ],
             'english' => [
-                "- [PDF] Fixed bug cannot display PDF on browser
-                - [PDF] Added school and organization unit on report result
-                - [Login] Changed new look for login page
-                - [Login] Fixed bug server error when providing unregistered username"
+                "- Added Remember Password feature
+                - Fixed Changelog procedure
+                - [Presence] Added daily presence report
+                - [Scores] Added export scores to Excel feature"
             ]
         ];
 
@@ -87,14 +87,14 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [PDF] Memperbaiki bug tidak bisa menampilkan PDF di browser
-                - [PDF] Menambahkan logo sekolah dan unit organisasi di hasil cetak laporan
-                - [Login] Memperbaiki bug error di server saat memasukkan username yang tidak terdaftar"
+                "- Menambahkan fitur Ingat Password
+                - Memperbaiki cara kerja Changelog
+                - [Nilai] Menambahkan fitur ekspor nilai ke Excel"
             ],
             'english' => [
-                "- [PDF] Fixed bug cannot display PDF on browser
-                - [PDF] Added school and organization unit on report result
-                - [Login] Fixed bug server error when providing unregistered username"
+                "- Added Remember Password feature
+                - Fixed Changelog procedure
+                - [Scores] Added export scores to Excel feature"
             ]
         ];
 

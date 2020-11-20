@@ -52,5 +52,8 @@ return [
     'absensi_jurnal_namaguru'       => 'Nama guru',
     'absensi_jurnal_materi'         => 'Materi pelajaran',
     'absensi_jurnal_ketidakhadiran' => 'Ketidakhadiran',
-    'absensi_cetak_laporan'         => 'Cetak Jurnal Harian',
+    'absensi_cetak_laporan'         => 'Cetak Laporan',
+    'absensi_cetak_jurnal'          => 'Jurnal Harian',
+    'absensi_cetak_absen'           => 'Absensi Harian',
+    'absensi_judul_laporan_absen'   => 'Laporan Absensi Harian',
 ];

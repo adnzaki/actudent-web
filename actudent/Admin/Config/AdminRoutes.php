@@ -98,6 +98,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/salin-jurnal/(:any)/(:any)', 'Absensi::copyJournal/$1/$2');
 	$routes->add('absensi/arsip-jurnal/(:any)/(:any)', 'Absensi::getJournalArchives/$1/$2');
 	$routes->add('absensi/ekspor-jurnal/(:any)/(:any)/(:any)', 'Absensi::exportJournal/$1/$2/$3');
+	$routes->add('absensi/ekspor-absen/(:any)/(:any)/(:any)', 'Absensi::exportPresence/$1/$2/$3');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');
@@ -125,6 +126,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('nilai/hapus', 'Nilai::deleteScore');
 	$routes->add('nilai/kelola/(:num)/(:num)', 'Nilai::getStudentScore/$1/$2');
 	$routes->add('nilai/simpan-nilai/(:any)', 'Nilai::saveScores/$1');
+	$routes->add('nilai/ekspor/(:num)/(:num)', 'Nilai::exportScores/$1/$2');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

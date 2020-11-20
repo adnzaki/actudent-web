@@ -2,6 +2,7 @@
 
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AbsensiModel;
+use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\SchedulePresenceModel;
 use PDFCreator;
 use OstiumDate;
@@ -12,6 +13,11 @@ class Absensi extends Actudent
      * @var Actudent\Admin\Models\AbsensiModel
      */
     private $absensi;
+
+    /**
+     * @var Actudent\Admin\Models\JadwalModel
+     */
+    private $jadwal;
 
     /**
      * @var Actudent\Guru\Models\SchedulePresenceModel
@@ -30,6 +36,7 @@ class Absensi extends Actudent
     public function __construct()
     {
         $this->absensi = new AbsensiModel;
+        $this->jadwal = new JadwalModel;
         $this->jadwalHadir = new SchedulePresenceModel;
         $this->pdfCreator = new PDFCreator;
         $this->ostiumDate = new OstiumDate;
@@ -42,6 +49,76 @@ class Absensi extends Actudent
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\absensi\absensi-view');
+    }
+
+    public function exportPresence($gradeID, $day, $date)
+    {
+        $data           = $this->common();
+        $data['title']  = lang('AdminAbsensi.absensi_judul_laporan_absen');
+        $data['grade']  = $this->absensi->kelas->getClassDetail($gradeID);
+        $gradeMember    = $this->absensi->kelas->getClassMember($gradeID);
+        $data['day']    = $this->days[$day];
+        $data['date']   = $this->ostiumDate->format('d-MM-Y', reverse($date, '-', '-'));
+        $journals       = $this->absensi->getJournalByDate($date, $gradeID);
+        $jadwal         = $this->jadwal->getSchedules($gradeID, $this->days[$day]);
+
+        // Lesson hours will be used for table header column
+        $lessonHours = [];
+
+        // lesson started
+        $init = 1;
+
+        foreach($jadwal as $res)
+        {
+            $finish = $init + ($res->duration - 1);
+            ($init === $finish) ? $hours = $finish : $hours = "{$init}-{$finish}";
+            $lessonHours[] = [
+                'time'          => "{$res->schedule_start} - {$res->schedule_end}",
+                'lesson_hour'   => $hours,
+            ];
+
+            // next lesson started
+            $init += $res->duration;
+        }
+
+        $studentPresence = [];
+        foreach($gradeMember as $res)
+        {
+            $formatted = [];
+            foreach($journals as $key)
+            {
+                $presence = $this->absensi->getPresence($key->journal_id, $res->student_id, $date);
+                $status = ['Alfa', 'Hadir', 'Izin', 'Sakit'];
+                if($presence === null)
+                {
+                    $formatted[] = [
+                        'journal_id'    => '-',
+                        'status'        => '-',
+                    ];
+                }
+                else
+                {
+                    $formatted[] = [
+                        'journal_id'    => $presence->journal_id,
+                        'status'        => $status[$presence->presence_status],
+                    ];                    
+                }
+            }
+
+            $studentPresence[] = [
+                'students'  => $res,
+                'data'      => $formatted,
+            ];
+        }
+
+        $data['column']     = $lessonHours;
+        $data['presence']   = $studentPresence;
+        $data['colspan']    = count($lessonHours);
+
+        $html       = view('Actudent\Admin\Views\absensi\ekspor-absen', $data);
+        $filename   = 'Laporan Absen '. $data['grade']->grade_name . ' ' . $date .'_'. time();
+
+        $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');
     }
 
     public function exportJournal($gradeID, $day, $date)
@@ -76,7 +153,6 @@ class Absensi extends Actudent
         $filename               = 'Laporan Jurnal '. $data['grade']->grade_name . ' ' .$date .'_'. time();
 
         $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');
-        //return $html;
     }
 
     /**

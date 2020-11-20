@@ -14,8 +14,8 @@
                 <td class="no-border no-padding-top-bottom">: <?= $grade->grade_name ?></td>
             </tr>
             <tr>
-                <td class="no-border" width="30"><?= lang('AdminAbsensi.absensi_jurnal_hari') ?></td>
-                <td class="no-border text-capitalize">: <?= $day ?></td>
+                <td class="no-border p-t-b-3" width="30"><?= lang('AdminAbsensi.absensi_jurnal_hari') ?></td>
+                <td class="no-border text-capitalize p-t-b-3">: <?= $day ?></td>
             </tr>
             <tr>
                 <td class="no-border no-padding-top-bottom" width="30"><?= lang('AdminAbsensi.absensi_jurnal_tanggal') ?></td>

@@ -300,6 +300,9 @@ const nilai = new Vue({
                 }
             })            
         },
+        exportExcel(scoreID) {
+            return `${this.nilai}ekspor/${this.helper.gradeID}/${scoreID}`
+        },
         showFormTambahNilai() {
             if(this.helper.gradeID !== '' || this.helper.selectedMapel !== '') {
                 $('#tambahNilaiModal').modal('show')
@@ -353,7 +356,7 @@ const nilai = new Vue({
             })   
         }
     },
-    computed: {
+    computed: {        
         nilai() {
             if(actudentSection === 'admin') {
                 return `${admin}nilai/`

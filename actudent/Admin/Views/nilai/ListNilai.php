@@ -30,6 +30,10 @@
                             title="{+ lang AdminNilai.nilai_daftar_nilai +}" @click="showKelolaNilai(item.score_id)">
                             <i class="la la-clipboard"></i>
                         </button>
+                        <a type="button" class="btn btn-icon btn-secondary" data-toggle="tooltip" data-placement="top"
+                            title="{+ lang AdminNilai.nilai_ekspor_excel +}" :href="exportExcel(item.score_id)" target="_blank">
+                            <i class="la la-file-text"></i>
+                        </a>
                     </td>
                 </tr>
             </tbody>

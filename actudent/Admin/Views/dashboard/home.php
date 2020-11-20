@@ -36,6 +36,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   {+ include Actudent\Core\Views\component\scripts +} 
   <script>
     var changelog = `{changelog}`;
+    var acVersion = "{ac_version}";
   </script>
   <script src="{appAssets}vendors/js/charts/chart.min.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/charts/echarts/echarts.js" type="text/javascript"></script>
