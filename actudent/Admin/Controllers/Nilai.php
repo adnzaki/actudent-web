@@ -147,14 +147,19 @@ class Nilai extends Actudent
         // merge and wrap title
         $excel->mergeCells('A1:D1');
 
+        $maxCellsRange = count($scores);
+        $maxRowsData = '6-' . (6 + $maxCellsRange);
+
         // set column's width and row's height
         $columns = ['B', 'C', 'D'];
         $excel->setMultipleColumnsWidth($columns, null);
         $excel->setColumnWidth('A', 7);
-        $excel->setRowHeight('1', 40);
-        $excel->setRowHeight('5', 30);        
+        $excel->setMultipleRowsHeight(['1' => 40, '5' => 30, $maxRowsData => 20]);
 
-        $dataStyle = [            
+        $dataStyle = [ 
+            'alignment' => [
+                'vertical' => $excel->alignment::VERTICAL_CENTER,
+            ],           
             'font' => [
                 'name' => 'Arial',
                 'size' => 10,
@@ -202,15 +207,12 @@ class Nilai extends Actudent
         ];
 
         $numberStyle = [
-            'alignment' => [
-                'horizontal' => $excel->alignment::HORIZONTAL_CENTER,
-            ],
+            'alignment' => $headerStyle['alignment'],
             'borders' => $dataStyle['borders'],
             'font' => $dataStyle['font'],
         ];
 
-        // apply styles
-        $maxCellsRange = count($scores);
+        // apply styles        
         $excel->applyStyle($cellTitleStyle, 'A1:D1');
         $excel->applyStyle($gradeAndLessonStyle, 'A3:A4');
         $excel->applyStyle($headerStyle, 'A5:D5');
