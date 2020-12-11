@@ -20,14 +20,25 @@ const pesan = new Vue({
             deleteProgress: false,
         },
         spinner: false,
+        chatList: [],
     },
     mounted() {
         this.runSelect2()
         this.getLanguageResources('AdminPesan')
         this.getLanguageResources('Admin')
+        this.getChatList()
 
     },
     methods: {
+        getChatList() {
+            $.ajax({
+                url: `${this.pesan}chat-list`,
+                type: 'get',
+                success: data => {
+                    this.chatList = data
+                }
+            })
+        }
     },
     computed: {        
         pesan() {

@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="{appAssets}vendors/css/pickers/pickadate/pickadate.css">
   <link rel="stylesheet" type="text/css" href="{appAssets}css/plugins/pickers/daterange/daterange.css">
   <link rel="stylesheet" type="text/css" href="{assets}css/custom-spinner.css">
+  <link rel="stylesheet" type="text/css" href="{assets}css/chat.css">
 </head>
 <body class="vertical-layout vertical-menu 2-columns {bodyColor} menu-expanded fixed-navbar"
 data-open="click" data-menu="vertical-menu" data-col="2-columns">
@@ -26,7 +27,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
       <div class="content-header row">
       </div>
       <div class="content-body" id="pesan-content">
-        
+        {+ include Actudent\Admin\Views\pesan\ChatWrapper +}
       </div>
     </div>
   </div>
