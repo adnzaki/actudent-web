@@ -63,22 +63,76 @@ class PesanModel extends SharedModel
     {
         $chatUser = $this->QBChatUser->getWhere(['participant' => $participant])->getResult();
 
-        return $this->getMessages($chatUser[0]->chat_user_id);
+        return $this->getMessages($chatUser[0]->chat_user_id, 'DESC', 1, 0, 'loadAll');
     }
 
     /**
      * Get messages 
      * 
      * @param int $chatUserID
+     * @param string $order
+     * @param int $limit
+     * @param int $offset
+     * @param string $event
      * 
      * @return array
      */
-    public function getMessages(int $chatUserID): array
+    public function getMessages(int $chatUserID, string $order, int $limit, int $offset, string $event): array
     {
-        $chat = $this->QBChat->where([
-            'chat_user_id' => $chatUserID
-        ])->orderBy('created', 'DESC')->get()->getResult();
+        if($event === 'loadAll' || $event === 'loadMore')
+        {
+            $params = ['chat_user_id' => $chatUserID];
+        }
+        else
+        {
+            $params = [
+                'chat_user_id' => $chatUserID,
+                'read_status' => 0,
+                'sender !=' => $_SESSION['id']
+            ];
+        }
+
+        $chat = $this->QBChat->where($params)
+                ->limit($limit, $offset)
+                ->orderBy('created', $order)
+                ->get()
+                ->getResult();
 
         return $chat;
     }    
+
+    /**
+     * Read message by recipient
+     * 
+     * @param int $chatUserID
+     * 
+     * @return void
+     */
+    public function readMessage(int $chatUserID): void
+    {
+        $this->QBChat->update(['read_status' => 1], [
+            'chat_user_id' => $chatUserID,
+            'read_status' => 0,
+            'sender !=' => $_SESSION['id']            
+        ]);
+    }
+
+    /**
+     * Send a message
+     * 
+     * @param int $chatUserID
+     * @param string $text
+     * 
+     * @return void
+     */
+    public function sendMessage(int $chatUserID, string $text): void
+    {
+        $values = [
+            'chat_user_id'  => $chatUserID,
+            'sender'        => $_SESSION['id'],
+            'content'       => $text
+        ];
+
+        $this->QBChat->insert($values);
+    }
 }   

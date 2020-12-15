@@ -46,6 +46,9 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
   {endif}
   <script src="{assets}js/admin/ac-pesan.js" type="text/javascript"></script>
   <script src="{assets}js/locales.min.js" type="text/javascript"></script>
+  <script>
+    var userID = "{userID}";
+  </script>
   <!-- END PAGE LEVEL JS-->
 </body>
 </html>

@@ -24,9 +24,40 @@ class Pesan extends Actudent
     {
         $data = $this->common();
         $data['title'] = lang('AdminPesan.page_title');
+        $data['userID'] = $_SESSION['id'];
 
         return $this->parser->setData($data)
                 ->render('Actudent\Admin\Views\pesan\pesan-view');
+    }
+
+    public function getMessages($chatUserID, $limit, $offset, $event)
+    {
+        $chat = $this->pesan->getMessages($chatUserID, 'DESC', $limit, $offset, $event);
+        $wrapper = [];
+        foreach($chat as $key)
+        {
+            $dateToArray = explode(' ', $key->created);
+            $wrapper[] = [
+                'id'        => $key->chat_id,
+                'sender'    => $key->sender,
+                'content'   => $key->content,
+                'date'      => reverse($dateToArray[0], '-', '/'),
+                'time'      => substr($dateToArray[1], 0, 5),
+            ];
+        }
+
+        if($event === 'loadAll' && $limit !== '1')
+        {
+            $this->pesan->readMessage($chatUserID);
+        }
+
+        return $this->response->setJSON($wrapper);
+    }
+
+    public function readMessage($chatUserID)
+    {
+        $this->pesan->readMessage($chatUserID);
+        return $this->response->setJSON(['status' => 'OK']);
     }
 
     public function getChatList()
@@ -45,6 +76,7 @@ class Pesan extends Actudent
             $chat = $this->pesan->getMessagesByParticipant($key->participant);
             $date = explode(' ', $chat[0]->created);
             $listWrapper[] = [
+                'id'            => $key->chat_user_id,
                 'recipient'     => $userData[0]->user_name,
                 'latest_chat'   => $chat[0]->content,
                 'datetime'      => $this->lastChatDate($chat[0]->created),
@@ -58,6 +90,14 @@ class Pesan extends Actudent
         array_multisort($timestamp, SORT_DESC, $listWrapper);
 
         return $this->response->setJSON($listWrapper);
+    }
+
+    public function sendMessage($chatUserID)
+    {
+        $text = $this->request->getPost('text');
+        $this->pesan->sendMessage($chatUserID, $text);
+
+        return $this->response->setJSON(['status' => 'OK', 'note' => 'Message sent']);
     }
 
     private function lastChatDate($datetime)
@@ -80,7 +120,7 @@ class Pesan extends Actudent
 
         if($timestamp <= $yesterday && $timestamp  > $fewDays)
         {
-            $output = 'Kemarin';
+            $output = lang('Admin.kemarin');
         }
         
         if($timestamp < $fewDays)
