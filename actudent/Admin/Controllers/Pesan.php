@@ -51,7 +51,10 @@ class Pesan extends Actudent
             $this->pesan->readMessage($chatUserID);
         }
 
-        return $this->response->setJSON($wrapper);
+        return $this->response->setJSON([
+            'chats' => $wrapper,
+            'rows'  => $this->pesan->getTotalMessages($chatUserID)
+        ]);
     }
 
     public function readMessage($chatUserID)
@@ -95,7 +98,12 @@ class Pesan extends Actudent
     public function sendMessage($chatUserID)
     {
         $text = $this->request->getPost('text');
-        $this->pesan->sendMessage($chatUserID, $text);
+
+        // prevent user to send empty message
+        if(! empty($text))
+        {
+            $this->pesan->sendMessage($chatUserID, $text);
+        }
 
         return $this->response->setJSON(['status' => 'OK', 'note' => 'Message sent']);
     }

@@ -102,6 +102,18 @@ class PesanModel extends SharedModel
     }    
 
     /**
+     * Get total number of messages
+     * 
+     * @param int $chatUserID
+     * 
+     * @return int
+     */
+    public function getTotalMessages(int $chatUserID): int
+    {
+        return $this->QBChat->where(['chat_user_id' => $chatUserID])->countAllResults();
+    }
+
+    /**
      * Read message by recipient
      * 
      * @param int $chatUserID

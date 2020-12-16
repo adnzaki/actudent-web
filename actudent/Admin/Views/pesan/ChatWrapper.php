@@ -16,7 +16,7 @@
             </fieldset>  
           </div>
           <div class="inbox_chat" v-if="helper.showChatList">
-            <div class="chat_list" v-for="(item, index) in chatList" 
+            <div :class="['chat_list', activeChat(item.id)]" v-for="(item, index) in chatList" 
               :key="index" @click="getMessages(item.id, limit, 0)">
               <div class="chat_people">
                 <div class="chat_ib">
@@ -31,7 +31,9 @@
         </div>
         <div class="mesgs" v-if="helper.showChat">
           <div :class="['msg_history', chatWrapper]" id="ac-chat-container">
-            <button type="button" class="btn btn-info load-more" @click="loadMoreChat">{+ lang AdminPesan.pesan_muat_lebih +}</button>
+            <button type="button" class="btn btn-info load-more" 
+              @click="loadMoreChat" v-if="helper.loadMore">{+ lang AdminPesan.pesan_muat_lebih +}
+            </button>
             <div v-for="(item, index) in chats" :key="index" :id="'chat-' + index">
               <div class="incoming_msg" v-if="item.sender !== userID">
                 <div class="received_msg">

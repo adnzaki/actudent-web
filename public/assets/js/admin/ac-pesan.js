@@ -19,7 +19,8 @@ const pesan = new Vue({
             showSaveButton: true, showDeleteButton: false,
             deleteProgress: false, showChat: false,
             showChatList: true, chatUserID: '',
-            sendingProgress: false, disableAutoScroll: false
+            sendingProgress: false, disableAutoScroll: false,
+            loadMore: false,
         },
         spinner: false,
         chatList: [], chats: [], messageText: '',
@@ -40,7 +41,7 @@ const pesan = new Vue({
                 this.getChatList()
                 if(this.helper.chatUserID !== '') {
                     this.getMessages(this.helper.chatUserID, this.limit, 0, 'loadNew')
-                    this.helper.disableAutoScroll = true
+                    //this.helper.disableAutoScroll = true
                     setTimeout(() => {
                         $.ajax({
                             url: `${this.pesan}baca-pesan/${this.helper.chatUserID}`,
@@ -71,25 +72,29 @@ const pesan = new Vue({
                     this.helper.showChat = true                    
                 },
                 success: data => {
+                    let msg = data.chats
                     if(event === 'loadAll' && !afterSent) {
-                        this.chats = data.reverse()
+                        this.chats = msg.reverse()
                         this.helper.disableAutoScroll = false
                     } else if(event === 'loadNew' && !afterSent) {
-                        if(data.length > 0) {
-                            data.forEach(item => {
+                        if(msg.length > 0) {
+                            // activate auto scroll if there is new message
+                            this.helper.disableAutoScroll = false
+                            msg.forEach(item => {
                                 this.chats.push(item)
                             })
+                        } else {
+                            // if there is no new message, do not activate auto scroll
+                            this.helper.disableAutoScroll = true
                         }
                     } else if(event === 'loadMore' && !afterSent) {
-                        if(data.length > 0) {
-                            data.forEach(item => {
+                        if(msg.length > 0) {
+                            msg.forEach(item => {
                                 this.chats.unshift(item)
                             })
-
                         }
-                        console.log(data)
                     } else if(event === 'loadAll' && afterSent) {
-                        this.chats.push(data[0])
+                        this.chats.push(msg[0])
                     }
 
                     this.helper.chatUserID = chatUserID
@@ -102,31 +107,44 @@ const pesan = new Vue({
                     }
 
                     this.chatboxFocus()
+
+                    // show/hide load more button
+                    if(this.chats.length < data.rows) {
+                        this.helper.loadMore = true
+                    } else {
+                        this.helper.loadMore = false
+                    }
                 }
-            })
+            })  
         },
         loadMoreChat() {
             this.getMessages(this.helper.chatUserID, 10, this.chats.length, 'loadMore')
             this.helper.disableAutoScroll = true
         },
         sendMessage() {
-            $.ajax({
-                url: `${this.pesan}kirim-pesan/${this.helper.chatUserID}`,
-                type: 'POST',
-                dataType: 'json',
-                data: { text: this.messageText },
-                beforeSend: () => {
-                    this.helper.sendingProgress = true
-                    this.helper.disableAutoScroll = false
-                },
-                success: () => {
-                    this.getMessages(this.helper.chatUserID, 1, 0, 'loadAll', true)
-                    this.messageText = ''
-                    this.getChatList()
-                    this.helper.sendingProgress = false
-                    this.chatboxFocus()
-                }
-            })
+            // only send message if it is not an empty string              
+            if(this.messageText !== '') {
+                $.ajax({
+                    url: `${this.pesan}kirim-pesan/${this.helper.chatUserID}`,
+                    type: 'POST',
+                    dataType: 'json',
+                    data: { text: this.messageText },
+                    beforeSend: () => {
+                        this.helper.sendingProgress = true
+                        this.helper.disableAutoScroll = false
+                    },
+                    success: () => {
+                        this.getMessages(this.helper.chatUserID, 1, 0, 'loadAll', true)
+                        this.messageText = ''
+                        this.getChatList()
+                        this.helper.sendingProgress = false
+                        this.chatboxFocus()
+                    }
+                })
+            }
+        },
+        activeChat(chatUserID) {
+            return (chatUserID === this.helper.chatUserID) ? 'active_chat' : ''
         },
         chatboxFocus() {
             if(!this.isSmallScreen) {

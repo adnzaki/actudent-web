@@ -445,3 +445,7 @@ input.lineless-input:focus {
 	margin-left: 40%;
 	margin-bottom: 10px;
 }
+
+.write_msg {
+	padding-right: 50px;
+}
