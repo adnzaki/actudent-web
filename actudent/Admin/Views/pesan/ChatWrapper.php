@@ -8,25 +8,33 @@
             </div>
             <fieldset v-if="helper.showChatList">
                 <div class="input-group">
-                    <input type="text" class="form-control" v-model="cariPengguna" aria-describedby="button-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Go</button>
-                    </div>
+                    <input type="text" class="form-control" v-model="cariPengguna" 
+                    aria-describedby="button-addon2" @keyup="searchParticipant" 
+                    placeholder="{+ lang AdminPesan.pesan_cari_pengguna +}" />
                 </div>
             </fieldset>  
           </div>
           <div class="inbox_chat" v-if="helper.showChatList">
             <div :class="['chat_list', activeChat(item.id)]" v-for="(item, index) in chatList" 
-              :key="index" @click="getMessages(item.id, limit, 0)">
+              :key="index" @click="getMessages(item.id, limit, 0)" v-if="helper.existParticipant"
+              :id="'chat-list-' + item.id">
               <div class="chat_people">
                 <div class="chat_ib">
                   <h5>{{ item.recipient }} 
-                    <span class="chat_date"> {{ item.datetime }} </span>
+                    <span class="chat_date ac-chat-date"> {{ item.datetime }} </span>
+                    <span class="chat_date ac-chat-action">
+                      <button type="button" class="btn btn-icon btn-outline-danger"
+                          data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}">
+                          <i class="la la-trash"></i>
+                      </button>
+                    </span>
+                    
                   </h5>
                   <p>{{ item.latest_chat }}</p>
                 </div>
               </div>
             </div>
+            {+ include Actudent\Admin\Views\pesan\SearchParticipant +}
           </div>
         </div>
         <div class="mesgs" v-if="helper.showChat">

@@ -132,6 +132,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pesan/get-chat/(:num)/(:num)/(:num)/(:alpha)', 'Pesan::getMessages/$1/$2/$3/$4');
 	$routes->add('pesan/kirim-pesan/(:num)', 'Pesan::sendMessage/$1');
 	$routes->add('pesan/baca-pesan/(:num)', 'Pesan::readMessage/$1');
+	$routes->add('pesan/cari-pengguna/(:any)', 'Pesan::searchParticipant/$1');
+	$routes->add('pesan/pilih-pengguna/(:num)', 'Pesan::selectParticipant/$1');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

@@ -49,19 +49,26 @@ class PesanModel extends SharedModel
      */
     public function getChatList(): array
     {
-        return $this->QBChatUser->like('participant', $_SESSION['id'])->get()->getResult();
+        return $this->QBChatUser
+                    ->where('participant_1', $_SESSION['id'])
+                    ->orWhere('participant_2', $_SESSION['id'])
+                    ->get()->getResult();
     }
 
     /**
      * Get message by participant
      * 
-     * @param string $participant
+     * @param int $participant1
+     * @param int $participant2
      * 
      * @return array
      */
-    public function getMessagesByParticipant(string $participant): array
+    public function getMessagesByParticipant(int $participant1, int $participant2): array
     {
-        $chatUser = $this->QBChatUser->getWhere(['participant' => $participant])->getResult();
+        $chatUser = $this->QBChatUser->getWhere([
+            'participant_1' => $participant1,
+            'participant_2' => $participant2,
+        ])->getResult();
 
         return $this->getMessages($chatUser[0]->chat_user_id, 'DESC', 1, 0, 'loadAll');
     }
@@ -114,6 +121,46 @@ class PesanModel extends SharedModel
     }
 
     /**
+     * Get user as participant
+     * 
+     * @param string $search
+     * 
+     * @return array
+     */
+    public function getParticipant(string $search): array
+    {
+        $field = 'user_id, user_name, user_email';
+        $params = [
+            'deleted'       => 0,
+            'user_id !='    => $_SESSION['id']
+        ];
+
+        return $this->QBUser->select($field)
+                    ->like('user_name', $search)
+                    ->where($params)
+                    ->get()->getResult();
+    }
+
+    public function getChatUserID($userID)
+    {
+        $param1 = [
+            'participant_1' => $userID,
+            'participant_2' => $_SESSION['id']
+        ];
+
+        $param2 = [
+            'participant_2' => $userID,
+            'participant_1' => $_SESSION['id']
+        ];
+
+        $result = $this->QBChatUser->where($param1)
+                                   ->orWhere($param2)
+                                   ->get()->getResult();
+        
+        return count($result) > 0 ? $result[0]->chat_user_id : 0;
+    }
+
+    /**
      * Read message by recipient
      * 
      * @param int $chatUserID
@@ -134,17 +181,34 @@ class PesanModel extends SharedModel
      * 
      * @param int $chatUserID
      * @param string $text
+     * @param mixed $recipient
      * 
-     * @return void
+     * @return int
      */
-    public function sendMessage(int $chatUserID, string $text): void
+    public function sendMessage(int $chatUserID, string $text, $recipient): int
     {
+        if($chatUserID === 0 && ! empty($recipient))
+        {
+            $this->QBChatUser->insert([
+                'participant_1' => $_SESSION['id'],
+                'participant_2' => $recipient
+            ]);
+
+            $id = $this->db->insertID();
+        }
+        else 
+        {
+            $id = $chatUserID;
+        }
+
         $values = [
-            'chat_user_id'  => $chatUserID,
+            'chat_user_id'  => $id,
             'sender'        => $_SESSION['id'],
             'content'       => $text
         ];
 
         $this->QBChat->insert($values);
+
+        return $id;
     }
 }   

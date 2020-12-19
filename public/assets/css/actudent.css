@@ -449,3 +449,15 @@ input.lineless-input:focus {
 .write_msg {
 	padding-right: 50px;
 }
+
+.chat_list:hover .ac-chat-date {
+	display: none !important;
+}
+
+.chat_list:hover .ac-chat-action {
+	display: block !important;
+}
+
+.ac-chat-action {
+	display: none;
+}

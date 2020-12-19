@@ -70,13 +70,26 @@ class Pesan extends Actudent
 
         foreach($data as $key)
         {
-            // get the recipient first
-            $participant = str_replace($_SESSION['id'], '', $key->participant);
-            $participant = str_replace(',', '', $participant);
+            $pArray = [
+                $key->participant_1,
+                $key->participant_2
+            ];
+
+            // loop them and find the current user
+            foreach($pArray as $val)
+            {
+                // if current value is not current user,
+                // make it as a recipient
+                if($val !== $_SESSION['id'])
+                {
+                    $participant = $val;
+                    break;
+                }
+            }
             
             // get user data and latest chat
             $userData = $this->pengguna->getUserDetail($participant);
-            $chat = $this->pesan->getMessagesByParticipant($key->participant);
+            $chat = $this->pesan->getMessagesByParticipant($key->participant_1, $key->participant_2);
             $date = explode(' ', $chat[0]->created);
             $listWrapper[] = [
                 'id'            => $key->chat_user_id,
@@ -98,14 +111,20 @@ class Pesan extends Actudent
     public function sendMessage($chatUserID)
     {
         $text = $this->request->getPost('text');
+        $recipient = $this->request->getPost('recipient');
 
         // prevent user to send empty message
         if(! empty($text))
         {
-            $this->pesan->sendMessage($chatUserID, $text);
+            $response = [
+                'status'    => 'OK', 
+                'note'      => 'Message sent',
+                'chatUser'  => $this->pesan->sendMessage($chatUserID, $text, $recipient),
+            ];
         }
 
-        return $this->response->setJSON(['status' => 'OK', 'note' => 'Message sent']);
+
+        return $this->response->setJSON($response);
     }
 
     private function lastChatDate($datetime)
@@ -137,5 +156,18 @@ class Pesan extends Actudent
         }
 
         return $output;
+    }
+
+    public function selectParticipant($userID)
+    {
+        $data = $this->pesan->getChatUserID($userID);
+        return $this->response->setJSON($data);
+    }
+
+    public function searchParticipant($search)
+    {
+        $data = $this->pesan->getParticipant($search);
+
+        return $this->response->setJSON($data);
     }
 }

@@ -20,11 +20,14 @@ const pesan = new Vue({
             deleteProgress: false, showChat: false,
             showChatList: true, chatUserID: '',
             sendingProgress: false, disableAutoScroll: false,
-            loadMore: false,
+            loadMore: false, showChatDate: true,
+            searchParticipant: false, existParticipant: true,
+            userID: '',
         },
         spinner: false,
         chatList: [], chats: [], messageText: '',
-        limit: 25, cariPengguna: ''
+        limit: 25, cariPengguna: '',
+        participant: [],
     },
     mounted() {
         this.runSelect2()
@@ -39,7 +42,7 @@ const pesan = new Vue({
             let interval = 1000 * 60 * 5
             setInterval(() => {
                 this.getChatList()
-                if(this.helper.chatUserID !== '') {
+                if(this.helper.chatUserID !== '' && this.helper.chatUserID !== 0) {
                     this.getMessages(this.helper.chatUserID, this.limit, 0, 'loadNew')
                     //this.helper.disableAutoScroll = true
                     setTimeout(() => {
@@ -51,6 +54,45 @@ const pesan = new Vue({
                     }, 500);
                 }
             }, 5000); // for development, we use 5000ms (5 seconds) of interval
+        },
+        selectParticipant(userID) {
+            $.ajax({
+                url: `${this.pesan}/pilih-pengguna/${userID}`,
+                dataType: 'json',
+                success: res => {
+                    this.helper.userID = userID
+                    this.getMessages(res, this.limit, 0, 'loadAll')
+
+                    // hide load more button if there is no chat
+                    if(res === 0) {
+                        this.helper.loadMore = false
+                    }
+                }
+            })
+        },
+        searchParticipant() {
+            if(this.cariPengguna !== '') {
+                this.helper.existParticipant = false
+                this.helper.searchParticipant = true
+                setTimeout(() => {
+                    $.ajax({
+                        url: `${this.pesan}cari-pengguna/${this.cariPengguna}`,
+                        dataType: 'json',
+                        success: data => {
+                            this.participant = data
+                        }
+                    })
+                }, 500);
+            } else {
+                this.helper.searchParticipant = false
+                this.helper.existParticipant = true
+                setTimeout(() => {
+                    this.getChatList()
+                    if(this.helper.chatUserID === '' || this.helper.chatUserID === 0) {
+                        this.helper.showChat = false
+                    }
+                }, 1000);
+            }
         },
         getChatList() {
             $.ajax({
@@ -75,7 +117,7 @@ const pesan = new Vue({
                     let msg = data.chats
                     if(event === 'loadAll' && !afterSent) {
                         this.chats = msg.reverse()
-                        this.helper.disableAutoScroll = false
+                        this.helper.disableAutoScroll = false                        
                     } else if(event === 'loadNew' && !afterSent) {
                         if(msg.length > 0) {
                             // activate auto scroll if there is new message
@@ -95,6 +137,7 @@ const pesan = new Vue({
                         }
                     } else if(event === 'loadAll' && afterSent) {
                         this.chats.push(msg[0])
+                        $('#chat-list-' + this.helper.chatUserID).click()
                     }
 
                     this.helper.chatUserID = chatUserID
@@ -113,7 +156,7 @@ const pesan = new Vue({
                         this.helper.loadMore = true
                     } else {
                         this.helper.loadMore = false
-                    }
+                    }                    
                 }
             })  
         },
@@ -124,27 +167,41 @@ const pesan = new Vue({
         sendMessage() {
             // only send message if it is not an empty string              
             if(this.messageText !== '') {
+                let request = { 
+                    text: this.messageText ,
+                    recipient: this.helper.userID
+                }
+
                 $.ajax({
                     url: `${this.pesan}kirim-pesan/${this.helper.chatUserID}`,
                     type: 'POST',
                     dataType: 'json',
-                    data: { text: this.messageText },
+                    data: request,
                     beforeSend: () => {
                         this.helper.sendingProgress = true
                         this.helper.disableAutoScroll = false
                     },
-                    success: () => {
+                    success: res => {
+                        this.helper.chatUserID = res.chatUser
                         this.getMessages(this.helper.chatUserID, 1, 0, 'loadAll', true)
                         this.messageText = ''
+                        this.helper.userID = ''
                         this.getChatList()
                         this.helper.sendingProgress = false
                         this.chatboxFocus()
+                        this.cariPengguna = ''
+                        this.helper.searchParticipant = false
+                        this.helper.existParticipant = true                        
                     }
                 })
             }
         },
-        activeChat(chatUserID) {
-            return (chatUserID === this.helper.chatUserID) ? 'active_chat' : ''
+        activeChat(id, type = 'exist') {
+            if(type === 'exist') {
+                return (id === this.helper.chatUserID) ? 'active_chat' : ''
+            } else {
+                return (id === this.helper.userID) ? 'active_chat' : ''
+            }
         },
         chatboxFocus() {
             if(!this.isSmallScreen) {
@@ -161,7 +218,7 @@ const pesan = new Vue({
             el.scrollIntoView()
         }
     },
-    computed: {        
+    computed: {    
         pesan() {
             if(actudentSection === 'admin') {
                 return `${admin}pesan/`
