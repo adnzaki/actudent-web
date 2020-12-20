@@ -21,6 +21,7 @@
               <div class="chat_people">
                 <div class="chat_ib">
                   <h5 class="{cardTitleColor}">{{ item.recipient }} 
+                    <small v-if="item.unread > 0" class="success-text">({{ item.unread }})</small>
                     <span class="chat_date ac-chat-date"> {{ item.datetime }} </span>
                     <span class="chat_date ac-chat-action">
                       <button type="button" class="btn btn-icon btn-outline-danger"

@@ -165,6 +165,28 @@ class PesanModel extends SharedModel
     }
 
     /**
+     * Get unread messages for notification
+     * 
+     * @param mixed $chatUserID
+     * 
+     * @return int
+     */
+    public function getUnreadMessages($chatUserID = null): int
+    {
+        $params = [
+            'read_status' => 0,
+            'sender !=' => $_SESSION['id']
+        ];
+        
+        if($chatUserID !== null)
+        {
+            $params['chat_user_id'] = $chatUserID;
+        }
+
+        return $this->QBChat->where($params)->countAllResults();
+    }
+
+    /**
      * Read message by recipient
      * 
      * @param int $chatUserID

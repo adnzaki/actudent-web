@@ -1,21 +1,17 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Core\Controllers\Actudent;
-use Actudent\Admin\Models\PesanModel;
 use Actudent\Admin\Models\PenggunaModel;
 use OstiumDate;
 
 class Pesan extends Actudent
 {
-    private $pesan;
-
     private $pengguna;
 
     private $ostium;
 
     public function __construct()
     {
-        $this->pesan = new PesanModel();
         $this->ostium = new OstiumDate();
         $this->pengguna = new PenggunaModel();
     }
@@ -96,6 +92,7 @@ class Pesan extends Actudent
                 'id'            => $key->chat_user_id,
                 'recipient'     => $userData[0]->user_name,
                 'latest_chat'   => $chat[0]->content,
+                'unread'        => $this->pesan->getUnreadMessages($key->chat_user_id),
                 'datetime'      => $this->lastChatDate($chat[0]->created),
                 'timestamp'     => strtotime($chat[0]->created) // used for data sorting
             ];

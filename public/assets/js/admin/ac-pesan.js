@@ -120,7 +120,8 @@ const pesan = new Vue({
                         let msg = data.chats
                         if(event === 'loadAll' && !afterSent) {
                             this.chats = msg.reverse()
-                            this.helper.disableAutoScroll = false                        
+                            this.helper.disableAutoScroll = false   
+                            this.getChatList()                     
                         } else if(event === 'loadNew' && !afterSent) {
                             if(msg.length > 0) {
                                 // activate auto scroll if there is new message
