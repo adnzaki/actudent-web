@@ -1,10 +1,10 @@
 <div class="messaging">
       <div class="inbox_msg">
-        <div class="inbox_people">
+        <div class="inbox_people {cardColor}">
           <div class="headind_srch">
             <div class="recent_heading" id="chat-title">
-              <h4 v-if="helper.showChatList">{+ lang AdminPesan.page_title +}</h4>
-              <h4 v-else class="cursor-pointer" @click="showChatList">{+ lang Admin.kembali +}</h4>
+              <h4 v-if="helper.showChatList" class="{cardTitleColor}">{+ lang AdminPesan.page_title +}</h4>
+              <h4 v-else class="cursor-pointer {cardTitleColor}" @click="showChatList">{+ lang Admin.kembali +}</h4>
             </div>
             <fieldset v-if="helper.showChatList">
                 <div class="input-group">
@@ -15,12 +15,12 @@
             </fieldset>  
           </div>
           <div class="inbox_chat" v-if="helper.showChatList">
-            <div :class="['chat_list', activeChat(item.id)]" v-for="(item, index) in chatList" 
+            <div :class="['chat_list soft-dark', activeChat(item.id)]" v-for="(item, index) in chatList" 
               :key="index" @click="getMessages(item.id, limit, 0)" v-if="helper.existParticipant"
               :id="'chat-list-' + item.id">
               <div class="chat_people">
                 <div class="chat_ib">
-                  <h5>{{ item.recipient }} 
+                  <h5 class="{cardTitleColor}">{{ item.recipient }} 
                     <span class="chat_date ac-chat-date"> {{ item.datetime }} </span>
                     <span class="chat_date ac-chat-action">
                       <button type="button" class="btn btn-icon btn-outline-danger"
@@ -38,7 +38,7 @@
             {+ include Actudent\Admin\Views\pesan\SearchParticipant +}
           </div>
         </div>
-        <div class="mesgs" v-if="helper.showChat">
+        <div class="mesgs {cardColor}" v-if="helper.showChat">
           <div :class="['msg_history', chatWrapper]" id="ac-chat-container">
             <button type="button" class="btn btn-info load-more" 
               @click="loadMoreChat" v-if="helper.loadMore">{+ lang AdminPesan.pesan_muat_lebih +}
@@ -47,7 +47,7 @@
               <div class="incoming_msg" v-if="item.sender !== userID">
                 <div class="received_msg">
                   <div class="received_withd_msg">
-                    <p> {{ item.content }} </p>
+                    <p class="dark-received"> {{ item.content }} </p>
                     <span class="time_date"> {{ item.time }} | {{ item.date }}</span></div>
                 </div>
               </div>
@@ -60,7 +60,7 @@
           </div>
           <div class="type_msg">
             <div class="input_msg_write">
-              <input type="text" class="write_msg" id="chat-box" v-model="messageText" v-if="!helper.sendingProgress"
+              <input type="text" class="write_msg {cardTitleColor}" id="chat-box" v-model="messageText" v-if="!helper.sendingProgress"
               placeholder="{+ lang AdminPesan.ketik_pesan +}" @keyup.enter="sendMessage" />
               <!-- If message is being sent, display this element! -->
               <input type="text" class="write_msg" v-else

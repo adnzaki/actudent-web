@@ -40,7 +40,7 @@ const pesan = new Vue({
     },
     methods: {
         chatReloader() {
-            // 5 minutes interval for production
+            // 5 minutes of interval for production
             let interval = 1000 * 60 * 5
             setInterval(() => {
                 this.getChatList()
@@ -55,7 +55,7 @@ const pesan = new Vue({
                         })
                     }, 500);
                 }
-            }, 5000); // for development, we use 5000ms (5 seconds) of interval
+            }, interval); // for development, we use 5000ms (5 seconds) of interval
         },
         selectParticipant(userID) {
             $.ajax({

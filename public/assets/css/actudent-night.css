@@ -247,3 +247,12 @@ kbd {
     background-color: rgb(35, 52, 58);
     color: #fff;
 }
+
+.active_chat {
+    background-color: #2e3c45 !important;
+}
+
+.dark-received {
+    background-color: #545863 !important;
+    color: #fff !important;
+}
