@@ -145,18 +145,22 @@ class PesanModel extends SharedModel
     {
         $param1 = [
             'participant_1' => $userID,
-            'participant_2' => $_SESSION['id']
+            'participant_2' => $_SESSION['id'],
         ];
 
         $param2 = [
-            'participant_2' => $userID,
-            'participant_1' => $_SESSION['id']
+            'participant_1' => $_SESSION['id'],
+            'participant_2' => $userID
         ];
 
-        $result = $this->QBChatUser->where($param1)
-                                   ->orWhere($param2)
+        $result = $this->QBChatUser->groupStart()
+                                        ->where($param1)
+                                   ->groupEnd()
+                                   ->orGroupStart()
+                                        ->where($param2)
+                                   ->groupEnd()
                                    ->get()->getResult();
-        
+                                   
         return count($result) > 0 ? $result[0]->chat_user_id : 0;
     }
 
@@ -210,5 +214,20 @@ class PesanModel extends SharedModel
         $this->QBChat->insert($values);
 
         return $id;
+    }
+
+    /**
+     * Delete a chat
+     * 
+     * @param int $chatUserID
+     * 
+     * @return void
+     */
+    public function deleteChat(int $chatUserID): void
+    {
+        $this->db->transStart();
+        $this->QBChat->delete(['chat_user_id' => $chatUserID]);
+        $this->QBChatUser->delete(['chat_user_id' => $chatUserID]);
+        $this->db->transComplete();
     }
 }   

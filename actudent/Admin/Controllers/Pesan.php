@@ -70,6 +70,7 @@ class Pesan extends Actudent
 
         foreach($data as $key)
         {
+            // participant in array
             $pArray = [
                 $key->participant_1,
                 $key->participant_2
@@ -125,6 +126,12 @@ class Pesan extends Actudent
 
 
         return $this->response->setJSON($response);
+    }
+
+    public function delete($chatUserID)
+    {
+        $this->pesan->deleteChat($chatUserID);
+        return $this->response->setJSON(['status' => 'OK']);
     }
 
     private function lastChatDate($datetime)

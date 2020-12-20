@@ -27,7 +27,8 @@ const pesan = new Vue({
         spinner: false,
         chatList: [], chats: [], messageText: '',
         limit: 25, cariPengguna: '',
-        participant: [],
+        participant: [], chatToDelete: '',
+        recipientName: '',
     },
     mounted() {
         this.runSelect2()
@@ -35,6 +36,7 @@ const pesan = new Vue({
         this.getLanguageResources('Admin')
         this.getChatList()
         this.chatReloader()
+        this.onModalClose()
     },
     methods: {
         chatReloader() {
@@ -57,7 +59,7 @@ const pesan = new Vue({
         },
         selectParticipant(userID) {
             $.ajax({
-                url: `${this.pesan}/pilih-pengguna/${userID}`,
+                url: `${this.pesan}pilih-pengguna/${userID}`,
                 dataType: 'json',
                 success: res => {
                     this.helper.userID = userID
@@ -104,61 +106,64 @@ const pesan = new Vue({
             })
         },
         getMessages(chatUserID, limit, offset, event = 'loadAll', afterSent = false) {
-            $.ajax({
-                url: `${this.pesan}get-chat/${chatUserID}/${limit}/${offset}/${event}`,
-                type: 'get',
-                beforeSend: () => {
-                    if(this.isSmallScreen) {
-                        this.helper.showChatList = false
-                    }
-                    this.helper.showChat = true                    
-                },
-                success: data => {
-                    let msg = data.chats
-                    if(event === 'loadAll' && !afterSent) {
-                        this.chats = msg.reverse()
-                        this.helper.disableAutoScroll = false                        
-                    } else if(event === 'loadNew' && !afterSent) {
-                        if(msg.length > 0) {
-                            // activate auto scroll if there is new message
-                            this.helper.disableAutoScroll = false
-                            msg.forEach(item => {
-                                this.chats.push(item)
-                            })
+            if(this.chatToDelete === '') {
+                $.ajax({
+                    url: `${this.pesan}get-chat/${chatUserID}/${limit}/${offset}/${event}`,
+                    type: 'get',
+                    beforeSend: () => {
+                        if(this.isSmallScreen) {
+                            this.helper.showChatList = false
+                        }
+                        this.helper.showChat = true                    
+                    },
+                    success: data => {
+                        let msg = data.chats
+                        if(event === 'loadAll' && !afterSent) {
+                            this.chats = msg.reverse()
+                            this.helper.disableAutoScroll = false                        
+                        } else if(event === 'loadNew' && !afterSent) {
+                            if(msg.length > 0) {
+                                // activate auto scroll if there is new message
+                                this.helper.disableAutoScroll = false
+                                msg.forEach(item => {
+                                    this.chats.push(item)
+                                })
+                            } else {
+                                // if there is no new message, do not activate auto scroll
+                                this.helper.disableAutoScroll = true
+                            }
+                        } else if(event === 'loadMore' && !afterSent) {
+                            if(msg.length > 0) {
+                                msg.forEach(item => {
+                                    this.chats.unshift(item)
+                                })
+                            }
+                        } else if(event === 'loadAll' && afterSent) {
+                            this.chats.push(msg[0])
+                            $('#chat-list-' + this.helper.chatUserID).click()
+                        }
+    
+                        this.helper.chatUserID = chatUserID
+    
+                        if(event !== 'loadMore' && !this.helper.disableAutoScroll) {
+                            setTimeout(() => {
+                                let el = document.getElementById('ac-chat-container')   
+                                el.scroll({ top: 1000 * this.chats.length, behavior: "smooth" })                        
+                            }, 500);
+                        }
+    
+                        this.chatboxFocus()
+    
+                        // show/hide load more button
+                        if(this.chats.length < data.rows) {
+                            this.helper.loadMore = true
                         } else {
-                            // if there is no new message, do not activate auto scroll
-                            this.helper.disableAutoScroll = true
-                        }
-                    } else if(event === 'loadMore' && !afterSent) {
-                        if(msg.length > 0) {
-                            msg.forEach(item => {
-                                this.chats.unshift(item)
-                            })
-                        }
-                    } else if(event === 'loadAll' && afterSent) {
-                        this.chats.push(msg[0])
-                        $('#chat-list-' + this.helper.chatUserID).click()
+                            this.helper.loadMore = false
+                        }                    
                     }
-
-                    this.helper.chatUserID = chatUserID
-
-                    if(event !== 'loadMore' && !this.helper.disableAutoScroll) {
-                        setTimeout(() => {
-                            let el = document.getElementById('ac-chat-container')   
-                            el.scroll({ top: 1000 * this.chats.length, behavior: "smooth" })                        
-                        }, 500);
-                    }
-
-                    this.chatboxFocus()
-
-                    // show/hide load more button
-                    if(this.chats.length < data.rows) {
-                        this.helper.loadMore = true
-                    } else {
-                        this.helper.loadMore = false
-                    }                    
-                }
-            })  
+                })
+            }
+              
         },
         loadMoreChat() {
             this.getMessages(this.helper.chatUserID, 10, this.chats.length, 'loadMore')
@@ -183,18 +188,64 @@ const pesan = new Vue({
                     },
                     success: res => {
                         this.helper.chatUserID = res.chatUser
-                        this.getMessages(this.helper.chatUserID, 1, 0, 'loadAll', true)
-                        this.messageText = ''
-                        this.helper.userID = ''
-                        this.getChatList()
                         this.helper.sendingProgress = false
-                        this.chatboxFocus()
                         this.cariPengguna = ''
                         this.helper.searchParticipant = false
-                        this.helper.existParticipant = true                        
+                        this.helper.existParticipant = true  
+                        this.helper.userID = ''                                
+                        this.messageText = ''                        
+                        this.getChatList()
+                        this.getMessages(this.helper.chatUserID, 1, 0, 'loadAll', true)
                     }
                 })
             }
+        },
+        deleteChat() {
+            $.ajax({
+                url: `${this.pesan}hapus/${this.chatToDelete}`,
+                dataType: 'json',
+                beforeSend: () => {
+                    this.helper.deleteProgress = true
+                    this.helper.disableSaveButton = true
+                },
+                success: () => {
+                    $('#hapusModal').modal('hide')
+                    this.getChatList()
+                    if(this.chatToDelete === this.helper.chatUserID) {
+                        this.chats = []
+                        this.helper.showChat = false
+                    }
+
+                    this.chatToDelete = ''
+
+                    this.alert.text = this.lang.pesan_sukses_hapus
+                    this.alert.header = this.lang.sukses
+                    this.alert.class = 'bg-success'
+                    this.alert.show = true
+                    setTimeout(() => {
+                        this.alert.show = false
+                        this.alert.header = ''
+                        this.alert.class = 'bg-primary'
+                        this.alert.text = ''
+                    }, 3500);
+
+                    setTimeout(() => {
+                        this.helper.disableSaveButton = false
+                        this.helper.deleteProgress = false                        
+                    }, 1000);
+                }
+            })
+        },
+        deleteConfirm(chatUserID, recipient) {
+            this.chatToDelete = chatUserID
+            this.recipientName = recipient
+            $('#hapusModal').modal('show')
+        },
+        onModalClose() {
+            let obj = this
+            $('#hapusModal').on('hidden.bs.modal', function() {
+                obj.chatToDelete = ''
+            })
         },
         activeChat(id, type = 'exist') {
             if(type === 'exist') {

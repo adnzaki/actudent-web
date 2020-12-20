@@ -6,4 +6,6 @@ return [
     'pesan_progress_kirim'      => 'Sending message...',
     'pesan_muat_lebih'          => 'Load more',
     'pesan_cari_pengguna'       => 'Search for user name',
+    'pesan_sukses_hapus'        => 'Chat successfully deleted',
+    'pesan_konfirmasi_hapus'    => 'Delete chat with',
 ];

@@ -24,7 +24,8 @@
                     <span class="chat_date ac-chat-date"> {{ item.datetime }} </span>
                     <span class="chat_date ac-chat-action">
                       <button type="button" class="btn btn-icon btn-outline-danger"
-                          data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}">
+                          data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}"
+                          @click="deleteConfirm(item.id, item.recipient)">
                           <i class="la la-trash"></i>
                       </button>
                     </span>

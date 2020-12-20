@@ -28,6 +28,8 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
       </div>
       <div class="content-body" id="pesan-content">
         {+ include Actudent\Admin\Views\pesan\ChatWrapper +}
+        {+ include Actudent\Admin\Views\siswa\alert +}
+        {+ include Actudent\Admin\Views\pesan\DeleteConfirm +}
       </div>
     </div>
   </div>
