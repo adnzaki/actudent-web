@@ -10,8 +10,8 @@ class Filters extends BaseConfig
 		'csrf'			=> \CodeIgniter\Filters\CSRF::class,
 		'toolbar'		=> \CodeIgniter\Filters\DebugToolbar::class,
 		'honeypot'		=> \CodeIgniter\Filters\Honeypot::class,
-		'adminfilter' 	=> \Actudent\Admin\Filters\AdminFilter::class,
-		'gurufilter' 	=> \Actudent\Guru\Filters\GuruFilter::class,
+		'admin'		 	=> \Actudent\Admin\Filters\AdminFilter::class,
+		'guru'		 	=> \Actudent\Guru\Filters\GuruFilter::class,
 		'throttle'		=> \App\Filters\Throttle::class,
 	];
 
@@ -21,13 +21,13 @@ class Filters extends BaseConfig
 			'honeypot',
 			// 'csrf',
 			'throttle',
-			'adminfilter' => ['except' => [
+			'admin' => ['except' => [
 				'admin/login', 'admin/login/validate', 
 				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
 				'guru/*', 'guru', 'admin/template/*', 'attachments/*',
 				]
 			],
-			'gurufilter' => ['except' => [
+			'guru' => ['except' => [
 				'guru/login', 'guru/login/validate', 
 				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
 				'admin/*', 'admin', 'attachments/*',
