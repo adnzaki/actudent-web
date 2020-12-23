@@ -20,6 +20,7 @@ use Actudent\Core\Models\SekolahModel;
 use Actudent\Core\Models\SettingModel;
 use Actudent\Core\Models\AuthModel;
 use Actudent\Core\Controllers\Resources;
+use Actudent\Admin\Models\PesanModel;
 
 class Actudent extends Controller
 {
@@ -44,12 +45,15 @@ class Actudent extends Controller
      */
     protected $auth;
 
+    
+    protected $resources;
+
     /**
-     * Resources controller
+     * PesanModel
      * 
      * @var object
      */
-    protected $resources;
+    protected $pesan;
 
     /**
      * @var \CodeIgniter\View\Parser
@@ -83,6 +87,7 @@ class Actudent extends Controller
         $this->setting  = new SettingModel;
         $this->auth     = new AuthModel;
         $this->resources= new Resources;
+        $this->pesan    = new PesanModel;
         $this->parser   = Services::parser();
         $this->session  = Services::session();
         $this->lang     = Services::language($this->getUserLanguage());
@@ -147,11 +152,42 @@ class Actudent extends Controller
             'changelog'             => $changelog['changelog'],
             'countChangelog'        => $changelog['countChangelog'],
             'isDashboard'           => $this->isDashboard(),
+            'isMessage'             => $this->isMessage(),
+            'unreadMessages'        => $this->getUnreadMessages(),
         ];
 
         return $data;
     }
 
+    /**
+     * Get unread messages
+     * 
+     * @return int
+     */
+    private function getUnreadMessages()
+    {
+        if(isset($_SESSION['email']))
+        {
+            return $this->pesan->getUnreadMessages();
+        }
+    }
+
+    /**
+     * Detect message page
+     * 
+     * @return boolean
+     */
+    private function isMessage()
+    {
+        $message = preg_match('/pesan/', current_url());
+        return ($message === 1) ? true : false;
+    }
+
+    /**
+     * Detect dashboard page
+     * 
+     * @return boolean
+     */
     private function isDashboard()
     {
         $dashboard = preg_match('/home/', current_url());

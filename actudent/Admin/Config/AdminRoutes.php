@@ -127,6 +127,15 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('nilai/kelola/(:num)/(:num)', 'Nilai::getStudentScore/$1/$2');
 	$routes->add('nilai/simpan-nilai/(:any)', 'Nilai::saveScores/$1');
 	$routes->add('nilai/ekspor/(:num)/(:num)', 'Nilai::exportScores/$1/$2');
+	$routes->add('pesan', 'Pesan::index');
+	$routes->add('pesan/chat-list', 'Pesan::getChatList');
+	$routes->add('pesan/get-chat/(:num)/(:num)/(:num)/(:alpha)', 'Pesan::getMessages/$1/$2/$3/$4');
+	$routes->add('pesan/kirim-pesan/(:num)', 'Pesan::sendMessage/$1');
+	$routes->add('pesan/baca-pesan/(:num)', 'Pesan::readMessage/$1');
+	$routes->add('pesan/cari-pengguna/(:any)', 'Pesan::searchParticipant/$1');
+	$routes->add('pesan/pilih-pengguna/(:num)', 'Pesan::selectParticipant/$1');
+	$routes->add('pesan/hapus/(:num)', 'Pesan::delete/$1');
+	$routes->add('pesan/belum-dibaca', 'Pesan::getUnreadMessages');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');

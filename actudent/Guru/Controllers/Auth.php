@@ -44,13 +44,13 @@ class Auth extends Actudent
                 'logged_in' => true
             ];
             
-            if(! empty($remember))
-            {
-                $cookieValue = "{$username}-{$pengguna->user_level}";
-                $hash = base64_encode($cookieValue);
-                $this->auth->createToken($hash);
-                set_cookie('remember_login', $hash, (3600 * 24 * 30));
-            }
+            // if(! empty($remember))
+            // {
+            //     $cookieValue = "{$username}-{$pengguna->user_level}";
+            //     $hash = base64_encode($cookieValue);
+            //     $this->auth->createToken($hash);
+            //     set_cookie('remember_login', $hash, (3600 * 24 * 30));
+            // }
 
             $this->session->set($session);
             $this->auth->statusJaringan('online', $username);

@@ -91,12 +91,28 @@
 	.fly-alert {
 		width: 85%;
 	}
+
+	/* .msg_history {
+		height: 66vh !important;
+	} */
+
+	.chat-override {
+		height: 66vh !important;
+	}
+
+	.webkit-chat-override {
+		height: 65.3vh !important;
+	}
 }
 
 @media (min-width: 768px) {
 	.fly-alert {
 		width: 80%;
 		left: 10% !important;
+	}
+
+	.ac-chat-logo {
+		margin-left: 25% !important;
 	}
 }
 
@@ -113,6 +129,16 @@
 	
 	.add-top-position {
 		top: 10px;
+	}
+
+	.ac-chat-logo {
+		margin-left: 35% !important;
+	}
+}
+
+@media (min-width: 1400px) {
+	.ac-chat-logo {
+		margin-left: 45% !important;
 	}
 }
 
@@ -144,6 +170,31 @@
 		bottom: 5px !important;
 		min-width: 4rem !important;
 		min-height: 4.4rem !important;
+	}
+
+	.inbox_people {
+		width: 100% !important;
+	}
+
+	.mesgs {
+		width: 100% !important;
+	}
+
+	.chat-override {
+		height: 61vh !important;
+	}
+
+	.webkit-chat-override {
+		height: 60vh !important;
+	}
+
+	.received_withd_msg {
+		width: 80% !important;
+	}
+
+	.sent_msg {
+		float: right;
+		width: 75% !important;
 	}
 }
 
@@ -323,4 +374,90 @@ input.lineless-input:focus {
 
 .left-35-loader {
 	left: 35% !important;
+}
+
+.chat_list:hover {
+	background-color:#ebebeb;
+	cursor: pointer !important;
+}
+
+.messaging {
+	height: 75vh;
+	overflow: hidden;
+	box-shadow: 0px 1px 15px 1px rgba(62, 57, 107, 0.07);
+}
+
+.inbox_people, .mesgs {
+	background-color: #fff !important;
+}
+
+.inbox_msg {
+	height: 75vh;
+	border-radius: 0.35rem;
+	border: none !important;
+}
+
+.inbox_chat {
+	height: 65vh !important;
+}
+
+.mesgs {
+	padding: 10px 5px 0 5px !important;
+}
+
+.msg_history {
+	overflow-y: scroll !important;
+}
+
+.outgoing_msg {
+	margin: 8px 5px!important;
+}
+
+.time_date {
+	margin: 5px 0 !important;
+}
+
+.chat_ib {
+	width: 100% !important;
+}
+
+.msg_send_btn {
+	top: 8px !important;
+}
+
+.blank-wrapper {
+	height: 75vh !important;
+	overflow-y: hidden !important;
+}
+
+.webkit-blank-wrapper {
+	height: 73.2vh !important;
+	overflow-y: hidden !important;
+}
+
+.ac-chat-logo {
+	max-width: 200px;
+	/* margin-left: 35%; */
+	margin-top: 25vh;
+}
+
+.load-more {
+	margin-left: 40%;
+	margin-bottom: 10px;
+}
+
+.write_msg {
+	padding-right: 50px;
+}
+
+.chat_list:hover .ac-chat-date {
+	display: none !important;
+}
+
+.chat_list:hover .ac-chat-action {
+	display: block !important;
+}
+
+.ac-chat-action {
+	display: none;
 }

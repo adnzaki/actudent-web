@@ -49,7 +49,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                           <i class="la la-key"></i>
                         </div>
                       </fieldset>
-                      <div class="form-group row">
+                      <!-- <div class="form-group row">
                         <div class="col-md-6 col-12 text-center text-md-left">
                           <fieldset>
                             <Checkbox v-model="remember" value="on" 
@@ -58,8 +58,7 @@ data-open="click" data-menu="vertical-menu" data-col="1-column" style="backgroun
                             </Checkbox>
                           </fieldset>
                         </div>
-                        <!-- <div class="col-md-6 col-12 text-center text-md-right"><a href="recover-password.html" class="card-link">{+ lang AdminAuth.lupa_password +}</a></div> -->
-                      </div>
+                      </div> -->
                       <p v-bind:class="msgClass" v-if="showMsg">{{ msg }}</p>
                       <button type="button" @click="validasi" class="btn btn-info btn-lg btn-block"><i class="ft-unlock"></i> {+ lang AdminAuth.login +}</button>
                     </form>
