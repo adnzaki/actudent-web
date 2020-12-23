@@ -60,16 +60,12 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- Menambahkan fitur Ingat Password
-                - Memperbaiki cara kerja Changelog
-                - [Kehadiran] Menambahkan laporan absensi harian
-                - [Nilai] Menambahkan fitur ekspor nilai ke Excel"
+                "- [Baru!] Menambahkan fitur Pesan
+                - [Nilai] Mengoptimalkan hasil ekspor Excel"
             ],
             'english' => [
-                "- Added Remember Password feature
-                - Fixed Changelog procedure
-                - [Presence] Added daily presence report
-                - [Scores] Added export scores to Excel feature"
+                "- [New!] Added Message feature
+                - [Nilai] Optimized Excel's export result"
             ]
         ];
 
@@ -87,14 +83,16 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- Menambahkan fitur Ingat Password
-                - Memperbaiki cara kerja Changelog
-                - [Nilai] Menambahkan fitur ekspor nilai ke Excel"
+                "- [Baru!] Menambahkan fitur Pesan
+                - [Nilai] Mengoptimalkan hasil ekspor Excel
+                - [Perbaikan] Menghapus sementara fitur ingat password saat login 
+                untuk alasan keamanan"
             ],
             'english' => [
-                "- Added Remember Password feature
-                - Fixed Changelog procedure
-                - [Scores] Added export scores to Excel feature"
+                "- [New!] Added Message feature
+                - [Nilai] Optimized Excel's export result
+                - [Fixes] Temporarily removed remember password feature on login 
+                for security issue"
             ]
         ];
 

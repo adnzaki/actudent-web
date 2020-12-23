@@ -9,7 +9,6 @@ const dashboard = new Vue({
     el: '#dashboard-content',
     mixins: [plugin],
     data: {
-        judulnya: 'Changelog v1.0.3',
         changelogList: [],
         sevenDaysPresence: {},
     },
