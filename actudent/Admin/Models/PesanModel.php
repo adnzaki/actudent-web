@@ -129,7 +129,7 @@ class PesanModel extends SharedModel
      */
     public function getParticipant(string $search): array
     {
-        $field = 'user_id, user_name, user_email';
+        $field = 'user_id, user_name, user_email, user_level';
         $params = [
             'deleted'       => 0,
             'user_id !='    => $_SESSION['id']

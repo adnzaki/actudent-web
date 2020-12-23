@@ -171,6 +171,16 @@ class Pesan extends Actudent
     public function searchParticipant($search)
     {
         $data = $this->pesan->getParticipant($search);
+        $userLevel = [
+            1 => 'Admin', 
+            2 => lang('AdminPesan.pesan_level_guru'), 
+            3 => lang('AdminPesan.pesan_level_ortu'),
+        ];
+
+        foreach($data as $key)
+        {
+            $key->user_level = $userLevel[$key->user_level];
+        }
 
         return $this->response->setJSON($data);
     }

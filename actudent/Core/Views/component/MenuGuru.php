@@ -14,7 +14,12 @@
         <a href="{guru}timeline"><i class="la la-history"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_timeline +}</span></a>
       </li>
       <li class="{+ menu_active uri=pesan +} nav-item">
-        <a href="{admin}pesan"><i class="la la-comments"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span></a>
+        <a href="{guru}pesan"><i class="la la-comments"></i>
+          <span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_pesan +}</span>
+          {if $unreadMessages > 0 && $isMessage === false}
+            <span class="badge badge badge-pill badge-danger float-right">{unreadMessages}</span>
+          {endif}
+        </a>
       </li>
       <li class="{+ menu_active uri=nilai +} nav-item">
         <a href="{guru}nilai"><i class="la la-clipboard"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_nilai +}</span></a>

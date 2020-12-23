@@ -2,7 +2,7 @@
               :key="index" v-if="helper.searchParticipant" @click="selectParticipant(item.user_id)">
               <div class="chat_people">
                 <div class="chat_ib">
-                  <h5 class="{cardTitleColor}">{{ item.user_name }}</h5>
+                  <h5 class="{cardTitleColor}">{{ item.user_name }} ({{ item.user_level }}) </h5>
                 </div>
               </div>
             </div>

@@ -37,6 +37,15 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('nilai/kelola/(:num)/(:num)', 'GuruNilai::getStudentScore/$1/$2');
 	$routes->add('nilai/simpan-nilai/(:any)', 'GuruNilai::saveScores/$1');
 	$routes->add('nilai/ekspor/(:num)/(:num)', 'GuruNilai::exportScores/$1/$2');
+	$routes->add('pesan', 'GuruPesan::index');
+	$routes->add('pesan/chat-list', 'GuruPesan::getChatList');
+	$routes->add('pesan/get-chat/(:num)/(:num)/(:num)/(:alpha)', 'GuruPesan::getMessages/$1/$2/$3/$4');
+	$routes->add('pesan/kirim-pesan/(:num)', 'GuruPesan::sendMessage/$1');
+	$routes->add('pesan/baca-pesan/(:num)', 'GuruPesan::readMessage/$1');
+	$routes->add('pesan/cari-pengguna/(:any)', 'GuruPesan::searchParticipant/$1');
+	$routes->add('pesan/pilih-pengguna/(:num)', 'GuruPesan::selectParticipant/$1');
+	$routes->add('pesan/hapus/(:num)', 'GuruPesan::delete/$1');
+	$routes->add('pesan/belum-dibaca', 'GuruPesan::getUnreadMessages');
 	$routes->add('umpan-balik', 'GuruFeedback::page');
 	$routes->add('umpan-balik/validasi', 'GuruFeedback::FeedbackValidation');
 	$routes->add('umpan-balik/send/', 'GuruFeedback::send');

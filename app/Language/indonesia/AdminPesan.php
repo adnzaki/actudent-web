@@ -8,4 +8,6 @@ return [
     'pesan_cari_pengguna'       => 'Cari nama pengguna',
     'pesan_sukses_hapus'        => 'Pesan berhasil dihapus',
     'pesan_konfirmasi_hapus'    => 'Hapus chat dengan',
+    'pesan_level_guru'          => 'Guru',
+    'pesan_level_ortu'          => 'Orang Tua',
 ];
