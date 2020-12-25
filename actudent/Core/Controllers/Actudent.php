@@ -139,16 +139,16 @@ class Actudent extends Controller
             'namaPengguna'          => $pengguna->user_name ?? '',
             'bahasa'                => $bahasa ?? '',
             'theme'                 => $userTheme ?? '',
-            'bodyColor'             => $theme['bodyColor'],
-            'footerColor'           => $theme['footerColor'],
-            'footerTextColor'       => $theme['footerTextColor'],
-            'cardColor'             => $theme['cardColor'],
-            'cardTitleColor'        => $theme['cardTitleColor'],
-            'menuColor'             => $theme['menuColor'],
-            'navbarColor'           => $theme['navbarColor'],
-            'navbarContainerColor'  => $theme['navbarContainerColor'],
-            'modalHeaderColor'      => $theme['modalHeaderColor'],
-            'navlinkColor'          => $theme['navlinkColor'],
+            'bodyColor'             => $theme['bodyColor'] ?? '',
+            'footerColor'           => $theme['footerColor'] ?? '',
+            'footerTextColor'       => $theme['footerTextColor'] ?? '',
+            'cardColor'             => $theme['cardColor'] ?? '',
+            'cardTitleColor'        => $theme['cardTitleColor'] ?? '',
+            'menuColor'             => $theme['menuColor'] ?? '',
+            'navbarColor'           => $theme['navbarColor'] ?? '',
+            'navbarContainerColor'  => $theme['navbarContainerColor'] ?? '',
+            'modalHeaderColor'      => $theme['modalHeaderColor'] ?? '',
+            'navlinkColor'          => $theme['navlinkColor'] ?? '',
             'changelog'             => $changelog['changelog'],
             'countChangelog'        => $changelog['countChangelog'],
             'isDashboard'           => $this->isDashboard(),
@@ -289,6 +289,11 @@ class Actudent extends Controller
      */
     protected function getUserThemes()
     {
+        $result = [
+            'selectedTheme' => '',
+            'data' => '',
+        ];
+
         if(isset($_SESSION['email']))
         {
             $userTheme = $this->auth->getUserThemes($_SESSION['email']);
@@ -299,11 +304,13 @@ class Actudent extends Controller
                 $wrapper[$key['settingKey']] = $key['settingValue'];
             }
     
-            return [
+            $result = [
                 'selectedTheme' => $userTheme[0]->theme,
                 'data' => $wrapper,
             ];
         }
+
+        return $result;
     }
 
     /**

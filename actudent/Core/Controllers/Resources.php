@@ -11,6 +11,11 @@ class Resources extends Actudent
      */
     public function getChangelog($lang = 'indonesia')
     {
+        $result = [
+            'changelog' => [],
+            'countChangelog' => 0,
+        ];
+
         if(isset($_SESSION['userLevel']))
         {
             if($_SESSION['userLevel'] === '1')
@@ -22,11 +27,13 @@ class Resources extends Actudent
                 $changelog = $this->guruChangelog($lang);
             }
 
-            return [
+            $result =  [
                 'changelog' => $changelog,
                 'countChangelog' => $this->countChangelog($changelog),
             ];
         }
+
+        return $result;
     }
 
     /**
