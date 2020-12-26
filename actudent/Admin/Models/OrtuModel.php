@@ -35,9 +35,10 @@ class OrtuModel extends SharedModel
      * @param string $searchBy
      * @param string $sort
      * @param string $search 
-     * @return object
+     * 
+     * @return array
      */
-    public function getParents($limit, $offset, $orderBy = 'parent_father_name', $searchBy = 'parent_father_name', $sort = 'ASC', $search = '')
+    public function getParents($limit, $offset, $orderBy = 'parent_father_name', $searchBy = 'parent_father_name', $sort = 'ASC', $search = ''): array
     {
         $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
@@ -50,7 +51,7 @@ class OrtuModel extends SharedModel
      * @param string $search
      * @return int
      */
-    public function getParentRows($searchBy = 'parent_father_name', $search = '')
+    public function getParentRows(string $searchBy = 'parent_father_name', string $search = ''): int
     {
         $query = $this->search($searchBy, $search)->where('deleted', '0');
 
@@ -61,9 +62,10 @@ class OrtuModel extends SharedModel
      * Get parent detail
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return array
      */
-    public function getParentDetail($id)
+    public function getParentDetail(int $id): array
     {
         $field = 'parent_id, tb_parent.user_id, parent_family_card, 
                   parent_father_name, parent_mother_name, parent_phone_number,
@@ -79,9 +81,10 @@ class OrtuModel extends SharedModel
      * Get children list
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return array
      */
-    public function getChildren($id)
+    public function getChildren(int $id): array
     {
         $field = "student_nis, student_name, {$this->student}.deleted";
         $select = $this->QBStudent->select($field);
@@ -93,9 +96,11 @@ class OrtuModel extends SharedModel
     /**
      * Insert parent data
      * 
+     * @param array $value
+     * 
      * @return void
      */
-    public function insert($value)
+    public function insert(array $value): void
     {
         // insert user data first
         $user = $this->fillUserField($value);
@@ -114,11 +119,12 @@ class OrtuModel extends SharedModel
     /**
      * Update parent data
      * 
+     * @param array $value
      * @param int $id 
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $data = $this->fillParentField($value);
         $this->QBParent->update($data, ['parent_id' => $id]);
@@ -132,7 +138,7 @@ class OrtuModel extends SharedModel
      * 
      * @return void
      */
-    public function delete($parentID, $userID)
+    public function delete(int $parentID, int $userID): void
     {
         $deleted = ['deleted' => '1'];
         $this->db->transStart();
@@ -151,9 +157,10 @@ class OrtuModel extends SharedModel
      * Fill tb_parent field with these data
      * 
      * @param array $data
+     * 
      * @return array
      */
-    private function fillParentField($data)
+    private function fillParentField(array $data): array
     {
         return [
             'parent_family_card'    => $data['parent_family_card'],
@@ -167,8 +174,10 @@ class OrtuModel extends SharedModel
      * Fill tb_user field with these data
      * 
      * @param array $data
+     * 
+     * @return array
      */
-    private function fillUserField($data)
+    private function fillUserField(array $data): array
     {
         $sekolah = $this->sekolah->getDataSekolah()[0];
         return [
@@ -186,9 +195,9 @@ class OrtuModel extends SharedModel
      * @param string $searchBy
      * @param string $search
      * 
-     * @return object
+     * @return QueryBuilder
      */
-    private function search($searchBy, $search)
+    private function search(string $searchBy, string $search)
     {
         $field = 'parent_id, user_id, parent_family_card, parent_father_name, parent_mother_name, parent_phone_number';
         $select = $this->QBParent->select($field);

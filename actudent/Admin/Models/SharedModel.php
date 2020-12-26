@@ -160,7 +160,7 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function sendNotification($recipient, $content = [], $type = 'student')
+    public function sendNotification(int $recipient, array $content = [], string $type = 'student'): void
     {
         $userID = $this->checkUserDevice($recipient, $type);
         
@@ -183,9 +183,9 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param int $userID
      * 
-     * @return object
+     * @return array
      */
-    protected function getUserDevice($userID)
+    protected function getUserDevice(int $userID): array
     {
         return $this->QBUserDevices->getWhere(['user_id' => $userID])->getResult();
     }
@@ -198,7 +198,7 @@ class SharedModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return int|boolean
      */
-    protected function checkUserDevice($recipient, $type)
+    protected function checkUserDevice(int $recipient, string $type)
     {
         if($type === 'student')
         {
