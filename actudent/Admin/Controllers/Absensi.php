@@ -59,7 +59,7 @@ class Absensi extends Actudent
         $gradeMember    = $this->absensi->kelas->getClassMember($gradeID);
         $data['day']    = $this->days[$day];
         $data['date']   = $this->ostiumDate->format('d-MM-Y', reverse($date, '-', '-'));
-        $journals       = $this->absensi->getJournalByDate($date, $gradeID);
+        $journals       = $this->absensi->getJournalByDate($date, $gradeID, true);
         $jadwal         = $this->jadwal->getSchedules($gradeID, $this->days[$day]);
 
         // Lesson hours will be used for table header column
