@@ -32,9 +32,10 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
      * @param string $searchBy
      * @param string $sort
      * @param string $search 
-     * @return object
+     * 
+     * @return array
      */
-    public function getLesson($limit, $offset, $orderBy = 'lesson_name', $searchBy = 'lesson_name', $sort = 'ASC', $search = '')
+    public function getLesson($limit, $offset, $orderBy = 'lesson_name', $searchBy = 'lesson_name', $sort = 'ASC', $search = ''): array
     {
         $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
@@ -45,9 +46,10 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $searchBy
      * @param string $search
+     * 
      * @return int
      */
-    public function getLessonRows($searchBy = 'lesson_name', $search = '')
+    public function getLessonRows(string $searchBy = 'lesson_name', string $search = ''): int
     {
         $query = $this->search($searchBy, $search)->where('deleted', '0');
 
@@ -58,9 +60,10 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
      * Get lesson detail
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return array
      */
-    public function getLessonDetail($id)
+    public function getLessonDetail(int $id): array
     {
         $field = 'lesson_id, lesson_code, lesson_name';
         $select = $this->QBMapel->select($field)
@@ -72,9 +75,11 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Insert lessons data
      * 
+     * @param array $value
+     * 
      * @return void
      */
-    public function insert($value)
+    public function insert(array $value): void
     {
         $lesson = $this->fillLessonField($value);
         $this->QBMapel->insert($lesson);
@@ -83,11 +88,12 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Update lessons data
      * 
+     * @param array $value
      * @param int $id 
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $data = $this->fillLessonField($value);
         $this->QBMapel->update($data, ['lesson_id' => $id]);
@@ -96,12 +102,11 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Delete lessons
      * 
-     * @param int parent_id
-     * @param int user_id
+     * @param int $lessonID
      * 
      * @return void
      */
-    public function delete($lessonID)
+    public function delete(int $lessonID): void
     {
         $deleted = ['deleted' => '1'];
         $this->QBMapel->update($deleted, ['lesson_id' => $lessonID]);
@@ -111,9 +116,10 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
      * Fill tb_lessons field with these data
      * 
      * @param array $data
+     * 
      * @return array
      */
-    private function fillLessonField($data)
+    private function fillLessonField(array $data): array
     {
         return [
             'lesson_code'    => $data['lesson_code'],
@@ -127,9 +133,9 @@ class MapelModel extends \Actudent\Core\Models\ModelHandler
      * @param string $searchBy
      * @param string $search
      * 
-     * @return object
+     * @return QueryBuilder
      */
-    private function search($searchBy, $search)
+    private function search(string $searchBy, string $search)
     {
         $field = 'lesson_id, lesson_code, lesson_name';
         $select = $this->QBMapel->select($field);

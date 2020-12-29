@@ -7,7 +7,7 @@ use Actudent\Core\Models\AuthModel;
 
 class GuruFilter implements FilterInterface
 {
-    public function before(RequestInterface $request)
+    public function before(RequestInterface $request, $arguments = null)
     {
         $cookie = get_cookie('remember_login');
         $auth = new AuthModel();
@@ -35,7 +35,7 @@ class GuruFilter implements FilterInterface
         }
     }
 
-    public function after(RequestInterface $request, ResponseInterface $response)
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
     {
         // Do something here
     }

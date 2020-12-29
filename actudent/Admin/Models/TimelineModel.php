@@ -57,9 +57,9 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * @param int $limit
      * @param int $offset
      * 
-     * @return object
+     * @return array
      */
-    public function getPosts($limit, $offset)
+    public function getPosts(int $limit, int $offset): array
     {
         $field = "timeline_id, timeline_title, timeline_content, timeline_date, 
                   timeline_image, timeline_status, {$this->timeline}.created, user_name as author";
@@ -75,7 +75,7 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return int
      */
-    public function getTimelineRows()
+    public function getTimelineRows(): int
     {
         return $this->QBTimeline->countAllResults();
     }
@@ -83,12 +83,13 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Get post's comments
      * 
+     * @param int $timelineID
      * @param int $limit
      * @param int $offset
      * 
-     * @return object
+     * @return array
      */
-    public function getPostComments($timelineID, $limit, $offset)
+    public function getPostComments(int $timelineID, int $limit, int $offset): array
     {
         $query = $this->getAllComments()->where([
             'timeline_id' => $timelineID, 'comment_parent' => null
@@ -101,9 +102,10 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * Get replies from a comment
      * 
      * @param int $parentComment
-     * @return object
+     * 
+     * @return array
      */
-    public function getCommentReplies($parentComment)
+    public function getCommentReplies(int $parentComment): array
     {
         return $this->getAllComments()->where(['comment_parent' => $parentComment])->get()->getResult();
     }
@@ -126,9 +128,10 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * Get post detail
      * 
      * @param int $timelineID
-     * @return object
+     * 
+     * @return array
      */
-    public function getPostDetail($timelineID)
+    public function getPostDetail(int $timelineID): array
     {
         $field = "timeline_id, timeline_title, timeline_content, timeline_date, 
                   timeline_image, timeline_status, {$this->timeline}.created, user_name as author";
@@ -142,9 +145,10 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $status
      * @param array $data
+     * 
      * @return int
      */
-    public function insert($status, $value)
+    public function insert(string $status, array $value): int
     {
         $data = $this->fillTimelineField($value);
         $data['user_id'] = session()->get('id');
@@ -159,10 +163,12 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * Update timeline
      * 
      * @param string $status
-     * @param array $data
+     * @param array $value
      * @param int $id
+     * 
+     * @return int
      */
-    public function update($status, $value, $id)
+    public function update(string $status, array $value, int $id): int
     {
         $data = $this->fillTimelineField($value);
         $data['timeline_status'] = $status;
@@ -176,9 +182,10 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * Delete timeline and related data
      * 
      * @param int $id 
+     * 
      * @return void
      */
-    public function delete($id)
+    public function delete(int $id): void
     {
         // transaction started
         $this->db->transStart();
@@ -194,9 +201,10 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * Data to be filled in tb_timeline
      * 
      * @param array $data
+     * 
      * @return array
      */
-    private function fillTimelineField($data)
+    private function fillTimelineField(array $data): array
     {
         return [
             'timeline_title'    => $data['timeline_title'],
@@ -213,7 +221,7 @@ class TimelineModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function setAttachment($filename, $id)
+    public function setAttachment(string $filename, int $id): void
     {        
         $this->QBTimeline->where('timeline_id', $id)->update(['timeline_image' => $filename]);
     }

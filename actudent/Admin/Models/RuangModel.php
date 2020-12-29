@@ -32,9 +32,10 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
      * @param string $searchBy
      * @param string $sort
      * @param string $search 
-     * @return object
+     * 
+     * @return array
      */
-    public function getRoom($limit, $offset, $orderBy = 'room_name', $searchBy = 'room_name', $sort = 'ASC', $search = '')
+    public function getRoom($limit, $offset, $orderBy = 'room_name', $searchBy = 'room_name', $sort = 'ASC', $search = ''): array
     {
         $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
@@ -45,9 +46,10 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $searchBy
      * @param string $search
+     * 
      * @return int
      */
-    public function getRoomRows($searchBy = 'room_name', $search = '')
+    public function getRoomRows(string $searchBy = 'room_name', string $search = ''): int
     {
         $query = $this->search($searchBy, $search)->where('deleted', '0');
 
@@ -58,9 +60,10 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
      * Get room detail
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return array
      */
-    public function getRoomDetail($id)
+    public function getRoomDetail(int $id): array
     {
         $field = 'room_id, room_code, room_name';
         $select = $this->QBRuang->select($field)
@@ -72,9 +75,11 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Insert room data
      * 
+     * @param array $value
+     * 
      * @return void
      */
-    public function insert($value)
+    public function insert(array $value): void
     {
         $room = $this->fillRoomField($value);
         $this->QBRuang->insert($room);
@@ -83,11 +88,12 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Update room data
      * 
+     * @param array $value
      * @param int $id 
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $data = $this->fillRoomField($value);
         $this->QBRuang->update($data, ['room_id' => $id]);
@@ -100,7 +106,7 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function delete($roomID)
+    public function delete(int $roomID): void
     {
         $deleted = ['deleted' => '1'];
         $this->QBRuang->update($deleted, ['room_id' => $roomID]);
@@ -110,9 +116,10 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
      * Fill tb_room field with these data
      * 
      * @param array $data
+     * 
      * @return array
      */
-    private function fillRoomField($data)
+    private function fillRoomField(array $data): array
     {
         return [
             'room_code'    => $data['room_code'],
@@ -126,9 +133,9 @@ class RuangModel extends \Actudent\Core\Models\ModelHandler
      * @param string $searchBy
      * @param string $search
      * 
-     * @return object
+     * @return QueryBuilder
      */
-    private function search($searchBy, $search)
+    private function search(string $searchBy, string $search)
     {
         $field = 'room_id, room_code, room_name';
         $select = $this->QBRuang->select($field);

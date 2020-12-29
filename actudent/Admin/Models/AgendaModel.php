@@ -53,9 +53,12 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Grab data from tb_agenda and put them in FullCalendar plugin
      * 
-     * @return object
+     * @param string $viewStart
+     * @param string $viewEnd
+     * 
+     * @return array
      */
-    public function getEvents($viewStart, $viewEnd)
+    public function getEvents(string $viewStart, string $viewEnd): array
     {
         $query = $this->QBAgenda->select('agenda_id, agenda_name, agenda_start, agenda_end')
                  ->where([
@@ -71,14 +74,22 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * Get event's detail data
      * 
      * @param int $id
+     * 
      * @return object
      */
-    public function getEventDetail($id)
+    public function getEventDetail(int $id): object
     {
         return $this->QBAgenda->getWhere(['agenda_id' => $id])->getResult()[0];
     }
 
-    public function getAttachment($id)
+    /**
+     * Get agenda's attachment
+     * 
+     * @param int $id
+     * 
+     * @return object
+     */
+    public function getAttachment(int $id): object
     {
         return $this->QBAgenda->select('agenda_attachment')
                 ->where(['agenda_id' => $id])->get()->getResult()[0];
@@ -88,9 +99,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * Get event's guests
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return mixed
      */
-    public function getEventGuests($id)
+    public function getEventGuests(int $id)
     {
         $eventGuest = $this->QBAgendaUser->getWhere(['agenda_id' => $id])->getResult();
 
@@ -112,9 +124,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * Find a user based on user_id 
      * 
      * @param int $id
+     * 
      * @return object
      */
-    private function findUser($id)
+    private function findUser(int $id): object
     {
         return $this->QBUser->select('user_id, user_name')
                ->where('user_id', $id)->get()->getResult()[0];
@@ -124,9 +137,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * Insert data from user input to tb_agenda and its relations
      * 
      * @param array $data
+     * 
      * @return int
      */
-    public function insert($value)
+    public function insert(array $value): int
     {
         $data = $this->fillAgendaField($value);
         $data['user_id'] = session()->get('id');
@@ -150,8 +164,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param array $data
      * @param int $id
+     * 
+     * @return int
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): int
     {
         $data = $this->fillAgendaField($value);
         $this->QBAgenda->update($data, ['agenda_id' => $id]);
@@ -182,7 +198,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function sendAgendaNotification($name, $guests)
+    public function sendAgendaNotification(string $name, string $guests): void
     {
         $guestArray = explode(',', $guests);
         $content = [
@@ -200,9 +216,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * Delete agenda and related data
      * 
      * @param int $id 
+     * 
      * @return void
      */
-    public function delete($id)
+    public function delete(int $id): void
     {
         // transaction started
         $this->db->transStart();
@@ -217,9 +234,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * Data to be filled on tb_agenda
      * 
      * @param array $data
+     * 
      * @return array
      */
-    private function fillAgendaField($data)
+    private function fillAgendaField(array $data): array
     {
         return [
             'agenda_name'           => $data['agenda_name'],
@@ -239,7 +257,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function setAttachment($filename, $id)
+    public function setAttachment(string $filename, int $id): void
     {        
         $this->QBAgenda->where('agenda_id', $id)->update(['agenda_attachment' => $filename]);
     }
@@ -252,7 +270,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    private function insertAgendaGuests($data, $id)
+    private function insertAgendaGuests(string $data, int $id): void
     {
         $this->QBAgendaUser->insert([
             'agenda_id' => $id,
@@ -268,7 +286,7 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    private function updateAgendaGuests($data, $id)
+    private function updateAgendaGuests(string $data, int $id): void
     {
         $this->QBAgendaUser->update([
             'guests'    => $data,
@@ -280,9 +298,9 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $search
      * 
-     * @return object
+     * @return array
      */
-    public function searchGuest($search)
+    public function searchGuest(string $search): array
     {
         return $this->joinAndSearchQuery($search)->get()->getResult();
     }
@@ -292,9 +310,10 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * Search for grade, teacher or parent with join table
      * 
      * @param string $search
-     * @return object
+     * 
+     * @return CI_Query_Builder
      */
-    private function joinAndSearchQuery($search)
+    private function joinAndSearchQuery(string $search)
     {
         $field = "{$this->parent}.user_id as user_parent,
                   {$this->teacher}.user_id as user_guru, 

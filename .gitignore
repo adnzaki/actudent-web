@@ -9,6 +9,7 @@
 
 # Actudent ignored files 
 actudent/Trash
+actudent/Admin/Controllers/Test.php
 public/.htaccess
 public/app-assets
 public/app-assets.zip
@@ -35,7 +36,6 @@ public/attachments/email
 public/admin-login/index.html
 public/admin-login/js
 public/admin-login/images/icons
-actudent/Admin/Controllers/Test.php
 queries/query_test.sql
 .commitnote
 index.php

@@ -32,11 +32,11 @@ class Test extends Actudent
 
     public function testFunction()
     {
-        //$path = base_url('attachments/timeline/img_1593019738_d45047e928e09e6842cb.jpg');
-        $path = PUBLICPATH . 'attachments/timeline/img_1593019738_d45047e928e09e6842cb.jpg';
-        $file = new \CodeIgniter\Files\File($path);
-        //echo $file->getRealPath();
-        echo '<img src=' . $path . '></img>';
+        $pesan = new \Actudent\Admin\Models\PesanModel;
+        $unread = $pesan->getAllUnreadMessages();
+        
+        //return $this->response->setJSON($unread);
+        print_r($unread);
     }
 
     public function resultToArray()

@@ -46,9 +46,9 @@ class KelasModel extends SharedModel
      * @param string $sort
      * @param string $search 
      * 
-     * @return object
+     * @return array
      */
-    public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = '')
+    public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = ''): array
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
         $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
@@ -63,9 +63,10 @@ class KelasModel extends SharedModel
      * 
      * @param string $searchBy
      * @param string $search
+     * 
      * @return int
      */
-    public function getKelasRows($searchBy = 'grade_name', $search = '')
+    public function getKelasRows(string $searchBy = 'grade_name', string $search = ''): int
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
         $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
@@ -77,9 +78,10 @@ class KelasModel extends SharedModel
      * Get class group detail data from tb_grade
      * 
      * @param int $id
+     * 
      * @return object
      */
-    public function getClassDetail($id)
+    public function getClassDetail(int $id): object
     {
         $field = 'grade_id, grade_name, teacher_id, staff_name, staff_nik';
 
@@ -93,9 +95,10 @@ class KelasModel extends SharedModel
      * Remove all students from a class group
      * 
      * @param int $grade 
+     * 
      * @return void
      */
-    public function emptyGroup($grade)
+    public function emptyGroup(int $grade): void
     {
         $this->QBRombel->delete(['grade_id' => $grade]);
     }
@@ -108,7 +111,7 @@ class KelasModel extends SharedModel
      * 
      * @return void
      */
-    public function addMember($id, $grade)
+    public function addMember(int $id, int $grade): void
     {
         $value = [
             'student_id'    => $id,
@@ -123,11 +126,10 @@ class KelasModel extends SharedModel
      * Remove a student from a class group
      * 
      * @param int $id
-     * @param int $grade 
      * 
      * @return void
      */
-    public function removeMember($id)
+    public function removeMember(int $id): void
     {
         $this->QBRombel->delete(['student_id' => $id]);
     }
@@ -136,9 +138,10 @@ class KelasModel extends SharedModel
      * Get member of a class group
      * 
      * @param int $id grade_id
-     * @return object
+     * 
+     * @return array
      */
-    public function getClassMember($id)
+    public function getClassMember(int $id): array
     {
         $query = $this->QBRombel->select("{$this->rombel}.student_id, student_nis, student_name")
                  ->join($this->student, "{$this->student}.student_id = {$this->rombel}.student_id")
@@ -156,9 +159,9 @@ class KelasModel extends SharedModel
      * @param string $sort
      * @param string $search 
      * 
-     * @return object
+     * @return array
      */
-    public function getUnregisteredStudents($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = '')
+    public function getUnregisteredStudents($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = ''): array
     {
         $select = $this->unregisteredStudentsQuery($searchBy, $search)->orderBy($orderBy, $sort)->limit($limit, $offset);
 
@@ -173,7 +176,7 @@ class KelasModel extends SharedModel
      * 
      * @return int
      */
-    public function unregisteredStudentsRows($searchBy = 'student_name', $search = '')
+    public function unregisteredStudentsRows(string $searchBy = 'student_name', string $search = ''): int
     {
         $select = $this->unregisteredStudentsQuery($searchBy, $search);
 
@@ -188,7 +191,7 @@ class KelasModel extends SharedModel
      * 
      * @return QueryBuilder
      */
-    private function unregisteredStudentsQuery($searchBy, $search)
+    private function unregisteredStudentsQuery(string $searchBy, string $search)
     {
         $rombel = $this->QBRombel;
         $query = $this->QBStudent->select('student_id, student_nis, student_name');
@@ -210,7 +213,7 @@ class KelasModel extends SharedModel
      * 
      * @return void
      */
-    public function insert($value)
+    public function insert(array $value): void
     {
         $grade = $this->fillGradeField($value);
         $grade['period_start']  = '2020';
@@ -224,10 +227,11 @@ class KelasModel extends SharedModel
      * Update grade data into tb_grade
      * 
      * @param array $value
+     * @param int $id
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $grade = $this->fillGradeField($value);
 
@@ -238,9 +242,10 @@ class KelasModel extends SharedModel
      * Delete a class group
      * 
      * @param int $grade
+     * 
      * @return void
      */
-    public function delete($grade)
+    public function delete(int $grade): void
     {
         $this->db->transStart();
         $this->QBRombel->delete(['grade_id' => $grade]);
@@ -252,9 +257,10 @@ class KelasModel extends SharedModel
      * Fill grade data with these values
      * 
      * @param array $data
+     * 
      * @return array
      */
-    private function fillGradeField($data)
+    private function fillGradeField(array $data): array
     {
         return [
             'grade_name'    => $data['grade_name'],
@@ -266,9 +272,10 @@ class KelasModel extends SharedModel
      * Search for teachers to be homeroom teacher
      * 
      * @param string $keyword
-     * @return object
+     * 
+     * @return array
      */
-    public function findTeacher($keyword = '')
+    public function findTeacher(string $keyword = ''): array
     {
         if(! empty($keyword))
         {            
@@ -287,9 +294,10 @@ class KelasModel extends SharedModel
      * 
      * @param string $searchBy
      * @param string $search
-     * @return object
+     * 
+     * @return QueryBuilder
      */
-    public function joinAndSearchQuery($searchBy, $search)
+    public function joinAndSearchQuery(string $searchBy, string $search)
     {
         // Query:   SELECT grade_name, period_from, period_until, grade_status FROM tb_grade
         $field = 'grade_id, grade_name, period_start, period_end, staff_name';
@@ -307,9 +315,9 @@ class KelasModel extends SharedModel
     /**
      * Get the grade list
      * 
-     * @return void
+     * @return array
      */
-    public function getKelas()
+    public function getKelas(): array
     {
         return $this->QBKelas->getWhere(['deleted' => 0, 'grade_status' => '1'])->getResult();
     }

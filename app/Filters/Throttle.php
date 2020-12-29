@@ -15,7 +15,7 @@ class Throttle implements FilterInterface
 	 *
 	 * @return mixed
 	 */
-	public function before(RequestInterface $request)
+	public function before(RequestInterface $request, $arguments = NULL)
 	{
 		$throttler = Services::throttler();
 
@@ -38,7 +38,7 @@ class Throttle implements FilterInterface
 	 *
 	 * @return mixed
 	 */
-	public function after(RequestInterface $request, ResponseInterface $response)
+	public function after(RequestInterface $request, ResponseInterface $response, $arguments = NULL)
 	{
 	}
 

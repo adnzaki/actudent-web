@@ -60,9 +60,10 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * Get lessons of a class group
      * 
      * @var int $grade
-     * @return object
+     * 
+     * @return array|boolean
      */
-    public function getLessons($grade)
+    public function getLessons(int $grade)
     {
         $query = $this->QBMapelKelas->where(['grade_id' => $grade]);
         if($query->countAllResults() > 0)
@@ -87,9 +88,9 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param int $id #lessons_grade_id
      * 
-     * @return object
+     * @return array
      */
-    public function getLessonDetail($id)
+    public function getLessonDetail(int $id): array
     {
         $join = $this->lessonsGradeJoin();
         return $join->getWhere(['lessons_grade_id' => $id])->getResult();
@@ -119,9 +120,11 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * (SELECT lesson_id FROM tb_lessons_grade WHERE grade_id=2)
      * 
      * @param string $search
-     * @return object
+     * @param int $grade
+     * 
+     * @return array
      */
-    public function searchLessons($search, $grade)
+    public function searchLessons(string $search, int $grade): array
     {
         $whereNotIn = " AND lesson_id NOT IN (SELECT lesson_id FROM {$this->mapelKelas} 
                         WHERE grade_id={$grade} AND deleted=0)";
@@ -138,7 +141,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    public function insert($value)
+    public function insert(array $value): void
     {
         $this->QBMapelKelas->insert($value);
     }
@@ -151,7 +154,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $this->QBMapelKelas->update($value, ['lessons_grade_id' => $id]);
     }
@@ -163,7 +166,7 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    public function delete($id)
+    public function delete(int $id): void
     {
         $this->QBMapelKelas->update(['deleted' => 1], ['lessons_grade_id' => $id]);
     }
@@ -174,9 +177,9 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * @param int $grade
      * @param string $day
      * 
-     * @return object
+     * @return array
      */
-    public function getSchedules($grade, $day)
+    public function getSchedules(int $grade, string $day): array
     {
         $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
                    duration, schedule_start, schedule_end, schedule_order, staff_name as teacher, 
@@ -202,9 +205,9 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param int $grade
      * 
-     * @return object
+     * @return array
      */
-    public function getInactiveSchedules($grade)
+    public function getInactiveSchedules(int $grade): array
     {
         $field  = "schedule_id, {$this->jadwal}.lessons_grade_id, lesson_name";
         $select = $this->QBJadwal->select($field);
@@ -218,9 +221,9 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Get room list
      * 
-     * @return object
+     * @return array
      */
-    public function getRoomList()
+    public function getRoomList(): array
     {
         return $this->ruangan->QBRuang
                              ->where('deleted', 0)
@@ -236,9 +239,9 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param array $data
      * 
-     * @return void
+     * @return array
      */
-    public function saveSchedules($data)
+    public function saveSchedules(array $data): array
     {
         $insertedValues = [];
         foreach($data as $res)
@@ -296,9 +299,10 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * Set schedules to 'inactive' status
      * 
      * @param array $data
+     * 
      * @return void
      */
-    public function deleteSchedules($data)
+    public function deleteSchedules(array $data): void
     {
         foreach($data as $val)
         {
@@ -311,9 +315,10 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
      * Save schedule settings
      * 
      * @param array $data
+     * 
      * @return void
      */
-    public function updateSettings($data)
+    public function updateSettings(array $data): void
     {
         $start = $data['start_time'];
         $start = explode(':', $start);
@@ -331,9 +336,9 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Get schedule time
      * 
-     * @return object
+     * @return string
      */
-    public function getScheduleTime()
+    public function getScheduleTime(): string
     {
         $result = $this->QBSettingJadwal->getWhere(['setting_name' => 'lesson_hour'])->getResult()[0];
         return $result->setting_value;
@@ -342,9 +347,9 @@ class JadwalModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Get start time
      * 
-     * @return object
+     * @return string
      */
-    public function getStartTime()
+    public function getStartTime(): string
     {
         $result = $this->QBSettingJadwal->getWhere(['setting_name' => 'start_time'])->getResult()[0];
         return $result->setting_value;
