@@ -165,24 +165,45 @@ class PesanModel extends SharedModel
     }
 
     /**
-     * Get unread messages for notification
-     * 
-     * @param mixed $chatUserID
+     * Get unread messages from all sender to be 
+     * displayed on all pages except Message page
      * 
      * @return int
      */
-    public function getUnreadMessages($chatUserID = null): int
+    public function getAllUnreadMessages(): int
     {
-        $params = [
-            'read_status' => 0,
-            'sender !=' => $_SESSION['id']
+        $param = [
+            'sender !=' => $_SESSION['id'],
+            'read_status' => 0
         ];
         
-        if($chatUserID !== null)
-        {
-            $params['chat_user_id'] = $chatUserID;
-        }
+        $field  = "{$this->chatUser}.chat_user_id, participant_1, participant_2, sender, read_status";
+        $select = $this->QBChat->select($field);
+        $join   = $select->join($this->chatUser, "{$this->chatUser}.chat_user_id={$this->chat}.chat_user_id");
+        $where  = $join->groupStart()
+                            ->where('participant_1', $_SESSION['id'])
+                            ->orWhere('participant_2', $_SESSION['id'])
+                        ->groupEnd()
+                        ->where($param);
 
+        return $where->countAllResults();
+    }
+
+    /**
+     * Get unread messages to be displayed on chat list
+     * 
+     * @param int $chatUserID
+     * 
+     * @return int
+     */
+    public function getUnreadMessages(int $chatUserID): int
+    {
+        $params = [
+            'read_status'   => 0,
+            'sender !='     => $_SESSION['id'],
+            'chat_user_id'  => $chatUserID
+        ];
+        
         return $this->QBChat->where($params)->countAllResults();
     }
 

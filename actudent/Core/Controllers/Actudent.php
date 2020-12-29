@@ -168,7 +168,7 @@ class Actudent extends Controller
     {
         if(isset($_SESSION['email']))
         {
-            return $this->pesan->getUnreadMessages();
+            return $this->pesan->getAllUnreadMessages();
         }
     }
 
