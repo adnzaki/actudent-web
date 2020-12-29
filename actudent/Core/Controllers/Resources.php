@@ -67,12 +67,16 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [Baru!] Menambahkan fitur Pesan
-                - [Nilai] Mengoptimalkan hasil ekspor Excel"
+                "- Pembaruan latar belakang sistem Actudent
+                - [Kehadiran] Memperbaiki urutan jadwal pada laporan absen harian
+                - [Dashboard] Menambahkan informasi agenda dan linimasa terkini
+                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping"
             ],
             'english' => [
-                "- [New!] Added Message feature
-                - [Nilai] Optimized Excel's export result"
+                "- Actudent system background updates
+                - [Presence] Fixed wrong schedule time order on daily presence report
+                - [Dashboard] Added recent agenda and timeline information
+                - [Message] Fixed wrong unread messages counter on side menu"
             ]
         ];
 
@@ -90,16 +94,16 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- [Baru!] Menambahkan fitur Pesan
-                - [Nilai] Mengoptimalkan hasil ekspor Excel
-                - [Perbaikan] Menghapus sementara fitur ingat password saat login 
-                untuk alasan keamanan"
+                "- Pembaruan latar belakang sistem Actudent
+                - [Kehadiran] Memperbaiki urutan jadwal pada laporan absen harian
+                - [Dashboard] Menambahkan informasi agenda dan linimasa terkini
+                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping"
             ],
             'english' => [
-                "- [New!] Added Message feature
-                - [Nilai] Optimized Excel's export result
-                - [Fixes] Temporarily removed remember password feature on login 
-                for security issue"
+                "- Actudent system background updates
+                - [Presence] Fixed wrong schedule time order on daily presence report
+                - [Dashboard] Added recent agenda and timeline information
+                - [Message] Fixed wrong unread messages counter on side menu"
             ]
         ];
 

@@ -18,7 +18,7 @@ defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
  * Actudent Version
  * -----------------------------------------------------------------------
  */
-defined('ACTUDENT_VERSION') || define('ACTUDENT_VERSION', '1.0.4');
+defined('ACTUDENT_VERSION') || define('ACTUDENT_VERSION', '1.1.0');
 
 /**
  * -----------------------------------------------------------------------
