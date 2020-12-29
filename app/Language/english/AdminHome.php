@@ -12,4 +12,6 @@ return [
     'dashboard_agenda_start'    => 'Start',
     'dashboard_agenda_end'      => 'End',
     'dashboard_timeline_title'  => 'Timeline',
+    'dashboard_agenda_empty'    => 'No agenda recently.',
+    'dashboard_timeline_empty'  => 'No posts yet.',
 ];

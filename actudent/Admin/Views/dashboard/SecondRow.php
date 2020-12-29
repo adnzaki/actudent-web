@@ -8,7 +8,12 @@
 			<div class="card-content collapse show">
 				<div class="table-responsive">
 					<table class="table table-hover mb-0 cursor-pointer">
-						<thead>
+            <thead v-if="recentAgenda.length === 0">
+              <tr>
+                  <th colspan="4">{+ lang AdminHome.dashboard_agenda_empty +}</th>
+              </tr>            
+            </thead>
+						<thead v-else>
 							<tr>
 								<th class="decrease-col-size">
 									#
@@ -18,8 +23,7 @@
 								<th>{+ lang AdminHome.dashboard_agenda_end +}</th>
 							</tr>
 						</thead>
-						<tbody>
-              
+						<tbody v-if="recentAgenda.length > 0">              
 							<tr v-for="(item, index) in recentAgenda" :key="index" class="soft-dark" @click="goToAgenda">               
 								<td scope="row" class="decrease-col-size">
 									{{ index + 1 }}
@@ -27,7 +31,7 @@
 								<td>{{ item.title }}</td>
 								<td>{{ item.eventStart | formatDate('DD/MM/YYYY') }} - {{ item.timeStart }} </td>
 								<td>{{ item.eventEnd | formatDate('DD/MM/YYYY') }} - {{ item.timeEnd }} </td>
-							</tr>
+							</tr>              
 						</tbody>
 					</table>
 				</div>
@@ -44,7 +48,10 @@
 				<div class="table-responsive">
 					<table class="table table-hover mb-0 cursor-pointer">
 						<tbody>
-							<tr v-for="(item, index) in recentTimeline" :key="index" class="soft-dark" @click="goToTimeline">
+              <tr v-if="recentTimeline.length === 0" >
+                <td>{+ lang AdminHome.dashboard_timeline_empty +}</td>
+              </tr>
+							<tr v-else v-for="(item, index) in recentTimeline" :key="index" class="soft-dark" @click="goToTimeline">
 								<td v-if="!isSmallScreen">{{ item.timeline_title | substr(35) }}</td>
                 <td v-else>{{ item.timeline_title | substr(50) }}</td>
 							</tr>

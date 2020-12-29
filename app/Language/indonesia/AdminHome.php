@@ -12,4 +12,6 @@ return [
     'dashboard_agenda_start'    => 'Mulai',
     'dashboard_agenda_end'      => 'Selesai',
     'dashboard_timeline_title'  => 'Linimasa',
+    'dashboard_agenda_empty'    => 'Belum ada agenda baru-baru ini.',
+    'dashboard_timeline_empty'  => 'Belum ada postingan',
 ];
