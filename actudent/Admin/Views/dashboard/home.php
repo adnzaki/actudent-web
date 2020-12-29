@@ -26,6 +26,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
         {+ include Actudent\Admin\Views\dashboard\changelog +} 
         {+ include Actudent\Admin\Views\dashboard\ChangelogMirror +}
         {+ include Actudent\Admin\Views\dashboard\FirstRow +}
+        {+ include Actudent\Admin\Views\dashboard\SecondRow +}
         <!-- App Content Here -->
       </div>
     </div>
@@ -38,6 +39,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
     var changelog = `{changelog}`;
     var acVersion = "{ac_version}";
   </script>
+  <script src="{appAssets}vendors/js/extensions/moment.min.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/charts/chart.min.js" type="text/javascript"></script>
   <script src="{appAssets}vendors/js/charts/echarts/echarts.js" type="text/javascript"></script>
   <script src="{assets}js/admin/ac-dashboard.js" type="text/javascript"></script>

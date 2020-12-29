@@ -34,10 +34,12 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
+     * @param string $whereClause
      * @param string $search 
-     * @return object
+     * 
+     * @return array
      */
-    public function getUser($limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $whereClause = 'null', $search = '')
+    public function getUser($limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $whereClause = 'null', $search = ''): array
     {
         // $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
         // return $query->get()->getResult();
@@ -70,15 +72,13 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
      * Count all rows of whole staff data
      * 
      * @param string $searchBy
+     * @param string $whereClause
      * @param string $search
+     * 
      * @return int
      */
-    public function getUserRows($searchBy = 'user_name', $whereClause = 'null', $search = '')
+    public function getUserRows(string $searchBy = 'user_name', string $whereClause = 'null', string $search = ''): int
     {
-        // $query = $this->search($searchBy, $search)->where('deleted', '0');
-        // return $query->countAllResults();
-        ///
-
         if($whereClause !== 'null')
         {
             $selector = [
@@ -105,9 +105,10 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
      * Get staff detail
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return array
      */
-    public function getUserDetail($id)
+    public function getUserDetail(int $id): array
     {
         $field = 'user_id, user_name, user_email, user_password, user_level, deleted, modified';
         $select = $this->QBUser->select($field)
@@ -119,11 +120,12 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Update user data
      * 
+     * @param array $value
      * @param int $id 
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $data = $this->fillUserField($value);
         $this->QBUser->update($data, ['user_id' => $id]);
@@ -133,8 +135,10 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
      * Fill tb_user field with these data
      * 
      * @param array $data
+     * 
+     * @return array
      */
-    private function fillUserField($data)
+    private function fillUserField(array $data): array
     {
         return [            
             'user_password' => password_hash($data['user_password'], PASSWORD_BCRYPT),
@@ -144,14 +148,14 @@ class PenggunaModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Search for user by user_name, user_email fields
      * 
+     * @param boolean $where
      * @param string $searchBy
      * @param string $search
      * 
-     * @return object
+     * @return QueryBuilder
      */
-    private function search($where, $searchBy, $search)
-    {
-        
+    private function search(bool $where, string $searchBy, string $search)
+    {        
         // If $where is true, then include user_name in $field
         $field = 'user_id, user_name, user_email, user_password, user_level, deleted, modified';
         if($where)

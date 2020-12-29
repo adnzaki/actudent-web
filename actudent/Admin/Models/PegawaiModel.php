@@ -69,15 +69,15 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
+     * @param string $whereClause
      * @param string $search 
-     * @return object
+     * 
+     * @return array
      */
-    public function getStaff($limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $whereClause = 'null', $search = '')
+    public function getStaff($limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $whereClause = 'null', $search = ''): array
     {
         // $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
         // return $query->get()->getResult();
-
-        // kjkjkjk
 
         if($whereClause !== 'null')
         {
@@ -104,10 +104,12 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * Count all rows of whole staff data
      * 
      * @param string $searchBy
+     * @param string $whereClause
      * @param string $search
+     * 
      * @return int
      */
-    public function getStaffRows($searchBy = 'staff_name', $whereClause = 'null', $search = '')
+    public function getStaffRows(string $searchBy = 'staff_name', string $whereClause = 'null', string $search = ''): int
     {
         // $query = $this->search($searchBy, $search)->where('deleted', '0');
         // return $query->countAllResults();
@@ -136,9 +138,10 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * Get staff detail
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return array
      */
-    public function getStaffDetail($id)
+    public function getStaffDetail(int $id): array
     {
         $field = 'tb_staff.user_id, staff_id, staff_nik, 
                   staff_name, staff_phone, staff_type, staff_title,
@@ -150,7 +153,14 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
         return $select->getResult();                  
     }
 
-    public function getPhoto($id)
+    /**
+     * Get staff photo
+     * 
+     * @param int $id
+     * 
+     * @return object
+     */
+    public function getPhoto(int $id): object
     {
         return $this->QBStaff->select('staff_photo')
                 ->where(['staff_id' => $id])->get()->getResult()[0];
@@ -159,9 +169,11 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Insert staff data
      * 
-     * @return void
+     * @param array $value
+     * 
+     * @return int
      */
-    public function insert($value)
+    public function insert(array $value): int
     {
         // insert user data first
         $user = $this->fillUserField($value);
@@ -200,11 +212,12 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Update staff data
      * 
+     * @param array $value
      * @param int $id 
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $data = $this->fillStaffField($value);
         if($data['staff_type'] == 'teacher')
@@ -227,7 +240,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function delete($staffID, $userID)
+    public function delete(int $staffID, int $userID): void
     {
         $deleted = ['deleted' => '1'];
         $this->db->transStart();
@@ -246,9 +259,10 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * Fill tb_staff field with these data
      * 
      * @param array $data
+     * 
      * @return array
      */
-    private function fillStaffField($data)
+    private function fillStaffField(array $data): array
     {
         return [
             'staff_nik'     => $data['staff_nik'],
@@ -263,8 +277,10 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * Fill tb_user field with these data
      * 
      * @param array $data
+     * 
+     * @return array
      */
-    private function fillUserField($data)
+    private function fillUserField(array $data): array
     {
         $sekolah = $this->sekolah->getDataSekolah()[0];
         return [
@@ -283,7 +299,7 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function setPhoto($filename, $id)
+    public function setPhoto(string $filename, int $id): void
     {        
         $this->QBStaff->where('user_id', $id)->update(['staff_photo' => $filename]);
     }
@@ -291,12 +307,13 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Search for staff by staff_nik, staff_name, staff_phone fields
      * 
+     * @param boolean $where
      * @param string $searchBy
      * @param string $search
      * 
-     * @return object
+     * @return QueryBuilder
      */
-    private function search($where, $searchBy, $search)
+    private function search(bool $where, string $searchBy, string $search)
     {
         
         // If $where is true, then include grade_name in $field
@@ -331,7 +348,5 @@ class PegawaiModel extends \Actudent\Core\Models\ModelHandler
         }
         
         return $select;
-    }
-
-       
+    }       
 }

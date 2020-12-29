@@ -40,11 +40,12 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * Get scores category by its grade
      * 
      * @param int $gradeID
+     * @param int $lesson
      * @param string $scoreType
      * 
-     * @return object
+     * @return array
      */
-    public function getScores($gradeID, $lesson, $scoreType)
+    public function getScores(int $gradeID, int $lesson, string $scoreType): array
     {
         $field = "score_id, score_category, score_description, {$this->nilai}.lessons_grade_id, {$this->nilai}.modified";
         $select = $this->QBNilai->select($field);
@@ -65,7 +66,7 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return string
      */
-    public function getLessonName($scoreID)
+    public function getLessonName(int $scoreID): string
     {
         $field = "score_id, {$this->mapel}.lesson_name";
         $select = $this->QBNilai->select($field);
@@ -84,7 +85,7 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return object
      */
-    public function getScoreDetail($scoreID)
+    public function getScoreDetail(int $scoreID): object
     {
         return $this->QBNilai->getWhere(['score_id' => $scoreID])->getResult()[0];
     }
@@ -95,9 +96,9 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * @param int $scoreID
      * @param int $studentID
      * 
-     * @return object
+     * @return array
      */
-    public function getStudentScore($scoreID, $studentID)
+    public function getStudentScore(int $scoreID, int $studentID): array
     {
         return $this->QBNilaiSiswa
                     ->getWhere(['score_id' => $scoreID, 'student_id' => $studentID])
@@ -140,7 +141,7 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    public function insert($data, $lesson, $lessonType)
+    public function insert(array $data, int $lesson, string $lessonType): void
     {
         $data['lessons_grade_id']   = $lesson;
         $data['score_type']         = $lessonType;
@@ -155,7 +156,7 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    public function update($data, $scoreID)
+    public function update(array $data, int $scoreID): void
     {
         $this->QBNilai->update($data, ['score_id' => $scoreID]);
     }
@@ -167,7 +168,7 @@ class NilaiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    public function delete($scoreID)
+    public function delete(int $scoreID): void
     {
         $this->QBNilai->update(['deleted' => 1], ['score_id' => $scoreID]);
     }

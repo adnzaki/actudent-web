@@ -56,13 +56,13 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Get presence of a student
      * 
-     * @param int $journal >>> Journal ID
+     * @param string $journal >>> Journal ID
      * @param int $student >>> Student ID
      * @param string $date >>> Selected date
      * 
-     * @return boolen|object
+     * @return mixed
      */
-    public function getPresence($journal, $student, $date)
+    public function getPresence(string $journal, int $student, string $date)
     {
         $params = [
             'journal_id'    => $journal,
@@ -78,27 +78,41 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * Get journals by selected date
      * 
      * @param string $date
-     * @param int $grade
+     * @param int|null $grade
+     * @param boolean $isReport
+     * 
+     * @return array
      */
-    public function getJournalByDate($date, $grade = null)
+    public function getJournalByDate(string $date, $grade = null, bool $isReport = false): array
     {
-        $field = "journal_id, description, lesson_name, staff_name, schedule_start, schedule_end, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
+        $field = "journal_id, description, lesson_name, staff_name, schedule_start, schedule_end, schedule_order, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
         $select = $this->QBJurnal->select($field);
         $join1 = $select->join($this->jadwal, "{$this->jadwal}.schedule_id={$this->jurnal}.schedule_id");
         $join2 = $join1->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id={$this->jadwal}.lessons_grade_id");
         $join3 = $join2->join($this->mapel, "{$this->mapel}.lesson_id={$this->mapelKelas}.lesson_id");
         $join4 = $join3->join($this->kelas->kelas, "{$this->mapelKelas}.grade_id={$this->kelas->kelas}.grade_id");
         $join5 = $join4->join($this->staff, "{$this->mapelKelas}.teacher_id={$this->staff}.staff_id");
-        return $join5->like("{$this->jurnal}.created", $date)->where("{$this->mapelKelas}.grade_id", $grade)->get()->getResult();
+        $where = $join5->like("{$this->jurnal}.created", $date)->where("{$this->mapelKelas}.grade_id", $grade);
+
+        // check whether the request is come from PDF report or not
+        if($isReport)
+        {
+            $where->orderBy('schedule_order', 'ASC');
+        }
+
+        $result = $where->get()->getResult();
+
+        return $result;
     }
 
     /**
      * Get the number of presence
      * 
      * @param int $journalID
+     * 
      * @return array
      */
-    public function getPresenceCount($journalID)
+    public function getPresenceCount(int $journalID): array
     {
         $present = $this->QBAbsen->getWhere(['journal_id' => $journalID, 'presence_status' => '1'])->getResult();
         $absent = $this->QBAbsen->getWhere(['journal_id' => $journalID, 'presence_status !=' => '1'])->getResult();
@@ -117,7 +131,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return int
      */
-    public function getTodayPresence($status, $date = null)
+    public function getTodayPresence(int $status, $date = null): int
     {
         if($date === null)
         {
@@ -152,7 +166,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return int
      */
-    public function getTodayAbsenceWithPermission($date = null)
+    public function getTodayAbsenceWithPermission($date = null): int
     {
         if($date === null)
         {
@@ -179,7 +193,12 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
         return $presence;
     }
 
-    public function getPresencePercetage()
+    /**
+     * Get percentage of a presence
+     * 
+     * @return array
+     */
+    public function getPresencePercetage(): array
     {
         $countStudents = $this->QBStudent->where('deleted', 0)->countAllResults();
         $present = $this->getTodayPresence('1');
@@ -196,9 +215,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Get class group/grade list
      * 
-     * @return object
+     * @return array
      */
-    public function getRombel()
+    public function getRombel(): array
     {
         $builder = $this->kelas->QBKelas;
         $params = ["{$this->kelas->kelas}.deleted" => 0, 'grade_status' => '1'];
@@ -211,9 +230,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @param string $day
      * @param int $grade
      * 
-     * @return object
+     * @return array
      */
-    public function getJadwal($day, $grade)
+    public function getJadwal(string $day, int $grade): array
     {
         $field  = 'schedule_id, lesson_name';
         $select = $this->QBJadwal->select($field);
@@ -228,9 +247,10 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * Get journal data
      * 
      * @param int $journalID
-     * @return object
+     * 
+     * @return array
      */
-    public function getJournal($journalID)
+    public function getJournal(int $journalID): array
     {
         $journal = $this->QBJurnal->getWhere(['journal_id' => $journalID])->getResult();
         $homework = null;
@@ -250,10 +270,11 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param int $gradeID
      * @param string $date
+     * @param int|null $teacher
      * 
-     * @return object
+     * @return array
      */
-    public function getJournalArchives($gradeID, $date, $teacher = null)
+    public function getJournalArchives(int $gradeID, string $date, $teacher = null): array
     {
         $field = "journal_id, description, lesson_name, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
         $select = $this->QBJurnal->select($field);
@@ -283,9 +304,10 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * Get homework from a journal archive
      * 
      * @param int $journalID
+     * 
      * @return object|string
      */
-    public function getHomeWorkArchive($journalID)
+    public function getHomeWorkArchive(int $journalID)
     {
         $homework = $this->QBHomework->getWhere(['journal_id' => $journalID])->getResult();
 
@@ -301,7 +323,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    public function savePresence($data, $journalID, $date)
+    public function savePresence(array $data, int $journalID, string $date): void
     {
         $time = date('H:i:s', strtotime('now'));
         $dateTime = "{$date} {$time}";
@@ -358,9 +380,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @param string $date
      * @param boolean $includeHomework
      * 
-     * @return void
+     * @return mixed
      */
-    public function saveJournal($data, $scheduleID, $date, $includeHomework = false)
+    public function saveJournal(array $data, int $scheduleID, string $date, bool $includeHomework = false)
     {
         $journalValues = [
             'description' => $data['description'],
@@ -440,7 +462,7 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return void
      */
-    private function sendHomeworkNotification($scheduleID, $journalID, $homework, $date)
+    private function sendHomeworkNotification(int $scheduleID, int $journalID, array $homework, string $date): void
     {
         $classGroup = $this->getClassGroupBySchedule($scheduleID)[0];
         $classMember = $this->kelas->getClassMember($classGroup->grade_id);
@@ -467,9 +489,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param int $scheduleID
      * 
-     * @return object
+     * @return array
      */
-    public function getClassGroupBySchedule($scheduleID)
+    public function getClassGroupBySchedule(int $scheduleID): array
     {
         $field = "schedule_id, {$this->mapelKelas}.grade_id, grade_name";
         $select = $this->QBJadwal->select($field);
@@ -484,9 +506,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param int $studentID
      * 
-     * @return object
+     * @return array
      */
-    public function getStudentName($studentID)
+    public function getStudentName(int $studentID)
     {
         return $this->QBStudent->getWhere(['student_id' => $studentID])->getResult();
     }
@@ -496,9 +518,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @param int $journalID
      * 
-     * @return object
+     * @return array
      */
-    public function getLessonName($journalID)
+    public function getLessonName(int $journalID): array
     {
         $field = "journal_id, description, lesson_name";
         $select = $this->QBJurnal->select($field);
@@ -515,9 +537,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @param int $scheduleID
      * @param string $date
      * 
-     * @return object
+     * @return int|boolean
      */
-    public function journalHasCreatedBefore($scheduleID, $date)
+    public function journalHasCreatedBefore(int $scheduleID, string $date)
     {
         // Get the lessons_grade_id of current schedule
         $lessonGrade = $this->QBJadwal->select('lessons_grade_id')
@@ -543,9 +565,10 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * Check if a homework is exist
      * 
      * @param int $journalID
-     * @return object|boolean
+     * 
+     * @return boolean
      */
-    private function homeworkExists($journalID)
+    private function homeworkExists(int $journalID): bool
     {
         $query = $this->QBHomework->where('journal_id', $journalID);
         if($query->countAllResults() > 0)
@@ -564,9 +587,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @param int $journalID
      * @param int $studentID
      * 
-     * @return object|boolean
+     * @return boolean
      */
-    public function presenceExists($journalID, $studentID)
+    public function presenceExists(int $journalID, int $studentID): bool
     {
         $check = $this->QBAbsen->where(['journal_id' => $journalID, 'student_id' => $studentID]);
 
@@ -586,9 +609,9 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
      * @param int $scheduleID
      * @param string $date
      * 
-     * @return object|boolean
+     * @return array|boolean
      */
-    public function journalExists($scheduleID, $date)
+    public function journalExists(int $scheduleID, string $date)
     {
         $like = $this->QBJurnal->like('created', $date);
         $result = $like->where(['schedule_id' => $scheduleID]);

@@ -19,10 +19,12 @@ class SiswaModel extends SharedModel
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
+     * @param string $whereClause
      * @param string $search 
-     * @return object
+     * 
+     * @return array
      */
-    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $whereClause = 'null', $search = '')
+    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $whereClause = 'null', $search = ''): array
     {        
         if($whereClause !== 'null')
         {
@@ -49,10 +51,12 @@ class SiswaModel extends SharedModel
      * Count all rows of whole student data
      * 
      * @param string $searchBy
+     * @param string $whereClause
      * @param string $search
+     * 
      * @return int
      */
-    public function getSiswaRows($searchBy = 'student_name', $whereClause = 'null', $search = '')
+    public function getSiswaRows(string $searchBy = 'student_name', string $whereClause = 'null', string $search = ''): int
     {
         if($whereClause !== 'null')
         {
@@ -77,9 +81,10 @@ class SiswaModel extends SharedModel
      * Get student detail data from tb_student and tb_student_parent
      * 
      * @param int $id
-     * @return object
+     * 
+     * @return array
      */
-    public function getStudentDetail($id)
+    public function getStudentDetail(int $id): array
     {
         $field = "{$this->student}.student_id, student_nis, student_name, 
                   {$this->parent}.parent_id, parent_father_name, parent_mother_name";
@@ -98,7 +103,7 @@ class SiswaModel extends SharedModel
      * 
      * @return void
      */
-    public function insert($value)
+    public function insert(array $value): void
     {
         $student = $this->fillStudentField($value);
         $student['student_tag'] = 1;
@@ -119,7 +124,7 @@ class SiswaModel extends SharedModel
      * 
      * @return void
      */
-    public function update($value, $id)
+    public function update(array $value, int $id): void
     {
         $student = $this->fillStudentField($value);
         if($this->nameHasChanged($student['student_name'], $id))
@@ -141,7 +146,7 @@ class SiswaModel extends SharedModel
      * 
      * @return boolean
      */
-    private function nameHasChanged($newName, $id)
+    private function nameHasChanged(string $newName, int $id): bool
     {
         $getName = $this->QBStudent->select('student_name')->getWhere(['student_id' => $id]);
         if($getName->getResult()[0]->student_name === $newName)
@@ -160,9 +165,10 @@ class SiswaModel extends SharedModel
      * and set student_tag to 3 (means deleted) in tb_student
      * 
      * @param int student_id
+     * 
      * @return void
      */
-    public function delete($id)
+    public function delete(int $id): void
     {
         $where = ['student_id' => $id];
         $this->QBStudent->update(['deleted' => '1', 'student_tag' => 3], $where);
@@ -174,9 +180,10 @@ class SiswaModel extends SharedModel
      * Fill student data with these values
      * 
      * @param array $data
+     * 
      * @return array
      */
-    public function fillStudentField($data)
+    public function fillStudentField(array $data): array
     {
         return [
             'student_nis'   => $data['student_nis'],
@@ -188,9 +195,10 @@ class SiswaModel extends SharedModel
      * Values for tb_student_parent
      * 
      * @param array $data
+     * 
      * @return array
      */
-    public function fillStudentParentField($data)
+    public function fillStudentParentField(array $data): array
     {
         return [
             'parent_id' => $data['parent_id'],
@@ -201,9 +209,10 @@ class SiswaModel extends SharedModel
      * Get parent data
      * 
      * @param string $keyword
-     * @return object
+     * 
+     * @return array
      */
-    public function getParents($keyword = '')
+    public function getParents(string $keyword = ''): array
     {
         if(! empty($keyword))
         {            
@@ -220,11 +229,13 @@ class SiswaModel extends SharedModel
      * Join table for tb_student, tb_student_grade dan tb_grade
      * and query to search data with "LIKE" keyword
      * 
+     * @param bool $where
      * @param string $searchBy
      * @param string $search
-     * @return object
+     * 
+     * @return QueryBuilder
      */
-    public function joinAndSearchQuery($where, $searchBy, $search)
+    public function joinAndSearchQuery(bool $where, string $searchBy, string $search)
     {
         // If $where is true, then include grade_name in $field
         $field = "{$this->student}.student_id, student_nis, student_name, parent_father_name, parent_mother_name";

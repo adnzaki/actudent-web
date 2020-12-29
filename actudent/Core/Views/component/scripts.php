@@ -2,6 +2,7 @@
     var baseURL = "{base_url}"
     var admin = "{admin}";
     var guru = "{guru}";
+    var images = "{images}";
     var warnaTema = "{theme}";
     var modalHeaderColor = "{modalHeaderColor}";
     var bahasa = "{bahasa}";
