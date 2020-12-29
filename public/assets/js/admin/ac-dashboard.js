@@ -11,6 +11,8 @@ const dashboard = new Vue({
     data: {
         changelogList: [],
         sevenDaysPresence: {},
+        recentAgenda: [],
+        recentTimeline: [],
     },
     mounted() {
         if(changelog.indexOf('-') === -1) {
@@ -31,8 +33,59 @@ const dashboard = new Vue({
         if(localStorage.getItem('version') === null) {
             localStorage.setItem('version', acVersion)
         }        
+
+        setTimeout(() => {
+            this.getRecentAgenda()
+            this.getRecentPosts()            
+        }, 500);
     },
     methods: {
+        goToTimeline() {
+            window.location.href = this.timeline.substr(0, this.timeline.length - 1)
+        },
+        goToAgenda() {
+            window.location.href = this.agenda.substr(0, this.agenda.length - 1)
+        },
+        getRecentPosts() {
+            $.ajax({
+                url: `${this.timeline}get-posts/5/0`,
+                type: 'get',
+                dataType: 'json',
+                success: res => {                    
+                    this.recentTimeline = res.timeline
+                }
+            })
+        },
+        getRecentAgenda() {
+            let thisMonth, nextMonth, start, end
+            
+            thisMonth = moment().get('month')
+            nextMonth = thisMonth + 1
+
+            start = moment().startOf('month')
+            end = moment().month(nextMonth).startOf('month')
+            let dateStart = start.format('YYYY-MM-DD'),
+                dateEnd = end.format('YYYY-MM-DD')
+            $.ajax({
+                url: `${this.agenda}get-events/${dateStart}/${dateEnd}`,
+                dataType: 'json',
+                success: res => {
+                    res.forEach((item, index) => {
+                        if(index < 5) {
+                            let dateStart = item.start.split('T'),
+                                dateEnd = item.end.split('T')
+                            this.recentAgenda.push({
+                                title: item.title,
+                                eventStart: dateStart[0],
+                                timeStart: dateStart[1],
+                                eventEnd: dateEnd[0],
+                                timeEnd: dateEnd[1],
+                            })
+                        }
+                    })
+                }
+            })
+        },
         getLastSevenDaysPresence() {
             $.ajax({
                 url: `${this.home}absensi-seminggu`,
@@ -272,6 +325,20 @@ const dashboard = new Vue({
                 return `${admin}home/`
             } else {
                 return `${guru}home/`
+            }
+        },
+        agenda() {
+            if(actudentSection === 'admin') {
+                return `${admin}agenda/`
+            } else {
+                return `${guru}agenda/`
+            }
+        },
+        timeline() {
+            if(actudentSection === 'admin') {
+                return `${admin}timeline/`
+            } else {
+                return `${guru}timeline/`
             }
         }
     },
