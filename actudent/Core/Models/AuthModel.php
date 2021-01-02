@@ -133,7 +133,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return string|boolean
      */
-    public function getUserToken(string $token)
+    public function getUserToken($token)
     {
         $check = $this->token->getWhere(['token_value' => $token])->getResult();
         if(count($check) > 0)
