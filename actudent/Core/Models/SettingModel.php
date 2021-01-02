@@ -36,9 +36,9 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Get settings
      * 
-     * @return void
+     * @return array
      */
-    public function getSettings()
+    public function getSettings(): array
     {
         return $this->setting->getResult();
     }
@@ -48,9 +48,10 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $username
      * @param string $selectedTheme
+     * 
      * @return void
      */
-    public function setTheme($username, $selectedTheme)
+    public function setTheme(string $username, string $selectedTheme): void
     {
         $theme = $this->auth->getUserThemes($username);
         $this->userThemes->update([
@@ -63,9 +64,10 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $username
      * @param string $selectedLanguage
+     * 
      * @return void
      */
-    public function setUserLanguage($username, $selectedLanguage)
+    public function setUserLanguage(string $username, string $selectedLanguage): void
     {
         $lang = $this->auth->getUserLanguage($username);
         $this->auth->userLanguage->update([
@@ -77,9 +79,10 @@ class SettingModel extends \Actudent\Core\Models\ModelHandler
      * The theme components
      * 
      * @param string $theme
+     * 
      * @return array
      */
-    public function themeComponents($theme)
+    public function themeComponents(string $theme): array
     {
         $template = [
             // Semi Dark theme

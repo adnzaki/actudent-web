@@ -18,9 +18,9 @@ class SekolahModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Get school data
      * 
-     * @return object
+     * @return array
      */
-    public function getDataSekolah()
+    public function getDataSekolah(): array
     {
         return $this->sekolah->get()->getResult();        
     }

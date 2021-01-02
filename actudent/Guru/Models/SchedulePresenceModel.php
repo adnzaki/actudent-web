@@ -20,9 +20,10 @@ class SchedulePresenceModel extends MainModel
      * Check if a teacher is homeroom teacher or not
      * 
      * @param int $userID
+     * 
      * @return boolean
      */
-    public function isHomeroomTeacher($userID)
+    public function isHomeroomTeacher(int $userID): bool
     {
         $query = $this->jadwalModel->kelas
                       ->QBKelas
@@ -32,7 +33,14 @@ class SchedulePresenceModel extends MainModel
         return (count($query) > 0) ? true : false;
     }
 
-    public function getTeacherSchedules($day)
+    /**
+     * Get teacher schedules
+     * 
+     * @param string $day
+     * 
+     * @return array
+     */
+    public function getTeacherSchedules($day): array
     {
         $teacher = $this->getTeacherByUserID($_SESSION['id']);
         $tbKelas = $this->jadwalModel->kelas->kelas;

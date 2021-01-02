@@ -10,6 +10,7 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('logout', 'Auth::logout');
 	$routes->add('agenda', 'ReadAgenda::page');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'ReadAgenda::getEvents/$1/$2');
+	$routes->add('agenda/get-events/(:any)/(:any)/(:any)', 'ReadAgenda::getEvents/$1/$2/$3');
 	$routes->add('agenda/get-event-detail/(:any)', 'ReadAgenda::getEventDetail/$1');
 	$routes->add('agenda/display-attachment/(:any)', 'ReadAgenda::displayAttachment/$1');
 	$routes->add('pengaturan-aplikasi', 'Pengaturan::index');
