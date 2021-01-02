@@ -6,9 +6,9 @@
  * code maintainable for long-time use.
  * Every controller must extend this class in order to make this app runs as expected
  * 
- * @copyright   Wolestech (c) 2020
+ * @copyright   Wolestech (c) 2021
  * @author      WolesDev Team
- * @version     1.0.0-dev
+ * @version     1.1.0
  */
 
 use Config\Services;
