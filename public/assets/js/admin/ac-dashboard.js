@@ -67,7 +67,7 @@ const dashboard = new Vue({
             let dateStart = start.format('YYYY-MM-DD'),
                 dateEnd = end.format('YYYY-MM-DD')
             $.ajax({
-                url: `${this.agenda}get-events/${dateStart}/${dateEnd}`,
+                url: `${this.agenda}get-events/${dateStart}/${dateEnd}/true`,
                 dataType: 'json',
                 success: res => {
                     res.forEach((item, index) => {

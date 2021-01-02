@@ -24,7 +24,7 @@ class Agenda extends Actudent
                 ->render('Actudent\Admin\Views\agenda\agenda-view');
     }
 
-    public function getEvents($viewStart, $viewEnd)
+    public function getEvents($viewStart, $viewEnd, $sort = 'false')
     {
         if(session('email') !== null)
         {
@@ -40,7 +40,7 @@ class Agenda extends Actudent
 
             ($monthStart < 10) ? $monthStart = '0' . $monthStart : $monthStart = $monthStart;
             $viewStart = $yearStart . '-' . $monthStart . '-01';
-            $events = $this->agenda->getEvents($viewStart, $viewEnd);
+            $events = $this->agenda->getEvents($viewStart, $viewEnd, $sort);
             $formatted = [];
             foreach($events as $key)
             {
