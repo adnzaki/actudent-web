@@ -55,19 +55,24 @@ class AgendaModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $viewStart
      * @param string $viewEnd
+     * @param string $sort
      * 
      * @return array
      */
-    public function getEvents(string $viewStart, string $viewEnd): array
+    public function getEvents(string $viewStart, string $viewEnd, string $sort = 'false'): array
     {
         $query = $this->QBAgenda->select('agenda_id, agenda_name, agenda_start, agenda_end')
                  ->where([
                      "{$this->agenda}.agenda_start >=" => $viewStart,
                      "{$this->agenda}.agenda_start <" => $viewEnd
-                 ])
-                 ->get()->getResult();
+                 ]);
         
-        return $query;
+        if($sort === 'true')
+        {
+            $query->orderBy('agenda_start', 'DESC');
+        }
+        
+        return $query->get()->getResult();
     }
 
     /**

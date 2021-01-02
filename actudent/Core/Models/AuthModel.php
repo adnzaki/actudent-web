@@ -45,23 +45,38 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * Get user data who has been logged in
      * 
      * @param string $username 
+     * 
      * @return object 
      */
-    public function getDataPengguna($username)
+    public function getDataPengguna(string $username): object
     {
         $query = $this->user->select('user_id, user_name, user_email, user_level')
                 ->where('user_email', $username)->get()->getResult();
         return $query[0];
     }
 
-    public function showPenggunaQuery($username)
+    /**
+     * Show get users query
+     * 
+     * @param string $username
+     * 
+     * @return string
+     */
+    public function showPenggunaQuery(string $username): string
     {
         $query = $this->user->select('user_name, user_email, user_level')
                 ->where('user_email', $username)->getCompiledSelect();
         return $query;
     }
 
-    public function getUserThemes($username)
+    /**
+     * Get user themes
+     * 
+     * @param string $username
+     * 
+     * @return array
+     */
+    public function getUserThemes(string $username): array
     {
         $userID = $this->user->select('user_id, user_email')
                 ->where('user_email', $username)->get()->getResult();
@@ -73,9 +88,10 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * Get user's language preference
      * 
      * @param string $username
-     * @return object
+     * 
+     * @return array
      */
-    public function getUserLanguage($username)
+    public function getUserLanguage(string $username): array
     {
         $userID = $this->user->select('user_id, user_email')
                 ->where('user_email', $username)->get()->getResult();
@@ -86,10 +102,12 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
     /**
      * Set network status to "online" or "offline"
      * 
+     * @param string $status
      * @param string $username
+     * 
      * @return void
      */
-    public function statusJaringan($status, $username)
+    public function statusJaringan(string $status, string $username): void
     {
         $this->user->update([
             'network' => $status
@@ -103,7 +121,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function createToken($token)
+    public function createToken(string $token): void
     {
         $this->token->insert(['token_value' => $token]);
     }
@@ -115,7 +133,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return string|boolean
      */
-    public function getUserToken($token)
+    public function getUserToken(string $token)
     {
         $check = $this->token->getWhere(['token_value' => $token])->getResult();
         if(count($check) > 0)
@@ -135,7 +153,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return void
      */
-    public function deleteToken($token)
+    public function deleteToken(string $token): void
     {
         $this->token->delete(['token_value' => $token]);
     }
@@ -148,7 +166,7 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @return bool
      */
-    public function validasi($username, $password, $userLevel)
+    public function validasi(string $username, string $password, string $userLevel): bool
     {
         $find = $this->user->where(['user_email' => $username]);
         $userAktif = $find->get()->getResult();
@@ -174,9 +192,10 @@ class AuthModel extends \Actudent\Core\Models\ModelHandler
      * 
      * @param string $username
      * @param string $userLevel
-     * @return bool
+     * 
+     * @return boolean
      */
-    public function userAktif($username, $userLevel)
+    public function userAktif(string $username, string $userLevel): bool
     {
         $query = $this->user->where('user_email', $username)->get()->getResult();
         if(count($query) > 0)

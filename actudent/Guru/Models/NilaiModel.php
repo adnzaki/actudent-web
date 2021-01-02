@@ -5,9 +5,9 @@ class NilaiModel extends SchedulePresenceModel
     /**
      * Get lessons list for teacher
      * 
-     * @return object
+     * @return array
      */
-    public function getTeacherLessons()
+    public function getTeacherLessons(): array
     {
         $teacher    = $this->getTeacherByUserID($_SESSION['id']);
         $tbKelas    = $this->jadwalModel->kelas->kelas;

@@ -101,6 +101,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/ekspor-absen/(:any)/(:any)/(:any)', 'Absensi::exportPresence/$1/$2/$3');
 	$routes->add('agenda', 'Agenda::index');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'Agenda::getEvents/$1/$2');
+	$routes->add('agenda/get-events/(:any)/(:any)/(:any)', 'Agenda::getEvents/$1/$2/$3');
 	$routes->add('agenda/get-event-detail/(:any)', 'Agenda::getEventDetail/$1');
 	$routes->add('agenda/search-guest/(:any)', 'Agenda::searchGuest/$1');
 	$routes->add('agenda/search-guest', 'Agenda::searchGuest/');

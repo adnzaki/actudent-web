@@ -31,7 +31,7 @@ class MainModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return object|null
      */
-    public function getTeacherByUserID($userID)
+    public function getTeacherByUserID(int $userID)
     {
         $teacher = $this->QBStaff->select('staff_id, staff_name')
                         ->where('user_id', $userID)
