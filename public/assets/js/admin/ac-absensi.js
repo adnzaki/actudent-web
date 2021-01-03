@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2020
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const absensi = new Vue({
     el: '#absensi-content', 
     mixins: [SSPaging, plugin],

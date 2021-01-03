@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2020
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const jadwal = new Vue({
     el: '#jadwal-content',
     mixins: [SSPaging, plugin],

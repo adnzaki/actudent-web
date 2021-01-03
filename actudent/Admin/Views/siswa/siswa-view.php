@@ -51,7 +51,7 @@
 	<!-- BEGIN VENDOR JS-->
 	{+ include Actudent\Core\Views\component\scripts +}
 	<script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
-	<script src="{assets}js/admin/ac-siswa.js" type="text/javascript"></script>
+	<script src="{assets}js/admin/ac-siswa.js" type="module"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>
 

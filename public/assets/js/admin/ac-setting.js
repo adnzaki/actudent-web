@@ -7,7 +7,7 @@
 
 const setting = new Vue({
     el: '#setting-content',
-    mixins: [SSPaging, plugin],
+    mixins: [plugin],
     data: {
         setting: {
             app: `${this.auth}pengaturan-aplikasi/`,

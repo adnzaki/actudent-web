@@ -63,7 +63,7 @@
 	<script src="{appAssets}vendors/js/gallery/masonry/masonry.pkgd.min.js" type="text/javascript"></script>
 	<!-- END PAGE LEVEL JS-->
 	<script src="{appAssets}js/scripts/pages/timeline.js" type="text/javascript"></script>
-	<script src="{assets}js/admin/ac-timeline.js" type="text/javascript"></script>
+	<script src="{assets}js/admin/ac-timeline.js" type="module"></script>
 	<script src="{assets}js/locales.min.js" type="text/javascript"></script>
 </body>
 

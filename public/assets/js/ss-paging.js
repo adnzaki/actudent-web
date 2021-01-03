@@ -9,7 +9,9 @@
  * @url         https://wolestech.com
  */
 
-const SSPaging = {
+import { Pager } from './ss-paging-template.js'
+
+export const SSPaging = {
     data: {
         pageLinks: [], limit: 10, offset: 0,
         prev: 0, next: 0, first: 0,

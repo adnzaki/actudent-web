@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2018
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const ortu = new Vue({
     el: '#ortu-content',
     mixins: [SSPaging, plugin],

@@ -70,13 +70,17 @@ class Resources extends Actudent
                 "- Pembaruan latar belakang sistem Actudent
                 - [Kehadiran] Memperbaiki urutan jadwal pada laporan absen harian
                 - [Dashboard] Menambahkan informasi agenda dan linimasa terkini
-                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping"
+                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping
+                - [Info] Pastikan anda menggunakan browser versi terbaru (tidak mendukung Internet Explorer)
+                - [Pengguna] Mengembalikan menu tambah dan hapus pengguna"
             ],
             'english' => [
                 "- Actudent system background updates
                 - [Presence] Fixed wrong schedule time order on daily presence report
                 - [Dashboard] Added recent agenda and timeline information
-                - [Message] Fixed wrong unread messages counter on side menu"
+                - [Message] Fixed wrong unread messages counter on side menu
+                - [Info] Please ensure that you have the latest version of your browser (not supported in Internet Explorer)
+                - [Users] Return add and delete user menu"
             ]
         ];
 
@@ -97,13 +101,15 @@ class Resources extends Actudent
                 "- Pembaruan latar belakang sistem Actudent
                 - [Kehadiran] Memperbaiki urutan jadwal pada laporan absen harian
                 - [Dashboard] Menambahkan informasi agenda dan linimasa terkini
-                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping"
+                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping
+                - [Info] Pastikan anda menggunakan browser versi terbaru (tidak mendukung Internet Explorer)"
             ],
             'english' => [
                 "- Actudent system background updates
                 - [Presence] Fixed wrong schedule time order on daily presence report
                 - [Dashboard] Added recent agenda and timeline information
-                - [Message] Fixed wrong unread messages counter on side menu"
+                - [Message] Fixed wrong unread messages counter on side menu
+                - [Info] Please ensure that you have the latest version of your browser (not supported in Internet Explorer)"
             ]
         ];
 
