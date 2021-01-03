@@ -7,7 +7,7 @@
 
 const feedback = new Vue({
     el: '#feedback-content',
-    mixins: [SSPaging, plugin],
+    mixins: [plugin],
     data: {
         error: {},
         alert: {

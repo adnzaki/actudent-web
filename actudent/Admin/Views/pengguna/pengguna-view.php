@@ -52,7 +52,7 @@
     var domainSekolah = "{domainSekolah}"
   </script> -->
 	<script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
-	<script src="{assets}js/admin/ac-pengguna.js" type="text/javascript"></script>
+	<script src="{assets}js/admin/ac-pengguna.js" type="module"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>
 

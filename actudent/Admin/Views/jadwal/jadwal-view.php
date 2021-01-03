@@ -75,7 +75,7 @@
 	{if $bahasa === 'indonesia'}
 	<script src="{assets}js/admin/pickadate-id.js" type="text/javascript"></script>
 	{endif}
-	<script src="{assets}js/admin/ac-jadwal.js" type="text/javascript"></script>
+	<script src="{assets}js/admin/ac-jadwal.js" type="module"></script>
 	<!-- END PAGE LEVEL JS-->
 </body>
 

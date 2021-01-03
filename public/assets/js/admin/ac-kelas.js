@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2018
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const kelas = new Vue({
     el: '#kelas-content',
     mixins: [SSPaging, plugin],

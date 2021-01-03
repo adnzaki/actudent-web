@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2019
  */
 
+import { SSPaging } from '../ss-paging.js'
+
  const timeline = new Vue({
     el: '#timeline-content',
     mixins: [plugin],

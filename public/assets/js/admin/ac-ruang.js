@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2018
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const ruang = new Vue({
     el: '#ruang-content', 
     mixins: [SSPaging, plugin],

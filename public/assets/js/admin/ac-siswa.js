@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2018
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const siswa = new Vue({
     el: '#siswa-content',
     mixins: [SSPaging, plugin],

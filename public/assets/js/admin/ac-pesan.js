@@ -7,7 +7,7 @@
 
 const pesan = new Vue({
     el: '#pesan-content',
-    mixins: [SSPaging, plugin],
+    mixins: [plugin],
     data: {
         error: {},
         alert: {

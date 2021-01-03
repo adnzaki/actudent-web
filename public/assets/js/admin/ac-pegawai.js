@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2018
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const pegawai = new Vue({
     el: '#pegawai-content',
     mixins: [SSPaging, plugin],

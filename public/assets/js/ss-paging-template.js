@@ -9,7 +9,7 @@
  * @package     Components
  */
 
-var Pager = {
+export const Pager = {
     template: `
     <div class="row">
         <div class="col-lg-6 col-md-6 col-sm-12">

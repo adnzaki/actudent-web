@@ -7,7 +7,7 @@
 
 const nilai = new Vue({
     el: '#nilai-content',
-    mixins: [SSPaging, plugin],
+    mixins: [plugin],
     data: {
         absensi: `${admin}absensi/`,
         jadwal: `${admin}jadwal/`,

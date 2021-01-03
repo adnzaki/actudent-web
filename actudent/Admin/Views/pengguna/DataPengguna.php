@@ -2,12 +2,12 @@
     <div class="card-body">        
         <div class="row">         
             <div class="col-12 col-md-4 col-lg-4 col-xl-3">
-                <!-- <div class="form-group">
+                <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
                         data-toggle="modal" data-target="#tambahPenggunaModal"  @click="showAddPegawaiForm">{+ lang Admin.tambah +}                        
                     </button>
                     <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm">{+ lang Admin.hapus +}</button> 
-                </div> -->
+                </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
                 <select class="select2 form-control block" id="selectUser" name="user_level" style="width: 100%">
@@ -66,11 +66,11 @@
                         
                         <i class="la la-pencil"></i>
                     </button>
-                    <!-- <button type="button" class="btn btn-icon btn-danger mr-1"
+                    <button type="button" class="btn btn-icon btn-danger mr-1"
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}"
                         @click="singleDeleteConfirm(item.staff_id, item.user_id)">
                         <i class="la la-trash"></i>
-                    </button> -->
+                    </button>
                 </td>                
             </tr>
         </tbody>

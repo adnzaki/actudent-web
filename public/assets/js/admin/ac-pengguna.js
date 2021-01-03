@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2018
  */
 
+import { SSPaging } from '../ss-paging.js'
+
 const pengguna= new Vue({
     el: '#pengguna-content',
     mixins: [SSPaging, plugin],
