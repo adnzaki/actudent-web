@@ -1,6 +1,6 @@
 <div class="modal fade text-left" id="changelog-modal" role="dialog" aria-labelledby="myModalLabel2"
 aria-hidden="true" v-if="showChangelog">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header {modalHeaderColor} white">
                 <h4 class="modal-title white" id="myModalLabel2"><i class="la la-road2"></i> Changelog v{ac_version}</h4>
