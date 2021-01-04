@@ -2,7 +2,7 @@
 
 use Actudent\Admin\Models\SharedModel;
 
-class AgendaModel extends \Actudent\Core\Models\ModelHandler
+class AgendaModel extends \Actudent\Core\Models\Connector
 {
     /**
      * The Query Builders

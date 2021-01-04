@@ -1,7 +1,5 @@
 <?php namespace Actudent\Admin\Models;
 
-use Actudent\Admin\Models\SharedModel;
-
 class SiswaModel extends SharedModel
 {
      /**

@@ -2,7 +2,7 @@
 
 use Actudent\Core\Models\AuthModel;
 
-class SettingModel extends \Actudent\Core\Models\ModelHandler
+class SettingModel extends \Actudent\Core\Models\Connector
 {
     /**
      * tb_setting table builder

@@ -3,7 +3,7 @@
 use Actudent\Admin\Models\KelasModel;
 use Actudent\Admin\Models\PegawaiModel;
 
-class JadwalModel extends \Actudent\Admin\Models\SharedModel
+class JadwalModel extends SharedModel
 {
     /**
      * Query builder for tb_schedule_settings

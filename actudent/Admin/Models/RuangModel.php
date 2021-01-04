@@ -1,6 +1,6 @@
 <?php namespace Actudent\Admin\Models;
 
-class RuangModel extends \Actudent\Core\Models\ModelHandler
+class RuangModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query Builder for tb_room

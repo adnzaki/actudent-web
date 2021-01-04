@@ -1,6 +1,6 @@
 <?php namespace Actudent\Core\Models;
 
-class AuthModel extends \Actudent\Core\Models\ModelHandler
+class AuthModel extends \Actudent\Core\Models\Connector
 {
     /**
      * tb_user table builder

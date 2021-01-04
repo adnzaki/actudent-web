@@ -3,7 +3,7 @@
 use Actudent\Admin\Models\KelasModel;
 use OstiumDate;
 
-class AbsensiModel extends \Actudent\Admin\Models\SharedModel
+class AbsensiModel extends SharedModel
 {
     /**
      * Query Builder for tb_presence

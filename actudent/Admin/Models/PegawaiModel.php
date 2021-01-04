@@ -2,7 +2,7 @@
 
 use Actudent\Core\Models\SekolahModel;
 
-class PegawaiModel extends \Actudent\Core\Models\ModelHandler
+class PegawaiModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query Builder for table tb_staff

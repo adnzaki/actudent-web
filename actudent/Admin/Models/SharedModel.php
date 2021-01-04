@@ -2,7 +2,7 @@
 
 use Actudent\Core\Models\SekolahModel;
 
-class SharedModel extends \Actudent\Core\Models\ModelHandler
+class SharedModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query Builder for table tb_parent

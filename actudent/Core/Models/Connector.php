@@ -1,6 +1,6 @@
 <?php namespace Actudent\Core\Models;
 
-class ModelHandler 
+class Connector 
 {
     /**
      * @var DatabaseConnection
