@@ -1,15 +1,11 @@
 <div class="card-body">
 	<div class="row">
-		<div class="col-3 col-lg-1" v-if="helper.archivePage">
+		<div class="col-12">
 			<div class="form-group">
-				<button type="button" class="btn btn-outline-warning" @click="openJurnalModal" data-toggle="modal"
-					:disabled="jurnalDisabled">{+ lang AdminAbsensi.absensi_isi_jurnal +}
+				<button type="button" class="btn btn-outline-warning mr-1" @click="openJurnalModal" data-toggle="modal"
+					:disabled="jurnalDisabled" v-if="helper.archivePage">{+ lang AdminAbsensi.absensi_isi_jurnal +}
 				</button>
-			</div>
-		</div>
-		<div class="col-4 col-lg-2" v-if="helper.presenceButtons">
-			<div class="form-group">
-				<div class="btn-group mr-1 mb-1">
+        <div class="btn-group mr-1" v-if="helper.presenceButtons">
 					<button type="button" class="btn btn-outline-primary btn-min-width dropdown-toggle" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="true">{+ lang Admin.aksi
 						+}</button>
@@ -26,11 +22,7 @@
 							AdminAbsensi.absensi_alfa +}</a>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="col-12 col-lg-2" v-if="!jurnalDisabled">
-			<div class="form-group">
-				<div class="btn-group mr-1 mb-1">
+        <div class="btn-group mr-1" v-if="!jurnalDisabled">
 					<button type="button" class="btn btn-outline-success btn-min-width dropdown-toggle" data-toggle="dropdown"
 						aria-haspopup="true" aria-expanded="true">{+ lang
 						AdminAbsensi.absensi_cetak_laporan +}</button>
@@ -41,27 +33,17 @@
 							AdminAbsensi.absensi_cetak_absen +}</a>
 					</div>
 				</div>
-			</div>
-		</div>
-		<div class="col-12 col-lg-2" v-if="archiveStatus && helper.archiveButton">
-			<div class="form-group">
-				<button type="button" class="btn btn-outline-danger" @click="showArchive" data-toggle="modal">{+
-					lang
-					AdminAbsensi.absensi_arsip_jurnal +}
+        <button type="button" class="btn btn-outline-danger" 
+          @click="showArchive" data-toggle="modal" v-if="archiveStatus && helper.archiveButton">
+          {+ lang AdminAbsensi.absensi_arsip_jurnal +}
 				</button>
-			</div>
-		</div>
-		<div class="col-12 col-sm-4" v-if="!helper.archivePage && !helper.backToArchive">
-			<div class="form-group">
-				<button type="button" class="btn btn-outline-danger" @click="closeArchive" data-toggle="modal">{+ lang
-					AdminAbsensi.absensi_tutup_arsip +}
+        <button type="button" class="btn btn-outline-danger" 
+          v-if="!helper.archivePage && !helper.backToArchive" @click="closeArchive" data-toggle="modal">
+          {+ lang AdminAbsensi.absensi_tutup_arsip +}
 				</button>
-			</div>
-		</div>
-		<div class="col-12 col-sm-4" v-if="helper.backToArchive">
-			<div class="form-group">
-				<button type="button" class="btn btn-outline-primary" @click="showArchive" data-toggle="modal">{+ lang
-					AdminAbsensi.absensi_kembali_ke_arsip +}
+        <button type="button" class="btn btn-outline-primary"
+          v-if="helper.backToArchive" @click="showArchive" data-toggle="modal">
+          {+ lang AdminAbsensi.absensi_kembali_ke_arsip +}
 				</button>
 			</div>
 		</div>
