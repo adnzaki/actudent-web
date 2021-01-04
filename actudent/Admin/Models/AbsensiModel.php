@@ -268,13 +268,13 @@ class AbsensiModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Get journal archives
      * 
-     * @param int $gradeID
+     * @param int|null $gradeID | null = skip grade selection
      * @param string $date
      * @param int|null $teacher
      * 
      * @return array
      */
-    public function getJournalArchives(int $gradeID, string $date, $teacher = null): array
+    public function getJournalArchives($gradeID, string $date, $teacher = null): array
     {
         $field = "journal_id, description, lesson_name, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
         $select = $this->QBJurnal->select($field);
