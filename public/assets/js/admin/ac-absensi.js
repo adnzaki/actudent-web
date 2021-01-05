@@ -237,12 +237,12 @@ const absensi = new Vue({
                 ]
             }
 
-            absen = JSON.stringify(data)
+            let absen = JSON.stringify(data)
             $.ajax({
                 url: `${this.absensi}simpan-absen/${status}/${this.helper.journalID}/${this.helper.activeDate}`,
                 type: 'post',
                 dataType: 'json',
-                data: { absen: absen },
+                data: { absen },
                 beforeSend: () => {
                     this.spinner = true
                 },
