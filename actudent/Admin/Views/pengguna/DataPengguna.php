@@ -4,7 +4,7 @@
             <div class="col-12 col-md-4 col-lg-4 col-xl-3">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#tambahPenggunaModal"  @click="showAddPegawaiForm">{+ lang Admin.tambah +}                        
+                        data-toggle="modal" data-target="#tambahPenggunaModal" >{+ lang Admin.tambah +}                        
                     </button>
                     <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm">{+ lang Admin.hapus +}</button> 
                 </div>
@@ -68,7 +68,7 @@
                     </button>
                     <button type="button" class="btn btn-icon btn-danger mr-1"
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}"
-                        @click="singleDeleteConfirm(item.staff_id, item.user_id)">
+                        >
                         <i class="la la-trash"></i>
                     </button>
                 </td>                
