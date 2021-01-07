@@ -149,13 +149,16 @@ class AuthModel extends \Actudent\Core\Models\Connector
     /**
      * Delete user token
      * 
-     * @param string $token
+     * @param string|null $token
      * 
      * @return void
      */
-    public function deleteToken(string $token): void
+    public function deleteToken($token): void
     {
-        $this->token->delete(['token_value' => $token]);
+        if($token !== null)
+        {
+            $this->token->delete(['token_value' => $token]);
+        }
     }
 
     /**
