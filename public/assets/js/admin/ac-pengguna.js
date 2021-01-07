@@ -120,6 +120,9 @@ const pengguna= new Vue({
                 error: () => console.error('Network error')
             })
         },
+        multiDeleteConfirm() {
+
+        },
         resetForm(form = '') {
             this.alert.show = false
             // clear error messages if exists

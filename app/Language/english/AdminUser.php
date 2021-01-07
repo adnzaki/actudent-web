@@ -3,7 +3,7 @@
 return [
     // teks halaman data user management
     'page_title'                => 'User',
-    'user_title'                => 'User Data',
+    'user_title'                => 'User Manager',
     'user_save_progress'        => 'Saving user data...',
     'user_error_text'           => 'Can not save data, fill the form corectly please',
     'user_update_success'       => 'User password has been updated successfully',

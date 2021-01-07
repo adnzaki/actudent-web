@@ -1,6 +1,6 @@
 <?php namespace Actudent\Admin\Models;
 
-class TimelineModel extends \Actudent\Core\Models\ModelHandler
+class TimelineModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query Builders

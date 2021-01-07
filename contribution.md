@@ -3,9 +3,9 @@
 
 ## Panduan Umum
 ### Engines
-- Server-side Language : PHP 7.2
-- Web Framework : CodeIgniter 4.0.2
-- UI Framework : Vue.js 2.6.10
+- Server-side Language : PHP 7.4
+- Web Framework : CodeIgniter 4.0.4
+- UI Framework : Vue.js 2.6.12
 - Database : MySQL
 - API Response Format : JSON
 
@@ -25,7 +25,7 @@ Tempat menyimpan logs, session, cache dan file yang diupload
 
 ## Panduan Pengembangan di Sisi Server
 ### Modularisasi
-Basis kode Actudent menggunakan konsep modularisasi untuk memudahkan development dan maintenance aplikasi. Konsep ini dipilih karena memungkinkan Actudent dibagi ke dalam beberapa sub-sistem, seperti panel Admin, Guru dan Core System. 
+Basis kode Actudent menggunakan konsep [modularisasi](https://en.wikipedia.org/wiki/Hierarchical_model%E2%80%93view%E2%80%93controller) untuk memudahkan development dan maintenance aplikasi. Konsep ini dipilih karena memungkinkan Actudent dibagi ke dalam beberapa sub-sistem, seperti panel Admin, Guru dan Core System. 
 
 ### Struktur Modul
 - `Admin`
@@ -38,11 +38,13 @@ Merupakan tempat menyimpan kode sumber modul Guru.
 ### Core Controller
 `Actudent` merupakan core controller yang wajib ada di semua controller Actudent. Tanpa class ini, Actudent tidak akan dapat berjalan sebagaimana mestinya. Hanya kontributor inti yang diperkenankan memodifikasi class ini. Class ini tersedia dengan namespace `Actudet\Core\Controllers\Actudent`.
 
-### Core Model
-Actudent juga memiliki sebuah core model yaitu `ModelHandler`. Model ini berperan sebagai database connector dan semua model pada Actudent harus meng-extend class ini. Class ini tersedia dengan namespace `Actudent\Core\Models\ModelHandler`.
+### Database Connector
+Actudent tidak menggunakan model bawaan CodeIgniter4, sementara untuk koneksi databasenya, Actudent
+memiliki sebuah class `Connector` yang tersedia dengan namespace `Actudent\Core\Models\Connector`.
+Setiap model Actudent harus mengextend class ini agar dapat berinteraksi dengan database.
 
 ### Admin's shared model
-Khusus untuk modul admin, tersedia sebuah shared class model yaitu `SharedModel` yang dapat dipanggil via `Actudent\Admin\Models\SharedModel`. Model ini menyediakan beberapa tabel yang sering digunakan oleh model-model lain. Gunakan class ini hanya jika anda membutuhkannya.
+Khusus untuk modul admin, tersedia sebuah shared class model yaitu `SharedModel` yang dapat dipanggil via `Actudent\Admin\Models\SharedModel`. Model ini menyediakan beberapa tabel yang sering digunakan oleh model-model lain. Karena class ini memiliki cukup banyak properti, disarankan hanya menggunakan class ini jika anda membutuhkannya.
 
 ### Namespace
 Penggunaan namespace adalah <b>wajib</b> untuk semua class karena dengan namespace inilah nantinya antar class bisa berkomunikasi, termasuk Controller dan Model. Cara penggunaan namespace dapat dipelajari di dokumentasi resmi [PHP](https://www.php.net/manual/en/language.namespaces.php).
@@ -57,8 +59,8 @@ $ac = new Actudent;
 ### View Parser
 Actudent menggunakan template parser engine dari CodeIgniter 4 dengan tambahan plugin `include` dan `menu_active`. Lihat pada folder `Views` untuk mengetahui cara penggunaan plugin custom Actudent tersebut. Untuk panduan penggunaan View Parser selengkapnya dapat dilihat di halaman dokumentasi CodeIgniter 4 [berikut ini](https://codeigniter4.github.io/CodeIgniter4/outgoing/view_parser.html).
 
-### Model
-Setiap model harus meng-extend class `\Actudent\Core\Models\ModelHandler`. Semua query wajib menggunakan Query Builder dari CodeIgniter 4. Panduan menggunakan Query Builder  dapat dilihat pada [halaman ini](https://codeigniter4.github.io/CodeIgniter4/database/query_builder.html).
+### Database Query
+Semua query wajib menggunakan Query Builder dari CodeIgniter 4 untuk menjaga konsistensi sekaligus memudahkan proses maintenance. Panduan menggunakan Query Builder  dapat dilihat pada [halaman ini](https://codeigniter4.github.io/CodeIgniter4/database/query_builder.html).
 
 ### Per-page User Checking
 Actudent menggunakan `Filter` dari CodeIgniter 4. Semua halaman Actudent diproteksi menggunakan filter ini. Berbeda dengan versi CodeIgniter 3 yang melakukan filter pada tiap class constructor, pada CodeIgniter 4 filter hanya dilakukan pada satu class yaitu `\Actudent\Admin\Filters\AdminFilter` untuk panel admin atau `\Actudent\Guru\Filters\GuruFilter` untuk panel guru.
@@ -74,7 +76,7 @@ HTML5 menjadi bahasa standar untuk menyusun tampilan web Actudent. Selengkapnya 
 Template Actudent menggunakan Bootstrap sebagai frameworknya. Pengetahuan tentang Bootstrap sangat diperlukan untuk dapat menyusun komponen-komponen web serta interaksi pengguna Actudent. Dokumentasi lengkap Bootstrap dapat anda lihat di [sini](https://getbootstrap.com/docs/4.0/getting-started/introduction/).
 
 ### Scripting Language
-Bahasa script yang digunakan adalah Javascript dengan standar ECMASCRIPT (ES) 6. Kontributor wajib memahami standar penulisan kode ES6 seperti `let`, `const`, `(arrowFunction) => {}`, `Promise` dan lain-lain. Penggunaan ES6 dimaksudkan untuk memaksimalkan kemampuan Javascript dalam membangun web yang semakin kompleks. Untuk mengetahui fitur-fitur terbaru ES6 dapat anda lihat di [halaman ini](http://es6-features.org).
+Bahasa script yang digunakan adalah Javascript dengan standar ECMASCRIPT (ES) 6. Kontributor wajib memahami standar penulisan kode ES6 seperti `let`, `const`, `(arrowFunction) => {}`, `Promise`, ES Module dan lain-lain. Penggunaan ES6 dimaksudkan untuk memaksimalkan kemampuan Javascript dalam membangun web yang semakin kompleks. Untuk mengetahui fitur-fitur terbaru ES6 dapat anda lihat di [halaman ini](http://es6-features.org).
 
 ### Javascript Framework
 Actudent menggunakan Vue.js sebagai framework Javascript-nya. Vue.js dipilih karena memiliki fitur yang lengkap, penulisan kode yang mudah dengan konsep <i>declarative rendering</i> serta performa yang tinggi. Panduan lengkap penggunaan Vue.js dapat anda lihat di [sini](https://vuejs.org/v2/guide/).

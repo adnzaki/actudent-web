@@ -1,6 +1,6 @@
 <?php namespace Actudent\Core\Models;
 
-class SekolahModel extends \Actudent\Core\Models\ModelHandler
+class SekolahModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query Builder for table tb_sekolah

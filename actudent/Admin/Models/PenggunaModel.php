@@ -3,7 +3,7 @@
 use Actudent\Core\Models\SekolahModel;
 use Actudent\Admin\Models\SharedModel;
 
-class PenggunaModel extends \Actudent\Core\Models\ModelHandler
+class PenggunaModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query Builder for table tb_user
