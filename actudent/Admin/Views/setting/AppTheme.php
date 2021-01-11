@@ -32,6 +32,11 @@
 									v-model="theme">
 								<label for="input-radio-17">Night Vision</label>
 							</fieldset>
+							<fieldset>
+								<input type="radio" name="input-radio-4" id="soft-touch" value="soft-touch"
+									v-model="theme">
+								<label for="input-radio-17">Soft Touch</label>
+							</fieldset>
 						</div>
 						<div class="col-12">
 							<div class="form-group">
