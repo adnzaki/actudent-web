@@ -4,9 +4,9 @@
             <div class="col-12 col-md-4 col-lg-4 col-xl-3">
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-info" 
-                        data-toggle="modal" data-target="#tambahPenggunaModal" >{+ lang Admin.tambah +}                        
+                        data-toggle="modal" data-target="#tambahPenggunaModal">{+ lang Admin.tambah +}                        
                     </button>
-                    <button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm">{+ lang Admin.hapus +}</button> 
+                    <button type="button" class="btn btn-outline-danger" disabled>{+ lang Admin.hapus +}</button> 
                 </div>
             </div>
             <div class="col-12 col-sm-6 col-md-4 col-lg-4 col-xl-3">
@@ -62,14 +62,8 @@
                 <td>
                     <button type="button" class="btn btn-icon btn-info mr-1" 
                         data-toggle="tooltip" data-placement="top" title="{+ lang Admin.perbarui +}"
-                        @click="getDetailPengguna(item.user_id)">
-                        
+                        @click="getDetailPengguna(item.user_id)">                        
                         <i class="la la-pencil"></i>
-                    </button>
-                    <button type="button" class="btn btn-icon btn-danger mr-1"
-                        data-toggle="tooltip" data-placement="top" title="{+ lang Admin.hapus +}"
-                        >
-                        <i class="la la-trash"></i>
                     </button>
                 </td>                
             </tr>
