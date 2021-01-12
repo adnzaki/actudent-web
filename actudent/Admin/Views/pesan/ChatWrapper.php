@@ -1,4 +1,9 @@
+{if $theme === 'soft-touch'}
+<div class="inbox_people chat-list-gradient">
+{else}
 <div class="inbox_people {cardColor}">
+{endif}
+
 	<div class="headind_srch">
 		<div class="recent_heading" id="chat-title">
 			<h4 v-if="helper.showChatList" class="{cardTitleColor}">{+ lang AdminPesan.page_title +}</h4>

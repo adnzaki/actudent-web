@@ -36,6 +36,8 @@
   <link rel="stylesheet" type="text/css" href="{appAssets}css/core/colors/palette-loader.css">
   {if $theme === 'night-vision'}
     <link rel="stylesheet" type="text/css" href="{assets}css/actudent-night.css">
+  {elseif $theme === 'soft-touch'}
+    <link rel="stylesheet" type="text/css" href="{assets}css/actudent-modern.css">
   {endif}
   <!-- END Custom CSS-->
   {if ENVIRONMENT === 'development'}

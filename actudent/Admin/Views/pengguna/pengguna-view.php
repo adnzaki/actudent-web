@@ -37,6 +37,7 @@
 							</div>
 							{+ include Actudent\Admin\Views\pengguna\DataPengguna +}
 							{+ include Actudent\Admin\Views\pengguna\FormEditPengguna +}
+							{+ include Actudent\Admin\Views\pengguna\UserInfo +}
 						</div>
 					</div>
 				</div>

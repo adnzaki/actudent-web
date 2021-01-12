@@ -32,4 +32,6 @@ return [
     'user_err_passconf_required'=> 'Konfirmasi password tidak boleh kosong',
     'user_newPass'              => 'Kata sandi baru',
     'user_newPass_confirm'      => 'Konfirmasi password baru',
+    'user_attention'            => 'Perhatian',
+    'user_manage_info'          => 'Silakan menuju menu pegawai/orang tua untuk menambah dan menghapus pengguna'
 ];

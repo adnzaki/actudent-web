@@ -23,13 +23,13 @@ class Filters extends BaseConfig
 			'throttle',
 			'admin' => ['except' => [
 				'admin/login', 'admin/login/validate', 
-				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
+				'core/get-admin-lang/*', 'core/get-changelog/*', 'showcase', 'admin/test-*', 
 				'guru/*', 'guru', 'admin/template/*', 'attachments/*',
 				]
 			],
 			'guru' => ['except' => [
 				'guru/login', 'guru/login/validate', 
-				'core/get-admin-lang/*', 'showcase', 'admin/test-*', 
+				'core/get-admin-lang/*', 'core/get-changelog/*', 'showcase', 'admin/test-*', 
 				'admin/*', 'admin', 'attachments/*',
 				]
 			],

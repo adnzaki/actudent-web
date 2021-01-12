@@ -1,6 +1,7 @@
 <div class="main-menu menu-fixed {menuColor} menu-accordion    menu-shadow " data-scroll-to-active="true">
   <div class="main-menu-content">
-    <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
+    <div class="menu-blur"></div>
+    <ul class="navigation navigation-main navigation-blur" id="main-menu-navigation" data-menu="menu-navigation">
       <li class="{+ menu_active uri=home +} nav-item">
         <a href="{admin}home"><i class="la la-home"></i><span class="menu-title" data-i18n="nav.dash.main">{+ lang Admin.menu_dashboard +}</span></a>
       </li>

@@ -1,0 +1,80 @@
+@import './actudent-night.css';
+
+.night-body {
+	background-color: #606371 !important;
+}
+
+.navbar-semi-dark .navbar-header {
+    background: rgb(49,61,64) !important;
+    background: linear-gradient(90deg, rgba(49,61,64,1) -5%, rgba(106,64,66,1) 9%, rgba(187,94,94,1) 100%) !important; 
+}
+
+.bg-gradient {
+    background: rgb(106,66,66) !important;
+    background: linear-gradient(90deg, rgb(187, 94, 94) 30%, rgba(49,61,64,1) 94%) !important; 
+}
+
+.gradient-card {
+    background: rgb(48,60,62) !important;
+    background: linear-gradient(90deg, rgba(48,60,62,1) 11%, rgba(78,60,62,1) 69%, rgba(106,66,66,1) 100%) !important; 
+}
+
+.main-menu.menu-dark .navigation > li.active > a {
+	background: #080f2430 !important;
+}
+
+.main-menu.menu-dark .navigation > li .active > a {
+	background: #35373a9c !important;
+}
+
+.main-menu.menu-dark .navigation > li > ul {
+	background: #2c303b67 !important;
+}
+
+.main-menu.menu-dark .navigation > li.open > a {
+	background: #35373a9c !important;
+}
+
+.navigation-blur {
+	background: #2c303b93 !important;
+	min-height: 90vh;
+}
+
+@media(min-width: 1700px) {
+    .navigation-blur {
+        min-height: 96vh !important;
+    }
+}
+
+.menu-blur {
+	/* height: 2000px !important; */
+	background-image: url(../../images/bg/wp-4.jpg) !important;
+	background-size: contain;
+    background-attachment: fixed;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	filter: blur(10px);
+	z-index: -1;
+	background-position: center;
+}
+
+.soft-dark:hover {
+    background-color: #46464683 !important;
+}
+
+.chat-list-gradient {
+	background: rgb(48, 60, 62) !important;
+}
+
+/* .soft-list:hover {
+    background-color: rgb(35, 52, 58);
+    color: #fff;
+} */
+
+/* .modal-body, .modal-header, .modal-footer {
+    background: rgb(48,60,62) !important;
+    background: linear-gradient(90deg, rgba(48,60,62,1) 30%, rgba(78,60,62,1) 74%, rgba(106,66,66,1) 100%) !important;  
+} */

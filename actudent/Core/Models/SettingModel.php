@@ -216,6 +216,48 @@ class SettingModel extends \Actudent\Core\Models\Connector
                     'settingValue'  => 'nav-link-white',
                 ],
             ],
+            'soft-touch' => [
+                [
+                    'settingKey'    => 'bodyColor',
+                    'settingValue'  => 'night-body', //#606371 !important
+                ],
+                [
+                    'settingKey'    => 'footerColor',
+                    'settingValue'  => 'footer-dark',
+                ],
+                [
+                    'settingKey'    => 'footerTextColor',
+                    'settingValue'  => 'lighten-3',
+                ],
+                [
+                    'settingKey'    => 'cardColor',
+                    'settingValue'  => 'gradient-card', //#2C303B !important
+                ],
+                [
+                    'settingKey'    => 'cardTitleColor',
+                    'settingValue'  => 'night-card-title', //#f5f5f5 !important
+                ],
+                [
+                    'settingKey'    => 'menuColor',
+                    'settingValue'  => 'menu-dark',
+                ],
+                [
+                    'settingKey'    => 'navbarColor',
+                    'settingValue'  => 'navbar-semi-dark',
+                ],
+                [
+                    'settingKey'    => 'navbarContainerColor',
+                    'settingValue'  => 'bg-gradient',
+                ],
+                [
+                    'settingKey'    => 'modalHeaderColor',
+                    'settingValue'  => 'bg-dark',
+                ],
+                [
+                    'settingKey'    => 'navlinkColor',
+                    'settingValue'  => 'nav-link-white',
+                ],
+            ],
         ];
         
         return $template[$theme];
