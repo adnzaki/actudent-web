@@ -89,6 +89,7 @@ require ACTUDENTPATH . 'Guru/Config/GuruRoutes.php';
 $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
 {
 	$routes->add('get-admin-lang/(:any)', 'Resources::getLocaleResource/$1');
+	$routes->add('get-changelog/(:alpha)', 'Resources::getChangelog/$1');
 });
 
 /**

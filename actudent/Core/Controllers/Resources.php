@@ -52,7 +52,7 @@ class Resources extends Actudent
         }
         else
         {
-            return count(explode('-', $changelog)) - 1;
+            return count(explode('- ', $changelog)) - 1;
         }
     }
 
@@ -67,20 +67,22 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- Pembaruan latar belakang sistem Actudent
-                - [Kehadiran] Memperbaiki urutan jadwal pada laporan absen harian
-                - [Dashboard] Menambahkan informasi agenda dan linimasa terkini
-                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping
-                - [Pengguna] Mengembalikan menu tambah dan hapus pengguna
-                - [Info] Pastikan anda menggunakan browser versi terbaru (tidak mendukung Internet Explorer)"
+                "- [Pengaturan] Menambahkan tema baru: Soft Touch, sebagai alternatif dari tema Night Vision
+                - [Pengguna] Menambahkan informasi pengelolaan pengguna 
+                - [Autentikasi] Perbaikan bug error tidak bisa logout dari aplikasi
+                - [Kehadiran] Perbaikan bug tidak bisa mengisi kehadiran
+                - [Kehadiran] Perbaikan tata letak tombol-tombol menu 
+                - [Dasbor] Memperbaiki urutan agenda terkini 
+                - Memperbesar ukuran modal changelog"
             ],
             'english' => [
-                "- Actudent system background updates
-                - [Presence] Fixed wrong schedule time order on daily presence report
-                - [Dashboard] Added recent agenda and timeline information
-                - [Message] Fixed wrong unread messages counter on side menu
-                - [Users] Return add and delete user menu
-                - [Info] Please ensure that you have the latest version of your browser (not supported in Internet Explorer)"
+                "- [Settins] Added new theme: Soft Touch, as an alternative to Night Vision theme
+                - [Users] Added user management information
+                - [Auth] Fixed error unable to log out from the app
+                - [Presence] Fixed bug unable to fill presence
+                - [Presence] Fixed menu buttons layout
+                - [Dashboard] Fixed recent agenda order
+                - Enlarge changelog modal size"
             ]
         ];
 
@@ -98,18 +100,20 @@ class Resources extends Actudent
     {
         $changelog = [
             'indonesia' => [
-                "- Pembaruan latar belakang sistem Actudent
-                - [Kehadiran] Memperbaiki urutan jadwal pada laporan absen harian
-                - [Dashboard] Menambahkan informasi agenda dan linimasa terkini
-                - [Pesan] Memperbaiki penghitung pesan belum dibaca di menu samping
-                - [Info] Pastikan anda menggunakan browser versi terbaru (tidak mendukung Internet Explorer)"
+                "- [Pengaturan] Menambahkan tema baru: Soft Touch, sebagai alternatif dari tema Night Vision
+                - [Autentikasi] Perbaikan error tidak bisa logout dari aplikasi
+                - [Kehadiran] Perbaikan bug tidak bisa mengisi kehadiran
+                - [Kehadiran] Perbaikan tata letak tombol-tombol menu 
+                - [Dasbor] Memperbaiki urutan agenda terkini
+                - Memperbesar ukuran modal changelog"
             ],
             'english' => [
-                "- Actudent system background updates
-                - [Presence] Fixed wrong schedule time order on daily presence report
-                - [Dashboard] Added recent agenda and timeline information
-                - [Message] Fixed wrong unread messages counter on side menu
-                - [Info] Please ensure that you have the latest version of your browser (not supported in Internet Explorer)"
+                "- [Settins] Added new theme: Soft Touch, as an alternative to Night Vision theme
+                - [Auth] Fixed error unable to log out from the app
+                - [Presence] Fixed bug unable to fill presence
+                - [Presence] Fixed menu buttons layout
+                - [Dashboard] Fixed recent agenda order
+                - Enlarge changelog modal size"
             ]
         ];
 
