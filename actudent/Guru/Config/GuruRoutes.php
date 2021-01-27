@@ -6,7 +6,7 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('home', 'TeacherHome::page');
 	$routes->add('home/absensi-seminggu', 'TeacherHome::getLastSevenDaysPresence');
 	$routes->add('login', 'Auth::index');
-	$routes->add('login/validate', 'Auth::validasi');
+	$routes->add('login/validasi', 'Auth::isValidLogin');
 	$routes->add('logout', 'Auth::logout');
 	$routes->add('agenda', 'ReadAgenda::page');
 	$routes->add('agenda/get-events/(:any)/(:any)', 'ReadAgenda::getEvents/$1/$2');

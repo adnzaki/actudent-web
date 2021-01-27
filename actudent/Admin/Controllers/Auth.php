@@ -28,7 +28,7 @@ class Auth extends Actudent
         }        
     }
 
-    public function validasi()
+    public function isValidLogin()
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
@@ -54,7 +54,7 @@ class Auth extends Actudent
 
             $this->session->set($session);
             $this->auth->statusJaringan('online', $username);
-            echo 'valid';
+            echo "valid";
         }
         else 
         {

@@ -28,7 +28,7 @@ const login = {
             } else {
                 var data = $("#form-login").serialize()
                 $.ajax({
-                	url: `${this.auth}login/validate`,
+                	url: `${this.auth}login/validasi`,
                 	type: 'post',
                 	data: data,
                 	beforeSend: () => {

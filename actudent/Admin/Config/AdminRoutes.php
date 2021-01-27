@@ -4,7 +4,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 {
 	$routes->get('/', 'Home::goToHome');
 	$routes->add('login', 'Auth::index');
-	$routes->add('login/validate', 'Auth::validasi');
+	$routes->add('login/validasi', 'Auth::isValidLogin');
 	$routes->add('logout', 'Auth::logout');
 	$routes->add('home', 'Home::index');
 	$routes->add('home/absensi-seminggu', 'Home::getLastSevenDaysPresence');

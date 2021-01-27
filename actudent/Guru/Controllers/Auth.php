@@ -28,7 +28,7 @@ class Auth extends Actudent
         }        
     }
 
-    public function validasi()
+    public function isValidLogin()
     {
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');

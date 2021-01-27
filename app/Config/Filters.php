@@ -22,14 +22,14 @@ class Filters extends BaseConfig
 			// 'csrf',
 			'throttle',
 			'admin' => ['except' => [
-				'admin/login', 'admin/login/validate', 
-				'core/get-admin-lang/*', 'core/get-changelog/*', 'showcase', 'admin/test-*', 
-				'guru/*', 'guru', 'admin/template/*', 'attachments/*',
+				'admin/login', 'admin/login/validasi', 
+				'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
+				'guru/*', 'guru', 'attachments/*',
 				]
 			],
 			'guru' => ['except' => [
-				'guru/login', 'guru/login/validate', 
-				'core/get-admin-lang/*', 'core/get-changelog/*', 'showcase', 'admin/test-*', 
+				'guru/login', 'guru/login/validasi', 
+				'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
 				'admin/*', 'admin', 'attachments/*',
 				]
 			],
