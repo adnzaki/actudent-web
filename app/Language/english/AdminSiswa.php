@@ -35,4 +35,6 @@ return [
     'siswa_save_error'          => 'Unable to save student data, please fill the form correctly',
     'siswa_update_success'      => 'Successfully updated student data',
     'siswa_delete_success'      => 'Successfully deleted student data',
+    'siswa_overlimit'           => 'Your Actudent service has reached its limit for number of students, 
+                                    please contact your service provider.',
 ];

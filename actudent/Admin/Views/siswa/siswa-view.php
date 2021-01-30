@@ -40,6 +40,7 @@
 							{+ include Actudent\Admin\Views\siswa\DeleteConfirm +}
 							{+ include Actudent\Admin\Views\siswa\FormTambahSiswa +}
 							{+ include Actudent\Admin\Views\siswa\FormEditSiswa +}
+							{+ include Actudent\Admin\Views\siswa\LimitInfo +}
 						</div>
 					</div>
 				</div>
@@ -50,6 +51,9 @@
 	{+ include Actudent\Core\Views\component\footer +}
 	<!-- BEGIN VENDOR JS-->
 	{+ include Actudent\Core\Views\component\scripts +}
+	<script>
+		var studentLimit = "{limit}";
+	</script>
 	<script src="{appAssets}js/scripts/modal/components-modal.js" type="text/javascript"></script>
 	<script src="{assets}js/admin/ac-siswa.js" type="module"></script>
 	<!-- END PAGE LEVEL JS-->

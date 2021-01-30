@@ -32,11 +32,9 @@ class Test extends Actudent
 
     public function testFunction()
     {
-        $pesan = new \Actudent\Admin\Models\PesanModel;
-        $unread = $pesan->getAllUnreadMessages();
-        
-        //return $this->response->setJSON($unread);
-        print_r($unread);
+        $subs = new \Actudent\Core\Models\SubscriptionModel;
+        $expired = $subs->hasExpired() ? 1 : 0;
+        print_r($subs->getLimit());
     }
 
     public function resultToArray()

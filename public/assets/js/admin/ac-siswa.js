@@ -12,6 +12,7 @@ const siswa = new Vue({
     mixins: [SSPaging, plugin],
     data: {
         siswa: `${admin}siswa/`,
+        studentLimit: '',
         error: { 
             studentNis: '', studentName: '', 
             gradeName: '',
@@ -46,6 +47,7 @@ const siswa = new Vue({
         this.getLanguageResources('AdminSiswa')
         this.getLanguageResources('Admin')
         this.onModalClose('#editSiswaModal')
+        this.studentLimit = studentLimit
     },
     methods: {
         getSiswa() {
@@ -121,13 +123,11 @@ const siswa = new Vue({
                 },
                 success: res => {
                     obj.helper.disableSaveButton = false
-                    if(res.code === '500') {
-                        obj.error = res.msg
-
+                    if(res.code === '307') {
                         // set error alert
                         obj.alert.class = 'bg-danger'
                         obj.alert.header = 'Error!'
-                        obj.alert.text = obj.lang.siswa_save_error
+                        obj.alert.text = res.msg
 
                         // hide after 3000 ms and change the class and text to default
                         setTimeout(() => {
@@ -135,12 +135,29 @@ const siswa = new Vue({
                             obj.alert.class = 'bg-primary'
                             obj.alert.header = ''
                             obj.alert.text = ''
-                        }, 3000);
+                        }, 5000);
                     } else {
-                        if(edit) {
-                            obj.resetForm('edit', form)
+                        if(res.code === '500') {
+                            obj.error = res.msg
+    
+                            // set error alert
+                            obj.alert.class = 'bg-danger'
+                            obj.alert.header = 'Error!'
+                            obj.alert.text = obj.lang.siswa_save_error
+    
+                            // hide after 3000 ms and change the class and text to default
+                            setTimeout(() => {
+                                obj.alert.show = false
+                                obj.alert.class = 'bg-primary'
+                                obj.alert.header = ''
+                                obj.alert.text = ''
+                            }, 3000);
                         } else {
-                            obj.resetForm('insert', form)
+                            if(edit) {
+                                obj.resetForm('edit', form)
+                            } else {
+                                obj.resetForm('insert', form)
+                            }
                         }
                     }
                 },
@@ -280,6 +297,13 @@ const siswa = new Vue({
                     // turn back searchTimeout to false
                     this.searchTimeout = false
                 }, 300)
+            }
+        },
+        showAddForm() {
+            if(this.studentLimit === 'allowed') {
+                $('#tambahSiswaModal').modal('show')
+            } else {
+                $('#limitModal').modal('show')
             }
         },
         clearResult() {

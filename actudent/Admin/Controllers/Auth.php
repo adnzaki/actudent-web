@@ -30,35 +30,46 @@ class Auth extends Actudent
 
     public function isValidLogin()
     {
-        $username = $this->request->getPost('username');
-        $password = $this->request->getPost('password');
-        $remember = $this->request->getPost('remember-me') ?? '';
-        if($this->auth->validasi($username, $password, '1'))
+        $subscriber = new \Actudent\Core\Models\SubscriptionModel;
+        if($subscriber->hasExpired())
         {
-            $pengguna = $this->auth->getDataPengguna($username);
-            $session = [
-                'id'        => $pengguna->user_id,
-                'email'     => $username,
-                'nama'      => $pengguna->user_name,
-                'userLevel' => $pengguna->user_level,
-                'logged_in' => true
-            ];
-
-            if(! empty($remember))
-            {
-                $cookieValue = "{$username}-{$pengguna->user_level}";
-                $hash = base64_encode($cookieValue);
-                $this->auth->createToken($hash);
-                set_cookie('remember_login', $hash, (3600 * 24 * 30));
-            }
-
-            $this->session->set($session);
-            $this->auth->statusJaringan('online', $username);
-            echo "valid";
+            return $this->response->setJSON([
+                'msg' => 'expired',
+                'note' => lang('AdminSiswa.siswa_overlimit'),
+            ]);
         }
-        else 
+        else
         {
-            echo 'invalid';
+            $username = $this->request->getPost('username');
+            $password = $this->request->getPost('password');
+            $remember = $this->request->getPost('remember-me') ?? '';
+            if($this->auth->validasi($username, $password, '1'))
+            {
+                $pengguna = $this->auth->getDataPengguna($username);
+                $session = [
+                    'id'        => $pengguna->user_id,
+                    'email'     => $username,
+                    'nama'      => $pengguna->user_name,
+                    'userLevel' => $pengguna->user_level,
+                    'logged_in' => true
+                ];
+    
+                if(! empty($remember))
+                {
+                    $cookieValue = "{$username}-{$pengguna->user_level}";
+                    $hash = base64_encode($cookieValue);
+                    $this->auth->createToken($hash);
+                    set_cookie('remember_login', $hash, (3600 * 24 * 30));
+                }
+    
+                $this->session->set($session);
+                $this->auth->statusJaringan('online', $username);
+                return $this->response->setJSON(['msg' => 'valid']);
+            }
+            else 
+            {
+                return $this->response->setJSON(['msg' => 'invalid']);
+            }
         }
     }
 

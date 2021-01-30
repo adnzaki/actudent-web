@@ -3,8 +3,8 @@
 		<div class="row">
 			<div class="col-12 col-md-4 col-lg-4 col-xl-3">
 				<div class="form-group">
-					<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#tambahSiswaModal">{+ lang
-						Admin.tambah +}
+					<button type="button" class="btn btn-outline-info" data-toggle="modal" @click="showAddForm">
+						{+ lang Admin.tambah +}
 					</button>
 					<button type="button" class="btn btn-outline-danger" @click="multiDeleteConfirm"></i> {+ lang Admin.hapus
 						+}</button>

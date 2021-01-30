@@ -35,4 +35,6 @@ return [
     'siswa_save_error'          => 'Tidak dapat menyimpan data siswa, silakan isi form dengan benar',
     'siswa_update_success'      => 'Berhasil memperbarui data siswa',
     'siswa_delete_success'      => 'Data siswa berhasil dihapus',
+    'siswa_overlimit'           => 'Layanan Actudent anda telah mencapai batas jumlah siswa,
+                                    silakan hubungi penyedia layanan anda.',
 ];

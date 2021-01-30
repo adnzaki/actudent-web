@@ -17,6 +17,7 @@ const login = {
 	},
 	mounted() {
 		this.getLanguageResources('AdminAuth')
+		this.loginText = this.lang.silakan_login
 	},
     methods: {
         validasi() {
@@ -29,25 +30,35 @@ const login = {
                 var data = $("#form-login").serialize()
                 $.ajax({
                 	url: `${this.auth}login/validasi`,
-                	type: 'post',
+					type: 'post',
+					dataType: 'json',
                 	data: data,
                 	beforeSend: () => {
                 		this.msg = this.lang.mengautentikasi
                 		this.msgClass = 'loading-text'
                 	},
-                	success: msg => {
-                		if (msg === 'valid') {
-                			this.msg = this.lang.login_sukses
-                			this.msgClass = 'success-text'
-							window.location.href = `${this.auth}home`
-                		} else {
-                			this.msgClass = 'error-text'
-                			this.msg = this.lang.invalid_login
-                			setTimeout(() => {
+                	success: res => {
+						if(res.msg === 'expired') {
+							this.msgClass = 'error-text'
+							this.msg = res.note
+							setTimeout(() => {
 								this.showMsg = false
 								this.wolesLogo = 'woles-logo'
-                			}, 4000)
-                		}
+							}, 6000)
+						} else {
+							if (res.msg === 'valid') {
+								this.msg = this.lang.login_sukses
+								this.msgClass = 'success-text'
+								window.location.href = `${this.auth}home`
+							} else {
+								this.msgClass = 'error-text'
+								this.msg = this.lang.invalid_login
+								setTimeout(() => {
+									this.showMsg = false
+									this.wolesLogo = 'woles-logo'
+								}, 4000)
+							}
+						}
                 	},
                 	error: () => {
 						alert(this.lang.login_error)

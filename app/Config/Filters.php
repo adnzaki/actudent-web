@@ -12,6 +12,7 @@ class Filters extends BaseConfig
 		'honeypot'		=> \CodeIgniter\Filters\Honeypot::class,
 		'admin'		 	=> \Actudent\Admin\Filters\AdminFilter::class,
 		'guru'		 	=> \Actudent\Guru\Filters\GuruFilter::class,
+		'subscription'	=> \Actudent\Core\Filters\CoreFilter::class,
 		'throttle'		=> \App\Filters\Throttle::class,
 	];
 
@@ -33,6 +34,10 @@ class Filters extends BaseConfig
 				'admin/*', 'admin', 'attachments/*',
 				]
 			],
+			'subscription' => ['except' => [
+				'admin/login', 'admin/login/validasi', 'core/get-admin-lang/*',
+				'guru/login', 'guru/login/validasi',
+			]],
 		],
 		'after'  => [
 			'toolbar',	

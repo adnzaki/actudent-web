@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Core\Controllers\Actudent;
+use Actudent\Core\Models\SubscriptionModel;
 use Actudent\Admin\Models\SiswaModel;
 use Actudent\Admin\Models\KelasModel;
 
@@ -25,6 +26,7 @@ class Siswa extends Actudent
     public function index()
 	{
         $data = $this->common();
+        $data['limit'] = $this->studentLimitation();
         $data['title'] = lang('AdminSiswa.page_title');
 
         return $this->parser->setData($data)
@@ -41,6 +43,20 @@ class Siswa extends Actudent
         ]);
     }
 
+    private function studentLimitation()
+    {
+        $studentRows = $this->siswa->getSiswaRows();
+        $subscriber = new SubscriptionModel;
+        if($studentRows > $subscriber->getLimit())
+        {
+            return 'blocked';
+        }
+        else
+        {
+            return 'allowed';
+        }
+    }
+
     public function getDetailSiswa($id)
     {
         $data = $this->siswa->getStudentDetail($id);
@@ -49,29 +65,39 @@ class Siswa extends Actudent
 
     public function save($id = null)
     {
-        $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if($this->studentLimitation() === 'blocked')
         {
             return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
+                'code' => '307',
+                'msg' => lang('AdminSiswa.siswa_overlimit'),
             ]);
         }
         else
         {
-            $data = $this->formData();
-            if($id === null) 
+            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+            if(! $this->validate($validation[0], $validation[1]))
             {
-                $this->siswa->insert($data);
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
             }
             else
             {
-                $this->siswa->update($data, $id);
+                $data = $this->formData();
+                if($id === null) 
+                {
+                    $this->siswa->insert($data);
+                }
+                else
+                {
+                    $this->siswa->update($data, $id);
+                }
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
             }
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
         }
     }
 

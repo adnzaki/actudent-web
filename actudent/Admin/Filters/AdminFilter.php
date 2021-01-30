@@ -9,14 +9,14 @@ class AdminFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $cookie = get_cookie('remember_login');
-        $auth = new AuthModel();
-        $userToken = $auth->getUserToken($cookie);
+        $cookie         = get_cookie('remember_login');
+        $auth           = new AuthModel();
+        $userToken      = $auth->getUserToken($cookie);
         if(session('email') === null || session('userLevel') !== '1')
         {
             if(! $userToken)
             {
-                return redirect()->to(base_url('admin/login'));                
+                return redirect()->to(base_url('admin/login'));
             }
             else
             {
