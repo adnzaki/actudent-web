@@ -36,7 +36,7 @@ class SubscriptionModel extends \Actudent\Core\Models\Connector
      * @var array
      */
     public $subsLimit = [
-        'free'          => 20,
+        'free'          => 200,
         'starter'       => 750,
         'standard'      => 1250,
         'enhanced'      => 2000,
