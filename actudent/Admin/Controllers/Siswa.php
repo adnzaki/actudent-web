@@ -47,7 +47,7 @@ class Siswa extends Actudent
     {
         $studentRows = $this->siswa->getSiswaRows();
         $subscriber = new SubscriptionModel;
-        if($studentRows > $subscriber->getLimit())
+        if($studentRows >= $subscriber->getLimit())
         {
             return 'blocked';
         }
