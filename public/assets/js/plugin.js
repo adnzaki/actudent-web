@@ -165,12 +165,14 @@ const plugin = {
 }
 
 const logoutBtn = document.querySelector('#logout-btn')
-logoutBtn.addEventListener('click', () => {
-	localStorage.removeItem('changelog')
-	let url
-	(actudentSection === 'admin') ? url = admin : url = guru
-	window.location.href = `${url}logout`
-})
+if(logoutBtn !== null) {
+	logoutBtn.addEventListener('click', () => {
+		localStorage.removeItem('changelog')
+		let url
+		(actudentSection === 'admin') ? url = admin : url = guru
+		window.location.href = `${url}logout`
+	})
+}
 
 const changelogBtn = document.querySelector('#show-changelog')
 if(changelogBtn !== null) {
