@@ -48,8 +48,7 @@
                         <img src="{images}logo/actudent-logo-full-precised.png" alt="branding logo" class="ac-logo">                        
                     </span>
                     <span class="login-text p-t-10 p-b-20">
-                        {+ lang AdminAuth.silakan_login +} | kkkkk
-						{+ lang AdminSiswa.siswa_overlimit +}
+                        {+ lang AdminAuth.silakan_login +}
                     </span>
 
 					<div class="wrap-input100 validate-input m-b-16">
