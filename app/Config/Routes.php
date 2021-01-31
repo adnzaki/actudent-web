@@ -72,7 +72,7 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
+// $routes->get('/', 'Home::index');
 
 /**
  * --------------------------------------------------------------------
@@ -91,6 +91,7 @@ $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($r
 	$routes->add('get-admin-lang/(:any)', 'Resources::getLocaleResource/$1');
 	$routes->add('get-changelog/(:alpha)', 'Resources::getChangelog/$1');
 });
+$routes->add('service-expired', '\Actudent\Core\Controllers\Error::expiredPage');
 
 /**
  * --------------------------------------------------------------------

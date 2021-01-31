@@ -26,17 +26,18 @@ class Filters extends BaseConfig
 				'admin/login', 'admin/login/validasi', 
 				'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
 				'guru/*', 'guru', 'attachments/*',
+				'service-expired'
 				]
 			],
 			'guru' => ['except' => [
 				'guru/login', 'guru/login/validasi', 
 				'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
 				'admin/*', 'admin', 'attachments/*',
+				'service-expired'
 				]
 			],
 			'subscription' => ['except' => [
-				'admin/login', 'admin/login/validasi', 'core/get-admin-lang/*',
-				'guru/login', 'guru/login/validasi',
+				'service-expired'
 			]],
 		],
 		'after'  => [

@@ -13,7 +13,7 @@ class CoreFilter implements FilterInterface
 
         if($subscription->hasExpired())
         {
-            return redirect()->to(base_url('admin/login'));
+            return redirect()->to(base_url('service-expired'));
         }
     }
 
