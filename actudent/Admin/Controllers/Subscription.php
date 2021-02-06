@@ -59,7 +59,7 @@ class Subscription extends Actudent
                     informasi selanjutnya<br><br>
                     Salam, <br><br><br>Wolestech';
             $email->setFrom($marketing, 'Actudent Marketing Team');
-            $email->setTo($data['feedback_email']);
+            $email->setTo($data['package_email']);
             $email->setSubject('Permintaan anda telah kami terima');
             $email->setMessage($reply);
             $email->send();
