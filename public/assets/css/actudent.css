@@ -461,3 +461,9 @@ input.lineless-input:focus {
 .ac-chat-action {
 	display: none;
 }
+
+.super-danger {
+	border-color: #7D0414 !important;
+	background-color: #ce102f !important;
+	color: #fff3f3 !important;
+}

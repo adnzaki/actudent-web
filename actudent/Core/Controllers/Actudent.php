@@ -158,6 +158,7 @@ class Actudent extends Controller
             'activeLeft'            => $showExpiration['left'],
             'expireDate'            => $showExpiration['date'],
             'warningText'           => $showExpiration['text'],
+            'expireNotifClass'      => $showExpiration['class'],
         ];
 
         return $data;
@@ -175,10 +176,18 @@ class Actudent extends Controller
         $os = new \OstiumDate();
         $diff = $os->diff($package->shortDate, $os->shortDate(), 'num-only');
 
+        // set notification class
+        $theme = $this->getUserThemes();
+        $notifClass = ($theme['selectedTheme'] === 'light-blue' 
+                        || $theme['selectedTheme'] === 'semi-dark')
+                        ? 'super-danger' 
+                        : '';
+
         return [
             'left'  => $diff,
             'date'  => $package->expiration,
-            'text'  => lang('AdminLangganan.subs_active_left', [$diff])
+            'text'  => lang('AdminLangganan.subs_active_left', [$diff]),
+            'class' => $notifClass,
         ];
     }
 
