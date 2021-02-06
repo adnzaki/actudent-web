@@ -52,8 +52,10 @@
           </li>
           <li class="{+ menu_active uri=UmpanBalik +}"><a class="menu-item" href="{admin}umpan-balik" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_feedback +}</a>
           </li>
+          {if $_SESSION['id'] === '1'}
           <li class="{+ menu_active uri=langganan +}"><a class="menu-item" href="{admin}langganan" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_langganan +}</a>
           </li>
+          {endif}
         </ul>
       </li>
       {if ENVIRONMENT === 'development'}

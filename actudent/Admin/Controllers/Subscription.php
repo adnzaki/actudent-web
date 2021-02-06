@@ -7,67 +7,89 @@ class Subscription extends Actudent
 {
     public function index()
 	{
-        $data = $this->common();
-        $data['title'] = lang('AdminLangganan.title');
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\langganan\langganan-view');
+        if(! $this->isPrimaryAdmin())
+        {
+            return redirect()->to(base_url('admin/home'));
+        }
+        else 
+        {
+            $data = $this->common();
+            $data['title'] = lang('AdminLangganan.title');
+            return $this->parser->setData($data)
+                    ->render('Actudent\Admin\Views\langganan\langganan-view');
+        }
+    }
+
+    private function isPrimaryAdmin()
+    {
+        return session('id') === '1' ? true : false;
     }
 
     public function getPackage()
     {
-        $subscription = new SubscriptionModel;
-        return $this->response->setJSON($subscription->getPackageDetail());
+        if($this->isPrimaryAdmin())
+        {
+            $subscription = new SubscriptionModel;
+            return $this->response->setJSON($subscription->getPackageDetail());
+        }
     }
 
     public function sendRequest()
     {
-        $data = $this->formData();
-
-        $config = [
-            // 'protocol'  => 'smtp',
-            'mailType'  => 'html',
-            // 'SMTPHost'  => 'mail.actudent.com',
-            // 'SMTPUser'  => '_mainaccount@actudent.com',
-            // 'SMTPPass'  => '&LxNm1nU8I',
-            // 'SMTPPort'  => 465,
-        ];
-        $email              = \Config\Services::email();
-        $email->initialize($config);
-        $common             = $this->common();
-        $sender             = session('email');
-        $marketing          = 'marketing@actudent.com';
-        $subject            = 'Informasi Pemesanan Actudent';
-        $message            = "
-            Nama: ".session('nama')."<br>
-            Jabatan: Administrator Actudent <br>
-            Email: $sender <br>
-            Paket Layanan: ".ucfirst($data['package_type'])."<br>
-            Durasi: {$data['package_duration']} Tahun<br>
-            Alasan Pemesanan: Perpanjang masa aktif Actudent
-        ";
-
-        $email->setFrom($sender, session('nama'));
-        $email->setTo($marketing);
-        $email->setSubject($subject);
-        $email->setMessage($message);
-
-        if($email->send())
+        if(! $this->isPrimaryAdmin())
         {
-            // send back email to user
-            $reply = 'Halo, ' . session('nama') . '! Terima kasih telah mengajukan perpanjangan
-                    layanan Actudent. Permintaan anda anda akan segera diproses, mohon tunggu
-                    informasi selanjutnya.<br><br>
-                    Salam, <br><br><br>Wolestech';
-            $email->setFrom($marketing, 'Actudent Marketing Team');
-            $email->setTo($data['package_email']);
-            $email->setSubject('Permintaan anda telah kami terima');
-            $email->setMessage($reply);
-            $email->send();
-            return $this->response->setJSON(['msg' => 'Request sent successfully']);
+            return $this->response->setJSON(['msg' => 'You do not have access to this page.']);
         }
-        else
+        else 
         {
-            return $this->response->setJSON(['msg' => $email->printDebugger()]);
+            $data = $this->formData();
+    
+            $config = [
+                // 'protocol'  => 'smtp',
+                'mailType'  => 'html',
+                // 'SMTPHost'  => 'mail.actudent.com',
+                // 'SMTPUser'  => '_mainaccount@actudent.com',
+                // 'SMTPPass'  => '&LxNm1nU8I',
+                // 'SMTPPort'  => 465,
+            ];
+            $email              = \Config\Services::email();
+            $email->initialize($config);
+            $common             = $this->common();
+            $sender             = session('email');
+            $marketing          = 'marketing@actudent.com';
+            $subject            = 'Informasi Pemesanan Actudent';
+            $message            = "
+                Nama: ".session('nama')."<br>
+                Jabatan: Administrator Actudent <br>
+                Email: $sender <br>
+                Paket Layanan: ".ucfirst($data['package_type'])."<br>
+                Durasi: {$data['package_duration']} Tahun<br>
+                Alasan Pemesanan: Perpanjang masa aktif Actudent
+            ";
+    
+            $email->setFrom($sender, session('nama'));
+            $email->setTo($marketing);
+            $email->setSubject($subject);
+            $email->setMessage($message);
+    
+            if($email->send())
+            {
+                // send back email to user
+                $reply = 'Halo, ' . session('nama') . '! Terima kasih telah mengajukan perpanjangan
+                        layanan Actudent. Permintaan anda anda akan segera diproses, mohon tunggu
+                        informasi selanjutnya.<br><br>
+                        Salam, <br><br><br>Wolestech';
+                $email->setFrom($marketing, 'Actudent Marketing Team');
+                $email->setTo($data['package_email']);
+                $email->setSubject('Permintaan anda telah kami terima');
+                $email->setMessage($reply);
+                $email->send();
+                return $this->response->setJSON(['msg' => 'Request sent successfully']);
+            }
+            else
+            {
+                return $this->response->setJSON(['msg' => $email->printDebugger()]);
+            }
         }
     }
 
@@ -89,7 +111,7 @@ class Subscription extends Actudent
         }
     }
 
-    public function validation()
+    private function validation()
     {
         $data = $this->formData();
         $rules = [
