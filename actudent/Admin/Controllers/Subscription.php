@@ -42,7 +42,7 @@ class Subscription extends Actudent
             Jabatan: Administrator Actudent <br>
             Email: $sender <br>
             Paket Layanan: ".ucfirst($data['package_type'])."<br>
-            Durasi: {$data['package_duration']} <br>
+            Durasi: {$data['package_duration']} Tahun<br>
             Alasan Pemesanan: Perpanjang masa aktif Actudent
         ";
 
@@ -56,7 +56,7 @@ class Subscription extends Actudent
             // send back email to user
             $reply = 'Halo, ' . session('nama') . '! Terima kasih telah mengajukan perpanjangan
                     layanan Actudent. Permintaan anda anda akan segera diproses, mohon tunggu
-                    informasi selanjutnya<br><br>
+                    informasi selanjutnya.<br><br>
                     Salam, <br><br><br>Wolestech';
             $email->setFrom($marketing, 'Actudent Marketing Team');
             $email->setTo($data['package_email']);
