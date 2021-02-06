@@ -109,6 +109,7 @@ class Actudent extends Controller
         $bahasa = $this->getUserLanguage($this->getUserLanguage());
         $letterhead = $this->getLetterHead();
         $changelog = $this->resources->getChangelog($bahasa);
+        $showExpiration = $this->showExpirationNotification();
         $data = [
             'ac_version'            => ACTUDENT_VERSION,
             'base_url'              => base_url(),
@@ -154,9 +155,31 @@ class Actudent extends Controller
             'isDashboard'           => $this->isDashboard(),
             'isMessage'             => $this->isMessage(),
             'unreadMessages'        => $this->getUnreadMessages(),
+            'activeLeft'            => $showExpiration['left'],
+            'expireDate'            => $showExpiration['date'],
+            'warningText'           => $showExpiration['text'],
         ];
 
         return $data;
+    }
+
+    /**
+     * Notify user if active period has been 7 days left
+     * 
+     * @return array
+     */
+    private function showExpirationNotification(): array
+    {
+        $subs = new \Actudent\Core\Models\SubscriptionModel;
+        $package = $subs->getPackageDetail();
+        $os = new \OstiumDate();
+        $diff = $os->diff($package->shortDate, $os->shortDate(), 'num-only');
+
+        return [
+            'left'  => $diff,
+            'date'  => $package->expiration,
+            'text'  => lang('AdminLangganan.subs_active_left', [$diff])
+        ];
     }
 
     /**

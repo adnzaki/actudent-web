@@ -21,6 +21,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
       <div class="content-header row">
       </div>
       <div class="content-body" id="langganan-content">
+        {+ include Actudent\Admin\Views\dashboard\ExpirationWarning +} 
         <div class="row">
 					<div class="col-12">
 						<div class="card {cardColor}">

@@ -104,6 +104,7 @@ class SubscriptionModel extends \Actudent\Core\Models\Connector
             'name'      => ucfirst($subscription->subscription_type),
             'limit'     => $limit,
             'expiration'=> $expireDate,
+            'shortDate' => reverse($dateArray[0], '-', '-'),
         ];
     }
 

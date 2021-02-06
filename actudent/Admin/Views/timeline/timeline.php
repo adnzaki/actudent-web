@@ -25,6 +25,7 @@
 	<div class="app-content content">
 		<div class="content-wrapper">
 			<div class="content-body" id="timeline-content">
+				{+ include Actudent\Admin\Views\dashboard\ExpirationWarning +} 
 				{+ include Actudent\Admin\Views\siswa\alert +}
 				<section id="timeline" class="timeline-center timeline-wrapper" v-cloak v-if="helper.postList">
 					{+ include Actudent\Admin\Views\timeline\TimelineContent +}

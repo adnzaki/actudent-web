@@ -67,6 +67,7 @@ return [
     'jangan_tampilkan'  => 'Jangan tampilkan lagi',
     'diperbarui'        => 'Terakhir Diperbarui',
     'kembali'           => 'Kembali',
+    'hari'              => 'hari',
 
     // hari-hari
     'day1'              => 'Senin',

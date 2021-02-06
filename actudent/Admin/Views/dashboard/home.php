@@ -23,6 +23,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
       <div class="content-header row">
       </div>
       <div class="content-body">
+        {+ include Actudent\Admin\Views\dashboard\ExpirationWarning +} 
         {+ include Actudent\Admin\Views\dashboard\changelog +} 
         {+ include Actudent\Admin\Views\dashboard\ChangelogMirror +}
         {+ include Actudent\Admin\Views\dashboard\FirstRow +}

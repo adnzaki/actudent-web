@@ -31,6 +31,7 @@
 			<div class="content-header row">
 			</div>
 			<div class="content-body" id="agenda-content">
+				{+ include Actudent\Admin\Views\dashboard\ExpirationWarning +} 
 				<div class="row">
 					<div class="col-12">
 						<div class="card {cardColor}">

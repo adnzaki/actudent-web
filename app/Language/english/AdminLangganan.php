@@ -21,4 +21,6 @@ return [
     'subs_send_progress'    => 'Sending request...',
     'subs_error_text'       => 'Please fill the form correctly',
     'subs_send_success'     => 'Thanks for sending active period extension request',
+    'subs_active_left'      => 'Your active period of service is only {0, number} days left,
+                                please extend your active period before'
 ];

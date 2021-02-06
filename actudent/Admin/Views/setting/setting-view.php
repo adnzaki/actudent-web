@@ -26,6 +26,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
         </div>     
       </div>
       <div class="content-body" id="setting-content">
+      {+ include Actudent\Admin\Views\dashboard\ExpirationWarning +} 
       {+ include Actudent\Admin\Views\setting\AppTheme +} 
       {+ include Actudent\Admin\Views\setting\AppLanguage +} 
       </div>

@@ -118,7 +118,7 @@ class Calculation
      * 
      * @param string $date1 
      * @param string $date2 
-     * @param string $printIn Opsi tersedia: [pn-days, total-days, month, year, y-m-d, m-d, y-d, y-m]
+     * @param string $printIn Opsi tersedia: [pn-days, total-days, num-only, month, year, y-m-d, m-d, y-d, y-m]
      * @param string $countFrom Opsi tersedia: [a-b, b-a], hanya untuk $printIn = 'pn-days
      * 
      * @return string
@@ -134,6 +134,7 @@ class Calculation
         switch ($printIn) {
             case 'pn-days': $outputText = '%R%a hari'; break;
             case 'total-days': $outputText = '%a hari'; break;
+            case 'num-only': $outputText = '%a'; break;
             case 'month': $outputText = '%m bulan'; break;
             case 'year': $outputText = '%y tahun'; break;
             case 'y-m-d': $outputText = '%y tahun, %m bulan, %d hari'; break;

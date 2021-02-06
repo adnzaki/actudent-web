@@ -21,4 +21,6 @@ return [
     'subs_send_progress'    => 'Mengirim permintaan...',
     'subs_error_text'       => 'Silakan isi form permintaan dengan benar',
     'subs_send_success'     => 'Terima kasih telah mengirim permintaan perpanjangan masa aktif',
+    'subs_active_left'      => 'Masa aktif layanan anda hanya tinggal {0, number} hari lagi,
+                                segera perpanjang masa aktif anda sebelum'
 ];

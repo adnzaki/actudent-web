@@ -18,6 +18,7 @@ data-open="click" data-menu="vertical-menu" data-col="2-columns">
       <div class="content-header row">
       </div>
       <div class="content-body" id="dashboard-content">
+        {+ include Actudent\Admin\Views\dashboard\ExpirationWarning +} 
         {+ include Actudent\Admin\Views\dashboard\changelog +} 
         <!-- App Content Here -->
       </div>

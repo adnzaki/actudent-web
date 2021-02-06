@@ -29,6 +29,7 @@
 			<div class="content-header row">
 			</div>
 			<div class="content-body" id="pesan-content">
+				{+ include Actudent\Admin\Views\dashboard\ExpirationWarning +} 
 				<div class="messaging">
 					<div class="inbox_msg">
 						{+ include Actudent\Admin\Views\pesan\ChatWrapper +}
