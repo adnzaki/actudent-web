@@ -19,6 +19,7 @@ return [
     'menu_mapel'         => 'Lessons',
     'menu_ruang'         => 'Room',
     'menu_feedback'      => 'Feedback',
+    'menu_langganan'     => 'Subscription',
 
     // menu guru
     'menu_jadwal_guru'  => 'Schedule and Presence',

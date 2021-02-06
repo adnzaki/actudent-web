@@ -19,6 +19,7 @@ return [
     'menu_mapel'        => 'Mata Pelajaran',
     'menu_ruang'        => 'Ruangan',
     'menu_feedback'     => 'Umpan Balik',
+    'menu_langganan'    => 'Langganan',
     
     // menu guru
     'menu_jadwal_guru'  => 'Jadwal dan Kehadiran',

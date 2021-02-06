@@ -52,6 +52,8 @@
           </li>
           <li class="{+ menu_active uri=UmpanBalik +}"><a class="menu-item" href="{admin}umpan-balik" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_feedback +}</a>
           </li>
+          <li class="{+ menu_active uri=langganan +}"><a class="menu-item" href="{admin}langganan" data-i18n="nav.icons.icons_line_awesome">{+ lang Admin.menu_langganan +}</a>
+          </li>
         </ul>
       </li>
       {if ENVIRONMENT === 'development'}

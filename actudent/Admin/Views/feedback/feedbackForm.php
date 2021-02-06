@@ -25,9 +25,9 @@
 							<div class="form-group">
 								<label>{{ lang.app_feedback_type }}</label>				
 								<select class="select2 form-control block" id="selectFeedback" name="feedback_type" style="width: 100%">
-                    			<option selected value="Saran">Saran</option>
-                    			<option value="Bug">Bug</option>
-                    			<option value="Bantuan">Bantuan</option>
+									<option selected value="Saran">Saran</option>
+									<option value="Bug">Bug</option>
+									<option value="Bantuan">Bantuan</option>
                 				</select>
 							</div>
 						</div>

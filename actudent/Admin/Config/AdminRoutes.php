@@ -146,6 +146,10 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('umpan-balik/send/(:any)', 'Feedback::send/$1');
 	$routes->add('umpan-balik/validasi-gambar', 'Feedback::runFileValidation');
 	$routes->add('umpan-balik/upload-gambar', 'Feedback::uploadFile');
+	$routes->add('langganan', 'Subscription::index');
+	$routes->add('langganan/paket-layanan', 'Subscription::getPackage');
+	$routes->add('langganan/validasi', 'Subscription::validateForm');
+	$routes->add('langganan/kirim-permintaan', 'Subscription::sendRequest');
 	$routes->add('test-match', 'Test::testMatch');
 	$routes->add('hash/(:any)', 'Test::hash/$1');
 	$routes->add('test-login', 'Test::validateLogin');

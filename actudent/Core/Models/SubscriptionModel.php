@@ -1,5 +1,7 @@
 <?php namespace Actudent\Core\Models;
 
+use OstiumDate;
+
 class SubscriptionModel extends \Actudent\Core\Models\Connector
 {
     /**
@@ -83,6 +85,26 @@ class SubscriptionModel extends \Actudent\Core\Models\Connector
         {
             return false;
         }
+    }
+
+    /**
+     * Get package detail
+     * 
+     * @return object
+     */
+    public function getPackageDetail()
+    {
+        $os = new OstiumDate;
+        $subscription = $this->getSubscription();
+        $limit = $this->getLimit();
+        $dateArray = explode(' ', $subscription->subscription_expiration);
+        $expireDate = $os->format('d-MM-y', reverse($dateArray[0], '-', '-'));
+
+        return (object) [
+            'name'      => ucfirst($subscription->subscription_type),
+            'limit'     => $limit,
+            'expiration'=> $expireDate,
+        ];
     }
 
     /**

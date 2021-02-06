@@ -6,6 +6,17 @@ const plugin = {
 		this.swObject = document.getElementsByClassName('switchery-small')
 	},
 	filters: {
+		numberFormat(value, lang = 'id-ID', options = { 
+			style: 'currency', currency: 'IDR' 
+		}) {
+			if(typeof(value) === 'string') {
+				return value
+			} else {
+				return new Intl.NumberFormat(lang, options)
+								.format(value)
+								.replace(/\D00(?=\D*$)/, '')
+			}
+		},
 		substr: (value, num, dots = '...') => {
 			if(!value) return ''
 			let displayText
@@ -112,8 +123,7 @@ const plugin = {
 			return $(el).pickatime({
 				format: 'HH:i',
 				formatSubmit: 'HH:i',
-				interval: interval,
-				min: min, max: max
+				interval, min, max
 			});
 		},
 		runICheck(color) {
