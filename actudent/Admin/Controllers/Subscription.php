@@ -69,6 +69,7 @@ class Subscription extends Actudent
     
             $email->setFrom($sender, session('nama'));
             $email->setTo($marketing);
+            $email->setReplyTo($data['package_email']);
             $email->setSubject($subject);
             $email->setMessage($message);
     
