@@ -63,7 +63,7 @@ Actudent menggunakan template parser engine dari CodeIgniter 4 dengan tambahan p
 Semua query wajib menggunakan Query Builder dari CodeIgniter 4 untuk menjaga konsistensi sekaligus memudahkan proses maintenance. Panduan menggunakan Query Builder  dapat dilihat pada [halaman ini](https://codeigniter4.github.io/CodeIgniter4/database/query_builder.html).
 
 ### Per-page User Checking
-Actudent menggunakan `Filter` dari CodeIgniter 4. Semua halaman Actudent diproteksi menggunakan filter ini. Berbeda dengan versi CodeIgniter 3 yang melakukan filter pada tiap class constructor, pada CodeIgniter 4 filter hanya dilakukan pada satu class yaitu `\Actudent\Admin\Filters\AdminFilter` untuk panel admin atau `\Actudent\Guru\Filters\GuruFilter` untuk panel guru.
+Actudent menggunakan `Filter` dari CodeIgniter 4. Semua halaman Actudent diproteksi menggunakan filter ini. Berbeda dengan versi CodeIgniter 3 yang melakukan filter pada tiap class constructor, pada CodeIgniter 4 filter hanya dilakukan pada satu class yaitu `\Actudent\Admin\Filters\AdminFilter` untuk panel admin atau `\Actudent\Guru\Filters\GuruFilter` untuk panel guru. Sementara untuk kebutuhan validasi masa aktif layanan Actudent, terdapat filter khusus yaitu `\Actudent\Core\Filters\CoreFilter`.
 
 ### Style Guide
 Aturan dalam penulisan kode mengikuti standar yang ditetapkan oleh CodeIgniter 4 yang dapat dilihat pada [halaman ini](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/styleguide.rst). Standar kode ini harus diikuti untuk menjaga konsistensi code base Actudent.
