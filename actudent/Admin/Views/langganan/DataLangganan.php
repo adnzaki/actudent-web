@@ -3,7 +3,8 @@
 		<div class="row">
 			<div class="col-12 col-md-4 col-lg-6 col-xl-6">
 				<div class="form-group">
-					<button type="button" class="btn btn-outline-info" data-toggle="modal" data-target="#ajuanLanggananModal">
+					<button type="button" class="btn btn-outline-info" data-toggle="modal" 
+					data-target="#ajuanLanggananModal" @click="showFormLangganan">
 						{+ lang AdminLangganan.subs_apply_extension +}
 					</button>
 				</div>

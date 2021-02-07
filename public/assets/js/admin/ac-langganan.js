@@ -42,7 +42,7 @@ const langganan = new Vue({
         setTimeout(() => {
             this.createPackageDetails('standard')
             this.packagePrice.enterprise = this.lang.subs_negotiations
-        }, 500);
+        }, 2500);
         this.selectPackage()
     },
     methods: {
@@ -180,6 +180,12 @@ const langganan = new Vue({
             }, 200);
         },
         countPrice(price, duration) {
+            let discount = {
+                1: 0,
+                2: 5/100,
+                3: 10/100
+            }
+
             if(typeof(price) === 'string') {
                 return this.lang.subs_negotiations
             } else {
@@ -187,15 +193,17 @@ const langganan = new Vue({
                     return 0
                 } else {
                     let multiplePrice = price * duration
-                    if(duration === 1) {
-                        return multiplePrice
-                    } else if(duration === 2) {
-                        return multiplePrice - (multiplePrice * (5/100))
-                    } else if(duration === 3) {
-                        return multiplePrice - (multiplePrice * (10/100))
-                    }
+
+                    return multiplePrice - (multiplePrice * discount[duration])
                 }
             }
+        },
+        showFormLangganan() {
+            $('#ajuanLanggananModal').modal('show')
+            setTimeout(() => {
+                this.createPackageDetails('standard')
+                this.packagePrice.enterprise = this.lang.subs_negotiations
+            }, 500);
         }
     },
     computed: {
