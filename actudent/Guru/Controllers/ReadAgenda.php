@@ -8,7 +8,6 @@ class ReadAgenda extends Agenda
 	{
         $data = $this->common();
         $data['title'] = lang('AdminAgenda.agenda_title');
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\agenda\agenda-view');
+        return parse('Actudent\Admin\Views\agenda\agenda-view', $data);
     }
 }

@@ -29,8 +29,7 @@ class Siswa extends Actudent
         $data['limit'] = $this->studentLimitation();
         $data['title'] = lang('AdminSiswa.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\siswa\siswa-view');
+        return parse('Actudent\Admin\Views\siswa\siswa-view', $data);
     }
 
     public function getDataSiswa($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')

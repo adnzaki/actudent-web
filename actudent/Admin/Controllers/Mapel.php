@@ -20,8 +20,7 @@ class Mapel extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminMapel.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\mapel\mapel-view');
+        return parse('Actudent\Admin\Views\mapel\mapel-view', $data);
     }
 
     public function getLessons($limit, $offset, $orderBy, $searchBy, $sort, $search = '')

@@ -92,7 +92,10 @@ class Actudent extends Controller
         $this->session  = Services::session();
         $this->lang     = Services::language($this->getUserLanguage());
         $this->validation = Services::validation();
-        helper('Actudent\Core\Helpers\ostium');
+        helper([
+            'Actudent\Core\Helpers\ostium', 
+            'Actudent\Core\Helpers\wolesdev'
+        ]);
     }
     
     /**
@@ -173,8 +176,7 @@ class Actudent extends Controller
     {
         $subs = new \Actudent\Core\Models\SubscriptionModel;
         $package = $subs->getPackageDetail();
-        $os = new \OstiumDate();
-        $diff = $os->diff($package->shortDate, $os->shortDate(), 'num-only');
+        $diff = os_date()->diff($package->shortDate, os_date()->shortDate(), 'num-only');
 
         // set notification class
         $theme = $this->getUserThemes();

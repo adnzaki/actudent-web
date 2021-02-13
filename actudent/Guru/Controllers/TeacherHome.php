@@ -16,8 +16,7 @@ class TeacherHome extends Home
         $data['presentPercent'] = $todayPresence['presentPercent'];
         $data['absentPercent'] = $todayPresence['absentPercent'];
         $data['notePercent'] = $todayPresence['notePercent'];
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\dashboard\home');
+        return parse('Actudent\Admin\Views\dashboard\home', $data);
     }
 
     public function goToHome()

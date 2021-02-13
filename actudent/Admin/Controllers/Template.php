@@ -10,8 +10,7 @@ class Template extends Actudent
         {
             $data = $this->common();
             $data['title'] = 'Template Icons';
-            return $this->parser->setData($data)
-                    ->render('Actudent\Admin\Views\template\icons');
+            return parse('Actudent\Admin\Views\template\icons', $data);
         }
         else
         {

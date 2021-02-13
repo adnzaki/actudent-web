@@ -9,8 +9,7 @@ class GuruNilai extends Nilai
         $data = $this->common();
         $data['title'] = lang('AdminNilai.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\nilai\nilai-view');
+        return parse('Actudent\Admin\Views\nilai\nilai-view', $data);
     }
 
     public function getTeacherLessons()

@@ -2,7 +2,6 @@
 
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\PenggunaModel;
-use OstiumDate;
 
 class Pesan extends Actudent
 {
@@ -12,7 +11,6 @@ class Pesan extends Actudent
 
     public function __construct()
     {
-        $this->ostium = new OstiumDate();
         $this->pengguna = new PenggunaModel();
     }
 
@@ -22,8 +20,7 @@ class Pesan extends Actudent
         $data['title'] = lang('AdminPesan.page_title');
         $data['userID'] = $_SESSION['id'];
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\pesan\pesan-view');
+        return parse('Actudent\Admin\Views\pesan\pesan-view', $data);
     }
 
     public function getMessages($chatUserID, $limit, $offset, $event)
@@ -141,7 +138,7 @@ class Pesan extends Actudent
         $timestamp = strtotime($datetime);
 
         $dateToArray = explode(' ', $datetime);
-        $date = $this->ostium->format('d-m-y', reverse($dateToArray[0], '-', '-'), '/');
+        $date = os_date()->format('d-m-y', reverse($dateToArray[0], '-', '-'), '/');
         $time = substr($dateToArray[1], 0, 5);
 
         if($timestamp <= $today && $timestamp >= $yesterday)

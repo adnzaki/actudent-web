@@ -9,8 +9,7 @@ class Feedback extends Actudent
 	{
         $data = $this->common();
         $data['title'] = lang('AdminFeedback.page_title');
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\feedback\feedback-view');
+        return parse('Actudent\Admin\Views\feedback\feedback-view', $data);
     }    
 
     public function send($attachment = '')

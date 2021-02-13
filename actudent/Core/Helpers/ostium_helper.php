@@ -3,19 +3,18 @@
 /**
  * OstiumCMS
  * A simple, fast and extensible Content Management System
- * for website made by Wolestech (Software Development Agency)
+ * for website made by Wolestech
  *
  * @copyright   Copyright (c) 2016-2017, Wolestech | Adnan Zaki
  * @license     MIT License | https://github.com/adnzaki/ostium_cms/blob/master/LICENSE
  * @author      Adnan Zaki
- * @link        http://wolestech.com
+ * @link        https://wolestech.com
  */
 
 /**
  * OstiumCMS Common Helpers
  *
  * @package		Application
- * @subpackage	Helpers
  * @category	Helpers
  * @author		Adnan Zaki
  * @version     1.0
@@ -187,12 +186,12 @@ if(! function_exists('in_assoc_array'))
 if(! function_exists('menu_active'))
 {
     /**
-     * Menu Active
-     * A function to give a mark whether the menu items is current page
+     * A function to give a mark whether the menu item is current page or not
      *
      * @param string $uri
      * @param string $class (the CSS class you want to be added)
      * @param bool $exact if this set to false, it will use strpos() to match URI
+     * 
      * @return string
      */
     function menu_active($uri, $class, $exact = true)
@@ -238,11 +237,12 @@ if(! function_exists('user_data'))
 if(! function_exists('reverse'))
 {
     /**
-     * Reverse
-     * Reverse the word provided by user
+     * Reverse words provided by user
      *
      * @param string $word
      * @param string $separator
+     * @param string $newSeparator
+     * 
      * @return string
      */
     function reverse($word, $separator, $newSeparator = '')

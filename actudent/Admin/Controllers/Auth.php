@@ -23,8 +23,7 @@ class Auth extends Actudent
             // set app language based on default language
             $this->setLanguage($defaultLang);
             $data['title'] = lang('AdminAuth.login_title');
-            return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\new-auth');
+            return parse('Actudent\Admin\Views\new-auth', $data);
         }        
     }
 

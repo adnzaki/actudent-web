@@ -23,8 +23,7 @@ class Ortu extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminOrtu.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\ortu\ortu-view');
+        return parse('Actudent\Admin\Views\ortu\ortu-view', $data);
     }
 
     public function getParents($limit, $offset, $orderBy, $searchBy, $sort, $search = '')

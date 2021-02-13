@@ -10,7 +10,6 @@ class GuruPesan extends Pesan
         $data['title'] = lang('AdminPesan.page_title');
         $data['userID'] = $_SESSION['id'];
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\pesan\pesan-view');
+        return parse('Actudent\Admin\Views\pesan\pesan-view', $data);
     }
 }

@@ -23,8 +23,7 @@ class Pegawai extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminPegawai.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\pegawai\pegawai-view');
+        return parse('Actudent\Admin\Views\pegawai\pegawai-view', $data);
     }
 
     public function getStaff($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')

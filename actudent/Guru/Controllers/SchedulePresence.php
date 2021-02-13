@@ -11,8 +11,7 @@ class SchedulePresence extends Absensi
         $data['title'] = lang('GuruAbsensi.page_title');
         $data['isHomeroom'] = $this->jadwalHadir->isHomeroomTeacher($_SESSION['id']);
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Guru\Views\JadwalKehadiran\main-view');
+        return parse('Actudent\Guru\Views\JadwalKehadiran\main-view', $data);
     }
 
     public function getTeacherSchedules($day)

@@ -5,7 +5,6 @@ use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\SchedulePresenceModel;
 use PDFCreator;
-use OstiumDate;
 
 class Absensi extends Actudent
 {
@@ -26,8 +25,6 @@ class Absensi extends Actudent
 
     private $pdfCreator;
 
-    private $ostiumDate;
-
     private $days = [
         'minggu', 'senin', 'selasa',
         'rabu', 'kamis', 'jumat', 'sabtu'
@@ -39,7 +36,6 @@ class Absensi extends Actudent
         $this->jadwal = new JadwalModel;
         $this->jadwalHadir = new SchedulePresenceModel;
         $this->pdfCreator = new PDFCreator;
-        $this->ostiumDate = new OstiumDate;
     }
 
     public function index()
@@ -47,8 +43,7 @@ class Absensi extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminAbsensi.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\absensi\absensi-view');
+        return parse('Actudent\Admin\Views\absensi\absensi-view', $data);
     }
 
     public function exportPresence($gradeID, $day, $date)
@@ -58,7 +53,7 @@ class Absensi extends Actudent
         $data['grade']  = $this->absensi->kelas->getClassDetail($gradeID);
         $gradeMember    = $this->absensi->kelas->getClassMember($gradeID);
         $data['day']    = $this->days[$day];
-        $data['date']   = $this->ostiumDate->format('d-MM-Y', reverse($date, '-', '-'));
+        $data['date']   = os_date()->format('d-MM-Y', reverse($date, '-', '-'));
         $journals       = $this->absensi->getJournalByDate($date, $gradeID, true);
         $jadwal         = $this->jadwal->getSchedules($gradeID, $this->days[$day]);
 
@@ -129,7 +124,7 @@ class Absensi extends Actudent
         $gradeMember            = $this->absensi->kelas->getClassMember($gradeID);
         $data['gradeMember']    = count($gradeMember);
         $data['day']            = $this->days[$day];
-        $data['date']           = $this->ostiumDate->format('d-MM-Y', reverse($date, '-', '-'));
+        $data['date']           = os_date()->format('d-MM-Y', reverse($date, '-', '-'));
         $journals               = $this->absensi->getJournalByDate($date, $gradeID);
         $data['journals']       = $journals;
 

@@ -1,7 +1,6 @@
 <?php namespace Actudent\Admin\Models;
 
 use Actudent\Admin\Models\KelasModel;
-use OstiumDate;
 
 class AbsensiModel extends SharedModel
 {
@@ -477,7 +476,6 @@ class AbsensiModel extends SharedModel
     {
         $classGroup = $this->getClassGroupBySchedule($scheduleID)[0];
         $classMember = $this->kelas->getClassMember($classGroup->grade_id);
-        $ostium = new OstiumDate();
         $lesson = $this->getLessonName($journalID)[0];
         foreach($classMember as $member)
         {
@@ -487,7 +485,7 @@ class AbsensiModel extends SharedModel
                 'body'  => $lesson->lesson_name .
                             ': ' . $homework['homework_title'] . 
                             ' telah terbit, batas pengumpulan tugas ' . 
-                            $ostium->format('DD-MM-Y', reverse($date, '-', '-')),
+                            os_date()->format('DD-MM-Y', reverse($date, '-', '-')),
             ];
 
             // send notification

@@ -15,8 +15,7 @@ class Subscription extends Actudent
         {
             $data = $this->common();
             $data['title'] = lang('AdminLangganan.title');
-            return $this->parser->setData($data)
-                    ->render('Actudent\Admin\Views\langganan\langganan-view');
+            return parse('Actudent\Admin\Views\langganan\langganan-view', $data);
         }
     }
 

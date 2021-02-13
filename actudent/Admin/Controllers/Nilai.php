@@ -36,8 +36,7 @@ class Nilai extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminNilai.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\nilai\nilai-view');
+        return parse('Actudent\Admin\Views\nilai\nilai-view', $data);
     }
 
     public function getScores($gradeID, $lesson, $scoreType)

@@ -20,8 +20,7 @@ class Kelas extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminKelas.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\kelas\kelas-view');
+        return parse('Actudent\Admin\Views\kelas\kelas-view', $data);
     }
 
     public function getDataKelas($limit, $offset, $orderBy, $searchBy, $sort, $search = '')

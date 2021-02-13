@@ -17,8 +17,7 @@ class Jadwal extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminJadwal.jadwal_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\jadwal\jadwal-view');
+        return parse('Actudent\Admin\Views\jadwal\jadwal-view', $data);
     }
 
     public function getLessons($grade)

@@ -8,8 +8,7 @@ class Setting extends Actudent
 	{
         $data = $this->common();
         $data['title'] = lang('AdminSetting.page_title');
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\setting\setting-view');
+        return parse('Actudent\Admin\Views\setting\setting-view', $data);
     }
 
     public function setWarnaTema($tema)

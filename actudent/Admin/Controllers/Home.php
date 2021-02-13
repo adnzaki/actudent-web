@@ -2,7 +2,6 @@
 
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AbsensiModel;
-use OstiumDate;
 
 class Home extends Actudent
 {
@@ -11,15 +10,9 @@ class Home extends Actudent
      */
     private $absensi;
 
-    /**
-     * @var OstiumDate
-     */
-    private $ostium;
-
     public function __construct()
     {
         $this->absensi = new AbsensiModel;
-        $this->ostium = new OstiumDate;
     }
 
     public function index()
@@ -34,8 +27,7 @@ class Home extends Actudent
         $data['absentPercent'] = $todayPresence['absentPercent'];
         $data['notePercent'] = $todayPresence['notePercent'];
         
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\dashboard\home');
+        return parse('Actudent\Admin\Views\dashboard\home', $data);
     }
 
     protected function getTodayPresence()
@@ -56,7 +48,7 @@ class Home extends Actudent
         $lastSevenDays = [];
 
         // subtract only 6 days because today will be counted
-        $startDate = $this->ostium->sub('now', 6);
+        $startDate = os_date()->sub('now', 6);
         for($i = 0; $i < 7; $i++)
         {
             if($i === 0)
@@ -65,7 +57,7 @@ class Home extends Actudent
             }
             else
             {
-                $lastSevenDays[] = $this->ostium->add($startDate, 1);
+                $lastSevenDays[] = os_date()->add($startDate, 1);
             }
 
             $startDate = $lastSevenDays[$i];

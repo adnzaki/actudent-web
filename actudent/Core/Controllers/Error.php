@@ -11,8 +11,7 @@ class Error extends Actudent
         ($match === 1) ? $section = 'admin' : $section = 'guru';
 
         $data['homeURL'] = base_url("$section/home");
-        echo $this->parser->setData($data)
-            ->render('Actudent\Core\Views\error404');
+        echo parse('Actudent\Core\Views\error404', $data);
     }    
 
     public function expiredPage()
@@ -24,6 +23,6 @@ class Error extends Actudent
         $data           = $this->common();
         $data['title']  = lang('Error.expired_title');
 
-        return $this->parser->setData($data)->render('Actudent\Core\Views\expired-page');
+        return parse('Actudent\Core\Views\expired-page', $data);
     }
 }

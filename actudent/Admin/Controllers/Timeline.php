@@ -24,8 +24,7 @@ class Timeline extends Actudent
     {
         $data = $this->common();
         $data['title'] = lang('AdminTimeline.timeline_title');
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\timeline\timeline');
+        return parse('Actudent\Admin\Views\timeline\timeline', $data);
     }
 
     public function getPosts($limit, $offset)

@@ -23,8 +23,7 @@ class Pengguna extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminUser.page_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\pengguna\pengguna-view');
+        return parse('Actudent\Admin\Views\pengguna\pengguna-view', $data);
     }
 
     public function getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')

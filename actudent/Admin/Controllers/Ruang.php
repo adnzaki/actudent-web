@@ -20,8 +20,7 @@ class Ruang extends Actudent
         $data = $this->common();
         $data['title'] = lang('AdminRuang.ruang_title');
 
-        return $this->parser->setData($data)
-                ->render('Actudent\Admin\Views\ruang\ruang-view');
+        return parse('Actudent\Admin\Views\ruang\ruang-view', $data);
     }
 
     public function getRooms($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
