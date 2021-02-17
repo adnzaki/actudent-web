@@ -61,7 +61,7 @@ class Auth extends Actudent
                     set_cookie('remember_login', $hash, (3600 * 24 * 30));
                 }
     
-                $this->session->set($session);
+                session()->set($session);
                 $this->auth->statusJaringan('online', $username);
                 return $this->response->setJSON(['msg' => 'valid']);
             }
@@ -84,7 +84,7 @@ class Auth extends Actudent
         $this->auth->deleteToken(get_cookie('remember_login'));
 
         // remove session...
-        $this->session->remove(['id', 'email', 'nama', 'userLevel', 'logged_in']);
+        session()->remove(['id', 'email', 'nama', 'userLevel', 'logged_in']);
 
         // delete cookie
         delete_cookie('remember_login');

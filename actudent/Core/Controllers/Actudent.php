@@ -45,7 +45,11 @@ class Actudent extends Controller
      */
     protected $auth;
 
-    
+    /**
+     * Core resources 
+     *  
+     * @var object
+     */    
     protected $resources;
 
     /**
@@ -54,21 +58,6 @@ class Actudent extends Controller
      * @var object
      */
     protected $pesan;
-
-    /**
-     * @var \CodeIgniter\View\Parser
-     */
-    protected $parser;
-
-    /**
-     * @var \CodeIgniter\Session\Session
-     */
-    protected $session;
-
-    /**
-     * @var \CodeIgniter\Language\Language
-     */
-    protected $lang;
 
     /**
      * @var \CodeIgniter\Validation\Validation
@@ -88,10 +77,8 @@ class Actudent extends Controller
         $this->auth     = new AuthModel;
         $this->resources= new Resources;
         $this->pesan    = new PesanModel;
-        $this->parser   = Services::parser();
-        $this->session  = Services::session();
-        $this->lang     = Services::language($this->getUserLanguage());
         $this->validation = Services::validation();
+        Services::language($this->getUserLanguage());
         helper([
             'Actudent\Core\Helpers\ostium', 
             'Actudent\Core\Helpers\wolesdev'
@@ -359,7 +346,7 @@ class Actudent extends Controller
         Services::language($lang);
 
         // simpan ke dalam session
-        $this->session->set('actudent_lang', $lang);
+        session()->set('actudent_lang', $lang);
     }
 
     /**
