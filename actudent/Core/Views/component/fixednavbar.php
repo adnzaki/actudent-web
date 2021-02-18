@@ -39,7 +39,7 @@
               </a>
               <div class="dropdown-menu dropdown-menu-right">
                 <a class="dropdown-item" href="#"><i class="ft-user"></i> {+ lang Admin.navbar_profil +}</a>
-                <a class="dropdown-item" href="#"><i class="ft-layers"></i> {+ lang Admin.navbar_sekolah +}</a>
+                <a class="dropdown-item" href="{admin}sekolah"><i class="ft-layers"></i> {+ lang Admin.navbar_sekolah +}</a>
                 <div class="dropdown-divider"></div>
                 {if $_SESSION['userLevel'] === '1'}
                   <a class="dropdown-item" href="javascript:void(0)" id="logout-btn"><i class="ft-power"></i> {+ lang Admin.navbar_keluar +}</a>

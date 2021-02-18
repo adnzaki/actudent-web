@@ -150,6 +150,9 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('langganan/paket-layanan', 'Subscription::getPackage');
 	$routes->add('langganan/validasi', 'Subscription::validateForm');
 	$routes->add('langganan/kirim-permintaan', 'Subscription::sendRequest');
+	$routes->add('sekolah', 'Sekolah::index');
+	$routes->add('sekolah/data', 'Sekolah::schoolData');
+	$routes->add('sekolah/detail', 'Sekolah::getSchoolDetail');
 	$routes->add('test-match', 'Test::testMatch');
 	$routes->add('hash/(:any)', 'Test::hash/$1');
 	$routes->add('test-login', 'Test::validateLogin');
