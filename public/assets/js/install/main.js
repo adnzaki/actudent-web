@@ -30,24 +30,24 @@ const app = new Vue({
         this.getLanguageResources('Admin')
     },
     methods: {
-        creatTimelogModule() {
+        createTimelogModule() {
             this.execute('timelog', 'timelog', () => {                
                 this.installSuccess()
             })
         },
-        creatSchoolModule() {
+        createSchoolModule() {
             this.execute('school', this.lang.navbar_sekolah, () => {                
-                this.creatTimelogModule()                
+                this.createTimelogModule()                
             })
         },
-        creatScoreModule() {
+        createScoreModule() {
             this.execute('score', this.lang.menu_nilai, () => {                
-                this.creatSchoolModule()                
+                this.createSchoolModule()                
             })
         },
         createMessageModule() {
             this.execute('message', this.lang.menu_pesan, () => {                
-                this.creatScoreModule()                
+                this.createScoreModule()                
             })
         },
         createTimelineModule() {
