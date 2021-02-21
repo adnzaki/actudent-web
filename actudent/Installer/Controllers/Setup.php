@@ -37,6 +37,55 @@ class Setup extends \Actudent\Core\Controllers\Actudent
         }
     }    
 
+    public function dispatch($module)
+    {
+        if(ENVIRONMENT === 'development')
+        {
+            $firstLetter = strtoupper(substr($module, 0, 1));
+            $func = 'create' . $firstLetter . substr($module, 1, strlen($module)) . 'Module';
+            
+            // call module creation
+            $this->$func();
+
+            return $this->response->setJSON(['status' => 'OK']);
+        }
+        else
+        {
+            echo access_denied();
+        }
+    }
+
+    public function dropTables()
+    {
+        if(ENVIRONMENT === 'development')
+        {
+            // do not change the order!
+            $tables = [
+                'tb_timelog',
+                'tb_school',
+                'tb_score_student', 'tb_score',
+                'tb_chat', 'tb_chat_users',
+                'tb_timeline',
+                'tb_agenda_user', 'tb_agenda',
+                'tb_homework', 'tb_presence', 'tb_journal',
+                'tb_schedule', 'tb_schedule_settings',
+                'tb_student_grade', 'tb_student_parent', 'tb_student',
+                'tb_lessons_grade', 'tb_lessons',
+                'tb_room', 'tb_grade', 'tb_staff', 'tb_parent', 
+                'tb_user_devices', 'tb_user_language', 'tb_user_themes', 'tb_user_token',
+                'tb_user'
+            ];
+    
+            $model = new \Actudent\Installer\Models\SetupModel;
+            $model->dropTables($tables);
+            return $this->response->setJSON(['msg' => 'Tables dropped successfully']);
+        }
+        else
+        {
+            echo access_denied();
+        }
+    }
+
     private function createUserModule()
     {
         $model = new \Actudent\Installer\Models\UserModel;
@@ -139,54 +188,5 @@ class Setup extends \Actudent\Core\Controllers\Actudent
     {
         $model = new \Actudent\Installer\Models\TimelogModel;
         $model->createTimelog();
-    }
-    
-    public function dispatch($module)
-    {
-        if(ENVIRONMENT === 'development')
-        {
-            $firstLetter = strtoupper(substr($module, 0, 1));
-            $func = 'create' . $firstLetter . substr($module, 1, strlen($module)) . 'Module';
-            
-            // call module creation
-            $this->$func();
-
-            return $this->response->setJSON(['status' => 'OK']);
-        }
-        else
-        {
-            echo access_denied();
-        }
-    }
-
-    public function dropTables()
-    {
-        if(ENVIRONMENT === 'development')
-        {
-            // do not change the order!
-            $tables = [
-                'tb_timelog',
-                'tb_school',
-                'tb_score_student', 'tb_score',
-                'tb_chat', 'tb_chat_users',
-                'tb_timeline',
-                'tb_agenda_user', 'tb_agenda',
-                'tb_homework', 'tb_presence', 'tb_journal',
-                'tb_schedule', 'tb_schedule_settings',
-                'tb_student_grade', 'tb_student_parent', 'tb_student',
-                'tb_lessons_grade', 'tb_lessons',
-                'tb_room', 'tb_grade', 'tb_staff', 'tb_parent', 
-                'tb_user_devices', 'tb_user_language', 'tb_user_themes', 'tb_user_token',
-                'tb_user'
-            ];
-    
-            $model = new \Actudent\Installer\Models\SetupModel;
-            $model->dropTables($tables);
-            return $this->response->setJSON(['msg' => 'Tables dropped successfully']);
-        }
-        else
-        {
-            echo access_denied();
-        }
     }
 }
