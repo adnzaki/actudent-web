@@ -142,11 +142,7 @@ class Resources extends Actudent
             $bahasa = 'indonesia';
         }
 
-        if(session('email') !== null)
-        {
-            $file = $file;
-        }
-        else 
+        if(session('email') === null && session('actudent_lang') === null)
         {
             $file = 'AdminAuth';
         }
