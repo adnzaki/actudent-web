@@ -23,22 +23,23 @@ class Filters extends BaseConfig
 			// 'csrf',
 			'throttle',
 			'admin' => ['except' => [
-				'admin/login', 'admin/login/validasi', 
-				'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
-				'guru/*', 'guru', 'attachments/*',
-				'service-expired'
+					'admin/login', 'admin/login/validasi', 
+					'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
+					'guru/*', 'guru', 'attachments/*',
+					'service-expired', 'install', 'install/*'
 				]
 			],
 			'guru' => ['except' => [
-				'guru/login', 'guru/login/validasi', 
-				'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
-				'admin/*', 'admin', 'attachments/*',
-				'service-expired'
+					'guru/login', 'guru/login/validasi', 
+					'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
+					'admin/*', 'admin', 'attachments/*',
+					'service-expired', 'install', 'install/*'
 				]
 			],
 			'subscription' => ['except' => [
-				'service-expired'
-			]],
+					'service-expired', 'install', 'install/*'
+				]
+			],
 		],
 		'after'  => [
 			'toolbar',	

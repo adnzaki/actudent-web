@@ -5,7 +5,7 @@ class Connector
     /**
      * @var DatabaseConnection
      */
-    protected $db;
+    public $db;
 
     /**
      * @var DatabaseConnection

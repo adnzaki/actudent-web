@@ -111,6 +111,7 @@ class Actudent extends Controller
             'admin'                 => base_url() . '/admin/',  
             'guru'                  => base_url() . '/guru/',
             'newLogin'              => base_url() . '/admin-login/',
+            'install'               => base_url() . '/install/',
             'actudentSection'       => $this->getSection(),
             'namaSekolah'           => $sekolah->school_name ?? '',
             'alamatSekolah'         => $sekolah->school_address ?? '',

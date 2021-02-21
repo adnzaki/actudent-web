@@ -68,6 +68,8 @@ return [
     'diperbarui'        => 'Terakhir Diperbarui',
     'kembali'           => 'Kembali',
     'hari'              => 'hari',
+    'access_denied'     => 'Anda tidak memiliki akses ke halaman ini',
+    'mohon_tunggu'      => 'Mohon tunggu...',
 
     // hari-hari
     'day1'              => 'Senin',

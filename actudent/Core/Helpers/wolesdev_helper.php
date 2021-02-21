@@ -143,7 +143,7 @@ if ( ! function_exists('db_installed'))
     function db_installed()
     {
         $conn = new \Actudent\Core\Models\Connector;
-        if(count($conn->db->listTables()) >= 20)
+        if(count($conn->db->listTables()) >= 28)
         {
             return true;
         }
