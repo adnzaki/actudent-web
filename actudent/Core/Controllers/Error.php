@@ -16,13 +16,22 @@ class Error extends Actudent
 
     public function expiredPage()
     {
-        // set default language
-        $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';        
-        $this->setLanguage($defaultLang);
+        $subscription = new \Actudent\Core\Models\SubscriptionModel();
 
-        $data           = $this->common();
-        $data['title']  = lang('Error.expired_title');
-
-        return parse('Actudent\Core\Views\expired-page', $data);
+        if(! $subscription->hasExpired())
+        {
+            return redirect()->to(base_url('admin/home'));
+        }
+        else
+        {
+            // set default language
+            $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';        
+            $this->setLanguage($defaultLang);
+    
+            $data           = $this->common();
+            $data['title']  = lang('Error.expired_title');
+    
+            return parse('Actudent\Core\Views\expired-page', $data);
+        }
     }
 }
