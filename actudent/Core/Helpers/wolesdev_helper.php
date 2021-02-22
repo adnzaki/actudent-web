@@ -67,15 +67,70 @@ if ( ! function_exists('access_denied'))
     }
 }
 
+if ( ! function_exists('copy_data'))
+{
+    /**
+     * Copy single data into many data
+     * You can create unique value for each of them
+     * or make everything the same
+     * Example usage:
+     * $data = ['name' => 'Foo', 'id' => 100, 'age' => 25]
+     * $result = copy_data($data, 2, ['age'])
+     * That function call will result unique data for 'name'
+     * and 'id', while 'age' will be the same value
+     * 
+     * @param   array $data
+     * @param   int $num
+     * @param   array $nonUnique
+     * 
+     * @return array
+     */
+    function copy_data(array $data, int $num, array $nonUnique = [])
+    {
+        $wrapper = [];
+        for($i = 1; $i <= $num; $i++)
+        {            
+            $copy = '';
+            $incArray = [];
+            foreach($data as $k => $v)
+            {
+                if(array_search($k, $nonUnique) !== false)
+                {
+                    $copy = $v;
+                }
+                else 
+                {
+                    if(gettype($v) === 'string')
+                    {
+                        $suffix = " ({$i})";
+                        $copy = $v . $suffix;
+                    }
+                    elseif(gettype($v) === 'integer')
+                    {
+                        $copy = $v + $i;
+                    }               
+                }
+                
+                $incArray[$k] = $copy;
+            }
+
+            $wrapper[] = $incArray;
+        }
+
+        return $wrapper;
+    }
+}
+
 if ( ! function_exists('html_text'))
 {
     /**
      * A simple HTML element generator
-     * Outer HTML can be passed by using its tag name
-     * Example outer HTML creation: "p > i"
-     * will generate <p><i></i></p>
      * 
-     * @author Adnan Zaki
+     * Example usage:
+     * $style = ['p' => ['font-weight' => 'bold', 'text-align' => 'center']]
+     * html_text('Hello world!', 'p > i', $style)
+     * Result: <p style="font-weight: bold; text-align: center"><i>Hello world!</i></p>
+     * You can add styles as many as you want
      * 
      * @param string $inner
      * @param string $outer
