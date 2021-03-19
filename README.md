@@ -23,3 +23,8 @@ quasar build -m pwa
 ```
 - Above command assumes you are using internal terminal like VSCode
 - Run production UI from CodeIgniter4 by open up http://localhost/actudent-v2/public/ui/dist/pwa/build
+
+## Configuration
+Actudent v2 has several configurations available at `public/ui/actudent.config.js`<br>
+Make sure to point `baseUrl` to a correct path before running Actudent and set your mode
+correctly. Other configurations have their default values and can be set optionally.

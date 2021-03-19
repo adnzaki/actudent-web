@@ -3,7 +3,7 @@
  *
  * @author  Adnan Zaki | Wolestech DevTeam
  */
-const baseUrl = `http://${window.location.hostname}/actudent-v2/public/`
+const baseUrl = `http://${window.location.hostname}/actudent/public/`
 
 const mode = 'development'
 
