@@ -208,3 +208,127 @@ if ( ! function_exists('db_installed'))
         }
     }
 }
+
+if ( ! function_exists('jwt_encode'))
+{
+    /**
+     * A shorthand to ActudentJWT::encode
+     * 
+     * @param array $payload
+     * 
+     * @return string
+     */
+    function jwt_encode($payload)
+    {
+        $jwt = new \ActudentJWT;
+        return $jwt->encode($payload);
+    }
+}
+
+if ( ! function_exists('jwt_decode'))
+{
+    /**
+     * A shorthand to ActudentJWT::decode
+     * 
+     * @param string $token
+     * @param string $alg
+     * 
+     * @return string
+     */
+    function jwt_decode($token, $alg = 'HS256')
+    {
+        $jwt = new \ActudentJWT;
+        return $jwt->decode($token, $alg);
+    }
+}
+
+if ( ! function_exists('is_admin'))
+{
+    /**
+     * Check if user logged in has priviledge
+     * to admin section or not
+     * 
+     * @return boolean
+     */
+    function is_admin()
+    {
+        return validate_section('1');
+    }
+}
+
+if ( ! function_exists('is_teacher'))
+{
+    /**
+     * Check if user logged in has priviledge
+     * to teacher section or not
+     * 
+     * @return boolean
+     */
+    function is_teacher()
+    {
+        return validate_section('2');
+    }
+}
+
+if ( ! function_exists('validate_section'))
+{
+    /**
+     * Check if user logged in has priviledge
+     * to a spesific section or not
+     * 
+     * @return boolean
+     */
+    function validate_section($level)
+    {
+        if(valid_token() !== true)
+        {
+            return false;
+        }
+        else
+        {
+            $token = bearer_token();
+            $decoded = jwt_decode($token);
+            if($decoded->userLevel === $level)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+}
+
+if ( ! function_exists('valid_token'))
+{
+    /**
+     * A shorthand to validate token that
+     * uses Bearer token Authorization header
+     * 
+     * @return boolean
+     */
+    function valid_token()
+    {
+        $jwt = new \ActudentJWT;
+        $token = bearer_token();
+        return ($jwt->isValidToken($token)) ? true : false;
+    }
+}
+
+
+if ( ! function_exists('bearer_token'))
+{
+    /**
+     * Get bearer token for authentication
+     * with JSON Web Tokens
+     * 
+     * @return string
+     */
+    function bearer_token()
+    {
+        $request = \Config\Services::request();
+        $getAuth = $request->getHeaderLine('Authorization');
+        return str_replace('Bearer ', '', $getAuth);
+    }
+}

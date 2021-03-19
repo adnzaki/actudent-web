@@ -88,6 +88,9 @@ require ACTUDENTPATH . 'Guru/Config/GuruRoutes.php';
 // Installer section 
 require ACTUDENTPATH . 'Installer/Config/InstallerRoutes.php';
 
+// UI Test section 
+require ACTUDENTPATH . 'UITest/Config/UIRoutes.php';
+
 // Core application section 
 $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
 {

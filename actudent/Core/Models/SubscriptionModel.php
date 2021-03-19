@@ -109,29 +109,29 @@ class SubscriptionModel extends \Actudent\Core\Models\Connector
     }
 
     /**
+     * Get organization data
+     * 
+     * @return object
+     */
+    public function getOrganization()
+    {
+        $uri    = new \CodeIgniter\HTTP\URI(base_url());
+        $host   = $uri->getHost();
+        $query  = $this->QBOrganization->getWhere(['organization_origination' => $host]);
+        
+        return $query->getResult()[0];
+    }
+
+    /**
      * Get subscription data
      * 
      * @return array
      */
     private function getSubscription(): object
     {
-        $organizationID = $this->getOrganizationID();
+        $organizationID = $this->getOrganization()->organization_id;
         $query = $this->QBSubscription->getWhere(['organization_id' => $organizationID]);
 
         return $query->getResult()[0];
-    }
-
-    /**
-     * Retrieve organization ID by its url
-     * 
-     * @return int
-     */
-    private function getOrganizationID(): int
-    {
-        $uri    = new \CodeIgniter\HTTP\URI(base_url());
-        $host   = $uri->getHost();
-        $query  = $this->QBOrganization->getWhere(['organization_origination' => $host]);
-
-        return $query->getResult()[0]->organization_id;
     }
 }

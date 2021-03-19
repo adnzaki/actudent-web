@@ -10,9 +10,9 @@ class Filters extends BaseConfig
 		'csrf'			=> \CodeIgniter\Filters\CSRF::class,
 		'toolbar'		=> \CodeIgniter\Filters\DebugToolbar::class,
 		'honeypot'		=> \CodeIgniter\Filters\Honeypot::class,
-		'admin'		 	=> \Actudent\Admin\Filters\AdminFilter::class,
-		'guru'		 	=> \Actudent\Guru\Filters\GuruFilter::class,
-		'subscription'	=> \Actudent\Core\Filters\CoreFilter::class,
+		// 'admin'		 	=> \Actudent\Admin\Filters\AdminFilter::class,
+		// 'guru'		 	=> \Actudent\Guru\Filters\GuruFilter::class,
+		// 'subscription'	=> \Actudent\Core\Filters\CoreFilter::class,
 		'throttle'		=> \App\Filters\Throttle::class,
 	];
 
@@ -22,24 +22,30 @@ class Filters extends BaseConfig
 			'honeypot',
 			// 'csrf',
 			'throttle',
-			'admin' => ['except' => [
-					'admin/login', 'admin/login/validasi', 
-					'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
-					'guru/*', 'guru', 'attachments/*',
-					'service-expired', 'install', 'install/*'
-				]
-			],
-			'guru' => ['except' => [
-					'guru/login', 'guru/login/validasi', 
-					'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
-					'admin/*', 'admin', 'attachments/*',
-					'service-expired', 'install', 'install/*'
-				]
-			],
-			'subscription' => ['except' => [
-					'service-expired', 'install', 'install/*'
-				]
-			],
+			// 'admin' => ['except' => [
+			// 		'admin/login', 'admin/login/validasi', 
+			// 		'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
+			// 		'guru/*', 'guru', 'attachments/*',
+			// 		'service-expired', 'install', 'install/*',
+			// 		'ui-test', 'ui-test/*',
+			// 		'ui/dist/pwa', 'ui/dist/pwa/*'
+			// 	]
+			// ],
+			// 'guru' => ['except' => [
+			// 		'guru/login', 'guru/login/validasi', 
+			// 		'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
+			// 		'admin/*', 'admin', 'attachments/*',
+			// 		'service-expired', 'install', 'install/*',
+			// 		'ui-test', 'ui-test/*',
+			// 		'ui/dist/pwa', 'ui/dist/pwa/*'
+			// 	]
+			// ],
+			// 'subscription' => ['except' => [
+			// 		'service-expired', 'install', 'install/*',
+			// 		'ui-test', 'ui-test/*',
+			// 		'ui/dist/pwa', 'ui/dist/pwa/*'
+			// 	]
+			// ],
 		],
 		'after'  => [
 			'toolbar',	

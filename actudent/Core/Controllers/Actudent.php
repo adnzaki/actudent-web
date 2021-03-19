@@ -81,8 +81,35 @@ class Actudent extends Controller
         Services::language($this->getUserLanguage());
         helper([
             'Actudent\Core\Helpers\ostium', 
-            'Actudent\Core\Helpers\wolesdev'
+            'Actudent\Core\Helpers\wolesdev',
         ]);
+    }
+
+    /**
+     * Create API Response for any request from user.
+     * Each request will be validated here before the response sent.
+     * There are 3 available validators for each request,
+     * the default one is valid_token() to make it available
+     * for both section: Admin and Teacher. Other validators are
+     * is_admin() and is_teacher() that means the response only available
+     * for that section.
+     * 
+     * @param array $response
+     * @param string $validator
+     * 
+     * @return JSON
+     */
+    protected function createApiResponse($response, $validator = 'valid_token')
+    {
+        if($validator())
+        {
+            return $this->response->setJSON($response);
+        }
+        else
+        {
+            $status = ['status' => 500, 'msg' => 'Unauthorized access'];
+            return $this->response->setJSON($status);
+        }
     }
     
     /**
@@ -112,6 +139,7 @@ class Actudent extends Controller
             'guru'                  => base_url() . '/guru/',
             'newLogin'              => base_url() . '/admin-login/',
             'install'               => base_url() . '/install/',
+            'dist'                  => base_url() . '/ui/dist/pwa/',
             'actudentSection'       => $this->getSection(),
             'namaSekolah'           => $sekolah->school_name ?? '',
             'alamatSekolah'         => $sekolah->school_address ?? '',

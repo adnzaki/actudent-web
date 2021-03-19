@@ -76,6 +76,7 @@ class Autoload extends \CodeIgniter\Config\AutoloadConfig
 			'OstiumDate' 	=> ROOTPATH . 'actudent/Core/Libraries/OstiumDate.php',
 			'PDFCreator'	=> ROOTPATH . 'actudent/Core/Libraries/PDFCreator.php',
 			'ExcelCreator'	=> ROOTPATH . 'actudent/Core/Libraries/ExcelCreator/ExcelCreator.php',
+			'ActudentJWT'	=> ROOTPATH . 'actudent/Core/Libraries/ActudentJWT.php',
 		];
 
 		//--------------------------------------------------------------------

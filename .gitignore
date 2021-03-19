@@ -10,7 +10,7 @@
 # Actudent ignored files 
 actudent/Trash
 actudent/Admin/Controllers/Test.php
-public/sekolah.json
+actudent/Installer/Controllers/Test.php
 public/.htaccess
 public/app-assets
 public/app-assets.zip

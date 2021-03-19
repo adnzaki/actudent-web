@@ -1,8 +1,25 @@
-# Actudent
-<i>Attitude Control for Your Student</i>
+# Actudent v2.0 Development
+<i>A brand new version of Actudent, comes with Progressive Web Apps, one-for-all API, mobile-first UI,  etc. </i>
 
-## Apa itu Actudent?
-Actudent adalah aplikasi pendidikan yang diperuntukkan untuk sekolah yang menginginkan sebuah sistem pemantauan terhadap aktivitas siswa di sekolah. Dengan aplikasi ini, sekolah dapat mendorong siswa untuk dapat berlaku jujur. Selain sebagai sistem pemantauan kegiatan siswa di sekolah, Actudent juga menjadi jembatan antara pihak sekolah dan orang tua agar dapat lebih bersinergi dalam mewujudkan pendidikan yang transparan dan berkarakter dengan berbasis teknologi informasi. Dengan adanya sinergitas antara sekolah dan orang tua, akan memudahkan sekolah dalam menyampaikan laporan kepada orang tua seputar kegiatan di sekolah. Sementara bagi orang tua, akan lebih mudah memantau perkembangan terbaru dari sekolah, baik berupa kegiatan dan agenda sekolah maupun kegiatan belajar mengajar yang diikuti anaknya. Actudent tersedia untuk platform web (desktop) dan mobile (Android).
+## Description
+This branch contains source code of Actudent v2.0. If you want to contribute to this project, please read the contribution guide first in this repository.
 
-## Dibalik Layar
-Actudent dibangun dengan bahasa pemrograman PHP 7.4 berbasis framework CodeIgniter4 untuk aplikasi inti aplikasi webnya. Sementara di bagian front-end (user interface), Actudent didukung dengan framework Javascript yaitu Vue.js. Sementara bahasa Java digunakan untuk membangun versi mobile dari Actudent.
+## How-to-run
+<i>Before running Actudent on development, make sure that [NPM](https://www.npmjs.com/get-npm) has been installed on your machine.</i>
+- Install dependencies first:
+```
+cd public/ui
+
+npm install
+```
+Run on development server with hot-reload and live lint:
+```
+quasar dev -m pwa
+```
+- The app wil run on localhost:8080
+- To build user interface for production:
+```
+quasar build -m pwa
+```
+- Above command assumes you are using internal terminal like VSCode
+- Run production UI from CodeIgniter4 by open up http://localhost/actudent-v2/public/ui/dist/pwa/build

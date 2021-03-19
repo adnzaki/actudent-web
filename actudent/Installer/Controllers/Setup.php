@@ -7,6 +7,7 @@ class Setup extends \Actudent\Core\Controllers\Actudent
         // Session should be removed to avoid
         // system check to database that has not been installed
         session()->remove(['id', 'email', 'nama', 'userLevel', 'logged_in']);
+        session()->remove(['org_id', 'org_name']);
 
         // set app language based on default language
         $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';
@@ -28,7 +29,7 @@ class Setup extends \Actudent\Core\Controllers\Actudent
                 $config             = config('Database');
                 $data['dbName']     = $config->default['database'];
         
-                return parse('Actudent\Installer\Views\setup-view', $data);
+                return parse('Actudent\Installer\Views\setup\setup-view', $data);
             }
         }
         else
@@ -188,5 +189,14 @@ class Setup extends \Actudent\Core\Controllers\Actudent
     {
         $model = new \Actudent\Installer\Models\TimelogModel;
         $model->createTimelog();
+
+        $subs = new \Actudent\Core\Models\SubscriptionModel;
+        $organization = $subs->getOrganization();
+        $registerSession = [
+            'org_id'    => $organization->organization_id,
+            'org_name'  => $organization->organization_name,
+        ];
+
+        session()->set($registerSession);
     }
 }

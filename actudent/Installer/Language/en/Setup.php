@@ -8,7 +8,8 @@ $lang = [
     'install_progress'      => 'Creating %s module...',
     'install_waiting'       => 'Installing...',
     'install_success'       => 'Actudent modules has successfully installed,
-                                please continue to registration page.',
+                                you will be redirected to registration page.',
     'install_env_config'    => 'Please ensure that your application is in development mode',
     'install_final'         => 'Finalizing...',
+    'install_redirecting'   => 'Redirecting...',
 ];

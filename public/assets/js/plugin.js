@@ -38,7 +38,7 @@ const plugin = {
 			return moment(value).format(format)				
 		},
 	},
-	methods: {	
+	methods: {		
 		select2ShowPerPage(element, iCheck = '') {
 			var obj = this
 			$(element).on('select2:select', function (e) {
