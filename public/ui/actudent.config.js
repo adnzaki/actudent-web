@@ -14,6 +14,9 @@ export const appConfig = {
   // API Url for teacher section
   teacherAPI: `${baseUrl}guru/`,
 
+  // API Url for resource section
+  coreAPI: `${baseUrl}core/`,
+
   // API for testing section
   testAPI: `${baseUrl}ui-test/`,
 

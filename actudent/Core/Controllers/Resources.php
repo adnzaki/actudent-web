@@ -1,7 +1,32 @@
 <?php namespace Actudent\Core\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 class Resources extends Actudent
 {
+    /**
+     * Validate user token before they navigate to any routes
+     * in Actudent user inteface
+     * 
+     * @param string $validator | is_admin, is_teacher, valid_token
+     * 
+     * @return mixed
+     */
+    public function validateToken($validator)
+    {
+        if($validator() !== true)
+        {
+            $status = ['status' => 500, 'msg' => 'Unauthorized access'];
+        }
+        else
+        {
+            $status = ['status' => 200, 'msg' => 'Token validated.'];
+        }
+        
+        return $this->response->setJSON($status);
+    }
+
     /**
      * Get changelog
      * 

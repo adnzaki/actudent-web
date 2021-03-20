@@ -37,7 +37,7 @@ class Build extends \Actudent\Core\Controllers\Actudent
             'id'        => 1,
             'email'     => 'admin@wolestech.com',
             'nama'      => 'Adnan Zaki',
-            'userLevel' => '2',
+            'userLevel' => '1',
             'logged_in' => true
         ];
 

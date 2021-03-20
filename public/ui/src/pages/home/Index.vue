@@ -8,35 +8,31 @@
         </q-card-section>
 
         <q-card-section>
-          {{ mytext.greet }}
+          {{ d.greet }}
         </q-card-section>
 
         <q-separator dark />
 
         <q-card-actions>
-          <q-btn flat @click="func.testGetData">Test me!</q-btn>
-          <q-btn flat @click="mytext.greet = 'I have changed!'">Change the text!</q-btn>
+          <q-btn flat @click="m.testGetData">Test me!</q-btn>
+          <q-btn flat @click="d.greet = 'I have changed!'">Change the text!</q-btn>
         </q-card-actions>
       </q-card>
 
     </div>
-    <!-- <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-full.svg"
-    > -->
   </q-page>
 </template>
 
 <script>
 import { defineComponent, ref } from 'vue'
-import { data, funcs } from '../composables/index-comp'
+import { data, methods } from '../../composables/index-comp'
 
 export default defineComponent({
   name: 'PageIndex',
   setup () {
     return {
-      mytext: ref(data),
-      func: funcs
+      d: ref(data),
+      m: methods
     }
   }
 })
