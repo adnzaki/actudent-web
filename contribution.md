@@ -34,6 +34,10 @@ Tempat menyimpan kode sumber modul Admin. Semua kode yang spesifik hanya untuk A
 Merupakan tempat menyimpan shared classes atau class inti yang dipakai oleh beberapa modul.
 - `Guru`
 Merupakan tempat menyimpan kode sumber modul Guru.
+- `Installer`
+Tempat menyimpan kode sumber setup/instalasi Actudent 
+- `UITest`
+Tempat menyimpan kode sumber untuk keperluan test interaksi user interface dengan API
 
 ### Core Controller
 `Actudent` merupakan core controller yang wajib ada di semua controller Actudent. Tanpa class ini, Actudent tidak akan dapat berjalan sebagaimana mestinya. Hanya kontributor inti yang diperkenankan memodifikasi class ini. Class ini tersedia dengan namespace `Actudet\Core\Controllers\Actudent`.
@@ -44,7 +48,7 @@ memiliki sebuah class `Connector` yang tersedia dengan namespace `Actudent\Core\
 Setiap model Actudent harus mengextend class ini agar dapat berinteraksi dengan database.
 
 ### Admin's shared model
-Khusus untuk modul admin, tersedia sebuah shared class model yaitu `SharedModel` yang dapat dipanggil via `Actudent\Admin\Models\SharedModel`. Model ini menyediakan beberapa tabel yang sering digunakan oleh model-model lain. Karena class ini memiliki cukup banyak properti, disarankan hanya menggunakan class ini jika anda membutuhkannya.
+Tersedia sebuah shared class model yaitu `SharedModel` yang dapat dipanggil via `Actudent\Admin\Models\SharedModel`. Model ini menyediakan beberapa tabel yang sering digunakan oleh model-model lain. Karena class ini memiliki cukup banyak properti, disarankan hanya menggunakan class ini jika anda membutuhkannya.
 
 ### Namespace
 Penggunaan namespace adalah <b>wajib</b> untuk semua class karena dengan namespace inilah nantinya antar class bisa berkomunikasi, termasuk Controller dan Model. Cara penggunaan namespace dapat dipelajari di dokumentasi resmi [PHP](https://www.php.net/manual/en/language.namespaces.php).
@@ -62,24 +66,29 @@ Actudent menggunakan template parser engine dari CodeIgniter 4 dengan tambahan p
 ### Database Query
 Semua query wajib menggunakan Query Builder dari CodeIgniter 4 untuk menjaga konsistensi sekaligus memudahkan proses maintenance. Panduan menggunakan Query Builder  dapat dilihat pada [halaman ini](https://codeigniter4.github.io/CodeIgniter4/database/query_builder.html).
 
-### Per-page User Checking
-Actudent menggunakan `Filter` dari CodeIgniter 4. Semua halaman Actudent diproteksi menggunakan filter ini. Berbeda dengan versi CodeIgniter 3 yang melakukan filter pada tiap class constructor, pada CodeIgniter 4 filter hanya dilakukan pada satu class yaitu `\Actudent\Admin\Filters\AdminFilter` untuk panel admin atau `\Actudent\Guru\Filters\GuruFilter` untuk panel guru. Sementara untuk kebutuhan validasi masa aktif layanan Actudent, terdapat filter khusus yaitu `\Actudent\Core\Filters\CoreFilter`.
+### Authentication System (New in v2)
+Actudent menggunakan JSON Web Tokens (JWT) untuk sistem autentikasi terbarunya. Hal ini dilakukan untuk mendukung konsep "One-for-All API" agar nantinya API dari aplikasi web Actudent dapat digunakan oleh berbagai platform. Penggunaan JWT juga untuk menggantikan session yang tidak mendukung cross-origin authentication dikarenakan pengembangan user interface Actudent saat ini menggunakan Node.js. Cara penggunaan JWT pada Actudent v2 dapat dilihat pada bagian berikutnya panduan ini.
+
+### Validator (New in v2)
+Actudent tidak lagi menggunakan filter dari CodeIgniter4. Tersedia 3 tipe validator untuk melakukan pengecekan layaknya session dalam versi 1.x yaitu `is_admin()` untuk mengecek apakah user yang sedang login memiliki akses sebagai Administrator, `is_teacher()` untuk mengecek apakah user yang sedang login memiliki akses sebagai Guru dan `valid_token()` untuk memberikan akses bagi user yang bertindak baik sebagai Admin maupun Guru selama memiliki token yang valid. Ketiga fungsi tersebut dapat dipanggil dari file manapun karena telah dimuat secara otomatis melalui `wolesdev_helper`.
+
+### Response Creator (New in v2)
+Actudent menggunakan method baru dari core controller untuk mengirim response berupa JSON ke user interface yaitu `createResponse()`. Method ini memiliki 2 parameter, yang pertama adalah data yang ingin dikirim berupa PHP Array/Object dan parameter kedua adalah validator. Jika parameter kedua dikosongkan, maka akan menggunakan `valid_token` sebagai validator default. Contoh pemanggilan class ini adalah: `$this->createResponse($response, 'is_admin')` untuk mengirim response yang hanya bisa diakses oleh Administrator.
 
 ### Style Guide
 Aturan dalam penulisan kode mengikuti standar yang ditetapkan oleh CodeIgniter 4 yang dapat dilihat pada [halaman ini](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/styleguide.rst). Standar kode ini harus diikuti untuk menjaga konsistensi code base Actudent.
 
 ## Panduan Pengembangan di Sisi Client (Pengguna)
-### Markup Language
-HTML5 menjadi bahasa standar untuk menyusun tampilan web Actudent. Selengkapnya tentang HTML5 dapat dibaca pada [halaman ini](https://www.w3.org/TR/2011/WD-html5-20110405/).
+Antarmuka pengguna menjadi perubahan terbesar dari versi terbaru Actudent. Tampilan lama hanya menyisakan halaman login dan instalasi, sementara di bagian dalamnya ditulis ulang menggunakan Quasar Framework. Untuk memulai eksplorasi kode sumber antarmuka  Actudent, silakan buka di `public/ui`. Berikut adalah penjelasan tentang cara berkontribusi untuk antarmuka terbaru Actudent.
 
 ### User Interface Framework
-Template Actudent menggunakan Bootstrap sebagai frameworknya. Pengetahuan tentang Bootstrap sangat diperlukan untuk dapat menyusun komponen-komponen web serta interaksi pengguna Actudent. Dokumentasi lengkap Bootstrap dapat anda lihat di [sini](https://getbootstrap.com/docs/4.0/getting-started/introduction/).
+Actudent v2 menggunakan [Quasar](https://quasar.dev/) sebagai framework untuk membangun user interfacenya. Saat ini Actudent menggunakan Quasar versi 2.0.0-beta.9 yang dibangun di atas Vue 3.0. Pastikan anda memahami versi terbaru Vue.js sebelum terjun langsung ke dalam pengembangan. Untuk penggunaan Quasar versi terbaru dapat anda baca di halaman [ini](https://next.quasar.dev/introduction-to-quasar).
 
-### Scripting Language
-Bahasa script yang digunakan adalah Javascript dengan standar ECMASCRIPT (ES) 6. Kontributor wajib memahami standar penulisan kode ES6 seperti `let`, `const`, `(arrowFunction) => {}`, `Promise`, ES Module dan lain-lain. Penggunaan ES6 dimaksudkan untuk memaksimalkan kemampuan Javascript dalam membangun web yang semakin kompleks. Untuk mengetahui fitur-fitur terbaru ES6 dapat anda lihat di [halaman ini](http://es6-features.org).
+### Advanced Vue.js
+Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup Single-File Components (SFC), Composition API, Vue Router dan lain-lain. Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai progressive-library.
 
-### Javascript Framework
-Actudent menggunakan Vue.js sebagai framework Javascript-nya. Vue.js dipilih karena memiliki fitur yang lengkap, penulisan kode yang mudah dengan konsep <i>declarative rendering</i> serta performa yang tinggi. Panduan lengkap penggunaan Vue.js dapat anda lihat di [sini](https://vuejs.org/v2/guide/).
+### NPM and CLI Tools
+NPM adalah software utama yang harus terinstal di komputer anda. Dengan NPM inilah anda dapat mengelola dependency yang ada dalam source code user interface ini mulai dari menginstal, mengupdate hingga menghapusnya. Anda diharuskan memahami penggunaan Command-Line Interface (CLI) dalam pengembangan antarmuka Actudent. Namun di balik NPM dan CLI tools di dalamnya terdapat Node.js yang tentu harus lebih dulu terpasang di komputer anda.
 
-### Javascript Libraries
-Template Actudent dibangun menggunakan jQuery sebagai library utamanya. Pengetahuan tentang jQuery sangat dibutuhkan agar dapat mengintegrasikan framework utama Vue.js dan library UI yang sebagian besar menggunakan jQuery.
+### About jQuery and Bootstrap
+Sayangnya Actudent hampir tidak bisa mempertahankan penggunaan kedua framework tersebut di v2. Bootstrap mungkin masih tersisa di halaman instalasi dan login, tapi jQuery tidak mendapat tempat lagi di manapun. Kami mencoba membangun sebuah antarmuka pengguna yang jauh lebih modern dengan software yang juga lebih modern, semuanya agar kualitas versi terbaru Actudent ada di performa terbaiknya.
