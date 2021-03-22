@@ -5,7 +5,7 @@
 ### Engines
 - Server-side Language : PHP 7.4
 - Web Framework : CodeIgniter 4.0.4
-- UI Framework : Vue.js 2.6.12
+- UI Framework : Quasar v2.0.0-beta.9 (based on Vue 3)
 - Database : MySQL
 - API Response Format : JSON
 
