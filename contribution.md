@@ -11,7 +11,7 @@
 
 ### Struktur Folder Utama
 - `actudent`<br>
-Root folder untuk semua modul Actudent. Modul-modul tersebut adalah `Admin`, `Core` dan `Guru`
+Root folder untuk semua modul Actudent. Modul-modul tersebut adalah `Admin`, `Core`, `Guru`, `Installer` dan `UITest`.
 - `app`<br>
 Folder aplikasi default dari CodeIgniter, digunakan untuk menyimpan global config dan locale resource
 - `public`<br>
@@ -85,7 +85,10 @@ Antarmuka pengguna menjadi perubahan terbesar dari versi terbaru Actudent. Tampi
 Actudent v2 menggunakan [Quasar](https://quasar.dev/) sebagai framework untuk membangun user interfacenya. Saat ini Actudent menggunakan Quasar versi 2.0.0-beta.9 yang dibangun di atas Vue 3.0. Pastikan anda memahami versi terbaru Vue.js sebelum terjun langsung ke dalam pengembangan. Untuk penggunaan Quasar versi terbaru dapat anda baca di halaman [ini](https://next.quasar.dev/introduction-to-quasar).
 
 ### Advanced Vue.js
-Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup Single-File Components (SFC), Composition API, Vue Router dan lain-lain. Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai progressive-library.
+Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup [Single-File Components (SFC)](https://v3.vuejs.org/guide/single-file-component.html), [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html), [Vue Router](https://next.router.vuejs.org/) dan lain-lain. Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai progressive-library.
+
+### Composition API
+[Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) merupakan fitur terbaru dari Vue 3 sebagai versi lebih yang lebih baik dari Options API untuk digunakan dalam Single-File Components. Walaupun Options API tetap dapat digunakan di Vue 3, namun Composition API menjanjikan manajemen code base yang lebih baik. Untuk saat ini kami belum memiliki rencana untuk menggunakan [Vuex](https://next.vuex.vuejs.org/) karena penggunaan Composition API masih sangat cukup untuk memecah kode Javascript ke dalam modul-modul terpisah.
 
 ### NPM and CLI Tools
 NPM adalah software utama yang harus terinstal di komputer anda. Dengan NPM inilah anda dapat mengelola dependency yang ada dalam source code user interface ini mulai dari menginstal, mengupdate hingga menghapusnya. Anda diharuskan memahami penggunaan Command-Line Interface (CLI) dalam pengembangan antarmuka Actudent. Namun di balik NPM dan CLI tools di dalamnya terdapat Node.js yang tentu harus lebih dulu terpasang di komputer anda.
