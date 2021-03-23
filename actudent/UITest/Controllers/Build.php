@@ -18,7 +18,7 @@ class Build extends \Actudent\Core\Controllers\Actudent
             'age'   => 27
         ];
 
-        return $this->createApiResponse($data);
+        return $this->createResponse($data);
     }
 
     public function token()

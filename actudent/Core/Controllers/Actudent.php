@@ -86,7 +86,7 @@ class Actudent extends Controller
     }
 
     /**
-     * Create API Response for any request from user.
+     * Create Response for any request from user.
      * Each request will be validated here before the response sent.
      * There are 3 available validators for each request,
      * the default one is valid_token() to make it available
@@ -99,7 +99,7 @@ class Actudent extends Controller
      * 
      * @return JSON
      */
-    protected function createApiResponse($response, $validator = 'valid_token')
+    protected function createResponse($response, $validator = 'valid_token')
     {
         if($validator())
         {
@@ -139,7 +139,7 @@ class Actudent extends Controller
             'guru'                  => base_url() . '/guru/',
             'newLogin'              => base_url() . '/admin-login/',
             'install'               => base_url() . '/install/',
-            'dist'                  => base_url() . '/ui/dist/pwa/',
+            'ui'                    => base_url() . '/app/',
             'actudentSection'       => $this->getSection(),
             'namaSekolah'           => $sekolah->school_name ?? '',
             'alamatSekolah'         => $sekolah->school_address ?? '',
