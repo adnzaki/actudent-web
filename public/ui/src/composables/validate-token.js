@@ -1,18 +1,16 @@
 import { appConfig as conf } from '../../actudent.config'
 
-export default function validateToken (validator) {
-  // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB3b2xlc3RlY2guY29tIiwibmFtYSI6IkFkbmFuIFpha2kiLCJ1c2VyTGV2ZWwiOiIxIiwibG9nZ2VkX2luIjp0cnVlfQ.WP9JNv3p0pq_n8qA5YsZnofKcJwGREQORxmmrlSaM_k'
-  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB3b2xlc3RlY2guY29tIiwibmFtYSI6IkFkbmFuIFpha2kiLCJ1c2VyTGV2ZWwiOiIyIiwibG9nZ2VkX2luIjp0cnVlfQ.29W1VYj7lFgcebxq0AU8q2x2S5sYFihvTobStkSR6FM'
+function validateToken (validator) {
   fetch(`${conf.coreAPI}validate-token/${validator}`, {
     method: 'GET',
     mode: 'cors',
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${conf.testToken}`
     }
   })
     .then(response => response.json())
     .then(data => {
-      if (data.status === 500) {
+      if (data.status === 503) {
         redirect(validator)
         console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
       } else {
@@ -32,3 +30,5 @@ function redirect (validator) {
     window.location.href = `${conf.teacherAPI}login`
   }
 }
+
+export { validateToken, redirect }

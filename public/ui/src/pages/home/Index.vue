@@ -8,14 +8,14 @@
         </q-card-section>
 
         <q-card-section>
-          {{ d.greet }}
+          {{ lang.page_title }}
         </q-card-section>
 
         <q-separator dark />
 
         <q-card-actions>
           <q-btn flat @click="m.testGetData">Test me!</q-btn>
-          <q-btn flat @click="d.greet = 'I have changed!'">Change the text!</q-btn>
+          <q-btn flat>Change the text!</q-btn>
         </q-card-actions>
       </q-card>
 
@@ -24,11 +24,22 @@
 </template>
 
 <script>
+// import { defineComponent, ref, onMounted } from 'vue'
 import { defineComponent, ref } from 'vue'
 import { data, methods } from '../../composables/index-comp'
+import locale from '../../mixins/fetch-lang'
 
 export default defineComponent({
   name: 'PageIndex',
+  mixins: [locale],
+  data () {
+    return {}
+  },
+  mounted () {
+    setTimeout(() => {
+      this.fetchLang('AdminAbsensi')
+    }, 1000)
+  },
   setup () {
     return {
       d: ref(data),

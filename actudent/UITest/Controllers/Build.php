@@ -35,7 +35,7 @@ class Build extends \Actudent\Core\Controllers\Actudent
     {
         $payload = [
             'id'        => 1,
-            'email'     => 'admin@wolestech.com',
+            'email'     => 'admin@localhost',
             'nama'      => 'Adnan Zaki',
             'userLevel' => '1',
             'logged_in' => true

@@ -65,6 +65,17 @@ class Actudent extends Controller
     protected $validation;
 
     /**
+     * HTTP Status
+     * 
+     * @var string
+     */
+    protected $status = [
+        200 => 'Token validated.',
+        500 => 'Internal Server Error',
+        503 => 'Unauthorized Access'
+    ];
+
+    /**
      * Initialize any classes needed and core helper for this class
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
@@ -92,7 +103,7 @@ class Actudent extends Controller
      * the default one is valid_token() to make it available
      * for both section: Admin and Teacher. Other validators are
      * is_admin() and is_teacher() that means the response only available
-     * for that section.
+     * for admin or teacher
      * 
      * @param array $response
      * @param string $validator
@@ -107,9 +118,23 @@ class Actudent extends Controller
         }
         else
         {
-            $status = ['status' => 500, 'msg' => 'Unauthorized access'];
-            return $this->response->setJSON($status);
+            return $this->response->setJSON($this->status[503]);
         }
+    }
+
+    /**
+     * Set HTTP Status code
+     * 
+     * @param int $code
+     * 
+     * @return array
+     */
+    protected function setStatus($code)
+    {
+        return [
+            'status'    => $code,
+            'msg'       => $this->status[$code]
+        ];
     }
     
     /**

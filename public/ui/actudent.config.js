@@ -3,22 +3,21 @@
  *
  * @author  Adnan Zaki | Wolestech DevTeam
  */
-const baseUrl = `http://${window.location.hostname}/actudent/public/`
 
-const mode = 'development'
+import { mode, baseUrl } from '../globalConfig'
 
 export const appConfig = {
   // API Url for admin section
-  adminAPI: `${baseUrl}admin/`,
+  adminAPI: `${baseUrl()}admin/`,
 
   // API Url for teacher section
-  teacherAPI: `${baseUrl}guru/`,
+  teacherAPI: `${baseUrl()}guru/`,
 
   // API Url for resource section
-  coreAPI: `${baseUrl}core/`,
+  coreAPI: `${baseUrl()}core/`,
 
   // API for testing section
-  testAPI: `${baseUrl}ui-test/`,
+  testAPI: `${baseUrl()}ui-test/`,
 
   // This URL will be used to redirect from
   // Actudent authentication page into main
@@ -26,12 +25,15 @@ export const appConfig = {
   homeUrl: () => {
     return (mode === 'development')
       ? 'localhost:8080/#/'
-      : `${baseUrl}ui/dist/pwa/home`
+      : `${baseUrl()}app`
   },
 
   // Cookie key name
   cookieName: 'actudent_token',
 
   // Cookie expiration time in minutes
-  cookieExp: 120
+  cookieExp: 120,
+
+  // token for testing only
+  testToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBsb2NhbGhvc3QiLCJuYW1hIjoiQWRuYW4gWmFraSIsInVzZXJMZXZlbCI6IjEiLCJsb2dnZWRfaW4iOnRydWV9.JtWPsftp54MqhwoSOIGCQuo44XTeH4izzeU4AZhMrWU'
 }

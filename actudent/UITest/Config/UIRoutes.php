@@ -1,9 +1,9 @@
 <?php
 
 // Route group for loading user interface
-$routes->group('ui/dist/pwa', ['namespace' => 'Actudent\UITest\Controllers'], function($routes)
+$routes->group('app', ['namespace' => 'Actudent\UITest\Controllers'], function($routes)
 {
-    $routes->add('home', 'Build::js');
+    $routes->get('/', 'Build::js');
     $routes->add('test/kupret', 'Build::kupret');
 });
 

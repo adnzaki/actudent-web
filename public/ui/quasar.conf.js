@@ -9,6 +9,7 @@
 /* eslint-env node */
 const ESLintPlugin = require('eslint-webpack-plugin')
 const { configure } = require('quasar/wrappers')
+const path = require('path')
 
 module.exports = configure(function (/* ctx */) {
   return {
@@ -21,8 +22,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://quasar.dev/quasar-cli/boot-files
-    boot: [
-    ],
+    boot: [],
 
     // https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-css
     css: [
@@ -45,6 +45,27 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
+      // OR use the equivalent chainWebpack()
+      // with its own chain statements
+      extendWebpack (cfg) {
+        // for i18n resources (json/json5/yaml)
+        cfg.module.rules.push({
+          test: /\.(json5?|ya?ml)$/, // target json, json5, yaml and yml files
+          type: 'javascript/auto',
+          // Use `Rule.include` to specify the files of locale messages to be pre-compiled
+          include: [
+            path.resolve(__dirname, './src/i18n'),
+          ],
+          loader: '@intlify/vue-i18n-loader'
+        })
+
+        // for i18n custom block
+        cfg.module.rules.push({
+          resourceQuery: /blockType=i18n/,
+          type: 'javascript/auto',
+          loader: '@intlify/vue-i18n-loader'
+        })
+      },
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
       // transpile: false,
@@ -66,8 +87,8 @@ module.exports = configure(function (/* ctx */) {
       // https://quasar.dev/quasar-cli/handling-webpack
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain
       chainWebpack (chain) {
-        chain.plugin('eslint-webpack-plugin')
-          .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
+        // chain.plugin('eslint-webpack-plugin')
+        //   .use(ESLintPlugin, [{ extensions: ['js', 'vue'] }])
       }
     },
 

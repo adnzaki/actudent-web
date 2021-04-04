@@ -1,18 +1,10 @@
 import { appConfig as conf } from '../../actudent.config'
 
 const data = {
-  greet: 'Hello!'
+  greet: 'Hellooooo!'
 }
 
 const methods = { testGetData }
-
-// admin token test
-// const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB3b2xlc3RlY2guY29tIiwibmFtYSI6IkFkbmFuIFpha2kiLCJ1c2VyTGV2ZWwiOiIxIiwibG9nZ2VkX2luIjp0cnVlfQ.WP9JNv3p0pq_n8qA5YsZnofKcJwGREQORxmmrlSaM_k'
-
-// teacher token test
-const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkB3b2xlc3RlY2guY29tIiwibmFtYSI6IkFkbmFuIFpha2kiLCJ1c2VyTGV2ZWwiOiIyIiwibG9nZ2VkX2luIjp0cnVlfQ.29W1VYj7lFgcebxq0AU8q2x2S5sYFihvTobStkSR6FM'
-
-// const token = ''
 
 function testGetData () {
   fetch(`${conf.testAPI}get-data`, {
@@ -21,7 +13,7 @@ function testGetData () {
     // credentials: 'include',
     headers: {
       // 'Content-type': 'application/json',
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${conf.testToken}`
     }
   })
     .then(response => response.json())

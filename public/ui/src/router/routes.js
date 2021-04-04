@@ -1,12 +1,11 @@
-import validateToken from '../composables/validate-token'
+import { validateToken } from '../composables/validate-token'
 
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/AdminLayout.vue'),
+    component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/home/Index.vue') },
-      { path: 'home', component: () => import('pages/Home.vue') }
+      { path: '', component: () => import('pages/home/Index.vue') }
     ],
     beforeEnter: () => {
       validateToken('is_admin')

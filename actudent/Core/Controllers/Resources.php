@@ -3,6 +3,8 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
+use Config\Services;
+
 class Resources extends Actudent
 {
     /**
@@ -17,14 +19,43 @@ class Resources extends Actudent
     {
         if($validator() !== true)
         {
-            $status = ['status' => 500, 'msg' => 'Unauthorized access'];
+            $status = $this->setStatus(503);
         }
         else
         {
-            $status = ['status' => 200, 'msg' => 'Token validated.'];
+            $status = $this->setStatus(200);
         }
         
         return $this->response->setJSON($status);
+    }
+
+    /**
+     * Get locales for new user interface
+     * 
+     * @param string $lang
+     * @param string $file | file to be loaded
+     * 
+     * @return mixed
+     */
+    public function getLocaleForUI($file)
+    {
+        if(valid_token())
+        {
+            // decode the token first using our magic auth helpers
+            $decodedToken = jwt_decode(bearer_token());
+
+            // get user language
+            $auth = new \Actudent\Core\Models\AuthModel;
+            $lang = $auth->getUserLanguage($decodedToken->email);
+
+            // get the language file and throw the response
+            $response = require APPPATH . "Language/{$lang[0]->user_language}/{$file}.php";
+            return $this->createResponse($response);
+        }
+        else
+        {
+            return Services::response()->setJSON($this->setStatus(503));
+        }
     }
 
     /**
