@@ -4,7 +4,7 @@
  * @author  Adnan Zaki | Wolestech DevTeam
  */
 
-import { mode, baseUrl } from '../globalConfig'
+import { mode, baseUrl } from '../globalConfig.js'
 
 export const appConfig = {
   // API Url for admin section
@@ -24,7 +24,7 @@ export const appConfig = {
   // application page
   homeUrl: () => {
     return (mode === 'development')
-      ? 'localhost:8080/#/'
+      ? 'http://localhost:8080/#/'
       : `${baseUrl()}app`
   },
 

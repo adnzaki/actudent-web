@@ -1,4 +1,4 @@
-const mode = 'development' // development, build, production
+const mode = 'build' // development, build, production
 
 const baseUrl = () => {
     return (mode !== 'production')

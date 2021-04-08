@@ -5,6 +5,8 @@
  * @copyright   Wolestech (c) 2018
  */
 
+import { appConfig as conf } from '../../ui/actudent.config.js'
+
 const login = {
 	el: '#login-content',
 	mixins: [plugin],
@@ -49,7 +51,7 @@ const login = {
 							if (res.msg === 'valid') {
 								this.msg = this.lang.login_sukses
 								this.msgClass = 'success-text'
-								window.location.href = `${this.auth}home`
+								window.location.href = conf.homeUrl()
 							} else {
 								this.msgClass = 'error-text'
 								this.msg = this.lang.invalid_login
@@ -68,7 +70,7 @@ const login = {
                 })
             }
         }
-	}
+	},
 }
 
 new Vue(login)
