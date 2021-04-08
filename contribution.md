@@ -90,6 +90,9 @@ Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbai
 ### Composition API
 [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) merupakan fitur terbaru dari Vue 3 sebagai versi lebih yang lebih baik dari Options API untuk digunakan dalam Single-File Components. Walaupun Options API tetap dapat digunakan di Vue 3, namun Composition API menjanjikan manajemen code base yang lebih baik. Untuk saat ini kami belum memiliki rencana untuk menggunakan [Vuex](https://next.vuex.vuejs.org/) karena penggunaan Composition API masih sangat cukup untuk memecah kode Javascript ke dalam modul-modul terpisah.
 
+### Global Configuration for User Interface
+Actudent memiliki sebuah file bernama `globalConfig.js` yang berisi pengaturan inti untuk antarmuka aplikasi. File tersebut terdapat pada `public/globalConfig.js`, silakan buka dan baca dengan baik petunjuk yang ada di dalam file tersebut untuk dapat menjalankan Actudent di server lokal ataupun mendeploy ke cloud hosting/production server.
+
 ### NPM and CLI Tools
 NPM adalah software utama yang harus terinstal di komputer anda. Dengan NPM inilah anda dapat mengelola dependency yang ada dalam source code user interface ini mulai dari menginstal, mengupdate hingga menghapusnya. Anda diharuskan memahami penggunaan Command-Line Interface (CLI) dalam pengembangan antarmuka Actudent. Namun di balik NPM dan CLI tools di dalamnya terdapat Node.js yang tentu harus lebih dulu terpasang di komputer anda.
 
