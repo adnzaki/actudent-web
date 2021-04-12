@@ -93,8 +93,45 @@ Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbai
 ### Global Configuration for User Interface
 Actudent memiliki sebuah file bernama `globalConfig.js` yang berisi pengaturan inti untuk antarmuka aplikasi. File tersebut terdapat pada `public/globalConfig.js`, silakan buka dan baca dengan baik petunjuk yang ada di dalam file tersebut untuk dapat menjalankan Actudent di server lokal ataupun mendeploy ke cloud hosting/production server.
 
-### NPM and CLI Tools
-NPM adalah software utama yang harus terinstal di komputer anda. Dengan NPM inilah anda dapat mengelola dependency yang ada dalam source code user interface ini mulai dari menginstal, mengupdate hingga menghapusnya. Anda diharuskan memahami penggunaan Command-Line Interface (CLI) dalam pengembangan antarmuka Actudent. Namun di balik NPM dan CLI tools di dalamnya terdapat Node.js yang tentu harus lebih dulu terpasang di komputer anda.
+### Struktur Folder User Interface
+Folder untuk pengembangan user interface Actudent v2 terdapat di `public/ui`, berikutnya strukturnya:
+- `.quasar`
+Folder yang dibuat otomatis oleh Quasar Framework, bagian ini tidak perlu dimodifikasi.
+- `.vscode`
+Tempat menyimpan beberapa pengaturan VSCode.
+- `dist`
+Folder yang dibuat otomatis oleh Quasar untuk menyimpan file-file user interface yang sudah di-build dan siap untuk dideploy ke production.
+- `node_modules`
+Tempat menyimpan dependency Quasar dan Vue, dibuat otomatis oleh NPM.
+- `public`
+Tempat menyimpan file-file aset yang dapat diakses secara public seperti icon, gambar, dan sebagainya.
+- `src`
+Folder utama dari source code user interface Actudent.
+- `src-pwa`
+Folder yang dibuat otomatis oleh Quasar CLI untuk membuat Actudent berada dalam mode PWA (Progressive Web Apps).
 
-### About jQuery and Bootstrap
-Sayangnya Actudent hampir tidak bisa mempertahankan penggunaan kedua framework tersebut di v2. Bootstrap mungkin masih tersisa di halaman instalasi dan login, tapi jQuery tidak mendapat tempat lagi di manapun. Kami mencoba membangun sebuah antarmuka pengguna yang jauh lebih modern dengan software yang juga lebih modern, semuanya agar kualitas versi terbaru Actudent ada di performa terbaiknya.
+### Konfigurasi
+Terdapat 2 file konfigurasi di dalam Actudent, yang pertama adalah `quasar.conf.js` yang merupakan file konfigurasi untuk Quasar Framework dan yang kedua adalah `actudent.config.js` yang merupakan konfigurasi khusus untuk Actudent. Silakan berdiskusi dengan kontributor inti jika anda ingin mengubah beberapa konfigurasi di dalam kedua file tersebut.
+
+### Struktur Folder Utama `src`
+- `assets`
+Tempat menyimpan file-file aset seperti icon dan gambar-gambar.
+- `boot`
+Tempat menyimpan file-file JS yang akan dipanggil pertama kali ketika aplikasi booting.
+- `components`
+Tempat menyimpan reusable components yang dapat dipanggil dari component utama
+- `composables`
+Tempat menyimpan file JS yang dapat di-inject ke dalam Composition API
+- `css`
+Tempat menyimpan file custom css.
+- `layouts`
+Tempat menyimpan layout utama user interface seperti header dan menu
+- `mixins`
+Tempat menyimpan module JS yang akan dijadikan mixins di dalam component utama
+- `pages`
+Tempat menyimpan halaman-halaman user interface. Misal: halaman <i>Kehadiran</i> disimpan di `pages/kehadiran`
+- `router`
+Tempat menyimpan konfigurasi routing Single-Page App.
+
+### NPM and CLI Tools
+NPM adalah software utama yang harus terinstal di komputer anda. Sebelum menginstall NPM, pastikan Node.js telah lebih dulu terpasang di komputer anda. Dengan NPM inilah anda dapat mengelola dependency yang ada dalam source code user interface Actudent mulai dari menginstal, mengupdate hingga menghapusnya. Anda diharuskan memahami penggunaan Command-Line Interface (CLI) dalam pengembangan antarmuka Actudent karena Quasar Framework bergantung pada CLI dalam penggunaannya, mulai dari menjalankan antarmuka di web server Node.js, membuat build-version untuk user interface agar dapat digunakan di production server, hingga menjaga konsistensi code base dengan ESLint dan lain-lain.
