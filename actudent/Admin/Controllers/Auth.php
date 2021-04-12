@@ -45,7 +45,7 @@ class Auth extends Actudent
             if($this->auth->validasi($username, $password, '1'))
             {
                 $pengguna = $this->auth->getDataPengguna($username);
-                $session = [
+                $token = [
                     'id'        => $pengguna->user_id,
                     'email'     => $username,
                     'nama'      => $pengguna->user_name,
@@ -61,9 +61,8 @@ class Auth extends Actudent
                     set_cookie('remember_login', $hash, (3600 * 24 * 30));
                 }
     
-                session()->set($session);
                 $this->auth->statusJaringan('online', $username);
-                return $this->response->setJSON(['msg' => 'valid']);
+                return $this->response->setJSON(['msg' => 'valid', 'token' => jwt_encode($token)]);
             }
             else 
             {

@@ -31,8 +31,8 @@ export const appConfig = {
   // Cookie key name
   cookieName: 'actudent_token',
 
-  // Cookie expiration time in minutes
-  cookieExp: 120,
+  // Cookie expiration time in miliseconds (120 in minutes)
+  cookieExp: 120 * 60 * 1000,
 
   // token for testing only
   testToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBsb2NhbGhvc3QiLCJuYW1hIjoiQWRuYW4gWmFraSIsInVzZXJMZXZlbCI6IjEiLCJsb2dnZWRfaW4iOnRydWV9.JtWPsftp54MqhwoSOIGCQuo44XTeH4izzeU4AZhMrWU'

@@ -1,26 +1,31 @@
 import { appConfig as conf } from '../../actudent.config'
+import { Cookies } from 'quasar'
 
 function validateToken (validator) {
-  fetch(`${conf.coreAPI}validate-token/${validator}`, {
-    method: 'GET',
-    mode: 'cors',
-    headers: {
-      Authorization: `Bearer ${conf.testToken}`
-    }
-  })
-    .then(response => response.json())
-    .then(data => {
-      if (data.status === 503) {
-        redirect(validator)
-        console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
-      } else {
-        console.log('Successfully established connection to Actudent API.')
+  if(Cookies.has(conf.cookieName)) {
+    fetch(`${conf.coreAPI}validate-token/${validator}`, {
+      method: 'GET',
+      mode: 'cors',
+      headers: {
+        Authorization: `Bearer ${Cookies.get(conf.cookieName)}`
       }
     })
-    .catch((error) => {
-      console.error('Error:', error)
-      redirect(validator)
-    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === 503) {
+          redirect(validator)
+          console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
+        } else {
+          console.log('Successfully established connection to Actudent API.')
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error)
+        redirect(validator)
+      })
+  } else {
+    redirect(validator)
+  }
 }
 
 function redirect (validator) {

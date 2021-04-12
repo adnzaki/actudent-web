@@ -51,6 +51,11 @@ const login = {
 							if (res.msg === 'valid') {
 								this.msg = this.lang.login_sukses
 								this.msgClass = 'success-text'
+								let dt = new Date(),
+									now = dt.getTime(),
+									expMs = now + conf.cookieExp,
+									exp = new Date(expMs)
+								document.cookie = `${conf.cookieName}=${res.token};expires=${exp.toUTCString()};path=/;SameSite=None; Secure`
 								window.location.href = conf.homeUrl()
 							} else {
 								this.msgClass = 'error-text'
