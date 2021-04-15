@@ -91,14 +91,8 @@ require ACTUDENTPATH . 'Installer/Config/InstallerRoutes.php';
 // UI Test section 
 require ACTUDENTPATH . 'UITest/Config/UIRoutes.php';
 
-// Core application section 
-$routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
-{
-	$routes->add('get-admin-lang/(:any)', 'Resources::getLocaleResource/$1');
-	$routes->add('get-lang/(:any)', 'Resources::getLocaleForUI/$1');
-	$routes->add('get-changelog/(:alpha)', 'Resources::getChangelog/$1');
-	$routes->add('validate-token/(:any)', 'Resources::validateToken/$1');
-});
+// Core section
+require ACTUDENTPATH . 'Core/Config/CoreRoutes.php';
 
 $routes->add('service-expired', '\Actudent\Core\Controllers\Error::expiredPage');
 

@@ -11,6 +11,12 @@ class Build extends \Actudent\Core\Controllers\Actudent
         return parse('Actudent\UITest\Views\Main', $data);
     }
 
+    public function getPengguna()
+    {
+        $response = $this->getDataPengguna();
+        return $this->createResponse($response);
+    }
+
     public function testGetData()
     {
         $data = [

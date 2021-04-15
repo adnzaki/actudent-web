@@ -351,9 +351,10 @@ class Actudent extends Controller
      */
     protected function getDataPengguna()
     {
-        if(isset($_SESSION['email']))
+        if(valid_token())
         {
-            return $this->auth->getDataPengguna($_SESSION['email']);
+            $decodedToken = jwt_decode(bearer_token());
+            return $this->auth->getDataPengguna($decodedToken->email);
         }
     }
 

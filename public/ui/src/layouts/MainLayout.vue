@@ -61,8 +61,8 @@
           <q-avatar size="56px" class="q-mb-sm">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
           </q-avatar>
-          <div class="text-weight-bold">Razvan Stoenescu</div>
-          <div>@rstoenescu</div>
+          <div class="text-weight-bold">{{ pengguna.user_name }}</div>
+          <div>{{ pengguna.user_email }}</div>
         </div>
       </q-img>
     </q-drawer>
@@ -77,10 +77,15 @@
 // import EssentialLink from 'components/EssentialLink.vue'
 
 import { defineComponent, ref } from 'vue'
+import getPengguna from '../mixins/get-pengguna'
 
 export default defineComponent({
   name: 'MainLayout',
 
+  mixins: [getPengguna],
+  mounted() {
+    this.getPengguna()
+  },
   components: {
     // EssentialLink
   },

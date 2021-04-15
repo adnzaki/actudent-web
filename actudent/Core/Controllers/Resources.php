@@ -30,6 +30,17 @@ class Resources extends Actudent
     }
 
     /**
+     * Get user data based on token they have
+     * 
+     * @return JSON
+     */
+    public function getPengguna()
+    {
+        $response = $this->getDataPengguna();
+        return $this->createResponse($response);
+    }
+
+    /**
      * Get locales for new user interface
      * 
      * @param string $lang
@@ -204,6 +215,6 @@ class Resources extends Actudent
         }
         
         $lang = require APPPATH . "Language/{$bahasa}/{$file}.php";
-        return $this->response->setJSON($lang);
+        return Services::response()->setJSON($lang);
     }
 }
