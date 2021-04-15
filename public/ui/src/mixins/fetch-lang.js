@@ -1,5 +1,5 @@
 import { appConfig as conf } from '../../actudent.config'
-// import { redirect } from '../composables/validate-token'
+import { Cookies } from 'quasar'
 
 const locale = {
   data () {
@@ -13,7 +13,7 @@ const locale = {
         method: 'GET',
         mode: 'cors',
         headers: {
-          Authorization: `Bearer ${conf.testToken}`
+          Authorization: `Bearer ${Cookies.get(conf.cookieName)}`
         }
       })
         .then(response => response.json())
