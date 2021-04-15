@@ -4,7 +4,7 @@ import { appConfig as conf } from '../../actudent.config'
 const locale = {
   data () {
     return {
-      lang: {}
+      lang: []
     }
   },
   methods: {
@@ -18,9 +18,15 @@ const locale = {
       })
         .then(response => response.json())
         .then(data => {
-          this.lang = data
+          if(this.lang.length === 0) {
+						this.lang = data
+					} else {
+						for(let item in data) {
+							this.lang[item] = data[item]
+						}
+					}
         })
-        .catch((error) => {
+        .catch(error => {
           console.error('Error:', error)
         })
     }
