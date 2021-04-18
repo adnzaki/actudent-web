@@ -1,6 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated class="bg-cyan-8">
+    <toggle-mode />
+    <q-header elevated :class="header">
       <q-toolbar>
         <q-toolbar-title>Actudent-v2</q-toolbar-title>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
@@ -21,42 +22,23 @@
               </q-item-section>
 
               <q-item-section>
-                Home
+                {{ lang.menu_dashboard }}
               </q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple>
+          <q-item clickable v-ripple to="/parent">
             <q-item-section avatar>
               <q-icon name="star" />
             </q-item-section>
 
             <q-item-section>
-              Star
+              {{ lang.menu_parent }}
             </q-item-section>
           </q-item>
-
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="send" />
-            </q-item-section>
-
-            <q-item-section>
-              Send
-            </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple>
-            <q-item-section avatar>
-              <q-icon name="drafts" />
-            </q-item-section>
-
-            <q-item-section>
-              Drafts
-            </q-item-section>
-          </q-item>
+        
         </q-list>
       </q-scroll-area>
-      <q-img class="absolute-top" src="https://cdn.quasar.dev/img/material.png" style="height: 150px">
+      <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
             <img src="https://cdn.quasar.dev/img/boy-avatar.png">
@@ -74,25 +56,47 @@
 </template>
 
 <script>
-// import EssentialLink from 'components/EssentialLink.vue'
 
-import { defineComponent, ref } from 'vue'
+import { defineComponent, ref, onMounted, watch } from 'vue'
 import getPengguna from '../mixins/get-pengguna'
+import locale from '../mixins/fetch-lang'
+import { baseUrl } from '../../../globalConfig'
+import ToggleMode from '../components/ToggleMode'
+import { headerColor } from '../composables/mode-comp'
 
 export default defineComponent({
   name: 'MainLayout',
 
-  mixins: [getPengguna],
+  mixins: [getPengguna, locale],
   mounted() {
+    setTimeout(() => {
+      this.fetchLang('Admin')
+    }, 1000)
     this.getPengguna()
   },
   components: {
-    // EssentialLink
+    ToggleMode
   },
 
   setup () {
+    const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
+    const header = ref('')
+    function triggerHeader() {
+      if(headerColor.value === 'dark') {
+        header.value = 'bg-grey-10'
+      } else {
+        header.value = 'bg-blue'
+      }  
+    }
+
+    onMounted(triggerHeader) 
+    
+    watch(headerColor, triggerHeader)
+
     return {
-      drawer: ref(false)
+      drawer: ref(false),
+      avatarBg,
+      header
     }
   }
 })

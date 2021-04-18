@@ -70,6 +70,7 @@ return [
     'hari'              => 'hari',
     'access_denied'     => 'Anda tidak memiliki akses ke halaman ini',
     'mohon_tunggu'      => 'Mohon tunggu...',
+    'pindah_mode'       => 'Pindah Mode',
 
     // hari-hari
     'day1'              => 'Senin',
