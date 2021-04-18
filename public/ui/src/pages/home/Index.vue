@@ -14,7 +14,7 @@
         <q-separator dark />
 
         <q-card-actions>
-          <q-btn flat @click="m.testGetData">Test me!</q-btn>
+          <q-btn flat>Test me!</q-btn>
           <q-btn flat>Change the text!</q-btn>
         </q-card-actions>
       </q-card>
@@ -25,8 +25,7 @@
 
 <script>
 // import { defineComponent, ref, onMounted } from 'vue'
-import { defineComponent, ref } from 'vue'
-import { data, methods } from '../../composables/index-comp'
+import { defineComponent } from 'vue'
 import locale from '../../mixins/fetch-lang'
 
 export default defineComponent({
@@ -42,8 +41,6 @@ export default defineComponent({
   },
   setup () {
     return {
-      d: ref(data),
-      m: methods
     }
   }
 })
