@@ -1,5 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\OrtuModel;
 
@@ -30,10 +33,10 @@ class Ortu extends Actudent
     {
         $data = $this->ortu->getParents($limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->ortu->getParentRows($searchBy, $search);
-        return $this->response->setJSON([
+        return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
-        ]);
+        ], 'is_admin');
     }
 
     public function getParentDetail($id)

@@ -47,6 +47,14 @@ class Build extends \Actudent\Core\Controllers\Actudent
             'logged_in' => true
         ];
 
-        echo jwt_encode($payload);
+        $payloadGuru = [
+            'id'        => 4,
+            'email'     => 'firhanyp@wolestech.com',
+            'nama'      => 'Firhan Yudha P.',
+            'userLevel' => '2',
+            'logged_in' => true
+        ]; 
+
+        echo jwt_encode($payloadGuru);
     }
 }
