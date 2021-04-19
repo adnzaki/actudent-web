@@ -1,6 +1,7 @@
 import SSPaging from './ss-paging'
 import { appConfig as conf } from '../../actudent.config'
 import { Cookies } from 'quasar'
+import runLoadingBar from '../composables/loading-bar'
 
 const parent = {
   mixins: [SSPaging],
@@ -23,6 +24,7 @@ const parent = {
   },
   methods: {
     getOrtu() {
+      runLoadingBar()
       this.getData({
         token: Cookies.get(conf.cookieName),
         lang: 'indonesia',
@@ -42,6 +44,7 @@ const parent = {
       })
     },
     onPaginationUpdate() {
+      runLoadingBar()
       this.nav(this.current - 1)
     }
   }

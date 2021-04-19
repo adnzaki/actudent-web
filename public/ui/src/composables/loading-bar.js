@@ -1,0 +1,21 @@
+import { LoadingBar } from 'quasar'
+
+export default function runLoadingBar(options) {
+  if(options === undefined) {
+    options = {
+      color: 'blue',
+      size: '10px',
+      position: 'top'
+    }
+  }
+
+  LoadingBar.setDefaults({
+    color: options.color ?? 'blue',
+    size: options.size ?? '10px',
+    position: options.position ?? 'top'
+  })
+
+  LoadingBar.start()
+  LoadingBar.stop()
+  LoadingBar.increment(0.22)
+}
