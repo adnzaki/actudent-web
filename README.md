@@ -6,10 +6,12 @@ This branch contains source code of Actudent v2.0. If you want to contribute to 
 
 ## How-to-run
 <i>Before running Actudent on development, make sure that [NPM](https://www.npmjs.com/get-npm) has been installed on your machine.</i>
-- Install dependencies first:
+- Install Quasar CLI globally:
 ```
-cd public/ui
-
+npm install -g @quasar/cli
+```
+- Install dependencies:
+```
 npm install
 ```
 Run on development server with hot-reload and live lint:
@@ -22,7 +24,7 @@ quasar dev -m pwa
 quasar build -m pwa
 ```
 - Above command assumes you are using internal terminal like VSCode
-- Run production UI from CodeIgniter4 by open up http://localhost/actudent-v2/public/ui/dist/pwa/build
+- Run production UI from CodeIgniter4 by open up http://localhost/actudent/public/app
 
 ## Configuration
 Actudent v2 has several configurations available at `public/ui/actudent.config.js`<br>

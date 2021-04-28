@@ -6,6 +6,7 @@
  */
 
 import { appConfig as conf } from '../../ui/actudent.config.js'
+import { plugin } from './plugin.js'
 
 const login = {
 	el: '#login-content',

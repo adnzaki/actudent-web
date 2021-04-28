@@ -21,7 +21,6 @@ class Filters extends BaseConfig
 		'before' => [
 			'honeypot',
 			// 'csrf',
-			'throttle',
 			// 'admin' => ['except' => [
 			// 		'admin/login', 'admin/login/validasi', 
 			// 		'core/get-admin-lang/*', 'core/get-changelog/*', 'admin/test-*', 
@@ -56,7 +55,9 @@ class Filters extends BaseConfig
 	// Works on all of a particular HTTP method
 	// (GET, POST, etc) as BEFORE filters only
 	//     like: 'post' => ['CSRF', 'throttle'],
-	public $methods = [];
+	public $methods = [
+		'post' => ['throttle']
+	];
 
 	// List filter aliases and any before/after uri patterns
 	// that they should run on, like:

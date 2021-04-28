@@ -8,6 +8,6 @@ class Main extends \Actudent\Core\Controllers\Actudent
     public function index()
     {
         $data = $this->common();
-        return parse('Actudent\UITest\Views\MainView', $data);
+        return parse('Actudent\Core\Views\MainView', $data);
     }
 }

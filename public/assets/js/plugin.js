@@ -1,3 +1,11 @@
+import { baseUrl } from '../../globalConfig.js'
+import { appConfig as conf } from '../../ui/actudent.config.js'
+
+let path = window.location.pathname,
+        findSection = path.search('admin'),
+        actudentSection
+    (findSection === -1) ? actudentSection = 'guru' : actudentSection = 'admin'
+
 const plugin = {
 	data: {
 		lang: [], switchery: null, swObject: null,
@@ -55,7 +63,7 @@ const plugin = {
 		},
 		getLanguageResources(files) {
 			$.ajax({
-				url: `${baseURL}/core/get-admin-lang/${files}`,
+				url: `${baseUrl()}core/get-admin-lang/${files}`,
 				dataType: 'json',
 				success: data => {
 					if(this.lang.length === 0) {
@@ -166,9 +174,9 @@ const plugin = {
 		},
 		auth() {
 			if(actudentSection === 'admin') {
-				return admin
+				return conf.adminAPI
 			} else {
-				return guru
+				return conf.teacherAPI
 			}
 		}
 	},
@@ -190,3 +198,5 @@ if(changelogBtn !== null) {
 		$('#changelog-mirror').modal('show')
 	})
 }
+
+export { plugin }

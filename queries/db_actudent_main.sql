@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 5.0.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 24, 2020 at 04:45 AM
--- Server version: 10.1.30-MariaDB
--- PHP Version: 7.2.1
+-- Generation Time: Apr 28, 2021 at 06:11 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.4.8
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -32,14 +31,14 @@ CREATE TABLE `tb_notification` (
   `notif_id` int(11) NOT NULL,
   `user_id` int(11) DEFAULT NULL,
   `notif_from` varchar(500) DEFAULT NULL,
-  `notif_to` text,
+  `notif_to` text DEFAULT NULL,
   `notif_title` varchar(300) DEFAULT NULL,
   `notif_body` varchar(500) DEFAULT NULL,
-  `notif_data` text,
-  `notif_sent` tinyint(4) NOT NULL DEFAULT '0',
-  `notif_read` tinyint(4) NOT NULL DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `notif_data` text DEFAULT NULL,
+  `notif_sent` tinyint(4) NOT NULL DEFAULT 0,
+  `notif_read` tinyint(4) NOT NULL DEFAULT 0,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -95,7 +94,14 @@ INSERT INTO `tb_notification` (`notif_id`, `user_id`, `notif_from`, `notif_to`, 
 (102, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Raju Herningtyas Pratama tidak mengikuti pelajaran Pemrograman Dasar', NULL, 0, 0, '2020-07-20 06:02:54', '2020-07-20 06:02:54'),
 (103, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Pemberitahuan Tugas Baru untuk Raju Herningtyas Pratama', 'Pemrograman Dasar: Membuat pseudo-code aplikasi peminjaman buku telah terbit, batas pengumpulan tugas Senin, 20 Juli 2020', NULL, 0, 0, '2020-07-20 06:04:20', '2020-07-20 06:04:20'),
 (104, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Pemberitahuan Tugas Baru untuk Johnson Simatupang', 'Pemrograman Dasar: Membuat pseudo-code aplikasi peminjaman buku telah terbit, batas pengumpulan tugas Senin, 20 Juli 2020', NULL, 0, 0, '2020-07-20 06:04:21', '2020-07-20 06:04:21'),
-(105, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Pemberitahuan Tugas Baru untuk Brendon Rodgers', 'Pemrograman Dasar: Membuat pseudo-code aplikasi peminjaman buku telah terbit, batas pengumpulan tugas Senin, 20 Juli 2020', NULL, 0, 0, '2020-07-20 06:04:21', '2020-07-20 06:04:21');
+(105, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Pemberitahuan Tugas Baru untuk Brendon Rodgers', 'Pemrograman Dasar: Membuat pseudo-code aplikasi peminjaman buku telah terbit, batas pengumpulan tugas Senin, 20 Juli 2020', NULL, 0, 0, '2020-07-20 06:04:21', '2020-07-20 06:04:21'),
+(106, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Raju Herningtyas Pratama mengikuti pelajaran Bahasa Indonesia', NULL, 0, 0, '2020-12-29 09:25:17', '2020-12-29 09:25:17'),
+(107, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Johnson Simatupang mengikuti pelajaran Bahasa Indonesia', NULL, 0, 0, '2020-12-29 09:25:17', '2020-12-29 09:25:17'),
+(108, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Brendon Rodgers mengikuti pelajaran Bahasa Indonesia', NULL, 0, 0, '2020-12-29 09:25:18', '2020-12-29 09:25:18'),
+(109, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Brendon Rodgers tidak mengikuti pelajaran Bahasa Indonesia', NULL, 0, 0, '2020-12-29 09:25:26', '2020-12-29 09:25:26'),
+(110, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Raju Herningtyas Pratama mengikuti pelajaran Matematika', NULL, 0, 0, '2021-01-27 16:00:56', '2021-01-27 16:00:56'),
+(111, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Johnson Simatupang mengikuti pelajaran Matematika', NULL, 0, 0, '2021-01-27 16:00:56', '2021-01-27 16:00:56'),
+(112, 30, 'smkn11kotabekasi.actudent.com', 'cE6Yd6kxRrm74bY4TeUPPf:APA91bFKOTg6uMN1JyAO37ytAfe1vBmYQ2gTLs8JIVKtJwWU02pp7xymjDgNjevEdmREKudI2trzJIUk_dk_LMyD_rAH_NgJYwAgpyKjYachjOAkHOGDtJFSrg6KVNxD0g8KI9CxSm8a', 'Kehadiran Mata Pelajaran', 'Brendon Rodgers mengikuti pelajaran Matematika', NULL, 0, 0, '2021-01-27 16:00:56', '2021-01-27 16:00:56');
 
 -- --------------------------------------------------------
 
@@ -105,11 +111,11 @@ INSERT INTO `tb_notification` (`notif_id`, `user_id`, `notif_from`, `notif_to`, 
 
 CREATE TABLE `tb_notification_setting` (
   `setting_id` int(11) NOT NULL,
-  `running_process` tinyint(4) NOT NULL DEFAULT '0',
+  `running_process` tinyint(4) NOT NULL DEFAULT 0,
   `last_process` timestamp NULL DEFAULT NULL,
-  `enabled_service` tinyint(4) NOT NULL DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `enabled_service` tinyint(4) NOT NULL DEFAULT 0,
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -130,8 +136,8 @@ CREATE TABLE `tb_organization` (
   `organization_name` varchar(100) NOT NULL,
   `organization_origination` varchar(500) NOT NULL,
   `organization_destination` varchar(500) NOT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `created` timestamp NOT NULL DEFAULT current_timestamp(),
+  `modified` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -140,23 +146,31 @@ CREATE TABLE `tb_organization` (
 
 INSERT INTO `tb_organization` (`organization_id`, `organization_name`, `organization_origination`, `organization_destination`, `created`, `modified`) VALUES
 (1, 'SMK Negeri 11 Kota Bekasi', 'smkn11kotabekasi.actudent.com', 'https://api.smkn11kotabekasi.actudent.com/index.php/api/v1/', '2019-01-30 07:35:58', '2020-07-02 04:07:28'),
-(2, 'Actudent Demo', 'demo.actudent.com', 'https://api.demo.actudent.com/index.php/api/v1/', '2020-06-30 08:16:04', '2020-06-30 08:16:04');
+(2, 'Actudent Demo', 'demo.actudent.com', 'https://api.demo.actudent.com/index.php/api/v1/', '2020-06-30 08:16:04', '2021-01-29 03:53:56'),
+(3, 'SMKN 999 Kota Bekasi', 'localhost', 'https://api.demo.actudent.com/index.php/api/v1/', '2020-06-30 08:16:04', '2021-01-29 03:53:56');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `tb_score`
+-- Table structure for table `tb_subscription`
 --
 
-CREATE TABLE `tb_score` (
-  `score_id` int(11) NOT NULL,
-  `lessons_grade_id` int(11) NOT NULL,
-  `score_type` enum('Teori','Praktik') NOT NULL,
-  `score_category` enum('Tugas','UH','PTS','PAS','Kinerja','Proyek') NOT NULL,
-  `score_description` varchar(250) DEFAULT NULL,
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `tb_subscription` (
+  `organization_id` int(11) NOT NULL,
+  `subscription_type` enum('free','starter','standard','enhanced','enterprise') DEFAULT NULL,
+  `subscription_expiration` datetime DEFAULT NULL,
+  `created` timestamp NULL DEFAULT current_timestamp(),
+  `modified` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_subscription`
+--
+
+INSERT INTO `tb_subscription` (`organization_id`, `subscription_type`, `subscription_expiration`, `created`, `modified`) VALUES
+(1, 'standard', '2021-06-30 23:59:00', '2021-01-29 03:56:49', '2021-01-29 03:56:49'),
+(2, 'free', '2021-06-30 23:59:00', '2021-01-29 03:56:49', '2021-01-29 03:56:49'),
+(3, 'free', '2021-06-30 19:19:19', '2021-01-29 03:56:49', '2021-04-08 08:46:22');
 
 --
 -- Indexes for dumped tables
@@ -181,11 +195,10 @@ ALTER TABLE `tb_organization`
   ADD PRIMARY KEY (`organization_id`);
 
 --
--- Indexes for table `tb_score`
+-- Indexes for table `tb_subscription`
 --
-ALTER TABLE `tb_score`
-  ADD PRIMARY KEY (`score_id`),
-  ADD KEY `score_lessons_grade` (`lessons_grade_id`);
+ALTER TABLE `tb_subscription`
+  ADD PRIMARY KEY (`organization_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -195,7 +208,7 @@ ALTER TABLE `tb_score`
 -- AUTO_INCREMENT for table `tb_notification`
 --
 ALTER TABLE `tb_notification`
-  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=106;
+  MODIFY `notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
 
 --
 -- AUTO_INCREMENT for table `tb_notification_setting`
@@ -207,7 +220,17 @@ ALTER TABLE `tb_notification_setting`
 -- AUTO_INCREMENT for table `tb_organization`
 --
 ALTER TABLE `tb_organization`
-  MODIFY `organization_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `organization_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `tb_subscription`
+--
+ALTER TABLE `tb_subscription`
+  ADD CONSTRAINT `fk_organization` FOREIGN KEY (`organization_id`) REFERENCES `tb_organization` (`organization_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

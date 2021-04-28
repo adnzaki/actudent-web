@@ -104,7 +104,6 @@
 <!--===============================================================================================-->
 	<script src="{newLogin}vendor/select2/select2.min.js"></script>
 <!--===============================================================================================-->
-    {+ include Actudent\Core\Views\component\scripts +}     
     <script src="{assets}js/ac-login.js" type="module"></script>
 
 </body>
