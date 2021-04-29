@@ -1,5 +1,7 @@
 import { appConfig as conf } from '../../actudent.config'
 import { Cookies } from 'quasar'
+import { core } from 'boot/axios'
+import { bearerToken } from '../composables/validate-token'
 
 const locale = {
   data () {
@@ -9,15 +11,13 @@ const locale = {
   },
   methods: {
     fetchLang (file) {
-      fetch(`${conf.coreAPI}get-lang/${file}`, {
-        method: 'GET',
-        mode: 'cors',
+      core.get(`get-lang/${file}`, {
         headers: {
-          Authorization: `Bearer ${Cookies.get(conf.cookieName)}`
+          Authorization: bearerToken
         }
       })
-        .then(response => response.json())
-        .then(data => {
+        .then(response => {
+          const data = response.data
           if(this.lang.length === 0) {
 						this.lang = data
 					} else {

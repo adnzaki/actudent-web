@@ -1,6 +1,6 @@
 import SSPaging from './ss-paging'
 import { appConfig as conf } from '../../actudent.config'
-import { Cookies } from 'quasar'
+import { bearerToken } from '../composables/validate-token'
 import runLoadingBar from '../composables/loading-bar'
 
 const parent = {
@@ -26,7 +26,7 @@ const parent = {
     getOrtu() {
       runLoadingBar()
       this.getData({
-        token: Cookies.get(conf.cookieName),
+        token: bearerToken,
         lang: 'indonesia',
         limit: 10,
         offset: 0,
@@ -38,9 +38,6 @@ const parent = {
         sort: 'ASC',
         search: '',
         url: `${this.parentURL}get-ortu/`,
-        linkNum: 4,
-        activeClass: 'active',
-        linkClass: 'page-item',
       })
     },
     onPaginationUpdate() {

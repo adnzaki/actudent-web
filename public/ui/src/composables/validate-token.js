@@ -1,18 +1,19 @@
 import { appConfig as conf } from '../../actudent.config'
+import { core } from 'boot/axios'
 import { Cookies } from 'quasar'
+
+// get token dynamically
+const bearerToken = `Bearer ${Cookies.get(conf.cookieName)}`
 
 function validateToken (validator) {
   if(Cookies.has(conf.cookieName)) {
-    fetch(`${conf.coreAPI}validate-token/${validator}`, {
-      method: 'GET',
-      mode: 'cors',
+    core.get(`validate-token/${validator}`, {
       headers: {
-        Authorization: `Bearer ${Cookies.get(conf.cookieName)}`
+        Authorization: bearerToken
       }
     })
-      .then(response => response.json())
-      .then(data => {
-        if (data.status === 503) {
+      .then(response => {
+        if (response.data.status === 503) {
           redirect(validator)
           console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
         } else {
@@ -36,4 +37,4 @@ function redirect (validator) {
   }
 }
 
-export { validateToken, redirect }
+export { validateToken, redirect, bearerToken }

@@ -4,17 +4,17 @@
       <thead>
         <tr>
           <th class="text-left">{{ lang.ortu_kk }}</th>
-          <th class="text-right">{{ lang.ortu_label_ayah }}</th>
-          <th class="text-right">{{ lang.ortu_label_ibu }}</th>
-          <th class="text-right">{{ lang.ortu_label_telp }}</th>
+          <th class="text-left">{{ lang.ortu_label_ayah }}</th>
+          <th class="text-left">{{ lang.ortu_label_ibu }}</th>
+          <th class="text-left">{{ lang.ortu_label_telp }}</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in data">
+        <tr v-for="(item, index) in data" :key="index">
           <td class="text-left">{{ item.parent_family_card }}</td>
-          <td class="text-right">{{ item.parent_father_name }}</td>
-          <td class="text-right">{{ item.parent_mother_name }}</td>
-          <td class="text-right">{{ item.parent_phone_number }}</td>
+          <td class="text-left">{{ item.parent_father_name }}</td>
+          <td class="text-left">{{ item.parent_mother_name }}</td>
+          <td class="text-left">{{ item.parent_phone_number }}</td>
         </tr>
       </tbody>
     </q-markup-table>

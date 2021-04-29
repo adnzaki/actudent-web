@@ -5,7 +5,7 @@
  * @package     Pagination
  * @author      Adnan Zaki
  * @type        Libraries
- * @version     2.2.0
+ * @version     2.2.1
  * @url         https://wolestech.com
  */
 
@@ -14,10 +14,10 @@ const SSPaging = {
     return {
       pageLinks: [], limit: 10, offset: 0, prev: 0,
       next: 0, first: 0, last: 0, setStart: 0, totalRows: 0,
-      numLinks: true, activeClass: '', linkClass: '',
+      numLinks: true, activeClass: 'active', linkClass: 'item',
       showPaging: true, search: '', data: [],
       orderBy: '', searchBy: '', sort: 'ASC', whereClause: '',
-      url: '', ascendingSort: false, linkNum: 0, rows: 10, // custom limit
+      url: '', ascendingSort: false, linkNum: false, rows: 10, // custom limit
       token: '',
 
       // Delay runPaging() on search filter
@@ -221,7 +221,7 @@ const SSPaging = {
         method: 'GET',
         mode: 'cors',
         headers: {
-          Authorization: `Bearer ${options.token}`
+          Authorization: options.token ?? ''
         }
       })
         .then(response => response.json())
@@ -230,9 +230,9 @@ const SSPaging = {
           this.create({
             rows: data.totalRows,
             start: options.offset,
-            linkNum: options.linkNum,
-            activeClass: options.activeClass,
-            linkClass: options.linkClass
+            linkNum: options.linkNum ?? this.linkNum,
+            activeClass: options.activeClass ?? this.activeClass,
+            linkClass: options.linkClass ?? this.linkClass
           })
         })
         .catch((error) => {
