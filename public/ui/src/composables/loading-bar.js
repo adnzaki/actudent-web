@@ -4,14 +4,14 @@ export default function runLoadingBar(options) {
   if(options === undefined) {
     options = {
       color: 'blue',
-      size: '10px',
+      size: '5px',
       position: 'top'
     }
   }
 
   LoadingBar.setDefaults({
     color: options.color ?? 'blue',
-    size: options.size ?? '10px',
+    size: options.size ?? '5px',
     position: options.position ?? 'top'
   })
 

@@ -9,8 +9,8 @@
  * @url         https://wolestech.com
  */
 
-const SSPaging = {
-  data() {
+ export const SSPaging = {
+  state() {
     return {
       pageLinks: [], limit: 10, offset: 0, prev: 0,
       next: 0, first: 0, last: 0, setStart: 0, totalRows: 0,
@@ -52,28 +52,35 @@ const SSPaging = {
       },
       pagingLang: '',
     }
-
   },
-  methods: {
+  actions: {
     /**
      * Method for excetuing getData() to avoid incorrect
      * offset calculation after insert or update data
      * 
      * @return void
      */
-    execGetData() {
-      let start = this.offset / this.limit
+     execGetData({ state, dispatch }) {
+      let start = state.offset / state.limit
       var exec = num => {
-        this.offset = num
-        this.runPaging()
+        state.offset = num
+        dispatch('runPaging')
       }
       exec(start)
       setTimeout(() => {
-        if (this.data.length === 0) {
+        if (state.data.length === 0) {
           start -= 1
           exec(start)
         }
       }, 500)
+    },
+    onSearchChanged({ state, dispatch }) {
+      if (state.search === '' && state.autoReset.active) {
+        setTimeout(() => {
+          state.offset = 0
+          dispatch('runPaging')
+        }, state.autoReset.timeout)
+      }
     },
     /**
      * Method for navigating the page
@@ -82,21 +89,21 @@ const SSPaging = {
      * 
      * @return void
      */
-    nav(page) {
-      this.offset = page
-      this.runPaging()
+     nav({ state, dispatch }, page) {
+      state.offset = page
+      dispatch('runPaging')
     },
     /**
      * Search data based on parameters in the search box
      * 
      * @return void
      */
-    filter() {
+    filter({ state, dispatch }) {
       let timeout
-      (this.delay.active) ? timeout = this.delay.timeout : timeout = 0
+      (state.delay.active) ? timeout = state.delay.timeout : timeout = 0
       setTimeout(() => {
-        this.offset = 0
-        this.runPaging()
+        state.offset = 0
+        dispatch('runPaging')
       }, timeout);
     },
     /**
@@ -104,9 +111,9 @@ const SSPaging = {
      * 
      * @return void
      */
-    reloadData() {
-      this.offset = (this.activePage - 1)
-      this.runPaging()
+    reloadData({ state, dispatch, getters }) {
+      state.offset = (getters.activePage - 1)
+      dispatch('runPaging')
     },
     /**
      * Method for sorting data based on table's field
@@ -115,27 +122,27 @@ const SSPaging = {
      * 
      * @return void
      */
-    sortData(orderBy) {
-      (this.sort === 'ASC') ? this.ascendingSort = true : this.ascendingSort = false
-      if (this.ascendingSort) {
-        this.ascendingSort = false
-        this.sort = 'DESC'
+    sortData({ state, dispatch }, orderBy) {
+      (state.sort === 'ASC') ? state.ascendingSort = true : state.ascendingSort = false
+      if (state.ascendingSort) {
+        state.ascendingSort = false
+        state.sort = 'DESC'
       } else {
-        this.ascendingSort = true
-        this.sort = 'ASC'
+        state.ascendingSort = true
+        state.sort = 'ASC'
       }
-      this.orderBy = orderBy
-      this.runPaging()
+      state.orderBy = orderBy
+      dispatch('runPaging')
     },
     /**
      * Option to show number of data per page
      * 
      * @return void
      */
-    showPerPage() {
-      this.limit = parseInt(this.rows)
-      this.offset = 0
-      this.runPaging()
+    showPerPage({ state, dispatch }) {
+      state.limit = parseInt(state.rows)
+      state.offset = 0
+      dispatch('runPaging')
     },
     /**
      * Method for excecuting getData() based on current state
@@ -143,28 +150,28 @@ const SSPaging = {
      * 
      * @return void
      */
-    runPaging() {
-      this.getData({
-        token: this.token,
-        lang: this.pagingLang,
-        limit: this.limit,
-        offset: this.offset,
-        orderBy: this.orderBy,
-        searchBy: this.searchBy,
-        sort: this.sort,
-        where: this.whereClause,
-        search: this.search,
-        url: this.url,
-        linkNum: this.linkNum,
-        activeClass: this.activeClass,
-        linkClass: this.linkClass,
+    runPaging({ state, dispatch }) {
+      dispatch('getData', {
+        token: state.token,
+        lang: state.pagingLang,
+        limit: state.limit,
+        offset: state.offset,
+        orderBy: state.orderBy,
+        searchBy: state.searchBy,
+        sort: state.sort,
+        where: state.whereClause,
+        search: state.search,
+        url: state.url,
+        linkNum: state.linkNum,
+        activeClass: state.activeClass,
+        linkClass: state.linkClass,
         autoReset: {
-          active: this.autoReset.active,
-          timeout: this.autoReset.timeout
+          active: state.autoReset.active,
+          timeout: state.autoReset.timeout
         },
         delay: {
-          active: this.delay.active,
-          timeout: this.delay.timeout
+          active: state.delay.active,
+          timeout: state.delay.timeout
         }
       })
     },
@@ -177,43 +184,43 @@ const SSPaging = {
      * 
      * @return void
      */
-    getData(options) {
-      this.token = options.token
-      this.pagingLang = options.lang
-      this.url = options.url
-      this.limit = options.limit
-      this.offset = options.offset * options.limit
-      this.orderBy = options.orderBy
+    getData({ state, dispatch }, options) {
+      state.token = options.token
+      state.pagingLang = options.lang
+      state.url = options.url
+      state.limit = options.limit
+      state.offset = options.offset * options.limit
+      state.orderBy = options.orderBy
 
       // options.searchBy could be a string or array
       typeof options.searchBy === 'string' ?
-        this.searchBy = options.searchBy :
-        this.searchBy = options.searchBy.join('-')
+        state.searchBy = options.searchBy :
+        state.searchBy = options.searchBy.join('-')
 
-      this.sort = options.sort
-      this.search = options.search
+      state.sort = options.sort
+      state.search = options.search
       let searchParam
-      this.search === '' ? searchParam = '' : searchParam = '/' + this.search
-      options.where === undefined ? this.whereClause = '' : this.whereClause = options.where
+      state.search === '' ? searchParam = '' : searchParam = '/' + state.search
+      options.where === undefined ? state.whereClause = '' : state.whereClause = options.where
 
-      let baseURL = `${options.url}${this.limit}/${this.offset}/${this.orderBy}/${this.searchBy}/${this.sort}`,
+      let baseURL = `${options.url}${state.limit}/${state.offset}/${state.orderBy}/${state.searchBy}/${state.sort}`,
         requestURL
 
-      this.whereClause === '' ?
+      state.whereClause === '' ?
         requestURL = `${baseURL}${searchParam}` :
-        requestURL = `${baseURL}/${this.whereClause}${searchParam}`
+        requestURL = `${baseURL}/${state.whereClause}${searchParam}`
 
       if (options.autoReset !== undefined) {
-        this.autoReset.active = options.autoReset.active
+        state.autoReset.active = options.autoReset.active
         if (options.autoReset.timeout !== undefined) {
-          this.autoReset.timeout = options.autoReset.timeout
+          state.autoReset.timeout = options.autoReset.timeout
         }
       }
 
       if (options.delay !== undefined) {
-        this.delay.active = options.delay.active
+        state.delay.active = options.delay.active
         if (options.delay.timeout !== undefined) {
-          this.delay.timeout = options.delay.timeout
+          state.delay.timeout = options.delay.timeout
         }
       }
 
@@ -226,13 +233,13 @@ const SSPaging = {
       })
         .then(response => response.json())
         .then(data => {
-          this.data = data.container
-          this.create({
+          state.data = data.container
+          dispatch('create', {
             rows: data.totalRows,
             start: options.offset,
-            linkNum: options.linkNum ?? this.linkNum,
-            activeClass: options.activeClass ?? this.activeClass,
-            linkClass: options.linkClass ?? this.linkClass
+            linkNum: options.linkNum ?? state.linkNum,
+            activeClass: options.activeClass ?? state.activeClass,
+            linkClass: options.linkClass ?? state.linkClass
           })
         })
         .catch((error) => {
@@ -247,16 +254,16 @@ const SSPaging = {
      * 
      * @return void
      */
-    create(settings) {
-      this.totalRows = settings.rows
-      this.activeClass = settings.activeClass
-      this.linkClass = settings.linkClass
-      this.linkNum = settings.linkNum
+     create({ state, getters }, settings) {
+      state.totalRows = settings.rows
+      state.activeClass = settings.activeClass
+      state.linkClass = settings.linkClass
+      state.linkNum = settings.linkNum
       // reset links
-      this.pageLinks = []
+      state.pageLinks = []
 
       // hitung jumlah halaman yang dibutuhkan untuk link pagination
-      let countLink = settings.rows / this.limit
+      let countLink = settings.rows / state.limit
       countLink = Math.ceil(countLink)
 
       // deklarasi nomor awal link
@@ -264,7 +271,7 @@ const SSPaging = {
 
       // cek apakah akan menampilkan nomor link (1, 2, 3 dst.) atau tidak
       if (settings.linkNum === false) {
-        this.numLinks = false
+        state.numLinks = false
       }
 
       // generate startLink...
@@ -276,7 +283,7 @@ const SSPaging = {
         } else {
           startLink = settings.linkNum
         }
-        startLink = this.activePage - (startLink / 2)
+        startLink = getters.activePage - (startLink / 2)
         if (startLink < 1) {
           startLink = 1
         }
@@ -284,18 +291,18 @@ const SSPaging = {
 
       // generate link pagination....
       for (let i = startLink; i <= countLink; i++) {
-        this.pageLinks.push(i)
-        if (this.pageLinks.length === settings.linkNum) {
+        state.pageLinks.push(i)
+        if (state.pageLinks.length === settings.linkNum) {
           break;
         }
       }
 
       // halaman terakhir sama dengan jumlah link
-      this.last = countLink
+      state.last = countLink
 
       // generate link halaman sebelumnya dan selanjutnya
-      settings.start === (this.last -= 1) ? this.next = settings.start : this.next = settings.start + 1
-      settings.start === this.first ? this.prev = settings.start : this.prev = settings.start - 1
+      settings.start === (state.last -= 1) ? state.next = settings.start : state.next = settings.start + 1
+      settings.start === state.first ? state.prev = settings.start : state.prev = settings.start - 1
     },
     /**
      * Method for marking active link
@@ -304,55 +311,57 @@ const SSPaging = {
      * 
      * @return string
      */
-    activeLink(link) {
-      if (link === this.activePage) {
-        return this.activeClass
+    activeLink({ state, getters }, link) {
+      if (link === getters.activePage) {
+        return state.activeClass
       } else {
         return ''
       }
     },
+  },
+  mutations: {
     /**
      * Reset pagination into default value 
      * 
      * @return void
      */
-    reset() {
-      this.data = []
-      this.pageLinks = []
-      this.limit = 10
-      this.offset = 0
-      this.prev = 0
-      this.next = 0
-      this.first = 0
-      this.last = 0
-      this.setStart = 0
-      this.totalRows = 0
+    reset(state) {
+      state.data = []
+      state.pageLinks = []
+      state.limit = 10
+      state.offset = 0
+      state.prev = 0
+      state.next = 0
+      state.first = 0
+      state.last = 0
+      state.setStart = 0
+      state.totalRows = 0
     }
   },
-  computed: {
+  getters: {
     /**
      * Get active page
      * 
      * @return int
      */
-    activePage() {
-      return ((this.offset / this.limit) + 1)
+     activePage(state) {
+      return ((state.offset / state.limit) + 1)
     },
     /**
      * Get the last data range
      * 
      * @return int
      */
-    dataTo() {
-      let currentPage = this.offset / this.limit,
+    dataTo(state) {
+      let currentPage = state.offset / state.limit,
         range
-      if (this.pageLinks.length === 0) {
+      if (state.pageLinks.length === 0) {
         range = 0
       } else {
-        if (currentPage === this.last) {
-          range = this.totalRows
+        if (currentPage === state.last) {
+          range = state.totalRows
         } else {
-          range = this.offset + this.limit
+          range = state.offset + state.limit
         }
       }
 
@@ -363,15 +372,15 @@ const SSPaging = {
      * 
      * @return void
      */
-    dataFrom() {
+    dataFrom(state) {
       let from
-      if (this.pageLinks.length === 0) {
+      if (state.pageLinks.length === 0) {
         from = 0
       } else {
-        if (this.offset === 0) {
+        if (state.offset === 0) {
           from = 1
         } else {
-          from = this.offset + 1
+          from = state.offset + 1
         }
       }
 
@@ -382,30 +391,18 @@ const SSPaging = {
      * 
      * @return string
      */
-    rowRange() {
-      if (this.pageLinks.length === 0) {
-        this.showPaging = false
+    rowRange(state, getters) {
+      if (state.pageLinks.length === 0) {
+        state.showPaging = false
 
         // handle error on undefined
-        return (this.sentences[this.pagingLang] === undefined) ? '' : this.sentences[this.pagingLang].noData
+        return (state.sentences[state.pagingLang] === undefined) ? '' : state.sentences[state.pagingLang].noData
       } else {
-        this.showPaging = true
-        return `${this.sentences[this.pagingLang].showRows} ${this.dataFrom} - 
-                ${this.dataTo} ${this.sentences[this.pagingLang].from} ${this.totalRows} 
-                ${this.sentences[this.pagingLang].rows}`
+        state.showPaging = true
+        return `${state.sentences[state.pagingLang].showRows} ${getters.dataFrom} - 
+                ${getters.dataTo} ${state.sentences[state.pagingLang].from} ${state.totalRows} 
+                ${state.sentences[state.pagingLang].rows}`
       }
     }
   },
-  watch: {
-    search: function () {
-      if (this.search === '' && this.autoReset.active) {
-        setTimeout(() => {
-          this.offset = 0
-          this.runPaging()
-        }, this.autoReset.timeout)
-      }
-    }
-  }
 }
-
-export default SSPaging
