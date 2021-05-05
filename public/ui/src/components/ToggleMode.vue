@@ -18,7 +18,7 @@
 <script>
 import { useQuasar } from 'quasar'
 import { defineComponent } from 'vue'
-import { toggleHeader } from '../composables/mode-comp'
+import { toggleHeader } from '../composables/mode'
 import locale from '../mixins/fetch-lang'
 
 export default defineComponent({

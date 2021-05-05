@@ -62,7 +62,7 @@ import getPengguna from '../mixins/get-pengguna'
 import locale from '../mixins/fetch-lang'
 import { baseUrl } from '../../../globalConfig'
 import ToggleMode from 'components/ToggleMode'
-import { headerColor } from '../composables/mode-comp'
+import { headerColor } from '../composables/mode'
 
 export default defineComponent({
   name: 'MainLayout',
