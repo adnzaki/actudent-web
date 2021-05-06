@@ -9,8 +9,8 @@
 <style lang="scss" scoped>
 .elevated {
   position: fixed;
-  right: 30px;
-  bottom: 30px;
+  right: 25px;
+  top: 75px;
   z-index: 9999;
 }
 </style>

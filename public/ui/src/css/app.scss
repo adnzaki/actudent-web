@@ -1,1 +1,13 @@
 // app global css in SCSS form
+
+.table-scroll-area {
+  height: 55vh; 
+  max-width: 100vw; 
+  margin-top: -30px
+}
+
+@media(min-width: 1920px) {
+  .table-scroll-area {
+    height: 73vh; 
+  }
+}

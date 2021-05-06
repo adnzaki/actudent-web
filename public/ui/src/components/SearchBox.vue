@@ -1,8 +1,9 @@
 <template>
-  <div :class="['col col-sm-6 col-md-4', addClass]">
+  <div :class="['col-12 col-md-4', addClass]">
     <q-input outlined bottom-slots v-model="$store.state[vuexModule]['paging']['search']" 
       :label="label"
-      @keyup.enter="filter">
+      @keyup.enter="filter"
+      dense>
       <template v-slot:append>
         <q-icon name="search" @click="filter" class="cursor-pointer" />
       </template>

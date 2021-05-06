@@ -1,30 +1,47 @@
 <template>
   <div>
-    <q-markup-table>
-      <thead>
-        <tr>
-          <th class="text-left cursor-pointer" @click="sortData('parent_family_card')">{{ lang.ortu_kk }} <sort-icon /></th>
-          <th class="text-left cursor-pointer" @click="sortData('parent_father_name')">{{ lang.ortu_label_ayah }} <sort-icon /></th>
-          <th class="text-left cursor-pointer" @click="sortData('parent_mother_name')">{{ lang.ortu_label_ibu }} <sort-icon /></th>
-          <th class="text-left">{{ lang.ortu_label_telp }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in data" :key="index">
-          <td class="text-left">{{ item.parent_family_card }}</td>
-          <td class="text-left">{{ item.parent_father_name }}</td>
-          <td class="text-left">{{ item.parent_mother_name }}</td>
-          <td class="text-left">{{ item.parent_phone_number }}</td>
-        </tr>
-      </tbody>
-    </q-markup-table>
-    <div class="q-pa-lg flex flex-center">
-      <q-pagination class="flex flex-center"
-        v-model="$store.state.parent.current"
-        :max="pageLinks.length"
-        input
-        @update:model-value="onPaginationUpdate"
-      />
+    <q-scroll-area class="table-scroll-area">
+      <q-markup-table bordered>
+        <thead>
+          <tr>
+            <th class="text-left cursor-pointer" @click="sortData('parent_family_card')">{{ lang.ortu_kk }} <sort-icon /></th>
+            <th class="text-left cursor-pointer" @click="sortData('parent_father_name')">{{ lang.ortu_label_ayah }} <sort-icon /></th>
+            <th class="text-left cursor-pointer" @click="sortData('parent_mother_name')">{{ lang.ortu_label_ibu }} <sort-icon /></th>
+            <th class="text-left">{{ lang.ortu_label_telp }}</th>
+            <th class="text-left">{{ lang.aksi }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in data" :key="index">
+            <td class="text-left">{{ item.parent_family_card }}</td>
+            <td class="text-left">{{ item.parent_father_name }}</td>
+            <td class="text-left">{{ item.parent_mother_name }}</td>
+            <td class="text-left">{{ item.parent_phone_number }}</td>
+            <td class="text-left">
+              <q-btn-group>
+                <q-btn color="accent" icon="edit" />
+                <q-btn color="accent" icon="delete" />
+              </q-btn-group>
+            </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </q-scroll-area>
+    
+    <div class="q-pa-sm">
+      <div class="row">
+        <div class="col-12 col-md-6">
+          <p> {{ rowRange }} </p>
+        </div>
+        <div class="col-12 col-md-2 offset-4">
+          <q-pagination
+            v-model="$store.state.parent.current"
+            :max="pageLinks.length"
+            input
+            @update:model-value="onPaginationUpdate"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -32,7 +49,7 @@
 <script>
 import { defineComponent } from 'vue'
 import SortIcon from 'components/SortIcon'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 
 export default defineComponent({
   name: 'ParentTable',
@@ -53,7 +70,10 @@ export default defineComponent({
     ...mapState('parent', {
       data: state => state.paging.data,
       pageLinks: state => state.paging.pageLinks
-    }),    
+    }),
+    ...mapGetters('parent', {
+      rowRange: 'rowRange'
+    })
   },
   setup () {
     return {}
