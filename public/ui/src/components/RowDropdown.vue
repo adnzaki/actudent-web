@@ -10,21 +10,18 @@
 
 <script>
 import { defineComponent } from 'vue'
-import { mapActions } from 'vuex'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'RowDropdown',
   props: ['lang', 'addClass', 'vuexModule'],
-  methods: {
-    ...mapActions('parent', [ 
-      'showPerPage'
-    ])
-  },
-  setup() {
+  setup(props) {
+    const $store = useStore()
     const options = [10, 25, 50, 100, 250]
 
     return {
-      options
+      options,
+      showPerPage: () => $store.dispatch(`${props.vuexModule}/showPerPage`)
     }
   }
 })

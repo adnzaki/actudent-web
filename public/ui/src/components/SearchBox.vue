@@ -13,22 +13,19 @@
 
 <script>
 import { defineComponent, computed, watch } from 'vue'
-import { mapActions, useStore } from 'vuex'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'SearchBox',
   props: ['label', 'addClass', 'vuexModule'],
-  methods: {
-    ...mapActions('parent', [ 
-      'filter'
-    ])
-  },
   setup(props) {
     const $store = useStore()
     let search = computed(() => $store.state[props.vuexModule]['paging']['search'])
     watch(search, () => $store.dispatch(`${props.vuexModule}/onSearchChanged`))
 
-    return {}
+    return {
+      filter: () => $store.dispatch(`${props.vuexModule}/filter`)
+    }
   }
 })
 </script>
