@@ -1,5 +1,5 @@
 <template>
-  <div :class="['col-12 col-md-4', addClass]">
+  <div :class="rootClass">
     <q-input outlined bottom-slots v-model="$store.state[vuexModule]['paging']['search']" 
       :label="label"
       @keyup.enter="filter"
@@ -17,7 +17,21 @@ import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'SearchBox',
-  props: ['label', 'addClass', 'vuexModule'],
+  props: {
+    label: {
+      type: String,
+      required: true
+    },
+    rootClass: {
+      type: String,
+      required: true,
+      default: 'col-12 col-md-4'
+    },
+    vuexModule: {
+      type: String,
+      required: true,
+    }
+  },
   setup(props) {
     const $store = useStore()
     let search = computed(() => $store.state[props.vuexModule]['paging']['search'])
