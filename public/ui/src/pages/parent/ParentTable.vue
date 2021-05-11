@@ -4,6 +4,7 @@
       <q-markup-table bordered>
         <thead>
           <tr>
+            <th class="text-left cursor-pointer"><q-checkbox v-model="$store.state.parent.checkAll" @update:model-value="selectAll" /></th>
             <th class="text-left cursor-pointer" @click="sortData('parent_family_card')">{{ lang.ortu_kk }} <sort-icon /></th>
             <th class="text-left cursor-pointer" @click="sortData('parent_father_name')">{{ lang.ortu_label_ayah }} <sort-icon /></th>
             <th class="text-left cursor-pointer" @click="sortData('parent_mother_name')">{{ lang.ortu_label_ibu }} <sort-icon /></th>
@@ -13,6 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
+            <td class="text-left"><q-checkbox v-model="$store.state.parent.selectedParents" :val="`${item.parent_id}-${item.user_id}`" /></td>
             <td class="text-left">{{ item.parent_family_card }}</td>
             <td class="text-left">{{ item.parent_father_name }}</td>
             <td class="text-left">{{ item.parent_mother_name }}</td>
@@ -27,7 +29,7 @@
         </tbody>
       </q-markup-table>
     </q-scroll-area>
-    
+    <q-separator/>
     <div class="q-pa-sm">
       <div class="row">
         <div class="col-12 col-md-6">
@@ -47,11 +49,10 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import SortIcon from 'components/SortIcon'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
-export default defineComponent({
+export default {
   name: 'ParentTable',
   props: ['lang'],
   components: { SortIcon },
@@ -65,11 +66,14 @@ export default defineComponent({
       'onPaginationUpdate',
       'sortData'
     ]),
+    ...mapMutations('parent', [
+      'selectAll'
+    ])
   },
   computed: {
     ...mapState('parent', {
       data: state => state.paging.data,
-      pageLinks: state => state.paging.pageLinks
+      pageLinks: state => state.paging.pageLinks,
     }),
     ...mapGetters('parent', {
       rowRange: 'rowRange'
@@ -78,5 +82,5 @@ export default defineComponent({
   setup () {
     return {}
   }
-})
+}
 </script>

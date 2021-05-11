@@ -17,11 +17,10 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { defineComponent } from 'vue'
 import { toggleHeader } from '../composables/mode'
 import locale from '../mixins/fetch-lang'
 
-export default defineComponent({
+export default {
   name: 'ToggleMode',
   mixins: [locale],
   mounted() {
@@ -43,5 +42,5 @@ export default defineComponent({
       toggleMode
     }
   }
-})
+}
 </script>

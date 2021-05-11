@@ -24,11 +24,9 @@
 </template>
 
 <script>
-// import { defineComponent, ref, onMounted } from 'vue'
-import { defineComponent } from 'vue'
 import locale from '../../mixins/fetch-lang'
 
-export default defineComponent({
+export default {
   name: 'PageIndex',
   mixins: [locale],
   data () {
@@ -43,5 +41,5 @@ export default defineComponent({
     return {
     }
   }
-})
+}
 </script>
