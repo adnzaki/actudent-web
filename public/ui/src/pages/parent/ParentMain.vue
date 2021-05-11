@@ -9,25 +9,28 @@
           <search-box :label="lang.ortu_cari" vuex-module="parent" class="q-mt-sm" />
         </div>
       </q-card-section>
+      <add-parent-form :lang="lang" />
       <parent-table :lang="lang" />
     </q-card>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { onMounted } from 'vue'
 import locale from '../../mixins/fetch-lang'
-import ParentTable from './ParentTable'
 import SearchBox from 'components/SearchBox'
-import MainButton from './MainButton'
 import RowDropdown from 'components/RowDropdown'
+import ParentTable from './ParentTable'
+import MainButton from './MainButton'
+import AddParentForm from './AddParentForm'
 
-export default defineComponent({
+export default {
   name: 'ParentMain',
   mixins: [locale], 
   components: { 
     ParentTable, SearchBox, 
-    MainButton, RowDropdown
+    MainButton, RowDropdown,
+    AddParentForm
   },
   data () {
     return {}
@@ -36,12 +39,12 @@ export default defineComponent({
     setTimeout(() => {
       this.fetchLang('Admin')
       this.fetchLang('AdminOrtu')
+      this.fetchLang('AdminUser')
     }, 500)
   },
   setup () {
-    return {
-      
-    }
+    
+    return {}
   }
-})
+}
 </script>

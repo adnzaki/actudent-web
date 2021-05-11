@@ -30,6 +30,20 @@ class Resources extends Actudent
     }
 
     /**
+     * Get school data 
+     * 
+     * @return object
+     */
+    public function getSekolah()
+    {
+        if(valid_token())
+        {
+            $response = $this->sekolah->getDataSekolah()[0];
+            return $this->createResponse($response);
+        }
+    }
+
+    /**
      * Get user data based on token they have
      * 
      * @return JSON

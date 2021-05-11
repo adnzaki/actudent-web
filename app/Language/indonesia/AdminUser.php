@@ -23,7 +23,7 @@ return [
     'user_email'                => 'Email pengguna',
     'user_pass'                 => 'Kata sandi',
     'user_pass_input'           => 'Ketik kata sandi minimal 8 karakter',
-    'user_pass_confirm'         => 'Konfirmasi password',
+    'user_pass_confirm'         => 'Konfirmasi kata sandi',
     'user_err_email_required'   => 'Email pengguna harus terisi',
     'user_err_email_unique'     => 'Email sudah digunakan',
     'user_err_pass_required'    => 'Kata sandi harus terisi',
