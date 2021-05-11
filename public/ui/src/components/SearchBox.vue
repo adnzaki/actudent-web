@@ -12,19 +12,17 @@
 </template>
 
 <script>
-import { defineComponent, computed, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
-export default defineComponent({
+export default {
   name: 'SearchBox',
   props: {
     label: {
-      type: String,
-      required: true
+      type: String
     },
     rootClass: {
       type: String,
-      required: true,
       default: 'col-12 col-md-4'
     },
     vuexModule: {
@@ -41,5 +39,5 @@ export default defineComponent({
       filter: () => $store.dispatch(`${props.vuexModule}/filter`)
     }
   }
-})
+}
 </script>

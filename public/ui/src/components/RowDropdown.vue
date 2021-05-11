@@ -9,10 +9,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
 import { useStore } from 'vuex'
 
-export default defineComponent({
+export default {
   name: 'RowDropdown',
   props: {
     lang: {
@@ -21,7 +20,6 @@ export default defineComponent({
     },
     rootClass: {
       type: String,
-      required: true,
       default: 'col-12 col-md-2 offset-md-2'
     },
     vuexModule: {
@@ -38,5 +36,5 @@ export default defineComponent({
       showPerPage: () => $store.dispatch(`${props.vuexModule}/showPerPage`)
     }
   }
-})
+}
 </script>
