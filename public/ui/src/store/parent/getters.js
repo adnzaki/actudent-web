@@ -1,4 +1,3 @@
-/*
-export function someGetter (state) {
-}
-*/
+const getters = {}
+
+export default getters
