@@ -1,5 +1,10 @@
-import { bearerToken } from '../../composables/common'
-import runLoadingBar from '../../composables/loading-bar'
+import { 
+  bearerToken, 
+  admin,
+  runLoadingBar,
+  flashAlert,
+  createFormData
+} from '../../composables/common'
 
 const actions = {
   getOrtu({ state, dispatch }) {
@@ -26,6 +31,43 @@ const actions = {
   onPaginationUpdate({ state, dispatch }) {
     runLoadingBar()
     dispatch('nav', state.current - 1)
+  },
+
+  // payload: { data, lang, edit, id }
+  save({ state, dispatch }, payload) {
+    let url
+    payload.edit ? url = `save/${payload.id}` : url = 'save'
+    state.helper.disableSaveButton = true
+    admin.post(`${state.parentApi}${url}`, payload.data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.helper.disableSaveButton = false
+        const res = response.data
+        if(res.code === '500') {
+          state.error = res.msg
+          flashAlert(
+            `Error! ${payload.lang.ortu_error_text}`,
+            'negative'
+          )
+        } else {
+          state.saveStatus = 200
+          dispatch('resetForm')
+          if(payload.edit) {
+            flashAlert(`${payload.lang.sukses} ${payload.lang.ortu_update_success}`)
+          } else {
+            state.showAddForm = false
+            flashAlert(`${payload.lang.sukses} ${payload.lang.ortu_insert_success}`)
+          }
+        }
+      })
+  },
+  resetForm({ state, dispatch }) {
+    state.error = {}
+    dispatch('getOrtu')
   }
 }
 

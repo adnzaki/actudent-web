@@ -15,13 +15,6 @@ class Auth extends Actudent
         else 
         {            
             $data = $this->common();
-
-            // set default language when no there is no language option
-            // default language will be set to Bahasa Indonesia if there is no session found
-            $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';
-
-            // set app language based on default language
-            $this->setLanguage($defaultLang);
             $data['title'] = lang('AdminAuth.login_title');
             return parse('Actudent\Admin\Views\new-auth', $data);
         }        

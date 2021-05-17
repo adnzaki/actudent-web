@@ -3,6 +3,7 @@ import { appConfig as conf } from '../../../actudent.config'
 export default function () {
   return {
     parentURL: `${conf.adminAPI}orang-tua/`,
+    parentApi: 'orang-tua/',
     error: {},
     helper: {
       disableSaveButton: false,
@@ -15,6 +16,6 @@ export default function () {
     motherName: '', fatherName: '',
     selectedParents: [], checkAll: false,
     current: 1,
-    showAddForm: false
+    showAddForm: false, saveStatus: 500
   }
 }

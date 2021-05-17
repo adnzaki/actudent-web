@@ -1,6 +1,6 @@
 import { LoadingBar } from 'quasar'
 
-export default function runLoadingBar(options) {
+export function runLoadingBar(options) {
   if(options === undefined) {
     options = {
       color: 'blue',

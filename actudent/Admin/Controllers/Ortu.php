@@ -19,6 +19,8 @@ class Ortu extends Actudent
     public function __construct()
     {
         $this->ortu = new OrtuModel;
+        $resource = new \Actudent\Core\Controllers\Resources;
+        $resource->setUILanguage();
     }
 
     public function index()
@@ -74,29 +76,32 @@ class Ortu extends Actudent
 
     public function save($id = null)
     {
-        $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if(is_admin())
         {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            $data = $this->formData();
-            if($id === null) 
+            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+            if(! $this->validate($validation[0], $validation[1]))
             {
-                $this->ortu->insert($data);
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
             }
-            else
+            else 
             {
-                $this->ortu->update($data, $id);
+                $data = $this->formData();
+                if($id === null) 
+                {
+                    $this->ortu->insert($data);
+                }
+                else
+                {
+                    $this->ortu->update($data, $id);
+                }
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
             }
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
         }
     }
 
@@ -113,7 +118,7 @@ class Ortu extends Actudent
         $messages = [
             'parent_family_card' => [
                 'required'      => lang('AdminOrtu.ortu_err_kk_required'),
-                'is_natural'       => lang('AdminOrtu.ortu_err_kk_numeric'),
+                'is_natural'    => lang('AdminOrtu.ortu_err_kk_numeric'),
                 'exact_length'  => lang('AdminOrtu.ortu_err_kk_exact'),
                 'is_unique'     => lang('AdminOrtu.ortu_err_kk_duplicate'),
             ],
@@ -125,7 +130,7 @@ class Ortu extends Actudent
             ],
             'parent_phone_number' => [
                 'required'      => lang('AdminOrtu.ortu_err_phone_require'),
-                'is_natural'       => lang('AdminOrtu.ortu_err_phone_num'),
+                'is_natural'    => lang('AdminOrtu.ortu_err_phone_num'),
                 'min_length'    => lang('AdminOrtu.ortu_err_phone_min'),
                 'max_length'    => lang('AdminOrtu.ortu_err_phone_max'),
             ],            
@@ -170,12 +175,17 @@ class Ortu extends Actudent
 
     private function formData()
     {
+        $fatherName = $this->request->getPost('parent_father_name');
+        $motherName = $this->request->getPost('parent_mother_name');
+        $userNameSelector = $this->request->getPost('user_name');
+        $userName = $userNameSelector === '1' ? $fatherName : $motherName;
+        
         return [
             'parent_family_card'    => $this->request->getPost('parent_family_card'),
-            'parent_father_name'    => $this->request->getPost('parent_father_name'),
-            'parent_mother_name'    => $this->request->getPost('parent_mother_name'),
+            'parent_father_name'    => $fatherName,
+            'parent_mother_name'    => $motherName,
             'parent_phone_number'   => $this->request->getPost('parent_phone_number'),
-            'user_name'             => $this->request->getPost('user_name'),
+            'user_name'             => $userName,
             'user_email'            => $this->request->getPost('user_email'),
             'user_password'         => $this->request->getPost('user_password'),
         ];

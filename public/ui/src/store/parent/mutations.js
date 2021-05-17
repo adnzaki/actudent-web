@@ -7,7 +7,7 @@ const mutations = {
     } else {
       state.selectedParents = []
     }
-  }
+  } 
 }
 
 export default mutations

@@ -29,6 +29,28 @@ class Resources extends Actudent
         return $this->response->setJSON($status);
     }
 
+    
+    /**
+     * Set language for User Interface
+     * 
+     * @return string
+     */
+    public function setUILanguage()
+    {
+        helper('Actudent\Core\Helpers\wolesdev');
+        if(valid_token())
+        {
+            $decodedToken = jwt_decode(bearer_token());
+            $auth = new \Actudent\Core\Models\AuthModel;
+            $lang = $auth->getUserLanguage($decodedToken->email);
+            \Config\Services::language($lang[0]->user_language);
+        }
+        else
+        {
+            return 'indonesia';
+        }
+    }
+
     /**
      * Get school data 
      * 
