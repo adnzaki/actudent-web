@@ -13,8 +13,8 @@
 	<link rel=icon type=image/png sizes=32x32 href={ui}icons/favicon-32x32.png> 
 	<link rel=icon type=image/png sizes=16x16 href={ui}icons/favicon-16x16.png> 
 	<link rel=icon type=image/ico href={ui}favicon.ico>
-	<link href={ui}vendor.fab637ff.css rel=stylesheet>
-    <link href={ui}app.0e433876.css rel=stylesheet>
+	<link href={ui}css/vendor.7f4564c6.css rel=stylesheet>
+    <link href={ui}css/app.d981fc0c.css rel=stylesheet>
 	<link rel=manifest href={ui}manifest.json>
 	<meta name=theme-color content=#027be3>
 	<meta name=apple-mobile-web-app-capable content=yes>
@@ -31,7 +31,7 @@
 
 <body>
 	<div id=q-app></div>
-	<script src={ui}js/vendor.8c50f5b7.js> </script> 
-    <script src={ui}js/app.bd354f28.js> </script> 
+	<script defer src={ui}js/vendor.4a0e80fb.js></script>
+    <script defer src={ui}js/app.9c7f97e9.js></script>
 </body> 
 </html>
