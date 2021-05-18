@@ -1,8 +1,6 @@
 /**
  * Global Configuration is like a magic file that changes everything in Actudent
  * Incorrect setting in this configuration will cause Actudent does not run as expected
- * globalConfig is a JS file that will never be compiled by Quasar framework, it acts
- * as a bridge for core Actudent app and its user interface.
  * Please read the instruction in order to set up this configuration correctly.
  * 
  * @author      Adnan Zaki
@@ -22,7 +20,12 @@
 // "production" mode means you have deployed Actudent in cloud hosting or
 // production server, etc. It will use different URL from your local development
 // and of course using HTTPS.
-const mode = 'production' // development, build, production
+
+// ------------------ CAUTION! -------------------------------------
+// ----- Switch to "production" mode first before create -----------
+// ----- build setup for production server/cloud hosting, ----------
+// ----- as Webpack will use this mode for bundling the UI files. --
+const mode = 'development' // development, build, production
 
 // ------ WARNING! Do not touch below this line ------
 const baseUrl = () => {
@@ -30,11 +33,5 @@ const baseUrl = () => {
             ? `https://${window.location.hostname}/public/`
             : `http://${window.location.hostname}/actudent/public/`
 }
-
-// Base URL for production server
-// const baseUrl = `https://${window.location.hostname}/public/`
-
-// Base URL for local server
-// const baseUrl = `http://${window.location.hostname}/actudent/public/`
 
 export { mode, baseUrl }
