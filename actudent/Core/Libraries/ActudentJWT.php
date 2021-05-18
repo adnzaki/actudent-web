@@ -53,13 +53,16 @@ class ActudentJWT extends \CodeIgniter\Controller
             return true;
         }
         catch(Exception $e)
-        {
-            $response = [
-                'token' => 'Invalid token',
-                'error' => $e->getMessage()
-            ];
+        {            
+            if(ENVIRONMENT === 'development')
+            {
+                $response = [
+                    'token' => 'Invalid token',
+                    'error' => $e->getMessage()
+                ];
 
-            echo json_encode($response);
+                echo json_encode($response);
+            }
         } 
     }
 }
