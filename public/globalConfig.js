@@ -25,10 +25,16 @@
 const mode = 'build' // development, build, production
 
 // ------ WARNING! Do not touch below this line ------
-const baseUrl = () => {
-    return (mode === 'production')
-            ? `https://${window.location.hostname}/public/`
-            : `http://${window.location.hostname}/actudent/public/`
-}
+// const baseUrl = () => {
+//     return (mode === 'production')
+//             ? `https://${window.location.hostname}/public/`
+//             : `http://${window.location.hostname}/actudent/public/`
+// }
+
+// Base URL for production server
+// const baseUrl = `https://${window.location.hostname}/public/`
+
+// Base URL for local server
+const baseUrl = `http://${window.location.hostname}/actudent/public/`
 
 export { mode, baseUrl }

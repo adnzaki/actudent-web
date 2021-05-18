@@ -1,7 +1,7 @@
 <?php
 
 // Route group for loading user interface
-$routes->group('app', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
+$routes->group('main', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
 {
     $routes->get('/', 'Main::index');
 });

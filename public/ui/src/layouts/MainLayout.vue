@@ -79,7 +79,7 @@ export default defineComponent({
   },
 
   setup () {
-    const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
+    const avatarBg = `${baseUrl}images/bg/wp-4.jpg`
     const header = ref('')
     function triggerHeader() {
       if(headerColor.value === 'dark') {
