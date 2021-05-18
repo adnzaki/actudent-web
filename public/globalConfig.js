@@ -22,7 +22,7 @@
 // "production" mode means you have deployed Actudent in cloud hosting or
 // production server, etc. It will use different URL from your local development
 // and of course using HTTPS.
-const mode = 'build' // development, build, production
+const mode = 'production' // development, build, production
 
 // ------ WARNING! Do not touch below this line ------
 // const baseUrl = () => {
@@ -32,9 +32,9 @@ const mode = 'build' // development, build, production
 // }
 
 // Base URL for production server
-// const baseUrl = `https://${window.location.hostname}/public/`
+const baseUrl = `https://${window.location.hostname}/public/`
 
 // Base URL for local server
-const baseUrl = `http://${window.location.hostname}/actudent/public/`
+// const baseUrl = `http://${window.location.hostname}/actudent/public/`
 
 export { mode, baseUrl }
