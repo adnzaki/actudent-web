@@ -32,9 +32,9 @@ const mode = 'build' // development, build, production
 // }
 
 // Base URL for production server
-// const baseUrl = `https://${window.location.hostname}/public/`
+const baseUrl = `https://${window.location.hostname}/public/`
 
 // Base URL for local server
-const baseUrl = `http://${window.location.hostname}/actudent/public/`
+// const baseUrl = `http://${window.location.hostname}/actudent/public/`
 
 export { mode, baseUrl }
