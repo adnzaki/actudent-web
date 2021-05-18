@@ -8,16 +8,16 @@ import { mode, baseUrl } from '../globalConfig.js'
 
 export const appConfig = {
   // API Url for admin section
-  adminAPI: `${baseUrl}admin/`,
+  adminAPI: `${baseUrl()}admin/`,
 
   // API Url for teacher section
-  teacherAPI: `${baseUrl}guru/`,
+  teacherAPI: `${baseUrl()}guru/`,
 
   // API Url for resource section
-  coreAPI: `${baseUrl}core/`,
+  coreAPI: `${baseUrl()}core/`,
 
   // API for testing section
-  testAPI: `${baseUrl}ui-test/`,
+  testAPI: `${baseUrl()}ui-test/`,
 
   // This URL will be used to redirect from
   // Actudent authentication page into main
@@ -25,7 +25,7 @@ export const appConfig = {
   homeUrl: () => {
     return (mode === 'development')
       ? 'http://localhost:8080/#/'
-      : `${baseUrl}main`
+      : `${baseUrl()}main`
   },
 
   // Cookie key name
