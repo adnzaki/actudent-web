@@ -16,6 +16,7 @@
 @media (max-width: 640px) {
 	.wrap-login100 {
 		margin-left: 0 !important;
+		margin-top: -15px;
 	}
 }
 
@@ -36,4 +37,8 @@
 .push-left {
     padding-bottom: 12px;
     color: #d5d7c6 !important;
+}
+
+.container-login100 {
+	overflow: hidden;
 }
