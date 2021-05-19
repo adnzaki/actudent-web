@@ -6,11 +6,8 @@ class Error extends Actudent
     {
         $data           = $this->common();
         $data['title']  = lang('Error.lost_title');
-        
-        $match = preg_match('/admin/', current_url());
-        ($match === 1) ? $section = 'admin' : $section = 'guru';
 
-        $data['homeURL'] = base_url("$section/home");
+        $data['homeURL'] = base_url('main');
         echo parse('Actudent\Core\Views\error404', $data);
     }    
 
