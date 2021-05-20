@@ -5,5 +5,6 @@ export function flashAlert(message, color = 'positive', position = 'top') {
     message,
     position,
     color,
+    multiline: true
   })
 }
