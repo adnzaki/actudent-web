@@ -1,0 +1,44 @@
+/* .ac-logo {
+	max-width: 120px;
+} */
+
+.login-text {
+	font-size: 0.9em;
+	text-align: center;
+	width: 100%;
+}
+
+.wrap-login100 {
+	margin-top: -45px;
+	margin-left: 85px !important;
+}
+
+@media (max-width: 640px) {
+	.wrap-login100 {
+		margin-left: 0 !important;
+		margin-top: -15px;
+	}
+}
+
+.woles-logo {
+	/* top: 575px !important; */
+	top: 280px !important;
+	position: relative !important;
+	left: -270px;
+}
+
+.woles-logo-down {
+	/* top: 595px !important; */
+	top: 300px !important;
+	position: relative !important;
+	left: -270px;
+}
+
+.push-left {
+    padding-bottom: 12px;
+    color: #d5d7c6 !important;
+}
+
+.container-login100 {
+	overflow: hidden;
+}
