@@ -38,9 +38,9 @@ export default {
   mounted () {
     setTimeout(() => {
       this.fetchLang('Admin')
-      this.fetchLang('AdminOrtu')
-      this.fetchLang('AdminUser')
-    }, 500)
+      this.fetchLang('AdminOrtu')   
+      this.fetchLang('AdminUser')          
+    }, 1000)
   },
   setup () {
     
