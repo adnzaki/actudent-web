@@ -11,7 +11,7 @@
 actudent/Trash
 actudent/Admin/Controllers/Test.php
 actudent/Installer/Controllers/Test.php
-public/.htaccess
+actudent/Core/Config/TokenKey.php
 public/app-assets
 public/app-assets.zip
 public/dompdf.zip

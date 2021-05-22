@@ -4,14 +4,24 @@ require_once APPPATH . 'ThirdParty/jwt/vendor/autoload.php';
 
 use \Firebase\JWT\JWT;
 
-class ActudentJWT extends \CodeIgniter\Controller
+require ACTUDENTPATH . 'Core/Config/TokenKey.php';
+
+class ActudentJWT
 {
     /**
      * The private key
      * 
      * @var string
      */
-    private $key = '~#Actudent#AuthByJWT';
+    private $key = '';
+
+    /**
+     * Constructor.
+     */
+    public function __construct()
+    {
+        $this->key = TOKEN_KEY;
+    }
 
     /**
      * Alias for JWT::encode
