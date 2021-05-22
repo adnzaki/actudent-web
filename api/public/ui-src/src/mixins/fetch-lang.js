@@ -1,5 +1,3 @@
-import { appConfig as conf } from '../../actudent.config'
-import { Cookies } from 'quasar'
 import { core } from 'boot/axios'
 import { bearerToken } from '../composables/validate-token'
 
