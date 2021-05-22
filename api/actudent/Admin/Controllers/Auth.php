@@ -4,6 +4,8 @@ use Actudent\Core\Controllers\Actudent;
 
 class Auth extends Actudent
 {
+    private $tokenExp = 12 * 30 * 24 * 60 * 60; // 1 year
+
     public function index()
     {
         $cookie = get_cookie('remember_login');
@@ -43,7 +45,9 @@ class Auth extends Actudent
                     'email'     => $username,
                     'nama'      => $pengguna->user_name,
                     'userLevel' => $pengguna->user_level,
-                    'logged_in' => true
+                    'logged_in' => true,
+                    'iat'       => strtotime('now'),
+                    'exp'       => strtotime('now') + $this->tokenExp
                 ];
     
                 if(! empty($remember))
