@@ -1,6 +1,14 @@
 <?php namespace Actudent\Admin\Controllers;
 
-header('Access-Control-Allow-Origin: *');
+if(ENVIRONMENT === 'development')
+{
+    header('Access-Control-Allow-Origin: *');
+}
+else
+{
+    header('Access-Control-Allow-Origin: *.actudent.com');
+}
+
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Actudent\Core\Controllers\Actudent;
