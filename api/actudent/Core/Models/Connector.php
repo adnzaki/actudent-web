@@ -18,7 +18,29 @@ class Connector
         helper('Actudent\Core\Helpers\wolesdev');
 
         // Connect to database
-        $this->db = \Config\Database::connect(get_host());
+        $this->setDefaultGroup();
         $this->dbMain = \Config\Database::connect('actudentMain');
+    }
+
+    /**
+     * Set default database connection group.
+     * This will connect your app with client database.
+     * 
+     * @return string
+     */
+    public function setDefaultGroup()
+    {
+        $groupName = '';
+        if(get_host() !== 'localhost')
+        {
+            $hostArray = explode('.', get_host());
+            $groupName = $hostArray[0];
+        }
+        else 
+        {
+            $groupName = get_host();
+        }
+
+        $this->db = \Config\Database::connect($groupName);
     }
 }
