@@ -4,7 +4,7 @@ require_once APPPATH . 'ThirdParty/jwt/vendor/autoload.php';
 
 use \Firebase\JWT\JWT;
 
-require ACTUDENTPATH . 'Core/Config/TokenKey.php';
+use Actudent\Core\Config\TokenKey;
 
 class ActudentJWT
 {
@@ -20,7 +20,8 @@ class ActudentJWT
      */
     public function __construct()
     {
-        $this->key = TOKEN_KEY;
+        $token = new TokenKey;
+        $this->key = $token->getSecretKey();
     }
 
     /**
