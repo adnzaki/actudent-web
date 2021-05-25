@@ -5,6 +5,21 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Build extends \Actudent\Core\Controllers\Actudent
 {
+    public function convertHostname()
+    {
+        $hostname = 'next.actudent.com';
+        // $hostname = 'localhost';
+        if($hostname !== 'localhost')
+        {
+            $hostArray = explode('.', $hostname);
+            print_r($hostArray[0]);
+        }
+        else 
+        {
+            print_r($hostname);
+        }
+    }
+    
     public function js()
     {
         $data = $this->common();

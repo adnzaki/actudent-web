@@ -9,6 +9,7 @@ $routes->group('test', ['namespace' => 'Actudent\UITest\Controllers'], function(
 // Route group for API URL
 $routes->group('ui-test', ['namespace' => 'Actudent\UITest\Controllers'], function($routes)
 {
+    $routes->add('convert-hostname', 'Build::convertHostname');
     $routes->add('token', 'Build::token');
     $routes->add('generate-token', 'Build::generateToken');
     $routes->add('get-data', 'Build::testGetData');
