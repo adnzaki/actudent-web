@@ -10,6 +10,29 @@
  * @link        https://wolestech.com
  */
 
+if ( ! function_exists('get_subdomain'))
+{    
+    /**
+     * Get subdomain
+     * 
+     * @author Adnan Zaki
+     * 
+     * @return string
+     */
+    function get_subdomain()
+    {        
+        if(get_host() !== 'localhost')
+        {
+            $hostArray = explode('.', get_host());
+            return $hostArray[0];
+        }
+        else 
+        {
+            return get_host();
+        }
+    }
+}
+
 if ( ! function_exists('get_host'))
 {
     /**
