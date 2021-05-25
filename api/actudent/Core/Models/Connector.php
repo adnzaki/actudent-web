@@ -14,8 +14,11 @@ class Connector
 
     public function __construct()
     {
+        // Initialize wolesdev_helper
+        helper('Actudent\Core\Helpers\wolesdev');
+
         // Connect to database
-        $this->db = \Config\Database::connect();
+        $this->db = \Config\Database::connect(get_host());
         $this->dbMain = \Config\Database::connect('actudentMain');
     }
 }

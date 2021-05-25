@@ -10,6 +10,23 @@
  * @link        https://wolestech.com
  */
 
+if ( ! function_exists('get_host'))
+{
+    /**
+     * Get host name
+     * 
+     * @author Adnan Zaki
+     * 
+     * @return string
+     */
+    function get_host()
+    {        
+        $uri = new \CodeIgniter\HTTP\URI(base_url());
+        
+        return $uri->getHost();
+    }
+}
+
 if ( ! function_exists('parse'))
 {
     /**

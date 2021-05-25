@@ -9,6 +9,11 @@
 class Database extends \CodeIgniter\Database\Config
 {
 	/**
+	 * Wrap Database connection group into this class
+	 */
+	use \Config\DatabaseList\DBGroupWrapper;
+
+	/**
 	 * The directory that holds the Migrations
 	 * and Seeds directories.
 	 *
@@ -29,27 +34,7 @@ class Database extends \CodeIgniter\Database\Config
 	 *
 	 * @var array
 	 */
-	public $default = [
-		'DSN'      => '',
-		'hostname' => 'localhost',
-		'username' => 'root',
-		'password' => '',
-		'database' => 'db_actudent',
-		'DBDriver' => 'MySQLi',
-		'DBPrefix' => '',
-		'pConnect' => false,
-		'DBDebug'  => (ENVIRONMENT !== 'production'),
-		'cacheOn'  => false,
-		'cacheDir' => '',
-		'charset'  => 'utf8',
-		'DBCollat' => 'utf8_general_ci',
-		'swapPre'  => '',
-		'encrypt'  => false,
-		'compress' => false,
-		'strictOn' => false,
-		'failover' => [],
-		'port'     => 3306,
-	];
+	public $default = [];
 
 	/**
 	 * The Actudent main database
