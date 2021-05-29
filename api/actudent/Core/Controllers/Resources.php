@@ -8,6 +8,25 @@ use Config\Services;
 class Resources extends Actudent
 {
     /**
+     * Subscription check
+     * 
+     * @return mixed
+     */
+    public function checkSubscription()
+    {
+        $subscriber = new \Actudent\Core\Models\SubscriptionModel;
+        if($subscriber->hasExpired())
+        {
+            $response = $this->setStatus(112);
+        }
+        else 
+        {
+            $response = $this->setStatus(113);
+        }
+
+        return $this->response->setJSON($response);
+    }
+    /**
      * Validate user token before they navigate to any routes
      * in Actudent user inteface
      * 

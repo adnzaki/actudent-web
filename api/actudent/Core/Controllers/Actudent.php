@@ -70,6 +70,8 @@ class Actudent extends Controller
      * @var string
      */
     protected $status = [
+        112 => 'Service expired',
+        113 => 'Subscription valid',
         200 => 'Token validated.',
         500 => 'Internal Server Error',
         503 => 'Unauthorized Access'

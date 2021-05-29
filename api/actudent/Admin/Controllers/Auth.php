@@ -29,7 +29,7 @@ class Auth extends Actudent
         {
             return $this->response->setJSON([
                 'msg' => 'expired',
-                'note' => lang('AdminSiswa.siswa_overlimit'),
+                'note' => lang('Error.app_expired'),
             ]);
         }
         else
