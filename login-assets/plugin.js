@@ -69,7 +69,7 @@ const plugin = {
 					if(this.lang.length === 0) {
 						this.lang = data
 					} else {
-						for(item in data) {
+						for(let item in data) {
 							this.lang[item] = data[item]
 						}
 					}
