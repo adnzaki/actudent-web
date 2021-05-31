@@ -7,7 +7,7 @@ class Error extends Actudent
         $data           = $this->common();
         $data['title']  = lang('Error.lost_title');
 
-        $data['homeURL'] = base_url('main');
+        $data['homeURL'] = get_host();
         echo parse('Actudent\Core\Views\error404', $data);
     }    
 
