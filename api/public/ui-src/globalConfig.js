@@ -50,6 +50,7 @@ const baseUrl = () => {
 
 export {
   mode,
+  host,
   uiPath,
   baseUrl
 }

@@ -4,7 +4,7 @@
  * @author  Adnan Zaki | Wolestech DevTeam
  */
 
-import { mode, uiPath, baseUrl } from './globalConfig.js'
+import { mode, host, uiPath, baseUrl } from './globalConfig.js'
 
 export const appConfig = {
   // API Url for admin section
@@ -28,6 +28,7 @@ export const appConfig = {
       : `${uiPath()}app`
   },
 
+  host,
   uiPath,
 
   // Cookie key name
