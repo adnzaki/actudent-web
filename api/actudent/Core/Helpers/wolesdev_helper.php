@@ -10,6 +10,32 @@
  * @link        https://wolestech.com
  */
 
+if ( ! function_exists('validate'))
+{    
+    /**
+     * Due to custom DBGroup usage in Actudent,
+     * we have to create our own validation runner
+     * because $this->validate shortcut in controller 
+     * does not support custom DBGroup
+     * 
+     * @author Adnan Zaki
+     * 
+     * @param mixed $rules
+     * @param array $messages
+     * 
+     * @return boolean
+     */
+    function validate($rules, $messages)
+    {        
+        $validator = \Config\Services::validation();
+        $isValid = $validator->withRequest(\Config\Services::request())
+                             ->setRules($rules, $messages)
+                             ->run(null, null, get_subdomain());
+
+        return $isValid;
+    }
+}
+
 if ( ! function_exists('get_subdomain'))
 {    
     /**
@@ -44,7 +70,7 @@ if ( ! function_exists('get_host'))
      */
     function get_host()
     {        
-        $uri = new \CodeIgniter\HTTP\URI(base_url());
+        $uri = new \CodeIgniter\HTTP\URI(current_url());
         
         return $uri->getHost();
     }

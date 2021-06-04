@@ -79,7 +79,7 @@ class Ortu extends Actudent
         if(is_admin())
         {
             $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-            if(! $this->validate($validation[0], $validation[1]))
+            if(! validate($validation[0], $validation[1]))
             {
                 return $this->response->setJSON([
                     'code' => '500',
