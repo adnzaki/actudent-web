@@ -7,9 +7,9 @@ const admin = {
   path: '/',
   component: () => import('layouts/MainLayout.vue'),
   children: [
-    { path: '', component: PageIndex },
-    { path: 'home', component: PageIndex },
-    { path: 'parent', component: ParentMain }
+    { path: '', component: PageIndex, beforeEnter: () => validateToken('is_admin') },
+    { path: 'home', component: PageIndex, beforeEnter: () => validateToken('is_admin') },
+    { path: 'parent', component: ParentMain, beforeEnter: () => validateToken('is_admin') }
   ],
   beforeEnter: () => {
     validateToken('is_admin')   
