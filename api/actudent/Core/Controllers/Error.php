@@ -7,9 +7,22 @@ class Error extends Actudent
         $data           = $this->common();
         $data['title']  = lang('Error.lost_title');
 
-        $data['homeURL'] = get_host();
+        $data['homeURL'] = $this->homeUrl();
+        $data['host']   = get_host();
         echo parse('Actudent\Core\Views\error404', $data);
-    }    
+    }
+    
+    private function homeUrl()
+    {
+        if(ENVIRONMENT === 'production')
+        {
+            return get_host();
+        }
+        else 
+        {
+            return 'http://' . get_host() . '/actudent/app';
+        }
+    }
 
     public function expiredPage()
     {
