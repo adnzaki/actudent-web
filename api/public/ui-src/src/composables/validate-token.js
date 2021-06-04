@@ -1,6 +1,7 @@
 import { appConfig as conf } from '../../actudent.config'
 import { core } from 'boot/axios'
 import { Cookies } from 'quasar'
+import { mode } from '../../globalConfig'
 
 // get token dynamically
 const bearerToken = `Bearer ${Cookies.get(conf.cookieName)}`
@@ -30,7 +31,15 @@ function validateToken (validator) {
 }
 
 function redirect() {
-  window.location.href = `${conf.uiPath()}login.html`
+  if(mode === 'production') {
+    window.location.href = `${conf.uiPath()}login.html`
+  } else {
+    window.location.href = `${conf.host()}actudent/login.html`
+  }
 }
 
-export { validateToken, redirect, bearerToken }
+export { 
+  validateToken, 
+  redirect, 
+  bearerToken, 
+}
