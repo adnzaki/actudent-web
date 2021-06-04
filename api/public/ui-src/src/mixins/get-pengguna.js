@@ -1,5 +1,4 @@
-import { appConfig as conf } from '../../actudent.config'
-import { Cookies } from 'quasar'
+import { conf, bearerToken } from '../composables/common'
 
 const getPengguna = {
   data() {
@@ -13,7 +12,7 @@ const getPengguna = {
         method: 'GET',
         mode: 'cors',
         headers: {
-          Authorization: `Bearer ${Cookies.get(conf.cookieName)}`
+          Authorization: bearerToken
         }
       })
         .then(response => response.json())
