@@ -12,8 +12,10 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
+import { conf, errorNotif } from '../composables/common'
 
 export default {
   name: 'SearchBox',
@@ -32,11 +34,18 @@ export default {
   },
   setup(props) {
     const $store = useStore()
+    const $q = useQuasar()
     let search = computed(() => $store.state[props.vuexModule]['paging']['search'])
     watch(search, () => $store.dispatch(`${props.vuexModule}/onSearchChanged`))
 
     return {
-      filter: () => $store.dispatch(`${props.vuexModule}/filter`)
+      filter: () => {
+        if($q.cookies.has(conf.cookieName)) {
+          $store.dispatch(`${props.vuexModule}/filter`)
+        } else {
+          errorNotif()
+        }
+      }
     }
   }
 }

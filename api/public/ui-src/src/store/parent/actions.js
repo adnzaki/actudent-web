@@ -1,8 +1,11 @@
 import { 
-  bearerToken, 
+  Cookies,
+  conf,
+  bearerToken,
   admin,
   runLoadingBar,
   flashAlert,
+  errorNotif,
   createFormData
 } from '../../composables/common'
 
@@ -29,8 +32,12 @@ const actions = {
     })
   },
   onPaginationUpdate({ state, dispatch }) {
-    runLoadingBar()
-    dispatch('nav', state.current - 1)
+    if(Cookies.has(conf.cookieName)) {
+      runLoadingBar()
+      dispatch('nav', state.current - 1)
+    } else {
+      errorNotif()
+    }
   },
 
   // payload: { data, lang, edit, id }

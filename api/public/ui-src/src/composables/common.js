@@ -2,9 +2,9 @@ import { Cookies } from 'quasar'
 import { ref } from 'vue'
 import { core, admin, teacher } from 'boot/axios'
 import { appConfig as conf} from '../../actudent.config'
-import { bearerToken } from './validate-token'
+import { bearerToken, validateToken, redirect } from './validate-token'
 import { runLoadingBar } from './loading-bar'
-import { flashAlert } from './notify'
+import { flashAlert, errorNotif } from './notify'
 
 let school = ref({})
 
@@ -36,9 +36,12 @@ export {
   core, admin, teacher,
   conf,
   bearerToken,
+  validateToken,
+  redirect,
   school,
   getSchool,
   runLoadingBar,
   flashAlert,
+  errorNotif,
   createFormData
 }

@@ -9,7 +9,9 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
+import { conf, errorNotif } from '../composables/common'
 
 export default {
   name: 'RowDropdown',
@@ -29,11 +31,18 @@ export default {
   },
   setup(props) {
     const $store = useStore()
+    const $q = useQuasar()
     const options = [10, 25, 50, 100, 250]
 
     return {
       options,
-      showPerPage: () => $store.dispatch(`${props.vuexModule}/showPerPage`)
+      showPerPage: () => {
+        if($q.cookies.has(conf.cookieName)) {
+          $store.dispatch(`${props.vuexModule}/showPerPage`)
+        } else {
+          errorNotif()
+        }
+      }
     }
   }
 }

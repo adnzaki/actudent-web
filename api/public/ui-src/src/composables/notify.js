@@ -1,6 +1,6 @@
 import { Notify } from 'quasar'
 
-export function flashAlert(message, color = 'positive', position = 'top') {
+function flashAlert(message, color = 'positive', position = 'top') {
   Notify.create({
     message,
     position,
@@ -8,3 +8,12 @@ export function flashAlert(message, color = 'positive', position = 'top') {
     multiline: true
   })
 }
+
+function errorNotif() {
+  flashAlert(
+    'Something went wrong, please refresh this page.',
+    'negative'
+  )
+}
+
+export { flashAlert, errorNotif }
