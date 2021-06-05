@@ -1,5 +1,5 @@
-import { baseUrl } from '../api/public/ui-src/globalConfig.js'
-import { appConfig as conf } from '../api/public/ui-src/actudent.config.js'
+import { baseUrl } from '../app/ui-src/globalConfig.js'
+import { appConfig as conf } from '../app/ui-src/actudent.config.js'
 
 let path = window.location.pathname,
         findSection = path.search('admin'),

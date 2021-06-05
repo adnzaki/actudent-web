@@ -5,7 +5,7 @@
  * @copyright   Wolestech (c) 2018
  */
 
-import { appConfig as conf } from '../api/public/ui-src/actudent.config.js'
+import { appConfig as conf } from '../app/ui-src/actudent.config.js'
 import { plugin } from './plugin.js'
 
 const login = {
