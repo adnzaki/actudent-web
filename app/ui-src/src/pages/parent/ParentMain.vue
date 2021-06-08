@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { onMounted } from 'vue'
 import locale from '../../mixins/fetch-lang'
 import SearchBox from 'components/SearchBox'
 import RowDropdown from 'components/RowDropdown'
