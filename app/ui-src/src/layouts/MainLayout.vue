@@ -3,41 +3,19 @@
     <toggle-mode />
     <q-header elevated :class="header">
       <q-toolbar>
-        <q-toolbar-title>Actudent-v2</q-toolbar-title>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
+        <q-toolbar-title>Actudent-v2</q-toolbar-title>
+        <q-btn flat @click="userAction = !userAction" round dense icon="account_circle" />
       </q-toolbar>
     </q-header>
 
     <q-drawer
       v-model="drawer"
         show-if-above
-        :width="200"
+        :width="230"
         :breakpoint="400"
     >
-      <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
-        <q-list padding>
-          <q-item clickable v-ripple to="/home">
-              <q-item-section avatar>
-                <q-icon name="home" />
-              </q-item-section>
-
-              <q-item-section>
-                {{ lang.menu_dashboard }}
-              </q-item-section>
-          </q-item>
-
-          <q-item clickable v-ripple to="/parent">
-            <q-item-section avatar>
-              <q-icon name="star" />
-            </q-item-section>
-
-            <q-item-section>
-              {{ lang.menu_parent }}
-            </q-item-section>
-          </q-item>
-        
-        </q-list>
-      </q-scroll-area>
+      <admin-menu />
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
@@ -48,7 +26,26 @@
         </div>
       </q-img>
     </q-drawer>
-
+    <q-page-sticky 
+      @mouseleave="hideUserAction"
+      v-if="userAction"
+      position="top-right" 
+      :offset="[20, 0]" 
+      style="z-index: 9999 !important;">
+      <q-list bordered separator class="bg-white">
+        <q-item v-for="(item, key) in otherActions" :key="key" 
+          clickable v-ripple class="q-pr-xl"
+          :to="item.link"
+          @click="item.action">
+          <q-item-section avatar>
+            <q-icon :name="item.icon" />
+          </q-item-section>
+          <q-item-section>
+            {{ item.label }}
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-page-sticky>
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -59,23 +56,35 @@
 
 import { defineComponent, ref, onMounted, watch } from 'vue'
 import getPengguna from '../mixins/get-pengguna'
-import locale from '../mixins/fetch-lang'
 import { baseUrl } from '../../globalConfig'
 import ToggleMode from 'components/ToggleMode'
 import { headerColor } from '../composables/mode'
+import AdminMenu from './AdminMenu'
+import locale from '../mixins/fetch-lang'
 
 export default defineComponent({
   name: 'MainLayout',
-
   mixins: [getPengguna, locale],
+  data() {
+    return {
+      otherActions: []  
+    }
+  },
   mounted() {
+    this.getPengguna()
     setTimeout(() => {
       this.fetchLang('Admin')
-    }, 1000)
-    this.getPengguna()
+      setTimeout(() => {
+        this.otherActions = [
+          { link: '', icon: 'manage_accounts', label: this.lang.navbar_profil, action: '' },
+          { link: '', icon: 'school', label: this.lang.navbar_sekolah, action: '' },
+          { link: '', icon: 'logout', label: this.lang.navbar_keluar, action: '' },
+        ]
+      }, 1000);
+    }, 1000);
   },
   components: {
-    ToggleMode
+    ToggleMode, AdminMenu
   },
 
   setup () {
@@ -93,8 +102,15 @@ export default defineComponent({
     
     watch(headerColor, triggerHeader)
 
+    const userAction = ref(false)
+    const hideUserAction = () => {
+      userAction.value = false
+    }
+
     return {
       drawer: ref(false),
+      userAction,
+      hideUserAction,
       avatarBg,
       header
     }
