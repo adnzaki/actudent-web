@@ -1,4 +1,5 @@
 import { register } from 'register-service-worker'
+import { flashAlert } from 'src/composables/notify'
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -29,9 +30,11 @@ register(process.env.SERVICE_WORKER_FILE, {
 
   updated (/* registration */) {
     // console.log('New content is available; please refresh.')
+    flashAlert('New content is available; please refresh this page.', 'info')
   },
 
   offline () {
+    flashAlert('No internet connection, you are currently in offline mode', 'negative')
     // console.log('No internet connection found. App is running in offline mode.')
   },
 
