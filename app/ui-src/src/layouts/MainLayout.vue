@@ -1,11 +1,28 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <toggle-mode />
     <q-header elevated :class="header">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-toolbar-title>Actudent-v2</q-toolbar-title>
-        <q-btn flat @click="userAction = !userAction" round dense icon="account_circle" />
+        <toggle-mode />
+        <q-btn flat round dense icon="account_circle">
+          <q-menu>
+            <q-list bordered separator class="bg-white">
+              <q-item v-for="(item, key) in otherActions" :key="key" 
+                clickable v-ripple class="q-pr-xl"
+                :to="item.link"
+                @click="item.action"
+                v-close-popup>
+                <q-item-section avatar>
+                  <q-icon :name="item.icon" />
+                </q-item-section>
+                <q-item-section>
+                  {{ item.label }}
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
       </q-toolbar>
     </q-header>
 
@@ -26,8 +43,8 @@
         </div>
       </q-img>
     </q-drawer>
-    <q-page-sticky 
-      @mouseleave="hideUserAction"
+    
+    <!-- <q-page-sticky
       v-if="userAction"
       position="top-right" 
       :offset="[20, 0]" 
@@ -36,7 +53,8 @@
         <q-item v-for="(item, key) in otherActions" :key="key" 
           clickable v-ripple class="q-pr-xl"
           :to="item.link"
-          @click="item.action">
+          @click="item.action"
+          v-close-popup>
           <q-item-section avatar>
             <q-icon :name="item.icon" />
           </q-item-section>
@@ -45,7 +63,7 @@
           </q-item-section>
         </q-item>
       </q-list>
-    </q-page-sticky>
+    </q-page-sticky> -->
     <q-page-container>
       <router-view />
     </q-page-container>

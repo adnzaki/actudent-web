@@ -1,9 +1,7 @@
 <template>
-  <div class="elevated">
-    <q-btn round color="primary" icon="brightness_4" @click="toggleMode">
-      <q-tooltip class="bg-accent">{{ lang.pindah_mode }}</q-tooltip>
-    </q-btn>
-  </div>
+  <q-btn flat round dense icon="brightness_4" @click="toggleMode">
+    <q-tooltip class="bg-accent">{{ lang.pindah_mode }}</q-tooltip>
+  </q-btn>
 </template>
 
 <style lang="scss" scoped>
