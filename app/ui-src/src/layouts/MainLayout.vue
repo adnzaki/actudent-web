@@ -7,7 +7,7 @@
         <toggle-mode />
         <q-btn flat round dense icon="account_circle">
           <q-menu>
-            <q-list bordered separator class="bg-white">
+            <q-list separator>
               <q-item v-for="(item, key) in otherActions" :key="key" 
                 clickable v-ripple class="q-pr-xl"
                 :to="item.link"
