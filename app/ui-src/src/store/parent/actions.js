@@ -51,7 +51,6 @@ const actions = {
       color: 'info',
       position: 'center',
       timeout,
-      actions: [ { label: 'X' , color: 'white' } ]
     })
 
     admin.post(`${state.parentApi}${url}`, payload.data, {
@@ -109,7 +108,6 @@ const actions = {
       color: 'info',
       position: 'center',
       timeout,
-      actions: [ { label: 'X' , color: 'white' } ]
     })
 
     const data = { id: idString }
