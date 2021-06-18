@@ -2,7 +2,7 @@
   <q-dialog v-model="$store.state.parent.deleteConfirm" @hide="closeDeleteConfirm">
     <q-card>
       <q-card-section class="row items-center">
-        <q-avatar icon="notification_important" color="negative" text-color="white" />
+        <q-avatar icon="notification_important" class="mobile-hide" color="negative" text-color="white" />
         <span class="q-ml-sm">{{ lang.sure_to_delete }}</span>
       </q-card-section>
 
