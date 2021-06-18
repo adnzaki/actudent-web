@@ -55,23 +55,26 @@ class Ortu extends Actudent
 
     public function delete()
     {
-        $idString = $this->request->getPost('id');
-        $idWrapper = [];
-        if(strpos($idString, '&') !== false)
+        if(is_admin())
         {
-            $idWrapper = explode('&', $idString);
-            foreach($idWrapper as $id)
+            $idString = $this->request->getPost('id');
+            $idWrapper = [];
+            if(strpos($idString, '&') !== false)
             {
-                $toArray = explode('-', $id);
+                $idWrapper = explode('&', $idString);
+                foreach($idWrapper as $id)
+                {
+                    $toArray = explode('-', $id);
+                    $this->ortu->delete($toArray[0], $toArray[1]);
+                }
+            }
+            else 
+            {
+                $toArray = explode('-', $idString);
                 $this->ortu->delete($toArray[0], $toArray[1]);
             }
+            return $this->response->setJSON(['status' => 'OK']);
         }
-        else 
-        {
-            $toArray = explode('-', $idString);
-            $this->ortu->delete($toArray[0], $toArray[1]);
-        }
-        return $this->response->setJSON(['status' => 'OK']);
     }
 
     public function save($id = null)

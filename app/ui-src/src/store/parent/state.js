@@ -16,6 +16,6 @@ export default function () {
     selectedParents: [], checkAll: false,
     current: 1,
     showAddForm: false, showEditForm: false,
-    saveStatus: 500
+    saveStatus: 500, deleteConfirm: false
   }
 }

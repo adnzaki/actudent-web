@@ -11,6 +11,7 @@
       </q-card-section>
       <add-parent-form :lang="lang" />
       <edit-parent-form :lang="lang" />
+      <delete-confirm :lang="lang" />
       <parent-table :lang="lang" />
     </q-card>
   </div>
@@ -24,6 +25,7 @@ import ParentTable from './ParentTable'
 import MainButton from './MainButton'
 import AddParentForm from './AddParentForm'
 import EditParentForm from './EditParentForm'
+import DeleteConfirm from './DeleteConfirm'
 
 export default {
   name: 'ParentMain',
@@ -31,7 +33,8 @@ export default {
   components: { 
     ParentTable, SearchBox, 
     MainButton, RowDropdown,
-    AddParentForm, EditParentForm
+    AddParentForm, EditParentForm,
+    DeleteConfirm
   },
   data () {
     return {}

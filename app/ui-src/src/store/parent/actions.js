@@ -46,6 +46,7 @@ const actions = {
     state.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
       group: false,
+      spinner: true,
       message: payload.lang.ortu_save_progress,
       color: 'info',
       position: 'center',
@@ -67,6 +68,7 @@ const actions = {
           notifyProgress({
             message: `Error! ${payload.lang.ortu_error_text}`,
             color: 'negative',
+            spinner: false
           })
         } else {
           state.saveStatus = 200
@@ -76,15 +78,59 @@ const actions = {
             notifyProgress({
               message: `${payload.lang.sukses} ${payload.lang.ortu_update_success}`,
               color: 'positive',
+              icon: 'done',
+              spinner: false
             })
           } else {
             state.showAddForm = false
             notifyProgress({
               message: `${payload.lang.sukses} ${payload.lang.ortu_insert_success}`,
               color: 'positive',
+              icon: 'done',
+              spinner: false
             })
           }
         }
+      })
+  },
+  deleteParent({ state, dispatch }, lang) {
+    let idString
+    if(state.selectedParents.length > 1) {
+        idString = state.selectedParents.join('&')
+    } else {
+        idString = state.selectedParents[0]
+    }
+
+    // show notify
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: lang.progress_hapus,
+      color: 'info',
+      position: 'center',
+      timeout,
+      actions: [ { label: 'X' , color: 'white' } ]
+    })
+
+    const data = { id: idString }
+    admin.post(`${state.parentApi}delete`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.helper.disableSaveButton = false
+        state.deleteConfirm = false
+        notifyProgress({
+          message: lang.ortu_delete_success,
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+
+        // refresh data
+        dispatch('getOrtu')
       })
   },
   resetForm({ state, dispatch }) {

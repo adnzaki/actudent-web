@@ -1,6 +1,7 @@
 import { 
   bearerToken,
   admin,
+  flashAlert
 } from '../../composables/common'
 
 const mutations = {
@@ -14,6 +15,22 @@ const mutations = {
         state.detail = response.data.parent  
         state.children = response.data.children  
       })
+  },
+  multipleDeleteConfirm(state, lang) {
+    if(state.selectedParents.length > 0) {
+      state.deleteConfirm = true
+    } else {
+      flashAlert(lang.pilih_data_dulu, 'negative')
+    }
+  },
+  showDeleteConfirm(state, id) {
+    state.selectedParents = []
+    state.selectedParents.push(id)
+    state.deleteConfirm = true
+  },
+  closeDeleteConfirm(state) {
+    state.selectedParents = []
+    state.deleteConfirm = false
   },
   selectAll(state) {
     if (state.checkAll) {

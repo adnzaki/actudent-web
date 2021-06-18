@@ -22,7 +22,8 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn color="accent" icon="edit" @click="getDetail(item.parent_id)" />
-                <q-btn color="accent" icon="delete" />
+                <q-btn color="accent" icon="delete" 
+                  @click="showDeleteConfirm(`${item.parent_id}-${item.user_id}`)" />
               </q-btn-group>
               <q-btn round icon="more_vert" color="accent" class="mobile-only">
                 <q-menu>
@@ -31,7 +32,8 @@
                       <q-item-section>{{ lang.perbarui }}</q-item-section>
                     </q-item>
                     <q-separator />
-                    <q-item clickable v-close-popup>
+                    <q-item clickable v-close-popup 
+                      @click="showDeleteConfirm(`${item.parent_id}-${item.user_id}`)">
                       <q-item-section>{{ lang.hapus }}</q-item-section>
                     </q-item>
                   </q-list>
@@ -81,7 +83,8 @@ export default {
       'sortData'
     ]),
     ...mapMutations('parent', [
-      'selectAll', 'getDetail'
+      'selectAll', 'getDetail',
+      'showDeleteConfirm'
     ])
   },
   computed: {

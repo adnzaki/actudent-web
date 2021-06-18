@@ -43,5 +43,6 @@ export {
   runLoadingBar,
   flashAlert,
   errorNotif,
+  timeout,
   createFormData
 }
