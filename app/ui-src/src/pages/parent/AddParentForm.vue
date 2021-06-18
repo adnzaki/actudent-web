@@ -1,13 +1,13 @@
 <template>
-  <q-dialog v-model="$store.state.parent.showAddForm">
-    <q-card class="q-pa-sm" style="width: 700px;">
+  <q-dialog v-model="$store.state.parent.showAddForm" :maximized="maximizedDialog()">
+    <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ lang.ortu_form_add_title }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
-      <q-card-section style="max-height: 60vh" class="scroll">
+      <q-card-section :style="cardSection()" class="scroll">
         <q-form class="q-gutter-xs">
           <q-input outlined :label="lang.ortu_kk" minlength="16" maxlength="16" dense v-model="formData.parent_family_card" />
           <error :label="error.parent_family_card" />
@@ -58,6 +58,7 @@
 <script>
 import { ref, onMounted, watch, computed } from 'vue'
 import { school, getSchool } from '../../composables/common'
+import { maximizedDialog, cardDialog, cardSection } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 import Error from 'components/Error'
 
@@ -71,7 +72,7 @@ export default {
     ...mapState('parent', {
       error: state => state.error,
       disableSaveButton: state => state.helper.disableSaveButton
-    })
+    }),
   },
   setup(props) {
     const store = useStore()
@@ -117,7 +118,8 @@ export default {
     return {
       formData,
       school,
-      save
+      save,
+      maximizedDialog, cardDialog, cardSection
     }
   }
 }
