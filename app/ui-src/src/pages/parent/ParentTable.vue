@@ -63,9 +63,8 @@
 
 <script>
 import { watch, computed } from 'vue'
-import { useStore } from 'vuex'
 import SortIcon from 'components/SortIcon'
-import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+import { useStore, mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'ParentTable',
