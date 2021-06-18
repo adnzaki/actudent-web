@@ -62,6 +62,8 @@
 </template>
 
 <script>
+import { watch, computed } from 'vue'
+import { useStore } from 'vuex'
 import SortIcon from 'components/SortIcon'
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
@@ -93,6 +95,13 @@ export default {
     })
   },
   setup () {
+    const store = useStore()
+    let pagingData = computed(() => store.state.parent.paging.data)
+    watch(pagingData, () => {
+      store.state.parent.checkAll = false
+      store.state.parent.selectedParents = []
+    })
+
     return {}
   }
 }
