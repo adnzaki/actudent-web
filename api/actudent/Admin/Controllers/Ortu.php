@@ -50,7 +50,7 @@ class Ortu extends Actudent
             'children' => $children,
         ];
 
-        return $this->response->setJSON($data);
+        return $this->createResponse($data, 'is_admin');
     }
 
     public function delete()

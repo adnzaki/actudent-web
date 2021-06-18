@@ -16,4 +16,6 @@ function errorNotif() {
   )
 }
 
-export { flashAlert, errorNotif }
+const timeout = 3500
+
+export { flashAlert, errorNotif, timeout }

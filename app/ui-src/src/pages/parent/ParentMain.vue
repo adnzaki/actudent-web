@@ -10,6 +10,7 @@
         </div>
       </q-card-section>
       <add-parent-form :lang="lang" />
+      <edit-parent-form :lang="lang" />
       <parent-table :lang="lang" />
     </q-card>
   </div>
@@ -22,6 +23,7 @@ import RowDropdown from 'components/RowDropdown'
 import ParentTable from './ParentTable'
 import MainButton from './MainButton'
 import AddParentForm from './AddParentForm'
+import EditParentForm from './EditParentForm'
 
 export default {
   name: 'ParentMain',
@@ -29,7 +31,7 @@ export default {
   components: { 
     ParentTable, SearchBox, 
     MainButton, RowDropdown,
-    AddParentForm
+    AddParentForm, EditParentForm
   },
   data () {
     return {}

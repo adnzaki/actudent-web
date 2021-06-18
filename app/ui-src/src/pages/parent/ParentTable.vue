@@ -21,13 +21,13 @@
             <td class="text-left mobile-hide">{{ item.parent_phone_number }}</td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
-                <q-btn color="accent" icon="edit" />
+                <q-btn color="accent" icon="edit" @click="getDetail(item.parent_id)" />
                 <q-btn color="accent" icon="delete" />
               </q-btn-group>
               <q-btn round icon="more_vert" color="accent" class="mobile-only">
                 <q-menu>
                   <q-list style="min-width: 100px">
-                    <q-item clickable v-close-popup>
+                    <q-item clickable v-close-popup @click="getDetail(item.parent_id)">
                       <q-item-section>{{ lang.perbarui }}</q-item-section>
                     </q-item>
                     <q-separator />
@@ -80,7 +80,7 @@ export default {
       'sortData'
     ]),
     ...mapMutations('parent', [
-      'selectAll'
+      'selectAll', 'getDetail'
     ])
   },
   computed: {

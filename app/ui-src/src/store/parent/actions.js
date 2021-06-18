@@ -3,15 +3,15 @@ import {
   conf,
   bearerToken,
   admin,
-  runLoadingBar,
-  flashAlert,
+  timeout,
   errorNotif,
   createFormData
 } from '../../composables/common'
 
+import { Notify } from 'quasar'
+
 const actions = {
   getOrtu({ state, dispatch }) {
-    runLoadingBar()
     dispatch('getData', {
       token: bearerToken,
       lang: 'indonesia',
@@ -33,7 +33,6 @@ const actions = {
   },
   onPaginationUpdate({ state, dispatch }) {
     if(Cookies.has(conf.cookieName)) {
-      runLoadingBar()
       dispatch('nav', state.current - 1)
     } else {
       errorNotif()
@@ -45,6 +44,15 @@ const actions = {
     let url
     payload.edit ? url = `save/${payload.id}` : url = 'save'
     state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      message: payload.lang.ortu_save_progress,
+      color: 'info',
+      position: 'center',
+      timeout,
+      actions: [ { label: 'X' , color: 'white' } ]
+    })
+
     admin.post(`${state.parentApi}${url}`, payload.data, {
       headers: { Authorization: bearerToken },
       transformRequest: [data => {
@@ -56,18 +64,25 @@ const actions = {
         const res = response.data
         if(res.code === '500') {
           state.error = res.msg
-          flashAlert(
-            `Error! ${payload.lang.ortu_error_text}`,
-            'negative'
-          )
+          notifyProgress({
+            message: `Error! ${payload.lang.ortu_error_text}`,
+            color: 'negative',
+          })
         } else {
           state.saveStatus = 200
           dispatch('resetForm')
           if(payload.edit) {
-            flashAlert(`${payload.lang.sukses} ${payload.lang.ortu_update_success}`)
+            state.showEditForm = false
+            notifyProgress({
+              message: `${payload.lang.sukses} ${payload.lang.ortu_update_success}`,
+              color: 'positive',
+            })
           } else {
             state.showAddForm = false
-            flashAlert(`${payload.lang.sukses} ${payload.lang.ortu_insert_success}`)
+            notifyProgress({
+              message: `${payload.lang.sukses} ${payload.lang.ortu_insert_success}`,
+              color: 'positive',
+            })
           }
         }
       })

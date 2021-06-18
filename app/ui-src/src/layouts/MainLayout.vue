@@ -44,26 +44,6 @@
       </q-img>
     </q-drawer>
     
-    <!-- <q-page-sticky
-      v-if="userAction"
-      position="top-right" 
-      :offset="[20, 0]" 
-      style="z-index: 9999 !important;">
-      <q-list bordered separator class="bg-white">
-        <q-item v-for="(item, key) in otherActions" :key="key" 
-          clickable v-ripple class="q-pr-xl"
-          :to="item.link"
-          @click="item.action"
-          v-close-popup>
-          <q-item-section avatar>
-            <q-icon :name="item.icon" />
-          </q-item-section>
-          <q-item-section>
-            {{ item.label }}
-          </q-item-section>
-        </q-item>
-      </q-list>
-    </q-page-sticky> -->
     <q-page-container>
       <router-view />
     </q-page-container>

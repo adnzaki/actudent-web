@@ -11,11 +11,12 @@ export default function () {
       showDeleteButton: false,
       deleteProgress: false,
     },
-    parentDetail: [], userEmail: '', domain: '',
+    detail: {}, userEmail: '', domain: '',
     children: [],
     motherName: '', fatherName: '',
     selectedParents: [], checkAll: false,
     current: 1,
-    showAddForm: false, saveStatus: 500
+    showAddForm: false, showEditForm: false,
+    saveStatus: 500
   }
 }

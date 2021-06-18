@@ -4,7 +4,7 @@ import { core, admin, teacher } from 'boot/axios'
 import { appConfig as conf} from '../../actudent.config'
 import { bearerToken, validateToken, redirect } from './validate-token'
 import { runLoadingBar } from './loading-bar'
-import { flashAlert, errorNotif } from './notify'
+import { flashAlert, errorNotif, timeout } from './notify'
 
 let school = ref({})
 
