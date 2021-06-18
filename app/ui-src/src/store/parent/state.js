@@ -2,7 +2,6 @@ import { appConfig as conf } from '../../../actudent.config'
 
 export default function () {
   return {
-    parentURL: `${conf.adminAPI}orang-tua/`,
     parentApi: 'orang-tua/',
     error: {},
     helper: {

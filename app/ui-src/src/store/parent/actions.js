@@ -11,7 +11,7 @@ import {
 import { Notify } from 'quasar'
 
 const actions = {
-  getOrtu({ state, dispatch }) {
+  getOrtu({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
       lang: 'indonesia',
@@ -24,7 +24,7 @@ const actions = {
       ],
       sort: 'ASC',
       search: '',
-      url: `${state.parentURL}get-ortu/`,
+      url: `${conf.adminAPI}orang-tua/get-ortu/`,
       autoReset: {
         active: true,
         timeout: 500
