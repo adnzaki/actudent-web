@@ -26,6 +26,7 @@ import ParentTable from './ParentTable'
 import MainButton from './MainButton'
 import AddParentForm from './AddParentForm'
 import EditParentForm from './EditParentForm'
+import DeleteConfirm from 'components/DeleteConfirm'
 
 export default {
   name: 'ParentMain',
