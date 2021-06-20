@@ -60,14 +60,10 @@ import { ref, onMounted, watch, computed } from 'vue'
 import { school, getSchool } from '../../composables/common'
 import { maximizedDialog, cardDialog, cardSection } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
-import Error from 'components/Error'
 
 export default {
   name: 'AddParentForm',
   props: ['lang'],
-  components: {
-    Error
-  },
   computed: {
     ...mapState('parent', {
       error: state => state.error,

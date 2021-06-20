@@ -65,13 +65,11 @@
 
 <script>
 import { watch, computed } from 'vue'
-import SortIcon from 'components/SortIcon'
 import { useStore, mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'ParentTable',
   props: ['lang'],
-  components: { SortIcon },
   created() {
     setTimeout(() => {
       this.$store.dispatch('parent/getOrtu')  

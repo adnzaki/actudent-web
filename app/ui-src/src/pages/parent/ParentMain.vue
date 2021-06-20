@@ -19,9 +19,6 @@
 
 <script>
 import locale from '../../mixins/fetch-lang'
-import SearchBox from 'components/SearchBox'
-import RowDropdown from 'components/RowDropdown'
-import DeleteConfirm from 'components/DeleteConfirm'
 import ParentTable from './ParentTable'
 import MainButton from './MainButton'
 import AddParentForm from './AddParentForm'
@@ -31,10 +28,8 @@ export default {
   name: 'ParentMain',
   mixins: [locale], 
   components: { 
-    ParentTable, SearchBox, 
-    MainButton, RowDropdown,
+    ParentTable, MainButton,
     AddParentForm, EditParentForm,
-    DeleteConfirm
   },
   data () {
     return {}
