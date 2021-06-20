@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.parent.deleteConfirm" @hide="closeDeleteConfirm">
+  <q-dialog v-model="$store.state[vuexModule]['deleteConfirm']" @hide="closeDeleteConfirm">
     <q-card>
       <q-card-section class="row items-center">
         <q-avatar icon="notification_important" class="mobile-hide" color="negative" text-color="white" />
@@ -17,24 +17,25 @@
 </template>
 
 <script>
-import { mapMutations, mapActions, mapState } from 'vuex'
+import { useStore } from 'vuex'
 
 export default {
   name: 'DeleteConfirm',
-  props: ['lang'],
-  methods: {
-    ...mapMutations('parent', [
-      'closeDeleteConfirm'
-    ]),
-    ...mapActions('parent', [
-      'deleteParent'
-    ])
-  },
-  computed: {
-    ...mapState('parent', {
-      deleteConfirm: state => state.deleteConfirm,
-      disableSaveButton: state => state.helper.disableSaveButton
-    })
+  props: ['lang', 'vuexModule'],
+  setup(props) {
+    const store = useStore()
+
+    return {
+      disableSaveButton: () => {
+        store.state[props.vuexModule]['disableSaveButton']
+      },
+      closeDeleteConfirm: () => {
+        store.commit(`${props.vuexModule}/closeDeleteConfirm`)
+      },
+      deleteParent: lang => {
+        store.dispatch(`${props.vuexModule}/deleteParent`, lang)
+      }
+    }
   }
 }
 </script>

@@ -11,7 +11,7 @@
       </q-card-section>
       <add-parent-form :lang="lang" />
       <edit-parent-form :lang="lang" />
-      <delete-confirm :lang="lang" />
+      <delete-confirm :lang="lang" vuex-module="parent" />
       <parent-table :lang="lang" />
     </q-card>
   </div>
@@ -21,11 +21,11 @@
 import locale from '../../mixins/fetch-lang'
 import SearchBox from 'components/SearchBox'
 import RowDropdown from 'components/RowDropdown'
+import DeleteConfirm from 'components/DeleteConfirm'
 import ParentTable from './ParentTable'
 import MainButton from './MainButton'
 import AddParentForm from './AddParentForm'
 import EditParentForm from './EditParentForm'
-import DeleteConfirm from './DeleteConfirm'
 
 export default {
   name: 'ParentMain',
