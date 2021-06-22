@@ -5,7 +5,8 @@ import {
   admin,
   timeout,
   errorNotif,
-  createFormData
+  createFormData,
+  pengguna
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
@@ -14,7 +15,7 @@ const actions = {
   getOrtu({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
-      lang: 'indonesia',
+      lang: pengguna.value.user_language,
       limit: 10,
       offset: 0,
       orderBy: 'parent_father_name',

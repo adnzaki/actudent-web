@@ -53,22 +53,20 @@
 <script>
 
 import { defineComponent, ref, onMounted, watch } from 'vue'
-import getPengguna from '../mixins/get-pengguna'
 import { baseUrl } from '../../globalConfig'
 import ToggleMode from 'components/ToggleMode.vue'
 import { headerColor } from '../composables/mode'
 import AdminMenu from './AdminMenu.vue'
+import { pengguna, getPengguna } from '../composables/common'
 
 export default defineComponent({
   name: 'MainLayout',
-  mixins: [getPengguna],
   data() {
     return {
       otherActions: []  
     }
   },
   mounted() {
-    this.getPengguna()
     setTimeout(() => {
       this.fetchLang('Admin')
       setTimeout(() => {
@@ -96,6 +94,8 @@ export default defineComponent({
     }
 
     onMounted(triggerHeader) 
+
+    onMounted(getPengguna)
     
     watch(headerColor, triggerHeader)
 
@@ -109,7 +109,8 @@ export default defineComponent({
       userAction,
       hideUserAction,
       avatarBg,
-      header
+      header,
+      pengguna
     }
   }
 })
