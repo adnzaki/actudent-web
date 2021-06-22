@@ -6,11 +6,11 @@
  * @copyright Wolestech (c) 2021
  */
 
-import SearchBox from 'components/SearchBox'
-import RowDropdown from 'components/RowDropdown'
-import DeleteConfirm from 'components/DeleteConfirm'
-import SortIcon from 'components/SortIcon'
-import Error from 'components/Error'
+import SearchBox from 'components/SearchBox.vue'
+import RowDropdown from 'components/RowDropdown.vue'
+import DeleteConfirm from 'components/DeleteConfirm.vue'
+import SortIcon from 'components/SortIcon.vue'
+import Error from 'components/Error.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)

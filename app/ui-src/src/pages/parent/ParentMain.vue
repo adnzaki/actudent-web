@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import ParentTable from './ParentTable'
-import MainButton from './MainButton'
-import AddParentForm from './AddParentForm'
-import EditParentForm from './EditParentForm'
+import ParentTable from './ParentTable.vue'
+import MainButton from './MainButton.vue'
+import AddParentForm from './AddParentForm.vue'
+import EditParentForm from './EditParentForm.vue'
 
 export default {
   name: 'ParentMain',

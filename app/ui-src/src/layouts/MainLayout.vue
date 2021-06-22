@@ -55,9 +55,9 @@
 import { defineComponent, ref, onMounted, watch } from 'vue'
 import getPengguna from '../mixins/get-pengguna'
 import { baseUrl } from '../../globalConfig'
-import ToggleMode from 'components/ToggleMode'
+import ToggleMode from 'components/ToggleMode.vue'
 import { headerColor } from '../composables/mode'
-import AdminMenu from './AdminMenu'
+import AdminMenu from './AdminMenu.vue'
 
 export default defineComponent({
   name: 'MainLayout',
