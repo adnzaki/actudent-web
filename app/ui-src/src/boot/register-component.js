@@ -2,7 +2,8 @@
  * Global component registration for Actudent app,
  * so we do not need to register them on each main component
  * 
- * @author Adnan Zaki
+ * @author    Adnan Zaki 
+ * @copyright Wolestech (c) 2021
  */
 
 import SearchBox from 'components/SearchBox'

@@ -26,11 +26,8 @@
 </template>
 
 <script>
-import locale from '../../mixins/fetch-lang'
-
 export default {
   name: 'PageIndex',
-  mixins: [locale],
   data () {
     return {}
   },

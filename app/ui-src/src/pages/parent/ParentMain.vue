@@ -18,7 +18,6 @@
 </template>
 
 <script>
-import locale from '../../mixins/fetch-lang'
 import ParentTable from './ParentTable'
 import MainButton from './MainButton'
 import AddParentForm from './AddParentForm'
@@ -26,7 +25,6 @@ import EditParentForm from './EditParentForm'
 
 export default {
   name: 'ParentMain',
-  mixins: [locale], 
   components: { 
     ParentTable, MainButton,
     AddParentForm, EditParentForm,

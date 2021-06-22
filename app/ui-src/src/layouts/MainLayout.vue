@@ -58,11 +58,10 @@ import { baseUrl } from '../../globalConfig'
 import ToggleMode from 'components/ToggleMode'
 import { headerColor } from '../composables/mode'
 import AdminMenu from './AdminMenu'
-import locale from '../mixins/fetch-lang'
 
 export default defineComponent({
   name: 'MainLayout',
-  mixins: [getPengguna, locale],
+  mixins: [getPengguna],
   data() {
     return {
       otherActions: []  

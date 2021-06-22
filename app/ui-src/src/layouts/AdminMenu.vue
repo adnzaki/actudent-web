@@ -10,6 +10,8 @@
           {{ lang.menu_dashboard }}
         </q-item-section>
       </q-item>
+
+      <!-- Master Data Menu -->
       <q-expansion-item
         expand-separator
         icon="inventory"
@@ -26,6 +28,8 @@
           </q-item-section>
         </q-item>
       </q-expansion-item>
+
+      <!-- Main App Menu -->
       <q-item
         :active-class="activeClass"
         v-for="(item, index) in menus" :key="index"
@@ -38,6 +42,8 @@
           {{ item.label }}
         </q-item-section>
       </q-item>
+
+      <!-- Settings Menu -->
       <q-expansion-item
         expand-separator
         icon="settings"
@@ -59,11 +65,8 @@
   </q-scroll-area>
 </template>
 <script>
-import locale from '../mixins/fetch-lang'
-
 export default {
   name: 'AdminMenu',
-  mixins: [locale],
   data() {
     return {
       masterMenu: [],
@@ -78,7 +81,7 @@ export default {
       setTimeout(() => {
         this.masterMenu = [
           { label: this.lang.menu_parent, link: '/parent' },
-          { label: this.lang.menu_siswa, link: '' },
+          { label: this.lang.menu_siswa, link: '/student' },
           { label: this.lang.menu_pegawai, link: '' },
           { label: this.lang.menu_kelas, link: '' },
           { label: this.lang.menu_ruang, link: '' },
