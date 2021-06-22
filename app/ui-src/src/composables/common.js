@@ -5,6 +5,7 @@ import { appConfig as conf} from '../../actudent.config'
 import { bearerToken, validateToken, redirect } from './validate-token'
 import { runLoadingBar } from './loading-bar'
 import { flashAlert, errorNotif, timeout } from './notify'
+import { pengguna, getPengguna } from './get-pengguna'
 
 let school = ref({})
 
@@ -44,5 +45,6 @@ export {
   flashAlert,
   errorNotif,
   timeout,
-  createFormData
+  createFormData,
+  pengguna, getPengguna
 }
