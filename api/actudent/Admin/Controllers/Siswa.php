@@ -1,5 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Core\Models\SubscriptionModel;
 use Actudent\Admin\Models\SiswaModel;
@@ -21,6 +24,8 @@ class Siswa extends Actudent
     {
         $this->siswa = new SiswaModel;
         $this->kelas = new KelasModel;
+        $resource = new \Actudent\Core\Controllers\Resources;
+        $resource->setUILanguage();
     }
 
     public function index()
@@ -36,24 +41,10 @@ class Siswa extends Actudent
     {
         $data = $this->siswa->getSiswaQuery($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
         $rows = $this->siswa->getSiswaRows($searchBy, $whereClause, $search);
-        return $this->response->setJSON([
+        return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
-        ]);
-    }
-
-    private function studentLimitation()
-    {
-        $studentRows = $this->siswa->getSiswaRows();
-        $subscriber = new SubscriptionModel;
-        if($studentRows >= $subscriber->getLimit())
-        {
-            return 'blocked';
-        }
-        else
-        {
-            return 'allowed';
-        }
+        ], 'is_admin');
     }
 
     public function getDetailSiswa($id)
@@ -97,6 +88,20 @@ class Siswa extends Actudent
                     'code' => '200',
                 ]);
             }
+        }
+    }
+
+    private function studentLimitation()
+    {
+        $studentRows = $this->siswa->getSiswaRows();
+        $subscriber = new SubscriptionModel;
+        if($studentRows >= $subscriber->getLimit())
+        {
+            return 'blocked';
+        }
+        else
+        {
+            return 'allowed';
         }
     }
 
@@ -150,12 +155,12 @@ class Siswa extends Actudent
 
     public function searchParents($keyword = '')
     {
-        return $this->response->setJSON($this->siswa->getParents($keyword));
+        return $this->createResponse($this->siswa->getParents($keyword), 'is_admin');
     }
 
     public function getKelas()
     {
-        return $this->response->setJSON($this->kelas->getKelas());
+        return $this->createResponse($this->kelas->getKelas(), 'is_admin');
     }
 
     private function formData()

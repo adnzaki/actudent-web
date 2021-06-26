@@ -1,6 +1,7 @@
 import { store } from 'quasar/wrappers'
 import { createStore } from 'vuex'
 import parent from './parent'
+import student from './student'
 
 // import example from './module-example'
 
@@ -16,7 +17,7 @@ import parent from './parent'
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
-      parent
+      parent, student
     },
 
     // enable strict mode (adds overhead!)

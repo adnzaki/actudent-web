@@ -14,6 +14,6 @@ $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($r
 	$routes->add('get-changelog/(:alpha)', 'Resources::getChangelog/$1');
 	$routes->add('validate-token/(:any)', 'Resources::validateToken/$1');
 	$routes->add('check-subscription', 'Resources::checkSubscription');
-  $routes->add('pengguna', 'Resources::getPengguna');
+  	$routes->add('pengguna', 'Resources::getPengguna');
 	$routes->add('sekolah', 'Resources::getSekolah');
 });

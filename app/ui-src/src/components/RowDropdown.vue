@@ -3,7 +3,7 @@
     <q-select outlined v-model="$store.state[vuexModule]['paging']['rows']" 
       :options="options" dense
       @update:model-value="showPerPage"
-      :display-value="`${$store.state[vuexModule]['paging']['rows']} ${lang.baris}`" 
+      :display-value="`${$store.state[vuexModule]['paging']['rows']} ${getLang.baris}`" 
     />
   </div>
 </template>
@@ -15,11 +15,8 @@ import { conf, errorNotif } from '../composables/common'
 
 export default {
   name: 'RowDropdown',
+  inject: ['textLang'],
   props: {
-    lang: {
-      type: Object,
-      required: true
-    },
     rootClass: {
       type: String,
       default: 'col-12 col-md-2 offset-md-2'
@@ -27,6 +24,11 @@ export default {
     vuexModule: {
       type: String,
       required: true,
+    }
+  },
+  computed: {
+    getLang() {
+      return this.textLang.value
     }
   },
   setup(props) {

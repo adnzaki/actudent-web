@@ -221,6 +221,9 @@ class SiswaModel extends SharedModel
 
             return $this->QBParent->getWhere(['deleted' => '0'])->getResult();
         }
+        {
+            return [];
+        }
     }
 
     /**

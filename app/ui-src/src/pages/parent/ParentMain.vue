@@ -5,7 +5,7 @@
         <div class="text-h6 text-capitalize">{{ lang.ortu_title }}</div>
         <div class="row q-mt-md">
           <main-button :lang="lang" class="q-mt-sm" />
-          <row-dropdown :lang="lang" vuex-module="parent" class="q-mt-sm" />
+          <row-dropdown vuex-module="parent" class="q-mt-sm" />
           <search-box :label="lang.ortu_cari" vuex-module="parent" class="q-mt-sm" />
         </div>
       </q-card-section>
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import ParentTable from './ParentTable.vue'
 import MainButton from './MainButton.vue'
 import AddParentForm from './AddParentForm.vue'
@@ -28,6 +29,11 @@ export default {
   components: { 
     ParentTable, MainButton,
     AddParentForm, EditParentForm,
+  },
+  provide() {
+    return {
+      textLang: computed(() => this.lang)
+    }
   },
   data () {
     return {}
