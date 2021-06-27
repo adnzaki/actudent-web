@@ -4,15 +4,15 @@
       <q-card-section>
         <div class="text-h6 text-capitalize">{{ lang.ortu_title }}</div>
         <div class="row q-mt-md">
-          <main-button :lang="lang" class="q-mt-sm" />
+          <main-button class="q-mt-sm" />
           <row-dropdown vuex-module="parent" class="q-mt-sm" />
           <search-box :label="lang.ortu_cari" vuex-module="parent" class="q-mt-sm" />
         </div>
       </q-card-section>
-      <add-parent-form :lang="lang" />
-      <edit-parent-form :lang="lang" />
-      <delete-confirm :lang="lang" vuex-module="parent" />
-      <parent-table :lang="lang" />
+      <add-parent-form />
+      <edit-parent-form />
+      <delete-confirm vuex-module="parent" />
+      <parent-table />
     </q-card>
   </div>
 </template>

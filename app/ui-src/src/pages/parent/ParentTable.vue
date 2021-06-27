@@ -5,11 +5,11 @@
         <thead>
           <tr>
             <th class="text-left cursor-pointer"><q-checkbox v-model="$store.state.parent.checkAll" @update:model-value="selectAll" /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_family_card')">{{ lang.ortu_kk }} <sort-icon /></th>
-            <th class="text-left cursor-pointer" @click="sortData('parent_father_name')">{{ lang.ortu_label_ayah }} <sort-icon /></th>
-            <th class="text-left cursor-pointer" @click="sortData('parent_mother_name')">{{ lang.ortu_label_ibu }} <sort-icon /></th>
-            <th class="text-left mobile-hide">{{ lang.ortu_label_telp }}</th>
-            <th class="text-left">{{ lang.aksi }}</th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_family_card')">{{ getLang.ortu_kk }} <sort-icon /></th>
+            <th class="text-left cursor-pointer" @click="sortData('parent_father_name')">{{ getLang.ortu_label_ayah }} <sort-icon /></th>
+            <th class="text-left cursor-pointer" @click="sortData('parent_mother_name')">{{ getLang.ortu_label_ibu }} <sort-icon /></th>
+            <th class="text-left mobile-hide">{{ getLang.ortu_label_telp }}</th>
+            <th class="text-left">{{ getLang.aksi }}</th>
           </tr>
         </thead>
         <tbody>
@@ -29,12 +29,12 @@
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item clickable v-close-popup @click="getDetail(item.parent_id)">
-                      <q-item-section>{{ lang.perbarui }}</q-item-section>
+                      <q-item-section>{{ getLang.perbarui }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup 
                       @click="showDeleteConfirm(`${item.parent_id}-${item.user_id}`)">
-                      <q-item-section>{{ lang.hapus }}</q-item-section>
+                      <q-item-section>{{ getLang.hapus }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -64,12 +64,11 @@
 </template>
 
 <script>
-import { watch, computed } from 'vue'
+import { watch, computed, inject } from 'vue'
 import { useStore, mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'ParentTable',
-  props: ['lang'],
   created() {
     setTimeout(() => {
       this.$store.dispatch('parent/getOrtu')  
@@ -102,7 +101,9 @@ export default {
       store.state.parent.selectedParents = []
     })
 
-    return {}
+    return {
+      getLang: computed(() => inject('textLang')).value
+    }
   }
 }
 </script>
