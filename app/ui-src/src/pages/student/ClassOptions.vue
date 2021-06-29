@@ -22,63 +22,56 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { inject, computed, ref } from 'vue'
+import { mapActions, useStore } from 'vuex'
 
 export default {
   name: 'ClassOptions',
-  inject: ['textLang'],
-  data() {
-    return {
-      options: [],
-      stringOptions: [],
-      model: {},
-    }
-  },
-  created() {
-    setTimeout(() => {
-      this.createClassList()
-    }, 3000);
-  },
   methods: {
-    ...mapMutations('student', ['getClassGroup']),
     ...mapActions('student', ['getStudentsByClass']),
-    createClassList() {    
+  },
+  setup() {
+    const options = ref([])
+    const model = ref({})
+    const stringOptions = ref([])     
+    const store = useStore()
+    const getLang = computed(() => inject('textLang')).value  
+
+    setTimeout(() => {    
       let modelValue = {
-        label: this.getLang.siswa_semua_kelas,
+        label: getLang.value.siswa_semua_kelas,
         value: 'null'
       }
-
-      this.model = modelValue
-      this.stringOptions = [modelValue]
-
-      this.getClassGroup()
+  
+      model.value = modelValue
+      stringOptions.value = [modelValue]
+  
+      store.commit('student/getClassGroup')
+  
+      const classGroupList = computed(() => store.state.student.classGroupList)
 
       setTimeout(() => {
-        this.classGroupList.forEach(item => {
-          this.stringOptions.push({
+        classGroupList.value.forEach(item => {
+          stringOptions.value.push({
             label: item.grade_name,
             value: item.grade_id
           })
         }) 
-  
-        this.options = this.stringOptions        
+
+        options.value = stringOptions.value       
       }, 2000);
-    },
-    filterFn(val, update, abort) {
-      update(() => {
-        const needle = val.toLowerCase()
-        this.options = this.stringOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
-      })
+      
+    }, 3000);
+    return {
+      options,
+      model,
+      filterFn(val, update, abort) {
+        update(() => {
+          const needle = val.toLowerCase()
+          options.value = stringOptions.value.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+        })
+      }
     }
-  },
-  computed: {
-    ...mapState('student', {
-      classGroupList: state => state.classGroupList
-    }),
-    getLang() {
-      return this.textLang.value
-    }
-  },
-  
+  } 
 }
 </script>
