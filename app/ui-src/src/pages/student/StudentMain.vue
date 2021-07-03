@@ -10,7 +10,7 @@
           <search-box :label="lang.siswa_cari" vuex-module="student" class="q-mt-sm" />
         </div>
       </q-card-section>
-      <!-- <add-parent-form :lang="lang" /> -->
+      <add-student-form />
       <!-- <edit-parent-form :lang="lang" /> -->
       <!-- <delete-confirm :lang="lang" /> -->
       <student-table />
@@ -23,12 +23,14 @@ import { computed } from 'vue'
 import MainButton from './MainButton.vue'
 import ClassOptions from './ClassOptions.vue'
 import StudentTable from './StudentTable.vue'
+import AddStudentForm from './AddStudentForm.vue'
 
 export default {
   name: 'StudentMain',
   components: { 
     MainButton, ClassOptions,
-    StudentTable,    
+    StudentTable,
+    AddStudentForm,    
   },
   provide() {
     return {

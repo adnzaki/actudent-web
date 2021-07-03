@@ -10,6 +10,7 @@ export default function () {
       deleteProgress: false,
     },
     classGroupList: [], family: [],
+    searchParam: '',
     selectedParent: {
       id: '', father: '', mother: ''
     },
@@ -17,6 +18,7 @@ export default function () {
     checkAll: false, selectedStudents: [],
     current: 1,
     showAddForm: false, showEditForm: false,
-    saveStatus: 500, deleteConfirm: false
+    saveStatus: 500, deleteConfirm: false,
+    searchTimeout: false,
   }
 }

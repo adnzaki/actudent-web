@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { watch, computed } from 'vue'
+import { watch, computed, inject } from 'vue'
 import { useStore, mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 
 export default {
@@ -93,9 +93,6 @@ export default {
     ...mapGetters('student', {
       rowRange: 'rowRange'
     }),
-    getLang() {
-      return this.textLang.value
-    }
   },
   setup () {
     const store = useStore()
@@ -105,7 +102,9 @@ export default {
       store.state.student.selectedParents = []
     })
 
-    return {}
+    return {
+      getLang: computed(() => inject('textLang')).value
+    }
   }
 }
 </script>
