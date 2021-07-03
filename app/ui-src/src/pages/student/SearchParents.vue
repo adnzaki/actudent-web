@@ -1,11 +1,11 @@
 <template>
   <q-input outlined :label="getLang.siswa_input_kk" dense 
     v-model="model" @update:model-value="$store.commit('student/searchParents', model)" />
-  <q-card bordered v-if="family.length > 0">
+  <q-card bordered v-if="searchResults.length > 0">
     <q-scroll-area style="height: 100px">
       <q-list bordered separator class="q-mt-xs" dense>
-        <q-item clickable v-ripple v-for="(item, key) in family" :key="key"
-          @click="selectParent(item)">
+        <q-item clickable v-ripple v-for="(item, key) in searchResults" :key="key"
+          @click="selectData(item)">
           <q-item-section>
             {{ item.parent_father_name }} / {{ item.parent_mother_name }} ({{ item.parent_family_card }})
           </q-item-section>
@@ -22,7 +22,7 @@
 
 <script>
 import { inject, computed, ref } from 'vue'
-import { useStore, mapMutations, mapState } from 'vuex'
+import { useStore } from 'vuex'
 
 export default {
   name: 'SearchParents',
@@ -30,9 +30,9 @@ export default {
     const store = useStore()
     const getLang = computed(() => inject('textLang')).value
     const model = ref('')
-    const family = computed(() => store.state.student.family)
+    const searchResults = computed(() => store.state.student.family)
 
-    const selectParent = data => {
+    const selectData = data => {
       store.commit('student/selectParent', data)
       model.value = ''
     }
@@ -42,9 +42,9 @@ export default {
     return {
       getLang,
       model,
-      selectParent,
+      selectData,
       error,
-      family
+      searchResults
     }
   } 
 }
