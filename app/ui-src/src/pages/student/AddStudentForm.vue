@@ -70,8 +70,6 @@ export default {
         store.state.student.saveStatus = 500
         formData.value = formValue
       }
-      
-      console.log('I am opened!')
     }
     
     const save = () => {

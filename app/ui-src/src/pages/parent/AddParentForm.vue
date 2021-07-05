@@ -1,5 +1,7 @@
 <template>
-  <q-dialog v-model="$store.state.parent.showAddForm" :maximized="maximizedDialog()">
+  <q-dialog v-model="$store.state.parent.showAddForm" 
+    :maximized="maximizedDialog()"
+    @before-show="formOpen">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ getLang.ortu_form_add_title }}</div>
@@ -96,8 +98,8 @@ export default {
       })
     }
 
-    let saveStatus = computed(() => store.state.parent.saveStatus)
-    watch(saveStatus, () => {
+    const formOpen = () => {
+      const saveStatus = computed(() => store.state.parent.saveStatus)
       if(saveStatus.value === 200) {
         formData.value = {
           parent_family_card: '',
@@ -109,15 +111,18 @@ export default {
           user_password_confirm: '',
           user_name: '1'
         }
+
+        store.state.parent.saveStatus = 500
       }
-    })
+    }
 
     return {
       formData,
       school,
       save,
       maximizedDialog, cardDialog, cardSection,
-      getLang
+      getLang,
+      formOpen
     }
   }
 }
