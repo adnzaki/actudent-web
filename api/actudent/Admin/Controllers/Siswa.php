@@ -55,38 +55,41 @@ class Siswa extends Actudent
 
     public function save($id = null)
     {
-        if($this->studentLimitation() === 'blocked')
+        if(is_admin())
         {
-            return $this->response->setJSON([
-                'code' => '307',
-                'msg' => lang('AdminSiswa.siswa_overlimit'),
-            ]);
-        }
-        else
-        {
-            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-            if(! $this->validate($validation[0], $validation[1]))
+            if($this->studentLimitation() === 'blocked')
             {
                 return $this->response->setJSON([
-                    'code' => '500',
-                    'msg' => $this->validation->getErrors(),
+                    'code' => '307',
+                    'msg' => lang('AdminSiswa.siswa_overlimit'),
                 ]);
             }
             else
             {
-                $data = $this->formData();
-                if($id === null) 
+                $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+                if(! validate($validation[0], $validation[1]))
                 {
-                    $this->siswa->insert($data);
+                    return $this->response->setJSON([
+                        'code' => '500',
+                        'msg' => $this->validation->getErrors(),
+                    ]);
                 }
                 else
                 {
-                    $this->siswa->update($data, $id);
+                    $data = $this->formData();
+                    if($id === null) 
+                    {
+                        $this->siswa->insert($data);
+                    }
+                    else
+                    {
+                        $this->siswa->update($data, $id);
+                    }
+                    
+                    return $this->response->setJSON([
+                        'code' => '200',
+                    ]);
                 }
-                
-                return $this->response->setJSON([
-                    'code' => '200',
-                ]);
             }
         }
     }

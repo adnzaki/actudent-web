@@ -13,11 +13,11 @@
       </q-list>
     </q-scroll-area>
   </q-card>
-  <q-input outlined :label="getLang.siswa_label_ayah" dense class="q-mt-lg"
+  <error :label="error.parent_id" />
+  <q-input outlined :label="getLang.siswa_label_ayah" dense
     v-model="$store.state.student.selectedParent.father" disable />
   <q-input outlined :label="getLang.siswa_label_ibu" dense class="q-mt-lg"
-    v-model="$store.state.student.selectedParent.mother" disable />
-  <error :label="error.parent_id" />
+    v-model="$store.state.student.selectedParent.mother" disable />  
 </template>
 
 <script>

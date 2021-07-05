@@ -1,5 +1,7 @@
 <template>
-  <q-dialog v-model="$store.state.student.showAddForm" :maximized="maximizedDialog()">
+  <q-dialog v-model="$store.state.student.showAddForm" 
+    :maximized="maximizedDialog()"
+    @before-show="formOpen">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ getLang.siswa_add_title }}</div>
@@ -29,8 +31,7 @@
 </template>
 
 <script>
-import { ref, onMounted, watch, computed, inject } from 'vue'
-import { school, getSchool } from '../../composables/common'
+import { ref, computed, inject } from 'vue'
 import { maximizedDialog, cardDialog, cardSection } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 import SearchParents from './SearchParents.vue'
@@ -46,9 +47,7 @@ export default {
   },
   setup() {
     const store = useStore()
-
     const getLang = computed(() => inject('textLang')).value
-
     const selectedParent = computed(() => store.state.student.selectedParent)
 
     let formValue = {
@@ -59,31 +58,38 @@ export default {
 
     let formData = ref(formValue)
 
-    onMounted(getSchool)
+    const formOpen = () => {
+      const saveStatus = computed(() => store.state.student.saveStatus)
+      if(saveStatus.value === 200) {
+        formValue = {
+          student_nis: '',
+          student_name: '',
+          parent_id: ''
+        }
+
+        store.state.student.saveStatus = 500
+        formData.value = formValue
+      }
+      
+      console.log('I am opened!')
+    }
     
     const save = () => {
       formData.value.parent_id = selectedParent.value.id
-      // store.dispatch('parent/save', {
-      //   data: formData.value,
-      //   lang: getLang.value,
-      //   edit: false,
-      //   id: null
-      // })
+      store.dispatch('student/save', {
+        data: formData.value,
+        lang: getLang.value,
+        edit: false,
+        id: null
+      })
     }
-
-    let saveStatus = computed(() => store.state.parent.saveStatus)
-    watch(saveStatus, () => {
-      if(saveStatus.value === 200) {
-        formData.value = formValue
-      }
-    })
 
     return {
       formData,
-      school,
       save,
       maximizedDialog, cardDialog, cardSection,
-      getLang
+      getLang,
+      formOpen
     }
   }
 }

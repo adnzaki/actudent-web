@@ -12,6 +12,78 @@ import {
 import { Notify } from 'quasar'
 
 const actions = {
+  // payload: { data, lang, edit, id }
+  save({ state, dispatch }, payload) {
+    let url
+    payload.edit ? url = `save/${payload.id}` : url = 'save'
+    state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: payload.lang.siswa_save_progress,
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    admin.post(`${state.studentApi}${url}`, payload.data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.helper.disableSaveButton = false
+        const res = response.data
+        if(res.code === '307') {
+          notifyProgress({
+            message: `Error! ${res.msg}`,
+            color: 'negative',
+            spinner: false
+          })
+        } else {
+          if(res.code === '500') {
+            state.error = res.msg
+            notifyProgress({
+              message: `Error! ${payload.lang.siswa_save_error}`,
+              color: 'negative',
+              spinner: false
+            })
+          } else {
+            state.saveStatus = 200
+
+            state.selectedParent = {
+              id: '',
+              father: '',
+              mother: ''
+            }
+
+            dispatch('resetForm')
+            if(payload.edit) {
+              state.showEditForm = false
+              notifyProgress({
+                message: `${payload.lang.sukses} ${payload.lang.siswa_update_success}`,
+                color: 'positive',
+                icon: 'done',
+                spinner: false
+              })
+            } else {
+              state.showAddForm = false
+              notifyProgress({
+                message: `${payload.lang.sukses} ${payload.lang.siswa_save_success}`,
+                color: 'positive',
+                icon: 'done',
+                spinner: false
+              })
+            }
+          }
+        }
+      })
+  },
+  resetForm({ state, dispatch }) {
+    state.error = {}
+    dispatch('getStudents')
+  },
   getStudents({ state, dispatch }) {
     // mutate paging.rows in order to affect
     // model-value on QSelect
