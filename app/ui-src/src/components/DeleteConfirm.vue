@@ -10,7 +10,7 @@
         <q-btn flat :label="getLang.batal" color="primary" @click="closeDeleteConfirm" />
         <q-btn flat :label="getLang.hapus" color="primary" 
           :disable="disableSaveButton"
-          @click="deleteParent" />
+          @click="removeData" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -22,7 +22,7 @@ import { useStore } from 'vuex'
 
 export default {
   name: 'DeleteConfirm',
-  props: ['vuexModule'],
+  props: ['vuexModule', 'action'],
   setup(props) {
     const store = useStore()
 
@@ -35,8 +35,8 @@ export default {
       closeDeleteConfirm: () => {
         store.commit(`${props.vuexModule}/closeDeleteConfirm`)
       },
-      deleteParent: () => {
-        store.dispatch(`${props.vuexModule}/deleteParent`, getLang.value)
+      removeData: () => {
+        store.dispatch(`${props.vuexModule}/${props.action}`, getLang.value)
       },
       getLang
     }
