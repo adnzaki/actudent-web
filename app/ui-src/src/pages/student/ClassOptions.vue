@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-3 q-pr-xs q-mt-sm">
+  <div class="col-12 col-md-3 q-mt-sm">
     <q-select
       outlined
       v-model="model"

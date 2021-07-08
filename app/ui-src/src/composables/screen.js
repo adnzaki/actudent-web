@@ -18,4 +18,11 @@ const cardSection = () => {
     : style = { maxHeight: '60vh' }
 }
 
-export { maximizedDialog, cardDialog, cardSection }
+const justifyDataOptions = () => {
+  let style
+  return Screen.lt.sm
+    ? style = { paddingRight: '0' }
+    : style = { paddingRight: '10px' }
+}
+
+export { maximizedDialog, cardDialog, cardSection, justifyDataOptions }

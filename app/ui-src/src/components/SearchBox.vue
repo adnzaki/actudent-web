@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass">
+  <div :class="rootClass" :style="justifyDataOptions()">
     <q-input outlined bottom-slots v-model="$store.state[vuexModule]['paging']['search']" 
       :label="label"
       @keyup.enter="filter"
@@ -16,6 +16,7 @@ import { useQuasar } from 'quasar'
 import { computed, watch } from 'vue'
 import { useStore } from 'vuex'
 import { conf, errorNotif } from '../composables/common'
+import { justifyDataOptions } from '../composables/screen'
 
 export default {
   name: 'SearchBox',
@@ -45,7 +46,8 @@ export default {
         } else {
           errorNotif()
         }
-      }
+      },
+      justifyDataOptions
     }
   }
 }

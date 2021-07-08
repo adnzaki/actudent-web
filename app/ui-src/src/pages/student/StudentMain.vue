@@ -5,8 +5,8 @@
         <div class="text-h6 text-capitalize">{{ lang.siswa_title }}</div>
         <div class="row q-mt-md">
           <main-button class="q-mt-sm" />
-          <class-options />
-          <row-dropdown vuex-module="student" class="q-mt-sm" root-class="col-12 col-md-2 q-ml-xs" />
+          <class-options :style="justifyDataOptions()" />
+          <row-dropdown vuex-module="student" class="q-mt-sm" root-class="col-12 col-md-2" />
           <search-box :label="lang.siswa_cari" vuex-module="student" class="q-mt-sm" />
         </div>
       </q-card-section>
@@ -24,6 +24,7 @@ import MainButton from './MainButton.vue'
 import ClassOptions from './ClassOptions.vue'
 import StudentTable from './StudentTable.vue'
 import AddStudentForm from './AddStudentForm.vue'
+import { justifyDataOptions } from '../../composables/screen'
 
 export default {
   name: 'StudentMain',
@@ -42,6 +43,9 @@ export default {
       this.fetchLang('Admin')
       this.fetchLang('AdminSiswa')
     }, 1000);
+  },
+  setup() {
+    return { justifyDataOptions }
   }
 }
 </script>
