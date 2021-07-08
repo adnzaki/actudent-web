@@ -59,7 +59,6 @@ import { ref, onMounted, watch, computed, inject } from 'vue'
 import { school, getSchool } from '../../composables/common'
 import { maximizedDialog, cardDialog, cardSection } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
-import Error from 'components/Error'
 
 export default {
   name: 'EditParentForm',
@@ -83,7 +82,7 @@ export default {
     const save = () => {
       store.dispatch('parent/save', {
         data: store.state.parent.detail,
-        lang: getgetLang.value,
+        lang: getLang.value,
         edit: true,
         id: store.state.parent.detail.parent_id
       })
