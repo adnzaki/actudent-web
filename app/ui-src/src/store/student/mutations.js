@@ -9,7 +9,18 @@ const mutations = {
 
   },
   getDetail(state, id) {
-
+    state.error = {}
+    state.showEditForm = true
+    admin.get(`${state.studentApi}detail/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        const res = response.data
+        state.detail = res
+        state.selectedParent.id = res.parent_id
+        state.selectedParent.father = res.parent_father_name
+        state.selectedParent.mother = res.parent_mother_name
+      })   
   },
   selectParent(state, data) {
     state.selectedParent = {

@@ -50,7 +50,7 @@ class Siswa extends Actudent
     public function getDetailSiswa($id)
     {
         $data = $this->siswa->getStudentDetail($id);
-        return $this->response->setJSON($data[0]);
+        return $this->createResponse($data[0], 'is_admin');
     }
 
     public function save($id = null)

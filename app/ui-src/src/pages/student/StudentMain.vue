@@ -11,6 +11,7 @@
         </div>
       </q-card-section>
       <add-student-form />
+      <edit-student-form />
       <!-- <edit-parent-form :lang="lang" /> -->
       <!-- <delete-confirm :lang="lang" /> -->
       <student-table />
@@ -24,6 +25,7 @@ import MainButton from './MainButton.vue'
 import ClassOptions from './ClassOptions.vue'
 import StudentTable from './StudentTable.vue'
 import AddStudentForm from './AddStudentForm.vue'
+import EditStudentForm from './EditStudentForm.vue'
 import { justifyDataOptions } from '../../composables/screen'
 
 export default {
@@ -31,7 +33,8 @@ export default {
   components: { 
     MainButton, ClassOptions,
     StudentTable,
-    AddStudentForm,    
+    AddStudentForm,
+    EditStudentForm,
   },
   provide() {
     return {
