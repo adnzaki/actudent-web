@@ -5,24 +5,21 @@ const maximizedDialog = () => {
 }
 
 const cardDialog = () => {
-  let style
   return Screen.lt.sm
-    ? style = { height: '100vh' }
-    : style = { width: '700px', maxWidth: '80vw' }
+    ? { height: '100vh' }
+    : { width: '700px', maxWidth: '80vw' }
 }
 
 const cardSection = () => {
-  let style
   return Screen.lt.sm
-    ? style = { maxHeight: '100vh' }
-    : style = { maxHeight: '60vh' }
+    ? { maxHeight: '100vh' }
+    : { maxHeight: '60vh' }
 }
 
 const justifyDataOptions = () => {
-  let style
   return Screen.lt.sm
-    ? style = { paddingRight: '0' }
-    : style = { paddingRight: '10px' }
+    ? { paddingRight: '0' }
+    : { paddingRight: '10px' }
 }
 
 export { maximizedDialog, cardDialog, cardSection, justifyDataOptions }
