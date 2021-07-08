@@ -94,6 +94,11 @@ class Siswa extends Actudent
         }
     }
 
+    public function getStudentLimit()
+    {
+        return $this->createResponse($this->studentLimitation(), 'is_admin');
+    }
+
     private function studentLimitation()
     {
         $studentRows = $this->siswa->getSiswaRows();

@@ -5,6 +5,14 @@ import {
 } from '../../composables/common'
 
 const mutations = {
+  getStudentLimit(state) {
+    admin.get(`${state.studentApi}limit`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.studentLimit = response.data
+      })
+  },
   showDeleteConfirm(state, id) {
     state.selectedStudents = []
     state.selectedStudents.push(id)

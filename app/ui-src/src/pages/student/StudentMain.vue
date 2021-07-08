@@ -19,7 +19,8 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
+import { useStore } from 'vuex'
 import MainButton from './MainButton.vue'
 import ClassOptions from './ClassOptions.vue'
 import StudentTable from './StudentTable.vue'
@@ -47,6 +48,10 @@ export default {
     }, 1000);
   },
   setup() {
+    const store = useStore()
+    onMounted(() => {
+      store.commit('student/getStudentLimit')
+    })
     return { justifyDataOptions }
   }
 }
