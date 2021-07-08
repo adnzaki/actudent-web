@@ -62,9 +62,6 @@ import { mapState, useStore } from 'vuex'
 
 export default {
   name: 'EditParentForm',
-  components: {
-    Error
-  },
   computed: {
     ...mapState('parent', {
       error: state => state.error,
