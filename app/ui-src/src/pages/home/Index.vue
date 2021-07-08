@@ -12,8 +12,8 @@
                 <strong>{{ item.key }} - </strong>{{ item.desc }}                 
               </li>
             </ul>
-            Aplikasi ini masih dalam tahap awal pengembangan. Untuk saat ini menu yang sudah terbuka
-            hanya Beranda dan Data > Orang Tua (terbatas pada menampilkan dan menambahkan data).
+            Aplikasi ini masih dalam tahap awal pengembangan. Untuk saat ini menu yang sudah dibuka
+            hanya Beranda, Data > Orang Tua dan Data > Siswa.
           </p>
           <p>Informasi tentang pengembangan Actudent-v2 dapat anda simak melalui blog resmi Actudent
             <strong><a href="https://actudent.com/blogs/">di sini.</a></strong></p>
