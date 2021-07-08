@@ -28,7 +28,7 @@
               <q-btn round icon="more_vert" color="accent" class="mobile-only">
                 <q-menu>
                   <q-list style="min-width: 100px">
-                    <q-item clickable v-close-popup @click="getDetail(item.parent_id)">
+                    <q-item clickable v-close-popup @click="getDetail(item.student_id)">
                       <q-item-section>{{ getLang.perbarui }}</q-item-section>
                     </q-item>
                     <q-separator />

@@ -110,21 +110,25 @@ class Siswa extends Actudent
 
     public function delete()
     {
-        $idString = $this->request->getPost('id');
-        $idWrapper = [];
-        if(strpos($idString, '-') !== false)
+        if(is_admin())
         {
-            $idWrapper = explode('-', $idString);
-            foreach($idWrapper as $id)
+            $idString = $this->request->getPost('id');
+            $idWrapper = [];
+            if(strpos($idString, '-') !== false)
             {
-                $this->siswa->delete($id);
+                $idWrapper = explode('-', $idString);
+                foreach($idWrapper as $id)
+                {
+                    $this->siswa->delete($id);
+                }
             }
+            else 
+            {
+                $this->siswa->delete($idString);
+            }
+            
+            return $this->response->setJSON(['status' => 'OK']);
         }
-        else 
-        {
-            $this->siswa->delete($idString);
-        }
-        return $this->response->setJSON(['status' => 'OK']);
     }
 
     private function validation($id)

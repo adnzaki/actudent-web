@@ -6,7 +6,20 @@ import {
 
 const mutations = {
   showDeleteConfirm(state, id) {
-
+    state.selectedStudents = []
+    state.selectedStudents.push(id)
+    state.deleteConfirm = true
+  },
+  closeDeleteConfirm(state) {
+    state.selectedStudents = []
+    state.deleteConfirm = false
+  },
+  multipleDeleteConfirm(state, lang) {
+    if(state.selectedStudents.length > 0) {
+      state.deleteConfirm = true
+    } else {
+      flashAlert(lang.pilih_data_dulu, 'negative')
+    }
   },
   getDetail(state, id) {
     state.error = {}

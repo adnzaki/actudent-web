@@ -12,6 +12,45 @@ import {
 import { Notify } from 'quasar'
 
 const actions = {
+  deleteStudent({ state, dispatch }, lang) {
+    let idString
+    if(state.selectedStudents.length > 1) {
+        idString = state.selectedStudents.join('-')
+    } else {
+        idString = state.selectedStudents[0]
+    }
+
+    // show notify
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: lang.progress_hapus,
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    const data = { id: idString }
+    admin.post(`${state.studentApi}delete`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(() => {
+        state.helper.disableSaveButton = false
+        state.deleteConfirm = false
+        notifyProgress({
+          message: lang.siswa_delete_success,
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+
+        // refresh data
+        dispatch('getStudents')
+      })
+  },
   // payload: { data, lang, edit, id }
   save({ state, dispatch }, payload) {
     let url
@@ -82,6 +121,7 @@ const actions = {
   },
   resetForm({ state, dispatch }) {
     state.error = {}
+    state.selectedParent = { id: '', father: '', mother: '' }
     dispatch('getStudents')
   },
   getStudents({ state, dispatch }) {

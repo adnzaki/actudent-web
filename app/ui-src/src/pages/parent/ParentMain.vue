@@ -11,7 +11,7 @@
       </q-card-section>
       <add-parent-form />
       <edit-parent-form />
-      <delete-confirm vuex-module="parent" />
+      <delete-confirm vuex-module="parent" action="deleteParent" />
       <parent-table />
     </q-card>
   </div>

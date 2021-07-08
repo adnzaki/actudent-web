@@ -12,8 +12,7 @@
       </q-card-section>
       <add-student-form />
       <edit-student-form />
-      <!-- <edit-parent-form :lang="lang" /> -->
-      <!-- <delete-confirm :lang="lang" /> -->
+      <delete-confirm vuex-module="student" action="deleteStudent" />
       <student-table />
     </q-card>
   </div>
