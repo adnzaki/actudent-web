@@ -148,8 +148,6 @@ class Actudent extends Controller
     {
         $pengguna = $this->getDataPengguna();        
         $sekolah = $this->getDataSekolah();
-        $theme = $this->getUserThemes()['data'];
-        $userTheme = $this->getUserThemes()['selectedTheme'];
         $bahasa = $this->getUserLanguage($this->getUserLanguage());
         $letterhead = $this->getLetterHead();
         $changelog = $this->resources->getChangelog($bahasa);
@@ -183,17 +181,6 @@ class Actudent extends Controller
             'nipWakasek'            => $letterhead->co_headmaster_nip ?? '',
             'namaPengguna'          => $pengguna->user_name ?? '',
             'bahasa'                => $bahasa ?? '',
-            'theme'                 => $userTheme ?? '',
-            'bodyColor'             => $theme['bodyColor'] ?? '',
-            'footerColor'           => $theme['footerColor'] ?? '',
-            'footerTextColor'       => $theme['footerTextColor'] ?? '',
-            'cardColor'             => $theme['cardColor'] ?? '',
-            'cardTitleColor'        => $theme['cardTitleColor'] ?? '',
-            'menuColor'             => $theme['menuColor'] ?? '',
-            'navbarColor'           => $theme['navbarColor'] ?? '',
-            'navbarContainerColor'  => $theme['navbarContainerColor'] ?? '',
-            'modalHeaderColor'      => $theme['modalHeaderColor'] ?? '',
-            'navlinkColor'          => $theme['navlinkColor'] ?? '',
             'changelog'             => $changelog['changelog'],
             'countChangelog'        => $changelog['countChangelog'],
             'isDashboard'           => $this->isDashboard(),
@@ -326,37 +313,6 @@ class Actudent extends Controller
             $decodedToken = jwt_decode(bearer_token());
             return $this->auth->getDataPengguna($decodedToken->email);
         }
-    }
-
-    /**
-     * Get theme based on user who is logging into the app
-     * 
-     * @return void
-     */
-    protected function getUserThemes()
-    {
-        $result = [
-            'selectedTheme' => '',
-            'data' => '',
-        ];
-
-        if(isset($_SESSION['email']))
-        {
-            $userTheme = $this->auth->getUserThemes($_SESSION['email']);
-            $theme = $this->setting->themeComponents($userTheme[0]->theme);
-            $wrapper = [];
-            foreach($theme as $key)
-            {
-                $wrapper[$key['settingKey']] = $key['settingValue'];
-            }
-    
-            $result = [
-                'selectedTheme' => $userTheme[0]->theme,
-                'data' => $wrapper,
-            ];
-        }
-
-        return $result;
     }
 
     /**
