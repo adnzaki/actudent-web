@@ -153,7 +153,6 @@ class Actudent extends Controller
         $bahasa = $this->getUserLanguage($this->getUserLanguage());
         $letterhead = $this->getLetterHead();
         $changelog = $this->resources->getChangelog($bahasa);
-        $showExpiration = $this->showExpirationNotification();
         $data = [
             'ac_version'            => ACTUDENT_VERSION,
             'base_url'              => base_url(),
@@ -200,39 +199,9 @@ class Actudent extends Controller
             'isDashboard'           => $this->isDashboard(),
             'isMessage'             => $this->isMessage(),
             'unreadMessages'        => $this->getUnreadMessages(),
-            'activeLeft'            => $showExpiration['left'],
-            'expireDate'            => $showExpiration['date'],
-            'warningText'           => $showExpiration['text'],
-            'expireNotifClass'      => $showExpiration['class'],
         ];
 
         return $data;
-    }
-
-    /**
-     * Notify user if active period has been 7 days left
-     * 
-     * @return array
-     */
-    private function showExpirationNotification(): array
-    {
-        $subs = new \Actudent\Core\Models\SubscriptionModel;
-        $package = $subs->getPackageDetail();
-        $diff = os_date()->diff($package->shortDate, os_date()->shortDate(), 'num-only');
-
-        // set notification class
-        $theme = $this->getUserThemes();
-        $notifClass = ($theme['selectedTheme'] === 'light-blue' 
-                        || $theme['selectedTheme'] === 'semi-dark')
-                        ? 'super-danger' 
-                        : '';
-
-        return [
-            'left'  => $diff,
-            'date'  => $package->expiration,
-            'text'  => lang('AdminLangganan.subs_active_left', [$diff]),
-            'class' => $notifClass,
-        ];
     }
 
     /**

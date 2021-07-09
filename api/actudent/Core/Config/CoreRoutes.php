@@ -1,11 +1,5 @@
 <?php
 
-// Route group for loading user interface
-$routes->group('main', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
-{
-    $routes->get('/', 'Main::index');
-});
-
 // Core application section 
 $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
 {
@@ -16,4 +10,5 @@ $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($r
 	$routes->add('check-subscription', 'Resources::checkSubscription');
   	$routes->add('pengguna', 'Resources::getPengguna');
 	$routes->add('sekolah', 'Resources::getSekolah');
+	$routes->add('get-subscription-warning', 'Resources::showExpirationNotification');
 });

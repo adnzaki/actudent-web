@@ -45,6 +45,7 @@
     </q-drawer>
     
     <q-page-container>
+      <subscription-warning />
       <router-view />
     </q-page-container>
   </q-layout>
@@ -52,18 +53,24 @@
 
 <script>
 
-import { defineComponent, ref, onMounted, watch } from 'vue'
+import { defineComponent, ref, onMounted, computed, watch } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import ToggleMode from 'components/ToggleMode.vue'
 import { headerColor } from '../composables/mode'
 import AdminMenu from './AdminMenu.vue'
 import { pengguna, getPengguna } from '../composables/common'
+import SubscriptionWarning from './SubscriptionWarning.vue'
 
 export default defineComponent({
   name: 'MainLayout',
   data() {
     return {
       otherActions: []  
+    }
+  },
+  provide() {
+    return {
+      textLang: computed(() => this.lang)
     }
   },
   mounted() {
@@ -79,7 +86,8 @@ export default defineComponent({
     }, 1000);
   },
   components: {
-    ToggleMode, AdminMenu
+    ToggleMode, AdminMenu,
+    SubscriptionWarning
   },
 
   setup () {

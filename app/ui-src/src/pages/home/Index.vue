@@ -19,8 +19,6 @@
             <strong><a href="https://actudent.com/blogs/">di sini.</a></strong></p>
         </div>
       </q-card-section>
-      <add-parent-form :lang="lang" />
-      <parent-table :lang="lang" />
     </q-card>
   </div>
 </template>
