@@ -1,6 +1,7 @@
 <template>
   <q-dialog v-model="$store.state.student.showEditForm" 
-    :maximized="maximizedDialog()">
+    :maximized="maximizedDialog()"
+    @hide="formClose">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ getLang.siswa_add_title }}</div>
@@ -61,10 +62,17 @@ export default {
       })
     }
 
+    const formClose = () => {
+      store.state.student.selectedParent = {
+        id: '', father: '', mother: ''
+      }
+    }
+
     return {
       save,
       maximizedDialog, cardDialog, cardSection,
       getLang,
+      formClose
     }
   }
 }
