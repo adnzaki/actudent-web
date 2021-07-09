@@ -1,5 +1,6 @@
 import { register } from 'register-service-worker'
 import { flashAlert } from 'src/composables/notify'
+import { Notify } from 'quasar'
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -30,7 +31,17 @@ register(process.env.SERVICE_WORKER_FILE, {
 
   updated (/* registration */) {
     // console.log('New content is available; please refresh.')
-    flashAlert('New content is available; please refresh this page.', 'info')
+    Notify.create({
+      message: 'New content is available; please refresh this page.',
+      color: 'info',
+      position: 'top',
+      actions: [
+        {
+          label: 'Reload', color: 'white', handler: () => window.location.reload(true)
+        }
+      ],
+      timeout: 10000
+    })
   },
 
   offline () {
