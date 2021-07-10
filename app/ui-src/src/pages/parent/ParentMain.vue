@@ -1,8 +1,8 @@
 <template>
-  <div class="q-pa-md">    
+  <div :class="wrapperPadding()">    
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6 text-capitalize">{{ lang.ortu_title }}</div>
+        <div class="text-h6 text-capitalize">{{ lang.menu_parent }}</div>
         <div class="row q-mt-md">
           <main-button class="q-mt-sm" />
           <row-dropdown vuex-module="parent" class="q-mt-sm" />
@@ -23,12 +23,13 @@ import ParentTable from './ParentTable.vue'
 import MainButton from './MainButton.vue'
 import AddParentForm from './AddParentForm.vue'
 import EditParentForm from './EditParentForm.vue'
+import { wrapperPadding } from 'src/composables/screen'
 
 export default {
   name: 'ParentMain',
   components: { 
     ParentTable, MainButton,
-    AddParentForm, EditParentForm,
+    AddParentForm, EditParentForm
   },
   provide() {
     return {
@@ -47,7 +48,7 @@ export default {
   },
   setup () {
     
-    return {}
+    return { wrapperPadding }
   }
 }
 </script>

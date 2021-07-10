@@ -12,6 +12,7 @@ return [
     'ortu_cari'             => 'Cari nama, nomor KK atau nomor telepon',
     'ortu_form_add_title'   => 'Tambah data orang tua',
     'ortu_kk'               => 'Nomor KK',
+    'ortu_label_parent'     => 'Nama Ayah/Ibu',
     'ortu_label_ayah'       => 'Nama Ayah',
     'ortu_label_ibu'        => 'Nama Ibu',
     'ortu_label_telp'       => 'Nomor Telepon',

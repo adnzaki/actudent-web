@@ -1,5 +1,23 @@
 import { Screen } from 'quasar'
 
+const menuWidth = () => {
+  return Screen.lt.sm
+    ? 300
+    : 230
+}
+
+const wrapperPadding = () => {
+  return Screen.lt.sm
+    ? ''
+    : 'q-pa-md'
+}
+
+const checkColWidth = () => {
+  return Screen.lt.sm
+    ? 'decrease-col-size'
+    : ''
+}
+
 const maximizedDialog = () => {
   return Screen.lt.sm ? true : false
 }
@@ -22,4 +40,8 @@ const justifyDataOptions = () => {
     : { paddingRight: '10px' }
 }
 
-export { maximizedDialog, cardDialog, cardSection, justifyDataOptions }
+export { 
+  maximizedDialog, cardDialog, cardSection, 
+  justifyDataOptions, checkColWidth, wrapperPadding,
+  menuWidth
+}

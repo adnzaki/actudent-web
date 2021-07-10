@@ -1,10 +1,10 @@
 <template>
-  <div class="q-mt-lg">
+  <div>
     <q-scroll-area class="table-scroll-area">
       <q-markup-table bordered>
         <thead>
           <tr>
-            <th class="text-left cursor-pointer"><q-checkbox v-model="$store.state.student.checkAll" @update:model-value="selectAll" /></th>
+            <th :class="['text-left cursor-pointer', checkColWidth()]"><q-checkbox v-model="$store.state.student.checkAll" @update:model-value="selectAll" /></th>
             <th class="text-left cursor-pointer mobile-hide" @click="sortData('student_nis')">{{ getLang.siswa_nis }} <sort-icon /></th>
             <th class="text-left cursor-pointer" @click="sortData('student_name')">{{ getLang.siswa_nama }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_father_name')">{{ getLang.siswa_label_ayah }} <sort-icon /></th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td class="text-left"><q-checkbox v-model="$store.state.student.selectedStudents" :val="item.student_id" /></td>
+            <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.student.selectedStudents" :val="item.student_id" /></td>
             <td class="text-left mobile-hide">{{ item.student_nis }}</td>
             <td class="text-left">{{ item.student_name }}</td>
             <td class="text-left mobile-hide">{{ item.parent_father_name }}</td>
@@ -25,7 +25,7 @@
                 <q-btn color="accent" icon="delete" 
                   @click="showDeleteConfirm(item.student_id)" />
               </q-btn-group>
-              <q-btn round icon="more_vert" color="accent" class="mobile-only">
+              <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item clickable v-close-popup @click="getDetail(item.student_id)">
@@ -50,7 +50,7 @@
         <div class="col-12 col-md-6">
           <p> {{ rowRange }} </p>
         </div>
-        <div class="col-12 col-md-2 offset-4">
+        <div class="col-12 col-md-2 offset-md-4">
           <q-pagination
             v-model="$store.state.student.current"
             :max="pageLinks.length"
@@ -66,6 +66,7 @@
 <script>
 import { watch, computed, inject } from 'vue'
 import { useStore, mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
   name: 'StudentTable',
@@ -103,7 +104,8 @@ export default {
     })
 
     return {
-      getLang: computed(() => inject('textLang')).value
+      getLang: computed(() => inject('textLang')).value,
+      checkColWidth
     }
   }
 }

@@ -29,7 +29,7 @@
     <q-drawer
       v-model="drawer"
         show-if-above
-        :width="230"
+        :width="menuWidth()"
         :breakpoint="400"
     >
       <admin-menu />
@@ -60,6 +60,7 @@ import { headerColor } from '../composables/mode'
 import AdminMenu from './AdminMenu.vue'
 import { pengguna, getPengguna } from '../composables/common'
 import SubscriptionWarning from './SubscriptionWarning.vue'
+import { menuWidth } from '../composables/screen'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -118,7 +119,8 @@ export default defineComponent({
       hideUserAction,
       avatarBg,
       header,
-      pengguna
+      pengguna,
+      menuWidth
     }
   }
 })

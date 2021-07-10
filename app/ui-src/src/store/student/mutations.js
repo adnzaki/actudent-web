@@ -21,6 +21,7 @@ const mutations = {
   closeDeleteConfirm(state) {
     state.selectedStudents = []
     state.deleteConfirm = false
+    state.checkAll = false
   },
   multipleDeleteConfirm(state, lang) {
     if(state.selectedStudents.length > 0) {

@@ -12,6 +12,7 @@ return [
     'ortu_cari'             => 'Search for name, family ID or phone number',
     'ortu_form_add_title'   => 'Add new parent',
     'ortu_kk'               => 'Family ID',
+    'ortu_label_parent'     => 'Father/Mother Name',
     'ortu_label_ayah'       => 'Father Name',
     'ortu_label_ibu'        => 'Mother Name',
     'ortu_label_telp'       => 'Phone Number',

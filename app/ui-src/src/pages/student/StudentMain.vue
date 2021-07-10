@@ -1,8 +1,8 @@
 <template>
-  <div class="q-pa-md">    
+  <div :class="wrapperPadding()">    
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6 text-capitalize">{{ lang.siswa_title }}</div>
+        <div class="text-h6 text-capitalize">{{ lang.menu_siswa }}</div>
         <div class="row q-mt-md">
           <main-button class="q-mt-sm" />
           <class-options :style="justifyDataOptions()" />
@@ -27,6 +27,7 @@ import StudentTable from './StudentTable.vue'
 import AddStudentForm from './AddStudentForm.vue'
 import EditStudentForm from './EditStudentForm.vue'
 import { justifyDataOptions } from '../../composables/screen'
+import { wrapperPadding } from 'src/composables/screen'
 
 export default {
   name: 'StudentMain',
@@ -52,7 +53,7 @@ export default {
     onMounted(() => {
       store.commit('student/getStudentLimit')
     })
-    return { justifyDataOptions }
+    return { justifyDataOptions, wrapperPadding }
   }
 }
 </script>

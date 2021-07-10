@@ -31,6 +31,7 @@ const mutations = {
   closeDeleteConfirm(state) {
     state.selectedParents = []
     state.deleteConfirm = false
+    state.checkAll = false
   },
   selectAll(state) {
     if (state.checkAll) {

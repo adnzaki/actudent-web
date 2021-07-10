@@ -18,18 +18,10 @@ class Resources extends Actudent
         $package = $subs->getPackageDetail();
         $diff = os_date()->diff($package->shortDate, os_date()->shortDate(), 'num-only');
 
-        // set notification class
-        $theme = $this->getUserThemes();
-        $notifClass = ($theme['selectedTheme'] === 'light-blue' 
-                        || $theme['selectedTheme'] === 'semi-dark')
-                        ? 'super-danger' 
-                        : '';
-
         return $this->createResponse([
             'left'  => $diff,
             'date'  => $package->expiration,
             'text'  => lang('AdminLangganan.subs_active_left', [$diff]),
-            'class' => $notifClass,
         ]);
     }
 
