@@ -25,7 +25,7 @@
 // ----- Switch to "production" mode first before create -----------
 // ----- build setup for production server/cloud hosting, ----------
 // ----- as Webpack will use this mode for bundling the UI files. --
-const mode = 'production' // development, build, production
+const mode = 'development' // development, build, production
 
 // ------ WARNING! Do not touch below this line ------
 const host = () => {
