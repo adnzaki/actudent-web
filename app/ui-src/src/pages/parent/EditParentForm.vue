@@ -7,7 +7,7 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
-      <q-card-section :style="cardSection()" class="scroll">
+      <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
           <q-input outlined :label="getLang.ortu_kk" minlength="16" maxlength="16" dense 
             v-model="$store.state.parent.detail.parent_family_card" />
@@ -57,7 +57,7 @@
 <script>
 import { ref, onMounted, watch, computed, inject } from 'vue'
 import { school, getSchool } from '../../composables/common'
-import { maximizedDialog, cardDialog, cardSection } from '../../composables/screen'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 
 export default {
@@ -96,7 +96,7 @@ export default {
       school,
       save,
       user_name: ref('1'),
-      maximizedDialog, cardDialog, cardSection,
+      maximizedDialog, cardDialog,
       getLang
     }
   }

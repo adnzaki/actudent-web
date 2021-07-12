@@ -2,8 +2,9 @@
   <div :class="wrapperPadding()">    
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6 text-capitalize">{{ lang.menu_parent }}</div>
-        <div class="row q-mt-md">
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ lang.menu_parent }}</div>
+        <div class="text-h6 text-capitalize" v-else>{{ lang.menu_parent }}</div>
+        <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
           <row-dropdown vuex-module="parent" class="q-mt-sm" />
           <search-box :label="lang.ortu_cari" vuex-module="parent" class="q-mt-sm" />
@@ -23,7 +24,8 @@ import ParentTable from './ParentTable.vue'
 import MainButton from './MainButton.vue'
 import AddParentForm from './AddParentForm.vue'
 import EditParentForm from './EditParentForm.vue'
-import { wrapperPadding } from 'src/composables/screen'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
+import { useQuasar } from 'quasar'
 
 export default {
   name: 'ParentMain',
@@ -47,8 +49,8 @@ export default {
     }, 1000)
   },
   setup () {
-    
-    return { wrapperPadding }
+    const $q = useQuasar()
+    return { wrapperPadding, titleSpacing, $q }
   }
 }
 </script>

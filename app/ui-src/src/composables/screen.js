@@ -1,5 +1,11 @@
 import { Screen } from 'quasar'
 
+const titleSpacing = () => {
+  return Screen.lt.sm
+    ? ''
+    : 'q-mt-md'
+}
+
 const menuWidth = () => {
   return Screen.lt.sm
     ? 300
@@ -28,20 +34,8 @@ const cardDialog = () => {
     : { width: '700px', maxWidth: '80vw' }
 }
 
-const cardSection = () => {
-  return Screen.lt.sm
-    ? { maxHeight: '100vh' }
-    : { maxHeight: '60vh' }
-}
-
-const justifyDataOptions = () => {
-  return Screen.lt.sm
-    ? { paddingRight: '0' }
-    : { paddingRight: '10px' }
-}
-
 export { 
-  maximizedDialog, cardDialog, cardSection, 
-  justifyDataOptions, checkColWidth, wrapperPadding,
-  menuWidth
+  maximizedDialog, cardDialog, 
+  checkColWidth, wrapperPadding, menuWidth,
+  titleSpacing
 }

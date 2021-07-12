@@ -9,7 +9,7 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
-      <q-card-section :style="cardSection()" class="scroll">
+      <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
           <q-input outlined :label="getLang.siswa_nis" minlength="9" maxlength="10" dense v-model="formData.student_nis" />
           <error :label="error.student_nis" />
@@ -32,7 +32,7 @@
 
 <script>
 import { ref, computed, inject } from 'vue'
-import { maximizedDialog, cardDialog, cardSection } from '../../composables/screen'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 import SearchParents from './SearchParents.vue'
 
@@ -85,7 +85,7 @@ export default {
     return {
       formData,
       save,
-      maximizedDialog, cardDialog, cardSection,
+      maximizedDialog, cardDialog,
       getLang,
       formOpen
     }

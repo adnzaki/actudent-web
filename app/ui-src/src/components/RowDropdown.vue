@@ -1,5 +1,5 @@
 <template>
-  <div :class="rootClass" :style="justifyDataOptions()">
+  <div :class="[rootClass, 'justify-data-options']">
     <q-select outlined v-model="$store.state[vuexModule]['paging']['rows']" 
       :options="options" dense
       @update:model-value="showPerPage"
@@ -12,7 +12,6 @@
 import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
 import { conf, errorNotif } from '../composables/common'
-import { justifyDataOptions } from '../composables/screen'
 
 export default {
   name: 'RowDropdown',
@@ -45,8 +44,7 @@ export default {
         } else {
           errorNotif()
         }
-      },
-      justifyDataOptions
+      }
     }
   }
 }

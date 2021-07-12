@@ -2,10 +2,11 @@
   <div :class="wrapperPadding()">    
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-h6 text-capitalize">{{ lang.menu_siswa }}</div>
-        <div class="row q-mt-md">
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ lang.menu_siswa }}</div>
+        <div class="text-h6 text-capitalize" v-else>{{ lang.menu_siswa }}</div>
+        <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
-          <class-options :style="justifyDataOptions()" />
+          <class-options class="justify-data-options" />
           <row-dropdown vuex-module="student" class="q-mt-sm" root-class="col-12 col-md-2" />
           <search-box :label="lang.siswa_cari" vuex-module="student" class="q-mt-sm" />
         </div>
@@ -26,8 +27,7 @@ import ClassOptions from './ClassOptions.vue'
 import StudentTable from './StudentTable.vue'
 import AddStudentForm from './AddStudentForm.vue'
 import EditStudentForm from './EditStudentForm.vue'
-import { justifyDataOptions } from '../../composables/screen'
-import { wrapperPadding } from 'src/composables/screen'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   name: 'StudentMain',
@@ -53,7 +53,7 @@ export default {
     onMounted(() => {
       store.commit('student/getStudentLimit')
     })
-    return { justifyDataOptions, wrapperPadding }
+    return { wrapperPadding, titleSpacing }
   }
 }
 </script>
