@@ -29,7 +29,7 @@ class ApiLoader
      * 
      * @return mixed
      */
-    public function run(string $url, string $params = '', $isPdf = false)
+    public function get(string $url, string $params = '', $isPdf = false)
     {
         // persiapkan curl
         $ch = curl_init(); 
