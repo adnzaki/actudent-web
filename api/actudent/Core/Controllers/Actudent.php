@@ -147,10 +147,6 @@ class Actudent extends Controller
     protected function common()
     {
         $pengguna = $this->getDataPengguna();        
-        $sekolah = $this->getDataSekolah();
-        $bahasa = $this->getUserLanguage($this->getUserLanguage());
-        $letterhead = $this->getLetterHead();
-        $changelog = $this->resources->getChangelog($bahasa);
         $data = [
             'ac_version'            => ACTUDENT_VERSION,
             'base_url'              => base_url(),
@@ -163,29 +159,7 @@ class Actudent extends Controller
             'guru'                  => base_url() . '/guru/',
             'newLogin'              => base_url() . '/admin-login/',
             'install'               => base_url() . '/install/',
-            'actudentSection'       => $this->getSection(),
-            'namaSekolah'           => $sekolah->school_name ?? '',
-            'alamatSekolah'         => $sekolah->school_address ?? '',
-            'lokasiSekolah'         => $letterhead->city ?? '',
-            'emailSekolah'          => $letterhead->email ?? '',
-            'webSekolah'            => $letterhead->website ?? '',
-            'telpSekolah'           => $sekolah->school_telephone ?? '',
-            'domainSekolah'         => $sekolah->school_domain ?? '',
-            'logoSekolah'           => $letterhead->school_logo ?? '',
-            'logoOPD'               => $letterhead->opd_logo ?? '',
-            'namaOPD'               => $letterhead->opd_name ?? '',
-            'subOPD'                => $letterhead->sub_opd_name ?? '',
-            'kepalaSekolah'         => $letterhead->headmaster ?? '',
-            'wakaKurikulum'         => $letterhead->co_headmaster ?? '',
-            'nipKepsek'             => $letterhead->headmaster_nip ?? '',
-            'nipWakasek'            => $letterhead->co_headmaster_nip ?? '',
             'namaPengguna'          => $pengguna->user_name ?? '',
-            'bahasa'                => $bahasa ?? '',
-            'changelog'             => $changelog['changelog'],
-            'countChangelog'        => $changelog['countChangelog'],
-            'isDashboard'           => $this->isDashboard(),
-            'isMessage'             => $this->isMessage(),
-            'unreadMessages'        => $this->getUnreadMessages(),
         ];
 
         return $data;
@@ -239,6 +213,11 @@ class Actudent extends Controller
             $section = preg_match('/admin/', current_url());
             return ($section === 1) ? 'admin' : 'guru';
         }
+    }
+
+    public function reportStyle()
+    {
+        return view('Actudent\Core\Views\report\style');
     }
 
     /**

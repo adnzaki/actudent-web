@@ -11,4 +11,5 @@ $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($r
   	$routes->add('pengguna', 'Resources::getPengguna');
 	$routes->add('sekolah', 'Resources::getSekolah');
 	$routes->add('get-subscription-warning', 'Resources::showExpirationNotification');
+	$routes->add('get-report-data', 'Resources::getReportData');
 });

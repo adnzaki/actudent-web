@@ -3,7 +3,8 @@
 
 <head>
 	<title><?= $title ?></title>
-	<link rel="stylesheet" href="<?= $assets.'css/laporan.css'?>">
+	<!-- <link rel="stylesheet" type="text/css" href="<?//= $assets.'css/laporan.css'?>"> -->
+	<?= view_cell('Actudent\Core\Controllers\Actudent::reportStyle') ?>
 </head>
 
 <body>
@@ -36,7 +37,7 @@
 					<th class="force-left" colspan="2">Catatan Kehadiran</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody>				
 				<?php $no = 1; foreach($journals as $key => $val): ?>
 				<tr>
 					<td class="center-align" width="30"><?= $no ?></td>
@@ -61,6 +62,7 @@
 					</td>
 				</tr>
 				<?php $no++; endforeach; ?>
+				
 			</tbody>
 		</table>
 	</div>

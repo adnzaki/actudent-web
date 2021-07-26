@@ -1,6 +1,10 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Core\Controllers\Actudent;
+use Actudent\Core\Controllers\Resources;
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\SchedulePresenceModel;
@@ -118,36 +122,47 @@ class Absensi extends Actudent
 
     public function exportJournal($gradeID, $day, $date)
     {
-        $data                   = $this->common();
-        $data['title']          = lang('AdminAbsensi.absensi_judul_laporan_jurnal');
-        $data['grade']          = $this->absensi->kelas->getClassDetail($gradeID);
-        $gradeMember            = $this->absensi->kelas->getClassMember($gradeID);
-        $data['gradeMember']    = count($gradeMember);
-        $data['day']            = $this->days[$day];
-        $data['date']           = os_date()->format('d-MM-Y', reverse($date, '-', '-'));
-        $journals               = $this->absensi->getJournalByDate($date, $gradeID);
-        $data['journals']       = $journals;
-
-        // get number of presence
-        $presenceWrapper = [];
-        $absentStudents = [];
-        foreach($journals as $j)
+        if(is_admin())
         {
-            $presenceWrapper[] = $this->absensi->getPresenceCount($j->journal_id);
+            $resource               = new Resources();
+            $data                   = $this->common();
             
-            // get absent student(s)
-            $getPresence = $this->_getListAbsensi($gradeID, $j->journal_id, $date);
-            $absentStudents[] = array_filter($getPresence, function($item) {
-                return $item['statusID'] !== '1' && $item['statusID'] !== '';
-            });
+            foreach($resource->getReportData() as $key => $val)
+            {
+                $data[$key] = $val;
+            }
+    
+            $data['title']          = lang('AdminAbsensi.absensi_judul_laporan_jurnal');
+            $data['grade']          = $this->absensi->kelas->getClassDetail($gradeID);
+            $gradeMember            = $this->absensi->kelas->getClassMember($gradeID);
+            $data['gradeMember']    = count($gradeMember);
+            $data['day']            = $this->days[$day];
+            $data['date']           = os_date()->format('d-MM-Y', reverse($date, '-', '-'));
+            $journals               = $this->absensi->getJournalByDate($date, $gradeID);
+            $data['journals']       = $journals;
+    
+            // get number of presence
+            $presenceWrapper = [];
+            $absentStudents = [];
+            foreach($journals as $j)
+            {
+                $presenceWrapper[] = $this->absensi->getPresenceCount($j->journal_id);
+                
+                // get absent student(s)
+                $getPresence = $this->_getListAbsensi($gradeID, $j->journal_id, $date);
+                $absentStudents[] = array_filter($getPresence, function($item) {
+                    return $item['statusID'] !== '1' && $item['statusID'] !== '';
+                });
+            }
+    
+            $data['presence']       = $presenceWrapper;
+            $data['absence']        = $absentStudents;
+            $html                   = view('Actudent\Admin\Views\absensi\ekspor-jurnal', $data);
+            $filename               = 'Laporan Jurnal '. $data['grade']->grade_name . ' ' .$date .'_'. time();
+    
+            // return $html;
+            $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');            
         }
-
-        $data['presence']       = $presenceWrapper;
-        $data['absence']        = $absentStudents;
-        $html                   = view('Actudent\Admin\Views\absensi\ekspor-jurnal', $data);
-        $filename               = 'Laporan Jurnal '. $data['grade']->grade_name . ' ' .$date .'_'. time();
-
-        $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');
     }
 
     /**

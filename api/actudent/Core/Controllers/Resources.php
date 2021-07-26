@@ -102,6 +102,46 @@ class Resources extends Actudent
         }
     }
 
+    public function getReportData()
+    {
+        $schoolModel = new \Actudent\Core\Models\SekolahModel;
+        $sekolah = $schoolModel->getDataSekolah()[0];
+        $letterhead = $this->getSchoolLetterHead();
+
+        return [
+            'namaSekolah'           => $sekolah->school_name ?? '',
+            'alamatSekolah'         => $sekolah->school_address ?? '',
+            'lokasiSekolah'         => $letterhead->city ?? '',
+            'emailSekolah'          => $letterhead->email ?? '',
+            'webSekolah'            => $letterhead->website ?? '',
+            'telpSekolah'           => $sekolah->school_telephone ?? '',
+            'domainSekolah'         => $sekolah->school_domain ?? '',
+            'logoSekolah'           => $letterhead->school_logo ?? '',
+            'logoOPD'               => $letterhead->opd_logo ?? '',
+            'namaOPD'               => $letterhead->opd_name ?? '',
+            'subOPD'                => $letterhead->sub_opd_name ?? '',
+            'kepalaSekolah'         => $letterhead->headmaster ?? '',
+            'wakaKurikulum'         => $letterhead->co_headmaster ?? '',
+            'nipKepsek'             => $letterhead->headmaster_nip ?? '',
+            'nipWakasek'            => $letterhead->co_headmaster_nip ?? '',
+        ];
+    }
+
+    /**
+     * Get school letterhead
+     * 
+     * @return object
+     */
+    public function getSchoolLetterHead()
+    {
+        if(valid_token())
+        {
+            $schoolModel = new \Actudent\Core\Models\SekolahModel;
+            $sekolah = $schoolModel->getDataSekolah()[0];
+            return json_decode($sekolah->school_letterhead);
+        }
+    }
+
     /**
      * Get user data based on token they have
      * 

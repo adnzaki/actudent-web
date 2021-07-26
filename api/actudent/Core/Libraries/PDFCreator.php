@@ -1,16 +1,19 @@
 <?php
 
-require_once APPPATH . 'ThirdParty/dompdf/vendor/autoload.php';
+require_once APPPATH . 'ThirdParty/dompdf/autoload.php';
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use CodeIgniter\Controller;
 
 class PDFCreator extends Controller
 {
     public function create($html, $filename = '', $stream = true, $paper = 'A4', $orientation = 'portrait')
     {
-        $dompdf = new Dompdf();
-        $dompdf->set_option('isHtml5ParserEnabled', true);
+        $options = new Options();
+        $options->setIsHtml5ParserEnabled(true);
+        $options->set('isRemoteEnabled',true);
+        $dompdf = new Dompdf($options);
         $dompdf->loadHtml($html);
         $dompdf->setPaper($paper, $orientation);
         $dompdf->render();

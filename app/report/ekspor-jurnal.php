@@ -10,4 +10,4 @@ $params = $loader->transformParams([
     $_GET['date']
 ]);
 
-echo $loader->run('admin/absensi/ekspor-jurnal/', $params);
+echo $loader->get('admin/absensi/ekspor-jurnal/', $params, true);
