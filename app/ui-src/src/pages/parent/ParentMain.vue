@@ -25,7 +25,6 @@ import MainButton from './MainButton.vue'
 import AddParentForm from './AddParentForm.vue'
 import EditParentForm from './EditParentForm.vue'
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
-import { useQuasar } from 'quasar'
 
 export default {
   name: 'ParentMain',
@@ -49,8 +48,7 @@ export default {
     }, 1000)
   },
   setup () {
-    const $q = useQuasar()
-    return { wrapperPadding, titleSpacing, $q }
+    return { wrapperPadding, titleSpacing }
   }
 }
 </script>

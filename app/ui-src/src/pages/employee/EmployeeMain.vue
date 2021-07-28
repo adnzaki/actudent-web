@@ -13,23 +13,24 @@
       </q-card-section>
       <!-- <add-student-form />
       <edit-student-form />
-      <delete-confirm vuex-module="employee" action="deleteStudent" />
-      <student-table /> -->
+      <delete-confirm vuex-module="employee" action="deleteStudent" /> -->
+      <employee-table />
     </q-card>
   </div>
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
-import { useStore } from 'vuex'
+import { computed } from 'vue'
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import EmployeeType from './EmployeeType.vue'
+import EmployeeTable from './EmployeeTable.vue'
 
 export default {
   name: 'EmployeeMain',
   components: {
-    MainButton, EmployeeType
+    MainButton, EmployeeType,
+    EmployeeTable
   },
   provide() {
     return {
@@ -43,8 +44,6 @@ export default {
     }, 1000);
   },
   setup() {
-    const store = useStore()
-    onMounted(() => {})
     return { wrapperPadding, titleSpacing }
   }
 }

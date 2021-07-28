@@ -28,7 +28,7 @@ export default {
       options.value = [
         { label: getLang.value.staff_semua_bagian, value: 'null' },
         { label: getLang.value.staff_guru, value: 'teacher' },
-        { label: getLang.value.staff_pegawai, value: 'staff' }
+        { label: 'Staff', value: 'staff' }
       ]
 
       model.value = { 

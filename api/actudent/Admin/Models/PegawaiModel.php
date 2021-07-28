@@ -336,8 +336,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
             if(strpos($searchBy, '-') !== false)
             {
                 $searchBy = explode('-', $searchBy);
-                $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR  $searchBy[1] LIKE '%$search%' ESCAPE '!' 
-                    OR  $searchBy[2] LIKE '%$search%' ESCAPE '!' OR  $searchBy[3]";                
+                $like1 = "($searchBy[0] LIKE '%$search%' ESCAPE '!' OR  $searchBy[1] LIKE '%$search%' ESCAPE '!' OR  $searchBy[2]";                
                 $like2 = "'%$search%' ESCAPE '!')";
                 $select->like($like1, $like2, 'none', false); 
             }

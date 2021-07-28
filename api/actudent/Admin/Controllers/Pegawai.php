@@ -1,5 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\PegawaiModel;
 
@@ -16,6 +19,8 @@ class Pegawai extends Actudent
     public function __construct()
     {
         $this->staff = new PegawaiModel;
+        $resource = new \Actudent\Core\Controllers\Resources;
+        $resource->setUILanguage();
     }
 
     public function index()
@@ -30,10 +35,10 @@ class Pegawai extends Actudent
     {
         $data = $this->staff->getStaff($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
         $rows = $this->staff->getStaffRows($searchBy, $whereClause, $search);
-        return $this->response->setJSON([
+        return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
-        ]);
+        ], 'is_admin');
     }
 
     public function getStaffDetail($id)
