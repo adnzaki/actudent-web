@@ -10,7 +10,6 @@ export default function () {
       filename: '',
       uploadProgress: false,
       imageURL: `${baseUrl()}/images/pegawai/`,
-      imageBase64: 'data:image/png;base64,',
       currentImage: '',
       userID: null,
       validImage: false,

@@ -1,3 +1,4 @@
+import employee from '.'
 import { 
   Cookies,
   conf,
@@ -10,6 +11,14 @@ import {
 } from '../../composables/common'
 
 const actions = {
+  validateUpload({ state, commit }, val) {
+    state.helper.filename = val.name
+    commit('uploadImage', {
+      url: `${state.employeeApi}validate-file`,
+      validate: true,
+      val
+    })
+  },
   getEmployee({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
