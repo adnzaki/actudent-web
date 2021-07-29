@@ -1,4 +1,3 @@
-import employee from '.'
 import { 
   Cookies,
   conf,
