@@ -3,13 +3,23 @@
 
 ## Panduan Umum
 ### Engines
-- Server-side Language : PHP 7.4
-- Web Framework : CodeIgniter 4.0.4
-- UI Framework : Quasar v2.0.0-beta.9 (based on Vue 3)
+- Server-side Language : PHP 8.0.3 (compatible with PHP 7.4)
+- API Framework : CodeIgniter 4.1.1
+- UI Framework : Quasar v2.0.1
+- Javascript Framework : Vue 3.1.2
 - Database : MySQL
 - API Response Format : JSON
 
 ### Struktur Folder Utama
+- `api` <br>
+Folder tempat menyimpan source code API dari CodeIgniter 4.
+- `app` <br>
+Folder tempat menyimpan user interface yang sudah dibuild beserta source codenya.
+- `login-assets` <br>
+Folder tempat menyimpan source code khusus halaman login.
+
+## Panduan Pengembangan di Sisi Server
+### Struktur folder API
 - `actudent`<br>
 Root folder untuk semua modul Actudent. Modul-modul tersebut adalah `Admin`, `Core`, `Guru`, `Installer` dan `UITest`.
 - `app`<br>
@@ -22,8 +32,6 @@ Tempat menyimpan backup database berupa file `.sql`
 File sistem CodeIgniter, tidak boleh dimodifikasi.
 - `writable` <br>
 Tempat menyimpan logs, session, cache dan file yang diupload
-
-## Panduan Pengembangan di Sisi Server
 ### Modularisasi
 Basis kode Actudent menggunakan konsep [modularisasi](https://en.wikipedia.org/wiki/Hierarchical_model%E2%80%93view%E2%80%93controller) untuk memudahkan development dan maintenance aplikasi. Konsep ini dipilih karena memungkinkan Actudent dibagi ke dalam beberapa sub-sistem, seperti panel Admin, Guru dan Core System. 
 
@@ -60,9 +68,6 @@ use Actudent\Core\Controllers\Actudent;
 $ac = new Actudent;
 ```
 
-### View Parser
-Actudent menggunakan template parser engine dari CodeIgniter 4 dengan tambahan plugin `include` dan `menu_active`. Lihat pada folder `Views` untuk mengetahui cara penggunaan plugin custom Actudent tersebut. Untuk panduan penggunaan View Parser selengkapnya dapat dilihat di halaman dokumentasi CodeIgniter 4 [berikut ini](https://codeigniter4.github.io/CodeIgniter4/outgoing/view_parser.html).
-
 ### Database Query
 Semua query wajib menggunakan Query Builder dari CodeIgniter 4 untuk menjaga konsistensi sekaligus memudahkan proses maintenance. Panduan menggunakan Query Builder  dapat dilihat pada [halaman ini](https://codeigniter4.github.io/CodeIgniter4/database/query_builder.html).
 
@@ -75,26 +80,38 @@ Actudent tidak lagi menggunakan filter dari CodeIgniter4. Tersedia 3 tipe valida
 ### Response Creator (New in v2)
 Actudent menggunakan method baru dari core controller untuk mengirim response berupa JSON ke user interface yaitu `createResponse()`. Method ini memiliki 2 parameter, yang pertama adalah data yang ingin dikirim berupa PHP Array/Object dan parameter kedua adalah validator. Jika parameter kedua dikosongkan, maka akan menggunakan `valid_token` sebagai validator default. Contoh pemanggilan class ini adalah: `$this->createResponse($response, 'is_admin')` untuk mengirim response yang hanya bisa diakses oleh Administrator.
 
+### Validation helper (New in v2)
+Karena penggunaan custom database group di versi terbaru ini, penggunaan method turunan `$this->validate()` digantikan oleh helper `validate()`. Cara penggunaan helper ini sama persis dengan method turunan bawaan CodeIgniter, hanya saja di belakang layarnya sudah menggunakan custom DB Group terbaru dari Actudent.
+
+### API Loader (New in v2)
+API Loader dibuat untuk digunakan secara spesifik saat memuat file PDF yang telah diproses melalui API Actudent. Untuk menghindari akses langsung dari pengguna ke URL API, maka kami membuat sebuah API Loader yang diletakkan di folder `app/report`. Cara penggunaan API Loader ini sangat mudah, karena hanya membutuhkan beberapa baris kode saja untuk memanggil URL API. Silakan buka file yang ada di dalam folder tersebut untuk melihat cara penggunaan API Loader secara lengkap.
+
 ### Style Guide
 Aturan dalam penulisan kode mengikuti standar yang ditetapkan oleh CodeIgniter 4 yang dapat dilihat pada [halaman ini](https://github.com/codeigniter4/CodeIgniter4/blob/develop/contributing/styleguide.rst). Standar kode ini harus diikuti untuk menjaga konsistensi code base Actudent.
 
 ## Panduan Pengembangan di Sisi Client (Pengguna)
-Antarmuka pengguna menjadi perubahan terbesar dari versi terbaru Actudent. Tampilan lama hanya menyisakan halaman login dan instalasi, sementara di bagian dalamnya ditulis ulang menggunakan Quasar Framework. Untuk memulai eksplorasi kode sumber antarmuka  Actudent, silakan buka di `public/ui`. Berikut adalah penjelasan tentang cara berkontribusi untuk antarmuka terbaru Actudent.
+Antarmuka pengguna menjadi perubahan terbesar dari versi terbaru Actudent. Tampilan lama hanya menyisakan halaman login dan instalasi, sementara di bagian dalamnya ditulis ulang menggunakan Quasar Framework. Untuk memulai eksplorasi kode sumber antarmuka  Actudent, silakan buka folder `app/ui-src`. Berikut adalah penjelasan tentang cara berkontribusi untuk antarmuka terbaru Actudent.
 
 ### User Interface Framework
-Actudent v2 menggunakan [Quasar](https://quasar.dev/) sebagai framework untuk membangun user interfacenya. Saat ini Actudent menggunakan Quasar versi 2.0.0-beta.9 yang dibangun di atas Vue 3.0. Pastikan anda memahami versi terbaru Vue.js sebelum terjun langsung ke dalam pengembangan. Untuk penggunaan Quasar versi terbaru dapat anda baca di halaman [ini](https://next.quasar.dev/introduction-to-quasar).
+Actudent v2 menggunakan [Quasar](https://quasar.dev/) sebagai framework untuk membangun user interfacenya. Saat ini Actudent menggunakan Quasar versi 2.0.1 yang dibangun di atas Vue 3.1.2. Pastikan anda memahami versi terbaru Vue.js sebelum terjun langsung ke dalam pengembangan. 
 
 ### Advanced Vue.js
-Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup [Single-File Components (SFC)](https://v3.vuejs.org/guide/single-file-component.html), [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html), [Vue Router](https://next.router.vuejs.org/) dan lain-lain. Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai progressive-library.
+Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup [Single-File Components (SFC)](https://v3.vuejs.org/guide/single-file-component.html), [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html), [Vue Router](https://next.router.vuejs.org/) serta [Vuex](https://next.vuex.vuejs.org/). Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai progressive-library.
 
 ### Composition API
-[Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) merupakan fitur terbaru dari Vue 3 sebagai versi lebih yang lebih baik dari Options API untuk digunakan dalam Single-File Components. Walaupun Options API tetap dapat digunakan di Vue 3, namun Composition API menjanjikan manajemen code base yang lebih baik. Untuk saat ini kami belum memiliki rencana untuk menggunakan [Vuex](https://next.vuex.vuejs.org/) karena penggunaan Composition API masih sangat cukup untuk memecah kode Javascript ke dalam modul-modul terpisah.
+[Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) merupakan fitur terbaru dari Vue 3 sebagai versi lebih yang lebih baik dari Options API untuk digunakan dalam Single-File Components. Walaupun Options API tetap dapat digunakan di Vue 3, namun Composition API menjanjikan manajemen code base yang lebih baik. 
+
+### Axios
+Actudent-v2 menggunakan [Axios](https://github.com/axios/axios) untuk mengelola HTTP Request/Response. Axios dalam Actudent-v2 telah disederhanakan penggunaannya, namun pastikan anda memahami cara penggunaan Axios secara lengkap.
+
+### Pagination Library
+Actudent tetap mempertahankan `SSPaging` sebagai library untuk mengelola pagination berbasis server. Library ini telah dikembangkan sehingga dapat digunakan bersama dengan Vuex. Pastikan anda memahami cara penggunaan SSPaging agar dapat menampilkan data dengan benar.
 
 ### Global Configuration for User Interface
-Actudent memiliki sebuah file bernama `globalConfig.js` yang berisi pengaturan inti untuk antarmuka aplikasi. File tersebut terdapat pada `public/globalConfig.js`, silakan buka dan baca dengan baik petunjuk yang ada di dalam file tersebut untuk dapat menjalankan Actudent di server lokal ataupun mendeploy ke cloud hosting/production server.
+Actudent memiliki sebuah file bernama `globalConfig.js` yang berisi pengaturan inti untuk antarmuka aplikasi. File tersebut terdapat pada `app/ui-src/globalConfig.js`, silakan buka dan baca dengan baik petunjuk yang ada di dalam file tersebut untuk dapat menjalankan Actudent di server lokal ataupun mendeploy ke cloud hosting/production server.
 
 ### Struktur Folder User Interface
-Folder untuk pengembangan user interface Actudent v2 terdapat di `public/ui`, berikutnya strukturnya:
+Folder untuk pengembangan user interface Actudent v2 terdapat di `app/ui-src`, berikutnya strukturnya:
 - `.quasar`
 Folder yang dibuat otomatis oleh Quasar Framework, bagian ini tidak perlu dimodifikasi.
 - `.vscode`
@@ -132,6 +149,8 @@ Tempat menyimpan module JS yang akan dijadikan mixins di dalam component utama
 Tempat menyimpan halaman-halaman user interface. Misal: halaman <i>Kehadiran</i> disimpan di `pages/kehadiran`
 - `router`
 Tempat menyimpan konfigurasi routing Single-Page App.
+- `store`
+Tempat menyimpan file-file state management (Vuex)
 
 ### NPM and CLI Tools
 NPM adalah software utama yang harus terinstal di komputer anda. Sebelum menginstall NPM, pastikan Node.js telah lebih dulu terpasang di komputer anda. Dengan NPM inilah anda dapat mengelola dependency yang ada dalam source code user interface Actudent mulai dari menginstal, mengupdate hingga menghapusnya. Anda diharuskan memahami penggunaan Command-Line Interface (CLI) dalam pengembangan antarmuka Actudent karena Quasar Framework bergantung pada CLI dalam penggunaannya, mulai dari menjalankan antarmuka di web server Node.js, membuat build-version untuk user interface agar dapat digunakan di production server, hingga menjaga konsistensi code base dengan ESLint dan lain-lain.

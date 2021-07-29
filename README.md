@@ -24,9 +24,10 @@ quasar dev -m pwa
 quasar build -m pwa
 ```
 - Above command assumes you are using internal terminal like VSCode
-- Run production UI from CodeIgniter4 by open up http://localhost/actudent/public/app
+- Run user interface that has been built at local server by open up http://localhost/actudent/app
 
 ## Configuration
-Actudent v2 has several configurations available at `public/ui/actudent.config.js`<br>
-Make sure to point `baseUrl` to a correct path before running Actudent and set your mode
-correctly. Other configurations have their default values and can be set optionally.
+Actudent v2 has several configurations available at `app/ui-src/actudent.config.js`.
+But the most important configuration is at `app/ui-src/globalConfig.js` where you can
+change the app mode whether it is for development, production or locally deployed. Please read
+the instructions on that file before change the app mode.
