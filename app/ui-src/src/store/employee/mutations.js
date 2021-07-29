@@ -15,6 +15,7 @@ const mutations = {
     
   },  
   uploadImage(state, options) {
+    state.helper.disableSaveButton = true
     const formData = new FormData()
     formData.append('staff_photo', options.val)
     admin.post(options.url, formData, {

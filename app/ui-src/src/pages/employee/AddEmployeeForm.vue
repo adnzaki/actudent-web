@@ -35,7 +35,8 @@
             color="grey-3" outlined dense 
             v-model="formData.staff_photo" 
             :label="getLang.staff_label_photo"
-            @update:model-value="validateUpload">
+            @update:model-value="validateUpload"
+            accept="image/jpeg, image/png">
             <template v-slot:prepend>
               <q-icon name="cloud_upload" />
             </template>

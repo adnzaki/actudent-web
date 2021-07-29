@@ -19,7 +19,7 @@ return [
     'staff_label_telp'       => 'Phone Number',
     'staff_label_jenis'      => 'Staff Type',
     'staff_label_jabatan'    => 'Staff Title',
-    'staff_label_photo'      => 'Staff Photo (Max. 2MB)',
+    'staff_label_photo'      => 'Staff Photo (jpeg/png, max. 2MB)',
     'staff_input_id'         => 'Staff ID Number',
     'staff_input_nama'       => 'Staff Full Name',
     'staff_input_telp'       => 'Active phone number',

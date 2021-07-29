@@ -19,7 +19,7 @@ return [
     'staff_label_telp'       => 'Nomor Telepon',
     'staff_label_jenis'      => 'Bagian',
     'staff_label_jabatan'    => 'Jabatan',
-    'staff_label_photo'      => 'Foto Pegawai (Maks. 2MB)',
+    'staff_label_photo'      => 'Foto Pegawai (jpeg/png, maks. 2MB)',
     'staff_input_id'         => 'Nomor Induk Pegawai',
     'staff_input_nama'       => 'Nama Lengkap Pegawai',
     'staff_input_telp'       => 'Nomer handphone yang aktif',

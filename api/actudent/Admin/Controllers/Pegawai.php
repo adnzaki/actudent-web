@@ -57,7 +57,7 @@ class Pegawai extends Actudent
         $staff = $this->staff->getPhoto($staffID);
         $data['file'] = $staff->satff_photo;
 
-        return redirect()->to(base_url('images/pegawaicxx/' . $data['file']));
+        return redirect()->to(base_url('images/pegawai/' . $data['file']));
     }
 
     public function delete()
@@ -250,12 +250,14 @@ class Pegawai extends Actudent
             $image->withFile(PUBLICPATH . 'images/pegawai/' . $newFilename)
                   ->fit(113, 113)
                   ->save(PUBLICPATH . 'images/pegawai/' . $newFilename);
+
             // Get the image and convert into string
             $img = file_get_contents('images/pegawai/' . $newFilename);
+
             // Encode the image string data into base64 
             $data = base64_encode($img);            
                        
-            // Delete File
+            // Remove file after encoding process
             $path = PUBLICPATH . 'images/pegawai/' . $newFilename;
             if(file_exists($path))
             {
@@ -277,7 +279,7 @@ class Pegawai extends Actudent
     private function validateFile()
     {
         $fileRules = [
-            'staff_photo' => 'mime_in[staff_photo,image/jpeg]|max_size[staff_photo,2048]'
+            'staff_photo' => 'mime_in[staff_photo,image/jpeg,image/png]|max_size[staff_photo,2048]'
         ];
         $fileMessages = [
             'staff_photo' => [
