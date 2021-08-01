@@ -153,13 +153,6 @@ const actions = {
     state.paging.whereClause = model.value
     dispatch('runPaging')
   },
-  onPaginationUpdate({ state, dispatch }) {
-    if(Cookies.has(conf.cookieName)) {
-      dispatch('nav', state.current - 1)
-    } else {
-      errorNotif()
-    }
-  },
 }
 
 export default actions

@@ -32,13 +32,6 @@ const actions = {
       },
     })
   },
-  onPaginationUpdate({ state, dispatch }) {
-    if(Cookies.has(conf.cookieName)) {
-      dispatch('nav', state.current - 1)
-    } else {
-      errorNotif()
-    }
-  },
 
   // payload: { data, lang, edit, id }
   save({ state, dispatch }, payload) {

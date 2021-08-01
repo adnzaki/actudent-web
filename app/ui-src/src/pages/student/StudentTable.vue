@@ -45,27 +45,13 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator/>
-    <div class="q-pa-sm">
-      <div class="row">
-        <div class="col-12 col-md-6">
-          <p> {{ rowRange }} </p>
-        </div>
-        <div class="col-12 col-md-2 offset-md-4">
-          <q-pagination
-            v-model="$store.state.student.current"
-            :max="pageLinks.length"
-            input
-            @update:model-value="onPaginationUpdate"
-          />
-        </div>
-      </div>
-    </div>
+    <ss-paging vuex-module="student" />
   </div>
 </template>
 
 <script>
 import { watch, computed, inject } from 'vue'
-import { useStore, mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+import { useStore, mapState, mapMutations, mapActions } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
 
 export default {
@@ -78,7 +64,6 @@ export default {
   },
   methods: {
     ...mapActions('student', [
-      'onPaginationUpdate',
       'sortData'
     ]),
     ...mapMutations('student', [
@@ -89,12 +74,8 @@ export default {
   computed: {
     ...mapState('student', {
       data: state => state.paging.data,
-      pageLinks: state => state.paging.pageLinks,
-    }),
-    ...mapGetters('student', {
-      rowRange: 'rowRange'
-    }),
-  },
+    })
+ },
   setup () {
     const store = useStore()
     let pagingData = computed(() => store.state.student.paging.data)

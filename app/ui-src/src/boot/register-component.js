@@ -11,6 +11,7 @@ import RowDropdown from 'components/RowDropdown.vue'
 import DeleteConfirm from 'components/DeleteConfirm.vue'
 import SortIcon from 'components/SortIcon.vue'
 import Error from 'components/Error.vue'
+import SSPaging from 'components/SSPaging.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)
@@ -18,4 +19,5 @@ export default ({ app }) => {
   app.component('delete-confirm', DeleteConfirm)
   app.component('sort-icon', SortIcon)
   app.component('error', Error)
+  app.component('ss-paging', SSPaging)
 }
