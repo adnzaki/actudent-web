@@ -1,6 +1,9 @@
 /**
- * Smartscore Pagination
- * Sebuah paket library untuk mengolah data pagination
+ * Smartscore Pagination for Vuex
+ * 
+ * Modul ini merupakan bagian dari SSPaging v2.2.1
+ * yang dikembangkan khusus untuk memenuhi kebutuhan
+ * penggunaan bersama Vuex.
  *
  * @package     Pagination
  * @author      Adnan Zaki
