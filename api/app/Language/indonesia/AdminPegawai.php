@@ -41,5 +41,6 @@ return [
     'staff_err_phone_max'    => 'Nomor telepon maksimal hanya sampai 13 karakter',
     'staff_err_type'         => 'Bagian pegawai harus terisi',
     'staff_err_title'        => 'Jabatan pegawai harus terisi',
+    'staff_err_image'       => 'Gambar fitur tidak boleh kosong',
     'staff_foto_upload_progress' => 'Mengunggah gambar...',
 ];

@@ -9,14 +9,66 @@ import {
   pengguna
 } from '../../composables/common'
 
+import { Notify } from 'quasar'
+
 const actions = {
-  validateUpload({ state, commit }, val) {
-    state.helper.filename = val.name
-    commit('uploadImage', {
-      url: `${state.employeeApi}validate-file`,
-      validate: true,
-      val
+  save({ state, dispatch }, payload) {
+    let url
+    payload.edit ? url = `save/${payload.id}` : url = 'save'
+    state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: payload.lang.staff_save_progress,
+      color: 'info',
+      position: 'center',
+      timeout,
     })
+
+    payload.data.featured_image = state.helper.filename
+
+    admin.post(`${state.employeeApi}${url}`, payload.data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.helper.disableSaveButton = false
+        const res = response.data
+        if(res.code === '500') {
+          state.error = res.msg
+          notifyProgress({
+            message: `Error! ${payload.lang.staff_error_text}`,
+            color: 'negative',
+            spinner: false
+          })
+        } else {
+          state.saveStatus = 200
+          dispatch('resetForm')
+          if(payload.edit) {
+            state.showEditForm = false
+            notifyProgress({
+              message: `${payload.lang.sukses} ${payload.lang.staff_update_success}`,
+              color: 'positive',
+              icon: 'done',
+              spinner: false
+            })
+          } else {
+            state.showAddForm = false
+            notifyProgress({
+              message: `${payload.lang.sukses} ${payload.lang.staff_insert_success}`,
+              color: 'positive',
+              icon: 'done',
+              spinner: false
+            })
+          }
+        }
+      })
+  },
+  resetForm({ state, dispatch }) {
+    state.error = {}
+    dispatch('getEmployee')
   },
   getEmployee({ dispatch }) {
     dispatch('getData', {
@@ -42,13 +94,6 @@ const actions = {
     state.paging.whereClause = model.value
     dispatch('runPaging')
   },
-  // onPaginationUpdate({ state, dispatch }) {
-  //   if(Cookies.has(conf.cookieName)) {
-  //     dispatch('nav', state.current - 1)
-  //   } else {
-  //     errorNotif()
-  //   }
-  // },
 }
 
 export default actions

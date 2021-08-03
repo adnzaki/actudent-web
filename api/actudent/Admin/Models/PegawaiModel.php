@@ -95,7 +95,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         
         $joinAndSearch = $this->search($where, $searchBy, $search);
 
-        // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
         $query = $joinAndSearch->where($selector)->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
@@ -171,41 +170,46 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      * 
      * @param array $value
      * 
-     * @return int
+     * @return void
      */
-    public function insert(array $value): int
+    public function insert(array $value): void
     {
         // insert user data first
         $user = $this->fillUserField($value);
+
         // then insert staff data
         $staff = $this->fillStaffField($value);
+
         //get user level
-        if($staff['staff_type'] == 'teacher')
+        if($staff['staff_type'] === 'teacher')
         {
             $user['user_level'] = '2';
         }
         else
         {
             $user['user_level'] = '0';
-        };
-        //insert user table
+        }
+
+        // insert user table
         $this->QBUser->insert($user);
+
         // get the user_id
         $userID = $this->db->insertID();
-        //isert staff table
+
+        // insert staff table
         $staff['user_id'] = $userID;
         $staff['staff_tag'] = 1;
         $this->QBStaff->insert($staff);
-        //insert user themes table
+
+        // insert user themes table
         $theme['user_id'] = $userID;
         $theme['theme'] = 'light-blue';
         $this->QBUserThemes->insert($theme);
-        //insert user language table
+
+        // insert user language table
         $lang['user_id'] = $userID;
         $lang['user_language'] = 'indonesia';
         $this->QBUserLang->insert($lang);
-        // return the insertID
-        return $userID;
     }
    
 
@@ -270,6 +274,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
             'staff_phone'   => $data['staff_phone'],
             'staff_type'    => $data['staff_type'],
             'staff_title'   => $data['staff_title'],
+            'staff_photo'   => $data['featured_image'],
         ];
     }
 

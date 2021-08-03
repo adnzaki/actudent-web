@@ -41,5 +41,6 @@ return [
     'staff_err_phone_max'    => 'Phone number must only have up to 13 characters',
     'staff_err_type'         => 'Staff type is required',
     'staff_err_title'        => 'Staff title is required',
+    'staff_err_image'       => 'Featured image is required',
     'staff_foto_upload_progress' => 'Uploading image...',
 ];

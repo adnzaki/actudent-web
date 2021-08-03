@@ -84,7 +84,7 @@ class Pegawai extends Actudent
     public function save($id = null)
     {
         $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if(! validate($validation[0], $validation[1]))
         {
             return $this->response->setJSON([
                 'code' => '500',
@@ -104,7 +104,7 @@ class Pegawai extends Actudent
             else
             {
 
-                // if($data['current_image'] !== $data['image_feature'])
+                // if($data['current_image'] !== $data['featured_image'])
                 // {
                 //     $path = PUBLICPATH . 'images/pegawai/';
                 //     if(file_exists($path . $data['current_image']))
@@ -115,7 +115,7 @@ class Pegawai extends Actudent
                 
                 $response = [
                     'code' => '200',
-                    'id' => $this->staff->update($data, $id), // return the timeline_id
+                    'id' => $this->staff->update($data, $id)
                 ];
             }
 
@@ -132,8 +132,8 @@ class Pegawai extends Actudent
             'staff_name'    => 'required',            
             'staff_phone'   => 'required|is_natural|min_length[11]|max_length[13]',
             'staff_type'    => 'required',
-            'staff_title'    => 'required',
-            'image_feature' => 'required',
+            'staff_title'   => 'required',
+            'featured_image'=> 'required',
         ];
 
         $messages = [
@@ -158,8 +158,8 @@ class Pegawai extends Actudent
             'staff_title' => [
                 'required'  => lang('AdminPegawai.staff_err_title'),
             ],
-            'image_feature' => [
-                'required'  => lang('AdminPegawai.staff_err_title'),
+            'featured_image' => [
+                'required'  => lang('AdminPegawai.staff_err_image'),
             ],
         ];      
 
@@ -198,43 +198,6 @@ class Pegawai extends Actudent
         }
         
         return [$rules, $messages];
-    }
-
-    public function uploadFile($insertID)
-    {        
-        $validated = $this->validateFile();
-
-        if($validated) 
-        {
-            $attachment = $this->request->getFile('staff_photo');
-            $newFilename ="img_" . $attachment->getRandomName();
-            $attachment->move(PUBLICPATH . 'images/pegawai', $newFilename);
-
-            $image = \Config\Services::image();
-            $image->withFile(PUBLICPATH . 'images/pegawai/' . $newFilename)
-                  ->fit(113, 113)
-                  ->save(PUBLICPATH . 'images/pegawai/' . $newFilename);
-            // Get the image and convert into string
-            $img = file_get_contents('images/pegawai/' . $newFilename);
-            // Encode the image string data into base64 
-            $data = base64_encode($img);            
-           
-            // Set attachment
-            $this->staff->setPhoto($data, $insertID);     
-            
-            // Delete File
-            $path = PUBLICPATH . 'images/pegawai/' . $newFilename;
-            if(file_exists($path))
-            {
-                unlink($path);
-            }
-
-            return $this->response->setJSON(['msg' => 'OK']);
-        }
-        else 
-        {
-            return $this->response->setJSON($this->validation->getErrors());
-        }
     }
 
     public function runFileValidation()
@@ -288,7 +251,7 @@ class Pegawai extends Actudent
             ]
         ];
 
-        return $this->validate($fileRules, $fileMessages);
+        return validate($fileRules, $fileMessages);
     }
 
     private function formData()
@@ -298,11 +261,11 @@ class Pegawai extends Actudent
             'staff_name'            => $this->request->getPost('staff_name'),
             'staff_phone'           => $this->request->getPost('staff_phone'),
             'staff_type'            => $this->request->getPost('staff_type'),
-            'staff_title'            => $this->request->getPost('staff_title'),
+            'staff_title'           => $this->request->getPost('staff_title'),
             'user_name'             => $this->request->getPost('staff_name'),
             'user_email'            => $this->request->getPost('user_email'),
             'user_password'         => $this->request->getPost('user_password'),            
-            'image_feature'         => $this->request->getPost('image_feature'),
+            'featured_image'        => $this->request->getPost('featured_image'),
             'current_image'         => $this->request->getPost('current_image'),
         ];
     }

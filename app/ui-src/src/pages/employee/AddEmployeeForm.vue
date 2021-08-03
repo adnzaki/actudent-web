@@ -35,13 +35,14 @@
             color="grey-3" outlined dense 
             v-model="formData.staff_photo" 
             :label="getLang.staff_label_photo"
-            @update:model-value="validateUpload"
+            @update:model-value="encodeImage"
             accept="image/jpeg, image/png">
             <template v-slot:prepend>
               <q-icon name="cloud_upload" />
             </template>
           </q-file>
           <error :label="error.staff_photo" />
+          <error :label="error.featured_image" />
 
           <q-input outlined :label="getLang.user_email" dense 
             v-model="formData.user_email" :suffix="`@${school.school_domain}`" />
@@ -126,8 +127,8 @@ export default {
       }
     }
 
-    const validateUpload = val => {
-      store.dispatch('employee/validateUpload', val)
+    const encodeImage = val => {
+      store.commit('employee/uploadImage', val)
     }
 
     return {
@@ -137,7 +138,7 @@ export default {
       maximizedDialog, cardDialog,
       getLang,
       formOpen,
-      validateUpload
+      encodeImage
     }
   }
 }
