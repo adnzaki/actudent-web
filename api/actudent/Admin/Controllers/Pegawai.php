@@ -211,7 +211,7 @@ class Pegawai extends Actudent
 
             $image = \Config\Services::image();
             $image->withFile(PUBLICPATH . 'images/pegawai/' . $newFilename)
-                  ->fit(113, 113)
+                  ->fit(120, 160, 'top')
                   ->save(PUBLICPATH . 'images/pegawai/' . $newFilename);
 
             // Get the image and convert into string
