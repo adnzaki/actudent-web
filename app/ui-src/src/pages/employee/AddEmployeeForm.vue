@@ -41,6 +41,9 @@
               <q-icon name="cloud_upload" />
             </template>
           </q-file>
+
+          <employee-photo />
+          
           <error :label="error.staff_photo" />
           <error :label="error.featured_image" />
 
@@ -77,7 +80,7 @@ export default {
   computed: {
     ...mapState('employee', {
       error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
+      disableSaveButton: state => state.helper.disableSaveButton,
     }),
   },
   setup() {

@@ -12,6 +12,7 @@ import DeleteConfirm from 'components/DeleteConfirm.vue'
 import SortIcon from 'components/SortIcon.vue'
 import Error from 'components/Error.vue'
 import SSPaging from 'components/SSPaging.vue'
+import EmployeePhoto from 'components/EmployeePhoto.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)
@@ -20,4 +21,5 @@ export default ({ app }) => {
   app.component('sort-icon', SortIcon)
   app.component('error', Error)
   app.component('ss-paging', SSPaging)
+  app.component('employee-photo', EmployeePhoto)
 }
