@@ -147,7 +147,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
                   user_name, user_email, staff_photo';
         $select = $this->QBStaff->select($field)
                   ->join($this->user, "{$this->staff}.user_id = {$this->user}.user_id")
-                  ->where('tb_staff.user_id', $id)->get();
+                  ->where("{$this->staff}.user_id", $id)->get();
 
         return $select->getResult();                  
     }

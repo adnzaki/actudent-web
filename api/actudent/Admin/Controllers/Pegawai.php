@@ -44,11 +44,8 @@ class Pegawai extends Actudent
     public function getStaffDetail($id)
     {
         $staff = $this->staff->getStaffDetail($id);
-        $data = [
-            'staff' => $staff[0],
-        ];
 
-        return $this->response->setJSON($data);
+        return $this->createResponse($staff[0], 'is_admin');
     }
 
     public function displayPhoto($staffID)
@@ -102,17 +99,7 @@ class Pegawai extends Actudent
                 ];
             }
             else
-            {
-
-                // if($data['current_image'] !== $data['featured_image'])
-                // {
-                //     $path = PUBLICPATH . 'images/pegawai/';
-                //     if(file_exists($path . $data['current_image']))
-                //     {
-                //         unlink($path . $data['current_image']);
-                //     }
-                // }
-                
+            {               
                 $response = [
                     'code' => '200',
                     'id' => $this->staff->update($data, $id)

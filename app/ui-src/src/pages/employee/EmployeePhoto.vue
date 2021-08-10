@@ -1,5 +1,5 @@
 <template>
-  <q-img v-if="filename !== ''"
+  <q-img v-if="filename !== '' && filename !== null"
     :src="imageBase64 + filename"
     class="img-thumbnail flex inline shadow-box flex-center shadow-8 q-mb-md"
     spinner-color="white"

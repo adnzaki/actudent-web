@@ -12,8 +12,8 @@
         </div>
       </q-card-section>
       <add-employee-form />
-      <!-- <edit-student-form />
-      <delete-confirm vuex-module="employee" action="deleteStudent" /> -->
+      <edit-employee-form />
+      <!-- <delete-confirm vuex-module="employee" action="deleteStudent" /> -->
       <employee-table />
     </q-card>
   </div>
@@ -26,13 +26,15 @@ import MainButton from './MainButton.vue'
 import EmployeeType from './EmployeeType.vue'
 import EmployeeTable from './EmployeeTable.vue'
 import AddEmployeeForm from './AddEmployeeForm.vue'
+import EditEmployeeForm from './EditEmployeeForm.vue'
 
 export default {
   name: 'EmployeeMain',
   components: {
     MainButton, EmployeeType,
     EmployeeTable,
-    AddEmployeeForm
+    AddEmployeeForm,
+    EditEmployeeForm
   },
   provide() {
     return {

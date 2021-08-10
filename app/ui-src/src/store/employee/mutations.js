@@ -6,7 +6,15 @@ import {
 
 const mutations = {
   getDetail(state, id) {
-
+    state.error = {}
+    state.showEditForm = true
+    admin.get(`${state.employeeApi}detail/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.detail = response.data
+        state.helper.filename = response.data.staff_photo
+      })
   },
   showDeleteConfirm(state) {
 

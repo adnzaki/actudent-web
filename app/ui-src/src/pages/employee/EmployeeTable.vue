@@ -21,19 +21,19 @@
             <td class="text-left mobile-hide">{{ item.staff_title }}</td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
-                <q-btn color="accent" icon="edit" @click="getDetail(item.staff_id)" />
+                <q-btn color="accent" icon="edit" @click="getDetail(item.user_id)" />
                 <q-btn color="accent" icon="delete" 
-                  @click="showDeleteConfirm(item.staff_id)" />
+                  @click="showDeleteConfirm(item.user_id)" />
               </q-btn-group>
               <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
                 <q-menu>
                   <q-list style="min-width: 100px">
-                    <q-item clickable v-close-popup @click="getDetail(item.staff_id)">
+                    <q-item clickable v-close-popup @click="getDetail(item.user_id)">
                       <q-item-section>{{ getLang.perbarui }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup 
-                      @click="showDeleteConfirm(item.staff_id)">
+                      @click="showDeleteConfirm(item.user_id)">
                       <q-item-section>{{ getLang.hapus }}</q-item-section>
                     </q-item>
                   </q-list>

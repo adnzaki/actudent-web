@@ -16,7 +16,7 @@ export default function () {
       userID: null,
       validImage: false,
     },
-    employeeDetail: {}, userEmail: '', domain: '',
+    detail: {}, userEmail: '', domain: '',
     employeeType: '', selectedEmployees: [], checkAll: false,
     current: 1,
     showAddForm: false, showEditForm: false,
