@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.employee.selectedEmployees" :val="item.staff_id" /></td>
+            <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.employee.selectedEmployees" :val="`${item.staff_id}-${item.user_id}`" /></td>
             <td class="text-left mobile-hide">{{ item.staff_nik }}</td>
             <td class="text-left">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">{{ item.staff_phone }}</td>
@@ -23,7 +23,7 @@
               <q-btn-group class="mobile-hide">
                 <q-btn color="accent" icon="edit" @click="getDetail(item.user_id)" />
                 <q-btn color="accent" icon="delete" 
-                  @click="showDeleteConfirm(item.user_id)" />
+                  @click="showDeleteConfirm({ staff: item.staff_id, user: item.user_id })" />
               </q-btn-group>
               <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
                 <q-menu>
@@ -33,7 +33,7 @@
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup 
-                      @click="showDeleteConfirm(item.user_id)">
+                      @click="showDeleteConfirm({ staff: item.staff_id, user: item.user_id })">
                       <q-item-section>{{ getLang.hapus }}</q-item-section>
                     </q-item>
                   </q-list>

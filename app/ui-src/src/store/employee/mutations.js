@@ -16,12 +16,23 @@ const mutations = {
         state.helper.filename = response.data.staff_photo
       })
   },
-  showDeleteConfirm(state) {
-
+  showDeleteConfirm(state, payload) {
+    state.selectedEmployees = []
+    state.selectedEmployees.push(`${payload.staff}-${payload.user}`)
+    state.deleteConfirm = true
   },
   multipleDeleteConfirm(state, lang) {
-    
+    if(state.selectedEmployees.length > 0) {
+      state.deleteConfirm = true
+    } else {
+      flashAlert(lang.pilih_data_dulu, 'negative')
+    }
   },  
+  closeDeleteConfirm(state) {
+    state.selectedEmployees = []
+    state.deleteConfirm = false
+    state.checkAll = false
+  },
   uploadImage(state, val) {
     state.helper.disableSaveButton = true
     const formData = new FormData()
@@ -49,7 +60,7 @@ const mutations = {
   selectAll(state) {
     if (state.checkAll) {
       state.paging.data.forEach(item => {
-        state.selectedEmployees.push(item.staff_id)
+        state.selectedEmployees.push(`${item.staff_id}-${item.user_id}`)
       })
     } else {
       state.selectedEmployees = []

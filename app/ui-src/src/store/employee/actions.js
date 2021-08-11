@@ -12,6 +12,45 @@ import {
 import { Notify } from 'quasar'
 
 const actions = {
+  deleteEmployee({ state, dispatch }, lang) {
+    let idString
+    if(state.selectedEmployees.length > 1) {
+        idString = state.selectedEmployees.join('&')
+    } else {
+        idString = state.selectedEmployees[0]
+    }
+
+    // show notify
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: lang.progress_hapus,
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    const data = { id: idString }
+    admin.post(`${state.employeeApi}delete`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.helper.disableSaveButton = false
+        state.deleteConfirm = false
+        notifyProgress({
+          message: lang.staff_delete_success,
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+
+        // refresh data
+        dispatch('getEmployee')
+      })
+  },
   save({ state, dispatch }, payload) {
     let url
     payload.edit ? url = `save/${payload.id}` : url = 'save'

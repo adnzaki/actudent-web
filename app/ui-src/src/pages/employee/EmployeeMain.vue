@@ -13,7 +13,7 @@
       </q-card-section>
       <add-employee-form />
       <edit-employee-form />
-      <!-- <delete-confirm vuex-module="employee" action="deleteStudent" /> -->
+      <delete-confirm vuex-module="employee" action="deleteEmployee" />
       <employee-table />
     </q-card>
   </div>

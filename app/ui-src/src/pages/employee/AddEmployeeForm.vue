@@ -1,7 +1,8 @@
 <template>
   <q-dialog v-model="$store.state.employee.showAddForm" 
     :maximized="maximizedDialog()"
-    @before-show="formOpen">
+    @before-show="formOpen"
+    @hide="$store.state.employee.helper.filename = ''">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ getLang.staff_form_add_title }}</div>
