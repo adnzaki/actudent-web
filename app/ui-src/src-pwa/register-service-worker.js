@@ -40,7 +40,7 @@ register(process.env.SERVICE_WORKER_FILE, {
           label: 'Reload', color: 'white', handler: () => window.location.reload(true)
         }
       ],
-      timeout: 10000
+      timeout: 0
     })
   },
 
