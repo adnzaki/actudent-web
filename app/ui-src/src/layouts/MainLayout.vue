@@ -11,7 +11,7 @@
               <q-item v-for="(item, key) in otherActions" :key="key" 
                 clickable v-ripple class="q-pr-xl"
                 :to="item.link"
-                @click="item.action"
+                @click="item.action()"
                 v-close-popup>
                 <q-item-section avatar>
                   <q-icon :name="item.icon" />
@@ -55,6 +55,7 @@
 
 import { defineComponent, ref, onMounted, computed, watch } from 'vue'
 import { baseUrl } from '../../globalConfig'
+import { conf } from '../composables/common'
 import ToggleMode from 'components/ToggleMode.vue'
 import { headerColor } from '../composables/mode'
 import AdminMenu from './AdminMenu.vue'
@@ -79,9 +80,9 @@ export default defineComponent({
       this.fetchLang('Admin')
       setTimeout(() => {
         this.otherActions = [
-          { link: '', icon: 'manage_accounts', label: this.lang.navbar_profil, action: '' },
-          { link: '', icon: 'school', label: this.lang.navbar_sekolah, action: '' },
-          { link: '', icon: 'logout', label: this.lang.navbar_keluar, action: '' },
+          { link: '', icon: 'manage_accounts', label: this.lang.navbar_profil, action: () => {} },
+          { link: '', icon: 'school', label: this.lang.navbar_sekolah, action: () => {} },
+          { link: '', icon: 'logout', label: this.lang.navbar_keluar, action: () => this.logout() },
         ]
       }, 1000);
     }, 1000);
@@ -89,6 +90,12 @@ export default defineComponent({
   components: {
     ToggleMode, AdminMenu,
     SubscriptionWarning
+  },
+  methods: {
+    logout() {
+      this.$q.cookies.remove(conf.cookieName)
+      window.location.href = `${conf.uiPath()}login.html`
+    }
   },
 
   setup () {
