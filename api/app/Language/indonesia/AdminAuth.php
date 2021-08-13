@@ -3,7 +3,7 @@
 return [
     // teks halaman login
     'login_title'           => 'Autentikasi',
-    'silakan_login'         => 'Silakan login untuk masuk ke dalam Actudent',
+    'silakan_login'         => 'Silakan login untuk menggunakan Actudent',
     'input_password'        => 'Kata sandi',
     'lupa_password'         => 'Lupa kata sandi?',
     'login'                 => 'Masuk',
