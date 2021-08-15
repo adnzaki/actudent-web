@@ -37,9 +37,6 @@ export default {
       textLang: computed(() => this.lang)
     }
   },
-  data () {
-    return {}
-  },
   mounted () {
     setTimeout(() => {
       this.fetchLang('Admin')
