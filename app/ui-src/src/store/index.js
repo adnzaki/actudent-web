@@ -3,8 +3,7 @@ import { createStore } from 'vuex'
 import parent from './parent'
 import student from './student'
 import employee from './employee'
-
-// import example from './module-example'
+import grade from './grade'
 
 /*
  * If not building with SSR mode, you can
@@ -18,7 +17,7 @@ import employee from './employee'
 export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
-      parent, student, employee
+      parent, student, employee, grade
     },
 
     // enable strict mode (adds overhead!)

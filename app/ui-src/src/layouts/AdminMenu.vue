@@ -83,7 +83,7 @@ export default {
           { label: this.lang.menu_parent, link: '/parent' },
           { label: this.lang.menu_siswa, link: '/student' },
           { label: this.lang.menu_pegawai, link: '/employee' },
-          { label: this.lang.menu_kelas, link: '' },
+          { label: this.lang.menu_kelas, link: '/class' },
           { label: this.lang.menu_ruang, link: '' },
           { label: this.lang.menu_mapel, link: '' }
         ]    
