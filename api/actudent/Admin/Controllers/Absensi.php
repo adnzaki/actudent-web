@@ -124,8 +124,8 @@ class Absensi extends Actudent
     {
         if(is_admin())
         {
-            $resource               = new Resources();
-            $data                   = $this->common();
+            $resource   = new Resources();
+            $data       = $this->common();
             
             foreach($resource->getReportData() as $key => $val)
             {
@@ -186,7 +186,7 @@ class Absensi extends Actudent
      * @param int|string $journal
      * @param string $date
      * 
-     * @return JSON
+     * @return array
      */
     private function _getListAbsensi($grade, $journal, $date)
     {
