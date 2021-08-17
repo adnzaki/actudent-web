@@ -1,5 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\KelasModel;
 

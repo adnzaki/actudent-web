@@ -5,15 +5,15 @@
         <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ lang.menu_kelas }}</div>
         <div class="text-h6 text-capitalize" v-else>{{ lang.menu_kelas }}</div>
         <div :class="['row', titleSpacing()]">
-          <!-- <main-button class="q-mt-sm" /> -->
-          <!-- <row-dropdown vuex-module="parent" class="q-mt-sm" /> -->
-          <!-- <search-box :label="lang.ortu_cari" vuex-module="parent" class="q-mt-sm" /> -->
+          <main-button class="q-mt-sm" />
+          <row-dropdown vuex-module="grade" class="q-mt-sm" />
+          <search-box :label="lang.kelas_cari" vuex-module="grade" class="q-mt-sm" />
         </div>
       </q-card-section>
       <!-- <add-parent-form /> -->
       <!-- <edit-parent-form /> -->
-      <!-- <delete-confirm vuex-module="parent" action="deleteParent" /> -->
-      <!-- <parent-table /> -->
+      <!-- <delete-confirm vuex-module="grade" action="deleteParent" /> -->
+      <class-table />
     </q-card>
   </div>
 </template>
@@ -21,9 +21,15 @@
 <script>
 import { computed } from 'vue'
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
+import MainButton from './MainButton.vue'
+import ClassTable from './ClassTable.vue'
 
 export default {
   name: 'ClassMain',
+  components: {
+    MainButton,
+    ClassTable
+  },
   provide() {
     return {
       textLang: computed(() => this.lang)
