@@ -85,29 +85,32 @@ class Kelas extends Actudent
 
     public function save($id = null)
     {
-        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if(is_admin())
         {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else
-        {
-            $data = $this->formData();
-            if($id === null) 
+            $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+            if(! validate($validation[0], $validation[1]))
             {
-                $this->kelas->insert($data);
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
             }
             else
             {
-                $this->kelas->update($data, $id);
+                $data = $this->formData();
+                if($id === null) 
+                {
+                    $this->kelas->insert($data);
+                }
+                else
+                {
+                    $this->kelas->update($data, $id);
+                }
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
             }
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
         }
     }
 
@@ -142,7 +145,7 @@ class Kelas extends Actudent
 
     public function findTeacher($keyword = '')
     {
-        return $this->response->setJSON($this->kelas->findTeacher($keyword));
+        return $this->createResponse($this->kelas->findTeacher($keyword), 'is_admin');
     }
 
     private function formData()

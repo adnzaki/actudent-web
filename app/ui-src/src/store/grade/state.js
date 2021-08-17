@@ -8,10 +8,10 @@ export default function () {
       showDeleteButton: false,
       deleteProgress: false,
     },
-    searchParam: '',
     selectedTeacher: {
       id: '', name: '',
     },
+    teachers: [],
     detail: {}, 
     checkAll: false, selectedClasses: [],
     current: 1,

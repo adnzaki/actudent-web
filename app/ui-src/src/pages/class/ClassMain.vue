@@ -10,7 +10,7 @@
           <search-box :label="lang.kelas_cari" vuex-module="grade" class="q-mt-sm" />
         </div>
       </q-card-section>
-      <!-- <add-parent-form /> -->
+      <add-class-form />
       <!-- <edit-parent-form /> -->
       <!-- <delete-confirm vuex-module="grade" action="deleteParent" /> -->
       <class-table />
@@ -23,12 +23,14 @@ import { computed } from 'vue'
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import ClassTable from './ClassTable.vue'
+import AddClassForm from './AddClassForm.vue'
 
 export default {
   name: 'ClassMain',
   components: {
     MainButton,
-    ClassTable
+    ClassTable,
+    AddClassForm
   },
   provide() {
     return {
