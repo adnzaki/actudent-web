@@ -54,6 +54,7 @@
 
 <script>
 import { watch, computed, inject } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore, mapState, mapMutations, mapActions } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
 
@@ -80,14 +81,17 @@ export default {
   },
   setup () {
     const store = useStore()
+    const router = useRouter()
     const pagingData = computed(() => store.state.grade.paging.data)
+
     watch(pagingData, () => {
       store.state.grade.checkAll = false
       store.state.grade.selectedClasses = []
     })
 
     const showGroupMember = (id, name) => {
-      store.dispatch('grade/showGroupMember', { id, name })
+      store.state.grade.classMember.name = name
+      router.push(`/class/member/${id}`)
     }
 
     return {

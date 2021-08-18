@@ -5,6 +5,8 @@ import ParentMain from 'pages/parent/ParentMain.vue'
 import StudentMain from 'pages/student/StudentMain.vue'
 import EmployeeMain from 'pages/employee/EmployeeMain.vue'
 import ClassMain from 'pages/class/ClassMain.vue'
+import ClassList from 'pages/class/ClassList.vue'
+import MemberMain from 'pages/class/MemberMain.vue'
 
 const admin = {
   path: '/',
@@ -17,8 +19,11 @@ const admin = {
     { path: 'employee', component: EmployeeMain, beforeEnter: () => validateToken('is_admin') },
     { 
       path: 'class', component: ClassMain, beforeEnter: () => validateToken('is_admin'),
-      children: []
-    }
+      children: [
+        { path: '', component: ClassList, beforeEnter: () => validateToken('is_admin') },
+        { path: 'member/:id', component: MemberMain, beforeEnter: () => validateToken('is_admin') }
+      ]
+    },
   ],
   beforeEnter: () => {
     validateToken('is_admin')   
