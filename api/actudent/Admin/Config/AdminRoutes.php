@@ -34,7 +34,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas/cari-guru/(:any)', 'Kelas::findTeacher/$1');
 	$routes->add('kelas/save', 'Kelas::save');
 	$routes->add('kelas/save/(:any)', 'Kelas::save/$1');
-	$routes->add('kelas/delete/(:any)', 'Kelas::delete/$1');
+	$routes->add('kelas/delete', 'Kelas::delete');
 	$routes->add('kelas/detail/(:any)', 'Kelas::getClassDetail/$1');
 	$routes->add('kelas/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getUnregisteredStudents/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getUnregisteredStudents/$1/$2/$3/$4/$5');

@@ -12,7 +12,7 @@
       </q-card-section>
       <add-class-form />
       <edit-class-form />
-      <!-- <delete-confirm vuex-module="grade" action="deleteParent" /> -->
+      <delete-confirm vuex-module="grade" action="deleteClass" />
       <class-table />
     </q-card>
   </div>

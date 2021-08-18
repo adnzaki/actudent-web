@@ -59,6 +59,11 @@ const mutations = {
         state.selectedTeacher.name = res.staff_name
       })
   },
+  closeDeleteConfirm(state) {
+    state.selectedClasses = []
+    state.deleteConfirm = false
+    state.checkAll = false
+  },
   multipleDeleteConfirm(state, lang) {
     if(state.selectedClasses.length > 0) {
       state.deleteConfirm = true

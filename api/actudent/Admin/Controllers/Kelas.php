@@ -16,6 +16,8 @@ class Kelas extends Actudent
     public function __construct()
     {
         $this->kelas = new KelasModel;
+        $resource = new \Actudent\Core\Controllers\Resources;
+        $resource->setUILanguage();
     }
 
     public function index()
@@ -114,12 +116,29 @@ class Kelas extends Actudent
         }
     }
 
-    public function delete($grade)
+    public function delete()
     {
-        $this->kelas->delete($grade);
-        return $this->response->setJSON([
-            'code' => 'OK',
-        ]);
+        if(is_admin())
+        {
+            $idString = $this->request->getPost('id');
+            $idWrapper = [];
+            if(strpos($idString, '-') !== false)
+            {
+                $idWrapper = explode('-', $idString);
+                foreach($idWrapper as $id)
+                {
+                    $this->kelas->delete($id);
+                }
+            }
+            else 
+            {
+                $this->kelas->delete($idString);
+            }
+
+            return $this->response->setJSON([
+                'code' => 'OK',
+            ]);
+        }
     }
 
     private function validation()

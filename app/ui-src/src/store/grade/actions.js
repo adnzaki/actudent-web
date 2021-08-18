@@ -12,6 +12,45 @@ import {
 import { Notify } from 'quasar'
 
 const actions = {
+  deleteClass({ state, dispatch }, lang) {
+    let idString
+    if(state.selectedClasses.length > 1) {
+        idString = state.selectedClasses.join('-')
+    } else {
+        idString = state.selectedClasses[0]
+    }
+
+    // show notify
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: lang.progress_hapus,
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    const data = { id: idString }
+    admin.post(`${state.classApi}delete`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(() => {
+        state.helper.disableSaveButton = false
+        state.deleteConfirm = false
+        notifyProgress({
+          message: lang.kelas_delete_success,
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+
+        // refresh data
+        dispatch('getClassList')
+      })
+  },
   save({ state, dispatch }, payload) {
     let url
     payload.edit ? url = `save/${payload.id}` : url = 'save'
