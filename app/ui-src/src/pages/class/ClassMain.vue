@@ -11,7 +11,7 @@
         </div>
       </q-card-section>
       <add-class-form />
-      <!-- <edit-parent-form /> -->
+      <edit-class-form />
       <!-- <delete-confirm vuex-module="grade" action="deleteParent" /> -->
       <class-table />
     </q-card>
@@ -24,13 +24,15 @@ import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import ClassTable from './ClassTable.vue'
 import AddClassForm from './AddClassForm.vue'
+import EditClassForm from './EditClassForm.vue'
 
 export default {
   name: 'ClassMain',
   components: {
     MainButton,
     ClassTable,
-    AddClassForm
+    AddClassForm,
+    EditClassForm
   },
   provide() {
     return {

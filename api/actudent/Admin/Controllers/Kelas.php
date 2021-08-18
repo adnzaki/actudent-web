@@ -38,7 +38,7 @@ class Kelas extends Actudent
 
     public function getClassDetail($id)
     {
-        return $this->response->setJSON($this->kelas->getClassDetail($id));
+        return $this->createResponse($this->kelas->getClassDetail($id), 'is_admin');
     }
 
     public function addMember($id, $grade)

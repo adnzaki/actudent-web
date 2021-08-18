@@ -51,9 +51,13 @@ class KelasModel extends SharedModel
     public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = ''): array
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
-        $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
+        $params = [
+            "{$this->kelas}.deleted"    => 0, 
+            'grade_status'              => '1',
+            'period_start'              => '2019',
+            'period_end'                => '2020'
+        ];
 
-        // WHERE studentStatus = 1 ORDER BY studentName ASC LIMIT $offset, $limit         
         $query = $joinAndSearch->where($params)->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
@@ -69,7 +73,12 @@ class KelasModel extends SharedModel
     public function getKelasRows(string $searchBy = 'grade_name', string $search = ''): int
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
-        $params = ["{$this->kelas}.deleted" => 0, 'grade_status' => '1'];
+        $params = [
+            "{$this->kelas}.deleted"    => 0, 
+            'grade_status'              => '1',
+            'period_start'              => '2019',
+            'period_end'                => '2020'
+        ];
 
         return $joinAndSearch->where($params)->countAllResults();
     }
@@ -216,8 +225,8 @@ class KelasModel extends SharedModel
     public function insert(array $value): void
     {
         $grade = $this->fillGradeField($value);
-        $grade['period_start']  = '2020';
-        $grade['period_end']    = '2021';
+        $grade['period_start']  = '2019';
+        $grade['period_end']    = '2020';
         $grade['grade_status']  = 1;
 
         $this->QBKelas->insert($grade);
