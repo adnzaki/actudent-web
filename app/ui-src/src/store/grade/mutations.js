@@ -55,6 +55,7 @@ const mutations = {
       .then(response => {
         const res = response.data
         state.detail = res
+        state.classMember.name = res.grade_name
         state.selectedTeacher.id = res.teacher_id
         state.selectedTeacher.name = res.staff_name
       })

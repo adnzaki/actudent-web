@@ -29,4 +29,5 @@ return [
     'kelas_kosongkan_rombel'        => 'Empty Group',
     'kelas_add_member_title'        => 'Add to class group',
     'kelas_hapus_member_title'      => 'Remove from group',
+    'kelas_kembali'                 => 'Back to Class List'
 ];
