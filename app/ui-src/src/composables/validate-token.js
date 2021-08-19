@@ -2,11 +2,13 @@ import { appConfig as conf } from '../../actudent.config'
 import { core } from 'boot/axios'
 import { Cookies } from 'quasar'
 import { mode } from '../../globalConfig'
+import { runLoadingBar } from 'src/composables/common'
 
 // get token dynamically
 const bearerToken = `Bearer ${Cookies.get(conf.cookieName)}`
 
 function validateToken (validator) {
+  runLoadingBar()
   if(Cookies.has(conf.cookieName)) {
     core.get(`validate-token/${validator}`, {
       headers: {
