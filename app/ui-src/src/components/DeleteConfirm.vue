@@ -3,12 +3,12 @@
     <q-card>
       <q-card-section class="row items-center">
         <q-avatar icon="notification_important" class="mobile-hide" color="negative" text-color="white" />
-        <span class="q-ml-sm">{{ getLang.sure_to_delete }}</span>
+        <span class="q-ml-sm">{{ $t('sure_to_delete') }}</span>
       </q-card-section>
 
       <q-card-actions align="right">
-        <q-btn flat :label="getLang.batal" color="primary" @click="closeDeleteConfirm" />
-        <q-btn flat :label="getLang.hapus" color="primary" 
+        <q-btn flat :label="$t('batal')" color="primary" @click="closeDeleteConfirm" />
+        <q-btn flat :label="$t('hapus')" color="primary" 
           :disable="disableSaveButton"
           @click="removeData" />
       </q-card-actions>
@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { inject, computed } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -25,8 +24,6 @@ export default {
   props: ['vuexModule', 'action'],
   setup(props) {
     const store = useStore()
-
-    const getLang = computed(() => inject('textLang')).value
 
     return {
       disableSaveButton: () => {
@@ -36,9 +33,8 @@ export default {
         store.commit(`${props.vuexModule}/closeDeleteConfirm`)
       },
       removeData: () => {
-        store.dispatch(`${props.vuexModule}/${props.action}`, getLang.value)
+        store.dispatch(`${props.vuexModule}/${props.action}`)
       },
-      getLang
     }
   }
 }

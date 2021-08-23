@@ -36,4 +36,5 @@ export const appConfig = {
 
   // Cookie expiration time in miliseconds (120 in minutes)
   cookieExp: 120 * 60 * 1000,
+  userLang: 'actudent_userlang',
 }

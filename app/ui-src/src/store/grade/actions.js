@@ -6,13 +6,14 @@ import {
   timeout,
   errorNotif,
   createFormData,
-  pengguna
+  pengguna,
+  t,
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
 
 const actions = {
-  deleteClass({ state, dispatch }, lang) {
+  deleteClass({ state, dispatch }) {
     let idString
     if(state.selectedClasses.length > 1) {
         idString = state.selectedClasses.join('-')
@@ -24,7 +25,7 @@ const actions = {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: lang.progress_hapus,
+      message: t('progress_hapus'),
       color: 'info',
       position: 'center',
       timeout,
@@ -41,7 +42,7 @@ const actions = {
         state.helper.disableSaveButton = false
         state.deleteConfirm = false
         notifyProgress({
-          message: lang.kelas_delete_success,
+          message: t('kelas_delete_success'),
           color: 'positive',
           icon: 'done',
           spinner: false
@@ -58,7 +59,7 @@ const actions = {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: payload.lang.kelas_save_progress,
+      message: t('kelas_save_progress'),
       color: 'info',
       position: 'center',
       timeout,
@@ -76,7 +77,7 @@ const actions = {
         if(res.code === '500') {
           state.error = res.msg
           notifyProgress({
-            message: `Error! ${payload.lang.kelas_save_error}`,
+            message: `Error! ${t('kelas_save_error')}`,
             color: 'negative',
             spinner: false
           })
@@ -92,7 +93,7 @@ const actions = {
           if(payload.edit) {
             state.showEditForm = false
             notifyProgress({
-              message: `${payload.lang.sukses} ${payload.lang.kelas_edit_success}`,
+              message: `${t('sukses')} ${t('kelas_edit_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false
@@ -100,7 +101,7 @@ const actions = {
           } else {
             state.showAddForm = false
             notifyProgress({
-              message: `${payload.lang.sukses} ${payload.lang.kelas_insert_success}`,
+              message: `${t('sukses')} ${t('kelas_insert_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false

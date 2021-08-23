@@ -5,6 +5,7 @@ $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($r
 {
 	$routes->add('get-admin-lang/(:any)', 'Resources::getLocaleResource/$1');
 	$routes->add('get-lang/(:any)', 'Resources::getLocaleForUI/$1');
+	$routes->add('get-lang/(:any)/(:any)', 'Resources::getLocaleForUI/$1/$2');
 	$routes->add('get-changelog/(:alpha)', 'Resources::getChangelog/$1');
 	$routes->add('validate-token/(:any)', 'Resources::validateToken/$1');
 	$routes->add('check-subscription', 'Resources::checkSubscription');

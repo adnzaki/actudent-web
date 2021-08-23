@@ -3,7 +3,7 @@
     <q-select outlined v-model="$store.state[vuexModule]['paging']['rows']" 
       :options="options" dense
       @update:model-value="showPerPage"
-      :display-value="`${$store.state[vuexModule]['paging']['rows']} ${getLang.baris}`" 
+      :display-value="`${$store.state[vuexModule]['paging']['rows']} ${$t('baris')}`" 
     />
   </div>
 </template>
@@ -24,11 +24,6 @@ export default {
     vuexModule: {
       type: String,
       required: true,
-    }
-  },
-  computed: {
-    getLang() {
-      return this.textLang.value
     }
   },
   setup(props) {

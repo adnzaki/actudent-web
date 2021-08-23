@@ -27,7 +27,7 @@ const mutations = {
     if(state.selectedStudents.length > 0) {
       state.deleteConfirm = true
     } else {
-      flashAlert(lang.pilih_data_dulu, 'negative')
+      flashAlert(t('pilih_data_dulu'), 'negative')
     }
   },
   getDetail(state, id) {

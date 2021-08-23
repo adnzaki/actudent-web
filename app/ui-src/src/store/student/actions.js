@@ -6,7 +6,8 @@ import {
   timeout,
   errorNotif,
   createFormData,
-  pengguna
+  pengguna,
+  t
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
@@ -24,7 +25,7 @@ const actions = {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: lang.progress_hapus,
+      message: t('progress_hapus'),
       color: 'info',
       position: 'center',
       timeout,
@@ -41,7 +42,7 @@ const actions = {
         state.helper.disableSaveButton = false
         state.deleteConfirm = false
         notifyProgress({
-          message: lang.siswa_delete_success,
+          message: t('siswa_delete_success'),
           color: 'positive',
           icon: 'done',
           spinner: false
@@ -51,7 +52,7 @@ const actions = {
         dispatch('getStudents')
       })
   },
-  // payload: { data, lang, edit, id }
+  // payload: { data, edit, id }
   save({ state, dispatch }, payload) {
     let url
     payload.edit ? url = `save/${payload.id}` : url = 'save'
@@ -59,7 +60,7 @@ const actions = {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: payload.lang.siswa_save_progress,
+      message: t('siswa_save_progress'),
       color: 'info',
       position: 'center',
       timeout,
@@ -84,7 +85,7 @@ const actions = {
           if(res.code === '500') {
             state.error = res.msg
             notifyProgress({
-              message: `Error! ${payload.lang.siswa_save_error}`,
+              message: `Error! ${t('siswa_save_error')}`,
               color: 'negative',
               spinner: false
             })
@@ -101,7 +102,7 @@ const actions = {
             if(payload.edit) {
               state.showEditForm = false
               notifyProgress({
-                message: `${payload.lang.sukses} ${payload.lang.siswa_update_success}`,
+                message: `${t('sukses')} ${t('siswa_update_success')}`,
                 color: 'positive',
                 icon: 'done',
                 spinner: false
@@ -109,7 +110,7 @@ const actions = {
             } else {
               state.showAddForm = false
               notifyProgress({
-                message: `${payload.lang.sukses} ${payload.lang.siswa_save_success}`,
+                message: `${t('sukses')} ${t('siswa_save_success')}`,
                 color: 'positive',
                 icon: 'done',
                 spinner: false

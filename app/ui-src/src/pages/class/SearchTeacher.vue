@@ -1,5 +1,5 @@
 <template>
-  <q-input outlined :label="getLang.kelas_wali" dense 
+  <q-input outlined :label="$t('kelas_wali')" dense 
     v-model="model" @update:model-value="$store.commit('grade/searchTeacher', model)" />
   <q-card bordered v-if="searchResults.length > 0">
     <q-scroll-area style="height: 100px">
@@ -14,19 +14,18 @@
     </q-scroll-area>
   </q-card>
   <error :label="error.teacher_id" />
-  <q-input outlined :label="getLang.kelas_label_walikelas" dense
+  <q-input outlined :label="$t('kelas_label_walikelas')" dense
     v-model="$store.state.grade.selectedTeacher.name" disable />
 </template>
 
 <script>
-import { inject, computed, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
   name: 'SearchTeacher',
   setup() {
     const store = useStore()
-    const getLang = computed(() => inject('textLang')).value
     const model = ref('')
     const searchResults = computed(() => store.state.grade.teachers)
 
@@ -38,7 +37,6 @@ export default {
     const error = computed(() => store.state.grade.error)
 
     return {
-      getLang,
       model,
       selectData,
       error,

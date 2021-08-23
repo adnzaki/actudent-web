@@ -1,7 +1,7 @@
 <template>
   <div class="col-12 col-md-4">
     <div class="q-gutter-xs mobile-hide">
-      <q-btn color="negative" icon="arrow_back" class="q-pl-sm" :label="getLang.kelas_kembali"
+      <q-btn color="negative" icon="arrow_back" class="q-pl-sm" :label="$t('kelas_kembali')"
         @click="$router.push('/class')" />
     </div>
 
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { inject, computed } from 'vue'
 import { fabPos } from 'src/composables/fab'
 
 export default {
@@ -24,7 +23,6 @@ export default {
   setup() {
     
     return {
-      getLang: computed(() => inject('textLang')).value,
       fabPos,
     }
   }

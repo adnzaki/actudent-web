@@ -1,7 +1,8 @@
 import { 
   bearerToken,
   admin,
-  flashAlert
+  flashAlert,
+  t
 } from '../../composables/common'
 
 const mutations = {
@@ -21,11 +22,11 @@ const mutations = {
     state.selectedEmployees.push(`${payload.staff}-${payload.user}`)
     state.deleteConfirm = true
   },
-  multipleDeleteConfirm(state, lang) {
+  multipleDeleteConfirm(state) {
     if(state.selectedEmployees.length > 0) {
       state.deleteConfirm = true
     } else {
-      flashAlert(lang.pilih_data_dulu, 'negative')
+      flashAlert(t('pilih_data_dulu'), 'negative')
     }
   },  
   closeDeleteConfirm(state) {

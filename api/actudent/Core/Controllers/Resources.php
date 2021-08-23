@@ -161,7 +161,7 @@ class Resources extends Actudent
      * 
      * @return mixed
      */
-    public function getLocaleForUI($file)
+    public function getLocaleForUI($file, $selectedLang = '')
     {
         if(valid_token())
         {
@@ -173,7 +173,11 @@ class Resources extends Actudent
             $lang = $auth->getUserLanguage($decodedToken->email);
 
             // get the language file and throw the response
-            $response = require APPPATH . "Language/{$lang[0]->user_language}/{$file}.php";
+            $userLang = '';
+            empty($selectedLang) ? $userLang = $lang[0]->user_language : $userLang = $selectedLang;
+
+            $response = require APPPATH . "Language/{$userLang}/{$file}.php";
+
             return $this->createResponse($response);
         }
         else

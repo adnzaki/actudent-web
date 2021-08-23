@@ -59,7 +59,13 @@ class Auth extends Actudent
                 }
     
                 $this->auth->statusJaringan('online', $username);
-                return $this->response->setJSON(['msg' => 'valid', 'token' => jwt_encode($token)]);
+                $getLang = $this->auth->getUserLanguage($username);
+                
+                return $this->response->setJSON([
+                    'msg'   => 'valid', 
+                    'token' => jwt_encode($token),
+                    'lang'  => $getLang[0]->user_language
+                ]);
             }
             else 
             {

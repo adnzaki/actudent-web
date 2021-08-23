@@ -2,7 +2,7 @@
   <div class="q-px-md q-pt-md q-gutter-sm" v-if="subs.left <= 7">
     <q-banner rounded dense inline-actions class="bg-negative text-white">      
       <p class="q-mt-md" style="line-height: 5px !important">
-        <strong>{{ getLang.peringatan }}</strong>
+        <strong>{{ $t('peringatan') }}</strong>
         {{ subs.text }} {{ subs.date }}.
       </p>
     </q-banner>
@@ -10,15 +10,13 @@
 </template>
 
 <script>
-import { inject, computed, ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { core } from 'boot/axios'
 import { bearerToken } from 'src/composables/validate-token'
 
 export default {
   name: 'SubscriptionWarning',
   setup() {
-    const getLang = computed(() => inject('textLang')).value  
-
     const subs = ref({})
 
     onMounted(() => {
@@ -32,7 +30,6 @@ export default {
     })
 
     return { 
-      getLang,
       subs
     }
   }

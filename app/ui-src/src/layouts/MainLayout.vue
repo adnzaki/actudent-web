@@ -80,9 +80,9 @@ export default defineComponent({
       this.fetchLang('Admin')
       setTimeout(() => {
         this.otherActions = [
-          { link: '', icon: 'manage_accounts', label: this.lang.navbar_profil, action: () => {} },
-          { link: '', icon: 'school', label: this.lang.navbar_sekolah, action: () => {} },
-          { link: '', icon: 'logout', label: this.lang.navbar_keluar, action: () => this.logout() },
+          { link: '', icon: 'manage_accounts', label: this.$t('navbar_profil'), action: () => {} },
+          { link: '', icon: 'school', label: this.$t('navbar_sekolah'), action: () => {} },
+          { link: '', icon: 'logout', label: this.$t('navbar_keluar'), action: () => this.logout() },
         ]
       }, 1000);
     }, 1000);
@@ -94,6 +94,7 @@ export default defineComponent({
   methods: {
     logout() {
       this.$q.cookies.remove(conf.cookieName)
+      this.$q.cookies.remove(conf.userLang)
       window.location.href = `${conf.uiPath()}login.html`
     }
   },

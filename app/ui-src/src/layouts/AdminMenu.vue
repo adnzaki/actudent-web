@@ -7,7 +7,7 @@
         </q-item-section>
 
         <q-item-section>
-          {{ lang.menu_dashboard }}
+          {{ $t('menu_dashboard') }}
         </q-item-section>
       </q-item>
 
@@ -47,7 +47,7 @@
       <q-expansion-item
         expand-separator
         icon="settings"
-        :label="lang.menu_pengaturan"
+        :label="$t('menu_pengaturan')"
       >
         <q-item 
           :active-class="activeClass"
@@ -65,45 +65,53 @@
   </q-scroll-area>
 </template>
 <script>
+import { useI18n } from 'vue-i18n'
+import { onMounted, ref } from 'vue'
+
 export default {
   name: 'AdminMenu',
-  data() {
-    return {
-      masterMenu: [],
-      menus: [],
-      settings: [],
-      activeClass: 'bg-teal-1 text-grey-8'
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.fetchLang('Admin')
+  setup() {
+    const { t } = useI18n()
+
+    const activeClass = 'bg-teal-1 text-grey-8'
+    const masterMenu = ref([])
+    const menus = ref([])
+    const settings = ref([])
+
+    onMounted(() => {
       setTimeout(() => {
-        this.masterMenu = [
-          { label: this.lang.menu_parent, link: '/parent' },
-          { label: this.lang.menu_siswa, link: '/student' },
-          { label: this.lang.menu_pegawai, link: '/employee' },
-          { label: this.lang.menu_kelas, link: '/class' },
-          { label: this.lang.menu_ruang, link: '' },
-          { label: this.lang.menu_mapel, link: '' }
+        masterMenu.value = [
+          { label: t('menu_parent'), link: '/parent' },
+          { label: t('menu_siswa'), link: '/student' },
+          { label: t('menu_pegawai'), link: '/employee' },
+          { label: t('menu_kelas'), link: '/class' },
+          { label: t('menu_ruang'), link: '' },
+          { label: t('menu_mapel'), link: '' }
         ]    
-
-        this.menus = [
-          { link: '', icon: 'list', label: this.lang.menu_jadwal },
-          { link: '', icon: 'task_alt', label: this.lang.menu_kehadiran },
-          { link: '', icon: 'today', label: this.lang.menu_agenda },
-          { link: '', icon: 'restore', label: this.lang.menu_timeline },
-          { link: '', icon: 'forum', label: this.lang.menu_pesan },
-          { link: '', icon: 'bookmark_added', label: this.lang.menu_nilai },
+  
+        menus.value = [
+          { link: '', icon: 'list', label: t('menu_jadwal') },
+          { link: '', icon: 'task_alt', label: t('menu_kehadiran') },
+          { link: '', icon: 'today', label: t('menu_agenda') },
+          { link: '', icon: 'restore', label: t('menu_timeline') },
+          { link: '', icon: 'forum', label: t('menu_pesan') },
+          { link: '', icon: 'bookmark_added', label: t('menu_nilai') },
         ]
+  
+        settings.value = [
+          { label: t('menu_pengguna'), link: '' },
+          { label: t('menu_aplikasi'), link: '' },
+          { label: t('menu_feedback'), link: '' },
+        ]          
+      }, 2000)
+    })    
 
-        this.settings = [
-          { label: this.lang.menu_pengguna, link: '' },
-          { label: this.lang.menu_aplikasi, link: '' },
-          { label: this.lang.menu_feedback, link: '' },
-        ]   
-      }, 1000);
-    }, 1000)
+    return {
+      activeClass,
+      masterMenu,
+      menus,
+      settings
+    }
   },
 
 }

@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useStore } from 'vuex'
@@ -23,25 +24,8 @@ export default {
   components: {
     MemberButton
   },
-  provide() {
-    return {
-      textLang: computed(() => this.lang)
-    }
-  },
-  mounted () {
-    setTimeout(() => {
-      this.fetchLang('Admin')
-      this.fetchLang('AdminKelas')   
-    }, 1000)
-  },
-  computed: {
-    pageTitle() {      
-      return this.lang.kelas_group_member_title === undefined ? '' :
-        `${this.lang.kelas_group_member_title} - 
-        ${this.$store.state.grade.classMember.name}`
-    }
-  },
   setup () {
+    const { t } = useI18n()
     const store = useStore()
     const route = useRoute()
 
@@ -54,7 +38,13 @@ export default {
       store.state.grade.detail = {}
     })
 
-    return { titleSpacing }
+    const pageTitle = computed(() => {      
+      return t('kelas_group_member_title') === undefined ? '' :
+        `${t('kelas_group_member_title')} - 
+        ${store.state.grade.classMember.name}`
+    })
+
+    return { titleSpacing, pageTitle }
   }
 }
 </script>

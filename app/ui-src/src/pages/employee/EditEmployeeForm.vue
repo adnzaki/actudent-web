@@ -5,41 +5,41 @@
     @hide="$store.state.employee.helper.filename = ''">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ getLang.staff_edit_title }}</div>
+        <div class="text-h6 text-capitalize">{{ $t('staff_edit_title') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
-          <q-input outlined :label="getLang.staff_input_id" minlength="10" maxlength="10" dense 
+          <q-input outlined :label="$t('staff_input_id')" minlength="10" maxlength="10" dense 
             v-model="$store.state.employee.detail.staff_nik" />
           <error :label="error.staff_nik" />
           
-          <q-input outlined :label="getLang.staff_label_nama" dense 
+          <q-input outlined :label="$t('staff_label_nama')" dense 
             v-model="$store.state.employee.detail.staff_name" />
           <error :label="error.staff_name" />
 
-          <q-input outlined :label="getLang.staff_label_telp" minlength="11" maxlength="13" dense 
+          <q-input outlined :label="$t('staff_label_telp')" minlength="11" maxlength="13" dense 
             v-model="$store.state.employee.detail.staff_phone" />
           <error :label="error.staff_phone" />
 
           <div>
-            {{ getLang.staff_label_jenis }}
+            {{ $t('staff_label_jenis') }}
           </div>
           <div class="row q-mb-md">
-            <div class="col-6"><q-radio v-model="$store.state.employee.detail.staff_type" val="teacher" :label="getLang.staff_input_guru" /></div>
+            <div class="col-6"><q-radio v-model="$store.state.employee.detail.staff_type" val="teacher" :label="$t('staff_input_guru')" /></div>
             <div class="col-6"><q-radio v-model="$store.state.employee.detail.staff_type" val="staff" label="Staff" /></div>
           </div>
 
-          <q-input outlined :label="getLang.staff_label_jabatan" dense 
+          <q-input outlined :label="$t('staff_label_jabatan')" dense 
             v-model="$store.state.employee.detail.staff_title" />
           <error :label="error.staff_title" />
 
           <q-file
             color="grey-3" outlined dense 
             v-model="formData.staff_photo" 
-            :label="getLang.staff_label_photo"
+            :label="$t('staff_label_photo')"
             @update:model-value="encodeImage"
             accept="image/jpeg, image/png">
             <template v-slot:prepend>
@@ -55,15 +55,15 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="getLang.tutup" color="negative" v-close-popup />
-        <q-btn :label="getLang.simpan" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
+        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
+        <q-btn :label="$t('simpan')" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script>
-import { ref, onMounted, computed, inject } from 'vue'
+import { ref, onMounted } from 'vue'
 import { school, getSchool } from '../../composables/common'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
@@ -79,8 +79,6 @@ export default {
   setup() {
     const store = useStore()
 
-    const getLang = computed(() => inject('textLang')).value
-
     const formData = ref({
       staff_type: 'teacher',
       staff_photo: null,
@@ -95,7 +93,6 @@ export default {
     const save = () => {
       store.dispatch('employee/save', {
         data: store.state.employee.detail,
-        lang: getLang.value,
         edit: true,
         id: store.state.employee.detail.user_id
       })
@@ -110,7 +107,6 @@ export default {
       school,
       save,
       maximizedDialog, cardDialog,
-      getLang,
       encodeImage,
       formOpen
     }

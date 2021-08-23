@@ -5,10 +5,10 @@
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]"><q-checkbox v-model="$store.state.grade.checkAll" @update:model-value="selectAll" /></th>
-            <th class="text-left cursor-pointer" @click="sortData('grade_name')">{{ getLang.kelas_nama }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_name')">{{ getLang.kelas_wali }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide">{{ getLang.kelas_tahun }}</th>
-            <th class="text-left">{{ getLang.aksi }}</th>
+            <th class="text-left cursor-pointer" @click="sortData('grade_name')">{{ $t('kelas_nama') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_name')">{{ $t('kelas_wali') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('kelas_tahun') }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -28,16 +28,16 @@
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item clickable v-close-popup @click="getDetail(item.grade_id)">
-                      <q-item-section>{{ getLang.perbarui }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup @click="showGroupMember(item.grade_id, item.grade_name)">
-                      <q-item-section>{{ getLang.kelas_member }}</q-item-section>
+                      <q-item-section>{{ $t('kelas_member') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup 
                       @click="showDeleteConfirm(item.grade_id)">
-                      <q-item-section>{{ getLang.hapus }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import { watch, computed, inject } from 'vue'
+import { watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore, mapState, mapMutations, mapActions } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
@@ -95,7 +95,6 @@ export default {
     }
 
     return {
-      getLang: computed(() => inject('textLang')).value,
       checkColWidth,
       showGroupMember
     }

@@ -2,13 +2,13 @@
   <div :class="wrapperPadding()">    
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ lang.menu_siswa }}</div>
-        <div class="text-h6 text-capitalize" v-else>{{ lang.menu_siswa }}</div>
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_siswa') }}</div>
+        <div class="text-h6 text-capitalize" v-else>{{ $t('menu_siswa') }}</div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
           <class-options class="justify-data-options" />
           <row-dropdown vuex-module="student" class="q-mt-sm" root-class="col-12 col-md-2" />
-          <search-box :label="lang.siswa_cari" vuex-module="student" class="q-mt-sm" />
+          <search-box :label="$t('siswa_cari')" vuex-module="student" class="q-mt-sm" />
         </div>
       </q-card-section>
       <add-student-form />
@@ -36,17 +36,6 @@ export default {
     StudentTable,
     AddStudentForm,
     EditStudentForm,
-  },
-  provide() {
-    return {
-      textLang: computed(() => this.lang)
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      this.fetchLang('Admin')
-      this.fetchLang('AdminSiswa')
-    }, 1000);
   },
   setup() {
     const store = useStore()

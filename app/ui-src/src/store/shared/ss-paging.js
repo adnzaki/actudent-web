@@ -53,7 +53,7 @@
           rows: 'rows',
         }
       },
-      pagingLang: '',
+      pagingLang: 'indonesia',
     }
   },
   actions: {
@@ -262,6 +262,7 @@
       state.activeClass = settings.activeClass
       state.linkClass = settings.linkClass
       state.linkNum = settings.linkNum
+
       // reset links
       state.pageLinks = []
 
@@ -402,9 +403,14 @@
         return (state.sentences[state.pagingLang] === undefined) ? '' : state.sentences[state.pagingLang].noData
       } else {
         state.showPaging = true
-        return `${state.sentences[state.pagingLang].showRows} ${getters.dataFrom} - 
-                ${getters.dataTo} ${state.sentences[state.pagingLang].from} ${state.totalRows} 
-                ${state.sentences[state.pagingLang].rows}`
+        let returnedText = 'Unable to load rows range.'
+        if(state.sentences[state.pagingLang] !== undefined) {
+          returnedText = `${state.sentences[state.pagingLang].showRows} ${getters.dataFrom} - 
+                          ${getters.dataTo} ${state.sentences[state.pagingLang].from} ${state.totalRows} 
+                          ${state.sentences[state.pagingLang].rows}`
+        }
+
+        return returnedText
       }
     }
   },

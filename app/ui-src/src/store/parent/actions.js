@@ -6,7 +6,8 @@ import {
   timeout,
   errorNotif,
   createFormData,
-  pengguna
+  pengguna,
+  t
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
@@ -41,7 +42,7 @@ const actions = {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: payload.lang.ortu_save_progress,
+      message: t('ortu_save_progress'),
       color: 'info',
       position: 'center',
       timeout,
@@ -59,7 +60,7 @@ const actions = {
         if(res.code === '500') {
           state.error = res.msg
           notifyProgress({
-            message: `Error! ${payload.lang.ortu_error_text}`,
+            message: `Error! ${t('ortu_error_text')}`,
             color: 'negative',
             spinner: false
           })
@@ -69,7 +70,7 @@ const actions = {
           if(payload.edit) {
             state.showEditForm = false
             notifyProgress({
-              message: `${payload.lang.sukses} ${payload.lang.ortu_update_success}`,
+              message: `${t('sukses')} ${t('ortu_update_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false
@@ -77,7 +78,7 @@ const actions = {
           } else {
             state.showAddForm = false
             notifyProgress({
-              message: `${payload.lang.sukses} ${payload.lang.ortu_insert_success}`,
+              message: `${t('sukses')} ${t('ortu_insert_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false
@@ -86,7 +87,7 @@ const actions = {
         }
       })
   },
-  deleteParent({ state, dispatch }, lang) {
+  deleteParent({ state, dispatch }) {
     let idString
     if(state.selectedParents.length > 1) {
         idString = state.selectedParents.join('&')
@@ -98,7 +99,7 @@ const actions = {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: lang.progress_hapus,
+      message: t('progress_hapus'),
       color: 'info',
       position: 'center',
       timeout,
@@ -115,7 +116,7 @@ const actions = {
         state.helper.disableSaveButton = false
         state.deleteConfirm = false
         notifyProgress({
-          message: lang.ortu_delete_success,
+          message: t('ortu_delete_success'),
           color: 'positive',
           icon: 'done',
           spinner: false

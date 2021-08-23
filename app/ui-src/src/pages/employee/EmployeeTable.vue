@@ -5,11 +5,11 @@
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]"><q-checkbox v-model="$store.state.employee.checkAll" @update:model-value="selectAll" /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_nik')">{{ getLang.staff_id }} <sort-icon /></th>
-            <th class="text-left cursor-pointer" @click="sortData('staff_name')">{{ getLang.staff_nama }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide">{{ getLang.staff_label_telp }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_title')">{{ getLang.staff_label_jabatan }} <sort-icon /></th>
-            <th class="text-left">{{ getLang.aksi }}</th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_nik')">{{ $t('staff_id') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer" @click="sortData('staff_name')">{{ $t('staff_nama') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('staff_label_telp') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_title')">{{ $t('staff_label_jabatan') }} <sort-icon /></th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -29,12 +29,12 @@
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item clickable v-close-popup @click="getDetail(item.user_id)">
-                      <q-item-section>{{ getLang.perbarui }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup 
                       @click="showDeleteConfirm({ staff: item.staff_id, user: item.user_id })">
-                      <q-item-section>{{ getLang.hapus }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>

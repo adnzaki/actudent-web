@@ -2,12 +2,12 @@
   <div :class="wrapperPadding()">    
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ lang.menu_parent }}</div>
-        <div class="text-h6 text-capitalize" v-else>{{ lang.menu_parent }}</div>
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_parent') }}</div>
+        <div class="text-h6 text-capitalize" v-else>{{ $t('menu_parent') }}</div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
           <row-dropdown vuex-module="parent" class="q-mt-sm" />
-          <search-box :label="lang.ortu_cari" vuex-module="parent" class="q-mt-sm" />
+          <search-box :label="$t('ortu_cari')" vuex-module="parent" class="q-mt-sm" />
         </div>
       </q-card-section>
       <add-parent-form />
@@ -19,7 +19,6 @@
 </template>
 
 <script>
-import { computed } from 'vue'
 import ParentTable from './ParentTable.vue'
 import MainButton from './MainButton.vue'
 import AddParentForm from './AddParentForm.vue'
@@ -31,18 +30,6 @@ export default {
   components: { 
     ParentTable, MainButton,
     AddParentForm, EditParentForm
-  },
-  provide() {
-    return {
-      textLang: computed(() => this.lang)
-    }
-  },
-  mounted () {
-    setTimeout(() => {
-      this.fetchLang('Admin')
-      this.fetchLang('AdminOrtu')   
-      this.fetchLang('AdminUser')          
-    }, 1000)
   },
   setup () {
     return { wrapperPadding, titleSpacing }

@@ -1,10 +1,10 @@
 <template>
   <div class="col-12 col-md-3">
     <div class="q-gutter-xs mobile-hide">
-      <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="getLang.tambah"
+      <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
         @click="showAddForm" />
-      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="getLang.hapus" 
-        @click="multipleDeleteConfirm(getLang)" />
+      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')" 
+        @click="multipleDeleteConfirm" />
     </div>
 
     <q-page-sticky position="bottom-right" 
@@ -16,7 +16,7 @@
         v-if="selected.length === 0"
       />
       <q-btn fab icon="delete" color="negative" 
-        @click="multipleDeleteConfirm(getLang)" 
+        @click="multipleDeleteConfirm" 
         v-if="selected.length > 0"
       />
     </q-page-sticky>
@@ -25,31 +25,30 @@
 </template>
 
 <script>
-import { inject, computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { computed } from 'vue'
 import { useStore, mapMutations } from 'vuex'
 import { flashAlert } from 'src/composables/notify'
 import { fabPos } from 'src/composables/fab'
 
 export default {
   name: 'MainButton',
-  inject: ['textLang'],
   methods: {
     ...mapMutations('student', ['multipleDeleteConfirm'])
   },
   setup() {
+    const t = useI18n()
     const store = useStore()
-    const getLang = computed(() => inject('textLang')).value
     
     const showAddForm = () => {
       if(store.state.student.studentLimit === 'allowed') {
         store.state.student.showAddForm = true
       } else {
-        flashAlert(getLang.value.siswa_overlimit, 'negative')
+        flashAlert(t('value.siswa_overlimit'), 'negative')
       }
     }
 
     return {
-      getLang,
       showAddForm,
       selected: computed(() => store.state.student.selectedStudents),
       fabPos

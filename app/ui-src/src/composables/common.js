@@ -1,11 +1,14 @@
 import { Cookies } from 'quasar'
 import { ref } from 'vue'
 import { core, admin, teacher } from 'boot/axios'
+import { i18n } from 'boot/i18n'
 import { appConfig as conf} from '../../actudent.config'
 import { bearerToken, validateToken, redirect } from './validate-token'
 import { runLoadingBar } from './loading-bar'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { pengguna, getPengguna } from './get-pengguna'
+
+const t = key => i18n.global.t(key)
 
 let school = ref({})
 
@@ -46,5 +49,6 @@ export {
   errorNotif,
   timeout,
   createFormData,
-  pengguna, getPengguna
+  pengguna, getPengguna,
+  t
 }

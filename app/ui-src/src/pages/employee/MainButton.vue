@@ -1,10 +1,10 @@
 <template>
   <div class="col-12 col-md-3">
     <div class="q-gutter-xs mobile-hide">
-      <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="getLang.tambah"
+      <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
         @click="$store.state.employee.showAddForm = true" />
-      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="getLang.hapus" 
-        @click="multipleDeleteConfirm(getLang)" />
+      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')" 
+        @click="multipleDeleteConfirm" />
     </div>
 
     <q-page-sticky position="bottom-right" 
@@ -16,7 +16,7 @@
         v-if="selected.length === 0"
       />
       <q-btn fab icon="delete" color="negative" 
-        @click="multipleDeleteConfirm(getLang)" 
+        @click="multipleDeleteConfirm" 
         v-if="selected.length > 0"
       />
     </q-page-sticky>
@@ -25,22 +25,19 @@
 </template>
 
 <script>
-import { inject, computed } from 'vue'
+import { computed } from 'vue'
 import { useStore, mapMutations } from 'vuex'
 import { fabPos } from 'src/composables/fab'
 
 export default {
   name: 'MainButton',
-  inject: ['textLang'],
   methods: {
     ...mapMutations('employee', ['multipleDeleteConfirm'])
   },
   setup() {
     const store = useStore()
-    const getLang = computed(() => inject('textLang')).value
     
     return {
-      getLang,
       selected: computed(() => store.state.employee.selectedEmployees),
       fabPos
     }

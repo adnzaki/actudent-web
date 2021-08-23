@@ -11,7 +11,8 @@
 </template>
 
 <script>
-import { inject, computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { ref } from 'vue'
 import { mapActions } from 'vuex'
 
 export default {
@@ -20,19 +21,19 @@ export default {
     ...mapActions('employee', ['getEmployeeByType']),
   },
   setup() {
-    const getLang = computed(() => inject('textLang')).value
+    const { t } = useI18n()
     const options = ref([])
     const model = ref({})
     
     setTimeout(() => {
       options.value = [
-        { label: getLang.value.staff_semua_bagian, value: 'null' },
-        { label: getLang.value.staff_guru, value: 'teacher' },
+        { label: t('staff_semua_bagian'), value: 'null' },
+        { label: t('staff_guru'), value: 'teacher' },
         { label: 'Staff', value: 'staff' }
       ]
 
       model.value = { 
-        label: getLang.value.staff_semua_bagian, value: 'null' 
+        label: t('staff_semua_bagian'), value: 'null' 
       }
       
     }, 1500);

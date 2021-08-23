@@ -5,12 +5,12 @@
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]"><q-checkbox v-model="$store.state.parent.checkAll" @update:model-value="selectAll" /></th>
-            <th class="text-left cursor-pointer mobile-only" @click="sortData('parent_father_name')">{{ getLang.ortu_label_parent }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_family_card')">{{ getLang.ortu_kk }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_father_name')">{{ getLang.ortu_label_ayah }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_mother_name')">{{ getLang.ortu_label_ibu }} <sort-icon /></th>
-            <th class="text-left mobile-hide">{{ getLang.ortu_label_telp }}</th>
-            <th class="text-left">{{ getLang.aksi }}</th>
+            <th class="text-left cursor-pointer mobile-only" @click="sortData('parent_father_name')">{{ $t('ortu_label_parent') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_family_card')">{{ $t('ortu_kk') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_father_name')">{{ $t('ortu_label_ayah') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_mother_name')">{{ $t('ortu_label_ibu') }} <sort-icon /></th>
+            <th class="text-left mobile-hide">{{ $t('ortu_label_telp') }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -31,12 +31,12 @@
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item clickable v-close-popup @click="getDetail(item.parent_id)">
-                      <q-item-section>{{ getLang.perbarui }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup 
                       @click="showDeleteConfirm(`${item.parent_id}-${item.user_id}`)">
-                      <q-item-section>{{ getLang.hapus }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -52,7 +52,7 @@
 </template>
 
 <script>
-import { watch, computed, inject } from 'vue'
+import { watch, computed } from 'vue'
 import { useStore, mapState, mapMutations, mapActions } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
 
@@ -85,10 +85,7 @@ export default {
       store.state.parent.selectedParents = []
     })
 
-    return {
-      getLang: computed(() => inject('textLang')).value,
-      checkColWidth
-    }
+    return { checkColWidth }
   }
 }
 </script>

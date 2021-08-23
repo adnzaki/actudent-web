@@ -22,7 +22,8 @@
 </template>
 
 <script>
-import { inject, computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { computed, ref } from 'vue'
 import { mapActions, useStore } from 'vuex'
 
 export default {
@@ -31,15 +32,15 @@ export default {
     ...mapActions('student', ['getStudentsByClass']),
   },
   setup() {
+    const { t } = useI18n()
     const options = ref([])
     const model = ref({})
     const stringOptions = ref([])     
     const store = useStore()
-    const getLang = computed(() => inject('textLang')).value  
 
     setTimeout(() => {    
       let modelValue = {
-        label: getLang.value.siswa_semua_kelas,
+        label: t('siswa_semua_kelas'),
         value: 'null'
       }
   
@@ -59,9 +60,9 @@ export default {
         }) 
 
         options.value = stringOptions.value       
-      }, 2000);
-      
-    }, 3000);
+      }, 1000)      
+    }, 1000)
+
     return {
       options,
       model,

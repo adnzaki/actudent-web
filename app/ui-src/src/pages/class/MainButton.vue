@@ -1,10 +1,10 @@
 <template>
   <div class="col-12 col-md-4">
     <div class="q-gutter-xs mobile-hide">
-      <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="getLang.tambah"
+      <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
         @click="$store.state.grade.showAddForm = true" />
-      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="getLang.hapus"
-        @click="multipleDeleteConfirm(getLang)" />
+      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')"
+        @click="multipleDeleteConfirm" />
     </div>
 
     <q-page-sticky position="bottom-right" 
@@ -16,7 +16,7 @@
         v-if="selected.length === 0"
       />
       <q-btn fab icon="delete" color="negative" 
-        @click="multipleDeleteConfirm(getLang)" 
+        @click="multipleDeleteConfirm" 
         v-if="selected.length > 0"
       />
     </q-page-sticky>
@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { inject, computed } from 'vue'
+import { computed } from 'vue'
 import { mapMutations, useStore } from 'vuex'
 import { fabPos } from 'src/composables/fab'
 
@@ -36,7 +36,6 @@ export default {
   setup() {
     const store = useStore()
     return {
-      getLang: computed(() => inject('textLang')).value,
       selected: computed(() => store.state.grade.selectedClasses),
       fabPos
     }

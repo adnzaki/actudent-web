@@ -1,6 +1,6 @@
 <template>
   <q-btn flat round dense icon="brightness_4" @click="toggleMode">
-    <q-tooltip class="bg-accent">{{ lang.pindah_mode }}</q-tooltip>
+    <q-tooltip class="bg-accent">{{ $t('pindah_mode') }}</q-tooltip>
   </q-btn>
 </template>
 
@@ -16,16 +16,9 @@
 <script>
 import { useQuasar } from 'quasar'
 import { toggleHeader } from '../composables/mode'
-import locale from '../mixins/fetch-lang'
 
 export default {
   name: 'ToggleMode',
-  mixins: [locale],
-  mounted() {
-    setTimeout(() => {
-      this.fetchLang('Admin')
-    }, 500);
-  },
   setup () {
     const $q = useQuasar()
     let currentMode = 'light'
