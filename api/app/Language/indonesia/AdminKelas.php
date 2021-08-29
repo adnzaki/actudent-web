@@ -29,5 +29,6 @@ return [
     'kelas_kosongkan_rombel'        => 'Kosongkan Rombel',
     'kelas_add_member_title'        => 'Tambahkan ke rombel',
     'kelas_hapus_member_title'      => 'Hapus dari rombel',
-    'kelas_kembali'                 => 'Kembali ke Daftar Kelas'
+    'kelas_kembali'                 => 'Kembali ke Daftar Kelas',
+    'kelas_masih_kosong'            => 'Kelas ini belum memiliki anggota.',
 ];

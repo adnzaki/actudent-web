@@ -28,6 +28,11 @@
   margin-top: -30px
 }
 
+.no-paging-scroll-area {
+  height: 60vh; 
+  max-width: 100vw; 
+}
+
 @media(min-width: 1920px) {
   .table-scroll-area {
     height: 73vh; 

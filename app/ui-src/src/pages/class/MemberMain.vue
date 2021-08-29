@@ -8,6 +8,7 @@
         <!-- <search-box :label="lang.kelas_cari" vuex-module="grade" class="q-mt-sm" /> -->
       </div>
     </q-card-section>
+    <member-table />
   </q-card>
 </template>
 
@@ -18,11 +19,13 @@ import { useRoute, onBeforeRouteLeave } from 'vue-router'
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import MemberButton from './MemberButton.vue'
+import MemberTable from './MemberTable.vue'
 
 export default {
   name: 'MemberMain',
   components: {
-    MemberButton
+    MemberButton,
+    MemberTable
   },
   setup () {
     const { t } = useI18n()

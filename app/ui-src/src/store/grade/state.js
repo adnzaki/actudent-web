@@ -22,6 +22,7 @@ export default function () {
     // state for class member page only
     classMember: {
       name: '',
+      students: [],
     }
   }
 }

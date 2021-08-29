@@ -154,7 +154,8 @@ class KelasModel extends SharedModel
     {
         $query = $this->QBRombel->select("{$this->rombel}.student_id, student_nis, student_name")
                  ->join($this->student, "{$this->student}.student_id = {$this->rombel}.student_id")
-                 ->where(['grade_id' => $id, "{$this->rombel}.student_tag !=" => 3]);
+                 ->where(['grade_id' => $id, "{$this->rombel}.student_tag !=" => 3])
+                 ->orderBy('student_name', 'ASC');
         return $query->get()->getResult();
     }
 

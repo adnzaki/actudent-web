@@ -132,7 +132,6 @@ const actions = {
       },
     })
   },
-  showGroupMember({ state, commit }, payload) {}
 }
 
 export default actions

@@ -72,7 +72,7 @@ class Kelas extends Actudent
 
     public function getClassMember($id)
     {
-        return $this->response->setJSON($this->kelas->getClassMember($id));
+        return $this->createResponse($this->kelas->getClassMember($id), 'is_admin');
     }
 
     public function getUnregisteredStudents($limit, $offset, $orderBy, $searchBy, $sort, $search = '')

@@ -6,6 +6,14 @@ import {
 } from '../../composables/common'
 
 const mutations = {
+  getClassMember(state, id) {
+    admin.get(`${state.classApi}get-member/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.classMember.students = response.data
+      })
+  },
   selectTeacher(state, data) {
     state.selectedTeacher = {
       id: data.staff_id,
