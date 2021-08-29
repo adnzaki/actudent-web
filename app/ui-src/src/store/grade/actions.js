@@ -13,6 +13,47 @@ import {
 import { Notify } from 'quasar'
 
 const actions = {
+  removeFromClassGroup({ state, commit }, payload) {
+    admin.get(`${state.classApi}remove-member/${payload.id}`, {
+      headers: { Authorization: bearerToken },
+    })
+      .then(response => {
+        commit('getClassMember', payload.grade)
+      })
+  },
+  addToClassGroup({ state, dispatch }, payload) {
+    const data = {
+      id: payload.id,
+      grade: payload.grade
+    }
+
+    admin.post(`${state.classApi}add-member`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        dispatch('getUnregisteredStudents')
+      })
+  },
+  getUnregisteredStudents({ dispatch }) {
+    dispatch('getData', {
+      token: bearerToken,
+      lang: pengguna.value.user_language,
+      limit: 25,
+      offset: 0,
+      orderBy: 'student_name',
+      searchBy: 'student_name',
+      sort: 'ASC',
+      search: '',
+      url: `${conf.adminAPI}kelas/get-siswa/`,
+      autoReset: {
+        active: true,
+        timeout: 500
+      },
+    })
+  },
   deleteClass({ state, dispatch }) {
     let idString
     if(state.selectedClasses.length > 1) {

@@ -31,4 +31,5 @@ return [
     'kelas_hapus_member_title'      => 'Remove from group',
     'kelas_kembali'                 => 'Back to Class List',
     'kelas_masih_kosong'            => 'This class has no member yet.',
+    'kelas_add_student_to_group'    => 'Add Students to Class Group',
 ];

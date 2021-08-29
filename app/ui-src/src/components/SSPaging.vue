@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-sm">
     <div class="row">
-      <div class="col-12 col-md-6">
+      <div class="col-12 col-md-6 q-mt-sm">
         <p> {{ $store.getters[`${vuexModule}/rowRange`] }} </p>
       </div>
-      <div class="col-12 col-md-2 offset-md-4">
+      <div class="col-12 col-md-2 offset-md-4" v-if="totalPages() > 0">
         <q-pagination
           v-model="$store.state[vuexModule]['current']"
           :max="totalPages()"
@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { computed, onMounted, ref } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
 import { conf, errorNotif } from 'src/composables/common'

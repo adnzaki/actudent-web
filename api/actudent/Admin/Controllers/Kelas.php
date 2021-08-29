@@ -43,22 +43,31 @@ class Kelas extends Actudent
         return $this->createResponse($this->kelas->getClassDetail($id), 'is_admin');
     }
 
-    public function addMember($id, $grade)
+    public function addMember()
     {
-        $this->kelas->addMember($id, $grade);
-        
-        return $this->response->setJSON([
-            'msg' => 'OK'
-        ]);
+        if(is_admin())
+        {
+            $id = $this->request->getPost('id');
+            $grade = $this->request->getPost('grade');
+
+            $this->kelas->addMember($id, $grade);
+            
+            return $this->response->setJSON([
+                'msg' => 'OK'
+            ]);
+        }
     }
 
     public function removeMember($id)
     {
-        $this->kelas->removeMember($id);
-        
-        return $this->response->setJSON([
-            'msg' => 'OK'
-        ]);
+        if(is_admin())
+        {
+            $this->kelas->removeMember($id);
+            
+            return $this->response->setJSON([
+                'msg' => 'OK'
+            ]);
+        }
     }
 
     public function emptyGroup($grade)

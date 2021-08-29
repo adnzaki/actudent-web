@@ -23,6 +23,7 @@ export default function () {
     classMember: {
       name: '',
       students: [],
+      showForm: false,
     }
   }
 }

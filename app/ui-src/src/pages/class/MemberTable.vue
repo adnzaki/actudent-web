@@ -4,7 +4,7 @@
       <q-markup-table bordered>
         <thead>
           <tr>
-            <th :class="['text-left cursor-pointer mobile-hide', checkColWidth()]">#</th>
+            <th :class="['text-left cursor-pointer mobile-hide']">#</th>
             <th class="text-left cursor-pointer mobile-hide">{{ $t('siswa_nis') }}</th>
             <th class="text-left cursor-pointer">{{ $t('siswa_nama') }}</th>
             <th class="text-left">{{ $t('aksi') }}</th>
@@ -12,11 +12,12 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in member" :key="index">
-            <td :class="['text-left mobile-hide', checkColWidth()]">{{ index + 1 }}</td>
+            <td :class="['text-left mobile-hide']">{{ index + 1 }}</td>
             <td class="text-left mobile-hide">{{ item.student_nis }}</td>
             <td class="text-left">{{ item.student_name }}</td>
             <td class="text-left">
-            <q-btn color="negative" icon="delete">
+            <q-btn color="negative" icon="delete"
+              @click="removeMember(item.student_id)">
               <q-tooltip anchor="top middle" self="center middle" :offset="[10, 10]">
                 {{ $t('kelas_hapus_member_title') }}
               </q-tooltip>
@@ -33,7 +34,7 @@
 
 <script>
 import { useStore, mapState } from 'vuex'
-import { checkColWidth } from 'src/composables/screen'
+import { useRoute } from 'vue-router'
 
 export default {
   name: 'MemberTable',
@@ -49,9 +50,17 @@ export default {
   },
   setup () {
     const store = useStore()
+    const route = useRoute()
+
+    const removeMember = id => {
+      store.dispatch('grade/removeFromClassGroup', {
+        id,
+        grade: route.params.id
+      })
+    }
 
     return {
-      checkColWidth
+      removeMember
     }
   }
 }

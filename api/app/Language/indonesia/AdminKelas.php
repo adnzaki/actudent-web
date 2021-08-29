@@ -31,4 +31,5 @@ return [
     'kelas_hapus_member_title'      => 'Hapus dari rombel',
     'kelas_kembali'                 => 'Kembali ke Daftar Kelas',
     'kelas_masih_kosong'            => 'Kelas ini belum memiliki anggota.',
+    'kelas_add_student_to_group'    => 'Tambah Siswa ke Rombel',
 ];
