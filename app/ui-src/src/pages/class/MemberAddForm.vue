@@ -11,6 +11,7 @@
       </q-card-section>
 
       <q-card-section class="card-section">
+        <search-box :label="$t('kelas_group_member_search')" vuex-module="grade" />
         <q-scroll-area class="in-form-scroll-area">
           <q-markup-table bordered>
             <thead>
