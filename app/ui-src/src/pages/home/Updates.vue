@@ -3,7 +3,7 @@
     <q-card-section>
       <div class="text-h6 text-capitalize">Riwayat Pembaruan</div>
       <div class="row q-mt-md">
-        <p>Pembaruan yang terdapat dalam build saat ini (ac.v2.0021):
+        <p>Pembaruan yang terdapat dalam build saat ini (ac.v2.0022):
           <ul>
             <li v-for="(item, index) in updates" :key="index">
               <strong>{{ item.key }} - </strong>{{ item.desc }}                 
