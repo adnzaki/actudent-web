@@ -25,9 +25,9 @@ export default {
         desc: 'Di build terbaru ini kami telah menambahkan menu kelas untuk mengelola rombongan belajar'
       },
       {
-        key: 'Pembaruan sistem transalasi',
+        key: 'Pembaruan sistem translasi',
         desc: `Sistem translasi bahasa Indonesia dan Inggris telah ditulis ulang menggunakan
-               plugin vue-i18n dengan metode one-time loading pada saat penggunakan melakukan 
+               plugin vue-i18n dengan metode one-time loading pada saat pengguna melakukan 
                full-reload, sehingga performa aplikasi menjadi jauh lebih cepat.`
       },
       {
