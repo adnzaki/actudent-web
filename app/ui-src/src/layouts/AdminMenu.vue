@@ -85,7 +85,7 @@ export default {
           { label: t('menu_siswa'), link: '/student' },
           { label: t('menu_pegawai'), link: '/employee' },
           { label: t('menu_kelas'), link: '/class' },
-          { label: t('menu_ruang'), link: '' },
+          { label: t('menu_ruang'), link: '/rooms' },
           { label: t('menu_mapel'), link: '' }
         ]    
   

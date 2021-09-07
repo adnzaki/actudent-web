@@ -7,6 +7,7 @@ import EmployeeMain from 'pages/employee/EmployeeMain.vue'
 import ClassMain from 'pages/class/ClassMain.vue'
 import ClassList from 'pages/class/ClassList.vue'
 import MemberMain from 'pages/class/MemberMain.vue'
+import RoomMain from 'pages/rooms/RoomMain.vue'
 
 const admin = {
   path: '/',
@@ -24,6 +25,7 @@ const admin = {
         { path: 'member/:id', component: MemberMain, beforeEnter: () => validateToken('is_admin') }
       ]
     },
+    { path: 'rooms', component: RoomMain, beforeEnter: () => validateToken('is_admin') },
   ],
   beforeEnter: () => {
     validateToken('is_admin')   
