@@ -3,7 +3,7 @@
     <q-header elevated :class="header">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-        <q-toolbar-title>Actudent-v2 (Build ac.v2.0021)</q-toolbar-title>
+        <q-toolbar-title>Actudent-v2 (Build {{ buildVersion }})</q-toolbar-title>
         <toggle-mode />
         <q-btn flat round dense icon="account_circle">
           <q-menu>
