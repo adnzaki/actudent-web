@@ -9,7 +9,7 @@ return [
     'ruang_insert_success'          => 'Berhasil menambahkan data Ruangan',
     'ruang_update_success'          => 'Data Ruangan berhasil diperbarui',
     'ruang_delete_success'          => 'Data Ruangan berhasil dihapus',
-    'ruang_cari'                    => 'Cari code ruang dan nama ruang',
+    'ruang_cari'                    => 'Cari kode ruang atau nama ruang',
     'ruang_kode'                    => 'Kode Ruang',
     'ruang_nama'                    => 'Nama Ruang',
     'ruang_form_add_title'          => 'Tambah Ruangan',

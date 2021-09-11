@@ -1,5 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\RuangModel;
 
@@ -15,19 +18,11 @@ class Ruang extends Actudent
         $this->ruang = new RuangModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminRuang.ruang_title');
-
-        return parse('Actudent\Admin\Views\ruang\ruang-view', $data);
-    }
-
     public function getRooms($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         $data = $this->ruang->getRoom($limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->ruang->getRoomRows($searchBy, $search);
-        return $this->response->setJSON([
+        return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
         ]);
