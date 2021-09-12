@@ -16,7 +16,7 @@ const actions = {
   getOrtu({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
-      lang: pengguna.value.user_language,
+      lang: Cookies.get(conf.userLang),
       limit: 10,
       offset: 0,
       orderBy: 'parent_father_name',

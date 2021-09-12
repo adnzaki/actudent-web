@@ -133,7 +133,7 @@ const actions = {
 
     dispatch('getData', {
       token: bearerToken,
-      lang: pengguna.value.user_language,
+      lang: Cookies.get(conf.userLang),
       limit,
       offset: 0,
       orderBy: 'student_name',

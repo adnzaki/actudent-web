@@ -159,7 +159,7 @@ const actions = {
   getClassList({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
-      lang: pengguna.value.user_language,
+      lang: Cookies.get(conf.userLang),
       limit: 10,
       offset: 0,
       orderBy: 'grade_name',
