@@ -12,7 +12,7 @@ import {
 
 import { Notify } from 'quasar'
 
-const actions = {
+export default {
   removeFromClassGroup({ state, commit }, payload) {
     admin.get(`${state.classApi}remove-member/${payload.id}`, {
       headers: { Authorization: bearerToken },
@@ -174,5 +174,3 @@ const actions = {
     })
   },
 }
-
-export default actions

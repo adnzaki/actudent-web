@@ -12,7 +12,7 @@ import {
 
 import { Notify } from 'quasar'
 
-const actions = {
+export default {
   getOrtu({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
@@ -131,5 +131,3 @@ const actions = {
     dispatch('getOrtu')
   }
 }
-
-export default actions

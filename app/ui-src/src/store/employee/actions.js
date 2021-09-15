@@ -12,7 +12,7 @@ import {
 
 import { Notify } from 'quasar'
 
-const actions = {
+export default {
   deleteEmployee({ state, dispatch }) {
     let idString
     if(state.selectedEmployees.length > 1) {
@@ -135,5 +135,3 @@ const actions = {
     dispatch('runPaging')
   },
 }
-
-export default actions

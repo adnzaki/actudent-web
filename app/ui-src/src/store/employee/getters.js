@@ -1,5 +1,3 @@
-const getters = {
+export default {
 
 }
-
-export default getters

@@ -5,7 +5,7 @@ import {
   t
 } from '../../composables/common'
 
-const mutations = {
+export default {
   getDetail(state, id) {
     state.error = {}
     state.showEditForm = true
@@ -68,6 +68,3 @@ const mutations = {
     }
   } 
 }
-
-export default mutations
-

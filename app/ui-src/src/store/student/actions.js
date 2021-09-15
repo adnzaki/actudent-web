@@ -12,7 +12,7 @@ import {
 
 import { Notify } from 'quasar'
 
-const actions = {
+export default {
   deleteStudent({ state, dispatch }, lang) {
     let idString
     if(state.selectedStudents.length > 1) {
@@ -155,5 +155,3 @@ const actions = {
     dispatch('runPaging')
   },
 }
-
-export default actions

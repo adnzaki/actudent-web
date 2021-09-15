@@ -4,7 +4,7 @@ import {
   flashAlert
 } from '../../composables/common'
 
-const mutations = {
+export default {
   getStudentLimit(state) {
     admin.get(`${state.studentApi}limit`, {
       headers: { Authorization: bearerToken }
@@ -104,5 +104,3 @@ const mutations = {
     }
   } 
 }
-
-export default mutations

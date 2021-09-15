@@ -12,7 +12,7 @@ import {
 
 import { Notify } from 'quasar'
 
-const actions = {
+export default {
   getRooms({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
@@ -31,5 +31,3 @@ const actions = {
     })
   },
 }
-
-export default actions

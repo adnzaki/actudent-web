@@ -5,7 +5,7 @@ import {
   t
 } from '../../composables/common'
 
-const mutations = {
+export default {
   getClassMember(state, id) {
     admin.get(`${state.classApi}get-member/${id}`, {
       headers: { Authorization: bearerToken }
@@ -96,5 +96,3 @@ const mutations = {
     }
   } 
 }
-
-export default mutations
