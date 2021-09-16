@@ -59,29 +59,32 @@ class Ruang extends Actudent
 
     public function save($id = null)
     {
-        $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if(is_admin())
         {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            $data = $this->formData();
-            if($id === null) 
+            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+            if(! validate($validation[0], $validation[1]))
             {
-                $this->ruang->insert($data);
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
             }
-            else
+            else 
             {
-                $this->ruang->update($data, $id);
+                $data = $this->formData();
+                if($id === null) 
+                {
+                    $this->ruang->insert($data);
+                }
+                else
+                {
+                    $this->ruang->update($data, $id);
+                }
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
             }
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
         }
     }
 

@@ -10,7 +10,7 @@
           <search-box :label="$t('ruang_cari')" vuex-module="rooms" class="q-mt-sm" />
         </div>
       </q-card-section>
-      <!-- <add-class-form /> -->
+      <add-room-form />
       <!-- <edit-class-form /> -->
       <!-- <delete-confirm vuex-module="rooms" action="deleteRoom" /> -->
       <room-table />
@@ -22,12 +22,14 @@
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import RoomTable from './RoomTable.vue'
+import AddRoomForm from './AddRoomForm.vue'
 
 export default {
   name: 'RoomMain',
   components: { 
     MainButton,
-    RoomTable
+    RoomTable,
+    AddRoomForm
   },
   setup() {
     return {

@@ -13,6 +13,63 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  save({ state, dispatch }, payload) {
+    let url
+    payload.edit ? url = `save/${payload.id}` : url = 'save'
+    state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('ruang_save_progress'),
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    admin.post(`${state.roomApi}${url}`, payload.data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.helper.disableSaveButton = false
+        const res = response.data
+        if(res.code === '500') {
+          state.error = res.msg
+          notifyProgress({
+            message: `Error! ${t('ruang_error_text')}`,
+            color: 'negative',
+            spinner: false
+          })
+        } else {
+          state.saveStatus = 200
+
+          dispatch('resetForm')
+          if(payload.edit) {
+            state.showEditForm = false
+            notifyProgress({
+              message: `${t('sukses')} ${t('ruang_update_success')}`,
+              color: 'positive',
+              icon: 'done',
+              spinner: false
+            })
+          } else {
+            state.showAddForm = false
+            notifyProgress({
+              message: `${t('sukses')} ${t('ruang_insert_success')}`,
+              color: 'positive',
+              icon: 'done',
+              spinner: false
+            })
+          }
+        }
+      })
+  },
+  resetForm({ state, dispatch }) {
+    state.error = {}
+    dispatch('getRooms')
+  },
   getRooms({ dispatch }) {
     dispatch('getData', {
       token: bearerToken,
