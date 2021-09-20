@@ -31,10 +31,8 @@ class Ruang extends Actudent
     public function getRoomDetail($id)
     {
         $rooms = $this->ruang->getRoomDetail($id);        
-        $data = [
-            'room' => $rooms[0],
-        ];
-        return $this->response->setJSON($data);
+
+        return $this->createResponse($rooms[0], 'is_admin');
     }
 
     public function delete($idString)

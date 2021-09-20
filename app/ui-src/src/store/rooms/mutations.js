@@ -7,18 +7,14 @@ import {
 
 export default {
   getDetail(state, id) {
-    // state.error = {}
-    // state.showEditForm = true
-    // admin.get(`${state.classApi}detail/${id}`, {
-    //   headers: { Authorization: bearerToken }
-    // })
-    //   .then(response => {
-    //     const res = response.data
-    //     state.detail = res
-    //     state.classMember.name = res.grade_name
-    //     state.selectedTeacher.id = res.teacher_id
-    //     state.selectedTeacher.name = res.staff_name
-    //   })
+    state.error = {}
+    state.showEditForm = true
+    admin.get(`${state.roomApi}detail/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.detail = response.data
+      })
   },
   showDeleteConfirm(state, id) {
     state.selectedRooms = []

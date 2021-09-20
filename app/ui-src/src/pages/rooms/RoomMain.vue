@@ -11,7 +11,7 @@
         </div>
       </q-card-section>
       <add-room-form />
-      <!-- <edit-class-form /> -->
+      <edit-room-form />
       <!-- <delete-confirm vuex-module="rooms" action="deleteRoom" /> -->
       <room-table />
     </q-card>
@@ -23,13 +23,15 @@ import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import RoomTable from './RoomTable.vue'
 import AddRoomForm from './AddRoomForm.vue'
+import EditRoomForm from './EditRoomForm.vue'
 
 export default {
   name: 'RoomMain',
   components: { 
     MainButton,
     RoomTable,
-    AddRoomForm
+    AddRoomForm,
+    EditRoomForm
   },
   setup() {
     return {

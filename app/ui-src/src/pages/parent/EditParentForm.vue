@@ -79,7 +79,6 @@ export default {
     const save = () => {
       store.dispatch('parent/save', {
         data: store.state.parent.detail,
-        lang: getLang.value,
         edit: true,
         id: store.state.parent.detail.parent_id
       })

@@ -11,7 +11,7 @@ return [
     'ruang_delete_success'          => 'Room data has been deleted successfully',
     'ruang_cari'                    => 'Search for room code or room name',
     'ruang_form_add_title'          => 'Add New Room',    
-    'ruang_edit_title'              => 'Edit room data',
+    'ruang_edit_title'              => 'Edit room',
     'ruang_kode'                    => 'Room code',
     'ruang_nama'                    => 'Room name',
     'ruang_input_kode'              => 'Input room code',

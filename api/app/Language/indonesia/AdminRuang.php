@@ -13,7 +13,7 @@ return [
     'ruang_kode'                    => 'Kode Ruang',
     'ruang_nama'                    => 'Nama Ruang',
     'ruang_form_add_title'          => 'Tambah Ruangan',
-    'ruang_edit_title'              => 'Perbarui data ruangan',
+    'ruang_edit_title'              => 'Perbarui ruangan',
     'ruang_kode'                    => 'Kode Ruangan',
     'ruang_nama'                    => 'Nama Ruangan',
     'ruang_input_kode'              => 'Masukan kode ruangan',
