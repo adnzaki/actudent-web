@@ -64,7 +64,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('ruang/save', 'Ruang::save');
 	$routes->add('ruang/save/(:any)', 'Ruang::save/$1');
 	$routes->add('ruang/detail/(:any)', 'Ruang::getRoomDetail/$1');
-	$routes->add('ruang/delete/(:any)', 'Ruang::delete/$1');
+	$routes->add('ruang/delete', 'Ruang::delete');
 	$routes->add('mapel', 'Mapel::index');
 	$routes->add('mapel/get-mapel/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Mapel::getLessons/$1/$2/$3/$4/$5/$6');
 	$routes->add('mapel/get-mapel/(:any)/(:any)/(:any)/(:any)/(:any)', 'Mapel::getLessons/$1/$2/$3/$4/$5');

@@ -16,6 +16,11 @@ export default {
         state.detail = response.data
       })
   },
+  closeDeleteConfirm(state) {
+    state.selectedRooms = []
+    state.deleteConfirm = false
+    state.checkAll = false
+  },
   showDeleteConfirm(state, id) {
     state.selectedRooms = []
     state.selectedRooms.push(id)
@@ -24,7 +29,7 @@ export default {
   selectAll(state) {
     if (state.checkAll) {
       state.paging.data.forEach(item => {
-        state.selectedRooms.push(item.grade_id)
+        state.selectedRooms.push(item.room_id)
       })
     } else {
       state.selectedRooms = []

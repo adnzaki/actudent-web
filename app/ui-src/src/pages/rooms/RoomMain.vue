@@ -12,7 +12,7 @@
       </q-card-section>
       <add-room-form />
       <edit-room-form />
-      <!-- <delete-confirm vuex-module="rooms" action="deleteRoom" /> -->
+      <delete-confirm vuex-module="rooms" action="deleteRoom" />
       <room-table />
     </q-card>
   </div>

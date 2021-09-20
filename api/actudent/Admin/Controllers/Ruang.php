@@ -35,24 +35,29 @@ class Ruang extends Actudent
         return $this->createResponse($rooms[0], 'is_admin');
     }
 
-    public function delete($idString)
+    public function delete()
     {
-        $idWrapper = [];
-        if(strpos($idString, '&') !== false)
+        if(is_admin())
         {
-            $idWrapper = explode('&', $idString);
-            foreach($idWrapper as $id)
+            $idString = $this->request->getPost('id');
+            $idWrapper = [];
+            if(strpos($idString, '-') !== false)
             {
-                $toArray = explode('-', $id);
+                $idWrapper = explode('-', $idString);
+                foreach($idWrapper as $id)
+                {
+                    $toArray = explode('-', $id);
+                    $this->ruang->delete($toArray[0]);
+                }
+            }
+            else 
+            {
+                $toArray = explode('-', $idString);
                 $this->ruang->delete($toArray[0]);
             }
+
+            return $this->response->setJSON(['status' => 'OK']);
         }
-        else 
-        {
-            $toArray = explode('-', $idString);
-            $this->ruang->delete($toArray[0]);
-        }
-        return $this->response->setJSON(['status' => 'OK']);
     }
 
     public function save($id = null)

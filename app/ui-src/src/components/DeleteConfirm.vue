@@ -9,7 +9,7 @@
       <q-card-actions align="right">
         <q-btn flat :label="$t('batal')" color="primary" @click="closeDeleteConfirm" />
         <q-btn flat :label="$t('hapus')" color="primary" 
-          :disable="disableSaveButton"
+          :disable="disableSaveButton()"
           @click="removeData" />
       </q-card-actions>
     </q-card>
@@ -27,7 +27,7 @@ export default {
 
     return {
       disableSaveButton: () => {
-        store.state[props.vuexModule]['disableSaveButton']
+        return store.state[props.vuexModule]['disableSaveButton']
       },
       closeDeleteConfirm: () => {
         store.commit(`${props.vuexModule}/closeDeleteConfirm`)

@@ -13,6 +13,45 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  deleteRoom({ state, dispatch }) {
+    let idString
+    if(state.selectedRooms.length > 1) {
+        idString = state.selectedRooms.join('-')
+    } else {
+        idString = state.selectedRooms[0]
+    }
+
+    // show notify
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('progress_hapus'),
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    const data = { id: idString }
+    admin.post(`${state.roomApi}delete`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(() => {
+        state.helper.disableSaveButton = false
+        state.deleteConfirm = false
+        notifyProgress({
+          message: t('ruang_delete_success'),
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+
+        // refresh data
+        dispatch('getRooms')
+      })
+  },
   save({ state, dispatch }, payload) {
     let url
     payload.edit ? url = `save/${payload.id}` : url = 'save'
