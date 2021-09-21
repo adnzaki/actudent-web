@@ -4,9 +4,9 @@
 ## Panduan Umum
 ### Engines
 - Server-side Language : PHP 8.0.3 (compatible with PHP 7.4)
-- API Framework : CodeIgniter 4.1.1
-- UI Framework : Quasar v2.0.1
-- Javascript Framework : Vue 3.1.2
+- API Framework : CodeIgniter 4.1.4
+- UI Framework : Quasar v2.1.0
+- Javascript Framework : Vue 3.2.4
 - Database : MySQL
 - API Response Format : JSON
 
