@@ -108,7 +108,12 @@ class RuangModel extends \Actudent\Core\Models\Connector
      */
     public function delete(int $roomID): void
     {
-        $deleted = ['deleted' => '1'];
+        $roomDetail = $this->getRoomDetail($roomID);
+        $deleted = [
+            'room_code' => $roomDetail[0]->room_code . '_deleted_' . rand(),
+            'deleted'   => '1'
+        ];
+
         $this->QBRuang->update($deleted, ['room_id' => $roomID]);
     }
 
