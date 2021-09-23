@@ -1,7 +1,7 @@
 <template>
   <div class="q-px-md q-pt-md q-gutter-sm" v-if="subs.left <= 7">
     <q-banner rounded dense inline-actions class="bg-negative text-white">      
-      <p class="q-mt-md" style="line-height: 5px !important">
+      <p class="q-mt-md">
         <strong>{{ $t('peringatan') }}</strong>
         {{ subs.text }} {{ subs.date }}.
       </p>
