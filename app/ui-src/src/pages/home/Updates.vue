@@ -21,23 +21,28 @@ export default {
   setup () {
     const updates = [
       {
-        key: 'Menu Kelas',
-        desc: 'Di build terbaru ini kami telah menambahkan menu kelas untuk mengelola rombongan belajar'
+        key: 'Menu Ruangan',
+        desc: `Di build terbaru ini kami telah menambahkan menu ruangan untuk 
+               mengelola data ruang`
       },
       {
-        key: 'Pembaruan sistem translasi',
-        desc: `Sistem translasi bahasa Indonesia dan Inggris telah ditulis ulang menggunakan
-               plugin vue-i18n dengan metode one-time loading pada saat pengguna melakukan 
-               full-reload, sehingga performa aplikasi menjadi jauh lebih cepat.`
+        key: 'Perbaikan Algoritma Penambahan Ruang',
+        desc: `Di Actudent-v2, kini pengguna bisa menambahkan ruang baru menggunakan kode ruang
+               dari ruangan yang sebelumnya telah dihapus`
       },
       {
-        key: 'Menambahkan fungsi logout',
-        desc: 'Sub-menu logout pada menu Akun telah diaktifkan'
+        key: 'Perbaikan pagination',
+        desc: `Memperbaiki bug pagination tidak dapat menampilkan rentang data 
+               ketika pengguna melakukan full reload`
       },
       {
-        key: 'Perbaikan teks/kalimat',
-        desc: `Beberapa kalimat/teks yang tidak sesuai antara 
-               bahasa Indonesia dan Inggris kini telah diperbaiki`
+        key: 'Pembaruan sistem',
+        desc: `Memperbarui framework CodeIgniter ke versi 4.1.4`
+      },
+      {
+        key: 'Perbaikan dan peningkatan aplikasi',
+        desc: `Perbaikan pada basis kode Actudent-v2 untuk meningkatkan performa aplikasi
+               dan memperbaiki kesalahan-kesalahan kecil pada sistem`
       }
     ]
 
