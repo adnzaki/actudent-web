@@ -1,5 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\MapelModel;
 
@@ -15,22 +18,14 @@ class Mapel extends Actudent
         $this->mapel = new MapelModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminMapel.page_title');
-
-        return parse('Actudent\Admin\Views\mapel\mapel-view', $data);
-    }
-
     public function getLessons($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         $data = $this->mapel->getLesson($limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->mapel->getLessonRows($searchBy, $search);
-        return $this->response->setJSON([
+        return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
-        ]);
+        ], 'is_admin');
     }
 
     public function getLessonDetail($id)

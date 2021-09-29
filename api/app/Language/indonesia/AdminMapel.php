@@ -9,7 +9,7 @@ return [
     'mapel_insert_success'          => 'Berhasil menambahkan data Mata pelajaran',
     'mapel_update_success'          => 'Data Mata pelajaran berhasil diperbarui',
     'mapel_delete_success'          => 'Data Mata pelajaran berhasil dihapus',
-    'mapel_cari'                    => 'Cari code mapel dan nama mapel',
+    'mapel_cari'                    => 'Cari kode atau nama mapel',
     'mapel_kode'                    => 'Kode Mapel',
     'mapel_nama'                    => 'Nama Mata Pelajaran',
     'mapel_form_add_title'          => 'Tambah Mata Pelajaran',

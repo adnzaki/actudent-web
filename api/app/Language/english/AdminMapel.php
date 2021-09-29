@@ -9,7 +9,7 @@ return [
     'mapel_insert_success'          => 'Successfully added lesson data',
     'mapel_update_success'          => 'Lesson data has been updated successfully',
     'mapel_delete_success'          => 'Lesson data has been deleted successfully',
-    'mapel_cari'                    => 'Search for Lessons code and lessons name',
+    'mapel_cari'                    => 'Search for lessons code or name',
     'mapel_kode'                    => 'Lesson Code',
     'mapel_nama'                    => 'Lesson Name',
     'mapel_form_add_title'          => 'Add Lesson',    
