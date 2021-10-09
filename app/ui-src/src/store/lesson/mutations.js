@@ -7,14 +7,14 @@ import {
 
 export default {
   getDetail(state, id) {
-    // state.error = {}
-    // state.showEditForm = true
-    // admin.get(`${state.roomApi}detail/${id}`, {
-    //   headers: { Authorization: bearerToken }
-    // })
-    //   .then(response => {
-    //     state.detail = response.data
-    //   })
+    state.error = {}
+    state.showEditForm = true
+    admin.get(`${state.lessonApi}detail/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.detail = response.data
+      })
   },
   closeDeleteConfirm(state) {
     state.selectedLessons = []

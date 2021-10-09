@@ -10,10 +10,9 @@
           <search-box :label="$t('mapel_cari')" vuex-module="lesson" class="q-mt-sm" />
         </div>
       </q-card-section>
-      <!-- <add-room-form />
-      <edit-room-form />
-      <delete-confirm vuex-module="rooms" action="deleteRoom" />
-      <room-table /> -->
+      <add-lesson-form />
+      <edit-lesson-form />
+      <delete-confirm vuex-module="lesson" action="deleteLesson" />
       <lesson-table />
     </q-card>
   </div>
@@ -23,15 +22,16 @@
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import LessonTable from './LessonTable.vue'
+import AddLessonForm from './AddLessonForm.vue'
+import EditLessonForm from './EditLessonForm.vue'
 
 export default {
   name: 'LessonMain',
   components: { 
     MainButton,
     LessonTable,
-    // RoomTable,
-    // AddRoomForm,
-    // EditRoomForm
+    AddLessonForm,
+    EditLessonForm,
   },
   setup() {
     return {

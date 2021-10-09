@@ -31,57 +31,61 @@ class Mapel extends Actudent
     public function getLessonDetail($id)
     {
         $lessons = $this->mapel->getLessonDetail($id);        
-        $data = [
-            'lesson' => $lessons[0],
-        ];
-        return $this->response->setJSON($data);
+
+        return $this->createResponse($lessons[0], 'is_admin');
     }
 
-    public function delete($idString)
+    public function delete()
     {
-        $idWrapper = [];
-        if(strpos($idString, '&') !== false)
+        if(is_admin())
         {
-            $idWrapper = explode('&', $idString);
-            foreach($idWrapper as $id)
+            $idString = $this->request->getPost('id');
+            $idWrapper = [];
+            if(strpos($idString, '-') !== false)
             {
-                $toArray = explode('-', $id);
-                $this->mapel->delete($toArray[0]);
+                $idWrapper = explode('-', $idString);
+                foreach($idWrapper as $id)
+                {
+                    $this->mapel->delete($id);
+                }
             }
+            else 
+            {
+                $this->mapel->delete($idString);
+            }
+
+            return $this->response->setJSON(['status' => 'OK']);
         }
-        else 
-        {
-            $toArray = explode('-', $idString);
-            $this->mapel->delete($toArray[0]);
-        }
-        return $this->response->setJSON(['status' => 'OK']);
     }
 
     public function save($id = null)
     {
-        $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if(is_admin())
         {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            $data = $this->formData();
-            if($id === null) 
+            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+            if(! validate($validation[0], $validation[1]))
             {
-                $this->mapel->insert($data);
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
             }
-            else
+            else 
             {
-                $this->mapel->update($data, $id);
+                $data = $this->formData();
+                if($id === null) 
+                {
+                    $this->mapel->insert($data);
+                }
+                else
+                {
+                    $this->mapel->update($data, $id);
+                }
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
             }
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
         }
     }
 

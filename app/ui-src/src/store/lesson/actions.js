@@ -13,12 +13,12 @@ import {
 import { Notify } from 'quasar'
 
 export default {
-  deleteRoom({ state, dispatch }) {
+  deleteLesson({ state, dispatch }) {
     let idString
-    if(state.selectedRooms.length > 1) {
-        idString = state.selectedRooms.join('-')
+    if(state.selectedLessons.length > 1) {
+        idString = state.selectedLessons.join('-')
     } else {
-        idString = state.selectedRooms[0]
+        idString = state.selectedLessons[0]
     }
 
     // show notify
@@ -32,7 +32,7 @@ export default {
     })
 
     const data = { id: idString }
-    admin.post(`${state.roomApi}delete`, data, {
+    admin.post(`${state.lessonApi}delete`, data, {
       headers: { Authorization: bearerToken },
       transformRequest: [data => {
         return createFormData(data)
@@ -42,14 +42,14 @@ export default {
         state.helper.disableSaveButton = false
         state.deleteConfirm = false
         notifyProgress({
-          message: t('ruang_delete_success'),
+          message: t('mapel_delete_success'),
           color: 'positive',
           icon: 'done',
           spinner: false
         })
 
         // refresh data
-        dispatch('getRooms')
+        dispatch('resetForm')
       })
   },
   save({ state, dispatch }, payload) {
@@ -59,13 +59,13 @@ export default {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: t('ruang_save_progress'),
+      message: t('mapel_save_progress'),
       color: 'info',
       position: 'center',
       timeout,
     })
 
-    admin.post(`${state.roomApi}${url}`, payload.data, {
+    admin.post(`${state.lessonApi}${url}`, payload.data, {
       headers: { Authorization: bearerToken },
       transformRequest: [data => {
         return createFormData(data)
@@ -77,7 +77,7 @@ export default {
         if(res.code === '500') {
           state.error = res.msg
           notifyProgress({
-            message: `Error! ${t('ruang_error_text')}`,
+            message: `Error! ${t('mapel_error_text')}`,
             color: 'negative',
             spinner: false
           })
@@ -88,7 +88,7 @@ export default {
           if(payload.edit) {
             state.showEditForm = false
             notifyProgress({
-              message: `${t('sukses')} ${t('ruang_update_success')}`,
+              message: `${t('sukses')} ${t('mapel_update_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false
@@ -96,7 +96,7 @@ export default {
           } else {
             state.showAddForm = false
             notifyProgress({
-              message: `${t('sukses')} ${t('ruang_insert_success')}`,
+              message: `${t('sukses')} ${t('mapel_insert_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false
@@ -107,7 +107,8 @@ export default {
   },
   resetForm({ state, dispatch }) {
     state.error = {}
-    dispatch('getRooms')
+    state.current = 1
+    dispatch('getLessons')
   },
   getLessons({ dispatch }) {
     dispatch('getData', {

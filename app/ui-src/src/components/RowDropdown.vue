@@ -15,7 +15,6 @@ import { conf, errorNotif } from '../composables/common'
 
 export default {
   name: 'RowDropdown',
-  inject: ['textLang'],
   props: {
     rootClass: {
       type: String,

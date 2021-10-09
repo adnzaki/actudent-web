@@ -18,7 +18,7 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn color="accent" icon="edit" @click="getDetail(item.lesson_id)" />
-                <q-btn color="accent" icon="delete" 
+                <q-btn color="accent" icon="delete"
                   @click="showDeleteConfirm(item.lesson_id)" />
               </q-btn-group>
               <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>

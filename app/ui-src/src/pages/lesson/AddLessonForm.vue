@@ -1,21 +1,21 @@
 <template>
-  <q-dialog v-model="$store.state.rooms.showAddForm" 
+  <q-dialog v-model="$store.state.lesson.showAddForm" 
     :maximized="maximizedDialog()"
     @before-show="formOpen">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t('ruang_form_add_title') }}</div>
+        <div class="text-h6 text-capitalize">{{ $t('mapel_form_add_title') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">          
-          <q-input outlined :label="$t('ruang_kode')" dense v-model="formData.room_code" />
-          <error :label="error.room_code" />
+          <q-input outlined :label="$t('mapel_kode')" dense v-model="formData.lesson_code" />
+          <error :label="error.lesson_code" />
 
-          <q-input outlined :label="$t('ruang_nama')" dense v-model="formData.room_name" />
-          <error :label="error.room_name" />
+          <q-input outlined :label="$t('mapel_nama')" dense v-model="formData.lesson_name" />
+          <error :label="error.lesson_name" />
         </q-form>
       </q-card-section>
       <q-separator />
@@ -33,9 +33,9 @@ import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 
 export default {
-  name: 'AddRoomForm',
+  name: 'AddLessonForm',
   computed: {
-    ...mapState('rooms', {
+    ...mapState('lesson', {
       error: state => state.error,
       disableSaveButton: state => state.helper.disableSaveButton
     }),
@@ -44,27 +44,27 @@ export default {
     const store = useStore()
 
     let formValue = {
-      room_code: '',
-      room_name: ''
+      lesson_code: '',
+      lesson_name: ''
     }
 
     const formData = ref(formValue)
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.rooms.saveStatus)
+      const saveStatus = computed(() => store.state.lesson.saveStatus)
       if(saveStatus.value === 200) {
         formValue = {
-          room_code: '',
-          room_name: ''
+          lesson_code: '',
+          lesson_name: ''
         }
 
-        store.state.rooms.saveStatus = 500
+        store.state.lesson.saveStatus = 500
         formData.value = formValue
       }
     }
     
     const save = () => {
-      store.dispatch('rooms/save', {
+      store.dispatch('lesson/save', {
         data: formData.value,
         edit: false,
         id: null

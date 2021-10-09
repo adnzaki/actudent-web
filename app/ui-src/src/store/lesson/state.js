@@ -1,6 +1,6 @@
 export default function () {
   return {
-    roomApi: 'ruang/',
+    lessonApi: 'mapel/',
     error: {},
     helper: {
       disableSaveButton: false,
