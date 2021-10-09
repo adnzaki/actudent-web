@@ -123,11 +123,12 @@ export default {
         })
 
         // refresh data
-        dispatch('getOrtu')
+        dispatch('resetForm')
       })
   },
   resetForm({ state, dispatch }) {
     state.error = {}
+    state.current = 1
     dispatch('getOrtu')
   }
 }

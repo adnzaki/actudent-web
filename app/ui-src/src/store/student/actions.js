@@ -49,7 +49,7 @@ export default {
         })
 
         // refresh data
-        dispatch('getStudents')
+        dispatch('resetForm')
       })
   },
   // payload: { data, edit, id }
@@ -123,6 +123,7 @@ export default {
   resetForm({ state, dispatch }) {
     state.error = {}
     state.selectedParent = { id: '', father: '', mother: '' }
+    state.current = 1
     dispatch('getStudents')
   },
   getStudents({ state, dispatch }) {

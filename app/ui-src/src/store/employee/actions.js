@@ -49,7 +49,7 @@ export default {
         })
 
         // refresh data
-        dispatch('getEmployee')
+        dispatch('resetForm')
       })
   },
   save({ state, dispatch }, payload) {
@@ -108,6 +108,7 @@ export default {
   },
   resetForm({ state, dispatch }) {
     state.error = {}
+    state.current = 1
     dispatch('getEmployee')
   },
   getEmployee({ dispatch }) {

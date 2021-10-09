@@ -90,7 +90,7 @@ export default {
         })
 
         // refresh data
-        dispatch('getClassList')
+        dispatch('resetForm')
       })
   },
   save({ state, dispatch }, payload) {
@@ -154,6 +154,7 @@ export default {
   resetForm({ state, dispatch }) {
     state.error = {}
     state.selectedTeacher = { id: '', name: '' }
+    state.current = 1
     dispatch('getClassList')
   },
   getClassList({ dispatch }) {
