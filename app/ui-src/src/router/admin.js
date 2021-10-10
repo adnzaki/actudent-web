@@ -9,6 +9,7 @@ import ClassList from 'pages/class/ClassList.vue'
 import MemberMain from 'pages/class/MemberMain.vue'
 import RoomMain from 'pages/rooms/RoomMain.vue'
 import LessonMain from 'pages/lesson/LessonMain.vue'
+import ScheduleMain from 'pages/schedules/ScheduleMain.vue'
 
 const admin = {
   path: '/',
@@ -28,6 +29,13 @@ const admin = {
     },
     { path: 'rooms', component: RoomMain, beforeEnter: () => validateToken('is_admin') },
     { path: 'lesson', component: LessonMain, beforeEnter: () => validateToken('is_admin') },
+    { 
+      path: 'schedules', component: ScheduleMain, beforeEnter: () => validateToken('is_admin'),
+      // children: [
+      //   { path: '', component: ClassList, beforeEnter: () => validateToken('is_admin') },
+      //   { path: 'member/:id', component: MemberMain, beforeEnter: () => validateToken('is_admin') }
+      // ]
+    },
   ],
   beforeEnter: () => {
     validateToken('is_admin')   

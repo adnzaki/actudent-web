@@ -90,7 +90,7 @@ export default {
         ]    
   
         menus.value = [
-          { link: '', icon: 'list', label: t('menu_jadwal') },
+          { link: '/schedules', icon: 'list', label: t('menu_jadwal') },
           { link: '', icon: 'task_alt', label: t('menu_kehadiran') },
           { link: '', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
