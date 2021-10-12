@@ -96,9 +96,9 @@ class OrtuModel extends SharedModel
      * 
      * @param array $value
      * 
-     * @return void
+     * @return int
      */
-    public function insert(array $value): void
+    public function insert(array $value)
     {
         // insert user data first
         $user = $this->fillUserField($value);
@@ -112,6 +112,8 @@ class OrtuModel extends SharedModel
         $parent['user_id'] = $userID;
 
         $this->QBParent->insert($parent);
+
+        return $this->db->insertID();
     }
 
     /**

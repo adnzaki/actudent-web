@@ -94,6 +94,9 @@ require ACTUDENTPATH . 'UITest/Config/UIRoutes.php';
 // Core section
 require ACTUDENTPATH . 'Core/Config/CoreRoutes.php';
 
+// Sync section
+require ACTUDENTPATH . 'Sync/Config/SyncRoutes.php';
+
 $routes->add('service-expired', '\Actudent\Core\Controllers\Error::expiredPage');
 
 /**

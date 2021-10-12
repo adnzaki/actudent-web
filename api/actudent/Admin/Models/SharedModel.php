@@ -7,12 +7,12 @@ class SharedModel extends \Actudent\Core\Models\Connector
     /**
      * Query Builder for table tb_parent
      */
-    protected $QBParent;
+    public $QBParent;
 
     /**
      * Query Builder for table tb_user
      */
-    protected $QBUser;
+    public $QBUser;
 
     /**
      * Query Builder for table tb_student
@@ -55,21 +55,21 @@ class SharedModel extends \Actudent\Core\Models\Connector
      * 
      * @var string
      */
-    protected $parent = 'tb_parent';
+    public $parent = 'tb_parent';
 
     /**
      * Table tb_user
      * 
      * @var string
      */
-    protected $user = 'tb_user';
+    public $user = 'tb_user';
 
     /**
      * Table tb_student
      * 
      * @var string
      */
-    protected $student = 'tb_student';
+    public $student = 'tb_student';
     
     /**
      * Table tb_student_parent
@@ -149,6 +149,18 @@ class SharedModel extends \Actudent\Core\Models\Connector
         $this->QBNotifikasi = $this->dbMain->table($this->notifikasi);
         $this->QBUserDevices = $this->db->table($this->userDevices);
         $this->sekolah = new SekolahModel;
+    }
+
+    /**
+     * Get full domain of a school
+     * 
+     * @return string
+     */
+    public function getSchoolDomain(): string
+    {
+        $sekolah = $this->sekolah->getDataSekolah()[0];
+
+        return $sekolah->school_domain;
     }
 
     /**
