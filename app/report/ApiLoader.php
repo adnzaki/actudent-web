@@ -14,13 +14,10 @@
  * @since       July 2021
  */
 
+require 'config.php';
+
 class ApiLoader
 {
-    /**
-     * App mode
-     */
-    private $mode = 'development';
-
     /**
      * Run the cURL along with the configuration
      * 
@@ -83,10 +80,10 @@ class ApiLoader
 
     private function baseUrl(string $url = ''): string
     {
-        $protocol = $this->mode === 'development'
+        $protocol = MODE === 'development'
                     ? 'http://' : 'https://';
 
-        $basePath = $this->mode === 'development'
+        $basePath = MODE === 'development'
                     ? '/actudent/api/public/'
                     : '/api/public/';
 
