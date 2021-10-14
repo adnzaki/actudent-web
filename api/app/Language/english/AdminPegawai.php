@@ -32,7 +32,7 @@ return [
     'staff_pegawai'          => 'Staff',
     'staff_err_nik_required'  => 'Staff ID is required',
     'staff_err_nik_numeric'   => 'Staff ID must only contains number',
-    'staff_err_nik_exact'     => 'Staff ID must have 10 characters',
+    'staff_err_nik_exact'     => 'Staff ID should not more than 18 characters',
     'staff_err_nik_duplicate' => 'Staff ID has been used',
     'staff_err_name'         => 'Staff name is required',
     'staff_err_phone_require'=> 'Phone number is required',

@@ -119,7 +119,7 @@ class Pegawai extends Actudent
     {
         $form = $this->formData();
         $rules = [
-            'staff_nik'     => "required|is_natural|exact_length[10]|is_unique[tb_staff.staff_nik,tb_staff.user_id,$id]",
+            'staff_nik'     => "required|is_natural|max_length[18]|is_unique[tb_staff.staff_nik,tb_staff.user_id,$id]",
             'staff_name'    => 'required',            
             'staff_phone'   => 'required|is_natural|min_length[11]|max_length[13]',
             'staff_type'    => 'required',
@@ -129,17 +129,17 @@ class Pegawai extends Actudent
 
         $messages = [
             'staff_nik' => [
-                'required'      => lang('AdminPegawai.staff_err_nik_required'),
-                'is_natural'       => lang('AdminPegawai.staff_err_nik_numeric'),
-                'exact_length'  => lang('AdminPegawai.staff_err_nik_exact'),
-                'is_unique'     => lang('AdminPegawai.staff_err_nik_duplicate'),
+                'required'    => lang('AdminPegawai.staff_err_nik_required'),
+                'is_natural'  => lang('AdminPegawai.staff_err_nik_numeric'),
+                'max_length'  => lang('AdminPegawai.staff_err_nik_exact'),
+                'is_unique'   => lang('AdminPegawai.staff_err_nik_duplicate'),
             ],
             'staff_name' => [
                 'required'  => lang('AdminPegawai.staff_err_name'),
             ],
             'staff_phone' => [
                 'required'      => lang('AdminPegawai.staff_err_phone_require'),
-                'is_natural'       => lang('AdminPegawai.staff_err_phone_num'),
+                'is_natural'    => lang('AdminPegawai.staff_err_phone_num'),
                 'min_length'    => lang('AdminPegawai.staff_err_phone_min'),
                 'max_length'    => lang('AdminPegawai.staff_err_phone_max'),
             ],
