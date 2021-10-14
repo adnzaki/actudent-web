@@ -170,9 +170,9 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      * 
      * @param array $value
      * 
-     * @return void
+     * @return int
      */
-    public function insert(array $value): void
+    public function insert(array $value): int
     {
         // insert user data first
         $user = $this->fillUserField($value);
@@ -201,10 +201,15 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $staff['staff_tag'] = 1;
         $this->QBStaff->insert($staff);
 
+        // get the staff_id
+        $staffID = $this->db->insertID();
+
         // insert user language table
         $lang['user_id'] = $userID;
         $lang['user_language'] = 'indonesia';
         $this->QBUserLang->insert($lang);
+
+        return $staffID;
     }
    
 

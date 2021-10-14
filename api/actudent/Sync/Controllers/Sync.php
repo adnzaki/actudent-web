@@ -15,6 +15,7 @@ class Sync extends \Actudent\Core\Controllers\Actudent
     public function __construct()
     {
         $this->model = new SyncModel;
+        helper('filesystem');
     }
 
     public function gtk()
@@ -24,6 +25,8 @@ class Sync extends \Actudent\Core\Controllers\Actudent
             $data = $this->request->getPost('data');
             $decoded = json_decode($data);
             $inserted = 0;
+            $filePath = PUBLICPATH . 'extras/' . 'GtkTemp.json';
+            write_file($filePath , '[');
             foreach($decoded as $d)
             {
                 if($d->status_kepegawaian_id === 1)
@@ -69,10 +72,23 @@ class Sync extends \Actudent\Core\Controllers\Actudent
                         'current_image'         => null,
                     ];
 
-                    $this->model->insertPegawai($values);
+                    $staffID = $this->model->insertPegawai($values);
+
+                    $ptkId = '{"staff_id": ' . '"' . $staffID . '"' .
+                            ', "ptk_id": ' . '"' . $d->ptk_id . '"' .
+                            ', "nama": ' . '"' . $d->nama . '"' . '},';
+                    write_file($filePath, $ptkId, 'a');
+
                     $inserted++;
                 }
             }
+
+            write_file($filePath, ']', 'a');
+
+            // remove trailing comma
+            $ptkFile = file_get_contents($filePath);
+            $ptkFile = str_replace(',]', ']', $ptkFile);
+            file_put_contents($filePath, $ptkFile);
 
             if($inserted === 0)
             {

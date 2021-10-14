@@ -30,7 +30,7 @@ class SyncModel extends \Actudent\Core\Models\Connector
             $value['user_email'] = $value['user_email'] . rand(1, 1000);
         }
 
-        $this->p->insert($value);
+        return $this->p->insert($value);
     }
 
     public function pegawaiExists($nik)
