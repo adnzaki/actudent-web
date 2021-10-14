@@ -2,18 +2,48 @@
 
 use Actudent\Admin\Models\SiswaModel;
 use Actudent\Admin\Models\OrtuModel;
+use Actudent\Admin\Models\PegawaiModel;
 
 class SyncModel extends \Actudent\Core\Models\Connector
 {
+    // orang tua
     private $ot;
 
+    // siswa
     private $s;
+
+    // pegawai
+    private $p;
 
     public function __construct()
     {
         parent:: __construct();
         $this->ot = new OrtuModel;
         $this->s = new SiswaModel;
+        $this->p = new PegawaiModel;
+    }
+
+    public function insertPegawai($value)
+    {
+        if($this->accountExists($value['user_email']))
+        {
+            $value['user_email'] = $value['user_email'] . rand(1, 1000);
+        }
+
+        $this->p->insert($value);
+    }
+
+    public function pegawaiExists($nik)
+    {
+        $query = $this->p->QBStaff->getWhere(['staff_nik' => $nik]);
+        if($query->getNumRows() > 0)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
     }
 
     public function insertPesertaDidik($value)
@@ -23,7 +53,7 @@ class SyncModel extends \Actudent\Core\Models\Connector
 
     public function insertOrangTua($value)
     {
-        if($this->orangTuaAccountExists($value['user_email']))
+        if($this->accountExists($value['user_email']))
         {
             $value['user_email'] = $value['user_email'] . rand(1, 1000);
         }
@@ -44,7 +74,7 @@ class SyncModel extends \Actudent\Core\Models\Connector
         }
     }
 
-    private function orangTuaAccountExists($userEmail)
+    private function accountExists($userEmail)
     {
         $fullEmail = $userEmail . '@' . $this->ot->getSchoolDomain();
         $findUser = $this->ot->QBUser->getWhere(['user_email' => $fullEmail]);

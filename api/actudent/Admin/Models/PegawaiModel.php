@@ -12,7 +12,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      /**
      * Query Builder for table tb_user
      */
-    private $QBUser;
+    public $QBUser;
 
      /**
      * Tables related to tb_user
@@ -34,7 +34,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      * 
      * @var string
      */
-    private $user = 'tb_user';
+    public $user = 'tb_user';
 
     private $timelineComments = 'tb_timeline_comments';
     private $timelineLikes = 'tb_timeline_likes';
@@ -200,11 +200,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $staff['user_id'] = $userID;
         $staff['staff_tag'] = 1;
         $this->QBStaff->insert($staff);
-
-        // insert user themes table
-        $theme['user_id'] = $userID;
-        $theme['theme'] = 'light-blue';
-        $this->QBUserThemes->insert($theme);
 
         // insert user language table
         $lang['user_id'] = $userID;

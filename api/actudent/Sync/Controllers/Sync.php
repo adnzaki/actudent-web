@@ -9,12 +9,82 @@ class Sync extends \Actudent\Core\Controllers\Actudent
 {
     private $model;
 
-    private $errorMessage = "Data sudah terisi, penarikan dari Dapodik hanya ditujukan untuk data yang masih kosong.
+    private $errorMessage = "Data sudah terisi! Penarikan dari Dapodik hanya ditujukan untuk data yang masih kosong.
                              Silakan pilih opsi 'Peserta Didik Baru' jika anda hanya ingin memasukkkan siswa pada tingkat awal";
 
     public function __construct()
     {
         $this->model = new SyncModel;
+    }
+
+    public function gtk()
+    {
+        if(is_admin())
+        {
+            $data = $this->request->getPost('data');
+            $decoded = json_decode($data);
+            $inserted = 0;
+            foreach($decoded as $d)
+            {
+                if($d->status_kepegawaian_id === 1)
+                {
+                    $staffNik = $d->nip;
+                }
+                else 
+                {
+                    if($d->nuptk === null)
+                    {
+                        $staffNik = $d->nik;
+                    }
+                    else
+                    {
+                        $staffNik = $d->nuptk;
+                    }
+                }
+
+                if($d->jenis_ptk_id !== '3' && $d->jenis_ptk_id !== '4')
+                {
+                    $staffType = 'staff';
+                }
+                else
+                {
+                    $staffType = 'teacher';
+                }
+
+                $username = $this->createUsername($d->nama);
+
+                // insert only if employee is not exist
+                if(! $this->model->pegawaiExists($staffNik))
+                {
+                    $values = [
+                        'staff_nik'             => $staffNik,
+                        'staff_name'            => $d->nama,
+                        'staff_phone'           => null,
+                        'staff_type'            => $staffType,
+                        'staff_title'           => $d->jenis_ptk_id_str,
+                        'user_name'             => $d->nama,
+                        'user_email'            => $username,
+                        'user_password'         => '@Pegawai123',            
+                        'featured_image'        => null,
+                        'current_image'         => null,
+                    ];
+
+                    $this->model->insertPegawai($values);
+                    $inserted++;
+                }
+            }
+
+            if($inserted === 0)
+            {
+                $note = 'Tidak ada pegawai baru yang ditambahkan';
+            }
+            else 
+            {
+                $note = "{$inserted} pegawai telah berhasil ditambahkan.";
+            }
+            
+            return $this->response->setJSON(['msg' => 'OK', 'note' => $note]);
+        }
     }
 
     public function pesertaDidik()
@@ -25,12 +95,14 @@ class Sync extends \Actudent\Core\Controllers\Actudent
             $option = $this->request->getPost('option');
             $response = '';
             $decoded = json_decode($data);
+            $inserted = 0;
             if($option === 'semua')
             {
                 if($this->model->pesertaDidikEmpty())
                 {
                     $this->pushPesertaDidik($decoded);
                     $response = 'OK';
+                    $inserted = count($decoded);
                 }
                 else
                 {
@@ -45,9 +117,19 @@ class Sync extends \Actudent\Core\Controllers\Actudent
 
                 $this->pushPesertaDidik($firstGrade);
                 $response = 'OK';
-            }           
+                $inserted = count($firstGrade);
+            }    
             
-            return $this->response->setJSON(['msg' => $response]);
+            if($response !== 'OK')
+            {
+                $note = 'Tidak ada data peserta didik yang ditambahkan.';
+            }
+            else 
+            {
+                $note = "{$inserted} peserta didik telah berhasil ditambahkan.";
+            }
+            
+            return $this->response->setJSON(['msg' => $response, 'note' => $note]);
         }        
     }
 
@@ -57,12 +139,12 @@ class Sync extends \Actudent\Core\Controllers\Actudent
         {
             if($d->nama_ayah !== null)
             {
-                $userEmail = $this->createParentUserNameAccount($d->nama_ayah);
+                $userEmail = $this->createUsername($d->nama_ayah);
                 $userName = $d->nama_ayah;
             }
             else
             {
-                $userEmail = $this->createParentUserNameAccount($d->nama_ibu);
+                $userEmail = $this->createUsername($d->nama_ibu);
                 $userName = $d->nama_ibu;
             }            
 
@@ -96,7 +178,7 @@ class Sync extends \Actudent\Core\Controllers\Actudent
         }
     }
 
-    private function createParentUserNameAccount($name)
+    private function createUsername($name)
     {        
         $remove = ['.', ' ', "'"];
         $replace = ['', '.', ''];
