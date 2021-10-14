@@ -165,7 +165,7 @@ class Sync extends \Actudent\Core\Controllers\Actudent
             }            
 
             $parentValues = [
-                'parent_family_card'    => null,
+                'parent_family_card'    => $d->nik,
                 'parent_father_name'    => $d->nama_ayah,
                 'parent_mother_name'    => $d->nama_ibu,
                 'parent_phone_number'   => $d->nomor_telepon_seluler,
