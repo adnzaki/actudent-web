@@ -3,19 +3,81 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
-use Actudent\Sync\Models\SyncModel;
+use Actudent\Sync\Models\DapodikModel;
 
-class Sync extends \Actudent\Core\Controllers\Actudent
+class Dapodik extends \Actudent\Core\Controllers\Actudent
 {
     private $model;
 
-    private $errorMessage = "Data sudah terisi! Penarikan dari Dapodik hanya ditujukan untuk data yang masih kosong.
-                             Silakan pilih opsi 'Peserta Didik Baru' jika anda hanya ingin memasukkkan siswa pada tingkat awal";
-
     public function __construct()
     {
-        $this->model = new SyncModel;
+        $this->model = new DapodikModel;
         helper('filesystem');
+    }
+
+    public function rombonganBelajar()
+    {
+        if(is_admin())
+        {
+            $data = $this->request->getPost('data');
+            $option = $this->request->getPost('option');
+            $decoded = json_decode($data);
+            $inserted = 0;
+            $filePath = PUBLICPATH . 'extras/' . 'RombelTemp.json';
+            $gtkFile = PUBLICPATH . 'extras/' . 'GtkTemp.json';
+            $testArray = [];
+            write_file($filePath , '[');
+            foreach($decoded as $d)
+            {
+                $ptkTemp = file_get_contents($gtkFile);
+                $ptkArray = json_decode($ptkTemp, true);
+                if(count($ptkArray) > 0)
+                {
+                    $filteredPtk = array_filter($ptkArray, function($item) use ($d) {
+                        return $item['ptk_id'] === $d->ptk_id;
+                    });
+                    
+                    $ptkKey = array_search($d->ptk_id, array_column($ptkArray, 'ptk_id'));
+                    $waliKelas = $filteredPtk[$ptkKey]['staff_id'];
+                }
+                else 
+                {
+                    $waliKelas = null;
+                }
+
+                $values = [
+                    'grade_name'    => $d->nama,
+                    'teacher_id'    => $waliKelas,
+                ];
+
+                $gradeID = $this->model->insertRombel($values);
+
+                $rombelTemp = '{"grade_id": ' . '"' . $gradeID . '"' .
+                        ', "rombel_id": ' . '"' . $d->rombongan_belajar_id . '"' .
+                        ', "nama": ' . '"' . $d->nama . '"' . '},';
+                write_file($filePath, $rombelTemp, 'a');
+
+                $inserted++;
+            }
+
+            write_file($filePath, ']', 'a');
+
+            // remove trailing comma
+            $rombelFile = file_get_contents($filePath);
+            $rombelFile = str_replace(',]', ']', $rombelFile);
+            file_put_contents($filePath, $rombelFile);
+
+            if($inserted === 0)
+            {
+                $note = 'Tidak ada rombel baru yang ditambahkan';
+            }
+            else 
+            {
+                $note = "{$inserted} rombel telah berhasil ditambahkan.";
+            }
+            
+            return $this->response->setJSON(['msg' => 'OK', 'note' => $note]);
+        }
     }
 
     public function gtk()
@@ -112,18 +174,10 @@ class Sync extends \Actudent\Core\Controllers\Actudent
             $response = '';
             $decoded = json_decode($data);
             $inserted = 0;
-            if($option === 'semua')
+            if($option !== 'pdBaru')
             {
-                if($this->model->pesertaDidikEmpty())
-                {
-                    $this->pushPesertaDidik($decoded);
-                    $response = 'OK';
-                    $inserted = count($decoded);
-                }
-                else
-                {
-                    $response = $this->errorMessage;
-                }
+                $inserted = $this->pushPesertaDidik($decoded);
+                $response = 'OK';
             }
             else 
             {
@@ -131,12 +185,11 @@ class Sync extends \Actudent\Core\Controllers\Actudent
                     return $item->tingkat_pendidikan_id === '1';
                 });
 
-                $this->pushPesertaDidik($firstGrade);
+                $inserted = $this->pushPesertaDidik($firstGrade);
                 $response = 'OK';
-                $inserted = count($firstGrade);
             }    
             
-            if($response !== 'OK')
+            if($inserted === 0)
             {
                 $note = 'Tidak ada data peserta didik yang ditambahkan.';
             }
@@ -151,6 +204,9 @@ class Sync extends \Actudent\Core\Controllers\Actudent
 
     private function pushPesertaDidik($data)
     {
+        $filePath = PUBLICPATH . 'extras/' . 'PdTemp.json';
+        write_file($filePath , '[');
+        $inserted = 0;
         foreach($data as $d)
         {
             if($d->nama_ayah !== null)
@@ -184,14 +240,34 @@ class Sync extends \Actudent\Core\Controllers\Actudent
                 $parentID = $checkOrangTua->parent_id;
             }
 
-            $studentValues = [
-                'student_nis'   => $d->nipd,
-                'student_name'  => $d->nama,
-                'parent_id'     => $parentID
-            ];
+            if(! $this->model->pesertaDidikExists($d->nipd, $d->nama))
+            {
+                $studentValues = [
+                    'student_nis'   => $d->nipd,
+                    'student_name'  => $d->nama,
+                    'parent_id'     => $parentID
+                ];
+    
+                $studentID = $this->model->insertPesertaDidik($studentValues);
+    
+                $pesdik = '{"student_id": ' . '"' . $studentID . '"' .
+                        ', "pd_id": ' . '"' . $d->peserta_didik_id . '"' .
+                        ', "nama": ' . '"' . $d->nama . '"' . '},';
+                write_file($filePath, $pesdik, 'a');
 
-            $this->model->insertPesertaDidik($studentValues);
+                $inserted++;
+            }
+
         }
+
+        write_file($filePath, ']', 'a');
+
+        // remove trailing comma
+        $pdFile = file_get_contents($filePath);
+        $pdFile = str_replace(',]', ']', $pdFile);
+        file_put_contents($filePath, $pdFile);
+
+        return $inserted;
     }
 
     private function createUsername($name)

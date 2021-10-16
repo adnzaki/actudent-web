@@ -3,8 +3,9 @@
 use Actudent\Admin\Models\SiswaModel;
 use Actudent\Admin\Models\OrtuModel;
 use Actudent\Admin\Models\PegawaiModel;
+use Actudent\Admin\Models\KelasModel;
 
-class SyncModel extends \Actudent\Core\Models\Connector
+class DapodikModel extends \Actudent\Core\Models\Connector
 {
     // orang tua
     private $ot;
@@ -15,12 +16,21 @@ class SyncModel extends \Actudent\Core\Models\Connector
     // pegawai
     private $p;
 
+    // kelas
+    private $r;
+
     public function __construct()
     {
         parent:: __construct();
         $this->ot = new OrtuModel;
         $this->s = new SiswaModel;
         $this->p = new PegawaiModel;
+        $this->r = new KelasModel;
+    }
+
+    public function insertRombel($value)
+    {
+        return $this->r->insert($value);
     }
 
     public function insertPegawai($value)
@@ -48,7 +58,7 @@ class SyncModel extends \Actudent\Core\Models\Connector
 
     public function insertPesertaDidik($value)
     {
-        $this->s->insert($value);
+        return $this->s->insert($value);
     }
 
     public function insertOrangTua($value)
@@ -61,10 +71,15 @@ class SyncModel extends \Actudent\Core\Models\Connector
         return $this->ot->insert($value);
     }
 
-    public function pesertaDidikEmpty()
+    public function pesertaDidikExists($nis, $nama)
     {
-        $query = $this->s->QBStudent->getWhere(['deleted' => '0']);
-        if($query->getNumRows() === 0)
+        $query = $this->s->QBStudent->getWhere([
+            'student_nis'   => $nis,
+            'student_name'  => $nama,
+            'deleted'       => '0'
+        ]);
+
+        if($query->getNumRows() > 0)
         {
             return true;
         }

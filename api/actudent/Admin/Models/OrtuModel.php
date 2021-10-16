@@ -98,7 +98,7 @@ class OrtuModel extends SharedModel
      * 
      * @return int
      */
-    public function insert(array $value)
+    public function insert(array $value): int
     {
         // insert user data first
         $user = $this->fillUserField($value);

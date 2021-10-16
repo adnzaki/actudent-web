@@ -99,9 +99,9 @@ class SiswaModel extends SharedModel
      * 
      * @param array $value
      * 
-     * @return void
+     * @return int
      */
-    public function insert(array $value): void
+    public function insert(array $value): int
     {
         $student = $this->fillStudentField($value);
         $student['student_tag'] = 1;
@@ -112,6 +112,8 @@ class SiswaModel extends SharedModel
         $studentParent = $this->fillStudentParentField($value);
         $studentParent['student_id'] = $studentID;
         $this->QBStudentParent->insert($studentParent);
+
+        return $studentID;
     }
 
     /**

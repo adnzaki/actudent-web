@@ -2,6 +2,8 @@
 
 $routes->group('sync', ['namespace' => 'Actudent\Sync\Controllers'], function($routes)
 {
-    $routes->add('peserta-didik', 'Sync::pesertaDidik');
-    $routes->add('gtk', 'Sync::gtk');
+    $routes->add('peserta-didik', 'Dapodik::pesertaDidik');
+    $routes->add('gtk', 'Dapodik::gtk');
+    $routes->add('rombel', 'Dapodik::rombonganBelajar');
+    $routes->add('test-get-file', 'Test::getFile');
 });

@@ -12,8 +12,7 @@ actudent/Trash
 actudent/Admin/Controllers/Test.php
 actudent/Installer/Controllers/Test.php
 actudent/Core/Config/TokenKey.php
-public/extras/GtkTemp.json
-public/extras/sekolah.json
+public/extras
 public/app-assets
 public/app-assets.zip
 public/dompdf.zip
