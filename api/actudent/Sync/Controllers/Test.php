@@ -4,18 +4,14 @@ class Test extends \Actudent\Core\Controllers\Actudent
 {
     public function getFile()
     {
-        $gtkFile = file_get_contents(PUBLICPATH . 'extras/' . 'GtkTemp.json');
+       $condition = ['huhu'];
+       $check = true;
+       if($condition === null OR count($condition) === 0 OR ! $check )
+       {
+            $condition = ['baba', 'bibi', 'bubu'];
+       }
 
-        $gtkArray = json_decode($gtkFile);
+       print_r($condition);
 
-        $waliKelas = array_filter($gtkArray, function($item) {
-            return $item->ptk_id === '73fc6584-28c9-11e4-9a32-3b0cb38dde46';
-        });
-
-        echo '<pre>';
-        print_r($waliKelas);
-        echo '</pre>';
-
-        // return $this->response->setJSON($gtkArray);
     }
 }

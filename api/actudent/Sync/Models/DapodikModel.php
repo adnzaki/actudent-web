@@ -33,6 +33,19 @@ class DapodikModel extends \Actudent\Core\Models\Connector
         return $this->r->insert($value);
     }
 
+    public function rombelExists($dapodikID)
+    {
+        $query = $this->r->QBKelas->getWhere(['rombel_dapodik_id' => $dapodikID]);
+        if($query->getNumRows() > 0)
+        {
+            return true;
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
     public function insertPegawai($value)
     {
         if($this->accountExists($value['user_email']))

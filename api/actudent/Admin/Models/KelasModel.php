@@ -275,8 +275,9 @@ class KelasModel extends SharedModel
     private function fillGradeField(array $data): array
     {
         return [
-            'grade_name'    => $data['grade_name'],
-            'teacher_id'    => $data['teacher_id'],
+            'grade_name'        => $data['grade_name'],
+            'teacher_id'        => $data['teacher_id'],
+            'rombel_dapodik_id' => $data['rombel_dapodik_id']
         ];
     }
 

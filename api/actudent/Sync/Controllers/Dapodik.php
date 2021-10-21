@@ -20,44 +20,47 @@ class Dapodik extends \Actudent\Core\Controllers\Actudent
         if(is_admin())
         {
             $data = $this->request->getPost('data');
-            $option = $this->request->getPost('option');
             $decoded = json_decode($data);
             $inserted = 0;
             $filePath = PUBLICPATH . 'extras/' . 'RombelTemp.json';
             $gtkFile = PUBLICPATH . 'extras/' . 'GtkTemp.json';
-            $testArray = [];
             write_file($filePath , '[');
+            
             foreach($decoded as $d)
             {
-                $ptkTemp = file_get_contents($gtkFile);
-                $ptkArray = json_decode($ptkTemp, true);
-                if(count($ptkArray) > 0)
+                if(! $this->model->rombelExists($d->rombongan_belajar_id))
                 {
-                    $filteredPtk = array_filter($ptkArray, function($item) use ($d) {
-                        return $item['ptk_id'] === $d->ptk_id;
-                    });
-                    
-                    $ptkKey = array_search($d->ptk_id, array_column($ptkArray, 'ptk_id'));
-                    $waliKelas = $filteredPtk[$ptkKey]['staff_id'];
+                    $ptkTemp = file_get_contents($gtkFile);
+                    $ptkArray = json_decode($ptkTemp, true);
+                    if(count($ptkArray) > 0)
+                    {
+                        $filteredPtk = array_filter($ptkArray, function($item) use ($d) {
+                            return $item['ptk_id'] === $d->ptk_id;
+                        });
+                        
+                        $ptkKey = array_search($d->ptk_id, array_column($ptkArray, 'ptk_id'));
+                        $waliKelas = $filteredPtk[$ptkKey]['staff_id'];
+                    }
+                    else 
+                    {
+                        $waliKelas = null;
+                    }
+    
+                    $values = [
+                        'grade_name'        => $d->nama,
+                        'teacher_id'        => $waliKelas,
+                        'rombel_dapodik_id' => $d->rombongan_belajar_id
+                    ];
+    
+                    $gradeID = $this->model->insertRombel($values);
+    
+                    $rombelTemp = '{"grade_id": ' . '"' . $gradeID . '"' .
+                            ', "rombel_id": ' . '"' . $d->rombongan_belajar_id . '"' .
+                            ', "nama": ' . '"' . $d->nama . '"' . '},';
+                    write_file($filePath, $rombelTemp, 'a');
+    
+                    $inserted++;
                 }
-                else 
-                {
-                    $waliKelas = null;
-                }
-
-                $values = [
-                    'grade_name'    => $d->nama,
-                    'teacher_id'    => $waliKelas,
-                ];
-
-                $gradeID = $this->model->insertRombel($values);
-
-                $rombelTemp = '{"grade_id": ' . '"' . $gradeID . '"' .
-                        ', "rombel_id": ' . '"' . $d->rombongan_belajar_id . '"' .
-                        ', "nama": ' . '"' . $d->nama . '"' . '},';
-                write_file($filePath, $rombelTemp, 'a');
-
-                $inserted++;
             }
 
             write_file($filePath, ']', 'a');
