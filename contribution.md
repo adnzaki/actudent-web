@@ -44,6 +44,8 @@ Merupakan tempat menyimpan shared classes atau class inti yang dipakai oleh bebe
 Merupakan tempat menyimpan kode sumber modul Guru.
 - `Installer`
 Tempat menyimpan kode sumber setup/instalasi Actudent 
+- `Sync`
+Tempat menyimpan kode sumber <b>Sync API</b>
 - `UITest`
 Tempat menyimpan kode sumber untuk keperluan test interaksi user interface dengan API
 
@@ -107,6 +109,9 @@ Actudent-v2 menggunakan [Axios](https://github.com/axios/axios) untuk mengelola 
 ### Pagination Library
 Actudent tetap mempertahankan `SSPaging` sebagai library untuk mengelola pagination berbasis server. Library ini telah dikembangkan sehingga dapat digunakan bersama dengan Vuex. Pastikan anda memahami cara penggunaan SSPaging agar dapat menampilkan data dengan benar.
 
+### Internationalization
+Actudent menggunakan library [vue-18n](https://kazupon.github.io/vue-i18n/) sebagai library untuk mengelola bahasa. Di Actudent-v2, kami tetap mempertahankan pengelolaan utama bahasa di sisi server untuk kemudian diregistrasi pada sisi pengguna melalui booting Quasar app. 
+
 ### Global Configuration for User Interface
 Actudent memiliki sebuah file bernama `globalConfig.js` yang berisi pengaturan inti untuk antarmuka aplikasi. File tersebut terdapat pada `app/ui-src/globalConfig.js`, silakan buka dan baca dengan baik petunjuk yang ada di dalam file tersebut untuk dapat menjalankan Actudent di server lokal ataupun mendeploy ke cloud hosting/production server.
 
@@ -141,6 +146,8 @@ Tempat menyimpan reusable components yang dapat dipanggil dari component utama
 Tempat menyimpan file JS yang dapat di-inject ke dalam Composition API
 - `css`
 Tempat menyimpan file custom css.
+- `i18n`
+Tempat menyimpan file-file bahasa yang diambil dari server
 - `layouts`
 Tempat menyimpan layout utama user interface seperti header dan menu
 - `mixins`
