@@ -18,7 +18,7 @@ Run on development server with hot-reload and live lint:
 ```
 quasar dev -m pwa
 ```
-- The app wil run on localhost:8080
+- The app will run on localhost:8080
 - To build user interface for production:
 ```
 quasar build -m pwa
