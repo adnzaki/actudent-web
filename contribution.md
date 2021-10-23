@@ -93,7 +93,7 @@ Aturan dalam penulisan kode mengikuti standar yang ditetapkan oleh CodeIgniter 4
 Antarmuka pengguna menjadi perubahan terbesar dari versi terbaru Actudent. Tampilan lama hanya menyisakan halaman login dan instalasi, sementara di bagian dalamnya ditulis ulang menggunakan Quasar Framework. Untuk memulai eksplorasi kode sumber antarmuka  Actudent, silakan buka folder `app/ui-src`. Berikut adalah penjelasan tentang cara berkontribusi untuk antarmuka terbaru Actudent.
 
 ### User Interface Framework
-Actudent v2 menggunakan [Quasar](https://quasar.dev/) sebagai framework untuk membangun user interfacenya. Saat ini Actudent menggunakan Quasar versi 2.0.1 yang dibangun di atas Vue 3.1.2. Pastikan anda memahami versi terbaru Vue.js sebelum terjun langsung ke dalam pengembangan. 
+Actudent v2 menggunakan [Quasar](https://quasar.dev/) sebagai framework untuk membangun user interfacenya. Saat ini Actudent menggunakan Quasar versi 2.1.0 yang dibangun di atas Vue 3.2.4. Pastikan anda memahami versi terbaru Vue.js sebelum terjun langsung ke dalam pengembangan. 
 
 ### Advanced Vue.js
 Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup [Single-File Components (SFC)](https://v3.vuejs.org/guide/single-file-component.html), [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html), [Vue Router](https://next.router.vuejs.org/) serta [Vuex](https://next.vuex.vuejs.org/). Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai progressive-library.
