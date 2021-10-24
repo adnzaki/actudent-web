@@ -18,6 +18,9 @@ Folder tempat menyimpan user interface yang sudah dibuild beserta source codenya
 - `login-assets` <br>
 Folder tempat menyimpan source code khusus halaman login.
 
+### Indentasi
+Kami menggunakan jarak indentasi sebanyak 2 spasi untuk semua source code dalam folder `app/ui-src` dan 4 spasi untuk folder `api`. Untuk bisa menggunakan dua pengaturan ini, anda harus menyimpan pengaturan indentasi yang berbeda pada workspace code editor anda. Dalam hal ini, pengembangan API dan antarmuka aplikasi dibagi dalam workspace yang berbeda.
+
 ## Panduan Pengembangan di Sisi Server
 ### Struktur folder API
 - `actudent`<br>
