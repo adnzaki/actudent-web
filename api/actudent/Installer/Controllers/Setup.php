@@ -73,8 +73,7 @@ class Setup extends \Actudent\Core\Controllers\Actudent
                 'tb_student_grade', 'tb_student_parent', 'tb_student',
                 'tb_lessons_grade', 'tb_lessons',
                 'tb_room', 'tb_grade', 'tb_staff', 'tb_parent', 
-                'tb_user_devices', 'tb_user_language', 'tb_user_themes', 'tb_user_token',
-                'tb_user'
+                'tb_user_devices', 'tb_user_language', 'tb_user'
             ];
     
             $model = new \Actudent\Installer\Models\SetupModel;
@@ -93,8 +92,6 @@ class Setup extends \Actudent\Core\Controllers\Actudent
         $model->createUser();
         $model->createUserDevices();
         $model->createUserLanguage();
-        $model->createUserThemes();
-        $model->createUserToken();
     }
 
     private function createParentModule()

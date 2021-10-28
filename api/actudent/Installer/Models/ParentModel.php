@@ -18,6 +18,7 @@ class ParentModel extends \Actudent\Installer\Models\SetupModel
             'parent_family_card' => [
                 'type'          => 'VARCHAR',
                 'constraint'    => 18,
+                'null'          => true
             ],
             'parent_father_name' => [
                 'type'          => 'VARCHAR',

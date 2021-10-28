@@ -36,6 +36,11 @@ class GradeModel extends \Actudent\Installer\Models\SetupModel
                 'default'       => 1,
                 'null'          => true
             ],
+            'rombel_dapodik_id' => [
+                'type'          => 'VARCHAR',
+                'constraint'    => 50,
+                'null'          => true
+            ],
             'deleted' => [
                 'type'          => 'TINYINT',
                 'constraint'    => 1,
