@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 12, 2021 at 08:40 PM
+-- Generation Time: Oct 28, 2021 at 07:12 AM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -93,8 +93,9 @@ CREATE TABLE `tb_grade` (
   `grade_name` varchar(20) DEFAULT NULL,
   `period_start` varchar(4) DEFAULT NULL,
   `period_end` varchar(4) DEFAULT NULL,
-  `teacher_id` int(11) NOT NULL,
+  `teacher_id` int(11) DEFAULT NULL,
   `grade_status` tinyint(1) DEFAULT NULL,
+  `rombel_dapodik_id` varchar(50) DEFAULT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -767,7 +768,7 @@ ALTER TABLE `tb_lessons_grade`
 -- AUTO_INCREMENT for table `tb_parent`
 --
 ALTER TABLE `tb_parent`
-  MODIFY `parent_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6330;
+  MODIFY `parent_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_room`
@@ -809,7 +810,7 @@ ALTER TABLE `tb_staff`
 -- AUTO_INCREMENT for table `tb_student`
 --
 ALTER TABLE `tb_student`
-  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7221;
+  MODIFY `student_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tb_timeline`
@@ -833,7 +834,7 @@ ALTER TABLE `tb_timelog`
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6415;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16489;
 
 --
 -- AUTO_INCREMENT for table `tb_user_devices`
@@ -845,7 +846,7 @@ ALTER TABLE `tb_user_devices`
 -- AUTO_INCREMENT for table `tb_user_language`
 --
 ALTER TABLE `tb_user_language`
-  MODIFY `user_lang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `user_lang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1311;
 
 --
 -- AUTO_INCREMENT for table `tb_user_themes`
