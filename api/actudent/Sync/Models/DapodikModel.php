@@ -17,7 +17,7 @@ class DapodikModel extends \Actudent\Core\Models\Connector
     private $p;
 
     // kelas
-    private $r;
+    public $r;
 
     public function __construct()
     {
@@ -26,6 +26,13 @@ class DapodikModel extends \Actudent\Core\Models\Connector
         $this->s = new SiswaModel;
         $this->p = new PegawaiModel;
         $this->r = new KelasModel;
+    }
+
+    public function getRombelId($dapodikID)
+    {
+        $query = $this->r->QBKelas->getWhere(['rombel_dapodik_id' => $dapodikID]);
+
+        return $query->getResult()[0]->grade_id;
     }
 
     public function insertRombel($value)

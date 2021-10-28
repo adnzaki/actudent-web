@@ -54,8 +54,8 @@ class KelasModel extends SharedModel
         $params = [
             "{$this->kelas}.deleted"    => 0, 
             'grade_status'              => '1',
-            'period_start'              => '2019',
-            'period_end'                => '2020'
+            'period_start'              => '2021',
+            'period_end'                => '2022'
         ];
 
         $query = $joinAndSearch->where($params)->orderBy($orderBy, $sort)->limit($limit, $offset);

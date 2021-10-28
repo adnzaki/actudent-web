@@ -15,6 +15,28 @@ class Dapodik extends \Actudent\Core\Controllers\Actudent
         helper('filesystem');
     }
 
+    public function setAnggotaRombel()
+    {
+        if(is_admin())
+        {
+            $studentTemp = PUBLICPATH . 'extras/' . 'PdTemp.json';
+            $studentTemp = file_get_contents($studentTemp);
+            $studentToArray = json_decode($studentTemp);
+            $inserted = 0;
+            foreach($studentToArray as $key)
+            {
+                $rombelId = $this->model->getRombelId($key->rombel_id);
+                $studentId = $key->student_id;
+
+                // use rombel setter from Kelas Model that initiated as "$this->r" in DapodikModel
+                $this->model->r->addMember($studentId, $rombelId);
+                $inserted++;
+            }
+            
+            return $this->response->setJSON(['msg' => 'OK']);
+        }
+    }
+
     public function rombonganBelajar()
     {
         if(is_admin())
@@ -255,6 +277,7 @@ class Dapodik extends \Actudent\Core\Controllers\Actudent
     
                 $pesdik = '{"student_id": ' . '"' . $studentID . '"' .
                         ', "pd_id": ' . '"' . $d->peserta_didik_id . '"' .
+                        ', "rombel_id": ' . '"' . $d->rombongan_belajar_id . '"' .
                         ', "nama": ' . '"' . $d->nama . '"' . '},';
                 write_file($filePath, $pesdik, 'a');
 
