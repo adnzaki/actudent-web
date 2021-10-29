@@ -10,7 +10,7 @@ export default function () {
     },
     detail: {}, 
     current: 1,
-    showSettingsFrom: false,
+    showSettingsForm: false,
     showAddForm: false, showEditForm: false,
     saveStatus: 500, deleteConfirm: false,
     searchTimeout: false,

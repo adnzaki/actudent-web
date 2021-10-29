@@ -4,7 +4,7 @@
       <q-markup-table bordered>
         <thead>
           <tr>
-            <th :class="['text-left cursor-pointer', checkColWidth()]">#</th>
+            <th class="text-center cursor-pointer">#</th>
             <th class="text-left cursor-pointer" @click="sortData('grade_name')">{{ $t('kelas_nama') }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_name')">{{ $t('kelas_wali') }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide">{{ $t('kelas_tahun') }}</th>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td :class="['text-left', checkColWidth()]">{{ index + 1 }}</td>
+            <td class="text-center">{{ index + 1 }}</td>
             <td class="text-left">{{ item.grade_name }}</td>
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
