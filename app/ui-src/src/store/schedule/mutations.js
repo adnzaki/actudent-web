@@ -5,4 +5,13 @@ import {
   t
 } from '../../composables/common'
 
-export default {}
+export default {
+  getLessonsList(state, grade) {
+    admin.get(`${state.scheduleApi}daftar-mapel/${grade}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.lesson.list = response.data
+      })
+  },
+}

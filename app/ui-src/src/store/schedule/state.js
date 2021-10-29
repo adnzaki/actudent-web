@@ -1,6 +1,6 @@
 export default function () {
   return {
-    roomApi: 'jadwal/',
+    scheduleApi: 'jadwal/',
     error: {},
     helper: {
       disableSaveButton: false,
@@ -14,5 +14,10 @@ export default function () {
     showAddForm: false, showEditForm: false,
     saveStatus: 500, deleteConfirm: false,
     searchTimeout: false,
+    className: '',
+    lesson: {
+      showForm: false,
+      list: [],
+    }
   }
 }

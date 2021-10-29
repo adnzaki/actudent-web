@@ -19,17 +19,17 @@
             <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
-                <q-btn color="accent" icon="list" @click="showLessons(item.grade_id)" />
-                <q-btn color="accent" icon="menu_book" @click="showSchedules(item.grade_id)" />
+                <q-btn color="accent" icon="list" @click="showLessons(item.grade_id, item.grade_name)" />
+                <q-btn color="accent" icon="menu_book" @click="showSchedules(item.grade_id, item.grade_name)" />
               </q-btn-group>
               <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
                 <q-menu>
                   <q-list style="min-width: 100px">
-                    <q-item clickable v-close-popup @click="showLessons(item.grade_id)">
+                    <q-item clickable v-close-popup @click="showLessons(item.grade_id, item.grade_name)">
                       <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
-                    <q-item clickable v-close-popup @click="showSchedule(item.grade_id)">
+                    <q-item clickable v-close-popup @click="showSchedule(item.grade_id, item.grade_name)">
                       <q-item-section>{{ $t('kelas_member') }}</q-item-section>
                     </q-item>
                     <q-separator />
@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import { watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useStore, mapState, mapActions } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
@@ -71,12 +70,15 @@ export default {
   },
   setup () {
     const router = useRouter()
+    const store = useStore()
 
-    const showLessons = gradeId => {      
+    const showLessons = (gradeId, name) => {      
+      store.state.schedule.className = name
       router.push(`/schedules/lessons/${gradeId}`)
     }
 
-    const showSchedules = gradeId => {      
+    const showSchedules = (gradeId, name) => {      
+      store.state.schedule.className = name
       router.push(`/schedules/mapping/${gradeId}`)
     }
 
