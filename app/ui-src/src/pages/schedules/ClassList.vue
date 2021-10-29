@@ -1,0 +1,90 @@
+<template>
+  <div>
+    <q-scroll-area class="table-scroll-area">
+      <q-markup-table bordered>
+        <thead>
+          <tr>
+            <th :class="['text-left cursor-pointer', checkColWidth()]">#</th>
+            <th class="text-left cursor-pointer" @click="sortData('grade_name')">{{ $t('kelas_nama') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_name')">{{ $t('kelas_wali') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('kelas_tahun') }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(item, index) in data" :key="index">
+            <td :class="['text-left', checkColWidth()]">{{ index + 1 }}</td>
+            <td class="text-left">{{ item.grade_name }}</td>
+            <td class="text-left mobile-hide">{{ item.staff_name }}</td>
+            <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
+            <td class="text-left">
+              <q-btn-group class="mobile-hide">
+                <q-btn color="accent" icon="list" @click="showLessons(item.grade_id)" />
+                <q-btn color="accent" icon="menu_book" @click="showSchedules(item.grade_id)" />
+              </q-btn-group>
+              <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
+                <q-menu>
+                  <q-list style="min-width: 100px">
+                    <q-item clickable v-close-popup @click="showLessons(item.grade_id)">
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
+                    </q-item>
+                    <q-separator />
+                    <q-item clickable v-close-popup @click="showSchedule(item.grade_id)">
+                      <q-item-section>{{ $t('kelas_member') }}</q-item-section>
+                    </q-item>
+                    <q-separator />
+                  </q-list>
+                </q-menu>
+              </q-btn>
+            </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </q-scroll-area>
+    <q-separator/>
+    <ss-paging vuex-module="schedule" />
+  </div>
+</template>
+
+<script>
+import { watch, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useStore, mapState, mapActions } from 'vuex'
+import { checkColWidth } from 'src/composables/screen'
+
+export default {
+  name: 'ClassList',
+  created() {
+    setTimeout(() => {
+      this.$store.dispatch('schedule/getClassList')  
+    }, 500)
+  },
+  methods: {
+    ...mapActions('schedule', [
+      'sortData'
+    ]),
+  },
+  computed: {
+    ...mapState('schedule', {
+      data: state => state.paging.data,
+    })
+  },
+  setup () {
+    const router = useRouter()
+
+    const showLessons = gradeId => {      
+      router.push(`/schedules/lessons/${gradeId}`)
+    }
+
+    const showSchedules = gradeId => {      
+      router.push(`/schedules/mapping/${gradeId}`)
+    }
+
+    return {
+      checkColWidth,
+      showLessons,
+      showSchedules
+    }
+  }
+}
+</script>

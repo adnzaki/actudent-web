@@ -31,10 +31,11 @@ const admin = {
     { path: 'lesson', component: LessonMain, beforeEnter: () => validateToken('is_admin') },
     { 
       path: 'schedules', component: ScheduleMain, beforeEnter: () => validateToken('is_admin'),
-      // children: [
-      //   { path: '', component: ClassList, beforeEnter: () => validateToken('is_admin') },
-      //   { path: 'member/:id', component: MemberMain, beforeEnter: () => validateToken('is_admin') }
-      // ]
+      children: [
+        { path: '', component: ClassList, beforeEnter: () => validateToken('is_admin') },
+        { path: 'lessons/:id', component: '', beforeEnter: () => validateToken('is_admin') },
+        { path: 'mapping/:id', component: '', beforeEnter: () => validateToken('is_admin') }
+      ]
     },
   ],
   beforeEnter: () => {
