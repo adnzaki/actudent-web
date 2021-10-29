@@ -13,12 +13,12 @@ import {
 import { Notify } from 'quasar'
 
 export default {
-  getOrtu({ dispatch }) {
+  getOrtu({ state, dispatch }) {
     dispatch('getData', {
       token: bearerToken,
       lang: Cookies.get(conf.userLang),
-      limit: 10,
-      offset: 0,
+      limit: 25,
+      offset: state.current - 1,
       orderBy: 'parent_father_name',
       searchBy: [
         'parent_family_card', 'parent_father_name',

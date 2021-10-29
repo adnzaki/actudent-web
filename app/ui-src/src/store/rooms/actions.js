@@ -110,12 +110,12 @@ export default {
     state.current = 1
     dispatch('getRooms')
   },
-  getRooms({ dispatch }) {
+  getRooms({ state, dispatch }) {
     dispatch('getData', {
       token: bearerToken,
       lang: Cookies.get(conf.userLang),
       limit: 10,
-      offset: 0,
+      offset: state.current - 1,
       orderBy: 'room_name',
       searchBy: ['room_code', 'room_name'],
       sort: 'ASC',

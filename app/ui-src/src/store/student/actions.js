@@ -136,7 +136,7 @@ export default {
       token: bearerToken,
       lang: Cookies.get(conf.userLang),
       limit,
-      offset: 0,
+      offset: state.current - 1,
       orderBy: 'student_name',
       searchBy: [
         'student_nis', 'student_name'

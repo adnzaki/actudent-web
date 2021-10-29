@@ -157,12 +157,12 @@ export default {
     state.current = 1
     dispatch('getClassList')
   },
-  getClassList({ dispatch }) {
+  getClassList({ state, dispatch }) {
     dispatch('getData', {
       token: bearerToken,
       lang: Cookies.get(conf.userLang),
       limit: 10,
-      offset: 0,
+      offset: state.current - 1,
       orderBy: 'grade_name',
       searchBy: 'grade_name',
       sort: 'ASC',

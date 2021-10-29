@@ -111,12 +111,12 @@ export default {
     state.current = 1
     dispatch('getEmployee')
   },
-  getEmployee({ dispatch }) {
+  getEmployee({ state, dispatch }) {
     dispatch('getData', {
       token: bearerToken,
       lang: Cookies.get(conf.userLang),
       limit: 10,
-      offset: 0,
+      offset: state.current - 1,
       orderBy: 'staff_name',
       searchBy: [
         'staff_nik', 'staff_name', 'staff_title'

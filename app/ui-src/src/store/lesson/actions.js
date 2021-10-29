@@ -110,12 +110,12 @@ export default {
     state.current = 1
     dispatch('getLessons')
   },
-  getLessons({ dispatch }) {
+  getLessons({ state, dispatch }) {
     dispatch('getData', {
       token: bearerToken,
       lang: Cookies.get(conf.userLang),
       limit: 10,
-      offset: 0,
+      offset: state.current - 1,
       orderBy: 'lesson_name',
       searchBy: ['lesson_code', 'lesson_name'],
       sort: 'ASC',
