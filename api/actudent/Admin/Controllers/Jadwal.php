@@ -36,7 +36,7 @@ class Jadwal extends Actudent
             'lessons'       => $lessons,
         ];
 
-        return $this->response->setJSON($response);
+        return $this->createResponse($response, 'is_admin');
     }
 
     public function getLessonsForSchedule($grade)

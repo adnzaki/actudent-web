@@ -11,18 +11,20 @@
         <lessons-button class="q-mt-sm" />
       </div>
     </q-card-section>
-    <!-- <class-list /> -->
+    <lessons-list />
   </q-card>
 </template>
 
 <script>
 import { titleSpacing } from 'src/composables/screen'
 import LessonsButton from './LessonsButton.vue'
+import LessonsList from './LessonsList.vue'
 
 export default {
   name: 'LessonsWrapper',
   components: {
-    LessonsButton
+    LessonsButton,
+    LessonsList
   },
   setup() {
     return {
