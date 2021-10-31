@@ -14,10 +14,13 @@ import { Notify } from 'quasar'
 
 export default {
   getOrtu({ state, dispatch }) {
+    const limit = 25
+    state.paging.rows = limit
+
     dispatch('getData', {
       token: bearerToken,
       lang: Cookies.get(conf.userLang),
-      limit: 25,
+      limit,
       offset: state.current - 1,
       orderBy: 'parent_father_name',
       searchBy: [
