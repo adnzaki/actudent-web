@@ -8,6 +8,7 @@
           <main-button class="q-mt-sm" />
           <dropdown-search 
             class="justify-data-options" 
+            flex-grid="col-md-3"
             vuex-module="student"
             updated="getStudentsByClass"
             loader="getClassGroup"

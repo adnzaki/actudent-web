@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-3 q-mt-sm">
+  <div :class="['col-12 q-mt-sm', flexGrid]">
     <q-select
       outlined
       v-model="model"
@@ -28,7 +28,7 @@ import { useStore } from 'vuex'
 
 export default {
   name: 'DropdownSearch',
-  props: ['vuexModule', 'updated', 'loader', 'label', 'list', 'optionsValue'],
+  props: ['vuexModule', 'updated', 'loader', 'label', 'list', 'optionsValue', 'flexGrid'],
   setup(props) {
     const { t } = useI18n()
     const options = ref([])
