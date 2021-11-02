@@ -13,6 +13,7 @@ import SortIcon from 'components/SortIcon.vue'
 import Error from 'components/Error.vue'
 import SSPaging from 'components/SSPaging.vue'
 import EmployeePhoto from 'src/pages/employee/EmployeePhoto.vue'
+import DropdownSearch from 'components/DropdownSearch.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)
@@ -22,4 +23,5 @@ export default ({ app }) => {
   app.component('error', Error)
   app.component('ss-paging', SSPaging)
   app.component('employee-photo', EmployeePhoto)
+  app.component('dropdown-search', DropdownSearch)
 }
