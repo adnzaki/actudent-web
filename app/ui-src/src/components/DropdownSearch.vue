@@ -28,7 +28,18 @@ import { useStore } from 'vuex'
 
 export default {
   name: 'DropdownSearch',
-  props: ['vuexModule', 'updated', 'loader', 'label', 'list', 'optionsValue', 'flexGrid'],
+  props: [
+    'vuexModule', 
+    'updated', 
+    'loader', // provide only if loadOnRoute is not defined
+    'label', 
+    'list', 
+    'optionsValue', 
+    'flexGrid', // add one or more grid classes to make component responsive
+    'param', // add 1 optional parameter if needed
+    'loadOnRoute' // load data that to be fetched on route enter
+  ],
+
   setup(props) {
     const { t } = useI18n()
     const options = ref([])
@@ -46,8 +57,14 @@ export default {
       model.value = modelValue      
 
       stringOptions.value = [modelValue]
-  
-      store.commit(`${props.vuexModule}/${props.loader}`)
+
+      if(props.loadOnRoute === undefined) {
+        if(props.param !== undefined) {
+          store.commit(`${props.vuexModule}/${props.loader}`, props.param)
+        } else {
+          store.commit(`${props.vuexModule}/${props.loader}`)
+        }  
+      }
   
       const optionsList = computed(() => props.list)
 
