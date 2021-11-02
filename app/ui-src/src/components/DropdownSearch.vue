@@ -8,7 +8,7 @@
       :options="options"
       dense
       @filter="filterFn"
-      @update:model-value="updateHandler"
+      @update:model-value="selectedHandler"
     >
       <template v-slot:no-option>
         <q-item>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { useI18n } from 'vue-i18n'
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 
@@ -30,7 +29,7 @@ export default {
   name: 'DropdownSearch',
   props: [
     'vuexModule', 
-    'updated', 
+    'selected', 
     'loader', // provide only if loadOnRoute is not defined
     'label', 
     'list', 
@@ -41,12 +40,11 @@ export default {
   ],
 
   setup(props) {
-    const { t } = useI18n()
     const options = ref([])
     const model = ref({})
     const stringOptions = ref([])     
     const store = useStore()
-    const updateHandler = model => store.dispatch(`${props.vuexModule}/${props.updated}`, model)
+    const selectedHandler = model => store.dispatch(`${props.vuexModule}/${props.selected}`, model)
 
     setTimeout(() => {    
       let modelValue = {
@@ -89,7 +87,7 @@ export default {
           options.value = stringOptions.value.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
         })
       },
-      updateHandler
+      selectedHandler
     }
   } 
 }
