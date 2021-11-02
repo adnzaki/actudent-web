@@ -6,7 +6,15 @@
         <div class="text-h6 text-capitalize" v-else>{{ $t('menu_siswa') }}</div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
-          <class-options class="justify-data-options" />
+          <dropdown-search 
+            class="justify-data-options" 
+            vuex-module="student"
+            updated="getStudentsByClass"
+            loader="getClassGroup"
+            :label="$t('siswa_semua_kelas')"
+            :list="$store.state.student.classGroupList"
+            :options-value="{ label: 'grade_name', value: 'grade_id' }"
+          />
           <row-dropdown vuex-module="student" class="q-mt-sm" root-class="col-12 col-md-2" />
           <search-box :label="$t('siswa_cari')" vuex-module="student" class="q-mt-sm" />
         </div>
