@@ -171,16 +171,17 @@ class Kelas extends Actudent
         return [$rules, $messages];
     }
 
-    public function findTeacher($keyword = '')
+    public function findTeacher()
     {
-        return $this->createResponse($this->kelas->findTeacher($keyword), 'is_admin');
+        return $this->createResponse($this->kelas->findTeacher(), 'is_admin');
     }
 
     private function formData()
     {
         return [
-            'grade_name'    => $this->request->getPost('grade_name'),
-            'teacher_id'    => $this->request->getPost('teacher_id'),
+            'grade_name'        => $this->request->getPost('grade_name'),
+            'teacher_id'        => $this->request->getPost('teacher_id'),
+            'rombel_dapodik_id' => null
         ];
     }
 }

@@ -282,23 +282,16 @@ class KelasModel extends SharedModel
     }
 
     /**
-     * Search for teachers to be homeroom teacher
-     * 
-     * @param string $keyword
+     * Grab teachers to be homeroom teacher
      * 
      * @return array
      */
-    public function findTeacher(string $keyword = ''): array
+    public function findTeacher(): array
     {
-        if(! empty($keyword))
-        {            
-            $field = 'staff_id, staff_nik, staff_name';
-            // $like1 = "(staff_nik LIKE '%$keyword%' ESCAPE '!' OR staff_name";
-            // $like2 = "'%$keyword%' ESCAPE '!' OR parent_mother_name LIKE '%$keyword%' ESCAPE '!')";
-            $this->QBTeacher->select($field)->like('staff_nik', $keyword)->orLike('staff_name', $keyword);
+        $field = 'staff_id, staff_name';
+        $this->QBTeacher->select($field);
 
-            return $this->QBTeacher->getWhere(['deleted' => '0'])->getResult();
-        }
+        return $this->QBTeacher->getWhere(['deleted' => '0'])->getResult();
     }
 
     /**
