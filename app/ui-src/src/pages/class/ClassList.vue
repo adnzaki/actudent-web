@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { onMounted} from 'vue'
+import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import ClassTable from './ClassTable.vue'
@@ -31,7 +33,13 @@ export default {
     AddClassForm,
     EditClassForm
   },
-  setup () {    
+  setup () {   
+    const store = useStore()
+
+    onMounted(() => {
+      store.commit('grade/getTeacher')
+    }) 
+    
     return { 
       titleSpacing 
     }

@@ -14,7 +14,14 @@
           <q-input outlined :label="$t('kelas_label_nama')" dense v-model="formData.grade_name" />
           <error :label="error.grade_name" />
 
-          <search-teacher />
+          <dropdown-search 
+            vuex-module="grade"
+            :selected="setTeacher"
+            :label="$t('kelas_wali')"
+            :list="$store.state.grade.teachers"
+            :options-value="{ label: 'staff_name', value: 'staff_id' }"
+            load-on-route
+          />    
 
         </q-form>
       </q-card-section>
@@ -44,12 +51,13 @@ export default {
   },
   setup() {
     const store = useStore()
-    const selectedTeacher = computed(() => store.state.grade.selectedTeacher)
 
     let formValue = {
       grade_name: '',
       teacher_id: ''
     }
+
+    const setTeacher = model => formValue.teacher_id = model.value
 
     const formData = ref(formValue)
 
@@ -67,7 +75,6 @@ export default {
     }
     
     const save = () => {
-      formData.value.teacher_id = selectedTeacher.value.id
       store.dispatch('grade/save', {
         data: formData.value,
         edit: false,
@@ -79,7 +86,8 @@ export default {
       formData,
       save,
       maximizedDialog, cardDialog,
-      formOpen
+      formOpen,
+      setTeacher
     }
   }
 }

@@ -31,7 +31,6 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
 	$routes->add('kelas/cari-guru', 'Kelas::findTeacher');
-	$routes->add('kelas/cari-guru/(:any)', 'Kelas::findTeacher/$1');
 	$routes->add('kelas/save', 'Kelas::save');
 	$routes->add('kelas/save/(:any)', 'Kelas::save/$1');
 	$routes->add('kelas/delete', 'Kelas::delete');
@@ -74,7 +73,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('mapel/delete', 'Mapel::delete');
 	$routes->add('jadwal', 'Jadwal::index');
 	$routes->add('jadwal/daftar-mapel/(:any)', 'Jadwal::getLessons/$1');
-	$routes->add('jadwal/cari-mapel/(:any)', 'Jadwal::searchLessons/$1');
+	$routes->add('jadwal/pilihan-mapel/(:any)', 'Jadwal::getLessonOptions/$1');
 	$routes->add('jadwal/simpan-mapel', 'Jadwal::saveLesson');
 	$routes->add('jadwal/simpan-mapel/(:any)', 'Jadwal::saveLesson/$1');
 	$routes->add('jadwal/hapus-mapel', 'Jadwal::deleteLesson');
