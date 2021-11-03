@@ -1,7 +1,6 @@
 <template>
   <q-dialog v-model="$store.state.grade.showEditForm" 
-    :maximized="maximizedDialog()"
-    @hide="formClose">
+    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('kelas_edit_title') }}</div>
@@ -17,7 +16,10 @@
           <dropdown-search 
             vuex-module="grade"
             :selected="setTeacher"
-            :label="$t('kelas_wali')"
+            :default="{
+              label: $store.state.grade.detail.staff_name,
+              value: $store.state.grade.detail.teacher_id
+            }"
             :list="$store.state.grade.teachers"
             :options-value="{ label: 'staff_name', value: 'staff_id' }"
             load-on-route
@@ -35,7 +37,7 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { ref } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 import SearchTeacher from './SearchTeacher.vue'
@@ -62,16 +64,10 @@ export default {
       })
     }
 
-    const formClose = () => {
-      store.state.grade.selectedTeacher = {
-        id: '', name: ''
-      }
-    }
 
     return {
       save,
       maximizedDialog, cardDialog,
-      formClose,
       setTeacher
     }
   }

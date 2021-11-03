@@ -23,8 +23,7 @@ export default {
       })     
   },
   getDetail(state, id) {
-    state.error = {}
-    state.showEditForm = true
+    state.error = {}    
     admin.get(`${state.classApi}detail/${id}`, {
       headers: { Authorization: bearerToken }
     })
@@ -32,8 +31,7 @@ export default {
         const res = response.data
         state.detail = res
         state.classMember.name = res.grade_name
-        state.selectedTeacher.id = res.teacher_id
-        state.selectedTeacher.name = res.staff_name
+        state.showEditForm = true
       })
   },
   closeDeleteConfirm(state) {

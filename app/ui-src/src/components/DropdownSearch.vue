@@ -36,7 +36,8 @@ export default {
     'optionsValue', 
     'flexGrid', // add one or more grid classes to make component responsive
     'param', // add 1 optional parameter if needed
-    'loadOnRoute' // load data that to be fetched on route enter
+    'loadOnRoute', // load data that to be fetched on route enter
+    'default', // default selected option -> useful when displaying in edit form
   ],
 
   setup(props) {
@@ -54,9 +55,17 @@ export default {
     }
 
     setTimeout(() => {    
-      let modelValue = {
-        label: props.label,
-        value: 'null'
+      let modelValue = {}
+      if(props.default !== undefined) {
+        modelValue = {
+          label: props.default.label,
+          value: props.default.value
+        }
+      } else {
+        modelValue = {
+          label: props.label,
+          value: null
+        }
       }
   
       model.value = modelValue      
