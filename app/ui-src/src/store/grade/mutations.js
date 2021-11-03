@@ -14,46 +14,13 @@ export default {
         state.classMember.students = response.data
       })
   },
-  selectTeacher(state, data) {
-    state.selectedTeacher = {
-      id: data.staff_id,
-      name: data.staff_name
-    }
-
-    // empty search result
-    state.teachers = []
-  },
-  searchTeacher(state, searchParam) {
-    // prevent request until searchTimeout is true
-    if(!state.searchTimeout) {
-      state.searchTimeout = true
-
-      // wait for 300ms before processing request to server
-      setTimeout(() => {
-        let keyword
-        if (searchParam === '') {
-          keyword = ''
-          state.teachers = []
-        } else {
-          keyword = `/${searchParam}`
-        }
-    
-        admin.get(`${state.classApi}cari-guru${keyword}`, {
-          headers: { Authorization: bearerToken }
-        })
-          .then(response => {
-            const res = response.data
-            if (res === null) {
-              state.teachers = []
-            } else {
-              state.teachers = res
-            }
-          })     
-          
-          // turn back searchTimeout to false
-          state.searchTimeout = false
-      }, 300);
-    }
+  getTeacher(state) {
+    admin.get(`${state.classApi}cari-guru`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.teachers = response.data
+      })     
   },
   getDetail(state, id) {
     state.error = {}
