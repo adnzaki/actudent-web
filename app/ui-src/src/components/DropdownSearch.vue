@@ -44,7 +44,14 @@ export default {
     const model = ref({})
     const stringOptions = ref([])     
     const store = useStore()
-    const selectedHandler = model => store.dispatch(`${props.vuexModule}/${props.selected}`, model)
+
+    let selectedHandler
+
+    if(typeof props.selected === 'string') {
+      selectedHandler = model => store.dispatch(`${props.vuexModule}/${props.selected}`, model)
+    } else {
+      selectedHandler = props.selected
+    }
 
     setTimeout(() => {    
       let modelValue = {
