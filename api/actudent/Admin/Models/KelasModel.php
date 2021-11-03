@@ -291,7 +291,7 @@ class KelasModel extends SharedModel
         $field = 'staff_id, staff_name';
         $this->QBTeacher->select($field);
 
-        return $this->QBTeacher->getWhere(['deleted' => '0'])->getResult();
+        return $this->QBTeacher->getWhere(['deleted' => '0', 'staff_type' => 'teacher'])->getResult();
     }
 
     /**
