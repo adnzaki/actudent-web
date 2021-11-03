@@ -1,6 +1,6 @@
 <template>
-  <div class="q-mt-lg">
-    <q-scroll-area class="table-scroll-area">
+  <div>
+    <q-scroll-area class="no-paging-scroll-area">
       <q-markup-table bordered>
         <thead>
           <tr>

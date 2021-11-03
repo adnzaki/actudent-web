@@ -16,10 +16,24 @@ export default function () {
     searchTimeout: false,
     className: '',
     lesson: {
-      showForm: false,
+      showAddForm: false,
+      showEditForm: false,
       list: [],
       selected: [],
-      checkAll: false
-    }
+      checkAll: false,
+      saveStatus: 500,
+      options: [],
+    },
+    schedule: {
+      isBreak: false,
+      showInput: false,
+      
+      // list of lessons in manage lessons form
+      lessonsInput: [],
+
+      selectedDay: '', breakDuration: 0,
+      toBeDeletedSchedule: [],
+      allocation: '', scheduleType: 'lesson'
+    },      
   }
 }

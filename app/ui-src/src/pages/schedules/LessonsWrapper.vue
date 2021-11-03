@@ -12,21 +12,35 @@
       </div>
     </q-card-section>
     <lessons-list />
+    <lesson-add-form />
   </q-card>
 </template>
 
 <script>
+import { onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import LessonsButton from './LessonsButton.vue'
 import LessonsList from './LessonsList.vue'
+import LessonAddForm from './LessonAddForm.vue'
 
 export default {
   name: 'LessonsWrapper',
   components: {
     LessonsButton,
-    LessonsList
+    LessonsList,
+    LessonAddForm
   },
   setup() {
+    const route = useRoute()
+    const store = useStore()
+
+    onMounted(() => {
+      store.commit('schedule/getLessonOptions', route.params.id)
+      store.commit('grade/getTeacher')
+    })
+
     return {
       titleSpacing
     }

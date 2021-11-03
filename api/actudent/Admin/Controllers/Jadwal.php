@@ -54,7 +54,7 @@ class Jadwal extends Actudent
             }
         }
         
-        return $this->response->setJSON($response);
+        return $this->createResponse($response, 'is_admin');
     }
 
     public function getScheduleSettings()
@@ -358,24 +358,19 @@ class Jadwal extends Actudent
         return $this->response->setJSON($data[0]);
     }
 
-    public function searchLessons($grade)
+    public function getLessonOptions($grade)
     {
-        $search = $this->request->getPost('searchTerm');
-        
         $formatter = [];
-        if(! empty($search))
+        $data = $this->jadwal->getLessonOptions($grade);
+        foreach($data as $res)
         {
-            $data = $this->jadwal->searchLessons($search, $grade);
-            foreach($data as $res)
-            {
-                $formatter[] = [
-                    'id' => $res->lesson_id,
-                    'text' => "{$res->lesson_name} ({$res->lesson_code})",
-                ];
-            }
+            $formatter[] = [
+                'id' => $res->lesson_id,
+                'text' => "{$res->lesson_name} ({$res->lesson_code})",
+            ];
         }
         
-        return $this->response->setJSON($formatter);
+        return $this->createResponse($formatter);
     }
 
     public function deleteLesson()

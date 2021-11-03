@@ -2,6 +2,7 @@
 
 use Actudent\Admin\Models\KelasModel;
 use Actudent\Admin\Models\PegawaiModel;
+use CodeIgniter\Database\BaseBuilder;
 
 class JadwalModel extends SharedModel
 {
@@ -112,26 +113,28 @@ class JadwalModel extends SharedModel
     }
 
     /**
-     * Search lessons
+     * Get lesson options
      * 
-     * Expencted query:
-     * SELECT * FROM tb_lessons WHERE lesson_name LIKE '%ba%'
-     * AND lesson_id NOT IN 
-     * (SELECT lesson_id FROM tb_lessons_grade WHERE grade_id=2)
+     * Expected query:
+     * SELECT tb_lessons.lesson_id, lesson_code, lesson_name FROM tb_lessons
+     * WHERE deleted=0
+     * AND tb_lessons_grade.grade_id=1
+     * AND tb_lessons.lesson_id NOT IN 
+     * (SELECT tb_lessons_grade.lesson_id FROM tb_lessons_grade WHERE grade_id=1)
      * 
-     * @param string $search
      * @param int $grade
      * 
      * @return array
      */
-    public function searchLessons(string $search, int $grade): array
+    public function getLessonOptions(int $grade): array
     {
-        $whereNotIn = " AND lesson_id NOT IN (SELECT lesson_id FROM {$this->mapelKelas} 
-                        WHERE grade_id={$grade} AND deleted=0)";
-        $param = "'%$search%' ESCAPE '!' OR lesson_code LIKE '%$search%' ESCAPE '!' $whereNotIn";
-        $like = $this->QBMapel->like('lesson_name', $param, 'none', false);
+        $field = "{$this->mapel}.lesson_id, lesson_code, lesson_name";
+        $searchLessonGrade = $this->QBMapel->select($field)->where('deleted', 0);
+        $notIn = $searchLessonGrade->whereNotIn('tb_lessons.lesson_id', function(BaseBuilder $builder) use ($grade) {
+            return $builder->select('tb_lessons_grade.lesson_id')->from('tb_lessons_grade')->where('grade_id', $grade);
+        });
 
-        return $like->get()->getResult();
+        return $notIn->get()->getResult();
     }
 
     /**

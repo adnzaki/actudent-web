@@ -13,6 +13,65 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  saveLesson({ state, dispatch }, payload) {
+    let url
+    payload.edit ? url = `simpan-mapel/${payload.id}` : url = 'simpan-mapel'
+    state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('jadwal_save_progress'),
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    admin.post(`${state.scheduleApi}${url}`, payload.data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.helper.disableSaveButton = false
+        const res = response.data
+        if(res.code === '500') {
+          state.error = res.msg
+          notifyProgress({
+            message: `Error! ${t('jadwal_save_error')}`,
+            color: 'negative',
+            spinner: false
+          })
+        } else {
+          state.lesson.saveStatus = 200
+
+          dispatch('resetForm', payload.data.grade_id)
+          if(payload.edit) {
+            state.lesson.showEditForm = false
+            notifyProgress({
+              message: `${t('sukses')} ${t('jadwal_insert_success')}`,
+              color: 'positive',
+              icon: 'done',
+              spinner: false
+            })
+          } else {
+            state.lesson.showAddForm = false
+            notifyProgress({
+              message: `${t('sukses')} ${t('jadwal_edit_success')}`,
+              color: 'positive',
+              icon: 'done',
+              spinner: false
+            })
+          }
+        }
+      })
+  },
+  resetForm({ state, commit }, grade) {
+    state.error = {}
+    state.current = 1
+    commit('getLessonsList', grade)
+    commit('getLessonOptions', grade)
+  },
   getClassList({ state, dispatch }) {
     dispatch('getData', {
       token: bearerToken,
