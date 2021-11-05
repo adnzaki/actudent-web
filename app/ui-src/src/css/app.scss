@@ -1,5 +1,11 @@
 // app global css in SCSS form
 
+@media(max-width: $breakpoint-sm-max) {
+  .q-dialog__inner--minimized {
+    padding: 24px 0 !important;
+  }
+}
+
 .increase-paging-mt {
   margin-top: -10px;
 }

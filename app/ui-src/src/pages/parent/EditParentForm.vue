@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.parent.showEditForm" :maximized="maximizedDialog()">
+  <q-dialog v-model="$store.state.parent.showEditForm">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('ortu_edit_title') }}</div>

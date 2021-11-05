@@ -1,6 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.lesson.showEditForm" 
-    :maximized="maximizedDialog()">
+  <q-dialog v-model="$store.state.lesson.showEditForm">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('mapel_edit_title') }}</div>

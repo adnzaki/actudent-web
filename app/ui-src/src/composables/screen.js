@@ -30,7 +30,7 @@ const maximizedDialog = () => {
 
 const cardDialog = () => {
   return Screen.lt.sm
-    ? { height: '100vh' }
+    ? { }
     : { width: '700px', maxWidth: '80vw' }
 }
 

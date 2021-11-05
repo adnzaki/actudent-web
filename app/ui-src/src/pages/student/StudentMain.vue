@@ -29,10 +29,9 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import MainButton from './MainButton.vue'
-import ClassOptions from './ClassOptions.vue'
 import StudentTable from './StudentTable.vue'
 import AddStudentForm from './AddStudentForm.vue'
 import EditStudentForm from './EditStudentForm.vue'
