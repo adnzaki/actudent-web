@@ -1,6 +1,5 @@
 <template>
   <q-dialog v-model="$store.state.schedule.lesson.showAddForm" 
-    :maximized="maximizedDialog()"
     @before-show="formOpen">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -46,7 +45,6 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
-import { mode } from 'app/globalConfig'
 
 export default {
   name: 'LessonAddForm',

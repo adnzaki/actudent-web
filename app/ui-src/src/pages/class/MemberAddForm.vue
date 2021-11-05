@@ -1,6 +1,5 @@
 <template>
   <q-dialog v-model="$store.state.grade.classMember.showForm" 
-    :maximized="maximizedDialog()"
     @before-show="formOpen"
     @hide="$store.commit('grade/getClassMember', $route.params.id)">
     <q-card :style="cardDialog()">

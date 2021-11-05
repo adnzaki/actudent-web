@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { computed, onMounted } from 'vue'
+import { onMounted } from 'vue'
 import { useStore } from 'vuex'
 import MainButton from './MainButton.vue'
 import ClassOptions from './ClassOptions.vue'

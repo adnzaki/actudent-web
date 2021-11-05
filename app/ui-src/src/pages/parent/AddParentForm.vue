@@ -1,6 +1,5 @@
 <template>
   <q-dialog v-model="$store.state.parent.showAddForm" 
-    :maximized="maximizedDialog()"
     @before-show="formOpen">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
