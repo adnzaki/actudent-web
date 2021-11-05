@@ -40,7 +40,7 @@ import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 export default {
   name: 'StudentMain',
   components: { 
-    MainButton, ClassOptions,
+    MainButton,
     StudentTable,
     AddStudentForm,
     EditStudentForm,
