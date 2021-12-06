@@ -24,7 +24,7 @@ Kami menggunakan jarak indentasi sebanyak 2 spasi untuk semua source code dalam 
 ## Panduan Pengembangan di Sisi Server
 ### Struktur folder API
 - `actudent`<br>
-Root folder untuk semua modul Actudent. Modul-modul tersebut adalah `Admin`, `Core`, `Guru`, `Installer` dan `UITest`.
+Root folder untuk semua modul Actudent. Modul-modul tersebut adalah `Admin`, `Core`, `Guru`, `Installer`, `UITest` dan `Mobile`.
 - `app`<br>
 Folder aplikasi default dari CodeIgniter, digunakan untuk menyimpan global config dan locale resource
 - `public`<br>
@@ -46,11 +46,13 @@ Merupakan tempat menyimpan shared classes atau class inti yang dipakai oleh bebe
 - `Guru`
 Merupakan tempat menyimpan kode sumber modul Guru.
 - `Installer`
-Tempat menyimpan kode sumber setup/instalasi Actudent 
+Tempat menyimpan kode sumber setup/instalasi Actudent.
 - `Sync`
-Tempat menyimpan kode sumber <b>Sync API</b>
+Tempat menyimpan kode sumber <b>Sync API</b>.
 - `UITest`
-Tempat menyimpan kode sumber untuk keperluan test interaksi user interface dengan API
+Tempat menyimpan kode sumber untuk keperluan test interaksi user interface dengan API.
+- `Mobile`
+Tempat menyimpan kode sumber API untuk versi mobile (Android).
 
 ### Core Controller
 `Actudent` merupakan core controller yang wajib ada di semua controller Actudent. Tanpa class ini, Actudent tidak akan dapat berjalan sebagaimana mestinya. Hanya kontributor inti yang diperkenankan memodifikasi class ini. Class ini tersedia dengan namespace `Actudent\Core\Controllers\Actudent`.
@@ -101,7 +103,7 @@ Antarmuka pengguna menjadi perubahan terbesar dari versi terbaru Actudent. Tampi
 Actudent v2 menggunakan [Quasar](https://quasar.dev/) sebagai framework untuk membangun user interfacenya. Saat ini Actudent menggunakan Quasar versi 2.1.0 yang dibangun di atas Vue 3.2.4. Pastikan anda memahami versi terbaru Vue.js sebelum terjun langsung ke dalam pengembangan. 
 
 ### Advanced Vue.js
-Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup [Single-File Components (SFC)](https://v3.vuejs.org/guide/single-file-component.html), [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html), [Vue Router](https://next.router.vuejs.org/) serta [Vuex](https://next.vuex.vuejs.org/). Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai progressive-library.
+Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbaik Vue.js dalam membangun user interface mencakup [Single-File Components (SFC)](https://v3.vuejs.org/guide/single-file-component.html), [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html), [Vue Router](https://next.router.vuejs.org/) serta [Vuex](https://next.vuex.vuejs.org/). Pastikan anda telah memahami cara menggunakan Vue.js sebagai sebuah framework utuh bukan hanya sebagai library Javascript.
 
 ### Composition API
 [Composition API](https://v3.vuejs.org/guide/composition-api-introduction.html) merupakan fitur terbaru dari Vue 3 sebagai versi lebih yang lebih baik dari Options API untuk digunakan dalam Single-File Components. Walaupun Options API tetap dapat digunakan di Vue 3, namun Composition API menjanjikan manajemen code base yang lebih baik. 
@@ -110,10 +112,10 @@ Pengembangan antarmuka pengguna Actudent v2 menggunakan seluruh kemampuan terbai
 Actudent-v2 menggunakan [Axios](https://github.com/axios/axios) untuk mengelola HTTP Request/Response. Axios dalam Actudent-v2 telah disederhanakan penggunaannya, namun pastikan anda memahami cara penggunaan Axios secara lengkap.
 
 ### Pagination Library
-Actudent tetap mempertahankan `SSPaging` sebagai library untuk mengelola pagination berbasis server. Library ini telah dikembangkan sehingga dapat digunakan bersama dengan Vuex. Pastikan anda memahami cara penggunaan SSPaging agar dapat menampilkan data dengan benar.
+Actudent tetap mempertahankan `SSPaging` sebagai library untuk mengelola pagination berbasis server. Library ini telah dikembangkan sehingga dapat digunakan bersama dengan Vuex. Pastikan anda memahami cara penggunaan SSPaging agar dapat menampilkan data dengan benar. Panduan penggunaan SSPaging dapat anda akses di repository ini.
 
 ### Internationalization
-Actudent menggunakan library [vue-18n](https://kazupon.github.io/vue-i18n/) sebagai library untuk mengelola bahasa. Di Actudent-v2, kami tetap mempertahankan pengelolaan utama bahasa di sisi server untuk kemudian diregistrasi pada sisi pengguna melalui booting Quasar app. 
+Actudent menggunakan library [vue-i18n](https://kazupon.github.io/vue-i18n/) sebagai library untuk mengelola bahasa. Di Actudent-v2, kami tetap mempertahankan pengelolaan utama bahasa di sisi server untuk kemudian diregistrasi pada sisi pengguna melalui booting Quasar app. 
 
 ### Global Configuration for User Interface
 Actudent memiliki sebuah file bernama `globalConfig.js` yang berisi pengaturan inti untuk antarmuka aplikasi. File tersebut terdapat pada `app/ui-src/globalConfig.js`, silakan buka dan baca dengan baik petunjuk yang ada di dalam file tersebut untuk dapat menjalankan Actudent di server lokal ataupun mendeploy ke cloud hosting/production server.
