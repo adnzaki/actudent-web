@@ -97,6 +97,15 @@ require ACTUDENTPATH . 'Core/Config/CoreRoutes.php';
 // Sync section
 require ACTUDENTPATH . 'Sync/Config/SyncRoutes.php';
 
+/**
+ * -----------------------------------------------------------------
+ * Mobile Routes
+ * -----------------------------------------------------------------
+ */
+require ACTUDENTPATH . 'Mobile/Guru/Config/GuruRoutes.php';
+
+// require ACTUDENTPATH . 'Mobile/OrangTua/Config/OrtuRoutes.php';
+
 $routes->add('service-expired', '\Actudent\Core\Controllers\Error::expiredPage');
 
 /**
