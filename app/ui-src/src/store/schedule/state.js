@@ -18,6 +18,7 @@ export default function () {
     lesson: {
       showAddForm: false,
       showEditForm: false,
+      detail: {},
       list: [],
       selected: [],
       checkAll: false,

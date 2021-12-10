@@ -77,7 +77,6 @@ export default defineComponent({
   },
   mounted() {
     setTimeout(() => {
-      this.fetchLang('Admin')
       setTimeout(() => {
         this.otherActions = [
           { link: '', icon: 'manage_accounts', label: this.$t('navbar_profil'), action: () => {} },

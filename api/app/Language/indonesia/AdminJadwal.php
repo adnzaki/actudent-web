@@ -9,7 +9,7 @@ return [
     'jadwal_guru_mapel'             => 'Guru',
     'jadwal_add_title'              => 'Kelola Jadwal Pelajaran',
     'jadwal_add_mapel_title'        => 'Tambah Mata Pelajaran',
-    'jadwal_edit_title'             => 'Perbarui mata pelajaran',
+    'jadwal_edit_mapel_title'       => 'Perbarui mata pelajaran',
     'jadwal_label_pilih_mapel'      => 'Pilih mata pelajaran',
     'jadwal_label_pilih_ruang'      => 'Ruang',
     'jadwal_label_pilih_guru'       => 'Guru bidang studi',

@@ -13,6 +13,7 @@
     </q-card-section>
     <lessons-list />
     <lesson-add-form />
+    <lesson-edit-form />
   </q-card>
 </template>
 
@@ -24,13 +25,15 @@ import { titleSpacing } from 'src/composables/screen'
 import LessonsButton from './LessonsButton.vue'
 import LessonsList from './LessonsList.vue'
 import LessonAddForm from './LessonAddForm.vue'
+import LessonEditForm from './LessonEditForm.vue'
 
 export default {
   name: 'LessonsWrapper',
   components: {
     LessonsButton,
     LessonsList,
-    LessonAddForm
+    LessonAddForm,
+    LessonEditForm
   },
   setup() {
     const route = useRoute()

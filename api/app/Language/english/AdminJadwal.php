@@ -9,7 +9,7 @@ return [
     'jadwal_guru_mapel'             => 'Teacher',
     'jadwal_add_title'              => 'Manage Schedules',
     'jadwal_add_mapel_title'        => 'Add lesson',
-    'jadwal_edit_title'             => 'Edit lesson',
+    'jadwal_edit_mapel_title'       => 'Edit lesson',
     'jadwal_label_pilih_mapel'      => 'Choose a lesson',
     'jadwal_label_pilih_ruang'      => 'Room',
     'jadwal_label_pilih_guru'       => 'Subject teacher',

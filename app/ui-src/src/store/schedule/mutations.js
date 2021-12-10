@@ -7,7 +7,13 @@ import {
 
 export default {
   getDetailLesson(state, id) {
-
+    state.lesson.showEditForm = true
+    admin.get(`${state.scheduleApi}detail-mapel/${id}`, {
+      headers: { Authorization: bearerToken },
+    })
+      .then(response => {
+        state.lesson.detail = response.data
+      })
   },
   getLessonOptions(state, grade) {
     admin.get(`${state.scheduleApi}pilihan-mapel/${grade}`, {

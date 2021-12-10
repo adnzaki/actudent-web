@@ -355,7 +355,7 @@ class Jadwal extends Actudent
     public function getLessonDetail($id)
     {
         $data = $this->jadwal->getLessonDetail($id);
-        return $this->response->setJSON($data[0]);
+        return $this->createResponse($data[0], 'is_admin');
     }
 
     public function getLessonOptions($grade)
@@ -395,30 +395,33 @@ class Jadwal extends Actudent
 
     public function saveLesson($id = null)
     {
-        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if(is_admin())
         {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else
-        {
-            $data = $this->formData();
-            if($id === null) 
+            $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+            if(! $this->validate($validation[0], $validation[1]))
             {
-                $data['grade_id'] = $this->request->getPost('grade_id');
-                $this->jadwal->insert($data);
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
             }
             else
             {
-                $this->jadwal->update($data, $id);
+                $data = $this->formData();
+                if($id === null) 
+                {
+                    $data['grade_id'] = $this->request->getPost('grade_id');
+                    $this->jadwal->insert($data);
+                }
+                else
+                {
+                    $this->jadwal->update($data, $id);
+                }
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
             }
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
         }
     }
 

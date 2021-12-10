@@ -60,7 +60,8 @@ export default {
       
     ]),
     ...mapMutations('schedule', [
-      'selectAllLessons', 'showDeleteConfirm'
+      'selectAllLessons', 'showDeleteConfirm',
+      'getDetailLesson'
     ])
   },
   computed: {
