@@ -15,6 +15,7 @@ export default function () {
     saveStatus: 500, deleteConfirm: false,
     searchTimeout: false,
     className: '',
+    classID: '',
     lesson: {
       showAddForm: false,
       showEditForm: false,

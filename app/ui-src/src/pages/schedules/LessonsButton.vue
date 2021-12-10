@@ -4,7 +4,7 @@
       <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
         @click="$store.state.schedule.lesson.showAddForm = true" />
         <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')"
-         />
+        @click="$store.commit('schedule/multipleDeleteConfirm')" />
       <q-btn color="teal" icon="arrow_back" class="q-pl-sm" :label="$t('kelas_kembali')"
         @click="$router.push('/schedules')" />
     </div>
@@ -16,7 +16,7 @@
         <q-fab-action color="deep-purple" icon="add"
           @click="$store.state.schedule.lesson.showAddForm = true" />
           <q-fab-action color="negative" icon="delete"
-           />
+          @click="$store.commit('schedule/multipleDeleteConfirm')" />
         <q-fab-action color="teal" 
           @click="$router.push('/schedules')" icon="arrow_back" />
       </q-fab>

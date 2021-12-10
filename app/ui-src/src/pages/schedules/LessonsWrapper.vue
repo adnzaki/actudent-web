@@ -14,6 +14,7 @@
     <lessons-list />
     <lesson-add-form />
     <lesson-edit-form />
+    <delete-confirm vuex-module="schedule" action="deleteLesson" />
   </q-card>
 </template>
 

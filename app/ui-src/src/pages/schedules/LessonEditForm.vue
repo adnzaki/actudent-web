@@ -14,7 +14,7 @@
             :selected="setLesson"
             :default="{
               label: $store.state.schedule.lesson.detail.lesson_name,
-              value: $store.state.grade.detail.lesson_id
+              value: $store.state.schedule.lesson.detail.lesson_id
             }"
             :label="$t('jadwal_input_cari_mapel')"
             :list="$store.state.schedule.lesson.options"
@@ -24,11 +24,11 @@
           <error :label="error.lesson_id" />
 
           <dropdown-search 
-            vuex-module="grade"
+            vuex-module="schedule"
             :selected="setTeacher"
             :default="{
               label: $store.state.schedule.lesson.detail.teacher,
-              value: $store.state.grade.detail.teacher_id
+              value: $store.state.schedule.lesson.detail.teacher_id
             }"
             :label="$t('jadwal_label_pilih_guru')"
             :list="$store.state.grade.teachers"
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
@@ -56,36 +56,26 @@ import { mapState, useStore } from 'vuex'
 export default {
   name: 'LessonEditForm',
   computed: {
-    ...mapState('lesson', {
+    ...mapState('schedule', {
       error: state => state.error,
       disableSaveButton: state => state.helper.disableSaveButton
     }),
   },
   setup() {
     const store = useStore()
-    const route = useRoute()
-
-    let formValue = {
-      lesson_id: '',
-      teacher_id: '',
-      grade_id: route.params.id
-    }
     
-    const setLesson = model => formValue.lesson_id = model.value
-    const setTeacher = model => formValue.teacher_id = model.value
-
-    const formData = ref(formValue)
+    const setLesson = model => store.state.schedule.lesson.detail.lesson_id = model.value
+    const setTeacher = model => store.state.schedule.lesson.detail.teacher_id = model.value
     
     const save = () => {
       store.dispatch('schedule/saveLesson', {
-        data: formData.value,
+        data: store.state.schedule.lesson.detail,
         edit: true,
         id: store.state.schedule.lesson.detail.lessons_grade_id
       })
     }
 
     return {
-      formData,
       save,
       maximizedDialog, cardDialog,
       setLesson,

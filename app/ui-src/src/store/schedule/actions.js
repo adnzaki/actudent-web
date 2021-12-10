@@ -13,9 +13,53 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  deleteLesson({ state, dispatch }) {
+    let idString
+    if(state.lesson.selected.length > 1) {
+        idString = state.lesson.selected.join('-')
+    } else {
+        idString = state.lesson.selected[0]
+    }
+
+    // show notify
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('progress_hapus'),
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    const data = { id: idString }
+    admin.post(`${state.scheduleApi}hapus-mapel`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(() => {
+        state.helper.disableSaveButton = false
+        state.deleteConfirm = false
+        state.lesson.checkAll = false
+        notifyProgress({
+          message: t('jadwal_delete_success'),
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+
+        // refresh data
+        dispatch('resetForm', state.classID)
+      })
+  },
   saveLesson({ state, dispatch }, payload) {
-    let url
-    payload.edit ? url = `simpan-mapel/${payload.id}` : url = 'simpan-mapel'
+    // default URL (not edit)
+    let url = `simpan-mapel/${state.classID}`
+
+    // if it is edit form
+    if(payload.edit) url = `${url}/${payload.id}`
+
     state.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
       group: false,
@@ -45,11 +89,11 @@ export default {
         } else {
           state.lesson.saveStatus = 200
 
-          dispatch('resetForm', payload.data.grade_id)
+          dispatch('resetForm', state.classID)
           if(payload.edit) {
             state.lesson.showEditForm = false
             notifyProgress({
-              message: `${t('sukses')} ${t('jadwal_insert_success')}`,
+              message: `${t('sukses')} ${t('jadwal_edit_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false
@@ -57,7 +101,7 @@ export default {
           } else {
             state.lesson.showAddForm = false
             notifyProgress({
-              message: `${t('sukses')} ${t('jadwal_edit_success')}`,
+              message: `${t('sukses')} ${t('jadwal_insert_success')}`,
               color: 'positive',
               icon: 'done',
               spinner: false

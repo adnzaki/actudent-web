@@ -375,25 +375,28 @@ class Jadwal extends Actudent
 
     public function deleteLesson()
     {
-        $idString = $this->request->getPost('id');
-        $idWrapper = [];
-        if(strpos($idString, '-') !== false)
+        if(is_admin())
         {
-            $idWrapper = explode('-', $idString);
-            foreach($idWrapper as $id)
+            $idString = $this->request->getPost('id');
+            $idWrapper = [];
+            if(strpos($idString, '-') !== false)
             {
-                $this->jadwal->delete($id);
+                $idWrapper = explode('-', $idString);
+                foreach($idWrapper as $id)
+                {
+                    $this->jadwal->delete($id);
+                }
             }
+            else 
+            {
+                $this->jadwal->delete($idString);
+            }
+    
+            return $this->response->setJSON(['status' => 'OK']);
         }
-        else 
-        {
-            $this->jadwal->delete($idString);
-        }
-
-        return $this->response->setJSON(['status' => 'OK']);
     }
 
-    public function saveLesson($id = null)
+    public function saveLesson($grade, $id = null)
     {
         if(is_admin())
         {
@@ -410,7 +413,7 @@ class Jadwal extends Actudent
                 $data = $this->formData();
                 if($id === null) 
                 {
-                    $data['grade_id'] = $this->request->getPost('grade_id');
+                    $data['grade_id'] = $grade;
                     $this->jadwal->insert($data);
                 }
                 else

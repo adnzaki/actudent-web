@@ -120,7 +120,7 @@ class JadwalModel extends SharedModel
      * WHERE deleted=0
      * AND tb_lessons_grade.grade_id=1
      * AND tb_lessons.lesson_id NOT IN 
-     * (SELECT tb_lessons_grade.lesson_id FROM tb_lessons_grade WHERE grade_id=1)
+     * (SELECT tb_lessons_grade.lesson_id FROM tb_lessons_grade WHERE grade_id=1 AND deleted=0)
      * 
      * @param int $grade
      * 
@@ -131,7 +131,9 @@ class JadwalModel extends SharedModel
         $field = "{$this->mapel}.lesson_id, lesson_code, lesson_name";
         $searchLessonGrade = $this->QBMapel->select($field)->where('deleted', 0);
         $notIn = $searchLessonGrade->whereNotIn('tb_lessons.lesson_id', function(BaseBuilder $builder) use ($grade) {
-            return $builder->select('tb_lessons_grade.lesson_id')->from('tb_lessons_grade')->where('grade_id', $grade);
+            return $builder->select('tb_lessons_grade.lesson_id')
+                           ->from('tb_lessons_grade')
+                           ->where(['grade_id' => $grade, 'deleted' => 0]);
         });
 
         return $notIn->get()->getResult();

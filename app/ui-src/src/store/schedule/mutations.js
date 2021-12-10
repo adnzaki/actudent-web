@@ -16,6 +16,7 @@ export default {
       })
   },
   getLessonOptions(state, grade) {
+    state.classID = grade
     admin.get(`${state.scheduleApi}pilihan-mapel/${grade}`, {
       headers: { Authorization: bearerToken },
     })
@@ -27,6 +28,18 @@ export default {
     state.lesson.selected = []
     state.lesson.selected.push(id)
     state.deleteConfirm = true
+  },
+  multipleDeleteConfirm(state) {
+    if(state.lesson.selected.length > 0) {
+      state.deleteConfirm = true
+    } else {
+      flashAlert(t('pilih_data_dulu'), 'negative')
+    }
+  },
+  closeDeleteConfirm(state) {
+    state.lesson.selected = []
+    state.deleteConfirm = false
+    state.checkAll = false
   },
   selectAllLessons(state) {
     if(state.lesson.checkAll) {

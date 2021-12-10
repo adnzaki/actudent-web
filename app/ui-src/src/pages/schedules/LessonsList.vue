@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { useStore, mapState, mapActions, mapMutations } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
 
 export default {
@@ -70,10 +70,9 @@ export default {
     })
   },
   setup () {
-    const store = useStore()
 
     return {
-      checkColWidth,
+      checkColWidth
     }
   }
 }

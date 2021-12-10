@@ -60,8 +60,7 @@ export default {
 
     let formValue = {
       lesson_id: '',
-      teacher_id: '',
-      grade_id: route.params.id
+      teacher_id: ''
     }
     
     const setLesson = model => formValue.lesson_id = model.value
