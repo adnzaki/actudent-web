@@ -47,4 +47,5 @@ return [
     'jadwal_update_setting_progress'=> 'Menyimpan pengaturan...',
     'jadwal_unable_update_setting'  => 'Tidak dapat memperbarui pengaturan jadwal, mohon isi form dengan benar',
     'jadwal_success_update_setting' => 'Pengaturan jadwal berhasil diperbarui', 
+    'jadwal_mapping'                => 'Pemetaan Jadwal'
 ];

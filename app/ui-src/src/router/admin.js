@@ -12,6 +12,7 @@ import LessonMain from 'pages/lesson/LessonMain.vue'
 import ScheduleMain from 'pages/schedules/ScheduleMain.vue'
 import ClassWrapper from 'pages/schedules/ClassWrapper.vue'
 import LessonsWrapper from 'pages/schedules/LessonsWrapper.vue'
+import MappingWrapper from 'pages/schedules/MappingWrapper.vue'
 
 const admin = {
   path: '/',
@@ -36,7 +37,7 @@ const admin = {
       children: [
         { path: '', component: ClassWrapper, beforeEnter: () => validateToken('is_admin') },
         { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: () => validateToken('is_admin') },
-        { path: 'mapping/:id', component: '', beforeEnter: () => validateToken('is_admin') }
+        { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => validateToken('is_admin') }
       ]
     },
   ],
