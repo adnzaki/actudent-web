@@ -3,7 +3,7 @@
     <div class="q-gutter-xs mobile-hide">
       <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
         @click="$store.state.schedule.lesson.showAddForm = true" />
-        <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')"
+      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')"
         @click="$store.commit('schedule/multipleDeleteConfirm')" />
       <q-btn color="teal" icon="arrow_back" class="q-pl-sm" :label="$t('kelas_kembali')"
         @click="$router.push('/schedules')" />
@@ -15,7 +15,7 @@
       <q-fab color="primary" icon="keyboard_arrow_up" direction="up">
         <q-fab-action color="deep-purple" icon="add"
           @click="$store.state.schedule.lesson.showAddForm = true" />
-          <q-fab-action color="negative" icon="delete"
+        <q-fab-action color="negative" icon="delete"
           @click="$store.commit('schedule/multipleDeleteConfirm')" />
         <q-fab-action color="teal" 
           @click="$router.push('/schedules')" icon="arrow_back" />
