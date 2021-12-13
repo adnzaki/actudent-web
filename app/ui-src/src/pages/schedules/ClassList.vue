@@ -24,13 +24,13 @@
               </q-btn-group>
               <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
                 <q-menu>
-                  <q-list style="min-width: 100px">
+                  <q-list style="min-width: 200px">
                     <q-item clickable v-close-popup @click="showLessons(item.grade_id, item.grade_name)">
-                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
+                      <q-item-section>{{ $t('jadwal_daftar_mapel') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item clickable v-close-popup @click="showSchedule(item.grade_id, item.grade_name)">
-                      <q-item-section>{{ $t('kelas_member') }}</q-item-section>
+                      <q-item-section>{{ $t('jadwal_jadwal_mapel') }}</q-item-section>
                     </q-item>
                     <q-separator />
                   </q-list>
