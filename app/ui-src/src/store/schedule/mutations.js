@@ -12,6 +12,7 @@ export default {
     })
       .then(response => {
         state.schedule.list = response.data.schedule
+        state.className = response.data.class_name
       })
   },
   getDetailLesson(state, id) {
@@ -64,6 +65,7 @@ export default {
     })
       .then(response => {
         state.lesson.list = response.data.lessons
+        state.className = response.data.class_name
       })
   },
 }
