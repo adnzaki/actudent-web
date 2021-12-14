@@ -7,11 +7,11 @@
 
       <q-separator />
 
-      <p class="text-center text-bold q-mt-md" v-if="data.length === 0">
+      <p class="text-center text-bold q-mt-md" v-if="data === undefined || data.length === 0">
         {{ $t('jadwal_list_kosong') }} 
       </p>
 
-      <q-list padding bordered class="rounded-borders" v-if="data.length > 0">
+      <q-list padding bordered class="rounded-borders" v-else>
         <q-expansion-item
           dense-toggle
           expand-separator
