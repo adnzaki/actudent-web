@@ -47,5 +47,6 @@ return [
     'jadwal_update_setting_progress'=> 'Saving settings...',
     'jadwal_unable_update_setting'  => 'Unable to update schedule settings, please fill the form correctly',
     'jadwal_success_update_setting' => 'Schedule settings successfully updated',    
-    'jadwal_mapping'                => 'Schedule Mapping'
+    'jadwal_mapping'                => 'Schedule Mapping',
+    'jadwal_list_kosong'            => 'No schedule yet.'
 ];

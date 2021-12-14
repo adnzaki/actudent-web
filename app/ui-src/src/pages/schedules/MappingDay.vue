@@ -1,13 +1,17 @@
 <template>
   <div class="col-12 col-sm-4 q-px-md">
-    <q-card flat bordered class="my-card q-mb-sm">
+    <q-card class="my-card q-mb-sm">
       <q-card-section>
         <div class="text-h6">{{ day }}</div>
       </q-card-section>
 
       <q-separator />
 
-      <q-list padding bordered class="rounded-borders">
+      <p class="text-center text-bold q-mt-md" v-if="data.length === 0">
+        {{ $t('jadwal_list_kosong') }} 
+      </p>
+
+      <q-list padding bordered class="rounded-borders" v-if="data.length > 0">
         <q-expansion-item
           dense-toggle
           expand-separator
