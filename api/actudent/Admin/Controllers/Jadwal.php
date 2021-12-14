@@ -331,7 +331,7 @@ class Jadwal extends Actudent
             'schedule' => $wrapper,
         ];
 
-        return $this->response->setJSON($data);
+        return $this->createResponse($data, 'is_admin');
     }
     
     private function countDiff($time1, $time2)

@@ -6,6 +6,14 @@ import {
 } from '../../composables/common'
 
 export default {
+  getSchedules(state, grade) {
+    admin.get(`${state.scheduleApi}get-jadwal/${grade}`, {
+      headers: { Authorization: bearerToken },
+    })
+      .then(response => {
+        state.schedule.list = response.data.schedule
+      })
+  },
   getDetailLesson(state, id) {
     state.lesson.showEditForm = true
     admin.get(`${state.scheduleApi}detail-mapel/${id}`, {

@@ -27,6 +27,8 @@ export default function () {
       options: [],
     },
     schedule: {
+      list: [],
+      showForm: false,
       isBreak: false,
       showInput: false,
       
