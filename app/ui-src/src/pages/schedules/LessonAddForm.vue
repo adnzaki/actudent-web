@@ -49,7 +49,7 @@ import { mapState, useStore } from 'vuex'
 export default {
   name: 'LessonAddForm',
   computed: {
-    ...mapState('lesson', {
+    ...mapState('schedule', {
       error: state => state.error,
       disableSaveButton: state => state.helper.disableSaveButton
     }),
