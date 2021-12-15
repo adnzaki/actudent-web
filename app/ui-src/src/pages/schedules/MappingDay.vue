@@ -7,7 +7,7 @@
 
       <q-separator />
 
-      <p class="text-center text-bold q-mt-md" v-if="data === undefined || data.length === 0">
+      <p class="text-center text-bold q-mt-md" v-if="schedules[target] === undefined || schedules[target].length === 0">
         {{ $t('jadwal_list_kosong') }} 
       </p>
 
@@ -15,7 +15,7 @@
         <q-expansion-item
           dense-toggle
           expand-separator
-          v-for="(item, index) in data" :key="index"
+          v-for="(item, index) in schedules[target]" :key="index"
           :label="item.lesson_name"
           :header-class="listItemClass(item.schedule_id)"
           :expand-icon-class="expandIconClass(item.schedule_id)"
@@ -54,9 +54,15 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   name: 'MappingDay',
-  props: ['day', 'data', 'target'],
+  props: ['day', 'target'],
+  computed: {
+    ...mapState('schedule', {
+      schedules: state => state.schedule.list,
+    })
+  },
   setup() {
     const listItemClass = schedule => {
       return schedule === null ? 'bg-teal text-white text-bold' : ''
