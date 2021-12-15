@@ -17,8 +17,8 @@
           expand-separator
           v-for="(item, index) in schedules[target]" :key="index"
           :label="item.lesson_name"
-          :header-class="listItemClass(item.schedule_id)"
-          :expand-icon-class="expandIconClass(item.schedule_id)"
+          :header-class="listItemClass(item.lesson_code)"
+          :expand-icon-class="expandIconClass(item.lesson_code)"
         >
           <q-card class="bg-blue-grey-1">
             <q-card-section>
@@ -28,14 +28,14 @@
                     <td>{{ $t('jadwal_durasi') }}</td>
                     <td>
                       : {{ item.duration }}
-                      <span v-if="item.schedule_id === null"> {{ $t('jadwal_menit') }} </span>
+                      <span v-if="item.lesson_code === 'REST'"> {{ $t('jadwal_menit') }} </span>
                       <span v-else> {{ $t('jadwal_jam_pelajaran') }} </span>
                     </td>
                   </tr>
                   <tr>
                     <td>{{ $t('jadwal_waktu') }}</td><td>: {{ item.schedule_start }} - {{ item.schedule_end }}</td>
                   </tr>
-                  <tr v-if="item.schedule_id !== null">
+                  <tr v-if="item.lesson_code !== 'REST'">
                     <td>{{ $t('jadwal_guru_mapel') }}</td><td>: {{ item.teacher }}</td>
                   </tr>
                 </tbody>
@@ -64,12 +64,12 @@ export default {
     })
   },
   setup() {
-    const listItemClass = schedule => {
-      return schedule === null ? 'bg-teal text-white text-bold' : ''
+    const listItemClass = code => {
+      return code === 'REST' ? 'bg-teal text-white text-bold' : ''
     }
 
-    const expandIconClass = schedule => {
-      return schedule === null ? 'text-white' : ''
+    const expandIconClass = code => {
+      return code === 'REST' ? 'text-white' : ''
     }
 
     return {
