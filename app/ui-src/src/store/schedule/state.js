@@ -29,15 +29,19 @@ export default function () {
     schedule: {
       list: [],
       showForm: false,
+      showLessonList: true, // show lesson list in schedule form
+      showLessonInput: false, // show lesson input form
+      showBreakInput: false, // show break input form
+      showInactiveInput: false, // show input taken from inactive lesson
       isBreak: false,
-      showInput: false,
       
       // list of lessons in manage lessons form
       lessonsInput: [],
 
       selectedDay: '', breakDuration: 0,
       toBeDeletedSchedule: [],
-      allocation: '', scheduleType: 'lesson'
+      allocation: '', scheduleType: 'lesson',
+      saveStatus: 500,
     },      
   }
 }

@@ -46,7 +46,7 @@
       </q-list>
 
       <q-card-actions vertical>
-        <q-btn color="accent">{{ $t('kelola') }}</q-btn>
+        <q-btn color="accent" @click="$store.commit('schedule/showMappingForm', target)">{{ $t('kelola') }}</q-btn>
       </q-card-actions>
 
     </q-card>
@@ -56,7 +56,7 @@
 <script>
 export default {
   name: 'MappingDay',
-  props: ['day', 'data'],
+  props: ['day', 'data', 'target'],
   setup() {
     const listItemClass = schedule => {
       return schedule === null ? 'bg-teal text-white text-bold' : ''

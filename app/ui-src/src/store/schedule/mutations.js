@@ -6,6 +6,37 @@ import {
 } from '../../composables/common'
 
 export default {
+  showMappingForm(state, day) {
+    state.schedule.lessonsInput = []
+    state.schedule.showForm = true
+    state.schedule.selectedDay = day
+    if (state.schedule.list[day].length > 0) {
+      let jadwal = state.schedule.list[day]
+      jadwal.forEach((item, index) => {
+        let satuan, ruang, scheduleIndex
+        if (item.lesson_code !== 'REST') {
+          satuan = t('jadwal_jam_pelajaran')
+          ruang = ` - ${item.room_name}`
+          scheduleIndex = index
+        } else {
+          item.lessons_grade_id = 'null'
+          item.schedule_id = `break-${index}`
+          satuan = t('jadwal_menit')
+          ruang = ''
+          scheduleIndex = 'null'
+        }
+
+        state.schedule.lessonsInput.push({
+          id: item.schedule_id,
+          val: item.lessons_grade_id,
+          room: item.room_id,
+          text: `${item.lesson_name} (${item.duration} ${satuan}${ruang})`,
+          duration: item.duration,
+          index: scheduleIndex
+        })
+      })
+    }
+  },
   getSchedules(state, grade) {
     admin.get(`${state.scheduleApi}get-jadwal/${grade}`, {
       headers: { Authorization: bearerToken },
