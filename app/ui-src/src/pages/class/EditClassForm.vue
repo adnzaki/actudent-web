@@ -22,6 +22,7 @@
             :list="$store.state.grade.teachers"
             :options-value="{ label: 'staff_name', value: 'staff_id' }"
             load-on-route
+            :label="$t('kelas_wali')"
           />    
 
         </q-form>
