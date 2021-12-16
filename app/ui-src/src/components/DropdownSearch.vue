@@ -9,6 +9,7 @@
       dense
       @filter="filterFn"
       @update:model-value="selectedHandler"
+      :label="normalLabel"
     >
       <template v-slot:no-option>
         <q-item>
@@ -31,6 +32,7 @@ export default {
     'vuexModule', 
     'selected', 
     'loader', // provide only if loadOnRoute is not defined
+    'normalLabel', // standard QSelect label, if it is not empty, "label" prop will be overriden
     'label', 
     'list', 
     'optionsValue', 
@@ -55,16 +57,19 @@ export default {
     }
 
     setTimeout(() => {    
-      let modelValue = {}
+      let modelValue = null
+
       if(props.default !== undefined) {
         modelValue = {
           label: props.default.label,
           value: props.default.value
         }
       } else {
-        modelValue = {
-          label: props.label,
-          value: null
+        if(props.normalLabel === undefined) {
+          modelValue = {
+            label: props.label,
+            value: null
+          }
         }
       }
   
@@ -100,7 +105,11 @@ export default {
       filterFn(val, update, abort) {
         update(() => {
           const needle = val.toLowerCase()
-          options.value = stringOptions.value.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
+          options.value = stringOptions.value.filter(v => {
+            if(v !== null) {
+              return v.label.toLowerCase().indexOf(needle) > -1
+            }
+          })
         })
       },
       selectedHandler
