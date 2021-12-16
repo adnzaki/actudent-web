@@ -9,7 +9,7 @@
       dense
       @filter="filterFn"
       @update:model-value="selectedHandler"
-      :label="normalLabel"
+      :label="label"
     >
       <template v-slot:no-option>
         <q-item>
@@ -32,8 +32,8 @@ export default {
     'vuexModule', 
     'selected', 
     'loader', // provide only if loadOnRoute is not defined
-    'normalLabel', // standard QSelect label, if it is not empty, "label" prop will be overriden
-    'label', 
+    'labelAsOption', // use option to be a label, "label" prop will be overriden if it is used
+    'label',  // standard QSelect label
     'list', 
     'optionsValue', 
     'flexGrid', // add one or more grid classes to make component responsive
@@ -65,9 +65,9 @@ export default {
           value: props.default.value
         }
       } else {
-        if(props.normalLabel === undefined) {
+        if(props.label === undefined) {
           modelValue = {
-            label: props.label,
+            label: props.labelAsOption,
             value: null
           }
         }
