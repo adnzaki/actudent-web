@@ -71,6 +71,7 @@ return [
     'access_denied'     => 'Anda tidak memiliki akses ke halaman ini',
     'mohon_tunggu'      => 'Mohon tunggu...',
     'pindah_mode'       => 'Pindah Mode',
+    'selesai'           => 'Selesai',
 
     // hari-hari
     'day1'              => 'Senin',

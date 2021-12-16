@@ -10,18 +10,31 @@
 
       <q-card-section class="scroll card-section">
         <!-- Schedule list -->
-        <q-input standout dense disable
-          v-for="(item, index) in data" :key="index"
-          v-model="item.text"
-          class="q-mb-xs">
-          <template v-slot:after>
-            <q-btn round dense flat icon="delete" color="negative" />
-          </template>
-        </q-input>      
-        <div class="column items-center q-mt-md">
-          <q-btn round color="primary" icon="add" />              
+        <div v-if="schedule.showLessonList">
+          <q-input standout dense disable
+            v-for="(item, index) in schedule.lessonsInput" :key="index"
+            v-model="item.text"
+            class="q-mb-xs">
+            <template v-slot:after>
+              <q-btn round dense flat icon="delete" color="negative" />
+            </template>
+          </q-input>      
+          <div class="column items-center q-mt-md">
+            <q-btn round color="primary" icon="add" @click="showAddNormalSchedule">
+              <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+                {{ $t('tambah') }}
+              </q-tooltip>
+            </q-btn>
+          </div>
         </div>
+        <!-- Add normal schedule -->
+        <mapping-add-normal />
+
+        <!-- Add a break -->
+
+        <!-- Add from inactive schedule -->
       </q-card-section>
+
       
       <q-separator />
 
@@ -35,29 +48,22 @@
 
 <script>
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
+import MappingAddNormal from './MappingAddNormal.vue'
 
 export default {
   name: 'MappingForm',
+  components: { MappingAddNormal },
   computed: {
     ...mapState('schedule', {
       error: state => state.error,
       disableSaveButton: state => state.helper.disableSaveButton,
-      data: state => state.schedule.lessonsInput,
+      schedule: state => state.schedule
     }),
   },
   setup() {
     const store = useStore()
-    const route = useRoute()
-
-    let formValue = {
-      lesson_id: '',
-      teacher_id: ''
-    }
-
-    const formData = ref(formValue)
 
     const formOpen = () => {
       const saveStatus = computed(() => store.state.schedule.schedule.saveStatus)
@@ -71,6 +77,11 @@ export default {
         formData.value = formValue
       }
     }
+
+    const showAddNormalSchedule = () => {
+      store.state.schedule.schedule.showLessonList = false
+      store.state.schedule.schedule.showLessonInput = true
+    }
     
     const save = () => {
       // store.dispatch('schedule/saveLesson', {
@@ -81,10 +92,10 @@ export default {
     }
 
     return {
-      formData,
       save,
+      showAddNormalSchedule,
       maximizedDialog, cardDialog,
-      formOpen,
+      formOpen
     }
   }
 }

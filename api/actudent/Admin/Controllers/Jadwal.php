@@ -218,7 +218,7 @@ class Jadwal extends Actudent
             }
         }
         
-        return $this->response->setJSON($response);
+        return $this->createResponse($response);
     }
 
     private function convertToMinute($decimalValue)

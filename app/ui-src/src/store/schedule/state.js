@@ -16,6 +16,7 @@ export default function () {
     searchTimeout: false,
     className: '',
     classID: '',
+    rooms: [],
     lesson: {
       showAddForm: false,
       showEditForm: false,

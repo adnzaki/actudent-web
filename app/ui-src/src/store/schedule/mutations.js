@@ -6,6 +6,14 @@ import {
 } from '../../composables/common'
 
 export default {
+  getRooms(state) {
+    admin.get(`${state.scheduleApi}get-ruang`, {
+      headers: { Authorization: bearerToken },
+    })
+      .then(response => {
+        state.rooms = response.data
+      })
+  },
   showMappingForm(state, day) {
     state.schedule.lessonsInput = []
     state.schedule.showForm = true
@@ -19,7 +27,7 @@ export default {
           ruang = ` - ${item.room_name}`
           scheduleIndex = index
         } else {
-          item.lessons_grade_id = 'null'
+          item.lessons_grade_id = null
           item.schedule_id = `break-${index}`
           satuan = t('jadwal_menit')
           ruang = ''

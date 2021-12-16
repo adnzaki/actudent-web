@@ -26,7 +26,9 @@ export default {
   },
   created() {
     setTimeout(() => {
-      this.$store.commit('schedule/getSchedules', this.$route.params.id)  
+      this.$store.commit('schedule/getSchedules', this.$route.params.id)
+      this.$store.commit('schedule/getLessonsList', this.$route.params.id)
+      this.$store.commit('schedule/getRooms')
     }, 500)
   },
   setup() {

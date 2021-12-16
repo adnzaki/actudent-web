@@ -11,7 +11,7 @@ return [
     'jadwal_add_mapel_title'        => 'Add lesson',
     'jadwal_edit_mapel_title'       => 'Edit lesson',
     'jadwal_label_pilih_mapel'      => 'Choose a lesson',
-    'jadwal_label_pilih_ruang'      => 'Room',
+    'jadwal_label_pilih_ruang'      => 'Select a Room',
     'jadwal_label_pilih_guru'       => 'Subject teacher',
     'jadwal_input_cari_mapel'       => 'Search for lesson name',
     'jadwal_err_lesson_required'    => 'No lesson selected',

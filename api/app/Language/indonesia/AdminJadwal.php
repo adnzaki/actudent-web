@@ -11,7 +11,7 @@ return [
     'jadwal_add_mapel_title'        => 'Tambah Mata Pelajaran',
     'jadwal_edit_mapel_title'       => 'Perbarui mata pelajaran',
     'jadwal_label_pilih_mapel'      => 'Pilih mata pelajaran',
-    'jadwal_label_pilih_ruang'      => 'Ruang',
+    'jadwal_label_pilih_ruang'      => 'Pilih ruang',
     'jadwal_label_pilih_guru'       => 'Guru bidang studi',
     'jadwal_input_cari_mapel'       => 'Cari nama mapel',
     'jadwal_err_lesson_required'    => 'Belum ada mata pelajaran yang dipilih',
