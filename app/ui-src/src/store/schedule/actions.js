@@ -13,13 +13,65 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  saveSchedules({ state, commit }) {
+    let data = JSON.stringify(state.schedule.lessonsInput),
+        toBeDeleted = JSON.stringify(state.schedule.toBeDeletedSchedule)
+
+    const schedules = { jadwal:  data, hapus: toBeDeleted }
+
+    state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('jadwal_save_progress'),
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    admin.post(`${state.scheduleApi}simpan-jadwal/${state.schedule.selectedDay}`, schedules, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(() => {
+        state.helper.disableSaveButton = false
+
+        // hide all forms
+        state.schedule.showLessonInput = false
+        state.schedule.showBreakInput = false
+        state.schedule.showInactiveInput = false
+
+        // show the lesson list
+        state.schedule.showLessonList = true
+
+        state.schedule.isBreak = false  
+        state.schedule.lessonsInput = []
+        state.schedule.toBeDeletedSchedule = []
+        state.schedule.breakDuration = 0
+        state.schedule.scheduleType = 'lesson'
+
+        notifyProgress({
+          message: t('jadwal_save_success'),
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+
+        commit('getSchedules', state.classID)
+        state.schedule.showForm = false
+      })
+  },
   deleteLesson({ state, dispatch }) {
     let idString
     if(state.lesson.selected.length > 1) {
-        idString = state.lesson.selected.join('-')
+      idString = state.lesson.selected.join('-')
     } else {
-        idString = state.lesson.selected[0]
+      idString = state.lesson.selected[0]
     }
+
+    state.helper.disableSaveButton = true
 
     // show notify
     const notifyProgress = Notify.create({
@@ -64,7 +116,7 @@ export default {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: t('jadwal_save_progress'),
+      message: t('jadwal_save_lesson_progress'),
       color: 'info',
       position: 'center',
       timeout,

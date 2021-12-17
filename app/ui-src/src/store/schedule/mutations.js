@@ -6,6 +6,58 @@ import {
 } from '../../composables/common'
 
 export default {
+  removeLesson(state, id) {
+    // Remove item from state.schedule.lessonsInput
+    let lessons = state.schedule.lessonsInput,
+        index = lessons.findIndex(el => {
+          return el.id === id
+        })
+    lessons.splice(index, 1)
+
+    // If they are existing data from server,
+    // send them to state.schedule.toBeDeletedSchedule
+    if (id.match(/break/) === null && id.match(/new/) === null) {
+      state.schedule.toBeDeletedSchedule.push(id)
+    }
+  },
+  pushLesson(state, data) {
+    let schedule, index = 0
+
+    if (state.schedule.lessonsInput.length > 0) {
+      index = state.schedule.lessonsInput.length
+    }
+
+    if(!state.schedule.isBreak) {
+      let lesson = data.lesson,
+          room = data.room,
+          duration = data.duration
+
+      let scheduleID, lessonGradeID
+      if (state.schedule.scheduleType === 'lesson') {
+        scheduleID = `new-${index}`
+        lessonGradeID = lesson.value
+      } else {
+        // let selectedLesson = mapel[0].id,
+        //     split = selectedLesson.split('-')
+        
+        // scheduleID = `inactive-${split[0]}`
+        // lessonGradeID = split[1]
+      }
+
+      schedule = { 
+        id: scheduleID,
+        val: lessonGradeID, // lessons_grade_id
+        room: room.value, // room_id
+        text: `${lesson.label} (${duration.label} - ${room.label})`,
+        duration: duration.value,
+        index
+      }
+    } else {
+
+    }
+
+    state.schedule.lessonsInput.push(schedule)
+  },
   getRooms(state) {
     admin.get(`${state.scheduleApi}get-ruang`, {
       headers: { Authorization: bearerToken },
@@ -52,6 +104,8 @@ export default {
       .then(response => {
         state.schedule.list = response.data.schedule
         state.className = response.data.class_name
+        
+        if(state.classID === '') state.classID = grade
       })
   },
   getDetailLesson(state, id) {

@@ -17,7 +17,12 @@
       :options-value="{ label: 'text', value: 'id' }"
       load-on-route
     />  
-    <q-select outlined dense v-model="duration" :options="durationOptions" :label="$t('jadwal_durasi')" />
+    <q-select outlined dense 
+      v-model="duration" 
+      :options="durationOptions" 
+      :label="$t('jadwal_durasi')"
+      @update:model-value="setDuration" />
+
     <div class="column items-center q-mt-md">
       <q-btn round color="green" icon="done" @click="pushLesson">
         <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
@@ -25,6 +30,7 @@
         </q-tooltip>
       </q-btn>
     </div>
+
   </q-form>
 </template>
 
@@ -50,10 +56,9 @@ export default {
       duration: 0
     }
 
-    const setLesson = model => formValue.lesson = model.value
-    const setRoom = model => formValue.room = model.value
+    const setLesson = model => formValue.lesson = model
+    const setRoom = model => formValue.room = model
 
-    const formData = ref(formValue)
     const duration = ref(null)
     const durationValues = [1, 2, 3, 4]
     const durationOptions = ref([])
@@ -65,7 +70,16 @@ export default {
       })
     })
 
+    const setDuration = model => formValue.duration = model
+
     const pushLesson = () => {
+      if(formValue.lesson !== '' && formValue.room !== '' && formValue.duration !== 0) {
+        store.commit('schedule/pushLesson', formValue)
+        formValue.lesson = ''
+        formValue.room = ''
+      }
+
+      
       store.state.schedule.schedule.showLessonInput = false
       store.state.schedule.schedule.showLessonList = true
     }
@@ -75,7 +89,8 @@ export default {
       setRoom,
       duration,
       durationOptions,
-      pushLesson
+      pushLesson,
+      setDuration
     }
   }
 }

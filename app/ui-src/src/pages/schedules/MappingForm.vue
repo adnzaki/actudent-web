@@ -16,7 +16,7 @@
             v-model="item.text"
             class="q-mb-xs">
             <template v-slot:after>
-              <q-btn round dense flat icon="delete" color="negative" />
+              <q-btn round dense flat icon="delete" color="negative" @click="removeLesson(item.id)" />
             </template>
           </q-input>      
           <div class="column items-center q-mt-md">
@@ -40,7 +40,11 @@
 
       <q-card-actions align="right">
         <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
+        <q-btn :label="$t('simpan')" 
+          :disable="disableSaveButton" 
+          @click="$store.dispatch('schedule/saveSchedules')" 
+          color="primary" padding="8px 20px" 
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -82,20 +86,14 @@ export default {
       store.state.schedule.schedule.showLessonList = false
       store.state.schedule.schedule.showLessonInput = true
     }
-    
-    const save = () => {
-      // store.dispatch('schedule/saveLesson', {
-      //   data: formData.value,
-      //   edit: false,
-      //   id: null
-      // })
-    }
+
+    const removeLesson = id => store.commit('schedule/removeLesson', id)
 
     return {
-      save,
       showAddNormalSchedule,
       maximizedDialog, cardDialog,
-      formOpen
+      formOpen,
+      removeLesson
     }
   }
 }

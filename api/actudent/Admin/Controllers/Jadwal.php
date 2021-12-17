@@ -145,62 +145,65 @@ class Jadwal extends Actudent
 
     public function saveSchedules($day)
     {
-        $request = $this->request->getPost('jadwal');
-        $deleteSchedules = $this->request->getPost('hapus');
-        $data = json_decode($request, true);
-        $deleteSchedules = json_decode($deleteSchedules, true);
-        $alokasi = $this->jadwal->getScheduleTime();
-        $mulai = $this->jadwal->getStartTime();
-
-        if(count($data) > 0)
+        if(is_admin())
         {
-            $normalTimeSchedule = $this->exactDuration($data, $alokasi);
-            $wrapper = [];
+            $request = $this->request->getPost('jadwal');
+            $deleteSchedules = $this->request->getPost('hapus');
+            $data = json_decode($request, true);
+            $deleteSchedules = json_decode($deleteSchedules, true);
+            $alokasi = $this->jadwal->getScheduleTime();
+            $mulai = $this->jadwal->getStartTime();
     
-            foreach($normalTimeSchedule as $res)
+            if(count($data) > 0)
             {
-                $penambah = $res['durasi'] / 60;
-                $selesai = $mulai + $penambah;
-                $getMinute = $this->convertToMinute($selesai);
-                $waktuSelesai = $this->normalizeTime(floor($selesai)) . '.' . $this->normalizeTime($getMinute);
-    
-                // If $mulai is float/decimal value, convert it to minute
-                if(gettype($mulai) !== 'integer')
+                $normalTimeSchedule = $this->exactDuration($data, $alokasi);
+                $wrapper = [];
+        
+                foreach($normalTimeSchedule as $res)
                 {
-                    $minute = $this->convertToMinute($mulai);
-                }
-                else
-                {
-                    $minute = '0';
+                    $penambah = $res['durasi'] / 60;
+                    $selesai = $mulai + $penambah;
+                    $getMinute = $this->convertToMinute($selesai);
+                    $waktuSelesai = $this->normalizeTime(floor($selesai)) . '.' . $this->normalizeTime($getMinute);
+        
+                    // If $mulai is float/decimal value, convert it to minute
+                    if(gettype($mulai) !== 'integer')
+                    {
+                        $minute = $this->convertToMinute($mulai);
+                    }
+                    else
+                    {
+                        $minute = '0';
+                    }
+        
+                    $wrapper[] = [
+                        'schedule_id'       => $res['id'],
+                        'lessons_grade_id'  => $res['val'],
+                        'room_id'           => $res['ruang'],
+                        'schedule_semester' => 1,
+                        'schedule_day'      => $day,
+                        'duration'          => $res['alokasi'],
+                        'schedule_start'    => $this->normalizeTime(floor($mulai)) . '.' . $this->normalizeTime($minute),
+                        'schedule_end'      => $waktuSelesai,
+                        'schedule_order'    => $res['index'],
+                    ];
+        
+                    $mulai = $selesai;
                 }
     
-                $wrapper[] = [
-                    'schedule_id'       => $res['id'],
-                    'lessons_grade_id'  => $res['val'],
-                    'room_id'           => $res['ruang'],
-                    'schedule_semester' => 1,
-                    'schedule_day'      => $day,
-                    'duration'          => $res['alokasi'],
-                    'schedule_start'    => $this->normalizeTime(floor($mulai)) . '.' . $this->normalizeTime($minute),
-                    'schedule_end'      => $waktuSelesai,
-                    'schedule_order'    => $res['index'],
-                ];
-    
-                $mulai = $selesai;
+                $this->jadwal->saveSchedules($wrapper);
             }
-
-            $this->jadwal->saveSchedules($wrapper);
+    
+            if(count($deleteSchedules) > 0)
+            {
+                $this->jadwal->deleteSchedules($deleteSchedules);
+            }
+    
+            return $this->response->setJSON([
+                'status' => '200',
+                'msg' => 'OK',
+            ]);            
         }
-
-        if(count($deleteSchedules) > 0)
-        {
-            $this->jadwal->deleteSchedules($deleteSchedules);
-        }
-
-        return $this->response->setJSON([
-            'status' => '200',
-            'msg' => 'OK',
-        ]);
     }
 
     public function getRooms()
@@ -213,7 +216,7 @@ class Jadwal extends Actudent
             {
                 $response[] = [
                     'id' => $res->room_id,
-                    'text' => "$res->room_name ($res->room_code)",
+                    'text' => "$res->room_name",
                 ];
             }
         }
