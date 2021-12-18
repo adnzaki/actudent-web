@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2021 at 06:07 PM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Generation Time: Dec 18, 2021 at 04:36 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -169,6 +169,7 @@ CREATE TABLE `tb_grade` (
   `period_end` varchar(4) DEFAULT NULL,
   `teacher_id` int(11) NOT NULL,
   `grade_status` tinyint(1) DEFAULT NULL,
+  `rombel_dapodik_id` varchar(50) DEFAULT NULL,
   `deleted` tinyint(1) NOT NULL DEFAULT 0,
   `created` timestamp NOT NULL DEFAULT current_timestamp(),
   `modified` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
@@ -178,12 +179,12 @@ CREATE TABLE `tb_grade` (
 -- Dumping data for table `tb_grade`
 --
 
-INSERT INTO `tb_grade` (`grade_id`, `grade_name`, `period_start`, `period_end`, `teacher_id`, `grade_status`, `deleted`, `created`, `modified`) VALUES
-(1, 'X TKJ 2', '2019', '2020', 2, 1, 1, '2019-03-29 05:51:07', '2020-03-11 15:20:47'),
-(2, 'X Grafika 1', '2019', '2020', 10, 1, 0, '2019-03-28 07:37:57', '2020-07-10 06:51:29'),
-(3, 'X TKJ 1', '2019', '2020', 1, 1, 0, '2019-03-29 05:54:53', '2020-02-25 14:16:55'),
-(6, 'X Animasi 1', '2019', '2020', 2, 1, 0, '2020-03-11 15:22:07', '2020-03-11 15:27:41'),
-(7, 'X TKJ 2', '2019', '2020', 4, 1, 1, '2020-04-03 14:02:17', '2020-04-03 14:02:24');
+INSERT INTO `tb_grade` (`grade_id`, `grade_name`, `period_start`, `period_end`, `teacher_id`, `grade_status`, `rombel_dapodik_id`, `deleted`, `created`, `modified`) VALUES
+(1, 'X TKJ 2', '2019', '2020', 2, 1, NULL, 1, '2019-03-29 05:51:07', '2020-03-11 15:20:47'),
+(2, 'X Grafika 1', '2019', '2020', 10, 1, NULL, 0, '2019-03-28 07:37:57', '2020-07-10 06:51:29'),
+(3, 'X TKJ 1', '2019', '2020', 1, 1, NULL, 0, '2019-03-29 05:54:53', '2020-02-25 14:16:55'),
+(6, 'X Animasi 1', '2019', '2020', 2, 1, NULL, 0, '2020-03-11 15:22:07', '2020-03-11 15:27:41'),
+(7, 'X TKJ 2', '2019', '2020', 4, 1, NULL, 1, '2020-04-03 14:02:17', '2020-04-03 14:02:24');
 
 -- --------------------------------------------------------
 
@@ -415,7 +416,7 @@ INSERT INTO `tb_lessons_grade` (`lessons_grade_id`, `lesson_id`, `grade_id`, `te
 CREATE TABLE `tb_parent` (
   `parent_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `parent_family_card` varchar(18) NOT NULL,
+  `parent_family_card` varchar(18) DEFAULT NULL,
   `parent_father_name` varchar(100) DEFAULT NULL,
   `parent_mother_name` varchar(100) DEFAULT NULL,
   `parent_phone_number` varchar(15) DEFAULT NULL,
@@ -456,7 +457,21 @@ INSERT INTO `tb_parent` (`parent_id`, `user_id`, `parent_family_card`, `parent_f
 (30, 43, '3276732698472987', 'Riko Tantorini', 'Reina Suhanda', '08783874878', 0, '2020-03-11 13:09:01', '2020-03-11 13:09:01'),
 (31, 46, '3290892374892372', 'Baharudin Saifulloh', 'Ina Karlina', '0897983787863', 1, '2020-04-03 13:06:55', '2020-04-03 13:07:47'),
 (32, 51, '3282367468287467', 'Muhammad Azam Bin Bayan', 'Indri Sintiasari', '0878987367253', 0, '2020-07-09 05:36:01', '2020-07-09 05:36:01'),
-(33, 52, '3276827498459892', 'Kartono', 'Kartini', '0898737687634', 0, '2020-07-09 05:37:39', '2020-07-09 05:37:39');
+(33, 52, '3276827498459892', 'Kartono', 'Kartini', '0898737687634', 0, '2020-07-09 05:37:39', '2020-07-09 05:37:39'),
+(34, 55, '3275040529203046', 'Abdul Majid', 'Siti Fatimah', '089932108876', 0, '2021-05-17 04:29:42', '2021-05-17 04:29:42'),
+(35, 56, '3298798257489374', 'jsndfjsn', 'jnsjfdn', '0809839849899', 0, '2021-05-17 08:06:27', '2021-05-17 08:06:27'),
+(36, 57, '3289782734874878', 'Ibnu Kamil', 'Masitoh', '089898948293', 0, '2021-05-17 08:28:06', '2021-05-17 08:28:06'),
+(37, 58, '3298798347539898', 'Ahmad Hasan ', 'Rina Puspita', '083989489485', 0, '2021-05-17 08:30:35', '2021-05-17 08:30:35'),
+(38, 59, '3298792898394893', 'Ahmad Fajrul', 'Rina Rosinta', '083989482878', 0, '2021-05-17 08:31:31', '2021-05-17 08:31:31'),
+(39, 60, '3289798237482735', 'Roni Sianturi', 'Rima Nurmala', '089738979823', 0, '2021-05-17 10:28:06', '2021-05-17 10:28:06'),
+(40, 61, '3287928374897387', 'Adi Sumarno', 'Rini Sumarni', '08890389284', 0, '2021-05-17 10:44:07', '2021-05-17 10:44:07'),
+(41, 62, '3298782374834785', 'Hamdan Syakirin', 'Lusiana Fatinah', '089083984432', 0, '2021-05-17 10:48:17', '2021-05-17 10:48:17'),
+(42, 63, '3287923784787872', 'Hamdan Naimin', 'Mazidah', '098300983992', 0, '2021-05-17 10:57:22', '2021-05-17 10:57:22'),
+(43, 64, '3275978923490824', 'Syarif Romadhon', 'Syarifah Ramadhani', '088492898393', 0, '2021-05-17 12:56:31', '2021-05-17 12:56:31'),
+(44, 65, '3209809324037483', 'Izzatul Islam', 'Mariana Dista', '080894894893', 0, '2021-05-17 13:04:32', '2021-05-17 13:04:32'),
+(45, 66, '3298789237484375', 'Abdul Fattah', 'Rini Marini', '0839089384938', 0, '2021-05-17 13:05:20', '2021-05-17 13:05:20'),
+(46, 67, '3287983475834757', 'Himdin', 'Himdiniyih', '089038984989', 0, '2021-05-17 13:09:31', '2021-05-17 13:09:31'),
+(47, 68, '3297982374837583', 'Huntu', 'Hinti', '08039485948', 0, '2021-05-18 05:25:53', '2021-05-18 05:25:53');
 
 -- --------------------------------------------------------
 
@@ -1602,7 +1617,21 @@ INSERT INTO `tb_user` (`user_id`, `user_name`, `user_email`, `user_password`, `u
 (51, 'Indri Sintiasari', 'indrisintia@smkn999kotabekasi.actudent.com', '$2y$10$rAUBYcBeGxkhSW2D3lfF.OiNQv2fUbd.tSCygzAYmaFb4albHylAi', 3, 0, 'offline', '2020-07-09 05:36:01', '2020-07-09 05:36:01'),
 (52, 'Kartono', 'kartono99@smkn999kotabekasi.actudent.com', '$2y$10$xJ7jc.uJFjrkBagIWzhE5OeUsH5ScATBmt.r5JQ6E9rb4lu5qjHae', 3, 0, 'offline', '2020-07-09 05:37:39', '2020-07-09 05:37:39'),
 (53, 'Muhammad Rizal', 'mrizal@demo.actudent.com', '$2y$10$drvBweeuXwGU2j5WpiEYc.IteTmRrpxKdD2JAaluAZ/CEj8.uYz12', 2, 0, 'online', '2020-07-10 05:47:57', '2021-03-15 07:33:18'),
-(54, 'Administrator', 'admin@demo.actudent.com', '$2y$10$gKk1sx1Jx/cXx2L8BolU4emqDn2Kg/zSr9hqOb7Syo5NpisY.QnwC', 1, 0, 'online', '2021-02-03 02:45:55', '2021-03-15 06:40:13');
+(54, 'Administrator', 'admin@demo.actudent.com', '$2y$10$gKk1sx1Jx/cXx2L8BolU4emqDn2Kg/zSr9hqOb7Syo5NpisY.QnwC', 1, 0, 'online', '2021-02-03 02:45:55', '2021-03-15 06:40:13'),
+(55, 'Abdul Majid', 'abdulmajid97@demo.actudent.com', '$2y$10$HzH7jhmpnhT4/GFjT76ZieUO2VF3joByaXh1bdUMIR04it2wDgaPe', 3, 0, 'offline', '2021-05-17 04:29:42', '2021-05-17 04:29:42'),
+(56, 'jsndfjsn', 'kjnjfnfj@demo.actudent.com', '$2y$10$I1YR8I.lA1DqE33igLMKZOOmRaETKcvNE9MWVSupo9n2Js4aKX0OG', 3, 0, 'offline', '2021-05-17 08:06:27', '2021-05-17 08:06:27'),
+(57, 'Ibnu Kamil', 'ibnukamil87@demo.actudent.com', '$2y$10$ZWMk7ceGzAWmmSvP6usSjuUOpqdrHSZEhV0s.xHryn25ZWmXV1/p6', 3, 0, 'offline', '2021-05-17 08:28:06', '2021-05-17 08:28:06'),
+(58, 'Ahmad Hasan ', 'rinapuspita@demo.actudent.com', '$2y$10$M7nn0bSfzdNeWGX8CQU7HOaBCej3f8TZbqg80P1PzqAe/AVP0x2dq', 3, 0, 'offline', '2021-05-17 08:30:35', '2021-05-17 08:30:35'),
+(59, 'Ahmad Fajrul', 'rinarosinta@demo.actudent.com', '$2y$10$rlLUPusxbvy2apBACoZESeopwNw4VAPSJ4SUk78mUOs.r2Up2h5i6', 3, 0, 'offline', '2021-05-17 08:31:31', '2021-05-17 08:31:31'),
+(60, 'Rima Nurmala', 'rimanurmala@demo.actudent.com', '$2y$10$wVX5tG1g.54Az.Crlhafpe.WGqn8LriawV8ZuAmMEJ77H4vCWsKQa', 3, 0, 'offline', '2021-05-17 10:28:06', '2021-05-17 10:28:06'),
+(61, 'Adi Sumarno', 'adi_sumarno@demo.actudent.com', '$2y$10$VLnn68bLggBLVPnZN0T69O/iHH0Tj6NuMA9L80MyFiH8jhmLaTt3y', 3, 0, 'offline', '2021-05-17 10:44:07', '2021-05-17 10:44:07'),
+(62, 'Hamdan Syakirin', 'hamdans@demo.actudent.com', '$2y$10$hn1XSqIpxicTxlOznrNIv.UQ9ODXxwh09otNbLZKGBPM/l/rGILF2', 3, 0, 'offline', '2021-05-17 10:48:17', '2021-05-17 10:48:17'),
+(63, 'Hamdan Naimin', 'hamdanna@demo.actudent.com', '$2y$10$dweEpb382S4Y6V.uVi5XYOcvEUYDnlpheqPpNmcU1DTWgmwD6FF9m', 3, 0, 'offline', '2021-05-17 10:57:22', '2021-05-17 10:57:22'),
+(64, 'Syarif Romadhon', 'syarif_r192@demo.actudent.com', '$2y$10$8kS86VVcEX8dp9qYJolqNuO18GWOD7dFsgLoVHYqAe4L2A99//Zmu', 3, 0, 'offline', '2021-05-17 12:56:31', '2021-05-17 12:56:31'),
+(65, 'Izzatul Islam', 'izzatul_islam@demo.actudent.com', '$2y$10$OXaD.DmIdONG/9LvqCaaP.yHDvZbSuHF6I7zMLcDJPyhMBP9O5biO', 3, 0, 'offline', '2021-05-17 13:04:32', '2021-05-17 13:04:32'),
+(66, 'Abdul Fattah', 'abdulfattah@demo.actudent.com', '$2y$10$a8UdokSBwOoIGUdrkTHhkODvY9p3Qw208zyDE3fcW1Tue/6uFH.5q', 3, 0, 'offline', '2021-05-17 13:05:20', '2021-05-17 13:05:20'),
+(67, 'Himdin', 'himdin982@demo.actudent.com', '$2y$10$dCgnt6HfDhFtB.xor0sBqOfPPjlk7C/JArrPyAIeqI5.S/aETK0Ly', 3, 0, 'offline', '2021-05-17 13:09:31', '2021-05-17 13:09:31'),
+(68, 'Huntu', 'huntu92@demo.actudent.com', '$2y$10$9ldHEXaRC.nBLCaeUnUF0.eNDSrLfBtpicebe2sPQly/.Wc0YxFi.', 3, 0, 'offline', '2021-05-18 05:25:52', '2021-05-18 05:25:52');
 
 -- --------------------------------------------------------
 
@@ -1653,49 +1682,6 @@ INSERT INTO `tb_user_language` (`user_lang_id`, `user_id`, `user_language`) VALU
 (4, 4, 'indonesia'),
 (5, 53, 'indonesia'),
 (6, 54, 'indonesia');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_user_themes`
---
-
-CREATE TABLE `tb_user_themes` (
-  `user_themes_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `theme` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_user_themes`
---
-
-INSERT INTO `tb_user_themes` (`user_themes_id`, `user_id`, `theme`) VALUES
-(1, 1, 'light-blue'),
-(2, 2, 'night-vision'),
-(3, 3, 'light-blue'),
-(4, 4, 'night-vision'),
-(5, 53, 'night-vision'),
-(6, 54, 'light-blue');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tb_user_token`
---
-
-CREATE TABLE `tb_user_token` (
-  `token_id` int(11) NOT NULL,
-  `token_value` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tb_user_token`
---
-
-INSERT INTO `tb_user_token` (`token_id`, `token_value`) VALUES
-(1, 'YWRtaW5AZGVtby5hY3R1ZGVudC5jb20tMQ=='),
-(2, 'YWRtaW5AZGVtby5hY3R1ZGVudC5jb20tMQ==');
 
 --
 -- Indexes for dumped tables
@@ -1766,7 +1752,7 @@ ALTER TABLE `tb_lessons_grade`
 -- Indexes for table `tb_parent`
 --
 ALTER TABLE `tb_parent`
-  ADD PRIMARY KEY (`parent_id`,`user_id`,`parent_family_card`),
+  ADD PRIMARY KEY (`parent_id`,`user_id`) USING BTREE,
   ADD KEY `fk_parent` (`user_id`);
 
 --
@@ -1892,19 +1878,6 @@ ALTER TABLE `tb_user_language`
   ADD KEY `fk_user_language` (`user_id`);
 
 --
--- Indexes for table `tb_user_themes`
---
-ALTER TABLE `tb_user_themes`
-  ADD PRIMARY KEY (`user_themes_id`),
-  ADD KEY `fk_user_themes` (`user_id`);
-
---
--- Indexes for table `tb_user_token`
---
-ALTER TABLE `tb_user_token`
-  ADD PRIMARY KEY (`token_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -1954,7 +1927,7 @@ ALTER TABLE `tb_lessons_grade`
 -- AUTO_INCREMENT for table `tb_parent`
 --
 ALTER TABLE `tb_parent`
-  MODIFY `parent_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `parent_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `tb_room`
@@ -2020,7 +1993,7 @@ ALTER TABLE `tb_timelog`
 -- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `tb_user_devices`
@@ -2033,18 +2006,6 @@ ALTER TABLE `tb_user_devices`
 --
 ALTER TABLE `tb_user_language`
   MODIFY `user_lang_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `tb_user_themes`
---
-ALTER TABLE `tb_user_themes`
-  MODIFY `user_themes_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT for table `tb_user_token`
---
-ALTER TABLE `tb_user_token`
-  MODIFY `token_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Constraints for dumped tables
@@ -2178,12 +2139,6 @@ ALTER TABLE `tb_user_devices`
 --
 ALTER TABLE `tb_user_language`
   ADD CONSTRAINT `fk_user_language` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`user_id`);
-
---
--- Constraints for table `tb_user_themes`
---
-ALTER TABLE `tb_user_themes`
-  ADD CONSTRAINT `fk_user_themes` FOREIGN KEY (`user_id`) REFERENCES `tb_user` (`user_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
