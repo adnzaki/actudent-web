@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 18, 2021 at 04:36 PM
+-- Generation Time: Dec 18, 2021 at 06:03 PM
 -- Server version: 10.4.22-MariaDB
--- PHP Version: 8.1.0
+-- PHP Version: 8.0.13
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -180,11 +180,11 @@ CREATE TABLE `tb_grade` (
 --
 
 INSERT INTO `tb_grade` (`grade_id`, `grade_name`, `period_start`, `period_end`, `teacher_id`, `grade_status`, `rombel_dapodik_id`, `deleted`, `created`, `modified`) VALUES
-(1, 'X TKJ 2', '2019', '2020', 2, 1, NULL, 1, '2019-03-29 05:51:07', '2020-03-11 15:20:47'),
-(2, 'X Grafika 1', '2019', '2020', 10, 1, NULL, 0, '2019-03-28 07:37:57', '2020-07-10 06:51:29'),
-(3, 'X TKJ 1', '2019', '2020', 1, 1, NULL, 0, '2019-03-29 05:54:53', '2020-02-25 14:16:55'),
-(6, 'X Animasi 1', '2019', '2020', 2, 1, NULL, 0, '2020-03-11 15:22:07', '2020-03-11 15:27:41'),
-(7, 'X TKJ 2', '2019', '2020', 4, 1, NULL, 1, '2020-04-03 14:02:17', '2020-04-03 14:02:24');
+(1, 'X TKJ 2', '2021', '2022', 2, 1, NULL, 1, '2019-03-29 05:51:07', '2021-12-18 17:02:27'),
+(2, 'X Grafika 1', '2021', '2022', 10, 1, NULL, 0, '2019-03-28 07:37:57', '2021-12-18 17:02:27'),
+(3, 'X TKJ 1', '2021', '2022', 1, 1, NULL, 0, '2019-03-29 05:54:53', '2021-12-18 17:02:27'),
+(6, 'X Animasi 1', '2021', '2022', 2, 1, NULL, 0, '2020-03-11 15:22:07', '2021-12-18 17:02:27'),
+(7, 'X TKJ 2', '2021', '2022', 4, 1, NULL, 1, '2020-04-03 14:02:17', '2021-12-18 17:02:27');
 
 -- --------------------------------------------------------
 
@@ -1172,7 +1172,8 @@ INSERT INTO `tb_schedule` (`schedule_id`, `lessons_grade_id`, `room_id`, `schedu
 (105, 43, 5, 1, 'kamis', 1, '10.20', '11.05', 3, 'active'),
 (106, 47, 5, 1, 'selasa', 2, '07.00', '08.30', 0, 'active'),
 (107, 33, 7, 1, 'selasa', 2, '07.00', '08.30', 0, 'active'),
-(108, 31, 3, 1, 'senin', 2, '07.00', '08.30', 0, 'active');
+(108, 31, 3, 1, 'senin', 2, '07.00', '08.30', 0, 'active'),
+(109, 44, 5, 1, 'selasa', 2, '10.00', '11.30', 2, 'active');
 
 -- --------------------------------------------------------
 
@@ -1939,7 +1940,7 @@ ALTER TABLE `tb_room`
 -- AUTO_INCREMENT for table `tb_schedule`
 --
 ALTER TABLE `tb_schedule`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=109;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=110;
 
 --
 -- AUTO_INCREMENT for table `tb_schedule_settings`

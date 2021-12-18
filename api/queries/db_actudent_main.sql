@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 28, 2021 at 06:11 PM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.4.8
+-- Generation Time: Dec 18, 2021 at 05:06 PM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.0
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -170,7 +170,7 @@ CREATE TABLE `tb_subscription` (
 INSERT INTO `tb_subscription` (`organization_id`, `subscription_type`, `subscription_expiration`, `created`, `modified`) VALUES
 (1, 'standard', '2021-06-30 23:59:00', '2021-01-29 03:56:49', '2021-01-29 03:56:49'),
 (2, 'free', '2021-06-30 23:59:00', '2021-01-29 03:56:49', '2021-01-29 03:56:49'),
-(3, 'free', '2021-06-30 19:19:19', '2021-01-29 03:56:49', '2021-04-08 08:46:22');
+(3, 'free', '2022-06-30 19:19:19', '2021-01-29 03:56:49', '2021-12-18 10:57:23');
 
 --
 -- Indexes for dumped tables
