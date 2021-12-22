@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -87,17 +87,25 @@ export default {
   
       const optionsList = computed(() => props.list)
 
-      setTimeout(() => {
-        optionsList.value.forEach(item => {
-          stringOptions.value.push({
-            label: item[props.optionsValue.label],
-            value: item[props.optionsValue.value]
-          })
-        }) 
+      const pushOptions = () => {
+        stringOptions.value = []
+        setTimeout(() => {
+          optionsList.value.forEach(item => {
+            stringOptions.value.push({
+              label: item[props.optionsValue.label],
+              value: item[props.optionsValue.value]
+            })
+          }) 
 
-        options.value = stringOptions.value       
-      }, 1000)      
+          options.value = stringOptions.value       
+        }, 1000) 
+      }
+
+      pushOptions()
+      
+      watch(optionsList, pushOptions)
     }, 1000)
+
 
     return {
       options,
