@@ -54,8 +54,8 @@ class KelasModel extends SharedModel
         $params = [
             "{$this->kelas}.deleted"    => 0, 
             'grade_status'              => '1',
-            'period_start'              => '2021',
-            'period_end'                => '2022'
+            'period_start'              => $this->periodStart,
+            'period_end'                => $this->periodEnd
         ];
 
         $query = $joinAndSearch->where($params)->orderBy($orderBy, $sort)->limit($limit, $offset);
@@ -76,8 +76,8 @@ class KelasModel extends SharedModel
         $params = [
             "{$this->kelas}.deleted"    => 0, 
             'grade_status'              => '1',
-            'period_start'              => '2021',
-            'period_end'                => '2022'
+            'period_start'              => $this->periodStart,
+            'period_end'                => $this->periodEnd
         ];
 
         return $joinAndSearch->where($params)->countAllResults();
@@ -226,8 +226,8 @@ class KelasModel extends SharedModel
     public function insert(array $value): int
     {
         $grade = $this->fillGradeField($value);
-        $grade['period_start']  = '2021';
-        $grade['period_end']    = '2022';
+        $grade['period_start']  = $this->periodStart;
+        $grade['period_end']    = $this->periodEnd;
         $grade['grade_status']  = 1;
 
         $this->QBKelas->insert($grade);

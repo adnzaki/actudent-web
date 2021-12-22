@@ -12,6 +12,27 @@ class Connector
      */
     protected $dbMain;
 
+    /**
+     * The school calendar period start
+     * 
+     * @var string
+     */
+    public $periodStart = '2021';
+
+    /**
+     * The school calendar period end
+     * 
+     * @var string
+     */
+    public $periodEnd = '2022';
+
+    /**
+     * Semester in period
+     * 
+     * @var int
+     */
+    public $semester = 1;
+
     public function __construct()
     {
         // Initialize wolesdev_helper
