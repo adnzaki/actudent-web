@@ -51,4 +51,6 @@ return [
     'jadwal_mapping'                => 'Schedule Mapping',
     'jadwal_list_kosong'            => 'No schedule yet.',
     'jadwal_jurnal_aktif'           => 'Active Journal',
+    'jadwal_err_istirahat_type'     => 'Break time should be filled with number',
+    'jadwal_err_istirahat_time'     => 'Break time should be more than 0 minute',
 ];

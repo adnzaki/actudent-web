@@ -1,27 +1,38 @@
 <template>
-  <q-form class="q-gutter-md q-mb-md" v-if="schedule.showLessonInput">
-    <dropdown-search 
-      vuex-module="schedule"
-      :selected="setLesson"
-      :label="$t('jadwal_label_pilih_mapel')"
-      :list="$store.state.schedule.schedule.lessonOptions"
-      :options-value="{ label: 'text', value: 'id' }"
-      load-on-route
-      class="q-mb-md"
-    />       
-    <dropdown-search 
-      vuex-module="schedule"
-      :selected="setRoom"
-      :label="$t('jadwal_label_pilih_ruang')"
-      :list="$store.state.schedule.rooms"
-      :options-value="{ label: 'text', value: 'id' }"
-      load-on-route
-    />  
-    <q-select outlined dense 
-      v-model="duration" 
-      :options="durationOptions" 
-      :label="$t('jadwal_durasi')"
-      @update:model-value="setDuration" />
+  <q-form class="q-gutter-md q-mb-md" v-if="!schedule.showLessonList" >
+    <div v-if="schedule.showLessonInput">
+      <dropdown-search 
+        vuex-module="schedule"
+        :selected="setLesson"
+        :label="$t('jadwal_label_pilih_mapel')"
+        :list="$store.state.schedule.schedule.lessonOptions"
+        :options-value="{ label: 'text', value: 'id' }"
+        load-on-route
+        class="q-mb-md"
+      />       
+      <dropdown-search 
+        vuex-module="schedule"
+        :selected="setRoom"
+        :label="$t('jadwal_label_pilih_ruang')"
+        :list="$store.state.schedule.rooms"
+        :options-value="{ label: 'text', value: 'id' }"
+        load-on-route
+        class="q-mb-md"
+      />  
+      <q-select outlined dense 
+        v-model="duration" 
+        :options="durationOptions" 
+        :label="$t('jadwal_durasi')"
+        @update:model-value="setDuration" />
+    </div>
+
+    <q-input outlined :label="breakLabel" 
+      dense v-model="breakDuration" 
+      :rules="[
+        val => val.match(/[^0-9]/) === null && val !== '' || $t('jadwal_err_istirahat_type'),
+        val => val !== '0' || $t('jadwal_err_istirahat_time')
+      ]"
+      v-if="schedule.isBreak" />
 
     <mapping-form-selector />
 
@@ -41,6 +52,7 @@ import { mapState, useStore } from 'vuex'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 import MappingFormSelector from './MappingFormSelector.vue'
+import { useQuasar } from 'quasar'
 
 export default {
   name: 'MappingAddNormal',
@@ -54,11 +66,11 @@ export default {
   setup() {
     const store = useStore()
     const { t } = useI18n()
+    const $q = useQuasar()
 
     let formValue = {
       lesson: '',
       room: '',
-      duration: 0
     }
 
     const setLesson = model => formValue.lesson = model
@@ -77,16 +89,29 @@ export default {
 
     const setDuration = model => formValue.duration = model
 
-    const pushLesson = () => {
-      if(formValue.lesson !== '' && formValue.room !== '' && formValue.duration !== 0) {
-        store.commit('schedule/pushLesson', formValue)
-        formValue.lesson = ''
-        formValue.room = ''
-      }
+    const breakDuration = ref('10')
 
-      store.state.schedule.schedule.showLessonInput = false
-      store.state.schedule.schedule.showLessonList = true
-      store.state.schedule.helper.disableSaveButton = false
+    const pushLesson = () => {
+      if(store.state.schedule.schedule.isBreak) {
+        if(breakDuration.value.match(/[^0-9]/) === null
+          && breakDuration.value !== ''
+          && breakDuration.value !== '0') {
+          store.commit('schedule/pushLesson', breakDuration.value)
+        }
+      } else {
+        if(formValue.lesson !== '' && formValue.room !== '' && duration.value !== null) {
+          store.commit('schedule/pushLesson', formValue)
+          formValue.lesson = ''
+          formValue.room = ''
+        } else {
+          $q.notify({
+            message: t('jadwal_save_error'),
+            color: 'negative',
+            position: 'center',
+            timeout: 3000,
+          })
+        }
+      }
     }
     
     return {
@@ -95,7 +120,9 @@ export default {
       duration,
       durationOptions,
       pushLesson,
-      setDuration
+      setDuration,
+      breakDuration,
+      breakLabel: `${t('jadwal_istirahat')} (${t('jadwal_menit')})`
     }
   }
 }

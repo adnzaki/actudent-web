@@ -25,7 +25,7 @@ export default {
     ]
 
     const updateForm = model => {
-      if(model.value !== 'break') {
+      if(model !== 'break') {
         store.state.schedule.schedule.isBreak = false
         store.state.schedule.schedule.showLessonInput = true
         store.state.schedule.schedule.lessonOptions = store.state.schedule.schedule[model]

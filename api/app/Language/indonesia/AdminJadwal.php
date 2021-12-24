@@ -51,4 +51,6 @@ return [
     'jadwal_mapping'                => 'Pemetaan Jadwal',
     'jadwal_list_kosong'            => 'Belum ada jadwal.',
     'jadwal_jurnal_aktif'           => 'Jurnal Aktif',
+    'jadwal_err_istirahat_type'     => 'Waktu istirahat harus diisi dengan angka',
+    'jadwal_err_istirahat_time'     => 'Waktu istirahat harus lebih dari 0 menit',
 ];

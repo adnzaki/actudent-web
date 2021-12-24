@@ -63,9 +63,25 @@ export default {
         duration: duration.value,
         index
       }
-    } 
+    } else {
+      schedule = {
+        id: `break-${index}`,
+        val: 'null',
+        room: 'null',
+        text: `${t('jadwal_istirahat')} (${data} ${t('jadwal_menit')})`,
+        duration: data,
+        index: 'null'
+      }
+    }
 
     state.schedule.lessonsInput.push(schedule)
+
+    // reset all state into their default value
+    state.schedule.showLessonInput = false
+    state.schedule.isBreak = false
+    state.schedule.showLessonList = true
+    state.schedule.scheduleType = 'lesson'
+    state.helper.disableSaveButton = false
   },
   getRooms(state) {
     admin.get(`${state.scheduleApi}get-ruang`, {
