@@ -197,7 +197,7 @@ class JadwalModel extends SharedModel
         
         $param = [
             'grade_id'          => $grade,
-            'schedule_semester' => 1,
+            'schedule_semester' => $this->semester,
             'schedule_day'      => $day,
             'schedule_status'   => 'active',
         ];
@@ -221,6 +221,18 @@ class JadwalModel extends SharedModel
         $params = ['grade_id' => $grade, 'schedule_status' => 'inactive'];
 
         return $join2->where($params)->orderBy('lesson_name', 'ASC')->get()->getResult();
+    }
+
+    /**
+     * Get active journal based on its schedule ID
+     * 
+     * @param mixed $scheduleId
+     * 
+     * @return int
+     */
+    public function getActiveJournal($scheduleId)
+    {
+        return $this->QBJurnal->where('schedule_id', $scheduleId)->countAllResults();
     }
 
     /**
@@ -255,7 +267,7 @@ class JadwalModel extends SharedModel
             $value = [
                 'lessons_grade_id'  => $res['lessons_grade_id'],
                 'room_id'           => $res['room_id'],
-                'schedule_semester' => 1,
+                'schedule_semester' => $this->semester,
                 'schedule_day'      => $res['schedule_day'],
                 'duration'          => $res['duration'],
                 'schedule_start'    => $res['schedule_start'],

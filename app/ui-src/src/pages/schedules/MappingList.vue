@@ -29,6 +29,7 @@ export default {
       this.$store.commit('schedule/getSchedules', this.$route.params.id)
       this.$store.commit('schedule/getLessonsList', this.$route.params.id)
       this.$store.commit('schedule/getRooms')
+      this.$store.commit('schedule/getLessonsForSchedule', this.$route.params.id)
     }, 500)
   },
   setup() {

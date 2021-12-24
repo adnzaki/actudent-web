@@ -6,6 +6,18 @@ import {
 } from '../../composables/common'
 
 export default {
+  getLessonsForSchedule(state, grade) {
+    admin.get(`${state.scheduleApi}get-pilihan-mapel/${grade}`, {
+      headers: { Authorization: bearerToken },
+    })
+      .then(response => {
+        state.schedule.normalList = response.data.normalList
+        state.schedule.inactiveList = response.data.inactiveList
+
+        // default lesson options
+        state.schedule.lessonOptions = state.schedule.normalList
+      })
+  },
   removeLesson(state, id) {
     // Remove item from state.schedule.lessonsInput
     let lessons = state.schedule.lessonsInput,
@@ -37,11 +49,10 @@ export default {
         scheduleID = `new-${index}`
         lessonGradeID = lesson.value
       } else {
-        // let selectedLesson = mapel[0].id,
-        //     split = selectedLesson.split('-')
+        const split = lesson.value.split('-')
         
-        // scheduleID = `inactive-${split[0]}`
-        // lessonGradeID = split[1]
+        scheduleID = `inactive-${split[0]}`
+        lessonGradeID = split[1]
       }
 
       schedule = { 
@@ -52,9 +63,7 @@ export default {
         duration: duration.value,
         index
       }
-    } else {
-
-    }
+    } 
 
     state.schedule.lessonsInput.push(schedule)
   },
@@ -105,7 +114,7 @@ export default {
         state.schedule.list = response.data.schedule
         state.className = response.data.class_name
         
-        if(state.classID === '') state.classID = grade
+        state.classID = grade
       })
   },
   getDetailLesson(state, id) {
@@ -119,6 +128,7 @@ export default {
   },
   getLessonOptions(state, grade) {
     state.classID = grade
+    
     admin.get(`${state.scheduleApi}pilihan-mapel/${grade}`, {
       headers: { Authorization: bearerToken },
     })

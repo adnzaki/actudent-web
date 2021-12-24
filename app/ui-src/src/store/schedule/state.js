@@ -28,12 +28,14 @@ export default function () {
       options: [],
     },
     schedule: {
+      lessonOptions: [], // this is the wrapper for normalList and inactiveList
+      normalList: [],
+      inactiveList: [],
       list: [],
       showForm: false,
       showLessonList: true, // show lesson list in schedule form
       showLessonInput: false, // show lesson input form
       showBreakInput: false, // show break input form
-      showInactiveInput: false, // show input taken from inactive lesson
       isBreak: false,
       
       // list of lessons in manage lessons form
@@ -41,7 +43,8 @@ export default function () {
 
       selectedDay: '', breakDuration: 0,
       toBeDeletedSchedule: [],
-      allocation: '', scheduleType: 'lesson',
+      allocation: '', 
+      scheduleType: 'lesson', // lesson, inactive, break
       saveStatus: 500,
     },      
   }

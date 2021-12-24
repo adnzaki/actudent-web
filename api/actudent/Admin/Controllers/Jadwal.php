@@ -39,7 +39,17 @@ class Jadwal extends Actudent
         return $this->createResponse($response, 'is_admin');
     }
 
-    public function getLessonsForSchedule($grade)
+    public function lessonOptionsWrapper($grade)
+    {
+        $data = [
+            'normalList'    => $this->getLessonsForSchedule($grade),
+            'inactiveList'  => $this->getInactiveSchedules($grade)
+        ];
+
+        return $this->createResponse($data, 'is_admin');
+    }
+
+    private function getLessonsForSchedule($grade)
     {
         $data = $this->jadwal->getLessons($grade);
         $response = [];
@@ -54,7 +64,7 @@ class Jadwal extends Actudent
             }
         }
         
-        return $this->createResponse($response, 'is_admin');
+        return $response;
     }
 
     public function getScheduleSettings()
@@ -78,7 +88,7 @@ class Jadwal extends Actudent
         ]);
     }
 
-    public function getInactiveSchedules($grade)
+    private function getInactiveSchedules($grade)
     {
         $data = $this->jadwal->getInactiveSchedules($grade);
         $response = [];
@@ -86,14 +96,18 @@ class Jadwal extends Actudent
         {
             foreach($data as $res)
             {
+                $activeJournal = $this->jadwal->getActiveJournal($res->schedule_id);
+
                 $response[] = [
-                    'id' => "{$res->schedule_id}-{$res->lessons_grade_id}",
-                    'text' => $res->lesson_name
+                    'id'    => "{$res->schedule_id}-{$res->lessons_grade_id}",
+                    'text'  => "$res->lesson_name (ID: $res->schedule_id, " .
+                                lang('AdminJadwal.jadwal_jurnal_aktif') .
+                                ": $activeJournal)"
                 ];
             }
         }
 
-        return $this->response->setJSON($response);
+        return $response;
     }
 
     public function saveSettings()
@@ -180,7 +194,7 @@ class Jadwal extends Actudent
                         'schedule_id'       => $res['id'],
                         'lessons_grade_id'  => $res['val'],
                         'room_id'           => $res['ruang'],
-                        'schedule_semester' => 1,
+                        'schedule_semester' => $this->jadwal->semester, // don't forget to change it in every period!!
                         'schedule_day'      => $day,
                         'duration'          => $res['alokasi'],
                         'schedule_start'    => $this->normalizeTime(floor($mulai)) . '.' . $this->normalizeTime($minute),

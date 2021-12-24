@@ -60,6 +60,7 @@ export default {
         })
 
         commit('getSchedules', state.classID)
+        commit('getLessonsForSchedule', state.classID)
         state.schedule.showForm = false
       })
   },

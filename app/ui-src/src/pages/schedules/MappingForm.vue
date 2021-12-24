@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="$store.state.schedule.schedule.showForm" 
-    @before-show="formOpen">
+    @before-show="formOpen" @hide="formClose">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('jadwal_add_title') }}</div>
@@ -18,23 +18,22 @@
             <template v-slot:after>
               <q-btn round dense flat icon="delete" color="negative" @click="removeLesson(item.id)" />
             </template>
-          </q-input>      
+          </q-input>  
+
           <div class="column items-center q-mt-md">
-            <q-btn round color="primary" icon="add" @click="showAddNormalSchedule">
+            <p v-if="schedule.lessonsInput.length === 0"> {{ $t('jadwal_kosong') }} </p>
+            <q-btn round color="primary" icon="add" @click="showFormInput">
               <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
                 {{ $t('tambah') }}
               </q-tooltip>
             </q-btn>
           </div>
         </div>
-        <!-- Add normal schedule -->
-        <mapping-add-normal />
 
-        <!-- Add a break -->
+        <!-- Add schedule's item -->
+        <mapping-form-input />
 
-        <!-- Add from inactive schedule -->
       </q-card-section>
-
       
       <q-separator />
 
@@ -54,11 +53,11 @@
 import { ref, computed } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
-import MappingAddNormal from './MappingAddNormal.vue'
+import MappingFormInput from './MappingFormInput.vue'
 
 export default {
   name: 'MappingForm',
-  components: { MappingAddNormal },
+  components: { MappingFormInput },
   computed: {
     ...mapState('schedule', {
       error: state => state.error,
@@ -82,18 +81,29 @@ export default {
       }
     }
 
-    const showAddNormalSchedule = () => {
+    const showFormInput = () => {
       store.state.schedule.schedule.showLessonList = false
       store.state.schedule.schedule.showLessonInput = true
+      store.state.schedule.helper.disableSaveButton = true
+      store.state.schedule.schedule.lessonOptions = store.state.schedule.schedule.normalList
     }
 
     const removeLesson = id => store.commit('schedule/removeLesson', id)
 
+    const formClose = () => {
+      store.state.schedule.schedule.lessonOptions = store.state.schedule.schedule['normalList']
+      store.state.schedule.schedule.showLessonInput = false
+      store.state.schedule.schedule.showBreakInput = false
+      store.state.schedule.schedule.showLessonList = true
+      store.state.schedule.helper.disableSaveButton = false
+    }
+
     return {
-      showAddNormalSchedule,
+      showFormInput,
       maximizedDialog, cardDialog,
       formOpen,
-      removeLesson
+      removeLesson,
+      formClose
     }
   }
 }
