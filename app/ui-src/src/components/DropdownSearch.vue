@@ -95,17 +95,20 @@ export default {
               label: item[props.optionsValue.label],
               value: item[props.optionsValue.value]
             })
-          }) 
-
-          options.value = stringOptions.value       
-        }, 1000) 
+          })           
+        }, 700) 
       }
 
-      pushOptions()
-      
-      watch(optionsList, pushOptions)
-    }, 1000)
+      setTimeout(() => {
+        pushOptions()      
+        watch(optionsList, pushOptions)
+  
+        // filter duplicate values, remove them if exist
+        const filter = item => [item['value'], item]
+        options.value = [...new Map(stringOptions.value.map(filter)).values()]        
+      }, 1000);
 
+    }, 700)
 
     return {
       options,
