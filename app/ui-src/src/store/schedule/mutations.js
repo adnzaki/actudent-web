@@ -6,6 +6,15 @@ import {
 } from '../../composables/common'
 
 export default {
+  getSettings(state) {
+    admin.get(`${state.scheduleApi}get-pengaturan`, {
+      headers: { Authorization: bearerToken },
+    })
+      .then(response => {
+        state.schedule.allocation = response.data.alokasi
+        state.schedule.startTime = response.data.mulai
+      })
+  },
   getLessonsForSchedule(state, grade) {
     admin.get(`${state.scheduleApi}get-pilihan-mapel/${grade}`, {
       headers: { Authorization: bearerToken },

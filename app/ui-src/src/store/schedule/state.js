@@ -44,6 +44,7 @@ export default function () {
       selectedDay: '', breakDuration: 0,
       toBeDeletedSchedule: [],
       allocation: '', 
+      startTime: '',
       scheduleType: 'lesson', // lesson, inactive, break
       saveStatus: 500,
     },      

@@ -82,10 +82,10 @@ class Jadwal extends Actudent
             $minute = '0';
         }
 
-        return $this->response->setJSON([
+        return $this->createResponse([
             'alokasi'   => $alokasi,
             'mulai'     => $this->normalizeTime(floor($mulai)) . ':' . $this->normalizeTime($minute),
-        ]);
+        ], 'is_admin');
     }
 
     private function getInactiveSchedules($grade)

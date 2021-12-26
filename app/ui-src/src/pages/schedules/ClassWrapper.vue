@@ -7,6 +7,7 @@
         <main-button class="q-mt-sm" />
         <row-dropdown vuex-module="schedule" class="q-mt-sm" />
         <search-box :label="$t('kelas_cari')" vuex-module="schedule" class="q-mt-sm" />
+        <mapping-setting-form />
       </div>
     </q-card-section>
     <class-list />
@@ -17,12 +18,14 @@
 import { titleSpacing } from 'src/composables/screen'
 import ClassList from './ClassList.vue'
 import MainButton from './MainButton.vue'
+import MappingSettingForm from './MappingSettingForm.vue'
 
 export default {
   name: 'ClassWrapper',
   components: {
     ClassList,
-    MainButton
+    MainButton,
+    MappingSettingForm
   },
   setup() {
     return {
