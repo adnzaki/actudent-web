@@ -4,15 +4,54 @@ import {
   bearerToken,
   admin,
   timeout,
-  errorNotif,
   createFormData,
-  pengguna,
   t,
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
 
 export default {
+  saveSettings({ state, commit }) {
+    const data = {
+      lesson_hour: state.schedule.allocation,
+      start_time: state.schedule.startTime
+    }
+
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('jadwal_update_setting_progress'),
+      color: 'info',
+      position: 'center',
+      timeout: 2500,
+    })
+
+    admin.post(`${state.scheduleApi}simpan-pengaturan`, data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(res => {
+        if(res.code === '500') {
+          state.error = res.msg
+          notifyProgress({
+            message: `Error! ${t('jadwal_unable_update_setting')}`,
+            color: 'negative',
+            spinner: false
+          })
+        } else {
+          state.showSettingsForm = false
+  
+          notifyProgress({
+            message: t('jadwal_success_update_setting'),
+            color: 'positive',
+            icon: 'done',
+            spinner: false
+          })
+        }
+      })
+  },
   saveSchedules({ state, commit }) {
     let data = JSON.stringify(state.schedule.lessonsInput),
         toBeDeleted = JSON.stringify(state.schedule.toBeDeletedSchedule)

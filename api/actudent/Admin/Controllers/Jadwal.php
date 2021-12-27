@@ -112,26 +112,28 @@ class Jadwal extends Actudent
 
     public function saveSettings()
     {
-        $form = [
-            'lesson_hour'   => $this->request->getPost('lesson_hour'),
-            'start_time'    => $this->request->getPost('start_time')
-        ];
-
-        $validation = $this->settingValidation($form);
-        if(! $this->validate($validation[0], $validation[1]))
-        {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else
-        {
-            $this->jadwal->updateSettings($form);
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
+        if(is_admin()) {
+            $form = [
+                'lesson_hour'   => $this->request->getPost('lesson_hour'),
+                'start_time'    => $this->request->getPost('start_time')
+            ];
+    
+            $validation = $this->settingValidation($form);
+            if(! validate($validation[0], $validation[1]))
+            {
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
+            }
+            else
+            {
+                $this->jadwal->updateSettings($form);
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
+            }
         }
     }
 
@@ -418,7 +420,7 @@ class Jadwal extends Actudent
         if(is_admin())
         {
             $validation = $this->validation(); // [0 => $rules, 1 => $messages]
-            if(! $this->validate($validation[0], $validation[1]))
+            if(! validate($validation[0], $validation[1]))
             {
                 return $this->response->setJSON([
                     'code' => '500',

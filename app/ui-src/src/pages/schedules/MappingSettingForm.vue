@@ -14,6 +14,7 @@
             dense v-model="$store.state.schedule.schedule.allocation"
             :rules="[val => val.match(/[^0-9]/) === null && val !== '' || $t('jadwal_alokasi_natural')]" 
           />
+           <error :label="error.lesson_hour" />
 
           <q-input outlined v-model="$store.state.schedule.schedule.startTime" mask="time" :rules="['time']">
             <template v-slot:append>
@@ -28,6 +29,7 @@
               </q-icon>
             </template>
           </q-input>
+          <error :label="error.start_time" />
         </q-form>
 
       </q-card-section>
@@ -38,7 +40,7 @@
         <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
         <q-btn :label="$t('simpan')" 
           :disable="disableSaveButton" 
-          @click="$store.dispatch('schedule/saveSchedules')" 
+          @click="$store.dispatch('schedule/saveSettings')" 
           color="primary" padding="8px 20px" 
         />
       </q-card-actions>
@@ -59,8 +61,14 @@ export default {
 
     const disableSaveButton = computed(() => store.state.schedule.schedule.disableSaveButton)
 
+    const save = () => {
+      
+      
+    }
+
     return {
-      disableSaveButton
+      disableSaveButton,
+      error: computed(() => store.state.schedule.error)
     }
   }
 }
