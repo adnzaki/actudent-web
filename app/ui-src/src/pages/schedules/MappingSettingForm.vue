@@ -9,12 +9,13 @@
       </q-card-section>
 
       <q-card-section class="scroll card-section">
-        <q-form class="q-gutter-md q-mb-md">
+        <q-form>
           <q-input outlined :label="`${$t('jadwal_label_alokasi')} (${$t('jadwal_menit')})`" 
             dense v-model="$store.state.schedule.schedule.allocation"
             :rules="[val => val.match(/[^0-9]/) === null && val !== '' || $t('jadwal_alokasi_natural')]" 
+            class="q-mb-xs"
           />
-           <error :label="error.lesson_hour" />
+          <error :label="error.lesson_hour" />
 
           <q-input outlined v-model="$store.state.schedule.schedule.startTime" mask="time" :rules="['time']">
             <template v-slot:append>
