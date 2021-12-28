@@ -29,7 +29,7 @@
                       <q-item-section>{{ $t('jadwal_daftar_mapel') }}</q-item-section>
                     </q-item>
                     <q-separator />
-                    <q-item clickable v-close-popup @click="showSchedule(item.grade_id, item.grade_name)">
+                    <q-item clickable v-close-popup @click="showSchedules(item.grade_id, item.grade_name)">
                       <q-item-section>{{ $t('jadwal_jadwal_mapel') }}</q-item-section>
                     </q-item>
                     <q-separator />
