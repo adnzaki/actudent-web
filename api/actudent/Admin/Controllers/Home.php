@@ -32,7 +32,7 @@ class Home extends Actudent
 
     protected function getTodayPresence()
     {
-        $percentage = $this->absensi->getPresencePercetage();
+        $percentage = $this->absensi->getPresencePercentage();
         return [
             'presence' => $this->absensi->getTodayPresence('1'),
             'absence' => $this->absensi->getTodayPresence('0'),

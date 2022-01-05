@@ -197,7 +197,7 @@ class AbsensiModel extends SharedModel
      * 
      * @return array
      */
-    public function getPresencePercetage(): array
+    public function getPresencePercentage(): array
     {
         $percentage = [
             'present' => 0,
