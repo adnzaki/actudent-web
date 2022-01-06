@@ -58,6 +58,7 @@ const login = {
 									exp = new Date(expMs)
 								document.cookie = `${conf.cookieName}=${res.token};expires=${exp.toUTCString()};path=/;SameSite=None; Secure`
 								document.cookie = `${conf.userLang}=${res.lang};expires=${exp.toUTCString()};path=/;SameSite=None; Secure`
+								document.cookie = `${conf.userType}=${res.level};expires=${exp.toUTCString()};path=/;SameSite=None; Secure`
 								window.location.href = conf.homeUrl()
 							} else {
 								this.msgClass = 'error-text'

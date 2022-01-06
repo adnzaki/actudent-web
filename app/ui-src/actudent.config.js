@@ -39,4 +39,7 @@ export const appConfig = {
 
   // Cookie name to retrieve selected language of current user
   userLang: 'actudent_userlang',
+
+  // Cookie name to retrieve user type of current user
+  userType: 'actudent_usertype'
 }

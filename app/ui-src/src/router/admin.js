@@ -13,6 +13,8 @@ import ScheduleMain from 'pages/schedules/ScheduleMain.vue'
 import ClassWrapper from 'pages/schedules/ClassWrapper.vue'
 import LessonsWrapper from 'pages/schedules/LessonsWrapper.vue'
 import MappingWrapper from 'pages/schedules/MappingWrapper.vue'
+import PresenceMain from 'pages/presence/PresenceMain.vue'
+import PresenceClassList from 'pages/presence/PresenceClassList.vue'
 
 const admin = {
   path: '/',
@@ -38,6 +40,14 @@ const admin = {
         { path: '', component: ClassWrapper, beforeEnter: () => validateToken('is_admin') },
         { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: () => validateToken('is_admin') },
         { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => validateToken('is_admin') }
+      ]
+    },
+    { 
+      path: 'presence', component: PresenceMain, beforeEnter: () => validateToken('is_admin'),
+      children: [
+        { path: '', component: PresenceClassList, beforeEnter: () => validateToken('is_admin') },
+        // { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: () => validateToken('is_admin') },
+        // { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => validateToken('is_admin') }
       ]
     },
   ],

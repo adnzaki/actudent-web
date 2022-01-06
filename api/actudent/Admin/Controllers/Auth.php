@@ -64,7 +64,8 @@ class Auth extends Actudent
                 return $this->response->setJSON([
                     'msg'   => 'valid', 
                     'token' => jwt_encode($token),
-                    'lang'  => $getLang[0]->user_language
+                    'lang'  => $getLang[0]->user_language,
+                    'level' => $pengguna->user_level
                 ]);
             }
             else 
