@@ -9,25 +9,22 @@
         <search-box :label="$t('kelas_cari')" vuex-module="grade" class="q-mt-sm" />
       </div>
     </q-card-section>
-    <!-- <class-table /> -->
+    <class-table />
   </q-card>
 </template>
 
 <script>
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
+import ClassTable from './ClassTable.vue'
 
 export default {
   name: 'PresenceClassList',
   components: {
-    
+    ClassTable    
   },
   setup () {   
     const store = useStore()
-
-    setTimeout(() => {
-      store.dispatch('grade/getClassList')
-    }, 500)
     
     return { 
       titleSpacing 
