@@ -8,7 +8,7 @@ SSPaging merupakan library pagination yang dikembangkan oleh engineer Wolestech 
 Di proyek Actudent-v2 ini kami hanya akan membahas cara penggunaan SSPaging secara khusus bersama Vuex sesuai dengan yang ada di dalam source code ini. Cara penggunaan SSPaging ini diasumsikan anda telah memahami cara kerja Vuex dan penerapannya dalam source code Actudent-v2.
 
 ## Import SSPaging
-SSPaging dapat diimpor melalui `import { SSPaging as paging } from '../shared/ss-paging'`. Setelah itu masukkan modul SSPaging ke dalam Vuex module: `modules: { paging }`. Pastikan Vuex anda berada dalam mode namespace yang aktif dengan menambahkan opsi `namespaced: true`.
+SSPaging dapat diimpor melalui `import { SSPaging as paging } from '../shared/ss-paging'`. Setelah itu masukkan modul SSPaging ke dalam Vuex module: `modules: { paging }`. Pastikan Vuex module anda berada dalam mode namespace yang aktif dengan menambahkan opsi `namespaced: true`.
 
 ## Inisialisasi
 Untuk inisialisasi SSPaging, dapat menggunakan method `dispatch` dari Vuex. Secara default, SSPaging menggunakan 10 baris sebagai nilai default untuk tampilan data per halaman. Jika anda menginginkan nilai selain itu, maka anda harus memutasikannya terlebih dahulu. Berikut adalah penerapan SSPaging pada halaman data siswa dengan limit 25 data per halaman:
@@ -33,12 +33,40 @@ dispatch('getData', {
     active: true,
     timeout: 500
   },
+  delay: {
+    active: true,
+    timeout: 300
+  }
 })
 ```
 Seperti yang terlihat pada kode di atas, anda tidak perlu menuliskan URL API secara utuh karena SSPaging akan men-generate URL tersebut di belakang layar berdasarkan opsi yang anda masukkan saat inisialisasi.
 
+## Available `getData()` options
+```
+getData({
+  token: String,
+  lang: String,
+  limit: Number,
+  offset: Number,
+  orderBy: String,
+  searchBy: String|Array,
+  sort: String,
+  where: Null|String,
+  search: String,
+  url: String,
+  autoReset: {
+    active: Boolean,
+    timeout: Number
+  },
+  delay: {
+    active: Boolean,
+    timeout: Number
+  }
+})
+```
+
 ## URL Splitting
-Pada dasarnya, SSPaging membutuhkan URL dengan format sebagai berikut untuk bisa berjalan: `domain/controller/method/limit/offset/orderBy/searchBy/sort/whereClause/search`. Maka itu, pastikan API anda telah memenuhi kebutuhan format tersebut agar SSPaging dapat berjalan. Sementara untuk inisialisasi, anda cukup memasukkan bagian `domain/controller/method` saja, dan parameter yang lainnya akan diambil dari opsi pada saat inisialisasi.
+Pada dasarnya, SSPaging membutuhkan URL dengan format sebagai berikut untuk bisa berjalan: `domain.com/{controller}/{method}/limit/offset/orderBy/searchBy/sort/whereClause/search`. Maka itu, pastikan API anda telah memenuhi kebutuhan format tersebut agar SSPaging dapat berjalan. Sementara untuk inisialisasi, anda cukup memasukkan bagian `domain.com/{controller}/{method}` saja, dan parameter yang lainnya akan diambil dari opsi pada saat inisialisasi.
 
 ## Akses API
 API SSPaging dapat diakses melalui Vuex module anda. Misalnya untuk mengakses SSPaging untuk halaman siswa di dalam Vue component, anda dapat menggunakan `store.state.student.{stateName}`. Untuk mengakses action yang ada di SSPaging, cukup dengan `store.dispatch('student/{actionName})`. API yang biasa diakses untuk bekerja dengan SSPaging adalah:<br>
@@ -56,12 +84,16 @@ API SSPaging dapat diakses melalui Vuex module anda. Misalnya untuk mengakses SS
 - `runPaging()` - method yang digunakan untuk menjalankan kembali pagination dengan opsi yang sudah diinisialisasi. Method ini biasa dipanggil setelah menambah, mengedit atau menghapus data.
 - `getData(options: object)` - method yang dipanggil saat pertama kali inisialisasi SSPaging
 
+### `Getters`
+- `rowRange` - menampilkan rentang data pada halaman aktif pagination
+- `itemNumber(index: int)` - menampilkan nomor urut untuk setiap baris data pagination berdasarkan argumen index yang didapat dari key index setiap baris data tersebut
+
 ## Ready-to-use Components
 Di Actudent-v2, kami menyediakan komponen siap pakai untuk dapat digunakan di semua komponen Actudent. Komponen ini telah diregister saat proses booting aplikasi, sehingga anda tidak perlu mengimpor komponen tersebut satu per satu, cukup dengan memanggil langsung dari dalam template Vue. Berikut adalah beberapa komponen siap pakai yang sudah tersedia di Actudent-v2:
 ### SSPaging
 `SSPaging` merupakan komponen yang berfungsi untuk melakukan navigasi halaman serta menampilkan informasi tentang data yang ditampilkan. Komponen ini akan memanggil fungsi `nav()` di latar belakang untuk anda. Selain itu, komponen ini juga secara otomatis mengelola state `pageLinks` dari balik layar. Untuk memanggil komponen ini, anda hanya perlu menuliskan sebaris kode berikut:
 ```
-<ss-paging vuex-module="namaVuexModule">
+<ss-paging vuex-module="namaVuexModule" />
 ```
 ### SearchBox
 `SearchBox` berfungsi menjalankan fungsi pencarian berdasarkan kata kunci yang diberikan pengguna. Komponen ini akan mengakomodir pemanggilan fungsi `onSearchChanged()` dan `filter()` di latar belakang. `SearchBox` dapat dipanggil dengan menuliskan kode berikut:

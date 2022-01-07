@@ -8,7 +8,7 @@
  * @package     Pagination
  * @author      Adnan Zaki
  * @type        Libraries
- * @version     2.2.1
+ * @version     2.2.2
  * @url         https://wolestech.com
  */
 
@@ -343,6 +343,17 @@
     }
   },
   getters: {
+    /**
+     * Create item number based on its position 
+     * in whole data
+     * 
+     * @param {number} index
+     * 
+     * @return int
+     */
+    itemNumber: (state, getters) => index => {
+      return getters.dataFrom + index
+    },
     /**
      * Get active page
      * 

@@ -5,7 +5,7 @@
  * @package     Pagination
  * @author      Adnan Zaki
  * @type        Libraries
- * @version     2.2.1
+ * @version     2.2.2
  * @url         https://wolestech.com
  */
 
@@ -330,6 +330,17 @@ const SSPaging = {
     }
   },
   computed: {
+    /**
+     * Create item number based on its position 
+     * in whole data
+     * 
+     * @param {number} index
+     * 
+     * @return int
+     */
+     itemNumber: () => index => {
+      return this.dataFrom + index
+    },
     /**
      * Get active page
      * 
