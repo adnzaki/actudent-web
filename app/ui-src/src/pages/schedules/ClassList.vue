@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td class="text-center">{{ index + 1 }}</td>
+            <td class="text-center">{{ $store.getters['schedule/itemNumber'](index) }}</td>
             <td class="text-left">{{ item.grade_name }}</td>
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
