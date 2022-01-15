@@ -59,8 +59,8 @@ export default {
     }, 500)
 
     const fillPresence = (id, name) => {
-      // store.state.grade.classMember.name = name
-      // router.push(`/class/member/${id}`)
+      store.state.presence.className = name
+      router.push(`/presence/fill/${id}`)
     }
 
     return {

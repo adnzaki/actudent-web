@@ -7,6 +7,7 @@ import grade from './grade'
 import rooms from './rooms'
 import lesson from './lesson'
 import schedule from './schedule'
+import presence from './presence'
 
 /*
  * If not building with SSR mode, you can
@@ -21,7 +22,7 @@ export default store(function (/* { ssrContext } */) {
   const Store = createStore({
     modules: {
       parent, student, employee, grade,
-      rooms, lesson, schedule
+      rooms, lesson, schedule, presence
     },
 
     // enable strict mode (adds overhead!)

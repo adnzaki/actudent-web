@@ -15,6 +15,7 @@ import LessonsWrapper from 'pages/schedules/LessonsWrapper.vue'
 import MappingWrapper from 'pages/schedules/MappingWrapper.vue'
 import PresenceMain from 'pages/presence/PresenceMain.vue'
 import PresenceClassList from 'pages/presence/PresenceClassList.vue'
+import PresenceList from 'pages/presence/PresenceList.vue'
 
 const admin = {
   path: '/',
@@ -46,8 +47,7 @@ const admin = {
       path: 'presence', component: PresenceMain, beforeEnter: () => validateToken('is_admin'),
       children: [
         { path: '', component: PresenceClassList, beforeEnter: () => validateToken('is_admin') },
-        // { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: () => validateToken('is_admin') },
-        // { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => validateToken('is_admin') }
+        { path: 'fill/:id', component: PresenceList, beforeEnter: () => validateToken('is_admin') }
       ]
     },
   ],
