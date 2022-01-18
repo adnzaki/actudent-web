@@ -2,13 +2,14 @@
   <q-card class="my-card">
     <q-card-section>
       <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
-        {{ pageTitle }}
+        {{ `${$t('absensi_title')} - ${$store.state.grade.classMember.name}` }}
       </div>
       <div class="text-h6 text-capitalize" v-else>
-        {{ pageTitle }}
+        {{ `${$t('absensi_title')} - ${$store.state.grade.classMember.name}` }}
       </div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
+        <schedule-selector />
       </div>
     </q-card-section>
     <!-- <mapping-list /> -->
@@ -21,11 +22,13 @@ import { useStore } from 'vuex'
 import { useI18n } from 'vue-i18n'
 import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
+import ScheduleSelector from './ScheduleSelector.vue'
 
 export default {
   name: 'PresenceList',
   components: {
-    MainButton
+    MainButton,
+    ScheduleSelector
   },
   setup() {
     
@@ -33,8 +36,9 @@ export default {
     const store = useStore()
     const { t } = useI18n()
 
+    store.commit('grade/getDetail', route.params.id)
+
     return {
-      pageTitle: `${t('absensi_title')} - ${store.state.presence.className}`,
       titleSpacing
     }
   }

@@ -14,7 +14,8 @@ export default function () {
     current: 1,
     className: '',
     classID: '',
-    day: '', jadwalLength: 0,
+    day: '', scheduleLength: 0,
+    schedule: [], // schedule list
     homework: false, scheduleID: '', journalID: '',
     activeDate: '', presenceButtons: false, salinJurnal: true,
     journalStatus: 'false', archivePage: true, archiveButton: false,

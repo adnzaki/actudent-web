@@ -57,4 +57,5 @@ return [
     'absensi_cetak_absen'           => 'Daily Presence',
     'absensi_judul_laporan_absen'   => 'Daily Presence Report',
     'absensi_isi_kehadiran'         => 'Fill presence',
+    'absensi_pilih_jadwal'          => 'Choose a schedule',
 ];

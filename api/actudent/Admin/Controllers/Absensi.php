@@ -284,7 +284,7 @@ class Absensi extends Actudent
             ];
         }
 
-        return $this->response->setJSON($formatter);
+        return $this->createResponse($formatter, 'is_admin');
     }
 
     public function getRombel()

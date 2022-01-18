@@ -6,6 +6,12 @@
   }
 }
 
+@media(max-width: $breakpoint-xs-max) {
+  .decrease-mt-mobile {
+    margin-top: -10px;
+  }
+}
+
 .increase-paging-mt {
   margin-top: -10px;
 }
