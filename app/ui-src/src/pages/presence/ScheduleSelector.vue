@@ -17,7 +17,7 @@
   <div class="col-12 col-sm-6 q-mt-sm q-pr-sm">
     <dropdown-search 
       vuex-module="presence"
-      :selected="setSchedule"
+      :selected="getPresence"
       :label="$t('absensi_pilih_jadwal')"
       :list="$store.state.presence.schedule"
       :options-value="{ label: 'text', value: 'id' }"
@@ -51,6 +51,7 @@ export default {
     const dateValue = ref(today)
     const selectedDate = ref(date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang))
     const getDay = today.getDay()
+    const activeDate = ref(date.formatDate(today, 'YYYY-MM-DD'))
 
     store.commit('presence/getSchedules', {
       day: getDay,
@@ -64,15 +65,25 @@ export default {
         day: getDate.getDay(),
         grade: route.params.id
       })
+
+      activeDate.value = date.formatDate(getDate, 'YYYY-MM-DD')
+      if(store.state.presence.scheduleID === '') {
+        store.state.presence.showJournalBtn = false
+      }
     }
 
-    const setSchedule = () => {}
+    const getPresence = model => {
+      store.state.presence.scheduleID = model.value
+      store.dispatch('presence/checkJournal', activeDate.value)
+
+      store.state.presence.showJournalBtn = true
+    }
     
     return {
       selectedDate,
       dateValue,
       dateChanged, 
-      setSchedule,
+      getPresence,
     }
   }
 }

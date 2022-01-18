@@ -17,8 +17,9 @@ export default function () {
     day: '', scheduleLength: 0,
     schedule: [], // schedule list
     homework: false, scheduleID: '', journalID: '',
-    activeDate: '', presenceButtons: false, salinJurnal: true,
+    presenceButtons: false, showJournalBtn: false, salinJurnal: true,
     journalStatus: 'false', archivePage: true, archiveButton: false,
     presenceGrid: true, backToArchive: false,
+    presenceList: [],
   }
 }

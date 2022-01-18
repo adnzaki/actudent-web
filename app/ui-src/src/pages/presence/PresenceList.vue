@@ -37,6 +37,7 @@ export default {
     const { t } = useI18n()
 
     store.commit('grade/getDetail', route.params.id)
+    store.state.presence.classID = route.params.id
 
     return {
       titleSpacing
