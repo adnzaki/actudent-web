@@ -19,7 +19,6 @@
 <script>
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import { useI18n } from 'vue-i18n'
 import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import ScheduleSelector from './ScheduleSelector.vue'
@@ -36,10 +35,10 @@ export default {
     
     const route = useRoute()
     const store = useStore()
-    const { t } = useI18n()
 
     store.commit('grade/getDetail', route.params.id)
     store.state.presence.classID = route.params.id
+    store.state.presence.presenceList = []
 
     return {
       titleSpacing
