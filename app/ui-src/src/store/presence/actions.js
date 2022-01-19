@@ -2,7 +2,7 @@ import {
   Cookies,
   conf,
   bearerToken,
-  admin,
+  axios,
   timeout,
   errorNotif,
   createFormData,
@@ -13,12 +13,12 @@ import {
 import { Notify } from 'quasar'
 
 export default {
-  checkJournal({ state, commit }, date) {
-    admin.get(`${state.presenceApi}cek-jurnal/${state.scheduleID}/${date}`, {
+  checkJournal({ state, commit, getters }, date) {
+    axios.get(`${getters.presenceApi}cek-jurnal/${state.scheduleID}/${date}`, {
       headers: { Authorization: bearerToken }
     })
       .then(response => {
-        const baseUrl = `${state.presenceApi}get-absen/${state.classID}/`
+        const baseUrl = `${getters.presenceApi}get-absen/${state.classID}/`
         let presenceUrl = `${baseUrl}null/null`
 
         if(response.data.status === 'true') {
@@ -31,4 +31,12 @@ export default {
         commit('getPresence', presenceUrl)
       })
   },
+  getSchedules({ state, getters }, payload) {
+    axios.get(`${getters.presenceApi}get-jadwal/${payload.day}/${payload.grade}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.schedule = response.data
+      })
+  }
 }

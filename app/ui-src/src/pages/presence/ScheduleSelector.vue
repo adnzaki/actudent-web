@@ -53,7 +53,7 @@ export default {
     const getDay = today.getDay()
     const activeDate = ref(date.formatDate(today, 'YYYY-MM-DD'))
 
-    store.commit('presence/getSchedules', {
+    store.dispatch('presence/getSchedules', {
       day: getDay,
       grade: route.params.id
     })
@@ -61,7 +61,7 @@ export default {
     const dateChanged = (val, reason, details) => {
       const getDate = new Date(details.year, details.month - 1, details.day)
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
-      store.commit('presence/getSchedules', {
+      store.dispatch('presence/getSchedules', {
         day: getDate.getDay(),
         grade: route.params.id
       })

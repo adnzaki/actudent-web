@@ -2,7 +2,6 @@ import { appConfig as conf } from '../../../actudent.config'
 
 export default function () {
   return {
-    presenceApi: 'absensi/',
     error: {},
     helper: {
       disableSaveButton: false,

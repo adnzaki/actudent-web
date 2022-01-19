@@ -1,6 +1,6 @@
 import { Cookies } from 'quasar'
 import { ref } from 'vue'
-import { core, admin, teacher } from 'boot/axios'
+import { axios, core, admin, teacher } from 'boot/axios'
 import { i18n } from 'boot/i18n'
 import { appConfig as conf} from '../../actudent.config'
 import { bearerToken, validateToken, redirect } from './validate-token'
@@ -37,7 +37,7 @@ function createFormData(obj) {
 export {
   Cookies,
   ref,
-  core, admin, teacher,
+  axios, core, admin, teacher,
   conf,
   bearerToken,
   validateToken,
