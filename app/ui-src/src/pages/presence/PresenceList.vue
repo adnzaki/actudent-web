@@ -9,10 +9,10 @@
       </div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
-        <schedule-selector />
+        <schedule-selector />        
       </div>
     </q-card-section>
-    <!-- <mapping-list /> -->
+    <presence-table />
   </q-card>
 </template>
 
@@ -23,12 +23,14 @@ import { useI18n } from 'vue-i18n'
 import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import ScheduleSelector from './ScheduleSelector.vue'
+import PresenceTable from './PresenceTable.vue'
 
 export default {
   name: 'PresenceList',
   components: {
     MainButton,
-    ScheduleSelector
+    ScheduleSelector,
+    PresenceTable
   },
   setup() {
     

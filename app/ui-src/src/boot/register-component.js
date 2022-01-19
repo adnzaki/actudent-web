@@ -14,6 +14,7 @@ import Error from 'components/Error.vue'
 import SSPaging from 'components/SSPaging.vue'
 import EmployeePhoto from 'src/pages/employee/EmployeePhoto.vue'
 import DropdownSearch from 'components/DropdownSearch.vue'
+import BtnTooltip from 'components/BtnTooltip.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)
@@ -24,4 +25,5 @@ export default ({ app }) => {
   app.component('ss-paging', SSPaging)
   app.component('employee-photo', EmployeePhoto)
   app.component('dropdown-search', DropdownSearch)
+  app.component('btn-tooltip', BtnTooltip)
 }

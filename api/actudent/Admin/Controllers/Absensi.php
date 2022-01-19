@@ -176,7 +176,7 @@ class Absensi extends Actudent
      */
     public function getListAbsensi($grade, $journal, $date)
     {
-        return $this->response->setJSON($this->_getListAbsensi($grade, $journal, $date));
+        return $this->createResponse($this->_getListAbsensi($grade, $journal, $date));
     }
 
     /**
@@ -226,8 +226,8 @@ class Absensi extends Actudent
                 $presenceWrapper[] = [
                     'id'        => $key->student_id,
                     'name'      => $key->student_name,
-                    'status'    => '',
-                    'note'      => '',
+                    'status'    => '-',
+                    'note'      => '-',
                     'statusID'  => '',
                 ];
             }

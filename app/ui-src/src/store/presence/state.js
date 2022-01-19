@@ -20,5 +20,7 @@ export default function () {
     journalStatus: 'false', archivePage: true, archiveButton: false,
     presenceGrid: true, backToArchive: false,
     presenceList: [],
+    checkAll: false, 
+    studentPresence: [] // students to be presented
   }
 }
