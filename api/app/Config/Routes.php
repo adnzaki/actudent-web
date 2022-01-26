@@ -102,7 +102,7 @@ require ACTUDENTPATH . 'Sync/Config/SyncRoutes.php';
  * Mobile Routes
  * -----------------------------------------------------------------
  */
-require ACTUDENTPATH . 'Mobile/Guru/Config/GuruRoutes.php';
+require ACTUDENTPATH . 'Mobile/V1/Guru/Config/GuruRoutes.php';
 
 // require ACTUDENTPATH . 'Mobile/OrangTua/Config/OrtuRoutes.php';
 
