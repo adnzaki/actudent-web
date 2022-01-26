@@ -1,4 +1,4 @@
-<?php namespace Actudent\Mobile\Guru\Controllers;
+<?php namespace Mobile\V1\Guru\Controllers;
 
 /**
  * Home class
@@ -17,8 +17,8 @@ class Home extends \Actudent\Core\Controllers\Actudent
         $this->kelas = new \Actudent\Admin\Models\KelasModel;
     }
 
-    // URI path : api/public/mobile/guru/home/test
-    // Status   : Tested using Postman
+    // URI path : api/public/mobile/guru/v1/home/test
+    // Status   : Tested [Postman]
     public function testResponse()
     {
         // validated using valid_token() 
