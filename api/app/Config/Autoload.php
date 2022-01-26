@@ -55,6 +55,7 @@ class Autoload extends \CodeIgniter\Config\AutoloadConfig
 			'App'         	=> APPPATH,                // To ensure filters, etc still found,
 			'Actudent'	  	=> ROOTPATH . 'actudent',	
 			'Mobile'		=> ROOTPATH . 'actudent/Mobile',
+			'Keys'			=> ROOTPATH . 'actudent/Core/Config/Keys'
 		];
 
 		/**
