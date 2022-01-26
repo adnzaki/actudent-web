@@ -17,7 +17,11 @@ class Home extends \Actudent\Core\Controllers\Actudent
         $this->kelas = new \Actudent\Admin\Models\KelasModel;
     }
 
+<<<<<<< HEAD:api/actudent/Mobile/V1/Guru/Controllers/Home.php
     // URI path : api/public/mobile/v1/guru/home/test
+=======
+    // URI path : api/public/mobile/guru/v1/home/test
+>>>>>>> df6d9eadf33dbcac190a409a209224e0b35a85a0:api/actudent/Mobile/Guru/Controllers/Home.php
     // Status   : Tested [Postman]
     public function testResponse()
     {
