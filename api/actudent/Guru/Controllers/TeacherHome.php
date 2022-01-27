@@ -1,9 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
-use Actudent\Admin\Controllers\Home;
-
-class TeacherHome extends Home
+class TeacherHome extends \Actudent\Admin\Controllers\Home
 {
     public function page()
 	{

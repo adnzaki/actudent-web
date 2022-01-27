@@ -1,9 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use CodeIgniter\Files\File;
 
-class Feedback extends Actudent
+class Feedback extends \Actudent
 {
     public function index()
 	{

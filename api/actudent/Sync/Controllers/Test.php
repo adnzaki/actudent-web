@@ -1,6 +1,6 @@
 <?php namespace Actudent\Sync\Controllers;
 
-class Test extends \Actudent\Core\Controllers\Actudent
+class Test extends \Actudent
 {
     public function getFile()
     {

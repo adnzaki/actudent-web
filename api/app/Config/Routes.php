@@ -80,31 +80,31 @@ $routes->setAutoRoute(true);
  * --------------------------------------------------------------------
  */
 // Admin section 
-require ACTUDENTPATH . 'Admin/Config/AdminRoutes.php';
+require ACTUDENT_PATH . 'Admin/Config/AdminRoutes.php';
 
 // Teacher section 
-require ACTUDENTPATH . 'Guru/Config/GuruRoutes.php';
+require ACTUDENT_PATH . 'Guru/Config/GuruRoutes.php';
 
 // Installer section 
-require ACTUDENTPATH . 'Installer/Config/InstallerRoutes.php';
+require ACTUDENT_PATH . 'Installer/Config/InstallerRoutes.php';
 
 // UI Test section 
-require ACTUDENTPATH . 'UITest/Config/UIRoutes.php';
+require ACTUDENT_PATH . 'UITest/Config/UIRoutes.php';
 
 // Core section
-require ACTUDENTPATH . 'Core/Config/CoreRoutes.php';
+require ACTUDENT_PATH . 'Core/Config/CoreRoutes.php';
 
 // Sync section
-require ACTUDENTPATH . 'Sync/Config/SyncRoutes.php';
+require ACTUDENT_PATH . 'Sync/Config/SyncRoutes.php';
 
 /**
  * -----------------------------------------------------------------
  * Mobile Routes
  * -----------------------------------------------------------------
  */
-require ACTUDENTPATH . 'Mobile/V1/Guru/Config/GuruRoutes.php';
+require ACTUDENT_PATH . 'Mobile/V1/Guru/Config/GuruRoutes.php';
 
-// require ACTUDENTPATH . 'Mobile/OrangTua/Config/OrtuRoutes.php';
+// require ACTUDENT_PATH . 'Mobile/OrangTua/Config/OrtuRoutes.php';
 
 $routes->add('service-expired', '\Actudent\Core\Controllers\Error::expiredPage');
 

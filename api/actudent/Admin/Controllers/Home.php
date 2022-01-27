@@ -1,9 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AbsensiModel;
 
-class Home extends Actudent
+class Home extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\AbsensiModel

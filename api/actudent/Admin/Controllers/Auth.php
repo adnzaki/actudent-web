@@ -1,8 +1,6 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
-
-class Auth extends Actudent
+class Auth extends \Actudent
 {
     private $tokenExp = 12 * 30 * 24 * 60 * 60; // 1 year
 

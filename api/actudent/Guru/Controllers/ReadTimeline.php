@@ -1,8 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Admin\Controllers\Timeline;
-
-class ReadTimeline extends Timeline
+class ReadTimeline extends \Actudent\Admin\Controllers\Timeline
 {
     public function page()
 	{

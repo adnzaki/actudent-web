@@ -1,6 +1,6 @@
 <?php namespace Actudent\Admin\Controllers;
 
-class Sekolah extends \Actudent\Core\Controllers\Actudent
+class Sekolah extends \Actudent
 {
     public function index()
     {

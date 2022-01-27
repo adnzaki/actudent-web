@@ -1,8 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Admin\Controllers\Nilai;
-
-class GuruNilai extends Nilai 
+class GuruNilai extends \Actudent\Admin\Controllers\Nilai 
 {
     public function page()
 	{

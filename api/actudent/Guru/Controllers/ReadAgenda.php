@@ -1,8 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Admin\Controllers\Agenda;
-
-class ReadAgenda extends Agenda
+class ReadAgenda extends \Actudent\Admin\Controllers\Agenda
 {
     public function page()
 	{

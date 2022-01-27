@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Actudent\Sync\Models\DapodikModel;
 
-class Dapodik extends \Actudent\Core\Controllers\Actudent
+class Dapodik extends \Actudent
 {
     private $model;
 

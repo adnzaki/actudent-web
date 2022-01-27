@@ -1,8 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Admin\Controllers\Pesan;
-
-class GuruPesan extends Pesan
+class GuruPesan extends \Actudent\Admin\Controllers\Pesan
 {
     public function page()
 	{

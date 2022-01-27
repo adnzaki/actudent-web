@@ -3,10 +3,9 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\KelasModel;
 
-class Kelas extends Actudent
+class Kelas extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\KelasModel

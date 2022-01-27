@@ -1,9 +1,8 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Admin\Controllers\Absensi;
 use Actudent\Admin\Controllers\Jadwal;
 
-class SchedulePresence extends Absensi
+class SchedulePresence extends \Actudent\Admin\Controllers\Absensi
 {
     public function page()
 	{

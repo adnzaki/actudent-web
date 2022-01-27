@@ -7,7 +7,7 @@
  * the core controller in order to make everything works
  * as expected
  */
-class Home extends \Actudent\Core\Controllers\Actudent
+class Home extends \Actudent
 {
     private $kelas;
 

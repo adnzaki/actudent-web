@@ -1,9 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\PenggunaModel;
 
-class Pengguna extends Actudent
+class Pengguna extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\PenggunaModel

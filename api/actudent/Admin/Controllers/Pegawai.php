@@ -3,10 +3,9 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\PegawaiModel;
 
-class Pegawai extends Actudent
+class Pegawai extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\PegawaiModel

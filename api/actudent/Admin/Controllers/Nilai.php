@@ -1,13 +1,12 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\NilaiModel;
 use Actudent\Admin\Models\KelasModel;
 use Actudent\Guru\Models\NilaiModel as NilaiGuru;
 use ExcelCreator;
 use Config\Mimes;
 
-class Nilai extends Actudent
+class Nilai extends \Actudent
 {
     /**
      * @var NilaiModel

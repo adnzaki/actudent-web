@@ -1,4 +1,4 @@
-<?php namespace Actudent\Core\Controllers;
+<?php
 
 /**
  * ACTUDENT - Attitude Control for Student
@@ -12,7 +12,6 @@
  */
 
 use Config\Services;
-use CodeIgniter\Controller;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
@@ -22,7 +21,7 @@ use Actudent\Core\Models\AuthModel;
 use Actudent\Core\Controllers\Resources;
 use Actudent\Admin\Models\PesanModel;
 
-class Actudent extends Controller
+class Actudent extends \CodeIgniter\Controller
 {
     /**
      * SekolahModel

@@ -1,9 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\TimelineModel;
 
-class Timeline extends Actudent
+class Timeline extends \Actudent
 {
     /**
      * TimelineModel

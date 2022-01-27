@@ -1,8 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Admin\Controllers\Feedback;
-
-class GuruFeedback extends Feedback
+class GuruFeedback extends \Actudent\Admin\Controllers\Feedback
 {
     public function page()
 	{

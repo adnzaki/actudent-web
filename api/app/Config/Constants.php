@@ -15,28 +15,11 @@ defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
 
 /**
  * -----------------------------------------------------------------------
- * Actudent Version
- * -----------------------------------------------------------------------
- */
-defined('ACTUDENT_VERSION') || define('ACTUDENT_VERSION', '1.1.1');
-
-/**
- * -----------------------------------------------------------------------
- * Database Version
- * -----------------------------------------------------------------------
- * Current system database version, it will be used to check database
- * version that used by organizations. If they are different, we will
- * update database structure to the newer version.
- */
-defined('DB_VERSION') || define('DB_VERSION', '2.2.2');
-
-/**
- * -----------------------------------------------------------------------
  * Actudent Path
  * -----------------------------------------------------------------------
  * Path to actudent root directory
  */
-defined('ACTUDENTPATH') || define('ACTUDENTPATH', ROOTPATH . 'actudent/');
+defined('ACTUDENT_PATH') || define('ACTUDENT_PATH', ROOTPATH . 'actudent/');
 
 /**
  * -----------------------------------------------------------------------

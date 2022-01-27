@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Config\Services;
 
-class Resources extends Actudent
+class Resources extends \Actudent
 {
     /**
      * Notify user if active period has been 7 days left

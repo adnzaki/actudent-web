@@ -1,8 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
-
-class Auth extends Actudent
+class Auth extends \Actudent
 {
     public function index()
     {

@@ -1,9 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\PenggunaModel;
 
-class Pesan extends Actudent
+class Pesan extends \Actudent
 {
     private $pengguna;
 

@@ -1,9 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\AgendaModel;
 
-class Agenda extends Actudent
+class Agenda extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\AgendaModel

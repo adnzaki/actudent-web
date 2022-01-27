@@ -1,6 +1,6 @@
 <?php namespace Actudent\Core\Controllers;
 
-class Error extends Actudent
+class Error extends \Actudent
 {
     public function show404()
     {

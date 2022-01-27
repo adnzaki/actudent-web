@@ -1,8 +1,6 @@
 <?php namespace Actudent\Guru\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
-
-class Pengaturan extends Actudent
+class Pengaturan extends \Actudent
 {
     public function index()
 	{

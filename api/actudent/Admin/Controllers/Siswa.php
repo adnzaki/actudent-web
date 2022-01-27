@@ -3,12 +3,11 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Core\Models\SubscriptionModel;
 use Actudent\Admin\Models\SiswaModel;
 use Actudent\Admin\Models\KelasModel;
 
-class Siswa extends Actudent
+class Siswa extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\SiswaModel

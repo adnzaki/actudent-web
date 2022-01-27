@@ -3,10 +3,9 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Admin\Models\RuangModel;
 
-class Ruang extends Actudent
+class Ruang extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\RuangModel

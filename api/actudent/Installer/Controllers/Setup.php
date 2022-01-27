@@ -1,6 +1,6 @@
 <?php namespace Actudent\Installer\Controllers;
 
-class Setup extends \Actudent\Core\Controllers\Actudent
+class Setup extends \Actudent
 {
     public function __construct()
     {

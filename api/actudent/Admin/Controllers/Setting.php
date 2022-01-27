@@ -1,8 +1,6 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
-
-class Setting extends Actudent
+class Setting extends \Actudent
 {
     public function index()
 	{

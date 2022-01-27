@@ -1,9 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Core\Models\SubscriptionModel;
 
-class Subscription extends Actudent
+class Subscription extends \Actudent
 {
     public function index()
 	{

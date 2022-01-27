@@ -278,7 +278,7 @@ class AbsensiModel extends SharedModel
     /**
      * Get journal archives
      * 
-     * @param int|null $gradeID | null = skip grade selection
+     * @param int|string $gradeID | "null" = skip grade selection
      * @param string $date
      * @param int|null $teacher
      * 
