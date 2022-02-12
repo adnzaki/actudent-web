@@ -1,5 +1,3 @@
-import { appConfig as conf } from '../../../actudent.config'
-
 export default function () {
   return {
     error: {},
@@ -8,14 +6,18 @@ export default function () {
       showSaveButton: true,
       showDeleteButton: false,
       deleteProgress: false,
+      homework: false
     },
-    detail: {}, 
+    showJournalForm: false,
+    saveStatus: 500,
+    journal: {}, 
+    homework: {},
     current: 1,
     className: '',
     classID: '',
     day: '', scheduleLength: 0,
     schedule: [], // schedule list
-    homework: false, scheduleID: '', journalID: '',
+    scheduleID: '', journalID: '',
     presenceButtons: false, showJournalBtn: false, salinJurnal: true,
     journalStatus: 'false', archivePage: true, archiveButton: false,
     presenceGrid: true, backToArchive: false,

@@ -13,6 +13,7 @@
       </div>
     </q-card-section>
     <presence-table />
+    <add-journal-form />
   </q-card>
 </template>
 
@@ -23,13 +24,15 @@ import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import ScheduleSelector from './ScheduleSelector.vue'
 import PresenceTable from './PresenceTable.vue'
+import AddJournalForm from './AddJournalForm.vue'
 
 export default {
   name: 'PresenceList',
   components: {
     MainButton,
     ScheduleSelector,
-    PresenceTable
+    PresenceTable,
+    AddJournalForm
   },
   setup() {
     

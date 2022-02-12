@@ -4,6 +4,7 @@
       <q-btn color="deep-purple" icon="assessment" 
         class="q-pl-sm mobile-hide" :label="$t('absensi_jurnal')"
         v-if="showJournalBtn"
+        @click="showJournalForm"
       />
       <q-btn-dropdown v-if="presenceButtons" color="info" icon="bookmark_add" class="q-pl-sm" :label="$t('aksi')">
         <q-list>
@@ -77,7 +78,7 @@ export default {
   computed: {
     ...mapState('presence', {
       presenceButtons: state => state.presenceButtons,
-      showJournalBtn: state => state.showJournalBtn
+      showJournalBtn: state => state.showJournalBtn,
     })
   },
   setup() {
@@ -95,7 +96,8 @@ export default {
     return {
       fabPos,
       printLabel: $q.screen.lt.sm ? '' : t('absensi_cetak_laporan'),
-      backToClassList
+      backToClassList,
+      showJournalForm: () => store.state.presence.showJournalForm = true
     }
   }
 }

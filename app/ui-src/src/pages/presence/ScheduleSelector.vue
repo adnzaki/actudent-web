@@ -31,20 +31,12 @@ import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
-import id from 'quasar/lang/id'
-import en from 'quasar/lang/en-US'
-import { appConfig as conf } from '../../../actudent.config'
+import { selectedLang } from '../../composables/date'
 
 export default {
   name: 'ScheduleSelector',
   setup() {
     const $q = useQuasar()
-    const lang = {
-      indonesia: id.date,
-      english: en.date
-    }
-
-    const selectedLang = lang[$q.cookies.get(conf.userLang)]
     const route = useRoute()
     const store = useStore()
     const today = new Date()

@@ -21,12 +21,17 @@ export default {
         const baseUrl = `${getters.presenceApi}get-absen/${state.classID}/`
         let presenceUrl = `${baseUrl}null/null`
 
-        if(response.data.status === 'true') {
-          presenceUrl = `${baseUrl}${response.data.id}/${date}`
+        const data = response.data
+
+        if(data.status === 'true') {
+          presenceUrl = `${baseUrl}${data.id}/${date}`
           state.presenceButtons = true
         } else {
           state.presenceButtons = false
         }
+
+        state.journalStatus = data.status
+        state.journalID = data.id
 
         commit('getPresence', presenceUrl)
       })
