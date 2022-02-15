@@ -64,10 +64,18 @@ export default {
       }
     }
 
-    const getPresence = model => {
-      store.state.presence.scheduleID = model.value
-      store.dispatch('presence/checkJournal', activeDate.value)
+    setTimeout(() => {
+      getPresence(store.state.presence.schedule[0].id, true)
+    }, 2500)
 
+    const getPresence = (model, loadOnCreated = false) => {
+      if(loadOnCreated) {
+        store.state.presence.scheduleID = model
+      } else {
+        store.state.presence.scheduleID = model.value
+      }
+
+      store.dispatch('presence/checkJournal', activeDate.value)
       store.state.presence.showJournalBtn = true
     }
     
