@@ -95,7 +95,8 @@ export default {
               label: item[props.optionsValue.label],
               value: item[props.optionsValue.value]
             })
-          })           
+          })   
+          model.value = stringOptions.value[0]
         }, 700) 
       }
 
