@@ -6,12 +6,18 @@ export default function () {
       showSaveButton: true,
       showDeleteButton: false,
       deleteProgress: false,
-      homework: false
+      homework: false,
+      activeDate: '',
     },
     showJournalForm: false,
-    saveStatus: 500,
-    journal: {}, 
-    homework: {},
+
+    // model for Journal Form
+    journal: { 
+      description: '',
+      homework_title: '',
+      homework_description: '',
+      due_date: ''
+    }, 
     current: 1,
     className: '',
     classID: '',

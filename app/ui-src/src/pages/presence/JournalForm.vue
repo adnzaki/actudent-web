@@ -1,6 +1,6 @@
 <template>
-  <q-dialog v-model="$store.state.presence.showJournalForm" 
-    @before-show="formOpen">
+  <q-dialog 
+    v-model="$store.state.presence.showJournalForm">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('absensi_jurnal_title') }}</div>
@@ -12,6 +12,7 @@
         <q-form class="q-gutter-xs">          
           <q-input outlined :label="$t('absensi_isi_jurnal')" dense v-model="journal.description" type="textarea" />
           <error :label="error.description" />
+          <q-separator />
 
           <q-checkbox 
             v-model="$store.state.presence.helper.homework" 
@@ -20,10 +21,10 @@
           />
 
         <div v-if="helper.homework" class="q-gutter-xs">
-          <q-input outlined :label="$t('absensi_input_judul')" dense v-model="homework.homework_title" />
+          <q-input outlined :label="$t('absensi_input_judul')" dense v-model="journal.homework_title" />
           <error :label="error.homework_title" />
 
-          <q-input outlined :label="$t('absensi_detail_pr')" dense v-model="homework.homework_description" type="textarea" />
+          <q-input outlined :label="$t('absensi_detail_pr')" dense v-model="journal.homework_description" type="textarea" />
           <error :label="error.homework_description" />
 
           <q-input v-model="selectedDate" outlined dense mask="date" :rules="['date']">
@@ -42,6 +43,11 @@
         </div>
           
         </q-form>
+        <q-btn outline color="secondary" style="width: 100%;" 
+          v-if="$store.state.presence.salinJurnal"
+          @click="$store.dispatch('presence/copyJournal')">
+          {{ $t('absensi_salin_jurnal_label') }}
+        </q-btn>
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
@@ -53,21 +59,20 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 import { todayStr } from '../../composables/date'
-import { date, useQuasar } from 'quasar'
+import { date } from 'quasar'
 
 export default {
-  name: 'AddJournalForm',
+  name: 'JournalForm',
   computed: {
     ...mapState('presence', {
       error: state => state.error,
       helper: state => state.helper,
       disableSaveButton: state => state.helper.disableSaveButton,
-      journal: state => state.journal,
-      homework: state => state.homework
+      journal: state => state.journal
     }),
   },
   setup() {
@@ -75,43 +80,21 @@ export default {
 
     const selectedDate = ref(todayStr)
 
-    let formValue = {
-      room_code: '',
-      room_name: ''
-    }
-
-    const formData = ref(formValue)
-
-    const formOpen = () => {
-      const saveStatus = computed(() => store.state.presence.saveStatus)
-      if(saveStatus.value === 200) {
-        formValue = {
-          room_code: '',
-          room_name: ''
-        }
-
-        store.state.presence.saveStatus = 500
-        formData.value = formValue
-      }
-    }
-
     const addHomework = () => {
-      console.log(todayStr)
+      store.state.presence.journal.due_date = date.formatDate(todayStr, 'YYYY-MM-DD')
     }
     
     const save = () => {
-      store.dispatch('presence/saveJournal', {
-        data: formData.value,
-        edit: false,
-        id: null
-      })
+      store.dispatch('presence/saveJournal')
+    }
+
+    if(store.state.presence.journal.description !== '') {
+      store.state.presence.salinJurnal = false
     }
 
     return {
-      formData,
       save,
       maximizedDialog, cardDialog,
-      formOpen,
       addHomework,
       selectedDate,
     }

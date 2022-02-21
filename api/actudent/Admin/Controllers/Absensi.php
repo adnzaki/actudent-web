@@ -3,14 +3,13 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
-use Actudent\Core\Controllers\Actudent;
 use Actudent\Core\Controllers\Resources;
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\SchedulePresenceModel;
 use PDFCreator;
 
-class Absensi extends Actudent
+class Absensi extends \Actudent
 {
     /**
      * @var Actudent\Admin\Models\AbsensiModel
@@ -305,126 +304,133 @@ class Absensi extends Actudent
     public function getJournal($journalID)
     {
         $jurnal = $this->absensi->getJournal($journalID);
-        $formatter = [];
 
         if($jurnal['homework'] !== null)
         {
-            foreach($jurnal['homework'] as $key)
-            {
-                $date = explode(' ', $key->due_date);
-                $key->due_date = $date[0];
-            }
+            $date = explode(' ', $jurnal['homework']->due_date);
+            $jurnal['homework']->due_date = $date[0];
         }
 
-        return $this->response->setJSON($jurnal);
+        return $this->createResponse($jurnal);
     }
 
     public function copyJournal($scheduleID, $date)
     {
-        $hasCreated = $this->absensi->journalHasCreatedBefore($scheduleID, $date);
-        $result = [];
-        if($hasCreated !== false)
+        if(valid_token())
         {
-            return $this->response->setJSON([
-                'status'    => 'OK',
-                'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_sukses'),
-                'id'        => $hasCreated,
-            ]);
-        }
-        else 
-        {
-            return $this->response->setJSON([
-                'status'    => 'ERROR',
-                'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_gagal'),
-                'id'        => null
-            ]);
+            $hasCreated = $this->absensi->journalHasCreatedBefore($scheduleID, $date);
+            if($hasCreated !== false)
+            {
+                return $this->response->setJSON([
+                    'status'    => 'OK',
+                    'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_sukses'),
+                    'id'        => $hasCreated,
+                ]);
+            }
+            else 
+            {
+                return $this->response->setJSON([
+                    'status'    => 'ERROR',
+                    'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_gagal'),
+                    'id'        => null
+                ]);
+            }
         }
     }
 
     public function savePresence($status, $journalID, $date)
     {
-        $data = $this->request->getPost('absen');
-        $request = json_decode($data, true);
-
-        foreach($request as $key)
+        if(valid_token())
         {
-            $this->absensi->savePresence($key, $journalID, $date);
+            $data = $this->request->getPost('absen');
+            $request = json_decode($data, true);
+    
+            foreach($request as $key)
+            {
+                $this->absensi->savePresence($key, $journalID, $date);
+            }
+    
+            return $this->response->setJSON(['status' => 'OK']);
         }
-
-        return $this->response->setJSON(['status' => 'OK']);
     }
 
     public function validateMark()
     {
-        $mark = ['presence_mark' => $this->request->getPost('presence_mark')];
-
-        $rules = [
-            'presence_mark' => 'required',
-        ];
-
-        $messages = [
-            'presence_mark' => [
-                'required' => lang('AdminAbsensi.absensi_izin_error')
-            ],
-        ];
-
-        $validation = [$rules, $messages];
-
-        if(! $this->validate($validation[0], $validation[1]))
+        if(is_admin())
         {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            return $this->response->setJSON([
-                'code' => '200',
-                'msg' => 'OK',
-            ]);
+            $mark = ['presence_mark' => $this->request->getPost('presence_mark')];
+    
+            $rules = [
+                'presence_mark' => 'required',
+            ];
+    
+            $messages = [
+                'presence_mark' => [
+                    'required' => lang('AdminAbsensi.absensi_izin_error')
+                ],
+            ];
+    
+            $validation = [$rules, $messages];
+    
+            if(! $this->validate($validation[0], $validation[1]))
+            {
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
+            }
+            else 
+            {
+                return $this->response->setJSON([
+                    'code' => '200',
+                    'msg' => 'OK',
+                ]);
+            }
         }
     }
 
     public function save($scheduleID, $date, $includeHomework)
     {
-        if($includeHomework === 'true')
+        if(valid_token())
         {
-            $includeHomework = true;
-        }
-        else 
-        {
-            $includeHomework = false;
-        }
-
-        $validation = $this->validation($includeHomework); // [0 => $rules, 1 => $messages]
-
-        if(! $this->validate($validation[0], $validation[1]))
-        {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            $data = $this->formData();
-            $saved;
-            if($includeHomework) 
+            if($includeHomework === 'true')
             {
-                // save journal with homework
-                $saved = $this->absensi->saveJournal($data, $scheduleID, $date, true);
+                $includeHomework = true;
             }
-            else
+            else 
             {
-                // save journal without homework
-                $saved = $this->absensi->saveJournal($data, $scheduleID, $date);
+                $includeHomework = false;
             }
-            
-            return $this->response->setJSON([
-                'code' => '200',
-                'data' => $saved,
-            ]);
+    
+            $validation = $this->validation($includeHomework); // [0 => $rules, 1 => $messages]
+    
+            if(! $this->validate($validation[0], $validation[1]))
+            {
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
+            }
+            else 
+            {
+                $data = $this->formData();
+                $saved = null;
+                if($includeHomework) 
+                {
+                    // save journal with homework
+                    $saved = $this->absensi->saveJournal($data, $scheduleID, $date, true);
+                }
+                else
+                {
+                    // save journal without homework
+                    $saved = $this->absensi->saveJournal($data, $scheduleID, $date);
+                }
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                    'data' => $saved,
+                ]);
+            }
         }
     }
 
@@ -492,14 +498,14 @@ class Absensi extends Actudent
         $jurnal = $this->absensi->journalExists($scheduleID, $date);
         if(! $jurnal)
         {
-            return $this->response->setJSON([
+            return $this->createResponse([
                 'status'    => 'false',
                 'id'        => null,
             ]);
         }
         else 
         {
-            return $this->response->setJSON([
+            return $this->createResponse([
                 'status'    => 'true',
                 'id'        => $jurnal[0]->journal_id,
             ]);

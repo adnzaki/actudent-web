@@ -270,8 +270,8 @@ class AbsensiModel extends SharedModel
         }
 
         return [
-            'journal'   => $journal[0], 
-            'homework'  => $homework,
+            'journal'   => $journal[0] ?? null, 
+            'homework'  => $homework[0] ?? null,
         ];
     }
 

@@ -59,8 +59,12 @@ export default {
       })
 
       activeDate.value = date.formatDate(getDate, 'YYYY-MM-DD')
+      
       if(store.state.presence.scheduleID === '') {
         store.state.presence.showJournalBtn = false
+      } else {
+        store.dispatch('presence/checkJournal', activeDate.value)
+        store.state.presence.showJournalBtn = true
       }
     }
 

@@ -28,7 +28,7 @@ return [
     'absensi_jurnal_error_save'     => 'Unable to save journal, please fill the form correctly',
     'absensi_jurnal_success_save'   => 'Journal has been saved successfully',
     'absensi_salin_jurnal_label'    => 'Copy journal from previous hour',
-    'absensi_salin_jurnal_gagal'    => 'You have not fill journal for this schedule today',
+    'absensi_salin_jurnal_gagal'    => 'You have not filled out the journal for this schedule in the previous hour',
     'absensi_salin_jurnal_sukses'   => 'Journal has been successfully copied',
     'absensi_salin_jurnal_progress' => 'Checking journal and schedule...',
     'absensi_form_izin_title'       => 'Permission Form',

@@ -28,7 +28,7 @@ return [
     'absensi_jurnal_error_save'     => 'Tidak dapat menyimpan jurnal, silakan isi form dengan benar',
     'absensi_jurnal_success_save'   => 'Jurnal berhasil disimpan',
     'absensi_salin_jurnal_label'    => 'Salin jurnal dari jam sebelumnya',
-    'absensi_salin_jurnal_gagal'    => 'Anda belum mengisi jurnal untuk jadwal ini hari ini',
+    'absensi_salin_jurnal_gagal'    => 'Anda belum mengisi jurnal untuk jadwal ini pada jam sebelumnya',
     'absensi_salin_jurnal_sukses'   => 'Jurnal berhasil disalin',
     'absensi_salin_jurnal_progress' => 'Mengecek jurnal dan jadwal...',
     'absensi_form_izin_title'       => 'Form Izin',
