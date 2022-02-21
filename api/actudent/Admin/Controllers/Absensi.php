@@ -272,7 +272,7 @@ class Absensi extends \Actudent
     }
 
     public function getJadwal($day, $grade)
-    {       
+    {
         $schedule = $this->absensi->getJadwal($this->days[$day], $grade);
         $formatter = [];
         foreach($schedule as $res)

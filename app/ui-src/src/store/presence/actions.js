@@ -171,12 +171,16 @@ export default {
         }
       })
   },
-  getSchedules({ state, getters }, payload) {
+  getSchedules({ state, getters, dispatch }, payload) {
     axios.get(`${getters.presenceApi}get-jadwal/${payload.day}/${payload.grade}`, {
       headers: { Authorization: bearerToken }
     })
       .then(response => {
         state.schedule = response.data
+        if(state.schedule.length > 0) {
+          state.scheduleID = state.schedule[0].id
+          dispatch('checkJournal', payload.date)
+        }
       })
   }
 }

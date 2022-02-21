@@ -47,38 +47,31 @@ export default {
 
     store.dispatch('presence/getSchedules', {
       day: getDay,
-      grade: route.params.id
+      grade: route.params.id,
+      date: activeDate.value
     })
 
     const dateChanged = (val, reason, details) => {
       const getDate = new Date(details.year, details.month - 1, details.day)
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
+      activeDate.value = date.formatDate(getDate, 'YYYY-MM-DD')
+      store.state.presence.helper.activeDate = activeDate.value
+
       store.dispatch('presence/getSchedules', {
         day: getDate.getDay(),
-        grade: route.params.id
+        grade: route.params.id,
+        date: activeDate.value
       })
 
-      activeDate.value = date.formatDate(getDate, 'YYYY-MM-DD')
-      
       if(store.state.presence.scheduleID === '') {
         store.state.presence.showJournalBtn = false
       } else {
-        store.dispatch('presence/checkJournal', activeDate.value)
         store.state.presence.showJournalBtn = true
       }
     }
 
-    setTimeout(() => {
-      getPresence(store.state.presence.schedule[0].id, true)
-    }, 2500)
-
-    const getPresence = (model, loadOnCreated = false) => {
-      if(loadOnCreated) {
-        store.state.presence.scheduleID = model
-      } else {
-        store.state.presence.scheduleID = model.value
-      }
-
+    const getPresence = model => {
+      store.state.presence.scheduleID = model.value
       store.dispatch('presence/checkJournal', activeDate.value)
       store.state.presence.showJournalBtn = true
     }

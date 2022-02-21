@@ -44,6 +44,7 @@
           
         </q-form>
         <q-btn outline color="secondary" style="width: 100%;" 
+          :disable="disableSaveButton"
           v-if="$store.state.presence.salinJurnal"
           @click="$store.dispatch('presence/copyJournal')">
           {{ $t('absensi_salin_jurnal_label') }}
