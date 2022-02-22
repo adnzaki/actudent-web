@@ -10,6 +10,7 @@ export default function () {
       activeDate: '',
     },
     showJournalForm: false,
+    showPermissionForm: false,
 
     // model for Journal Form
     journal: { 
@@ -29,6 +30,8 @@ export default function () {
     presenceGrid: true, backToArchive: false,
     presenceList: [],
     checkAll: false, 
-    studentPresence: [] // students to be presented
+    studentPresence: [], // students to be presented
+    presenceUrl: '', // presence URL
+    permissionNote: '',
   }
 }

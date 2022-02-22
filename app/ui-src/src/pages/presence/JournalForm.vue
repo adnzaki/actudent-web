@@ -27,11 +27,11 @@
           <q-input outlined :label="$t('absensi_detail_pr')" dense v-model="journal.homework_description" type="textarea" />
           <error :label="error.homework_description" />
 
-          <q-input v-model="selectedDate" outlined dense mask="date" :rules="['date']">
+          <q-input v-model="journal.due_date" outlined dense mask="date" :rules="['date']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="selectedDate" today-btn>
+                  <q-date v-model="journal.due_date" today-btn>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup :label="$t('tutup')" color="primary" flat />
                     </div>
@@ -60,7 +60,6 @@
 </template>
 
 <script>
-import { ref } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { mapState, useStore } from 'vuex'
 import { todayStr } from '../../composables/date'
@@ -79,8 +78,6 @@ export default {
   setup() {
     const store = useStore()
 
-    const selectedDate = ref(todayStr)
-
     const addHomework = () => {
       store.state.presence.journal.due_date = date.formatDate(todayStr, 'YYYY-MM-DD')
     }
@@ -97,7 +94,6 @@ export default {
       save,
       maximizedDialog, cardDialog,
       addHomework,
-      selectedDate,
     }
   }
 }

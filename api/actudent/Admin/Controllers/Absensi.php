@@ -338,7 +338,7 @@ class Absensi extends \Actudent
         }
     }
 
-    public function savePresence($status, $journalID, $date)
+    public function savePresence($journalID, $date)
     {
         if(valid_token())
         {
@@ -356,7 +356,7 @@ class Absensi extends \Actudent
 
     public function validateMark()
     {
-        if(is_admin())
+        if(valid_token())
         {
             $mark = ['presence_mark' => $this->request->getPost('presence_mark')];
     

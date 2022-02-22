@@ -8,23 +8,23 @@
       />
       <q-btn-dropdown v-if="presenceButtons" color="info" icon="bookmark_add" class="q-pl-sm" :label="$t('aksi')">
         <q-list>
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup @click="savePresence(1)">
             <q-item-section>
               <q-item-label>{{ $t('absensi_hadir') }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup @click="savePresence(3)">
             <q-item-section>
               <q-item-label>{{ $t('absensi_sakit') }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup @click="showPermissionForm">
             <q-item-section>
               <q-item-label>{{ $t('absensi_izin') }}</q-item-label>
             </q-item-section>
           </q-item>
           <q-separator />
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup @click="savePresence(0)">
             <q-item-section>
               <q-item-label>{{ $t('absensi_alfa') }}</q-item-label>
             </q-item-section>
@@ -93,11 +93,21 @@ export default {
       store.state.presence.showJournalBtn = false
     }
 
+    const showPermissionForm = () => {
+      store.commit('presence/multiPresence', () => store.state.presence.showPermissionForm = true)   
+    }
+
+    const savePresence = status => {
+      store.commit('presence/multiPresence', () => store.dispatch('presence/savePresence', { status }))
+    }
+
     return {
       fabPos,
       printLabel: $q.screen.lt.sm ? '' : t('absensi_cetak_laporan'),
       backToClassList,
-      showJournalForm: () => store.state.presence.showJournalForm = true
+      showJournalForm: () => store.state.presence.showJournalForm = true,
+      showPermissionForm,
+      savePresence
     }
   }
 }

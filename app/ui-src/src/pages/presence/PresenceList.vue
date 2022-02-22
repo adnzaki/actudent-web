@@ -14,6 +14,7 @@
     </q-card-section>
     <presence-table />
     <journal-form />
+    <permission-form />
   </q-card>
 </template>
 
@@ -25,6 +26,7 @@ import MainButton from './MainButton.vue'
 import ScheduleSelector from './ScheduleSelector.vue'
 import PresenceTable from './PresenceTable.vue'
 import JournalForm from './JournalForm.vue'
+import PermissionForm from './PermissionForm.vue'
 
 export default {
   name: 'PresenceList',
@@ -32,7 +34,8 @@ export default {
     MainButton,
     ScheduleSelector,
     PresenceTable,
-    JournalForm
+    JournalForm,
+    PermissionForm
   },
   setup() {
     

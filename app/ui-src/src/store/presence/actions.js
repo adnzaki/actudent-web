@@ -10,9 +10,71 @@ import {
   t
 } from '../../composables/common'
 
+import { date } from 'quasar'
+
 import { Notify } from 'quasar'
 
 export default {
+  submitPermission({ state, getters, dispatch }) {
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('absensi_izin_progress'),
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    axios.post(`${getters.presenceApi}izin`, { presence_mark: state.permissionNote }, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => createFormData(data)]
+    })
+      .then(response => {
+        const res = response.data
+        if(res.code === '500') {
+          notifyProgress({
+            message: `Error! ${res.msg.presence_mark}`,
+            color: 'negative',
+            spinner: false
+          })
+        } else {
+          notifyProgress({ timeout: 1 })
+          dispatch('savePresence', { status: 2 })
+          state.showPermissionForm = false
+          state.permissionNote = ''
+        }
+      })
+  },
+  savePresence({ state, getters, commit }, { status, studentId = null }) {
+    let data = []
+    const mark = state.permissionNote
+    
+    if(studentId === null) {
+      state.studentPresence.forEach(id => {
+        data.push({ status, mark, id })
+      })
+    } else {
+      data = [{ status, mark, id: studentId }]
+    }
+
+    const absen = JSON.stringify(data)
+    const url = `${getters.presenceApi}simpan-absen/${state.journalID}/${state.helper.activeDate}`
+
+    axios.post(url, { absen }, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => createFormData(data)]
+    })
+      .then(() => {
+        // empty presence list
+        state.studentPresence = []
+
+        // reset all students checkbox
+        if(state.checkAll) state.checkAll = false
+
+        // reload presence data
+        commit('getPresence', state.presenceUrl)
+      })
+  },
   copyJournal({ state, dispatch, getters }) {
     const notifyProgress = Notify.create({
       group: false,
@@ -24,10 +86,7 @@ export default {
     })
 
     axios.get(`${getters.presenceApi}salin-jurnal/${state.scheduleID}/${state.helper.activeDate}`, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
+      headers: { Authorization: bearerToken }
     })
       .then(res => {
         if(res.data.status === 'OK') {
@@ -57,7 +116,7 @@ export default {
       description: state.journal.description,
       homework_title: state.journal.homework_title,
       homework_description: state.journal.homework_description,
-      due_date: state.journal.due_date
+      due_date: date.formatDate(state.journal.due_date, 'YYYY-MM-DD')
     }
 
     const notifyProgress = Notify.create({
@@ -127,6 +186,9 @@ export default {
         state.journalStatus = data.status
         state.journalID = data.id
 
+        // save presence URL
+        state.presenceUrl = presenceUrl
+
         commit('getPresence', presenceUrl)
 
         if(data.status === 'true') {
@@ -179,6 +241,7 @@ export default {
         state.schedule = response.data
         if(state.schedule.length > 0) {
           state.scheduleID = state.schedule[0].id
+          state.showJournalBtn = true
           dispatch('checkJournal', payload.date)
         }
       })
