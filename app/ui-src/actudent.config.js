@@ -30,6 +30,7 @@ export const appConfig = {
 
   host,
   uiPath,
+  reportPath: `${uiPath()}app/report/`,
 
   // Cookie key name
   cookieName: 'actudent_token',

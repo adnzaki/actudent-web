@@ -234,7 +234,7 @@ export default {
       })
   },
   getSchedules({ state, getters, dispatch }, payload) {
-    axios.get(`${getters.presenceApi}get-jadwal/${payload.day}/${payload.grade}`, {
+    axios.get(`${getters.presenceApi}get-jadwal/${state.helper.activeDay}/${payload.grade}`, {
       headers: { Authorization: bearerToken }
     })
       .then(response => {

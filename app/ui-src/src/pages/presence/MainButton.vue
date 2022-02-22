@@ -33,12 +33,16 @@
       </q-btn-dropdown>
       <q-btn-dropdown color="teal-9" icon="print" class="q-pl-sm" :label="printLabel">
         <q-list>
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup
+            :href="exportReportUrl('jurnal')"
+            target="_blank">
             <q-item-section>
               <q-item-label>{{ $t('absensi_cetak_jurnal') }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable v-close-popup>
+          <q-item clickable v-close-popup
+            :href="exportReportUrl('absen')"
+            target="_blank">
             <q-item-section>
               <q-item-label>{{ $t('absensi_cetak_absen') }}</q-item-label>
             </q-item-section>
@@ -71,7 +75,8 @@ import { fabPos } from 'src/composables/fab'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { mapState, useStore } from 'vuex'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { appConfig as conf } from '../../../actudent.config'
 
 export default {
   name: 'MainButton',
@@ -85,7 +90,23 @@ export default {
     const $q = useQuasar()
     const { t } = useI18n()
     const router = useRouter()
+    const route = useRoute()
     const store = useStore()
+    const reportPath = conf.reportPath
+    const token = $q.cookies.get(conf.cookieName)
+
+    const exportReportUrl = type => { // type = "jurnal" | "absen"
+      const params = {
+        grade_id: route.params.id,
+        day: store.state.presence.helper.activeDay,
+        date: store.state.presence.helper.activeDate,
+        token
+      }
+      
+      const queryString = Object.entries(params).map(item => item.join('=')).join('&')
+
+      return `${reportPath}ekspor-${type}.php?${queryString}`
+    }
 
     const backToClassList = () => {
       router.push('/presence')
@@ -107,7 +128,8 @@ export default {
       backToClassList,
       showJournalForm: () => store.state.presence.showJournalForm = true,
       showPermissionForm,
-      savePresence
+      savePresence,
+      exportReportUrl
     }
   }
 }

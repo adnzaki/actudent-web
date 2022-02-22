@@ -7,7 +7,7 @@
 </head>
 
 <body>
-	<?= view_cell('Actudent\Core\Controllers\Actudent::reportHeader') ?>
+	<?= view_cell('\Actudent::reportHeader') ?>
 	<div class="pdf-content">
 		<div class="judul-laporan center-align"><?= $title ?></div>
 		<table class="no-border sub-judul">
@@ -59,7 +59,7 @@
 			</tbody>
 		</table>
 	</div>
-	<?= view_cell('Actudent\Core\Controllers\Actudent::homeroomSign') ?>
+	<?= view_cell('\Actudent::homeroomSign') ?>
 </body>
 
 </html>

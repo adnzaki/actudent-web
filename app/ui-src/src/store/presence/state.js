@@ -8,6 +8,7 @@ export default function () {
       deleteProgress: false,
       homework: false,
       activeDate: '',
+      activeDay: 0,
     },
     showJournalForm: false,
     showPermissionForm: false,

@@ -147,7 +147,6 @@ class Actudent extends \CodeIgniter\Controller
     {
         $pengguna = $this->getDataPengguna();        
         $data = [
-            'ac_version'            => ACTUDENT_VERSION,
             'base_url'              => base_url(),
             'assets'                => base_url() . '/assets/',
             'appAssets'             => base_url() . '/app-assets/',
@@ -158,7 +157,6 @@ class Actudent extends \CodeIgniter\Controller
             'guru'                  => base_url() . '/guru/',
             'newLogin'              => base_url() . '/admin-login/',
             'install'               => base_url() . '/install/',
-            'namaPengguna'          => $pengguna->user_name ?? '',
         ];
 
         return $data;

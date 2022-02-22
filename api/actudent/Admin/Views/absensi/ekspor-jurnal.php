@@ -4,11 +4,11 @@
 <head>
 	<title><?= $title ?></title>
 	<!-- <link rel="stylesheet" type="text/css" href="<?//= $assets.'css/laporan.css'?>"> -->
-	<?= view_cell('Actudent\Core\Controllers\Actudent::reportStyle') ?>
+	<?= view_cell('\Actudent::reportStyle') ?>
 </head>
 
 <body>
-	<?= view_cell('Actudent\Core\Controllers\Actudent::reportHeader') ?>
+	<?= view_cell('\Actudent::reportHeader') ?>
 	<div class="pdf-content">
 		<div class="judul-laporan center-align"><?= $title ?></div>
 		<table class="no-border sub-judul">
@@ -66,7 +66,7 @@
 			</tbody>
 		</table>
 	</div>
-	<?= view_cell('Actudent\Core\Controllers\Actudent::masterSign') ?>
+	<?= view_cell('\Actudent::masterSign') ?>
 </body>
 
 </html>
