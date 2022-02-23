@@ -1,6 +1,7 @@
 import { lang, fetchLang } from '../fetch-lang'
 
 fetchLang('Admin')
+fetchLang('AdminAuth')
 fetchLang('AdminAbsensi')
 fetchLang('AdminAgenda')
 fetchLang('AdminFeedback')

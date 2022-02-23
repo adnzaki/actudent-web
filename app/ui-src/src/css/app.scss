@@ -1,4 +1,36 @@
 // app global css in SCSS form
+.bg-login {
+  background: url('../../public/bg-login.png');
+  background-size: cover;
+  height: calc(100vh + 5px);
+  overflow: hidden;
+  margin-top: -5px;
+}
+
+.auth-box {
+  width: 100%;
+  // border-radius: 8px !important;
+  box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.3);
+}
+
+.auth-input {
+  border-radius: 6px;
+  background-color: #66a3ff9a;
+}
+
+.auth-input-focus {
+  padding: 0 5px;
+  border: solid 2px #6152c7 !important;
+  background-color: rgb(247, 247, 247) !important;
+}
+
+.app-logo {
+  left: 37%;
+}
+
+.company-logo {
+  // margin-top: -25px;
+}
 
 @media(max-width: $breakpoint-sm-max) {
   .q-dialog__inner--minimized {
