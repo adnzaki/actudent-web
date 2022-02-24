@@ -154,6 +154,20 @@ class Resources extends \Actudent
     }
 
     /**
+     * Get locale for login page only that does not require authentication
+     * 
+     * @param string $lang
+     * 
+     * @return JSON
+     */
+    public function getLoginLocale($lang)
+    {
+        $response = require APPPATH . "Language/{$lang}/AdminAuth.php";
+
+        return Services::response()->setJSON($response);
+    }
+
+    /**
      * Get locales for new user interface
      * 
      * @param string $lang

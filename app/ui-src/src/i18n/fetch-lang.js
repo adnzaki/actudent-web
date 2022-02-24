@@ -9,30 +9,40 @@ const lang = ref({
   indonesia: []
 })
 
-const userLang = Cookies.get(conf.userLang)
-
-const fetchLang = (file, selectedLang = '') => {
-  let url 
-  selectedLang === '' ? url = file :  url = `${file}/${selectedLang}`
-  core.get(`get-lang/${url}`, {
-    headers: {
-      Authorization: bearerToken
-    }
-  })
-    .then(response => {
-      const data = response.data
-
-      if(lang.value.length === 0) {
-        lang.value[userLang] = data
-      } else {
-        for(let item in data) {
-          lang.value[userLang][item] = data[item]
-        }
-      }
-    })
-    .catch(error => {
-      console.error('Error:', error)
-    })
+const fetchLoginLang = lang => {
+  core.get(`get-login-lang/${lang}`)
+      .then(response => {
+        pushLang(response.data, lang)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
 }
 
-export { lang, fetchLang }
+const fetchLang = (file, selectedLang) => {
+  if(Cookies.get(conf.cookieName) !== null) {
+    core.get(`get-lang/${file}/${selectedLang}`, {
+      headers: {
+        Authorization: bearerToken
+      }
+    })
+      .then(response => {
+        pushLang(response.data, selectedLang)
+      })
+      .catch(error => {
+        console.error('Error:', error)
+      })
+  }
+}
+
+const pushLang = (data, selectedLang) => {  
+  if(lang.value.length === 0) {
+    lang.value[selectedLang] = data
+  } else {
+    for(let item in data) {
+      lang.value[selectedLang][item] = data[item]
+    }
+  }
+}
+
+export { lang, fetchLang, fetchLoginLang }

@@ -3,6 +3,7 @@
 // Core application section 
 $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
 {
+	$routes->add('get-login-lang/(:any)', 'Resources::getLoginLocale/$1');
 	$routes->add('get-admin-lang/(:any)', 'Resources::getLocaleResource/$1');
 	$routes->add('get-lang/(:any)', 'Resources::getLocaleForUI/$1');
 	$routes->add('get-lang/(:any)/(:any)', 'Resources::getLocaleForUI/$1/$2');
