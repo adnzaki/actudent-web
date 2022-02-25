@@ -1,9 +1,14 @@
 import admin from './admin'
 import teacher from './teacher'
+import { triggerMode } from '../composables/mode'
 
 const routes = [
-  admin,
-  teacher,
+  {
+    path: '/',
+    component: () => import('src/layouts/MainLayout.vue'),
+    children: admin.concat(teacher),
+    beforeEnter: () => triggerMode()
+  },
   { path: '/login', component: () => import('layouts/Login.vue') },
 
   // Always leave this as last one,

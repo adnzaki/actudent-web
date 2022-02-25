@@ -1,5 +1,4 @@
 import { validateToken } from '../composables/validate-token'
-import { triggerMode } from '../composables/mode'
 import PageIndex from 'pages/home/Index.vue'
 import ParentMain from 'pages/parent/ParentMain.vue'
 import StudentMain from 'pages/student/StudentMain.vue'
@@ -16,45 +15,43 @@ import MappingWrapper from 'pages/schedules/MappingWrapper.vue'
 import PresenceMain from 'pages/presence/PresenceMain.vue'
 import PresenceClassList from 'pages/presence/PresenceClassList.vue'
 import PresenceList from 'pages/presence/PresenceList.vue'
+import checkSubscription from 'src/composables/subscription'
 
-const admin = {
-  path: '/',
-  component: () => import('layouts/MainLayout.vue'),
-  children: [
-    { path: '', component: PageIndex, beforeEnter: () => validateToken('is_admin') },
-    { path: 'home', component: PageIndex, beforeEnter: () => validateToken('is_admin') },
-    { path: 'parent', component: ParentMain, beforeEnter: () => validateToken('is_admin') },
-    { path: 'student', component: StudentMain, beforeEnter: () => validateToken('is_admin') },
-    { path: 'employee', component: EmployeeMain, beforeEnter: () => validateToken('is_admin') },
-    { 
-      path: 'class', component: ClassMain, beforeEnter: () => validateToken('is_admin'),
-      children: [
-        { path: '', component: ClassList, beforeEnter: () => validateToken('is_admin') },
-        { path: 'member/:id', component: MemberMain, beforeEnter: () => validateToken('is_admin') }
-      ]
-    },
-    { path: 'rooms', component: RoomMain, beforeEnter: () => validateToken('is_admin') },
-    { path: 'lesson', component: LessonMain, beforeEnter: () => validateToken('is_admin') },
-    { 
-      path: 'schedules', component: ScheduleMain, beforeEnter: () => validateToken('is_admin'),
-      children: [
-        { path: '', component: ClassWrapper, beforeEnter: () => validateToken('is_admin') },
-        { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: () => validateToken('is_admin') },
-        { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => validateToken('is_admin') }
-      ]
-    },
-    { 
-      path: 'presence', component: PresenceMain, beforeEnter: () => validateToken('is_admin'),
-      children: [
-        { path: '', component: PresenceClassList, beforeEnter: () => validateToken('is_admin') },
-        { path: 'fill/:id', component: PresenceList, beforeEnter: () => validateToken('is_admin') }
-      ]
-    },
-  ],
-  beforeEnter: () => {
-    validateToken('is_admin'),
-    triggerMode()   
-  }
+const admin = [
+  { path: '', redirect: 'home' },
+  { path: 'home', component: PageIndex,  beforeEnter: validatePage },
+  { path: 'parent', component: ParentMain, beforeEnter: validatePage },
+  { path: 'student', component: StudentMain, beforeEnter: validatePage },
+  { path: 'employee', component: EmployeeMain, beforeEnter: validatePage },
+  { 
+    path: 'class', component: ClassMain, beforeEnter: validatePage,
+    children: [
+      { path: '', component: ClassList, beforeEnter: validatePage },
+      { path: 'member/:id', component: MemberMain, beforeEnter: validatePage }
+    ]
+  },
+  { path: 'rooms', component: RoomMain, beforeEnter: validatePage },
+  { path: 'lesson', component: LessonMain, beforeEnter: validatePage },
+  { 
+    path: 'schedules', component: ScheduleMain, beforeEnter: validatePage,
+    children: [
+      { path: '', component: ClassWrapper, beforeEnter: validatePage },
+      { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: validatePage },
+      { path: 'mapping/:id', component: MappingWrapper, beforeEnter: validatePage }
+    ]
+  },
+  { 
+    path: 'presence', component: PresenceMain, beforeEnter: validatePage,
+    children: [
+      { path: '', component: PresenceClassList, beforeEnter: validatePage },
+      { path: 'fill/:id', component: PresenceList, beforeEnter: validatePage }
+    ]
+  },
+]
+
+function validatePage() {
+  checkSubscription()
+  validateToken('is_admin')
 }
 
 export default admin
