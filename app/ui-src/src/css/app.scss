@@ -7,6 +7,8 @@
   margin-top: -5px;
 }
 
+$input-focus-bg: #6252c76c;
+
 .auth-box {
   width: 100%;
   // border-radius: 8px !important;
@@ -16,12 +18,21 @@
 .auth-input {
   border-radius: 6px;
   background-color: #66a3ff9a;
+  border-inline: solid 0px #8c19d8;
+  transition: all 0.15s ease;
 }
 
-.auth-input-focus {
-  padding: 0 5px;
-  border: solid 2px #6152c7 !important;
-  background-color: rgb(247, 247, 247) !important;
+.q-field__input:focus {
+  background-color: transparent;
+}
+
+.auth-input:hover,
+.auth-input:focus-within {
+  background-color: $input-focus-bg;
+}
+
+.auth-input:focus-within {
+  border-inline-width:5px;
 }
 
 .app-logo {
