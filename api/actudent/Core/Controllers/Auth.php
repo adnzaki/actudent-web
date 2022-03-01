@@ -50,7 +50,7 @@ class Auth extends \Actudent
                     'iat'       => strtotime('now'),
                     'exp'       => strtotime('now') + $this->tokenExp
                 ];
-    
+
                 $this->auth->statusJaringan('online', $username);
                 
                 return $this->response->setJSON([
