@@ -166,15 +166,14 @@ class AuthModel extends \Actudent\Core\Models\Connector
      * Validate username and possword
      * @param string $username
      * @param string $password
-     * @param string $userLevel
      * 
      * @return bool
      */
-    public function validasi(string $username, string $password, string $userLevel): bool
+    public function validasi(string $username, string $password): bool
     {
         $find = $this->user->where(['user_email' => $username]);
         $userAktif = $find->get()->getResult();
-        if($find->countAllResults() > 0 && $this->userAktif($username, $userLevel))
+        if($find->countAllResults() > 0 && $this->userAktif($username))
         {
             if(password_verify($password, $userAktif[0]->user_password))
             {
@@ -195,16 +194,15 @@ class AuthModel extends \Actudent\Core\Models\Connector
      * Check if user is active or not
      * 
      * @param string $username
-     * @param string $userLevel
      * 
      * @return boolean
      */
-    public function userAktif(string $username, string $userLevel): bool
+    public function userAktif(string $username): bool
     {
         $query = $this->user->where('user_email', $username)->get()->getResult();
         if(count($query) > 0)
         {
-            if($query[0]->deleted === '0' && $query[0]->user_level === $userLevel)
+            if($query[0]->deleted === '0')
             {
                 return true;
             }

@@ -1,4 +1,6 @@
-<?php namespace Actudent\Admin\Controllers;
+<?php namespace Actudent\Core\Controllers;
+
+header('Access-Control-Allow-Origin: *');
 
 class Auth extends \Actudent
 {
@@ -35,6 +37,7 @@ class Auth extends \Actudent
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
             $remember = $this->request->getPost('remember-me') ?? '';
+            $language = $this->request->getPost('language');
             if($this->auth->validasi($username, $password, '1'))
             {
                 $pengguna = $this->auth->getDataPengguna($username);
@@ -47,14 +50,10 @@ class Auth extends \Actudent
                     'iat'       => strtotime('now'),
                     'exp'       => strtotime('now') + $this->tokenExp
                 ];
-    
-                if(! empty($remember))
-                {
-                    $cookieValue = "{$username}-{$pengguna->user_level}";
-                    $hash = base64_encode($cookieValue);
-                    $this->auth->createToken($hash);
-                    set_cookie('remember_login', $hash, (3600 * 24 * 30));
-                }
+
+                // update user language
+                $settings = new \Actudent\Core\Models\SettingModel;
+                $settings->setUserLanguage($username, $language);
     
                 $this->auth->statusJaringan('online', $username);
                 $getLang = $this->auth->getUserLanguage($username);

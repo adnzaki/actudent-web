@@ -93,8 +93,8 @@ export default defineComponent({
   methods: {
     logout() {
       this.$q.cookies.remove(conf.cookieName)
-      this.$q.cookies.remove(conf.userLang)
-      window.location.href = `${conf.uiPath()}login.html`
+      this.$q.cookies.remove(conf.userType)
+      window.location.href = conf.loginUrl()
     }
   },
 

@@ -1,7 +1,7 @@
-import { lang, fetchLang, fetchLoginLang } from '../fetch-lang'
+import { lang, fetchLang } from '../fetch-lang'
 
 fetchLang('Admin', 'indonesia')
-fetchLoginLang('indonesia')
+fetchLang('AdminAuth', 'indonesia')
 fetchLang('AdminAbsensi', 'indonesia')
 fetchLang('AdminAgenda', 'indonesia')
 fetchLang('AdminFeedback', 'indonesia')
