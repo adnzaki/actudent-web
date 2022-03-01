@@ -16,7 +16,6 @@ use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Actudent\Core\Models\SekolahModel;
-use Actudent\Core\Models\SettingModel;
 use Actudent\Core\Models\AuthModel;
 use Actudent\Core\Controllers\Resources;
 use Actudent\Admin\Models\PesanModel;
@@ -29,13 +28,6 @@ class Actudent extends \CodeIgniter\Controller
      * @var object
      */
     protected $sekolah;
-
-    /**
-     * SettingModel
-     * 
-     * @var object
-     */
-    protected $setting;
 
     /**
      * AuthModel
@@ -85,12 +77,10 @@ class Actudent extends \CodeIgniter\Controller
 
         // preload services
         $this->sekolah  = new SekolahModel;
-        $this->setting  = new SettingModel;
         $this->auth     = new AuthModel;
         $this->resources= new Resources;
         $this->pesan    = new PesanModel;
         $this->validation = Services::validation();
-        Services::language($this->getUserLanguage());
         helper([
             'Actudent\Core\Helpers\ostium', 
             'Actudent\Core\Helpers\wolesdev',
@@ -288,35 +278,6 @@ class Actudent extends \CodeIgniter\Controller
         {
             $decodedToken = jwt_decode(bearer_token());
             return $this->auth->getDataPengguna($decodedToken->email);
-        }
-    }
-
-    /**
-     * Set app language
-     * 
-     * @param string $lang
-     * @return void
-     */
-    protected function setLanguage(string $lang): void
-    {
-        // Set bahasa yang dipilih pengguna
-        Services::language($lang);
-
-        // simpan ke dalam session
-        session()->set('actudent_lang', $lang);
-    }
-
-    /**
-     * Get the user's language preference
-     * 
-     * @return string
-     */
-    protected function getUserLanguage()
-    {
-        if(isset($_SESSION['email']))
-        {
-            $lang = $this->auth->getUserLanguage($_SESSION['email']);
-            return $lang[0]->user_language;
         }
     }
 }

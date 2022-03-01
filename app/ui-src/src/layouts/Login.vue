@@ -16,15 +16,17 @@
               width="20%" :ratio="1"
               class="app-logo" />
             <p class="text-center text-uppercase q-pt-lg q-pb-sm">{{ $t('silakan_login') }}</p>
-            <q-form class="q-gutter-xs">
-              <q-input class="auth-input q-pl-md q-mb-lg" 
-                borderless v-model="username" label="Username">
+            <q-form class="q-gutter-xs" @submit.prevent="validate">
+
+              <q-input class="auth-input q-pl-md q-mb-lg" borderless 
+                v-model="username" label="Username" @keyup.enter="validate">
                 <template v-slot:prepend>
                   <q-icon name="mail_outline" color="primary" />
                 </template>
               </q-input>
+
               <q-input class="auth-input q-pl-md q-mb-xs" type="password" 
-                borderless v-model="password" label="Password">
+                borderless v-model="password" label="Password" @keyup.enter="validate">
                 <template v-slot:prepend>
                   <q-icon name="vpn_key" color="primary" />
                 </template>
@@ -33,7 +35,6 @@
               <q-checkbox class="q-mb-lg" v-model="rememberMe" :label="$t('remember_me')" />
               <p v-if="showMsg" style="margin-top: -20px" :class="`text-bold text-${msgClass}`">{{ msg }}</p>
               <q-btn color="blue" @click="validate" :style="btnStyle">{{ $t('login') }}</q-btn>
-
             </q-form>
           </q-card-section>
         </q-card>
@@ -54,7 +55,8 @@
 <script>
 import { ref, reactive } from 'vue'
 import { axios } from 'boot/axios'
-import { t } from 'src/composables/common'
+import { t, conf, createFormData } from 'src/composables/common'
+import { useQuasar } from 'quasar'
 
 export default {
   name: 'Login',
@@ -64,6 +66,7 @@ export default {
       active: 'accent',
       inactive: 'purple-5'
     })
+    const $q = useQuasar()
 
     const username = ref(''),
           password = ref(''),
@@ -75,10 +78,74 @@ export default {
     
     return {
       validate() {
+        msg.value = ''
+        showMsg.value = true
+        const hideMsg = () => showMsg.value = false
+
         if(username.value === '' || password.value === '') {
           msg.value = t('userpassword_wajib')
+          msgClass.value = 'negative'
+          setTimeout(hideMsg, 6000)
         } else {
-          msg.value = 'Terimakasih!'
+          const postData = {
+            username: username.value,
+            password: password.value,
+            language: localStorage.getItem('ac_userlang')
+          }
+
+          msg.value = t('mengautentikasi')
+          msgClass.value = 'black'
+
+          // do request..
+          axios.post(`${conf.coreAPI}login/validasi`, postData, {
+            'Access-Control-Allow-Origin': '*',
+            transformRequest: [data => createFormData(data)]
+          })
+            .then(response => {
+              const res = response.data
+              if(res.msg === 'expired') {
+                msgClass.value = 'negative'
+                msg.value = res.note
+              } else {
+                if(res.msg === 'valid') {
+                  msg.value = t('login_sukses')
+                  msgClass.value = 'positive'
+
+                  const dt = new Date(),
+                        now = dt.getTime(),
+                        expMs = now + conf.cookieExp,
+                        exp = new Date(expMs),
+                        cookieOptions = {
+                          expires: exp.toUTCString(),
+                          path: '/',
+                          sameSite: 'None',
+                        }
+
+                  $q.cookies.set(conf.cookieName, res.token, cookieOptions)
+                  $q.cookies.set(conf.userType, res.level, cookieOptions)
+
+                  // if user login for the first time and does not set the language
+                  if(userLang === null) {
+                    localStorage.setItem('ac_userlang', 'indonesia')
+                  }
+
+                  // redirect to dashboard depend on user type...
+                  if(res.level === '1') {
+                    window.location.href = conf.homeUrl()
+                  } else if(res.level === '2') {
+                    msg.value = `Oops, kami mendeteksi bahwa akun anda adalah akun guru
+                                 dan kami belum dapat menampilkan halaman yang anda minta.`
+                    msgClass.value = 'info'
+                    setTimeout(hideMsg, 10000)
+                  }
+                } else {
+                  msgClass.value = 'negative'
+                  msg.value = t('invalid_login')
+
+                  setTimeout(hideMsg, 4000)
+                }
+              }
+            })
         }
       },
       username, password, error, msg, msgClass, showMsg, rememberMe,

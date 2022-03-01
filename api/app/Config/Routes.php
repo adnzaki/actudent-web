@@ -88,9 +88,6 @@ require ACTUDENT_PATH . 'Guru/Config/GuruRoutes.php';
 // Installer section 
 require ACTUDENT_PATH . 'Installer/Config/InstallerRoutes.php';
 
-// UI Test section 
-require ACTUDENT_PATH . 'UITest/Config/UIRoutes.php';
-
 // Core section
 require ACTUDENT_PATH . 'Core/Config/CoreRoutes.php';
 

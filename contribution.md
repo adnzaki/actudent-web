@@ -47,12 +47,10 @@ Merupakan tempat menyimpan shared classes atau class inti yang dipakai oleh bebe
 Merupakan tempat menyimpan kode sumber modul Guru.
 - `Installer`
 Tempat menyimpan kode sumber setup/instalasi Actudent.
-- `Sync`
-Tempat menyimpan kode sumber <b>Sync API</b>.
-- `UITest`
-Tempat menyimpan kode sumber untuk keperluan test interaksi user interface dengan API.
 - `Mobile`
 Tempat menyimpan kode sumber API untuk versi mobile (Android).
+- `Sync`
+Tempat menyimpan kode sumber <b>Sync API</b>.
 
 ### Core Controller
 `Actudent` merupakan core controller yang wajib ada di semua controller Actudent. Tanpa class ini, Actudent tidak akan dapat berjalan sebagaimana mestinya. Hanya kontributor inti yang diperkenankan memodifikasi class ini. Class ini tersedia dengan namespace `Actudent\Core\Controllers\Actudent`.

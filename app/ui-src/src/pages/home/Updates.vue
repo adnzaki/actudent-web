@@ -47,8 +47,8 @@ export default {
     }
 
     return {
-      updates: latestUpdates[$q.cookies.get(conf.userLang)],
-      olderUpdates: olderUpdates[$q.cookies.get(conf.userLang)],
+      updates: latestUpdates[localStorage.getItem('ac_userlang')],
+      olderUpdates: olderUpdates[localStorage.getItem('ac_userlang')],
       showOlder: ref(false)
     }
   }
