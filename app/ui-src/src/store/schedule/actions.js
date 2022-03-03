@@ -211,7 +211,7 @@ export default {
   getClassList({ state, dispatch }) {
     dispatch('getData', {
       token: bearerToken,
-      lang: Cookies.get(conf.userLang),
+      lang: localStorage.getItem(conf.userLang),
       limit: 10,
       offset: state.current - 1,
       orderBy: 'grade_name',

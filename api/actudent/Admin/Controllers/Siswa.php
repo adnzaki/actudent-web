@@ -23,8 +23,6 @@ class Siswa extends \Actudent
     {
         $this->siswa = new SiswaModel;
         $this->kelas = new KelasModel;
-        $resource = new \Actudent\Core\Controllers\Resources;
-        $resource->setUILanguage();
     }
 
     public function index()

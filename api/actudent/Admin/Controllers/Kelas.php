@@ -15,8 +15,6 @@ class Kelas extends \Actudent
     public function __construct()
     {
         $this->kelas = new KelasModel;
-        $resource = new \Actudent\Core\Controllers\Resources;
-        $resource->setUILanguage();
     }
 
     public function index()

@@ -43,8 +43,8 @@ export const appConfig = {
   // Cookie expiration time in miliseconds (120 in minutes)
   cookieExp: 120 * 60 * 1000,
 
-  // Cookie name to retrieve selected language of current user
-  userLang: 'actudent_userlang',
+  // localStorage name to retrieve selected language of current user
+  userLang: 'ac_userlang',
 
   // Cookie name to retrieve user type of current user
   userType: 'actudent_usertype'

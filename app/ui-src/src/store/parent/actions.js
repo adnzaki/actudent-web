@@ -19,7 +19,7 @@ export default {
 
     dispatch('getData', {
       token: bearerToken,
-      lang: Cookies.get(conf.userLang),
+      lang: localStorage.getItem(conf.userLang),
       limit,
       offset: state.current - 1,
       orderBy: 'parent_father_name',

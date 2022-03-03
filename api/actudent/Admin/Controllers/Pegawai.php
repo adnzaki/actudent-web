@@ -18,8 +18,6 @@ class Pegawai extends \Actudent
     public function __construct()
     {
         $this->staff = new PegawaiModel;
-        $resource = new \Actudent\Core\Controllers\Resources;
-        $resource->setUILanguage();
     }
 
     public function index()

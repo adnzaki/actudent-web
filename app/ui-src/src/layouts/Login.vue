@@ -61,7 +61,7 @@ import { useQuasar } from 'quasar'
 export default {
   name: 'Login',
   setup() {
-    const userLang = localStorage.getItem('ac_userlang')
+    const userLang = localStorage.getItem(conf.userLang)
     const btnLangColor = ref({
       active: 'accent',
       inactive: 'purple-5'
@@ -90,7 +90,7 @@ export default {
           const postData = {
             username: username.value,
             password: password.value,
-            language: localStorage.getItem('ac_userlang')
+            language: localStorage.getItem(conf.userLang)
           }
 
           msg.value = t('mengautentikasi')
@@ -126,7 +126,7 @@ export default {
 
                   // if user login for the first time and does not set the language
                   if(userLang === null) {
-                    localStorage.setItem('ac_userlang', 'indonesia')
+                    localStorage.setItem(conf.userLang, 'indonesia')
                   }
 
                   // redirect to dashboard depend on user type...
@@ -157,7 +157,7 @@ export default {
         }
       },
       switchLanguage(lang) {
-        localStorage.setItem('ac_userlang', lang)
+        localStorage.setItem(conf.userLang, lang)
         window.location.reload()
       },
       btnStyle: reactive({

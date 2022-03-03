@@ -11,14 +11,6 @@ class Jadwal extends \Actudent
         $this->jadwal = new JadwalModel;
     }
 
-    public function index()
-    {
-        $data = $this->common();
-        $data['title'] = lang('AdminJadwal.jadwal_title');
-
-        return parse('Actudent\Admin\Views\jadwal\jadwal-view', $data);
-    }
-
     public function getLessons($grade)
     {
         $data = $this->jadwal->getLessons($grade);

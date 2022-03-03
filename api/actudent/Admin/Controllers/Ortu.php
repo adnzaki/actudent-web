@@ -18,8 +18,6 @@ class Ortu extends \Actudent
     public function __construct()
     {
         $this->ortu = new OrtuModel;
-        $resource = new \Actudent\Core\Controllers\Resources;
-        $resource->setUILanguage();
     }
 
     public function index()
