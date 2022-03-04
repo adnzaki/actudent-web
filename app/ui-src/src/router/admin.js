@@ -18,32 +18,32 @@ import PresenceList from 'pages/presence/PresenceList.vue'
 
 export default [
   { path: '', redirect: 'home' },
-  { path: 'home', component: PageIndex,  beforeEnter: routeValidator },
-  { path: 'parent', component: ParentMain, beforeEnter: routeValidator },
-  { path: 'student', component: StudentMain, beforeEnter: routeValidator },
-  { path: 'employee', component: EmployeeMain, beforeEnter: routeValidator },
+  { path: 'home', component: PageIndex,  beforeEnter: () => routeValidator() },
+  { path: 'parent', component: ParentMain, beforeEnter: () => routeValidator() },
+  { path: 'student', component: StudentMain, beforeEnter: () => routeValidator() },
+  { path: 'employee', component: EmployeeMain, beforeEnter: () => routeValidator() },
   { 
-    path: 'class', component: ClassMain, beforeEnter: routeValidator,
+    path: 'class', component: ClassMain, beforeEnter: () => routeValidator(),
     children: [
-      { path: '', component: ClassList, beforeEnter: routeValidator },
-      { path: 'member/:id', component: MemberMain, beforeEnter: routeValidator }
+      { path: '', component: ClassList, beforeEnter: () => routeValidator() },
+      { path: 'member/:id', component: MemberMain, beforeEnter: () => routeValidator() }
     ]
   },
-  { path: 'rooms', component: RoomMain, beforeEnter: routeValidator },
-  { path: 'lesson', component: LessonMain, beforeEnter: routeValidator },
+  { path: 'rooms', component: RoomMain, beforeEnter: () => routeValidator() },
+  { path: 'lesson', component: LessonMain, beforeEnter: () => routeValidator() },
   { 
-    path: 'schedules', component: ScheduleMain, beforeEnter: routeValidator,
+    path: 'schedules', component: ScheduleMain, beforeEnter: () => routeValidator(),
     children: [
-      { path: '', component: ClassWrapper, beforeEnter: routeValidator },
-      { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: routeValidator },
-      { path: 'mapping/:id', component: MappingWrapper, beforeEnter: routeValidator }
+      { path: '', component: ClassWrapper, beforeEnter: () => routeValidator() },
+      { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: () => routeValidator() },
+      { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => routeValidator() }
     ]
   },
   { 
-    path: 'presence', component: PresenceMain, beforeEnter: routeValidator,
+    path: 'presence', component: PresenceMain, beforeEnter: () => routeValidator(),
     children: [
-      { path: '', component: PresenceClassList, beforeEnter: routeValidator },
-      { path: 'fill/:id', component: PresenceList, beforeEnter: routeValidator },
+      { path: '', component: PresenceClassList, beforeEnter: () => routeValidator() },
+      { path: 'fill/:id', component: PresenceList, beforeEnter: () => routeValidator() },
     ]
   },
 ]
