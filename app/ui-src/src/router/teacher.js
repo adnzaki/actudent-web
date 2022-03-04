@@ -1,6 +1,3 @@
-import { validateToken } from '../composables/validate-token'
-import { triggerMode } from '../composables/mode'
+import { routeValidator } from '../composables/validate-token'
 
-const teacher = []
-
-export default teacher
+export default []

@@ -1,4 +1,4 @@
-import { validateToken } from '../composables/validate-token'
+import { routeValidator } from '../composables/validate-token'
 import PageIndex from 'pages/home/Index.vue'
 import ParentMain from 'pages/parent/ParentMain.vue'
 import StudentMain from 'pages/student/StudentMain.vue'
@@ -15,43 +15,35 @@ import MappingWrapper from 'pages/schedules/MappingWrapper.vue'
 import PresenceMain from 'pages/presence/PresenceMain.vue'
 import PresenceClassList from 'pages/presence/PresenceClassList.vue'
 import PresenceList from 'pages/presence/PresenceList.vue'
-import checkSubscription from 'src/composables/subscription'
 
-const admin = [
+export default [
   { path: '', redirect: 'home' },
-  { path: 'home', component: PageIndex,  beforeEnter: validatePage },
-  { path: 'parent', component: ParentMain, beforeEnter: validatePage },
-  { path: 'student', component: StudentMain, beforeEnter: validatePage },
-  { path: 'employee', component: EmployeeMain, beforeEnter: validatePage },
+  { path: 'home', component: PageIndex,  beforeEnter: routeValidator },
+  { path: 'parent', component: ParentMain, beforeEnter: routeValidator },
+  { path: 'student', component: StudentMain, beforeEnter: routeValidator },
+  { path: 'employee', component: EmployeeMain, beforeEnter: routeValidator },
   { 
-    path: 'class', component: ClassMain, beforeEnter: validatePage,
+    path: 'class', component: ClassMain, beforeEnter: routeValidator,
     children: [
-      { path: '', component: ClassList, beforeEnter: validatePage },
-      { path: 'member/:id', component: MemberMain, beforeEnter: validatePage }
+      { path: '', component: ClassList, beforeEnter: routeValidator },
+      { path: 'member/:id', component: MemberMain, beforeEnter: routeValidator }
     ]
   },
-  { path: 'rooms', component: RoomMain, beforeEnter: validatePage },
-  { path: 'lesson', component: LessonMain, beforeEnter: validatePage },
+  { path: 'rooms', component: RoomMain, beforeEnter: routeValidator },
+  { path: 'lesson', component: LessonMain, beforeEnter: routeValidator },
   { 
-    path: 'schedules', component: ScheduleMain, beforeEnter: validatePage,
+    path: 'schedules', component: ScheduleMain, beforeEnter: routeValidator,
     children: [
-      { path: '', component: ClassWrapper, beforeEnter: validatePage },
-      { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: validatePage },
-      { path: 'mapping/:id', component: MappingWrapper, beforeEnter: validatePage }
+      { path: '', component: ClassWrapper, beforeEnter: routeValidator },
+      { path: 'lessons/:id', component: LessonsWrapper, beforeEnter: routeValidator },
+      { path: 'mapping/:id', component: MappingWrapper, beforeEnter: routeValidator }
     ]
   },
   { 
-    path: 'presence', component: PresenceMain, beforeEnter: validatePage,
+    path: 'presence', component: PresenceMain, beforeEnter: routeValidator,
     children: [
-      { path: '', component: PresenceClassList, beforeEnter: validatePage },
-      { path: 'fill/:id', component: PresenceList, beforeEnter: validatePage }
+      { path: '', component: PresenceClassList, beforeEnter: routeValidator },
+      { path: 'fill/:id', component: PresenceList, beforeEnter: routeValidator },
     ]
   },
 ]
-
-function validatePage() {
-  checkSubscription()
-  validateToken('is_admin')
-}
-
-export default admin

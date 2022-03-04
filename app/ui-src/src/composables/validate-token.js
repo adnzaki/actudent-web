@@ -1,9 +1,8 @@
 import { appConfig as conf } from '../../actudent.config'
 import { core } from 'boot/axios'
 import { Cookies } from 'quasar'
-import { mode } from '../../globalConfig'
 import { runLoadingBar } from 'src/composables/common'
-// import route from '../router'
+import checkSubscription from 'src/composables/subscription'
 
 // get token dynamically
 const bearerToken = `Bearer ${Cookies.get(conf.cookieName)}`
@@ -45,8 +44,14 @@ function redirect() {
   }
 }
 
+function routeValidator(type = 'is_admin') {
+  checkSubscription()
+  validateToken(type)
+}
+
 export { 
   validateToken, 
   redirect, 
   bearerToken, 
+  routeValidator
 }
