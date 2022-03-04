@@ -41,12 +41,78 @@ class Absensi extends \Actudent
         $this->pdfCreator = new PDFCreator;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminAbsensi.page_title');
+    public function getMonthlySummary($month, $year, $gradeId)
+    {
+        // Guess the total days of the month
+        $totalDays = os_date()->daysInMonth($month, $year);
 
-        return parse('Actudent\Admin\Views\absensi\absensi-view', $data);
+        // Load the class member
+        $classMember = $this->absensi->kelas->getClassMember($gradeId);
+        $studentPresence = [];
+
+        foreach($classMember as $res) {
+            // Create a storage for presence data
+            $presenceData = [];
+
+            // Loop the days from the selected month
+            for($i = 1; $i <= $totalDays; $i++) {
+                $date = reverse(os_date()->shortDate($i, $month, $year), '-', '-');
+                $journals = $this->absensi->getJournalByDate($date, $gradeId, true);
+                // $presenceData[$date] = $date;
+
+                if(count($journals) === 0) {
+                    $presenceData[$date] = '-';
+                } else {
+                    // Create a storage for presence of all journals
+                    $todayPresence = [];
+                    foreach($journals as $key) {
+                        $getPresence = $this->absensi->getPresence($key->journal_id, $res->student_id, $date);
+                        $todayPresence[] = $getPresence !== null ? $getPresence->presence_status : '-';
+                    }
+                    
+                    // Do search only if a student has presence data
+                    if(array_search('-', $todayPresence) === false) {
+                        // Search if a student has absent today or not
+                        $hasAbsent = array_search(0, $todayPresence);
+    
+                        // If there is an absent, then presenceData should be 0 (absent)
+                        if($hasAbsent !== false) {
+                            $presenceData[$date] = 0;
+                        } else {
+                            // If presence_status is 1 (present) in the first and last lesson hour...
+                            if($todayPresence[0] === 1 && end($todayPresence) === 1) {
+                                // We have to check again if today presence is more than 2 data
+                                if(count($todayPresence) > 2) {
+                                    // Create a storage for presence between first and last lesson
+                                    $presenceBetween = array_slice($todayPresence, 1, count($todayPresence) - 2);
+    
+                                    // If there is presence status which has value 3 
+                                    // in $presenceBetween, then the student presence is 3 (sick)                                
+                                    if(array_search(3, $presenceBetween) !== false) {
+                                        $presenceData[$date] = 3;
+                                    } else {
+                                        // otherwise (if it is 1 or 2), 
+                                        // the status of the student is 1 (present)
+                                        $presenceData[$date] = 1;
+                                    }
+                                } else {
+                                    $presenceData[$date] = 1;
+                                }
+                            } else {
+                                $presenceData[$date] = end($todayPresence);
+                            }
+                        }
+                    } else {
+                        $presenceData[$date] = '-';
+                    }
+                }
+            }
+
+            // Wrap them
+            $studentPresence[$res->student_name] = $presenceData;
+        }
+
+        return $this->response->setJSON($studentPresence);
     }
 
     public function exportPresence($gradeID, $day, $date)

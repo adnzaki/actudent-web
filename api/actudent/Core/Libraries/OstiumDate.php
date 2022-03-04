@@ -265,6 +265,28 @@ class OstiumDate extends Calculation
     }
 
     /**
+     * Fungsi yang digunakan untuk mengambil jumlah hari dalam bulan
+     * yang diinput untuk divalidasi oleh fungsi dateValidation()
+     * Fungsi ini dibuat public agar bisa digunakan dengan mudah oleh user
+     * jika ingin mengetahui total hari dalam sebulan
+     *
+     * @param int $month
+     * @param int $year
+     * 
+     * @return int
+     */
+    public function daysInMonth($month, $year)
+    {
+        $totalDays = [
+            1 => 31, 2 => $this->daysOfFebruary($year), 3 => 31,
+            4 => 30, 5 => 31, 6 => 30, 7 => 31, 8 => 31,
+            9 => 30, 10 => 31, 11 => 30, 12 => 31
+        ];
+
+        return $totalDays[$month];
+    }
+
+    /**
      * Fungsi ini berperan dalam menampilkan nama hari
      * berdasarkan input dari user.
      *
@@ -309,25 +331,6 @@ class OstiumDate extends Calculation
         {
             return true;
         }
-    }
-
-    /**
-     * Fungsi yang digunakan untuk mengambil jumlah hari dalam bulan
-     * yang diinput untuk divalidasi oleh fungsi dateValidation()
-     *
-     * @param int $month
-     * @param int $year
-     * @return int
-     */
-    protected function daysInMonth($month, $year)
-    {
-        $totalDays = [
-            1 => 31, 2 => $this->daysOfFebruary($year), 3 => 31,
-            4 => 30, 5 => 31, 6 => 30, 7 => 31, 8 => 31,
-            9 => 30, 10 => 31, 11 => 30, 12 => 31
-        ];
-
-        return $totalDays[$month];
     }
 
     /**
