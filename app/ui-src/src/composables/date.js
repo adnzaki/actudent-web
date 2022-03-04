@@ -7,7 +7,7 @@ const langOptions = {
   english: en.date
 }
 
-const selectedLang = langOptions[Cookies.get(conf.userLang)]
+const selectedLang = langOptions[localStorage.getItem(conf.userLang)]
 
 const date = new Date()
 const month = date.getMonth() + 1
