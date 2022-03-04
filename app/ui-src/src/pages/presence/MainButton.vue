@@ -49,8 +49,6 @@
           </q-item>
         </q-list>
       </q-btn-dropdown>
-      <q-btn color="negative" icon="info" class="q-pl-sm mobile-hide" :label="$t('absensi_arsip_jurnal')"
-         />
       <q-btn color="teal" icon="arrow_back" class="q-pl-sm mobile-hide" :label="$t('kelas_kembali')"
         @click="backToClassList()" />
     </div>
@@ -60,9 +58,7 @@
       class="mobile-only force-elevated">
       <q-fab color="primary" icon="keyboard_arrow_up" direction="up">
         <q-fab-action color="deep-purple" icon="assessment" v-if="showJournalBtn"
-           />
-        <q-fab-action color="negative" icon="info"
-           />
+          @click="showJournalForm" />
         <q-fab-action color="teal" 
           @click="backToClassList()" icon="arrow_back" />
       </q-fab>
@@ -129,7 +125,7 @@ export default {
       showJournalForm: () => store.state.presence.showJournalForm = true,
       showPermissionForm,
       savePresence,
-      exportReportUrl
+      exportReportUrl,
     }
   }
 }
