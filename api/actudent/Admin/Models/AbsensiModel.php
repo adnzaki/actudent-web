@@ -84,7 +84,7 @@ class AbsensiModel extends SharedModel
      */
     public function getJournalByDate(string $date, $grade = null, bool $isReport = false): array
     {
-        $field = "journal_id, description, lesson_name, staff_name, schedule_start, schedule_end, schedule_order, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
+        $field = "journal_id, description, lesson_code, lesson_name, staff_name, schedule_start, schedule_end, schedule_order, {$this->mapelKelas}.grade_id, grade_name, {$this->jurnal}.created";
         $select = $this->QBJurnal->select($field);
         $join1 = $select->join($this->jadwal, "{$this->jadwal}.schedule_id={$this->jurnal}.schedule_id");
         $join2 = $join1->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id={$this->jadwal}.lessons_grade_id");

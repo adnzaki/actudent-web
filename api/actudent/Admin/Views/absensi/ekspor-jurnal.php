@@ -30,10 +30,9 @@
 			<thead>
 				<tr style="text-transform: capitalize;">
 					<th width="30">No.</th>
-					<th class="force-left no-padding" width="50">Waktu</th>
-					<th class="force-left">Nama Guru</th>
 					<th class="force-left">Mata Pelajaran</th>
 					<th class="force-left">Isi Materi</th>
+					<th class="force-left">Nama Guru</th>
 					<th class="force-left" colspan="2">Catatan Kehadiran</th>
 				</tr>
 			</thead>
@@ -41,10 +40,9 @@
 				<?php $no = 1; foreach($journals as $key => $val): ?>
 				<tr>
 					<td class="center-align" width="30"><?= $no ?></td>
-					<td class="force-left" width="50"><?= $val->schedule_start ?> - <?= $val->schedule_end ?></td>
-					<td class="force-left"><?= $val->staff_name ?></td>
 					<td class="force-left"><?= $val->lesson_name ?></td>
 					<td class="force-left"><?= $val->description ?></td>
+					<td class="force-left"><?= $val->staff_name ?></td>
 					<td class="force-left">
 						Hadir: <?= ($presence[$key]['present'] > 0) ? $presence[$key]['present'] : '-' ?><br>
 						Tidak hadir: <?= ($presence[$key]['absent'] > 0) ? $presence[$key]['absent'] : '-' ?><br>

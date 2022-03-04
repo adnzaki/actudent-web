@@ -28,19 +28,15 @@
 		<table>
 			<thead>
 				<tr style="text-transform: capitalize;" class="grey-shading">
-					<th width="20" rowspan="3" class="p-t-b-3">No.</th>
-					<th class="light-border p-t-b-3" rowspan="3">Nama Siswa</th>
-					<th class="light-border p-t-b-3" rowspan="3">NIS</th>
-					<th class="light-border p-t-b-3" colspan="<?= $colspan ?>">Jam Ke</th>
+					<th width="20" rowspan="2" class="p-t-b-3">No.</th>
+					<th class="light-border p-t-b-3" rowspan="2">Nama Siswa</th>
+					<th class="light-border p-t-b-3" rowspan="2">NIS</th>
+					<th class="light-border p-t-b-3" colspan="<?= $colspan ?>">Mata Pelajaran</th>
 				</tr>
+				
 				<tr class="grey-shading">
-					<?php foreach($column as $key): ?>
-					<th class="light-border p-t-b-3"><?= $key['lesson_hour'] ?></th>
-					<?php endforeach; ?>
-				</tr>
-				<tr class="grey-shading">
-					<?php foreach($column as $key): ?>
-					<th class="light-border p-t-b-3"><?= $key['time'] ?></th>
+					<?php foreach($column as $val): ?>
+					<th class="light-border p-t-b-3"><?= $val ?></th>
 					<?php endforeach; ?>
 				</tr>
 			</thead>

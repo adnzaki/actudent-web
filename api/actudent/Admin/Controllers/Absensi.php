@@ -75,17 +75,9 @@ class Absensi extends \Actudent
             // lesson started
             $init = 1;
     
-            foreach($jadwal as $res)
+            foreach($journals as $res)
             {
-                $finish = $init + ($res->duration - 1);
-                ($init === $finish) ? $hours = $finish : $hours = "{$init}-{$finish}";
-                $lessonHours[] = [
-                    'time'          => "{$res->schedule_start} - {$res->schedule_end}",
-                    'lesson_hour'   => $hours,
-                ];
-    
-                // next lesson started
-                $init += $res->duration;
+                $lessonHours[] = $res->lesson_code;    
             }
     
             $studentPresence = [];
@@ -247,32 +239,37 @@ class Absensi extends \Actudent
 
     public function getJournalArchives($gradeID, $date)
     {
-        if($_SESSION['userLevel'] === '1')
-        {
-            $data = $this->absensi->getJournalArchives($gradeID, $date);
-        }
-        else 
-        {
-            $teacher = $this->jadwalHadir->getTeacherByUserID($_SESSION['id']);
-            $data = $this->absensi->getJournalArchives($gradeID, $date, $teacher->staff_id);
-        }
+        if(valid_token()) {
+            $decodedToken = jwt_decode(bearer_token());
+            $userLevel = $decodedToken->userLevel;
 
-        if(count($data) > 0)
-        {
-            foreach($data as $res)
+            if($userLevel === '1')
             {
-                $res->homework = $this->absensi->getHomeworkArchive($res->journal_id);
-                if(! empty($res->homework))
+                $data = $this->absensi->getJournalArchives($gradeID, $date);
+            }
+            else 
+            {
+                $teacher = $this->jadwalHadir->getTeacherByUserID($decodedToken->id);
+                $data = $this->absensi->getJournalArchives($gradeID, $date, $teacher->staff_id);
+            }
+    
+            if(count($data) > 0)
+            {
+                foreach($data as $res)
                 {
-                    $res->homework = [
-                        'title' => $res->homework->homework_title,
-                        'due_date' => $res->homework->due_date
-                    ];
+                    $res->homework = $this->absensi->getHomeworkArchive($res->journal_id);
+                    if(! empty($res->homework))
+                    {
+                        $res->homework = [
+                            'title' => $res->homework->homework_title,
+                            'due_date' => $res->homework->due_date
+                        ];
+                    }
                 }
             }
+    
+            return $this->response->setJSON([$data, $decodedToken]);
         }
-
-        return $this->response->setJSON($data);
     }
 
     public function getAnggotaRombel($grade)
