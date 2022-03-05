@@ -58,7 +58,7 @@ return [
     'konfirmasi'        => 'Confirm',
     'progress_hapus'    => 'Deleting data...',
     'no_search_result'  => 'No results found for',
-    'no_data'           => 'No data found',
+    'no_data'           => 'No data available',
     'kelola'            => 'Manage',
     'peringatan'        => 'Warning!',
     'tanggal'           => 'Date',

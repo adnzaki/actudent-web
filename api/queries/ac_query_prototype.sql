@@ -6,3 +6,16 @@ JOIN tb_lessons_grade ON tb_schedule.lessons_grade_id=tb_lessons_grade.lessons_g
 JOIN tb_grade ON tb_lessons_grade.grade_id=tb_grade.grade_id
 JOIN tb_lessons ON tb_lessons_grade.lesson_id=tb_lessons.lesson_id
 WHERE tb_journal.created BETWEEN '2022-02-01 00:00:00' AND '2022-02-28 00:00:00' AND tb_grade.grade_id=6 ORDER BY tb_journal.created, schedule_order  ASC;
+
+-- Get total journal
+SELECT COUNT(DISTINCT journal_date) FROM tb_journal
+JOIN tb_schedule ON tb_journal.schedule_id=tb_schedule.schedule_id
+JOIN tb_lessons_grade ON tb_schedule.lessons_grade_id=tb_lessons_grade.lessons_grade_id
+JOIN tb_grade ON tb_lessons_grade.grade_id=tb_grade.grade_id
+WHERE tb_grade.grade_id=6 AND journal_date BETWEEN '2020-07-01' AND '2020-12-31';
+
+-- Get number presence status
+SELECT COUNT(DISTINCT journal_date) AS total FROM tb_journal
+JOIN tb_presence ON tb_journal.journal_id=tb_presence.journal_id
+WHERE tb_presence.student_id=28 AND presence_status=1
+AND journal_date BETWEEN '2020-07-01' AND '2020-12-31';

@@ -53,6 +53,27 @@ class AbsensiModel extends SharedModel
     }
 
     /**
+     * Get total number of journals in a class in spesific period
+     * 
+     * @param int $gradeId
+     * @param string $dateStart
+     * @param string $dateEnd
+     * 
+     * @return int
+     */
+    public function getTotalJournals(int $gradeId, string $dateStart, string $dateEnd): int
+    {
+        $select = $this->QBJurnal->select('COUNT(DISTINCT `journal_date`) AS total')
+                       ->join($this->jadwal, "{$this->jurnal}.schedule_id={$this->jadwal}.schedule_id")
+                       ->join($this->mapelKelas, "{$this->jadwal}.lessons_grade_id={$this->mapelKelas}.lessons_grade_id")
+                       ->join($this->kelas->kelas, "{$this->mapelKelas}.grade_id={$this->kelas->kelas}.grade_id")
+                       ->where("{$this->kelas->kelas}.grade_id", $gradeId)
+                       ->where("journal_date BETWEEN '{$dateStart}' AND '{$dateEnd}'");
+
+        return $select->get()->getResult()[0]->total;
+    }
+
+    /**
      * Get presence of a student
      * 
      * @param string $journal >>> Journal ID
