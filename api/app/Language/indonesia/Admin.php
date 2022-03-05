@@ -58,7 +58,7 @@ return [
     'konfirmasi'        => 'Konfirmasi',
     'progress_hapus'    => 'Menghapus data...',
     'no_search_result'  => 'Tidak ditemukan hasil pencarian untuk',
-    'no_data'           => 'Tidak ada data ditemukan',
+    'no_data'           => 'Tidak ada data yang tersedia',
     'kelola'            => 'Kelola',
     'peringatan'        => 'Peringatan!',
     'tanggal'           => 'Tanggal',
