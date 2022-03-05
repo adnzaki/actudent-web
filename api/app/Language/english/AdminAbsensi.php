@@ -58,4 +58,6 @@ return [
     'absensi_judul_laporan_absen'   => 'Daily Presence Report',
     'absensi_isi_kehadiran'         => 'Fill presence',
     'absensi_pilih_jadwal'          => 'Choose a schedule',
+    'absensi_rekap_bulanan'         => 'Monthly Summary',
+    'absensi_rekap_semester'        => 'Period Summary',
 ];

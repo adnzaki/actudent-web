@@ -58,4 +58,6 @@ return [
     'absensi_judul_laporan_absen'   => 'Laporan Absensi Harian',
     'absensi_isi_kehadiran'         => 'Isi kehadiran',
     'absensi_pilih_jadwal'          => 'Pilih jadwal',
+    'absensi_rekap_bulanan'         => 'Rekap Bulanan',
+    'absensi_rekap_semester'        => 'Rekap Semester',
 ];

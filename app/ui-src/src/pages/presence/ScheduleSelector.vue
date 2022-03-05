@@ -46,6 +46,7 @@ export default {
     const activeDate = ref(date.formatDate(today, 'YYYY-MM-DD'))
 
     store.state.presence.helper.activeDay = getDay
+    store.state.presence.helper.activeDate = activeDate.value
     store.dispatch('presence/getSchedules', {
       grade: route.params.id,
       date: activeDate.value
@@ -56,7 +57,6 @@ export default {
       const getDate = new Date(details.year, details.month - 1, details.day)
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
       activeDate.value = date.formatDate(getDate, 'YYYY-MM-DD')
-      store.state.presence.helper.activeDate = activeDate.value
       store.state.presence.helper.activeDay = getDate.getDay()
 
       store.dispatch('presence/getSchedules', {

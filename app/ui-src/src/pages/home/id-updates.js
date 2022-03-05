@@ -1,4 +1,39 @@
 export default {
+  'ac.v2.0027': [
+    {
+      key: '[Baru] Jadwal Pelajaran',
+      desc: `Fitur pengelolaan jadwal pelajaran kini telah ditambahkan`
+    },
+    {
+      key: '[Baru] Sync API',
+      desc: `Actudent kini dilengkapi Sync API untuk melakukan penarikan 
+            data dari aplikasi Dapodik`
+    },
+    {
+      key: 'Pagination',
+      desc: `SSPaging kini memuat halaman yang terakhir kali dipilih
+            saat pemuatan halaman pertama kali`
+    },
+    {
+      key: 'Perbaikan tampilan data orang tua',
+      desc: `Tampilan default jumlah baris per halaman pada SSPaging kini menjadi
+             25 baris per halaman`
+    },
+    {
+      key: 'Perbaikan form tambah kelas baru',
+      desc: `Dropdown untuk pencarian guru kini menggunakan komponen baru
+             yang lebih sederhana.`
+    },
+    {
+      key: 'Perbaikan pencarian guru',
+      desc: `Perbaikan daftar guru yang ditampilkan pada dropdown masih
+             menampilkan pegawai selain guru (staff)`
+    },
+    {
+      key: 'Perubahan ukuran form',
+      desc: `Modal form kini tidak lagi menggunakan layar penuh untuk perangkat mobile`
+    }
+  ],
   'ac.v2.0024': [
     {
       key: 'Status Layanan',

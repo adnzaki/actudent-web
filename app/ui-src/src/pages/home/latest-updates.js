@@ -1,70 +1,52 @@
 const indonesia = [
   {
-    key: '[Baru] Jadwal Pelajaran',
-    desc: `Fitur pengelolaan jadwal pelajaran kini telah ditambahkan`
+    key: '[Baru] Kehadiran',
+    desc: `Fitur kehadiran siswa kini telah dapat digunakan`
   },
   {
-    key: '[Baru] Sync API',
-    desc: `Actudent kini dilengkapi Sync API untuk melakukan penarikan 
-          data dari aplikasi Dapodik`
+    key: '[Baru] Halaman Login',
+    desc: `Halaman login kini menggunakan tampilan baru dan telah terintegrasi dengan mode PWA
+           seperti halnya bagian inti aplikasi`
   },
   {
-    key: 'Pagination',
-    desc: `SSPaging kini memuat halaman yang terakhir kali dipilih
-          saat pemuatan halaman pertama kali`
+    key: '[Peningkatan] Pagination',
+    desc: `Penomoran baris data pada pagination kini telah disesuaikan dengan 
+           jumlah data keseluruhan`
   },
   {
-    key: 'Perbaikan tampilan data orang tua',
-    desc: `Tampilan default jumlah baris per halaman pada SSPaging kini menjadi
-           25 baris per halaman`
+    key: '[Peningkatan] Internasionalisasi (Bahasa)',
+    desc: `Peningkatan mekanisme pemuatan bahasa - kini berjalan sepenuhnya di sisi client
+           untuk meningkatkan performa aplikasi`
   },
   {
-    key: 'Perbaikan form tambah kelas baru',
-    desc: `Dropdown untuk pencarian guru kini menggunakan komponen baru
-           yang lebih sederhana.`
+    key: '[Perbaikan] Autentikasi',
+    desc: `Perbaikan validasi token dan mekanisme pengalihan halaman yang tidak dapat diakses`
   },
-  {
-    key: 'Perbaikan pencarian guru',
-    desc: `Perbaikan daftar guru yang ditampilkan pada dropdown masih
-           menampilkan pegawai selain guru (staff)`
-  },
-  {
-    key: 'Perubahan ukuran form',
-    desc: `Modal form kini tidak lagi menggunakan layar penuh untuk perangkat mobile`
-  }
 ]
 
 const english = [
   {
-    key: '[New] Lesson Schedule',
-    desc: `Lesson schedule management has been added`
+    key: '[New] Presence',
+    desc: `Presence feature now able to used`
   },
   {
-    key: '[New] Sync API',
-    desc: `Actudent now has been completed with Sync API to import data from 
-          Dapodik`
+    key: '[New] Login Page',
+    desc: `Login page now uses new interface dan has been integrated with PWA mode like the app's core`
   },
   {
-    key: 'Pagination',
-    desc: `SSPaging now loads latest selected page for initial load`
+    key: '[Improvement] Pagination',
+    desc: `Data rows numbering on pagination has currently been matched with
+           with whole data`
   },
   {
-    key: 'Parent data display fixes',
-    desc: `Default display of number of rows per page in SSPaging now is 25 rows
-           per page`
+    key: '[Improvement] Internationalization (Language)',
+    desc: `Improved language loading mechanism - now is fully running on client side to improve
+           app performance`
   },
   {
-    key: 'Fix add new class form',
-    desc: `Search teacher dropdown now uses new simple component`
+    key: '[Fix] Authentication',
+    desc: `Fixed token validation and redirect mechanism of pages that are not allowed to be accessed`
   },
-  {
-    key: 'Fix teacher search',
-    desc: `Fix teacher list dropdown that still shows other employee (staff)`
-  },
-  {
-    key: 'Form size change',
-    desc: `Modal form has no loger use full screen size on mobile device`
-  }
 ]
 
 export { indonesia, english } 

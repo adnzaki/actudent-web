@@ -18,11 +18,17 @@
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
             <td class="text-left">
-              <q-btn color="accent" icon="article" @click="fillPresence(item.grade_id, item.grade_name)">
-                <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
-                  {{ $t('absensi_isi_kehadiran') }}
-                </q-tooltip>
-              </q-btn>
+              <q-btn-group>
+                <q-btn color="accent" icon="fact_check" @click="fillPresence(item.grade_id, item.grade_name)">
+                  <btn-tooltip :label="$t('absensi_isi_kehadiran')" />
+                </q-btn>
+                <q-btn color="accent" icon="date_range">
+                  <btn-tooltip :label="$t('absensi_rekap_bulanan')" />
+                </q-btn>
+                <q-btn color="accent" icon="insert_chart_outlined">
+                  <btn-tooltip :label="$t('absensi_rekap_semester')" />
+                </q-btn>
+              </q-btn-group>
             </td>
           </tr>
         </tbody>
