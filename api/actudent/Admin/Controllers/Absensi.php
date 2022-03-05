@@ -53,12 +53,12 @@ class Absensi extends \Actudent
                     : $acceptedPeriod[$period][0];
         
         // generate end month
-        $monthEnd = $acceptedPeriod[$period][1] < 10 
-                    ? '0' . $acceptedPeriod[$period][1]
-                    : $acceptedPeriod[$period][1];
+        $monthEnd = $acceptedPeriod[$period][5] < 10 
+                    ? '0' . $acceptedPeriod[$period][5]
+                    : $acceptedPeriod[$period][5];
         
         $dateStart = "{$year}-{$monthStart}-01";
-        $dateEnd = "{$year}-{$monthEnd}-" . os_date()->daysInMonth($acceptedPeriod[$period][1], $year);
+        $dateEnd = "{$year}-{$monthEnd}-" . os_date()->daysInMonth($acceptedPeriod[$period][5], $year);
 
         $journal = $this->absensi->getTotalJournals($gradeId, $dateStart, $dateEnd);
         $wrapper = [];
@@ -101,7 +101,7 @@ class Absensi extends \Actudent
 
         $response = [
             'activeDays'    => $journal,
-            'summary'       => $wrapper            
+            'summary'       => $wrapper
         ];
 
         return $this->response->setJSON($response);
@@ -139,7 +139,6 @@ class Absensi extends \Actudent
         for($i = 1; $i <= $totalDays; $i++) {
             $date = reverse(os_date()->shortDate($i, $month, $year), '-', '-');
             $journals = $this->absensi->getJournalByDate($date, $gradeId, true);
-            // $presenceData[$date] = $date;
 
             if(count($journals) === 0) {
                 $presenceData[$date] = '-';
