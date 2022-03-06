@@ -43,68 +43,70 @@ class Absensi extends \Actudent
 
     public function getPeriodSummary($gradeId, $period, $year)
     {
-        // 1 = Odd semester
-        // 2 = Even semester
-        $acceptedPeriod = [1 => range(7, 12), 2 => range(1, 6)];
-        
-        // generate start month
-        $monthStart = $acceptedPeriod[$period][0] < 10 
-                    ? '0' . $acceptedPeriod[$period][0]
-                    : $acceptedPeriod[$period][0];
-        
-        // generate end month
-        $monthEnd = $acceptedPeriod[$period][5] < 10 
-                    ? '0' . $acceptedPeriod[$period][5]
-                    : $acceptedPeriod[$period][5];
-        
-        $dateStart = "{$year}-{$monthStart}-01";
-        $dateEnd = "{$year}-{$monthEnd}-" . os_date()->daysInMonth($acceptedPeriod[$period][5], $year);
-
-        $journal = $this->absensi->getTotalJournals($gradeId, $dateStart, $dateEnd);
-        $wrapper = [];
-
-        if($journal > 0) {
-            $classMember = $this->absensi->kelas->getClassMember($gradeId);
-            foreach($classMember as $res) {
-                $result = [];
-                foreach($acceptedPeriod[$period] as $val) {
-                    $result[] = $this->countPresence($res->student_id, $gradeId, $val, $year);
-                }
-        
-                $result = array_merge(
-                    $result[0],
-                    $result[1],
-                    $result[2],
-                    $result[3],
-                    $result[4],
-                    $result[5],
-                );
-        
-                $present = $this->getPresenceStatusNumber($result, '1');
-                $permit = $this->getPresenceStatusNumber($result, '2');
-                $sick = $this->getPresenceStatusNumber($result, '3');
-                $absent = $this->getPresenceStatusNumber($result, 0);
-                $hasAbsent = $present + $permit + $sick + $absent;
-                $notAbsent = $journal - $hasAbsent;
+        if(is_admin()) {
+            // 1 = Odd semester (start from July to December [month 7-12])
+            // 2 = Even semester (start from January to June [month 1-6])
+            $acceptedPeriod = [1 => range(7, 12), 2 => range(1, 6)];
+            
+            // generate start month
+            $monthStart = $acceptedPeriod[$period][0] < 10 
+                        ? '0' . $acceptedPeriod[$period][0]
+                        : $acceptedPeriod[$period][0];
+            
+            // generate end month
+            $monthEnd = $acceptedPeriod[$period][5] < 10 
+                        ? '0' . $acceptedPeriod[$period][5]
+                        : $acceptedPeriod[$period][5];
+            
+            $dateStart = "{$year}-{$monthStart}-01";
+            $dateEnd = "{$year}-{$monthEnd}-" . os_date()->daysInMonth($acceptedPeriod[$period][5], $year);
     
-                $wrapper[$res->student_name] = [
-                    'present'       => $present . $this->getPercentage($present, $journal),
-                    'permit'        => $permit . $this->getPercentage($permit, $journal),
-                    'sick'          => $sick . $this->getPercentage($sick, $journal),
-                    'absent'        => $absent . $this->getPercentage($absent, $journal),
-                    'incomplete'    => $notAbsent . $this->getPercentage($notAbsent, $journal)
-                ];
+            $journal = $this->absensi->getTotalJournals($gradeId, $dateStart, $dateEnd);
+            $wrapper = [];
+    
+            if($journal > 0) {
+                $classMember = $this->absensi->kelas->getClassMember($gradeId);
+                foreach($classMember as $res) {
+                    $result = [];
+                    foreach($acceptedPeriod[$period] as $val) {
+                        $result[] = $this->countPresence($res->student_id, $gradeId, $val, $year);
+                    }
+            
+                    $result = array_merge(
+                        $result[0],
+                        $result[1],
+                        $result[2],
+                        $result[3],
+                        $result[4],
+                        $result[5],
+                    );
+            
+                    $present = $this->getPresenceStatusNumber($result, '1');
+                    $permit = $this->getPresenceStatusNumber($result, '2');
+                    $sick = $this->getPresenceStatusNumber($result, '3');
+                    $absent = $this->getPresenceStatusNumber($result, 0);
+                    $hasAbsent = $present + $permit + $sick + $absent;
+                    $notAbsent = $journal - $hasAbsent;
+        
+                    $wrapper[$res->student_name] = [
+                        'present'       => $present . $this->getPercentage($present, $journal),
+                        'permit'        => $permit . $this->getPercentage($permit, $journal),
+                        'sick'          => $sick . $this->getPercentage($sick, $journal),
+                        'absent'        => $absent . $this->getPercentage($absent, $journal),
+                        'incomplete'    => $notAbsent . $this->getPercentage($notAbsent, $journal)
+                    ];
+                }
+            } else {
+                $wrapper = lang('Admin.no_data');
             }
-        } else {
-            $wrapper = lang('Admin.no_data');
+    
+            $response = [
+                'activeDays'    => $journal,
+                'summary'       => $wrapper
+            ];
+    
+            return $this->response->setJSON($response);
         }
-
-        $response = [
-            'activeDays'    => $journal,
-            'summary'       => $wrapper
-        ];
-
-        return $this->response->setJSON($response);
     }
 
     private function getPercentage($a, $b)
@@ -119,22 +121,24 @@ class Absensi extends \Actudent
 
     public function getMonthlySummary($month, $year, $gradeId)
     {
-        // Load the class member
-        $classMember = $this->absensi->kelas->getClassMember($gradeId);
-        $studentPresence = [];
-
-        foreach($classMember as $res) {
-            $studentPresence[] = [
-                'name'  => $res->student_name,
-                'nis'   => $res->student_nis,
-                'data'  => $this->countPresence($res->student_id, $gradeId, $month, $year)
-            ];
+        if(is_admin()) {
+            // Load the class member
+            $classMember = $this->absensi->kelas->getClassMember($gradeId);
+            $studentPresence = [];
+    
+            foreach($classMember as $res) {
+                $studentPresence[] = [
+                    'name'  => $res->student_name,
+                    'nis'   => $res->student_nis,
+                    'data'  => $this->countPresence($res->student_id, $gradeId, $month, $year)
+                ];
+            }
+    
+            return $this->response->setJSON([
+                'days'      => range(1, os_date()->daysInMonth($month, $year)),
+                'students'  => $studentPresence
+            ]);
         }
-
-        return $this->response->setJSON([
-            'days'      => range(1, os_date()->daysInMonth($month, $year)),
-            'students'  => $studentPresence
-        ]);
     }
 
     private function countPresence($studentId, $gradeId, $month, $year)
@@ -202,13 +206,11 @@ class Absensi extends \Actudent
 
     public function exportPresence($gradeID, $day, $date)
     {
-        if(is_admin())
-        {
+        if(is_admin()) {
             $resource   = new Resources();
             $data       = $this->common();
             
-            foreach($resource->getReportData() as $key => $val)
-            {
+            foreach($resource->getReportData() as $key => $val) {
                 $data[$key] = $val;
             }
 
@@ -226,28 +228,22 @@ class Absensi extends \Actudent
             // lesson started
             $init = 1;
     
-            foreach($journals as $res)
-            {
+            foreach($journals as $res) {
                 $lessonHours[] = $res->lesson_code;    
             }
     
             $studentPresence = [];
-            foreach($gradeMember as $res)
-            {
+            foreach($gradeMember as $res) {
                 $formatted = [];
-                foreach($journals as $key)
-                {
+                foreach($journals as $key) {
                     $presence = $this->absensi->getPresence($key->journal_id, $res->student_id, $date);
                     $status = ['Alfa', 'Hadir', 'Izin', 'Sakit'];
-                    if($presence === null)
-                    {
+                    if($presence === null) {
                         $formatted[] = [
                             'journal_id'    => '-',
                             'status'        => '-',
                         ];
-                    }
-                    else
-                    {
+                    } else {
                         $formatted[] = [
                             'journal_id'    => $presence->journal_id,
                             'status'        => $status[$presence->presence_status],
@@ -274,13 +270,11 @@ class Absensi extends \Actudent
 
     public function exportJournal($gradeID, $day, $date)
     {
-        if(is_admin())
-        {
+        if(is_admin()) {
             $resource   = new Resources();
             $data       = $this->common();
             
-            foreach($resource->getReportData() as $key => $val)
-            {
+            foreach($resource->getReportData() as $key => $val) {
                 $data[$key] = $val;
             }
     
@@ -296,8 +290,7 @@ class Absensi extends \Actudent
             // get number of presence
             $presenceWrapper = [];
             $absentStudents = [];
-            foreach($journals as $j)
-            {
+            foreach($journals as $j) {
                 $presenceWrapper[] = $this->absensi->getPresenceCount($j->journal_id);
                 
                 // get absent student(s)
@@ -357,13 +350,11 @@ class Absensi extends \Actudent
             lang('AdminAbsensi.absensi_sakit')
         ];
 
-        foreach($student as $key)
-        {          
+        foreach($student as $key) {          
             // Get presence of a student
             $presence = $this->absensi->getPresence($journal, $key->student_id, $date);
 
-            if($presence !== null && $journal !== 'null')
-            {
+            if($presence !== null && $journal !== 'null') {
                 $presenceWrapper[] = [
                     'id'        => $key->student_id,
                     'name'      => $key->student_name,
@@ -371,9 +362,7 @@ class Absensi extends \Actudent
                     'note'      => $presence->presence_mark,
                     'statusID'  => $presence->presence_status,
                 ];
-            }
-            else 
-            {
+            } else {
                 // Set default presence data to empty
                 $presenceWrapper[] = [
                     'id'        => $key->student_id,
@@ -388,41 +377,6 @@ class Absensi extends \Actudent
         return $presenceWrapper;
     }
 
-    public function getJournalArchives($gradeID, $date)
-    {
-        if(valid_token()) {
-            $decodedToken = jwt_decode(bearer_token());
-            $userLevel = $decodedToken->userLevel;
-
-            if($userLevel === '1')
-            {
-                $data = $this->absensi->getJournalArchives($gradeID, $date);
-            }
-            else 
-            {
-                $teacher = $this->jadwalHadir->getTeacherByUserID($decodedToken->id);
-                $data = $this->absensi->getJournalArchives($gradeID, $date, $teacher->staff_id);
-            }
-    
-            if(count($data) > 0)
-            {
-                foreach($data as $res)
-                {
-                    $res->homework = $this->absensi->getHomeworkArchive($res->journal_id);
-                    if(! empty($res->homework))
-                    {
-                        $res->homework = [
-                            'title' => $res->homework->homework_title,
-                            'due_date' => $res->homework->due_date
-                        ];
-                    }
-                }
-            }
-    
-            return $this->response->setJSON([$data, $decodedToken]);
-        }
-    }
-
     public function getAnggotaRombel($grade)
     {
         $student = $this->absensi->kelas->getClassMember($grade);
@@ -433,8 +387,7 @@ class Absensi extends \Actudent
     {
         $schedule = $this->absensi->getJadwal($this->days[$day], $grade);
         $formatter = [];
-        foreach($schedule as $res)
-        {
+        foreach($schedule as $res) {
             $formatter[] = [
                 'id' => $res->schedule_id,
                 'text' => $res->lesson_name
@@ -448,8 +401,7 @@ class Absensi extends \Actudent
     {
         $data = $this->absensi->getRombel();
         $formatter = [];
-        foreach($data as $res)
-        {
+        foreach($data as $res) {
             $formatter[] = [
                 'id' => $res->grade_id,
                 'text' => $res->grade_name
@@ -463,8 +415,7 @@ class Absensi extends \Actudent
     {
         $jurnal = $this->absensi->getJournal($journalID);
 
-        if($jurnal['homework'] !== null)
-        {
+        if($jurnal['homework'] !== null) {
             $date = explode(' ', $jurnal['homework']->due_date);
             $jurnal['homework']->due_date = $date[0];
         }
@@ -474,19 +425,15 @@ class Absensi extends \Actudent
 
     public function copyJournal($scheduleID, $date)
     {
-        if(valid_token())
-        {
+        if(valid_token()) {
             $hasCreated = $this->absensi->journalHasCreatedBefore($scheduleID, $date);
-            if($hasCreated !== false)
-            {
+            if($hasCreated !== false) {
                 return $this->response->setJSON([
                     'status'    => 'OK',
                     'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_sukses'),
                     'id'        => $hasCreated,
                 ]);
-            }
-            else 
-            {
+            } else {
                 return $this->response->setJSON([
                     'status'    => 'ERROR',
                     'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_gagal'),
@@ -498,13 +445,11 @@ class Absensi extends \Actudent
 
     public function savePresence($journalID, $date)
     {
-        if(valid_token())
-        {
+        if(valid_token()) {
             $data = $this->request->getPost('absen');
             $request = json_decode($data, true);
     
-            foreach($request as $key)
-            {
+            foreach($request as $key) {
                 $this->absensi->savePresence($key, $journalID, $date);
             }
     
@@ -514,8 +459,7 @@ class Absensi extends \Actudent
 
     public function validateMark()
     {
-        if(valid_token())
-        {
+        if(valid_token()) {
             $mark = ['presence_mark' => $this->request->getPost('presence_mark')];
     
             $rules = [
@@ -530,15 +474,12 @@ class Absensi extends \Actudent
     
             $validation = [$rules, $messages];
     
-            if(! $this->validate($validation[0], $validation[1]))
-            {
+            if(! $this->validate($validation[0], $validation[1])) {
                 return $this->response->setJSON([
                     'code' => '500',
                     'msg' => $this->validation->getErrors(),
                 ]);
-            }
-            else 
-            {
+            } else {
                 return $this->response->setJSON([
                     'code' => '200',
                     'msg' => 'OK',
@@ -549,37 +490,27 @@ class Absensi extends \Actudent
 
     public function save($scheduleID, $date, $includeHomework)
     {
-        if(valid_token())
-        {
-            if($includeHomework === 'true')
-            {
+        if(valid_token()) {
+            if($includeHomework === 'true') {
                 $includeHomework = true;
-            }
-            else 
-            {
+            } else {
                 $includeHomework = false;
             }
     
             $validation = $this->validation($includeHomework); // [0 => $rules, 1 => $messages]
     
-            if(! $this->validate($validation[0], $validation[1]))
-            {
+            if(! $this->validate($validation[0], $validation[1])) {
                 return $this->response->setJSON([
                     'code' => '500',
                     'msg' => $this->validation->getErrors(),
                 ]);
-            }
-            else 
-            {
+            } else {
                 $data = $this->formData();
                 $saved = null;
-                if($includeHomework) 
-                {
+                if($includeHomework) {
                     // save journal with homework
                     $saved = $this->absensi->saveJournal($data, $scheduleID, $date, true);
-                }
-                else
-                {
+                } else {
                     // save journal without homework
                     $saved = $this->absensi->saveJournal($data, $scheduleID, $date);
                 }
@@ -606,8 +537,7 @@ class Absensi extends \Actudent
             ],
         ];
 
-        if($includeHomework)
-        {
+        if($includeHomework) {
             $homeworkRules = [
                 'homework_title'        => 'required',
                 'homework_description'  => 'required',
@@ -627,13 +557,11 @@ class Absensi extends \Actudent
                 ],
             ];
 
-            foreach($homeworkRules as $rule => $val)
-            {
+            foreach($homeworkRules as $rule => $val) {
                 $rules[$rule] = $val;
             }
 
-            foreach($homeworkMessages as $msg => $val)
-            {
+            foreach($homeworkMessages as $msg => $val) {
                 $messages[$msg] = $val;
             }
         }
@@ -654,15 +582,12 @@ class Absensi extends \Actudent
     public function checkJournal($scheduleID, $date)
     {
         $jurnal = $this->absensi->journalExists($scheduleID, $date);
-        if(! $jurnal)
-        {
+        if(! $jurnal) {
             return $this->createResponse([
                 'status'    => 'false',
                 'id'        => null,
             ]);
-        }
-        else 
-        {
+        } else {
             return $this->createResponse([
                 'status'    => 'true',
                 'id'        => $jurnal[0]->journal_id,
