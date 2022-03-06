@@ -71,14 +71,14 @@ class Absensi extends \Actudent
                     $result[] = $this->countPresence($res->student_id, $gradeId, $val, $year);
                 }
         
-                $result = array_values(array_merge(
+                $result = array_merge(
                     $result[0],
                     $result[1],
                     $result[2],
                     $result[3],
                     $result[4],
                     $result[5],
-                ));
+                );
         
                 $present = $this->getPresenceStatusNumber($result, '1');
                 $permit = $this->getPresenceStatusNumber($result, '2');
@@ -124,10 +124,17 @@ class Absensi extends \Actudent
         $studentPresence = [];
 
         foreach($classMember as $res) {
-            $studentPresence[$res->student_name] = $this->countPresence($res->student_id, $gradeId, $month, $year);
+            $studentPresence[] = [
+                'name'  => $res->student_name,
+                'nis'   => $res->student_nis,
+                'data'  => $this->countPresence($res->student_id, $gradeId, $month, $year)
+            ];
         }
 
-        return $this->response->setJSON($studentPresence);
+        return $this->response->setJSON([
+            'days'      => range(1, os_date()->daysInMonth($month, $year)),
+            'students'  => $studentPresence
+        ]);
     }
 
     private function countPresence($studentId, $gradeId, $month, $year)
@@ -141,7 +148,7 @@ class Absensi extends \Actudent
             $journals = $this->absensi->getJournalByDate($date, $gradeId, true);
 
             if(count($journals) === 0) {
-                $presenceData[$date] = '-';
+                $presenceData[] = '-';
             } else {
                 // Create a storage for presence of all journals
                 $todayPresence = [];
@@ -158,7 +165,7 @@ class Absensi extends \Actudent
 
                     // If there is an absent, then presenceData should be 0 (absent)
                     if($hasAbsent !== false) {
-                        $presenceData[$date] = 0;
+                        $presenceData[] = 0;
                     } else {
                         // If presence_status is 1 (present) in the first and last lesson hour...
                         if($todayPresence[0] === 1 && end($todayPresence) === 1) {
@@ -171,21 +178,21 @@ class Absensi extends \Actudent
                                 // If there is presence status which has value 3 
                                 // in $presenceBetween, then the student presence is 3 (sick)                                
                                 if(array_search(3, $presenceBetween) !== false) {
-                                    $presenceData[$date] = 3;
+                                    $presenceData[] = 3;
                                 } else {
                                     // otherwise (if it is 1 or 2), 
                                     // the status of the student is 1 (present)
-                                    $presenceData[$date] = 1;
+                                    $presenceData[] = 1;
                                 }
                             } else {
-                                $presenceData[$date] = 1;
+                                $presenceData[] = 1;
                             }
                         } else {
-                            $presenceData[$date] = end($todayPresence);
+                            $presenceData[] = end($todayPresence);
                         }
                     }
                 } else {
-                    $presenceData[$date] = '-';
+                    $presenceData[] = '-';
                 }
             }
         }
