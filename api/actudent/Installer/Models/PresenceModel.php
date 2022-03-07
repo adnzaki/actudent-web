@@ -24,6 +24,10 @@ class PresenceModel extends \Actudent\Installer\Models\SetupModel
                 'constraint'    => 11,
                 'default'       => 0,
             ],
+            'journal_date' => [
+                'type'          => 'DATE',
+                'null'          => true,
+            ],
             'created' => [
                 'type'          => 'DATETIME',
                 'null'          => true,
@@ -39,8 +43,15 @@ class PresenceModel extends \Actudent\Installer\Models\SetupModel
         $this->forge->addForeignKey('schedule_id', 'tb_schedule', 'schedule_id');
         $this->forge->createTable($table, true, $this->engine);  
 
+        $modifyJournalDate =  "ALTER TABLE `{$table}` 
+                              CHANGE `journal_date` `journal_date` DATE NULL 
+                              DEFAULT CURRENT_TIMESTAMP";
+
+        // correct journal_date default value
+        $this->db->simpleQuery($modifyJournalDate);
+
         // finish it up
-        $this->correctCreatedAndModifiedColumn($table);
+        $this->correctCreatedAndModifiedColumn($table, 'DATETIME');
     }
 
     public function createHomework()

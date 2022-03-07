@@ -31,16 +31,16 @@ class SetupModel extends \Actudent\Core\Models\Connector
      * 
      * @return void
      */
-    protected function correctCreatedAndModifiedColumn(string $table): void
+    protected function correctCreatedAndModifiedColumn(string $table, string $type = 'TIMESTAMP'): void
     {
         // modify created and modified column
         // into correct data type and default value
         $createdSql =  "ALTER TABLE `{$table}` 
-                        CHANGE `created` `created` TIMESTAMP NULL 
+                        CHANGE `created` `created` {$type} NULL 
                         DEFAULT CURRENT_TIMESTAMP"; 
         
         $modifiedSql = "ALTER TABLE `{$table}` 
-                        CHANGE `modified` `modified` TIMESTAMP 
+                        CHANGE `modified` `modified` {$type} 
                         on update CURRENT_TIMESTAMP NULL 
                         DEFAULT CURRENT_TIMESTAMP"; 
 

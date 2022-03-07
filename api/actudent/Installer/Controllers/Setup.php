@@ -91,7 +91,6 @@ class Setup extends \Actudent
         $model = new \Actudent\Installer\Models\UserModel;
         $model->createUser();
         $model->createUserDevices();
-        $model->createUserLanguage();
     }
 
     private function createParentModule()

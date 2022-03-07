@@ -108,41 +108,4 @@ class UserModel extends \Actudent\Installer\Models\SetupModel
         // finish it up
         $this->correctCreatedAndModifiedColumn($table);
     }
-
-    public function createUserLanguage()
-    {
-        $table = 'tb_user_language';
-        $fields = [
-            'user_lang_id' => [
-                'type'          => 'INT',
-                'constraint'    => 11,
-                'auto_increment'=> true
-            ],
-            'user_id'           => [
-                'type'          => 'INT',
-                'constraint'    => 11,
-            ],
-            'user_language' => [
-                'type'          => 'VARCHAR',
-                'constraint'    => 20,
-                'null'          => true,
-            ],
-            'created' => [
-                'type'          => 'DATETIME',
-                'null'          => true,
-            ],
-            'modified' => [
-                'type'          => 'DATETIME',
-                'null'          => true,
-            ]
-        ];
-
-        $this->forge->addField($fields);
-        $this->forge->addPrimaryKey('user_lang_id');
-        $this->forge->addForeignKey('user_id', 'tb_user', 'user_id');
-        $this->forge->createTable($table, true, $this->engine);  
-        
-        // finish it up
-        $this->correctCreatedAndModifiedColumn($table);
-    }
 }
