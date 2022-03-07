@@ -72,6 +72,7 @@ return [
     'mohon_tunggu'      => 'Mohon tunggu...',
     'pindah_mode'       => 'Pindah Mode',
     'selesai'           => 'Selesai',
+    'laporan'           => 'Laporan',
 
     // hari-hari
     'day1'              => 'Senin',

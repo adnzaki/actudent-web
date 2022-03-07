@@ -74,6 +74,7 @@ class Autoload extends AutoloadConfig
         'ExcelCreator'	=> ACTUDENT_PATH . 'Core/Libraries/ExcelCreator/ExcelCreator.php',
         'ActudentJWT'	=> ACTUDENT_PATH . 'Core/Libraries/ActudentJWT.php',
         'Actudent'      => ACTUDENT_PATH . 'Core/Controllers/Actudent.php',
+        'SimpleTag'     => ACTUDENT_PATH . 'Core/Libraries/simple-tag/SimpleTag.php'
     ];
 
     /**

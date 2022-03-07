@@ -41,6 +41,26 @@ class Absensi extends \Actudent
         $this->pdfCreator = new PDFCreator;
     }
 
+    public function exportMonthlySummary($month, $year, $gradeId)
+    {
+        $resource   = new Resources();
+        $data       = $this->common();
+        
+        foreach($resource->getReportData() as $key => $val) {
+            $data[$key] = $val;
+        }
+
+        $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
+        $data['title']  = $title;
+        $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
+        $data['data']   = $this->_getMonthlySummary($month, $year, $gradeId);
+        $filename       = $title .'_'. time();
+
+        $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-bulanan', $data);
+        // return $html;
+        $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait'); 
+    }
+
     public function getPeriodSummary($gradeId, $period, $year)
     {
         if(is_admin()) {
@@ -116,29 +136,47 @@ class Absensi extends \Actudent
 
     private function getPresenceStatusNumber($array, $status)
     {
-        return count(array_filter($array, fn($val) => $val === $status));
+        $result = count(array_filter($array, fn($val) => $val === $status));
+
+        return $result > 0 ? $result : '-';
     }
 
     public function getMonthlySummary($month, $year, $gradeId)
     {
         if(is_admin()) {
-            // Load the class member
-            $classMember = $this->absensi->kelas->getClassMember($gradeId);
-            $studentPresence = [];
-    
-            foreach($classMember as $res) {
-                $studentPresence[] = [
-                    'name'  => $res->student_name,
-                    'nis'   => $res->student_nis,
-                    'data'  => $this->countPresence($res->student_id, $gradeId, $month, $year)
-                ];
-            }
-    
-            return $this->response->setJSON([
-                'days'      => range(1, os_date()->daysInMonth($month, $year)),
-                'students'  => $studentPresence
-            ]);
+            return $this->response->setJSON($this->_getMonthlySummary($month, $year, $gradeId));
         }
+    }
+    
+    private function _getMonthlySummary($month, $year, $gradeId)
+    {
+        // Load the class member
+        $classMember = $this->absensi->kelas->getClassMember($gradeId);
+        $studentPresence = [];
+        
+        foreach($classMember as $res) {
+            $result = $this->countPresence($res->student_id, $gradeId, $month, $year);      
+            $present = $this->getPresenceStatusNumber($result, '1');
+            $permit = $this->getPresenceStatusNumber($result, '2');
+            $sick = $this->getPresenceStatusNumber($result, '3');
+            $absent = $this->getPresenceStatusNumber($result, 0);
+            $studentPresence[] = [
+                'name'      => $res->student_name,
+                'nis'       => $res->student_nis,
+                'data'      => $result,
+                'summary'   => [
+                    'present'   => $present,
+                    'permit'    => $permit,
+                    'sick'      => $sick,
+                    'absent'    => $absent,
+                ]
+            ];
+        }
+
+        return [
+            'days'      => range(1, os_date()->daysInMonth($month, $year)),
+            'students'  => $studentPresence
+        ];
     }
 
     private function countPresence($studentId, $gradeId, $month, $year)
@@ -171,29 +209,34 @@ class Absensi extends \Actudent
                     if($hasAbsent !== false) {
                         $presenceData[] = 0;
                     } else {
-                        // If presence_status is 1 (present) in the first and last lesson hour...
-                        if($todayPresence[0] === 1 && end($todayPresence) === 1) {
-
-                            // We have to check again if today presence is more than 2 data
-                            if(count($todayPresence) > 2) {
-                                // Create a storage for presence between first and last lesson
-                                $presenceBetween = array_slice($todayPresence, 1, count($todayPresence) - 2);
-
-                                // If there is presence status which has value 3 
-                                // in $presenceBetween, then the student presence is 3 (sick)                                
-                                if(array_search(3, $presenceBetween) !== false) {
-                                    $presenceData[] = 3;
-                                } else {
-                                    // otherwise (if it is 1 or 2), 
-                                    // the status of the student is 1 (present)
-                                    $presenceData[] = 1;
-                                }
-                            } else {
-                                $presenceData[] = 1;
-                            }
+                        if(array_search(3, $todayPresence) !== false) {
+                            $presenceData[] = 3;
                         } else {
-                            $presenceData[] = end($todayPresence);
+                            if($todayPresence[0] === 1 && end($todayPresence) === 1) {
+    
+                                // // We have to check again if today presence is more than 2 data
+                                // if(count($todayPresence) > 2) {
+                                //     // Create a storage for presence between first and last lesson
+                                //     $presenceBetween = array_slice($todayPresence, 1, count($todayPresence) - 2);
+    
+                                //     // If there is presence status which has value 3 
+                                //     // in $presenceBetween, then the student presence is 3 (sick)                                
+                                //     if(array_search(3, $presenceBetween) !== false) {
+                                //         $presenceData[] = 3;
+                                //     } else {
+                                //     }
+                                //     // otherwise (if it is 1 or 2), 
+                                //     // the status of the student is 1 (present)
+                                //     $presenceData[] = 1;
+                                // } else {
+                                //     $presenceData[] = 1;
+                                // }
+                                $presenceData[] = 1;
+                            } else {
+                                $presenceData[] = end($todayPresence);
+                            }
                         }
+                        // If presence_status is 1 (present) in the first and last lesson hour...
                     }
                 } else {
                     $presenceData[] = '-';

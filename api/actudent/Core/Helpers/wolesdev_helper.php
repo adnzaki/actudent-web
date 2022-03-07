@@ -10,6 +10,19 @@
  * @link        https://wolestech.com
  */
 
+if ( ! function_exists('st'))
+{
+    /**
+     * Shortcut to SimpleTag class
+     * 
+     * @return object
+     */
+    function st()
+    {
+        return new \SimpleTag();
+    }
+}
+
 if ( ! function_exists('validate'))
 {    
     /**

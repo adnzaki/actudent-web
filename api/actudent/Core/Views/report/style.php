@@ -93,7 +93,7 @@
     table {
         border: 2px solid #000000;
         border-collapse: collapse;
-        width: 100%;
+        width: 98%;
     }
 
     thead {
@@ -198,5 +198,10 @@
 
     .grey-shading {
         background-color: #dbdbdb;
+    }
+
+    /* Negative margin top */
+    .n-mt-15 {
+        margin-top: -15px;
     }
 </style>

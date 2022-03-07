@@ -73,7 +73,7 @@ class OstiumDate extends Calculation
      * @param mixed $mon
      * @return string
      */
-    protected function getMonthName($mon = '')
+    public function getMonthName($mon = '')
     {
         if(empty($mon))
         {
