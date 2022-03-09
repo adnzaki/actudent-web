@@ -13,6 +13,11 @@ export default {
   components: {
     Welcome,
     Updates
+  },
+  beforeRouteEnter(to, from) {
+    if(from.fullPath === '/login') {
+      window.location.reload()
+    }
   }
 }
 </script>
