@@ -94,9 +94,10 @@ class OstiumDate extends Calculation
      * @param mixed $date
      * @param mixed $month
      * @param mixed $year
+     * @param boolean $useDay whether to include day name or not
      * @return string
      */
-    public function fullDate($date = '', $month = '', $year ='')
+    public function fullDate($date = '', $month = '', $year ='', $useDay = true)
     {
         if(empty($date) && empty($month) && empty($year))
         {
@@ -121,7 +122,9 @@ class OstiumDate extends Calculation
             }
         }
 
-        return $day . ", " . $date . " " . $month . " " . $year;
+        $day = $useDay ? $day . ', ' : '';
+
+        return $day . $date . " " . $month . " " . $year;
     }
 
     /**
