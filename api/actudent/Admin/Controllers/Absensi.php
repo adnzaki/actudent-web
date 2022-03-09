@@ -3,29 +3,31 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
-use Actudent\Core\Controllers\Resources;
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\SchedulePresenceModel;
-use PDFCreator;
+use Config\Mimes;
 
 class Absensi extends \Actudent
 {
     /**
-     * @var Actudent\Admin\Models\AbsensiModel
+     * @var \Actudent\Admin\Models\AbsensiModel
      */
     private $absensi;
 
     /**
-     * @var Actudent\Admin\Models\JadwalModel
+     * @var \Actudent\Admin\Models\JadwalModel
      */
     private $jadwal;
 
     /**
-     * @var Actudent\Guru\Models\SchedulePresenceModel
+     * @var \Actudent\Guru\Models\SchedulePresenceModel
      */
     protected $jadwalHadir;
 
+    /**
+     * @var \PDFCreator
+     */
     private $pdfCreator;
 
     private $days = [
@@ -38,27 +40,205 @@ class Absensi extends \Actudent
         $this->absensi = new AbsensiModel;
         $this->jadwal = new JadwalModel;
         $this->jadwalHadir = new SchedulePresenceModel;
-        $this->pdfCreator = new PDFCreator;
+        $this->pdfCreator = new \PDFCreator;
+    }
+
+    public function excelMonthlySummary($month, $year, $gradeId)
+    {
+        $excel          = new \ExcelCreator;
+        $signs          = $this->resources->getReportData();
+        $grade          = $this->absensi->kelas->getClassDetail($gradeId);
+        $data           = $this->_getMonthlySummary($month, $year, $gradeId);
+        $spreadsheet    = $excel->spreadsheet;
+        $monthYear      = os_date()->getMonthName($month) . ' ' . $year;
+        $title          = $monthYear . '-' . $grade->grade_name;
+        $totalDays      = os_date()->daysInMonth($month, $year);
+
+        // set properties
+        $spreadsheet->getProperties()
+                    ->setCreator('Wolestech')
+                    ->setLastModifiedBy('Actudent')
+                    ->setTitle('Rekap Absen Bulanan ' . $title);
+
+        $spreadsheet->setActiveSheetIndex(0);
+
+        $titleCell  = ["Rekapitulasi Absensi Bulan {$monthYear}" ];
+        $gradeCell  = ["Kelas {$grade->grade_name}"];
+        $header     = ['No.', 'NIS', 'Nama Siswa', 'Tanggal'];
+        $note       = ['Keterangan'];
+        $summary    = ['H', 'I', 'S', 'A'];
+        $knownBy    = [
+            ['Mengetahui,'],
+            ['Kepala Sekolah']
+        ];
+
+        $headMaster = [
+            [$signs['kepalaSekolah']],
+            ['NIP. ' . $signs['nipKepsek']]
+        ];
+
+        $includeWaka = ['Waka. Kurikulum'];
+        $wakaName    = [
+            [$signs['wakaKurikulum']],
+            ['NIP. ' . $signs['nipWakasek']]
+        ];
+
+        $dateLocation = [
+            [$signs['lokasiSekolah'] . ', ' . os_date()->fullDate('', '', '', false)],
+            ['Wali Kelas']
+        ];
+
+        $homeroomTeacher = [
+            [$grade->staff_name],
+            ['NIP/NIK. ..............................']
+        ];
+        
+        $record = [];
+        $no = 1;
+        foreach($data['students'] as $key) {
+            $initRecord = [$no, $key['nis'], $key['name']];
+            $replacements = [
+                '1' => '●', '2' => 'i',
+                3 => 's', 0 => '×'
+            ];
+
+            $formattedStatus = [];
+            foreach($key['data'] as $k) {
+                if($k !== '-') {
+                    $k = $replacements[$k];
+                }
+
+                $formattedStatus[] = $k;
+            }
+
+            $presenceSummary = array_values($key['summary']);
+
+            $record[] = array_merge($initRecord, $formattedStatus, $presenceSummary);
+            $no++;
+        }
+
+        $dateFields = [
+            28 => 'AE', 29 => 'AF',
+            30 => 'AG', 31 => 'AH',
+            
+            // for next field
+            32 => 'AI', 33 => 'AJ',
+            34 => 'AK', 35 => 'AL'
+        ];
+
+        $noteFields = $dateFields[$totalDays + 1];
+        $endFields  = $dateFields[$totalDays + 4];
+        $endRows    = 5 + count($data['students']);
+        $signRows   = $endRows + 2;
+        $spaces     = 6;
+
+        // fill cell...
+        $excel->fillCell($titleCell);
+        $excel->fillCell($gradeCell, 'A2');
+        $excel->fillCell($header, 'A4');
+        $excel->fillCell($data['days'], 'D5');
+        $excel->fillCell($note, $noteFields . '4');
+        $excel->fillCell($summary, $noteFields . '5');
+        $excel->fillCell($record, 'A6');
+        $excel->fillCell($knownBy, 'B' . $signRows);
+        $excel->fillCell($headMaster, 'B' . $signRows + $spaces);
+        $excel->fillCell($includeWaka, 'K' . $signRows + 1);
+        $excel->fillCell($wakaName, 'K' . $signRows + $spaces);
+        $excel->fillCell($dateLocation, 'AB' . $signRows);
+        $excel->fillCell($homeroomTeacher, 'AB' . $signRows + $spaces);
+
+        // merge cells
+        $excel->mergeCells('A1:' . $endFields . '1');
+        $excel->mergeCells('A2:' . $endFields . '2');
+        $excel->mergeCells('A4:A5');
+        $excel->mergeCells('B4:B5');
+        $excel->mergeCells('C4:C5');
+        $excel->mergeCells('D4:' . $dateFields[$totalDays] . '4');
+        $excel->mergeCells($noteFields . '4:' . $endFields . '4');
+
+        $tableStyle = [
+            'borders' => [
+                'top' => ['borderStyle' => $excel->border::BORDER_THIN],
+                'bottom' => ['borderStyle' => $excel->border::BORDER_THIN],
+                'right' => ['borderStyle' => $excel->border::BORDER_THIN],
+                'left' => ['borderStyle' => $excel->border::BORDER_THIN],
+            ],
+        ];
+
+        $titleStyle = [
+            'alignment' => [
+                'horizontal' => $excel->alignment::HORIZONTAL_CENTER,
+                'vertical' => $excel->alignment::VERTICAL_CENTER,
+            ],
+            'font' => [
+                'size' => 12,
+                'bold' => true,
+            ],
+        ];
+
+        $headerStyle = [
+            'alignment' => $titleStyle['alignment'],
+            'fill' => [
+                'fillType' => $excel->fill::FILL_SOLID,
+                'color' => ['argb' => 'D9E1F2'],
+            ],
+            'borders' => $tableStyle['borders']
+        ];
+
+        $numStyle = [
+            'alignment' => $titleStyle['alignment'],
+            'borders' => $tableStyle['borders']
+        ];
+
+        // style for presence status
+        $presenceRecordStyle = [
+            'alignment' => $titleStyle['alignment'],
+            'borders' => $tableStyle['borders']
+        ];
+
+        $signsStyle = [
+            'font' => [
+                'bold' => true
+            ]
+        ];
+
+        $excel->applyStyle($titleStyle, 'A1:' . $endFields . '2');
+        $excel->applyStyle($tableStyle, 'A4:' . $endFields . $endRows);
+        $excel->applyStyle($headerStyle, 'A4:' . $endFields . '5');
+        $excel->applyStyle($numStyle, 'A6:' . 'B' . $endRows);
+        $excel->applyStyle($presenceRecordStyle, 'D6:AL' . $endRows);
+        $excel->applyStyle($signsStyle, 'B'.$signRows + $spaces.':AL'.$signRows + $spaces);
+
+        // set columns width and rows height
+        $excel->setDefaultColumnWidth(4);
+        $excel->setColumnWidth('A', 6);
+        $excel->setColumnWidth('B', 15);
+        $excel->setColumnWidth('C');
+        $excel->setMultipleRowsHeight('6-' . $endRows, 18);
+
+        $this->response->setContentType(Mimes::guessTypeFromExtension('xlsx'));
+        $excel->save("$title.xlsx");
+        // return $this->response->setJSON($signs);
     }
 
     public function exportMonthlySummary($month, $year, $gradeId)
     {
-        $resource   = new Resources();
-        $data       = $this->common();
-        
-        foreach($resource->getReportData() as $key => $val) {
-            $data[$key] = $val;
+        if(is_admin()) {
+            $data = $this->common();        
+            foreach($this->resources->getReportData() as $key => $val) {
+                $data[$key] = $val;
+            }
+    
+            $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
+            $data['title']  = $title;
+            $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
+            $data['data']   = $this->_getMonthlySummary($month, $year, $gradeId);
+            $filename       = $title .'_'. time();
+    
+            $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-bulanan', $data);
+            // return $html;
+            $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait'); 
         }
-
-        $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
-        $data['title']  = $title;
-        $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
-        $data['data']   = $this->_getMonthlySummary($month, $year, $gradeId);
-        $filename       = $title .'_'. time();
-
-        $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-bulanan', $data);
-        // return $html;
-        $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait'); 
     }
 
     public function getPeriodSummary($gradeId, $period, $year)
@@ -103,9 +283,19 @@ class Absensi extends \Actudent
             
                     $present = $this->getPresenceStatusNumber($result, '1');
                     $permit = $this->getPresenceStatusNumber($result, '2');
-                    $sick = $this->getPresenceStatusNumber($result, '3');
+                    $sick = $this->getPresenceStatusNumber($result, 3);
                     $absent = $this->getPresenceStatusNumber($result, 0);
-                    $hasAbsent = $present + $permit + $sick + $absent;
+
+                    // reformatted to handle string
+                    $formatted = [
+                        'present'   => $present === '-' ? 0 : $present,
+                        'permit'    => $permit === '-' ? 0 : $permit,
+                        'sick'      => $sick === '-' ? 0 : $sick,
+                        'absent'    => $absent === '-' ? 0 : $absent
+                    ];
+
+                    // count incomplete absent
+                    $hasAbsent = $formatted['present'] + $formatted['permit'] + $formatted['sick'] + $formatted['absent'];
                     $notAbsent = $journal - $hasAbsent;
         
                     $wrapper[$res->student_name] = [
@@ -131,7 +321,9 @@ class Absensi extends \Actudent
 
     private function getPercentage($a, $b)
     {
-        return ' (' . number_format(($a / $b) * 100, 1) . '%)';
+        if($a > 0) {
+            return ' (' . number_format(($a / $b) * 100, 1) . '%)';
+        }
     }
 
     private function getPresenceStatusNumber($array, $status)
@@ -158,7 +350,7 @@ class Absensi extends \Actudent
             $result = $this->countPresence($res->student_id, $gradeId, $month, $year);      
             $present = $this->getPresenceStatusNumber($result, '1');
             $permit = $this->getPresenceStatusNumber($result, '2');
-            $sick = $this->getPresenceStatusNumber($result, '3');
+            $sick = $this->getPresenceStatusNumber($result, 3);
             $absent = $this->getPresenceStatusNumber($result, 0);
             $studentPresence[] = [
                 'name'      => $res->student_name,
@@ -212,25 +404,7 @@ class Absensi extends \Actudent
                         if(array_search(3, $todayPresence) !== false) {
                             $presenceData[] = 3;
                         } else {
-                            if($todayPresence[0] === 1 && end($todayPresence) === 1) {
-    
-                                // // We have to check again if today presence is more than 2 data
-                                // if(count($todayPresence) > 2) {
-                                //     // Create a storage for presence between first and last lesson
-                                //     $presenceBetween = array_slice($todayPresence, 1, count($todayPresence) - 2);
-    
-                                //     // If there is presence status which has value 3 
-                                //     // in $presenceBetween, then the student presence is 3 (sick)                                
-                                //     if(array_search(3, $presenceBetween) !== false) {
-                                //         $presenceData[] = 3;
-                                //     } else {
-                                //     }
-                                //     // otherwise (if it is 1 or 2), 
-                                //     // the status of the student is 1 (present)
-                                //     $presenceData[] = 1;
-                                // } else {
-                                //     $presenceData[] = 1;
-                                // }
+                            if($todayPresence[0] === 1 && end($todayPresence) === 1) {    
                                 $presenceData[] = 1;
                             } else {
                                 $presenceData[] = end($todayPresence);
@@ -250,10 +424,9 @@ class Absensi extends \Actudent
     public function exportPresence($gradeID, $day, $date)
     {
         if(is_admin()) {
-            $resource   = new Resources();
             $data       = $this->common();
             
-            foreach($resource->getReportData() as $key => $val) {
+            foreach($this->resources->getReportData() as $key => $val) {
                 $data[$key] = $val;
             }
 
@@ -314,10 +487,9 @@ class Absensi extends \Actudent
     public function exportJournal($gradeID, $day, $date)
     {
         if(is_admin()) {
-            $resource   = new Resources();
             $data       = $this->common();
             
-            foreach($resource->getReportData() as $key => $val) {
+            foreach($this->resources->getReportData() as $key => $val) {
                 $data[$key] = $val;
             }
     
