@@ -206,7 +206,7 @@ class Absensi extends \Actudent
         $excel->applyStyle($tableStyle, 'A4:' . $endFields . $endRows);
         $excel->applyStyle($headerStyle, 'A4:' . $endFields . '5');
         $excel->applyStyle($numStyle, 'A6:' . 'B' . $endRows);
-        $excel->applyStyle($presenceRecordStyle, 'D6:AL' . $endRows);
+        $excel->applyStyle($presenceRecordStyle, 'D6:' . $endFields . $endRows);
         $excel->applyStyle($signsStyle, 'B'.$signRows + $spaces.':AL'.$signRows + $spaces);
 
         // set columns width and rows height
