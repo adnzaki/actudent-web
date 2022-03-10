@@ -71,7 +71,6 @@ class Autoload extends AutoloadConfig
     public $classmap = [
         'OstiumDate' 	=> ACTUDENT_PATH . 'Core/Libraries/OstiumDate.php',
         'PDFCreator'	=> ACTUDENT_PATH . 'Core/Libraries/PDFCreator.php',
-        'ExcelCreator'	=> ACTUDENT_PATH . 'Core/Libraries/ExcelCreator/ExcelCreator.php',
         'ActudentJWT'	=> ACTUDENT_PATH . 'Core/Libraries/ActudentJWT.php',
         'Actudent'      => ACTUDENT_PATH . 'Core/Controllers/Actudent.php',
         'SimpleTag'     => ACTUDENT_PATH . 'Core/Libraries/simple-tag/SimpleTag.php'
@@ -94,5 +93,7 @@ class Autoload extends AutoloadConfig
      *
      * @var array<int, string>
      */
-    public $files = [];
+    public $files = [
+        APPPATH . 'ThirdParty/vendor/autoload.php'
+    ];
 }

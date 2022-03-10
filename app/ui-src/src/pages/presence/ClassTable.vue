@@ -19,7 +19,7 @@
             <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
             <td class="text-left">
               <q-btn-group>
-                <q-btn color="accent" icon="fact_check" @click="fillPresence(item.grade_id, item.grade_name)">
+                <q-btn color="accent" icon="fact_check" @click="presenceAction(item.grade_id, item.grade_name, 'fill')">
                   <btn-tooltip :label="$t('absensi_isi_kehadiran')" />
                 </q-btn>
                 <q-btn color="accent" icon="date_range">
@@ -64,14 +64,14 @@ export default {
       store.dispatch('grade/getClassList')  
     }, 500)
 
-    const fillPresence = (id, name) => {
+    const presenceAction = (id, name, url) => {
       store.state.presence.className = name
-      router.push(`/presence/fill/${id}`)
+      router.push(`/presence/${url}/${id}`)
     }
 
     return {
       checkColWidth,
-      fillPresence
+      presenceAction
     }
   }
 }

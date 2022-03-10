@@ -1,7 +1,5 @@
 <?php
 
-require_once APPPATH . 'ThirdParty/dompdf/autoload.php';
-
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use CodeIgniter\Controller;

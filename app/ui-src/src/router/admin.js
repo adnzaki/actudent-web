@@ -44,6 +44,7 @@ export default [
     children: [
       { path: '', component: PresenceClassList, beforeEnter: () => routeValidator() },
       { path: 'fill/:id', component: PresenceList, beforeEnter: () => routeValidator() },
+      { path: 'monthly-summary/:id', component: PresenceList, beforeEnter: () => routeValidator() },
     ]
   },
 ]
