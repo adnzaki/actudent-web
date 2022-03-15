@@ -10,7 +10,7 @@
             class="justify-data-options" 
             flex-grid="col-md-3"
             vuex-module="student"
-            updated="getStudentsByClass"
+            selected="getStudentsByClass"
             loader="getClassGroup"
             :label="$t('siswa_semua_kelas')"
             :list="$store.state.student.classGroupList"
