@@ -1,7 +1,8 @@
 import { 
   bearerToken,
   admin,
-  flashAlert
+  flashAlert,
+  t
 } from '../../composables/common'
 
 export default {
