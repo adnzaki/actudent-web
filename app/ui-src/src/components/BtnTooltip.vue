@@ -1,5 +1,5 @@
 <template>
-  <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+  <q-tooltip :anchor="anchor" :self="self" :offset="[10, 10]">
     {{ label }}
   </q-tooltip>
 </template>
@@ -8,6 +8,18 @@
 
 export default {
   name: 'BtnTooltip',
-  props: ['label']
+  props: {
+    label: {
+      type: String
+    },
+    anchor: {
+      type: String,
+      default: 'top middle'
+    },
+    self: {
+      type: String,
+      default: 'bottom middle'
+    }
+  }
 }
 </script>

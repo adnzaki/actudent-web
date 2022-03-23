@@ -82,5 +82,19 @@ return [
     'day5'              => 'Jumat',
     'day6'              => 'Sabtu',
     'kemarin'           => 'Kemarin',
+
+    // month
+    'mon1'              => 'Januari',
+    'mon2'              => 'Februari',
+    'mon3'              => 'Maret',
+    'mon4'              => 'April',
+    'mon5'              => 'Mei' ,
+    'mon6'              => 'Juni',
+    'mon7'              => 'Juli',
+    'mon8'              => 'Agustus',
+    'mon9'              => 'September',
+    'mon10'             => 'Oktober',
+    'mon11'             => 'November',
+    'mon12'             => 'Desember'
 ];
 

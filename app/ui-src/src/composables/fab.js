@@ -1,6 +1,9 @@
 import { ref } from 'vue'
+import { Screen } from 'quasar'
 
-const fabPos = ref([ 18, 18 ])
+const singlePos = Screen.lt.sm ? 18 : 25
+
+const fabPos = ref([ singlePos, singlePos ])
 const draggingFab = ref(false)
 
 const moveFab = (ev) => {

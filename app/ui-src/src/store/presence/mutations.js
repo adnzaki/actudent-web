@@ -3,9 +3,18 @@ import {
   axios,
   flashAlert,
   t,
+  admin
 } from '../../composables/common'
 
 export default {
+  getClassName(state, id) {
+    admin.get(`kelas/detail/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.className = response.data.grade_name
+      })
+  },
   multiPresence(state, callback) {
     if(state.studentPresence.length > 0) {
       callback()

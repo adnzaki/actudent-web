@@ -42,7 +42,7 @@ export default {
     const route = useRoute()
     const store = useStore()
 
-    store.commit('grade/getDetail', route.params.id)
+    store.commit('presence/getClassName', route.params.id)
     store.state.presence.classID = route.params.id
     store.state.presence.presenceList = []
 

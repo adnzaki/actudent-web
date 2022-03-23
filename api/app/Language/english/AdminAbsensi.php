@@ -60,4 +60,6 @@ return [
     'absensi_pilih_jadwal'          => 'Choose a schedule',
     'absensi_rekap_bulanan'         => 'Monthly Summary',
     'absensi_rekap_semester'        => 'Period Summary',
+    'absensi_export_excel'          => 'Export to Excel',
+    'absensi_print_pdf'             => 'Print PDF',
 ];

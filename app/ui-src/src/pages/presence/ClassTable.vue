@@ -22,10 +22,10 @@
                 <q-btn color="accent" icon="fact_check" @click="presenceAction(item.grade_id, item.grade_name, 'fill')">
                   <btn-tooltip :label="$t('absensi_isi_kehadiran')" />
                 </q-btn>
-                <q-btn color="accent" icon="date_range">
+                <q-btn color="accent" icon="date_range" @click="presenceAction(item.grade_id, item.grade_name, 'monthly-summary')">
                   <btn-tooltip :label="$t('absensi_rekap_bulanan')" />
                 </q-btn>
-                <q-btn color="accent" icon="insert_chart_outlined">
+                <q-btn color="accent" icon="insert_chart_outlined" @click="presenceAction(item.grade_id, item.grade_name, 'period-summary')">
                   <btn-tooltip :label="$t('absensi_rekap_semester')" />
                 </q-btn>
               </q-btn-group>
