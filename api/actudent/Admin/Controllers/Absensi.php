@@ -98,8 +98,8 @@ class Absensi extends \Actudent
         foreach($data['students'] as $key) {
             $initRecord = [$no, $key['nis'], $key['name']];
             $replacements = [
-                '1' => '●', '2' => 'i',
-                3 => 's', 0 => '×'
+                '1' => '●', 3 => 's',
+                '2' => 'i', 0 => '×'                 
             ];
 
             $formattedStatus = [];
@@ -595,7 +595,7 @@ class Absensi extends \Actudent
     public function getAnggotaRombel($grade)
     {
         $student = $this->absensi->kelas->getClassMember($grade);
-        return $this->response->setJSON($student);
+        return $this->createResponse($student);
     }
 
     public function getJadwal($day, $grade)
