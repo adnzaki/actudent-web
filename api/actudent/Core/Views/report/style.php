@@ -9,7 +9,7 @@
     }
 
     .kop-header {
-        padding-left: 30px;
+        padding-left: 10px;
         margin-bottom: 10px;
     }
 
@@ -64,6 +64,7 @@
         width: 110px;    
         position: absolute;
         margin-left: 85%;
+        margin-top: -120px;
     }
 
     .logo-bekasi img, .logo-sekolah img {
