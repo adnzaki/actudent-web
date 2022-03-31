@@ -25,6 +25,7 @@ export default {
   },
   setup () {   
     const store = useStore()
+    store.state.presence.showSpinner = false
     
     return { 
       titleSpacing 

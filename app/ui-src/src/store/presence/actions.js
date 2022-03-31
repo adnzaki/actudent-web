@@ -38,11 +38,15 @@ export default {
   },
   getMonthlySummary({ state, getters }) {
     const period = `${state.selectedPeriod.month}/${state.selectedPeriod.year}`
+    state.showSpinner = true
+    state.showMonthTable = false
+
     axios.get(`${getters.presenceApi}rekap-bulanan/${period}/${state.classID}`, {
       headers: { Authorization: bearerToken }
     })
       .then(response => {
         state.monthlySummary = response.data
+        state.showSpinner = false
         state.showMonthTable = true
       })
   },
