@@ -72,7 +72,7 @@ import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { mapState, useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
-import { appConfig as conf } from '../../../actudent.config'
+import { conf, createQueryString } from 'src/composables/common'
 
 export default {
   name: 'MainButton',
@@ -88,20 +88,16 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
-    const reportPath = conf.reportPath
-    const token = $q.cookies.get(conf.cookieName)
 
     const exportReportUrl = type => { // type = "jurnal" | "absen"
       const params = {
         grade_id: route.params.id,
         day: store.state.presence.helper.activeDay,
         date: store.state.presence.helper.activeDate,
-        token
+        token: $q.cookies.get(conf.cookieName)
       }
-      
-      const queryString = Object.entries(params).map(item => item.join('=')).join('&')
 
-      return `${reportPath}ekspor-${type}.php?${queryString}`
+      return `${conf.reportPath}ekspor-${type}.php?${createQueryString(params)}`
     }
 
     const backToClassList = () => {

@@ -73,6 +73,7 @@ return [
     'pindah_mode'       => 'Switch Mode',
     'selesai'           => 'Done',
     'laporan'           => 'Report',
+    'keterangan'        => 'Description',
 
     // hari-hari
     'day1'              => 'Monday',

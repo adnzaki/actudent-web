@@ -62,4 +62,5 @@ return [
     'absensi_rekap_semester'        => 'Rekap Semester',
     'absensi_export_excel'          => 'Ekspor ke Excel',
     'absensi_print_pdf'             => 'Cetak PDF',
+    'absensi_ringkasan'             => 'Rekapitulasi',
 ];

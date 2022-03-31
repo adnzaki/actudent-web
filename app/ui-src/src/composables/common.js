@@ -10,6 +10,10 @@ import { pengguna, getPengguna } from './get-pengguna'
 
 const t = key => i18n.global.t(key)
 
+const createQueryString = params => {
+  return Object.entries(params).map(item => item.join('=')).join('&')
+}
+
 let school = ref({})
 
 function getSchool() {
@@ -50,5 +54,6 @@ export {
   timeout,
   createFormData,
   pengguna, getPengguna,
-  t
+  t,
+  createQueryString
 }

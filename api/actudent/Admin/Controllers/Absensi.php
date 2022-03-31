@@ -43,182 +43,182 @@ class Absensi extends \Actudent
         $this->pdfCreator = new \PDFCreator;
     }
 
-    public function excelMonthlySummary($month, $year, $gradeId)
+    public function excelMonthlySummary($month, $year, $gradeId, $token)
     {
-        $excel          = new \ExcelCreator;
-        $signs          = $this->resources->getReportData();
-        $grade          = $this->absensi->kelas->getClassDetail($gradeId);
-        $data           = $this->_getMonthlySummary($month, $year, $gradeId);
-        $spreadsheet    = $excel->spreadsheet;
-        $monthYear      = os_date()->getMonthName($month) . ' ' . $year;
-        $title          = $monthYear . '-' . $grade->grade_name;
-        $totalDays      = os_date()->daysInMonth($month, $year);
-
-        // set properties
-        $spreadsheet->getProperties()
-                    ->setCreator('Wolestech')
-                    ->setLastModifiedBy('Actudent')
-                    ->setTitle('Rekap Absen Bulanan ' . $title);
-
-        $spreadsheet->setActiveSheetIndex(0);
-
-        $titleCell  = ["Rekapitulasi Absensi Bulan {$monthYear}" ];
-        $gradeCell  = ["Kelas {$grade->grade_name}"];
-        $header     = ['No.', 'NIS', 'Nama Siswa', 'Tanggal'];
-        $note       = ['Keterangan'];
-        $summary    = ['H', 'I', 'S', 'A'];
-        $knownBy    = [
-            ['Mengetahui,'],
-            ['Kepala Sekolah']
-        ];
-
-        $headMaster = [
-            [$signs['kepalaSekolah']],
-            ['NIP. ' . $signs['nipKepsek']]
-        ];
-
-        $includeWaka = ['Waka. Kurikulum'];
-        $wakaName    = [
-            [$signs['wakaKurikulum']],
-            ['NIP. ' . $signs['nipWakasek']]
-        ];
-
-        $dateLocation = [
-            [$signs['lokasiSekolah'] . ', ' . os_date()->fullDate('', '', '', false)],
-            ['Wali Kelas']
-        ];
-
-        $homeroomTeacher = [
-            [$grade->staff_name],
-            ['NIP/NIK. ..............................']
-        ];
-        
-        $record = [];
-        $no = 1;
-        foreach($data['students'] as $key) {
-            $initRecord = [$no, $key['nis'], $key['name']];
-            $replacements = [
-                '1' => '●', 3 => 's',
-                '2' => 'i', 0 => '×'                 
+        if(valid_token($token)) {
+            $excel          = new \ExcelCreator;
+            $signs          = $this->resources->getReportData($token);
+            $grade          = $this->absensi->kelas->getClassDetail($gradeId);
+            $data           = $this->_getMonthlySummary($month, $year, $gradeId);
+            $spreadsheet    = $excel->spreadsheet;
+            $monthYear      = os_date()->getMonthName($month) . ' ' . $year;
+            $title          = $monthYear . '-' . $grade->grade_name;
+            $totalDays      = os_date()->daysInMonth($month, $year);
+    
+            // set properties
+            $spreadsheet->getProperties()
+                        ->setCreator('Wolestech')
+                        ->setLastModifiedBy('Actudent')
+                        ->setTitle('Rekap Absen Bulanan ' . $title);
+    
+            $spreadsheet->setActiveSheetIndex(0);
+    
+            $titleCell  = ["Rekapitulasi Absensi Bulan {$monthYear}" ];
+            $gradeCell  = ["Kelas {$grade->grade_name}"];
+            $header     = ['No.', 'NIS', 'Nama Siswa', 'Tanggal'];
+            $note       = ['Keterangan'];
+            $summary    = ['H', 'I', 'S', 'A'];
+            $knownBy    = [
+                ['Mengetahui,'],
+                ['Kepala Sekolah']
             ];
-
-            $formattedStatus = [];
-            foreach($key['data'] as $k) {
-                if($k !== '-') {
-                    $k = $replacements[$k];
-                }
-
-                $formattedStatus[] = $k;
-            }
-
-            $presenceSummary = array_values($key['summary']);
-
-            $record[] = array_merge($initRecord, $formattedStatus, $presenceSummary);
-            $no++;
-        }
-
-        $dateFields = [
-            28 => 'AE', 29 => 'AF',
-            30 => 'AG', 31 => 'AH',
+    
+            $headMaster = [
+                [$signs['kepalaSekolah']],
+                ['NIP. ' . $signs['nipKepsek']]
+            ];
+    
+            $includeWaka = ['Waka. Kurikulum'];
+            $wakaName    = [
+                [$signs['wakaKurikulum']],
+                ['NIP. ' . $signs['nipWakasek']]
+            ];
+    
+            $dateLocation = [
+                [$signs['lokasiSekolah'] . ', ' . os_date()->fullDate('', '', '', false)],
+                ['Wali Kelas']
+            ];
+    
+            $homeroomTeacher = [
+                [$grade->staff_name],
+                ['NIP/NIK. ..............................']
+            ];
             
-            // for next field
-            32 => 'AI', 33 => 'AJ',
-            34 => 'AK', 35 => 'AL'
-        ];
-
-        $noteFields = $dateFields[$totalDays + 1];
-        $endFields  = $dateFields[$totalDays + 4];
-        $endRows    = 5 + count($data['students']);
-        $signRows   = $endRows + 2;
-        $spaces     = 6;
-
-        // fill cell...
-        $excel->fillCell($titleCell);
-        $excel->fillCell($gradeCell, 'A2');
-        $excel->fillCell($header, 'A4');
-        $excel->fillCell($data['days'], 'D5');
-        $excel->fillCell($note, $noteFields . '4');
-        $excel->fillCell($summary, $noteFields . '5');
-        $excel->fillCell($record, 'A6');
-        $excel->fillCell($knownBy, 'B' . $signRows);
-        $excel->fillCell($headMaster, 'B' . $signRows + $spaces);
-        $excel->fillCell($includeWaka, 'K' . $signRows + 1);
-        $excel->fillCell($wakaName, 'K' . $signRows + $spaces);
-        $excel->fillCell($dateLocation, 'AB' . $signRows);
-        $excel->fillCell($homeroomTeacher, 'AB' . $signRows + $spaces);
-
-        // merge cells
-        $excel->mergeCells('A1:' . $endFields . '1');
-        $excel->mergeCells('A2:' . $endFields . '2');
-        $excel->mergeCells('A4:A5');
-        $excel->mergeCells('B4:B5');
-        $excel->mergeCells('C4:C5');
-        $excel->mergeCells('D4:' . $dateFields[$totalDays] . '4');
-        $excel->mergeCells($noteFields . '4:' . $endFields . '4');
-
-        $tableStyle = [
-            'borders' => [
-                'top' => ['borderStyle' => $excel->border::BORDER_THIN],
-                'bottom' => ['borderStyle' => $excel->border::BORDER_THIN],
-                'right' => ['borderStyle' => $excel->border::BORDER_THIN],
-                'left' => ['borderStyle' => $excel->border::BORDER_THIN],
-            ],
-        ];
-
-        $titleStyle = [
-            'alignment' => [
-                'horizontal' => $excel->alignment::HORIZONTAL_CENTER,
-                'vertical' => $excel->alignment::VERTICAL_CENTER,
-            ],
-            'font' => [
-                'size' => 12,
-                'bold' => true,
-            ],
-        ];
-
-        $headerStyle = [
-            'alignment' => $titleStyle['alignment'],
-            'fill' => [
-                'fillType' => $excel->fill::FILL_SOLID,
-                'color' => ['argb' => 'D9E1F2'],
-            ],
-            'borders' => $tableStyle['borders']
-        ];
-
-        $numStyle = [
-            'alignment' => $titleStyle['alignment'],
-            'borders' => $tableStyle['borders']
-        ];
-
-        // style for presence status
-        $presenceRecordStyle = [
-            'alignment' => $titleStyle['alignment'],
-            'borders' => $tableStyle['borders']
-        ];
-
-        $signsStyle = [
-            'font' => [
-                'bold' => true
-            ]
-        ];
-
-        $excel->applyStyle($titleStyle, 'A1:' . $endFields . '2');
-        $excel->applyStyle($tableStyle, 'A4:' . $endFields . $endRows);
-        $excel->applyStyle($headerStyle, 'A4:' . $endFields . '5');
-        $excel->applyStyle($numStyle, 'A6:' . 'B' . $endRows);
-        $excel->applyStyle($presenceRecordStyle, 'D6:' . $endFields . $endRows);
-        $excel->applyStyle($signsStyle, 'B'.$signRows + $spaces.':AL'.$signRows + $spaces);
-
-        // set columns width and rows height
-        $excel->setDefaultColumnWidth(4);
-        $excel->setColumnWidth('A', 6);
-        $excel->setColumnWidth('B', 15);
-        $excel->setColumnWidth('C');
-        $excel->setMultipleRowsHeight('6-' . $endRows, 18);
-
-        $this->response->setContentType(Mimes::guessTypeFromExtension('xlsx'));
-        $excel->save("$title.xlsx");
-        // return $this->response->setJSON($signs);
+            $record = [];
+            $no = 1;
+            foreach($data['students'] as $key) {
+                $initRecord = [$no, $key['nis'], $key['name']];
+                $replacements = [
+                    '1' => '●', 3 => 's',
+                    '2' => 'i', 0 => '×'                 
+                ];
+    
+                $formattedStatus = [];
+                foreach($key['data'] as $k) {
+                    if($k !== '-') {
+                        $k = $replacements[$k];
+                    }
+    
+                    $formattedStatus[] = $k;
+                }
+    
+                $presenceSummary = array_values($key['summary']);
+    
+                $record[] = array_merge($initRecord, $formattedStatus, $presenceSummary);
+                $no++;
+            }
+    
+            $dateFields = [
+                28 => 'AE', 29 => 'AF',
+                30 => 'AG', 31 => 'AH',
+                
+                // for next field
+                32 => 'AI', 33 => 'AJ',
+                34 => 'AK', 35 => 'AL'
+            ];
+    
+            $noteFields = $dateFields[$totalDays + 1];
+            $endFields  = $dateFields[$totalDays + 4];
+            $endRows    = 5 + count($data['students']);
+            $signRows   = $endRows + 2;
+            $spaces     = 6;
+    
+            // fill cell...
+            $excel->fillCell($titleCell);
+            $excel->fillCell($gradeCell, 'A2');
+            $excel->fillCell($header, 'A4');
+            $excel->fillCell($data['days'], 'D5');
+            $excel->fillCell($note, $noteFields . '4');
+            $excel->fillCell($summary, $noteFields . '5');
+            $excel->fillCell($record, 'A6');
+            $excel->fillCell($knownBy, 'B' . $signRows);
+            $excel->fillCell($headMaster, 'B' . $signRows + $spaces);
+            $excel->fillCell($includeWaka, 'K' . $signRows + 1);
+            $excel->fillCell($wakaName, 'K' . $signRows + $spaces);
+            $excel->fillCell($dateLocation, 'AB' . $signRows);
+            $excel->fillCell($homeroomTeacher, 'AB' . $signRows + $spaces);
+    
+            // merge cells
+            $excel->mergeCells('A1:' . $endFields . '1');
+            $excel->mergeCells('A2:' . $endFields . '2');
+            $excel->mergeCells('A4:A5');
+            $excel->mergeCells('B4:B5');
+            $excel->mergeCells('C4:C5');
+            $excel->mergeCells('D4:' . $dateFields[$totalDays] . '4');
+            $excel->mergeCells($noteFields . '4:' . $endFields . '4');
+    
+            $tableStyle = [
+                'borders' => [
+                    'top' => ['borderStyle' => $excel->border::BORDER_THIN],
+                    'bottom' => ['borderStyle' => $excel->border::BORDER_THIN],
+                    'right' => ['borderStyle' => $excel->border::BORDER_THIN],
+                    'left' => ['borderStyle' => $excel->border::BORDER_THIN],
+                ],
+            ];
+    
+            $titleStyle = [
+                'alignment' => [
+                    'horizontal' => $excel->alignment::HORIZONTAL_CENTER,
+                    'vertical' => $excel->alignment::VERTICAL_CENTER,
+                ],
+                'font' => [
+                    'size' => 12,
+                    'bold' => true,
+                ],
+            ];
+    
+            $headerStyle = [
+                'alignment' => $titleStyle['alignment'],
+                'fill' => [
+                    'fillType' => $excel->fill::FILL_SOLID,
+                    'color' => ['argb' => 'D9E1F2'],
+                ],
+                'borders' => $tableStyle['borders']
+            ];
+    
+            $numStyle = [
+                'alignment' => $titleStyle['alignment'],
+                'borders' => $tableStyle['borders']
+            ];
+    
+            // style for presence status
+            $presenceRecordStyle = [
+                'alignment' => $titleStyle['alignment'],
+                'borders' => $tableStyle['borders']
+            ];
+    
+            $signsStyle = [
+                'font' => [
+                    'bold' => true
+                ]
+            ];
+    
+            $excel->applyStyle($titleStyle, 'A1:' . $endFields . '2');
+            $excel->applyStyle($tableStyle, 'A4:' . $endFields . $endRows);
+            $excel->applyStyle($headerStyle, 'A4:' . $endFields . '5');
+            $excel->applyStyle($numStyle, 'A6:' . 'B' . $endRows);
+            $excel->applyStyle($presenceRecordStyle, 'D6:' . $endFields . $endRows);
+            $excel->applyStyle($signsStyle, 'B'.$signRows + $spaces.':AL'.$signRows + $spaces);
+    
+            // set columns width and rows height
+            $excel->setDefaultColumnWidth(4);
+            $excel->setColumnWidth('A', 6);
+            $excel->setColumnWidth('B', 15);
+            $excel->setColumnWidth('C');
+            $excel->setMultipleRowsHeight('6-' . $endRows, 18);
+            
+            $excel->save("$title.xlsx");
+        }
     }
 
     public function exportMonthlySummary($month, $year, $gradeId)
@@ -230,10 +230,10 @@ class Absensi extends \Actudent
             }
     
             $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
-            $data['title']  = $title;
+            $data['title']  = $title . ' ' . $year;
             $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
             $data['data']   = $this->_getMonthlySummary($month, $year, $gradeId);
-            $filename       = $title .'_'. time();
+            $filename       = $data['title'] .'_'. time();
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-bulanan', $data);
             // return $html;

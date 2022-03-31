@@ -18,7 +18,7 @@
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
             <td class="text-left">
-              <q-btn-group>
+              <q-btn-group class="mobile-hide">
                 <q-btn color="accent" icon="fact_check" @click="presenceAction(item.grade_id, item.grade_name, 'fill')">
                   <btn-tooltip :label="$t('absensi_isi_kehadiran')" />
                 </q-btn>
@@ -29,6 +29,22 @@
                   <btn-tooltip :label="$t('absensi_rekap_semester')" />
                 </q-btn>
               </q-btn-group>
+              <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
+                <q-menu>
+                  <q-list style="min-width: 150px">
+                    <q-item clickable v-close-popup @click="presenceAction(item.grade_id, item.grade_name, 'fill')">
+                      <q-item-section>{{ $t('absensi_isi_kehadiran') }}</q-item-section>
+                    </q-item>
+                    <q-separator />
+                    <q-item clickable v-close-popup @click="presenceAction(item.grade_id, item.grade_name, 'monthly-summary')">
+                      <q-item-section>{{ $t('absensi_rekap_bulanan') }}</q-item-section>
+                    </q-item>
+                    <q-item clickable v-close-popup @click="presenceAction(item.grade_id, item.grade_name, 'period-summary')">
+                      <q-item-section>{{ $t('absensi_rekap_semester') }}</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+              </q-btn>
             </td>
           </tr>
         </tbody>

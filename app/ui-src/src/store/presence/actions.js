@@ -15,6 +15,16 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getMonthlySummary({ state, getters }) {
+    const period = `${state.selectedPeriod.month}/${state.selectedPeriod.year}`
+    axios.get(`${getters.presenceApi}rekap-bulanan/${period}/${state.classID}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.monthlySummary = response.data
+        state.showMonthTable = true
+      })
+  },
   submitPermission({ state, getters, dispatch }) {
     const notifyProgress = Notify.create({
       group: false,

@@ -34,5 +34,10 @@ export default function () {
     studentPresence: [], // students to be presented
     presenceUrl: '', // presence URL
     permissionNote: '',
+    selectedPeriod: {
+      month: '1', year: 2022
+    },
+    monthlySummary: {},
+    showMonthTable: false,
   }
 }
