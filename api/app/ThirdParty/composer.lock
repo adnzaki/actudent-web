@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/adnzaki/ExcelCreator.git",
-                "reference": "cd4b075f1150929dbc3bdff363059ffb5a4d34e3"
+                "reference": "cd201f3f4de77cb9e6a0bd3ad8133c07f8e08a79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/adnzaki/ExcelCreator/zipball/cd4b075f1150929dbc3bdff363059ffb5a4d34e3",
-                "reference": "cd4b075f1150929dbc3bdff363059ffb5a4d34e3",
+                "url": "https://api.github.com/repos/adnzaki/ExcelCreator/zipball/cd201f3f4de77cb9e6a0bd3ad8133c07f8e08a79",
+                "reference": "cd201f3f4de77cb9e6a0bd3ad8133c07f8e08a79",
                 "shasum": ""
             },
             "require": {
@@ -45,9 +45,9 @@
             "homepage": "https://github.com/adnzaki/ExcelCreator",
             "support": {
                 "issues": "https://github.com/adnzaki/ExcelCreator/issues",
-                "source": "https://github.com/adnzaki/ExcelCreator/tree/1.0.0"
+                "source": "https://github.com/adnzaki/ExcelCreator/tree/main"
             },
-            "time": "2022-03-10T17:57:02+00:00"
+            "time": "2022-03-31T05:28:42+00:00"
         },
         {
             "name": "dompdf/dompdf",

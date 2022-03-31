@@ -32,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '613b2adae5ada0cc10394adc80b61d38aa9cae62',
+    'reference' => 'e42263abdf7844b5fa774cba12af4f1f1f0f2762',
     'name' => '__root__',
   ),
   'versions' => 
@@ -44,7 +44,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '613b2adae5ada0cc10394adc80b61d38aa9cae62',
+      'reference' => 'e42263abdf7844b5fa774cba12af4f1f1f0f2762',
     ),
     'adnzaki/excel-creator' => 
     array (
@@ -54,7 +54,7 @@ private static $installed = array (
       array (
         0 => '9999999-dev',
       ),
-      'reference' => 'cd4b075f1150929dbc3bdff363059ffb5a4d34e3',
+      'reference' => 'cd201f3f4de77cb9e6a0bd3ad8133c07f8e08a79',
     ),
     'dompdf/dompdf' => 
     array (
