@@ -17,6 +17,9 @@
         <month-selector />
       </div>
     </q-card-section>
+    <div class="q-pa-md summary-spinner" v-if="$store.state.presence.showSpinner">
+      <q-spinner-bars color="purple" size="xl" />
+    </div>
     <month-table />
   </q-card>
 </template>
