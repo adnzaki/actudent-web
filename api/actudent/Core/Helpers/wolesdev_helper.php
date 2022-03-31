@@ -385,12 +385,17 @@ if ( ! function_exists('valid_token'))
      * A shorthand to validate token that
      * uses Bearer token Authorization header
      * 
+     * @param string $token
+     * 
      * @return boolean
      */
-    function valid_token()
+    function valid_token($token = '')
     {
         $jwt = new \ActudentJWT;
-        $token = bearer_token();
+        if(empty($token)) {
+            $token = bearer_token();
+        }
+        
         return ($jwt->isValidToken($token)) ? true : false;
     }
 }

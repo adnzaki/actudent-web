@@ -80,11 +80,11 @@ class Resources extends \Actudent
         }
     }
 
-    public function getReportData()
+    public function getReportData($token = '')
     {
         $schoolModel = new \Actudent\Core\Models\SekolahModel;
         $sekolah = $schoolModel->getDataSekolah()[0];
-        $letterhead = $this->getSchoolLetterHead();
+        $letterhead = $this->getSchoolLetterHead($token);
 
         return [
             'namaSekolah'           => $sekolah->school_name ?? '',
@@ -110,9 +110,9 @@ class Resources extends \Actudent
      * 
      * @return object
      */
-    public function getSchoolLetterHead()
+    public function getSchoolLetterHead($token = '')
     {
-        if(valid_token())
+        if(valid_token($token))
         {
             $schoolModel = new \Actudent\Core\Models\SekolahModel;
             $sekolah = $schoolModel->getDataSekolah()[0];
