@@ -298,12 +298,13 @@ class Absensi extends \Actudent
                     $hasAbsent = $formatted['present'] + $formatted['permit'] + $formatted['sick'] + $formatted['absent'];
                     $notAbsent = $journal - $hasAbsent;
         
-                    $wrapper[$res->student_name] = [
-                        'present'       => $present . $this->getPercentage($present, $journal),
-                        'permit'        => $permit . $this->getPercentage($permit, $journal),
-                        'sick'          => $sick . $this->getPercentage($sick, $journal),
-                        'absent'        => $absent . $this->getPercentage($absent, $journal),
-                        'incomplete'    => $notAbsent . $this->getPercentage($notAbsent, $journal)
+                    $wrapper[] = [
+                        'name'          => $res->student_name,
+                        'present'       => $present . str_replace(['(', ')'], ['[', ']'], $this->getPercentage($present, $journal)),
+                        'permit'        => $permit,
+                        'sick'          => $sick,
+                        'absent'        => $absent,
+                        'incomplete'    => $notAbsent
                     ];
                 }
             } else {

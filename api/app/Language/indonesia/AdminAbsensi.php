@@ -63,4 +63,5 @@ return [
     'absensi_export_excel'          => 'Ekspor ke Excel',
     'absensi_print_pdf'             => 'Cetak PDF',
     'absensi_ringkasan'             => 'Rekapitulasi',
+    'absensi_incomplete'            => 'Tidak Lengkap',
 ];

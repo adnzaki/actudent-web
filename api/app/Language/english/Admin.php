@@ -96,5 +96,9 @@ return [
     'mon9'              => 'September',
     'mon10'             => 'October',
     'mon11'             => 'November',
-    'mon12'             => 'December'
+    'mon12'             => 'December',
+
+    // Semester
+    'ganjil'            => 'Odd',
+    'genap'             => 'Even',
 ];

@@ -95,7 +95,6 @@ export default {
           { link: '', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
           { link: '', icon: 'forum', label: t('menu_pesan') },
-          { link: '', icon: 'bookmark_added', label: t('menu_nilai') },
         ]
   
         settings.value = [

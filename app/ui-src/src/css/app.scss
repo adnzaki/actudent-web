@@ -7,6 +7,10 @@
   margin-top: -5px;
 }
 
+.summary-spinner {
+  padding-left: 35vw;
+}
+
 .back-button {
   left: -10px;
 }
@@ -55,6 +59,10 @@ $input-focus-bg: #6252c76c;
 @media(max-width: $breakpoint-sm-max) {
   .q-dialog__inner--minimized {
     padding: 24px 0 !important;
+  }
+
+  .summary-spinner {
+    padding-left: 43vw;
   }
 }
 

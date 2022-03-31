@@ -53,7 +53,7 @@ import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
 import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
-import { conf, createQueryString } from 'src/composables/common'
+import { conf } from 'src/composables/common'
 
 export default {
   name: 'MonthSelector',

@@ -35,9 +35,13 @@ export default function () {
     presenceUrl: '', // presence URL
     permissionNote: '',
     selectedPeriod: {
-      month: '1', year: 2022
+      semester: '2', month: '1', year: 2022
     },
     monthlySummary: {},
+    periodSummary: {},
     showMonthTable: false,
+    showPeriodTable: false,
+    showSpinner: false,
+    showNoData: false,
   }
 }

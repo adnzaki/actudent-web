@@ -15,6 +15,27 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getPeriodSummary({ state, getters }) {
+    const period = `${state.selectedPeriod.semester}/${state.selectedPeriod.year}`
+    state.showSpinner = true
+    state.showPeriodTable = false
+    state.showNoData = false
+
+    axios.get(`${getters.presenceApi}rekap-semester/${state.classID}/${period}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.periodSummary = response.data
+        state.showSpinner = false
+
+        // show the table only if data exists
+        if(response.data.activeDays > 0) {
+          state.showPeriodTable = true
+        } else {
+          state.showNoData = true
+        }
+      })
+  },
   getMonthlySummary({ state, getters }) {
     const period = `${state.selectedPeriod.month}/${state.selectedPeriod.year}`
     axios.get(`${getters.presenceApi}rekap-bulanan/${period}/${state.classID}`, {
