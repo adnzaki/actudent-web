@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '4bb2068629244fd29fcdbdbf0e256097a654e66c',
+    'reference' => '613b2adae5ada0cc10394adc80b61d38aa9cae62',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '4bb2068629244fd29fcdbdbf0e256097a654e66c',
+      'reference' => '613b2adae5ada0cc10394adc80b61d38aa9cae62',
     ),
     'adnzaki/excel-creator' => 
     array (
@@ -32,12 +32,12 @@
     ),
     'dompdf/dompdf' => 
     array (
-      'pretty_version' => 'v1.2.0',
-      'version' => '1.2.0.0',
+      'pretty_version' => 'v1.2.1',
+      'version' => '1.2.1.0',
       'aliases' => 
       array (
       ),
-      'reference' => '60b704331479a69e9bcdb3496da2315b5c4f94fd',
+      'reference' => 'c6dfd9bb8b0040609f04754f729d4cb3016e0575',
     ),
     'ezyang/htmlpurifier' => 
     array (
