@@ -6,8 +6,8 @@
           class="back-button"
           icon="arrow_back" 
           @click="$router.push('/presence')" />
-        <div class="text-subtitle1 text-uppercase q-mt-xs" style="margin-left: -5px;" v-if="$q.screen.lt.sm">
-          {{ `${$t('absensi_rekap_semester')} - ${$store.state.presence.className}` }}
+        <div class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5" v-if="$q.screen.lt.sm">
+          {{ $t('absensi_rekap_semester') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
           {{ `${$t('absensi_rekap_semester')} - ${$store.state.presence.className}` }}

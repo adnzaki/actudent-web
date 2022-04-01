@@ -31,7 +31,7 @@
           </q-item>
         </q-list>
       </q-btn-dropdown>
-      <q-btn-dropdown color="teal-9" icon="print" class="q-pl-sm" :label="printLabel">
+      <q-btn-dropdown color="teal-9" icon="print" class="q-pl-lg" :label="printLabel">
         <q-list>
           <q-item clickable v-close-popup
             :href="exportReportUrl('jurnal')"
@@ -49,19 +49,15 @@
           </q-item>
         </q-list>
       </q-btn-dropdown>
-      <q-btn color="teal" icon="arrow_back" class="q-pl-sm mobile-hide" :label="$t('kelas_kembali')"
-        @click="backToClassList()" />
     </div>
 
     <q-page-sticky position="bottom-right" 
       :offset="fabPos" 
       class="mobile-only force-elevated">
-      <q-fab color="primary" icon="keyboard_arrow_up" direction="up">
-        <q-fab-action color="deep-purple" icon="assessment" v-if="showJournalBtn"
-          @click="showJournalForm" />
-        <q-fab-action color="teal" 
-          @click="backToClassList()" icon="arrow_back" />
-      </q-fab>
+      <q-btn fab icon="add" color="deep-purple" 
+        v-if="showJournalBtn"
+        @click="showJournalForm" 
+      />
     </q-page-sticky>
   </div>
 </template>

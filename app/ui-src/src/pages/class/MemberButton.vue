@@ -3,19 +3,14 @@
     <div class="q-gutter-xs mobile-hide">
       <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
         @click="$store.state.grade.classMember.showForm = true" />
-      <q-btn color="teal" icon="arrow_back" class="q-pl-sm" :label="$t('kelas_kembali')"
-        @click="$router.push('/class')" />
     </div>
 
     <q-page-sticky position="bottom-right" 
       :offset="fabPos" 
       class="mobile-only force-elevated">
-      <q-fab color="primary" icon="keyboard_arrow_up" direction="up">
-        <q-fab-action color="deep-purple" icon="add"
-          @click="$store.state.grade.classMember.showForm = true" />
-        <q-fab-action color="teal" 
-          @click="$router.push('/class')" icon="arrow_back" />
-      </q-fab>
+      <q-btn fab icon="add" color="deep-purple" 
+        @click="$store.state.grade.classMember.showForm = true" 
+      />
     </q-page-sticky>
   </div>
 </template>

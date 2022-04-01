@@ -1,14 +1,19 @@
 <template>
   <q-card class="my-card">
     <q-card-section>
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
-        {{ $t('jadwal_mapping') }} - {{ $store.state.schedule.className }}
-      </div>
-      <div class="text-h6 text-capitalize" v-else>
-        {{ $t('jadwal_mapping') }} - {{ $store.state.schedule.className }}
+      <div class="row">
+        <q-btn color="teal" flat rounded
+          class="back-button"
+          icon="arrow_back" 
+          @click="$router.push('/schedules')" />
+        <div class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5" v-if="$q.screen.lt.sm">
+          {{ $t('jadwal_mapping') }}
+        </div>
+        <div class="text-h6 text-capitalize" v-else>
+          {{ $t('jadwal_mapping') }} - {{ $store.state.schedule.className }}
+        </div>
       </div>
       <div :class="['row', titleSpacing()]">
-        <mapping-button class="q-mt-sm" />
       </div>
     </q-card-section>
     <mapping-list />
@@ -20,13 +25,11 @@ import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
-import MappingButton from './MappingButton.vue'
 import MappingList from './MappingList.vue'
 
 export default {
   name: 'MappingWrapper',
   components: {
-    MappingButton,
     MappingList
   },
   setup() {

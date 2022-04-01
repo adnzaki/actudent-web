@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-sm-3 col-md-3 q-px-xs">
+  <div class="col-12 col-sm-3 col-md-3 q-mt-sm q-px-xs">
     <q-select
       outlined
       v-model="period.semester"
@@ -9,7 +9,7 @@
     />
   </div>
 
-  <div class="col-12 col-sm-3 col-md-3 q-px-xs">
+  <div class="col-12 col-sm-3 col-md-3 q-mt-sm q-px-xs">
     <q-select
       outlined
       v-model="period.year"
@@ -19,7 +19,7 @@
     />
   </div>
 
-  <div class="col-12 col-sm-3 col-md-2 q-px-xs">
+  <div class="col-12 col-sm-3 col-md-2 q-mt-sm q-px-xs">
     <q-btn color="deep-purple" 
       style="width: 100%;" 
       icon="preview" 
