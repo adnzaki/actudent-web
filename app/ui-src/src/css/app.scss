@@ -1,10 +1,76 @@
 // app global css in SCSS form
 .bg-login {
-  background: url('../../public/bg-login.png');
-  background-size: cover;
   height: calc(100vh + 5px);
   overflow: hidden;
   margin-top: -5px;
+}
+
+.auth-box-dark {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: var(--q-dark);
+  color:#fff;
+}
+// border-color: rgba(255, 255, 255, 0.28); 
+
+.bg-img-light {
+  background: url('../../public/bg-login.png');
+  background-size: cover;
+}
+
+.bg-img-dark {
+  background: url('../../public/bg-login-dark.png');
+  background-size: cover;
+}
+
+$input-focus-bg: #6252c76c;
+
+.auth-box {
+  width: 100%;
+  // border-radius: 8px !important;
+  box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.3);
+  // background-color: #fff;
+}
+
+.auth-input {
+  border-radius: 6px;
+  background-color: #66a3ff9a;
+  border-inline: solid 0px #8c19d8;
+  transition: all 0.15s ease;
+}
+
+.auth-input-dark {
+  background-color: #233042bb;
+  border-inline: solid 0px #8c19d8;
+  border-radius: 6px;
+  transition: all 0.15s ease;
+}
+
+.input-color {
+  color: $primary;
+}
+
+.input-color-dark {
+  color: #fff;
+}
+
+.q-field__input:focus {
+  background-color: transparent;
+}
+
+.auth-input:hover,
+.auth-input:focus-within,
+.auth-input-dark:hover,
+.auth-input-dark:focus-within {
+  background-color: $input-focus-bg;
+}
+
+.auth-input:focus-within,
+.auth-input-dark:focus-within {
+  border-inline-width:5px;
+}
+
+.app-logo {
+  left: 37%;
 }
 
 .page-title-pl-5 {
@@ -25,39 +91,6 @@
 .q-table--cell-separator th {
   border-right-width: 1px;
   border-left-width: 0;
-}
-
-$input-focus-bg: #6252c76c;
-
-.auth-box {
-  width: 100%;
-  // border-radius: 8px !important;
-  box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.3);
-  // background-color: #fff;
-}
-
-.auth-input {
-  border-radius: 6px;
-  background-color: #66a3ff9a;
-  border-inline: solid 0px #8c19d8;
-  transition: all 0.15s ease;
-}
-
-.q-field__input:focus {
-  background-color: transparent;
-}
-
-.auth-input:hover,
-.auth-input:focus-within {
-  background-color: $input-focus-bg;
-}
-
-.auth-input:focus-within {
-  border-inline-width:5px;
-}
-
-.app-logo {
-  left: 37%;
 }
 
 @media(max-width: $breakpoint-sm-max) {

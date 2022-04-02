@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
 
-    <q-page-container class="bg-login">
+    <q-page-container :class="['bg-login', styleSelector('bgImage')]">
       <q-page-sticky position="top-right" :offset="[40, 18]">
         <q-btn-group>
           <q-btn :color="getBtnClass('indonesia')" @click="switchLanguage('indonesia')" label="ID" />
@@ -9,7 +9,7 @@
         </q-btn-group>
       </q-page-sticky>
       <div class="q-pa-md q-mt-md row items-start q-gutter-md">
-        <q-card class="auth-box col-md-4 col-sm-8 offset-md-4 offset-sm-2">
+        <q-card :class="['auth-box col-md-4 col-sm-8 offset-md-4 offset-sm-2', styleSelector('card')]">
           <q-card-section>
             <q-img
               src="../../public/icons/icon-512x512.png" 
@@ -18,23 +18,25 @@
             <p class="text-center text-uppercase q-pt-lg q-pb-sm">{{ $t('silakan_login') }}</p>
             <q-form class="q-gutter-xs" @submit.prevent="validate">
 
-              <q-input class="auth-input q-pl-md q-mb-lg" borderless 
-                v-model="username" label="Username" @keyup.enter="validate">
+              <q-input :class="['q-pl-md q-mb-lg', styleSelector('input')]" borderless :color="styleSelector('icon')"
+                v-model="username" label="Username" :input-class="styleSelector('inputColor')" 
+                :label-color="styleSelector('label')" @keyup.enter="validate">
                 <template v-slot:prepend>
-                  <q-icon name="mail_outline" color="primary" />
+                  <q-icon name="mail_outline" :color="styleSelector('icon')" />
                 </template>
               </q-input>
 
-              <q-input class="auth-input q-pl-md q-mb-xs" type="password" 
-                borderless v-model="password" label="Password" @keyup.enter="validate">
+              <q-input :class="['q-pl-md q-mb-xs', styleSelector('input')]" type="password" :color="styleSelector('icon')"
+                borderless v-model="password" label="Password" :label-color="styleSelector('label')"
+                :input-class="styleSelector('inputColor')"  @keyup.enter="validate">
                 <template v-slot:prepend>
-                  <q-icon name="vpn_key" color="primary" />
+                  <q-icon name="vpn_key" :color="styleSelector('icon')" />
                 </template>
               </q-input>
 
-              <q-checkbox class="q-mb-lg" v-model="rememberMe" :label="$t('remember_me')" />
+              <q-checkbox color="primary" keep-color class="q-mb-lg" v-model="rememberMe" :label="$t('remember_me')" />
               <p v-if="showMsg" style="margin-top: -20px" :class="`text-bold text-${msgClass}`">{{ msg }}</p>
-              <q-btn color="blue" @click="validate" :style="btnStyle">{{ $t('login') }}</q-btn>
+              <q-btn :color="styleSelector('btn')" @click="validate" :style="btnStyle">{{ $t('login') }}</q-btn>
             </q-form>
           </q-card-section>
         </q-card>
@@ -61,12 +63,12 @@ import { useQuasar } from 'quasar'
 export default {
   name: 'Login',
   setup() {
+    const $q = useQuasar()
     const userLang = localStorage.getItem(conf.userLang)
     const btnLangColor = ref({
-      active: 'accent',
-      inactive: 'purple-5'
+      active: $q.cookies.get('theme') === 'dark' ? 'cyan-10' : 'accent',
+      inactive: $q.cookies.get('theme') === 'dark' ? 'cyan-8' : 'purple-5'
     })
-    const $q = useQuasar()
 
     const username = ref(''),
           password = ref(''),
@@ -77,6 +79,32 @@ export default {
           rememberMe = ref(false)
     
     return {
+      styleSelector(style) {
+        const styles = {
+          light: {
+            bgImage: 'bg-img-light',
+            card: '',
+            icon: 'primary',
+            label: '',
+            input: 'auth-input',
+            inputColor: 'input-color',
+            btn: 'blue'
+          },
+          dark: {
+            bgImage: 'bg-img-dark',
+            card: 'auth-box-dark',
+            icon: 'blue-1',
+            label: 'blue-1',
+            input: 'auth-input-dark',
+            inputColor: 'input-color-dark',
+            btn: 'cyan-10'
+          }
+        }
+        
+        return $q.cookies.get('theme') === 'dark' 
+          ? styles.dark[style]
+          : styles.light[style]
+      },
       validate() {
         msg.value = ''
         showMsg.value = true
@@ -94,7 +122,7 @@ export default {
           }
 
           msg.value = t('mengautentikasi')
-          msgClass.value = 'black'
+          msgClass.value = $q.cookies.get('theme') === 'dark' ? 'white' :'black'
 
           // do request..
           axios.post(`${conf.coreAPI}login/validasi`, postData, {
