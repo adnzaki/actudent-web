@@ -30,7 +30,8 @@
   <q-page-sticky position="bottom-right" :offset="fabPos" class="force-elevated">
     <q-btn fab icon="print" color="secondary" 
       :disable="draggingFab"
-      v-touch-pan.prevent.mouse="moveFab" />    
+      v-touch-pan.prevent.mouse="moveFab"
+      :href="exportPdf()" target="_blank" />    
   </q-page-sticky>
 </template>
 <script>
@@ -78,11 +79,11 @@ export default {
     const gradeId = route.params.id
     const token = $q.cookies.get(conf.cookieName)
 
-const exportPdf = () => {
-      return `${conf.reportPath}ekspor-rekap-bulanan.php?` +
-              `month=${store.state.presence.selectedPeriod.semester}&` +
-              `year=${store.state.presence.selectedPeriod.year}&` +
-              `grade_id=${gradeId}&token=${token}`
+    const exportPdf = () => {
+      return `${conf.reportPath}ekspor-rekap-semester.php?` +
+              `grade_id=${gradeId}&` +
+              `period=${store.state.presence.selectedPeriod.semester}&` +
+              `year=${store.state.presence.selectedPeriod.year}&token=${token}`
 
     }
 

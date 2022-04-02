@@ -241,83 +241,113 @@ class Absensi extends \Actudent
         }
     }
 
+    public function exportPeriodSummary($gradeId, $period, $year)
+    {
+        if(is_admin()) {
+            $data = $this->common();        
+            foreach($this->resources->getReportData() as $key => $val) {
+                $data[$key] = $val;
+            }
+
+            $semester = 1 ? 'Ganjil' : 'Genap';
+            $yearPeriod = $year . '/' . $year + 1;
+    
+            $title          = 'Rekapitulasi Absensi Semester ' . $semester;
+            $data['title']  = $title;
+            $data['period'] = 'Tahun Ajaran ' . $yearPeriod;
+            $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
+            $data['data']   = $this->_getPeriodSummary($gradeId, $period, $year);
+            $filename       = $title . ' ' . $yearPeriod .'_'. time();
+    
+            $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-semester', $data);
+            // return $html;
+            $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait'); 
+        }
+    }
+
     public function getPeriodSummary($gradeId, $period, $year)
     {
         if(is_admin()) {
-            // 1 = Odd semester (start from July to December [month 7-12])
-            // 2 = Even semester (start from January to June [month 1-6])
-            $acceptedPeriod = [1 => range(7, 12), 2 => range(1, 6)];
-            
-            // generate start month
-            $monthStart = $acceptedPeriod[$period][0] < 10 
-                        ? '0' . $acceptedPeriod[$period][0]
-                        : $acceptedPeriod[$period][0];
-            
-            // generate end month
-            $monthEnd = $acceptedPeriod[$period][5] < 10 
-                        ? '0' . $acceptedPeriod[$period][5]
-                        : $acceptedPeriod[$period][5];
-            
-            $dateStart = "{$year}-{$monthStart}-01";
-            $dateEnd = "{$year}-{$monthEnd}-" . os_date()->daysInMonth($acceptedPeriod[$period][5], $year);
-    
-            $journal = $this->absensi->getTotalJournals($gradeId, $dateStart, $dateEnd);
-            $wrapper = [];
-    
-            if($journal > 0) {
-                $classMember = $this->absensi->kelas->getClassMember($gradeId);
-                foreach($classMember as $res) {
-                    $result = [];
-                    foreach($acceptedPeriod[$period] as $val) {
-                        $result[] = $this->countPresence($res->student_id, $gradeId, $val, $year);
-                    }
-            
-                    $result = array_merge(
-                        $result[0],
-                        $result[1],
-                        $result[2],
-                        $result[3],
-                        $result[4],
-                        $result[5],
-                    );
-            
-                    $present = $this->getPresenceStatusNumber($result, '1');
-                    $permit = $this->getPresenceStatusNumber($result, '2');
-                    $sick = $this->getPresenceStatusNumber($result, 3);
-                    $absent = $this->getPresenceStatusNumber($result, 0);
-
-                    // reformatted to handle string
-                    $formatted = [
-                        'present'   => $present === '-' ? 0 : $present,
-                        'permit'    => $permit === '-' ? 0 : $permit,
-                        'sick'      => $sick === '-' ? 0 : $sick,
-                        'absent'    => $absent === '-' ? 0 : $absent
-                    ];
-
-                    // count incomplete absent
-                    $hasAbsent = $formatted['present'] + $formatted['permit'] + $formatted['sick'] + $formatted['absent'];
-                    $notAbsent = $journal - $hasAbsent;
-        
-                    $wrapper[] = [
-                        'name'          => $res->student_name,
-                        'present'       => $present . str_replace(['(', ')'], ['[', ']'], $this->getPercentage($present, $journal)),
-                        'permit'        => $permit,
-                        'sick'          => $sick,
-                        'absent'        => $absent,
-                        'incomplete'    => $notAbsent
-                    ];
-                }
-            } else {
-                $wrapper = lang('Admin.no_data');
-            }
-    
-            $response = [
-                'activeDays'    => $journal,
-                'summary'       => $wrapper
-            ];
-    
-            return $this->response->setJSON($response);
+            return $this->response->setJSON($this->_getPeriodSummary($gradeId, $period, $year));
         }
+    }
+
+    public function _getPeriodSummary($gradeId, $period, $year)
+    {
+        // 1 = Odd semester (start from July to December [month 7-12])
+        // 2 = Even semester (start from January to June [month 1-6])
+        $acceptedPeriod = [1 => range(7, 12), 2 => range(1, 6)];
+        
+        // generate start month
+        $monthStart = $acceptedPeriod[$period][0] < 10 
+                    ? '0' . $acceptedPeriod[$period][0]
+                    : $acceptedPeriod[$period][0];
+        
+        // generate end month
+        $monthEnd = $acceptedPeriod[$period][5] < 10 
+                    ? '0' . $acceptedPeriod[$period][5]
+                    : $acceptedPeriod[$period][5];
+        
+        $dateStart = "{$year}-{$monthStart}-01";
+        $dateEnd = "{$year}-{$monthEnd}-" . os_date()->daysInMonth($acceptedPeriod[$period][5], $year);
+
+        $journal = $this->absensi->getTotalJournals($gradeId, $dateStart, $dateEnd);
+        $wrapper = [];
+
+        if($journal > 0) {
+            $classMember = $this->absensi->kelas->getClassMember($gradeId);
+            foreach($classMember as $res) {
+                $result = [];
+                foreach($acceptedPeriod[$period] as $val) {
+                    $result[] = $this->countPresence($res->student_id, $gradeId, $val, $year);
+                }
+        
+                $result = array_merge(
+                    $result[0],
+                    $result[1],
+                    $result[2],
+                    $result[3],
+                    $result[4],
+                    $result[5],
+                );
+        
+                $present = $this->getPresenceStatusNumber($result, '1');
+                $permit = $this->getPresenceStatusNumber($result, '2');
+                $sick = $this->getPresenceStatusNumber($result, 3);
+                $absent = $this->getPresenceStatusNumber($result, 0);
+
+                // reformatted to handle string
+                $formatted = [
+                    'present'   => $present === '-' ? 0 : $present,
+                    'permit'    => $permit === '-' ? 0 : $permit,
+                    'sick'      => $sick === '-' ? 0 : $sick,
+                    'absent'    => $absent === '-' ? 0 : $absent
+                ];
+
+                // count incomplete absent
+                $hasAbsent = $formatted['present'] + $formatted['permit'] + $formatted['sick'] + $formatted['absent'];
+                $notAbsent = $journal - $hasAbsent;
+    
+                $wrapper[] = [
+                    'nis'           => $res->student_nis,
+                    'name'          => $res->student_name,
+                    'present'       => $present . str_replace(['(', ')'], ['[', ']'], $this->getPercentage($present, $journal)),
+                    'permit'        => $permit,
+                    'sick'          => $sick,
+                    'absent'        => $absent,
+                    'incomplete'    => $notAbsent
+                ];
+            }
+        } else {
+            $wrapper = lang('Admin.no_data');
+        }
+
+        $response = [
+            'activeDays'    => $journal,
+            'summary'       => $wrapper
+        ];
+
+        return $response;
     }
 
     private function getPercentage($a, $b)
