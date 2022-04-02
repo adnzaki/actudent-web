@@ -7,5 +7,5 @@
  */
 
 export default ({ app }) => {
-  app.config.globalProperties.buildVersion = 'ac.v2.0028'
+  app.config.globalProperties.buildVersion = 'alpha-1.ac.v2.0028'
 }

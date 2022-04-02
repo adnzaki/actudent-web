@@ -1,7 +1,7 @@
 const indonesia = [
   {
     key: '[Baru] Kehadiran',
-    desc: `Fitur kehadiran siswa kini telah dapat digunakan`
+    desc: `Fitur kehadiran siswa kini telah dapat digunakan dengan penambahan laporan rekap bulanan dan semester yang tidak ada di Actudent versi sebelumnya`
   },
   {
     key: '[Baru] Halaman Login',
@@ -19,15 +19,27 @@ const indonesia = [
            untuk meningkatkan performa aplikasi`
   },
   {
+    key: '[Peningkatan] Tombol Kembali sub-halaman',
+    desc: `Tombol kembali ke halaman utama pada sub-halaman kini lebih sederhana dan memakai ruang lebih sedikit`
+  },
+  {
     key: '[Perbaikan] Autentikasi',
     desc: `Perbaikan validasi token dan mekanisme pengalihan halaman yang tidak dapat diakses`
+  },
+  {
+    key: '[Perbaikan] Filter kelas siswa',
+    desc: `Memperbaiki bug filter kelas tidak dapat memperbarui tabel siswa`
+  },
+  {
+    key: '[Perbaikan] Tombol hapus sekaligus',
+    desc: `Memperbaiki bug tombol hapus beberapa siswa tidak bekerja`
   },
 ]
 
 const english = [
   {
     key: '[New] Presence',
-    desc: `Presence feature now able to used`
+    desc: `Presence feature now able to used that comes with additional monthly and period report which have not been in the previous version of Actudent`
   },
   {
     key: '[New] Login Page',
@@ -44,8 +56,20 @@ const english = [
            app performance`
   },
   {
+    key: '[Improvement] Sub-page back button',
+    desc: `Sub-page back button now becomes more simple and uses less space`
+  },
+  {
     key: '[Fix] Authentication',
     desc: `Fixed token validation and redirect mechanism of pages that are not allowed to be accessed`
+  },
+  {
+    key: '[Fix] Student class selector',
+    desc: `Fixed bug class selector cannot update the student table`
+  },
+  {
+    key: '[Fix] Multiple delete button',
+    desc: `Fixed bug multiple delete button not working`
   },
 ]
 
