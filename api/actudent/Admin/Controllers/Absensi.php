@@ -127,11 +127,12 @@ class Absensi extends \Actudent
                 34 => 'AK', 35 => 'AL'
             ];
     
-            $noteFields = $dateFields[$totalDays + 1];
-            $endFields  = $dateFields[$totalDays + 4];
-            $endRows    = 5 + count($data['students']);
-            $signRows   = $endRows + 2;
-            $spaces     = 6;
+            $noteFields     = $dateFields[$totalDays + 1];
+            $endFields      = $dateFields[$totalDays + 4];
+            $endRows        = 5 + count($data['students']);
+            $signRows       = $endRows + 2;
+            $spaces         = 6;
+            $spacedSignRows = $signRows + $spaces;
     
             // fill cell...
             $excel->fillCell($titleCell);
@@ -142,11 +143,11 @@ class Absensi extends \Actudent
             $excel->fillCell($summary, $noteFields . '5');
             $excel->fillCell($record, 'A6');
             $excel->fillCell($knownBy, 'B' . $signRows);
-            $excel->fillCell($headMaster, 'B' . $signRows + $spaces);
-            $excel->fillCell($includeWaka, 'K' . $signRows + 1);
-            $excel->fillCell($wakaName, 'K' . $signRows + $spaces);
+            $excel->fillCell($headMaster, 'B' . $spacedSignRows);
+            $excel->fillCell($includeWaka, 'K' . ($signRows + 1));
+            $excel->fillCell($wakaName, 'K' . $spacedSignRows);
             $excel->fillCell($dateLocation, 'AB' . $signRows);
-            $excel->fillCell($homeroomTeacher, 'AB' . $signRows + $spaces);
+            $excel->fillCell($homeroomTeacher, 'AB' . $spacedSignRows);
     
             // merge cells
             $excel->mergeCells('A1:' . $endFields . '1');
@@ -208,7 +209,7 @@ class Absensi extends \Actudent
             $excel->applyStyle($headerStyle, 'A4:' . $endFields . '5');
             $excel->applyStyle($numStyle, 'A6:' . 'B' . $endRows);
             $excel->applyStyle($presenceRecordStyle, 'D6:' . $endFields . $endRows);
-            $excel->applyStyle($signsStyle, 'B'.$signRows + $spaces.':AL'.$signRows + $spaces);
+            $excel->applyStyle($signsStyle, 'B'.$spacedSignRows.':AL'.$spacedSignRows);
     
             // set columns width and rows height
             $excel->setDefaultColumnWidth(4);
@@ -250,7 +251,7 @@ class Absensi extends \Actudent
             }
 
             $semester = 1 ? 'Ganjil' : 'Genap';
-            $yearPeriod = $year . '/' . $year + 1;
+            $yearPeriod = $year . '/' . ($year + 1);
     
             $title          = 'Rekapitulasi Absensi Semester ' . $semester;
             $data['title']  = $title;
