@@ -1,6 +1,5 @@
 {
     "require": {
-        "dompdf/dompdf": "^1.0",
-        "adnzaki/excel-creator": "dev-main"
+        "dompdf/dompdf": "^1.0"
     }
 }
