@@ -43,7 +43,7 @@ const indonesia = [
 
 const english = [
   {
-    key: '[Fix] Fix bug unable to login on Chromium-based browser',
+    key: '[Fix] Fix bug unable to login in Chromium-based browser',
     desc: `Fix bug unable to login using Chromium-based browser like Chrome, Edge, etc. on build ac.v2.0029`
   },
   {
