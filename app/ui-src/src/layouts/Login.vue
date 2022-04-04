@@ -118,7 +118,6 @@ export default {
           const postData = {
             username: username.value,
             password: password.value,
-            language: localStorage.getItem(conf.userLang)
           }
 
           msg.value = t('mengautentikasi')
@@ -126,7 +125,6 @@ export default {
 
           // do request..
           axios.post(`${conf.coreAPI}login/validasi`, postData, {
-            'Access-Control-Allow-Origin': '*',
             transformRequest: [data => createFormData(data)]
           })
             .then(response => {
@@ -147,6 +145,7 @@ export default {
                           expires: exp.toUTCString(),
                           path: '/',
                           sameSite: 'None',
+                          secure: true
                         }
 
                   $q.cookies.set(conf.cookieName, res.token, cookieOptions)

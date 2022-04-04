@@ -21,7 +21,6 @@ class Auth extends \Actudent
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
             $remember = $this->request->getPost('remember-me') ?? '';
-            $language = $this->request->getPost('language');
             if($this->auth->validasi($username, $password, '1'))
             {
                 $pengguna = $this->auth->getDataPengguna($username);
@@ -36,7 +35,6 @@ class Auth extends \Actudent
                 ];
 
                 $this->auth->statusJaringan('online', $username);
-                
                 return $this->response->setJSON([
                     'msg'   => 'valid', 
                     'token' => jwt_encode($token),

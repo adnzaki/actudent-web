@@ -1,5 +1,10 @@
 const indonesia = [
   {
+    key: '[Perbaikan] Perbaikan bug tidak bisa login di browser berbasis Chromium',
+    desc: `Memperbaiki bug tidak dapat login menggunakan browser berbasis Chromium seperti Chrome, Edge dan sebagainya
+          pada build ac.v2.0029`
+  },
+  {
     key: '[Baru] Kehadiran',
     desc: `Fitur kehadiran siswa kini telah dapat digunakan dengan penambahan laporan rekap bulanan dan semester yang tidak ada di Actudent versi sebelumnya`
   },
@@ -37,6 +42,10 @@ const indonesia = [
 ]
 
 const english = [
+  {
+    key: '[Fix] Fix bug unable to login on Chromium-based browser',
+    desc: `Fix bug unable to login using Chromium-based browser like Chrome, Edge, etc. on build ac.v2.0029`
+  },
   {
     key: '[New] Presence',
     desc: `Presence feature now able to used that comes with additional monthly and period report which have not been in the previous version of Actudent`
