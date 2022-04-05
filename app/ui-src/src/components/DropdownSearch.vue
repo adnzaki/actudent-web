@@ -56,27 +56,27 @@ export default {
       selectedHandler = props.selected
     }
 
-    setTimeout(() => {    
-      let modelValue = null
+    let modelValue = null
 
-      if(props.default !== undefined) {
+    if(props.default !== undefined) {
+      modelValue = {
+        label: props.default.label,
+        value: props.default.value
+      }
+    } else {
+      if(props.label === undefined) {
         modelValue = {
-          label: props.default.label,
-          value: props.default.value
-        }
-      } else {
-        if(props.label === undefined) {
-          modelValue = {
-            label: props.labelAsOption,
-            value: null
-          }
+          label: props.labelAsOption,
+          value: null
         }
       }
-  
-      model.value = modelValue      
+    }
 
-      stringOptions.value = [modelValue]
+    model.value = modelValue      
 
+    stringOptions.value = [modelValue]
+
+    const getList = async () => {
       if(props.loadOnRoute === undefined) {
         if(props.param !== undefined) {
           store.commit(`${props.vuexModule}/${props.loader}`, props.param)
@@ -84,32 +84,32 @@ export default {
           store.commit(`${props.vuexModule}/${props.loader}`)
         }  
       }
-  
-      const optionsList = computed(() => props.list)
 
-      const pushOptions = () => {
+      return new Promise((resolve, reject) => setTimeout(resolve, 100))
+    }
+
+    getList().then(async () => {
+      const optionsList = computed(() => props.list)
+      const pushOptions = async () => {        
         stringOptions.value = []
-        setTimeout(() => {
-          optionsList.value.forEach(item => {
-            stringOptions.value.push({
-              label: item[props.optionsValue.label],
-              value: item[props.optionsValue.value]
-            })
-          })   
-          model.value = stringOptions.value[0]
-        }, 700) 
+        await optionsList.value.forEach(item => {
+          stringOptions.value.push({
+            label: item[props.optionsValue.label],
+            value: item[props.optionsValue.value]
+          })
+        }) 
+
+        model.value = stringOptions.value[0]
       }
 
-      setTimeout(() => {
-        pushOptions()      
-        watch(optionsList, pushOptions)
-  
-        // filter duplicate values, remove them if exist
-        const filter = item => [item['value'], item]
-        options.value = [...new Map(stringOptions.value.map(filter)).values()]        
-      }, 1000);
+      await pushOptions()      
+      watch(optionsList, pushOptions)
 
-    }, 700)
+      // filter duplicate values, remove them if exist
+      const filter = item => [item['value'], item]
+      options.value = [...new Map(stringOptions.value.map(filter)).values()]      
+
+    })
 
     return {
       options,
