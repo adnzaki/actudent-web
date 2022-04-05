@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: *');
 
 class Auth extends \Actudent
 {
-    private $tokenExp = 12 * 30 * 24 * 60 * 60; // 1 year
+    private $tokenExp = 3 * 30 * 24 * 60 * 60; // expired every 3 months
 
     public function isValidLogin()
     {
@@ -29,7 +29,6 @@ class Auth extends \Actudent
                     'email'     => $username,
                     'nama'      => $pengguna->user_name,
                     'userLevel' => $pengguna->user_level,
-                    'logged_in' => true,
                     'iat'       => strtotime('now'),
                     'exp'       => strtotime('now') + $this->tokenExp
                 ];
