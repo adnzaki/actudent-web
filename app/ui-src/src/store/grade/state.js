@@ -11,6 +11,7 @@ export default function () {
     selectedTeacher: {
       id: '', name: '',
     },
+    teacherId: '',
     teachers: [],
     detail: {}, 
     checkAll: false, selectedClasses: [],

@@ -277,7 +277,6 @@ export default {
         if(state.schedule.length > 0) {
           state.scheduleID = state.schedule[0].id
           state.showJournalBtn = true
-          console.log(bearerToken)
           dispatch('checkJournal', payload.date)
         }
       })

@@ -1,4 +1,44 @@
 export default {
+  'ac.v2.0030': [
+    {
+      key: '[Fix] Fix bug unable to login in Chromium-based browser',
+      desc: `Fix bug unable to login using Chromium-based browser like Chrome, Edge, etc. on build ac.v2.0029`
+    },
+    {
+      key: '[New] Presence',
+      desc: `Presence feature now able to used that comes with additional monthly and period report which have not been in the previous version of Actudent`
+    },
+    {
+      key: '[New] Login Page',
+      desc: `Login page now uses new interface dan has been integrated with PWA mode like the app's core`
+    },
+    {
+      key: '[Improvement] Pagination',
+      desc: `Data rows numbering on pagination has currently been matched with
+             with whole data`
+    },
+    {
+      key: '[Improvement] Internationalization (Language)',
+      desc: `Improved language loading mechanism - now is fully running on client side to improve
+             app performance`
+    },
+    {
+      key: '[Improvement] Sub-page back button',
+      desc: `Sub-page back button now becomes more simple and uses less space`
+    },
+    {
+      key: '[Fix] Authentication',
+      desc: `Fixed token validation and redirect mechanism of pages that are not allowed to be accessed`
+    },
+    {
+      key: '[Fix] Student class selector',
+      desc: `Fixed bug class selector cannot update the student table`
+    },
+    {
+      key: '[Fix] Multiple delete button',
+      desc: `Fixed bug multiple delete button not working`
+    }
+  ],
   'ac.v2.0027': [
     {
       key: '[New] Lesson Schedule',

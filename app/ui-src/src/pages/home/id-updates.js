@@ -1,4 +1,46 @@
 export default {
+  'ac.v2.0030': [
+    {
+      key: '[Perbaikan] Perbaikan bug tidak bisa login di browser berbasis Chromium',
+      desc: `Memperbaiki bug tidak dapat login menggunakan browser berbasis Chromium seperti Chrome, Edge dan sebagainya
+            pada build ac.v2.0029`
+    },
+    {
+      key: '[Baru] Kehadiran',
+      desc: `Fitur kehadiran siswa kini telah dapat digunakan dengan penambahan laporan rekap bulanan dan semester yang tidak ada di Actudent versi sebelumnya`
+    },
+    {
+      key: '[Baru] Halaman Login',
+      desc: `Halaman login kini menggunakan tampilan baru dan telah terintegrasi dengan mode PWA
+             seperti halnya bagian inti aplikasi`
+    },
+    {
+      key: '[Peningkatan] Pagination',
+      desc: `Penomoran baris data pada pagination kini telah disesuaikan dengan 
+             jumlah data keseluruhan`
+    },
+    {
+      key: '[Peningkatan] Internasionalisasi (Bahasa)',
+      desc: `Peningkatan mekanisme pemuatan bahasa - kini berjalan sepenuhnya di sisi client
+             untuk meningkatkan performa aplikasi`
+    },
+    {
+      key: '[Peningkatan] Tombol Kembali sub-halaman',
+      desc: `Tombol kembali ke halaman utama pada sub-halaman kini lebih sederhana dan memakai ruang lebih sedikit`
+    },
+    {
+      key: '[Perbaikan] Autentikasi',
+      desc: `Perbaikan validasi token dan mekanisme pengalihan halaman yang tidak dapat diakses`
+    },
+    {
+      key: '[Perbaikan] Filter kelas siswa',
+      desc: `Memperbaiki bug filter kelas tidak dapat memperbarui tabel siswa`
+    },
+    {
+      key: '[Perbaikan] Tombol hapus sekaligus',
+      desc: `Memperbaiki bug tombol hapus beberapa siswa tidak bekerja`
+    }
+  ],
   'ac.v2.0027': [
     {
       key: '[Baru] Jadwal Pelajaran',
