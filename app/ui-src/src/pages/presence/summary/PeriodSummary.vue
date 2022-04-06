@@ -47,6 +47,7 @@ export default {
 
     store.commit('presence/getClassName', route.params.id)
     store.state.presence.classID = route.params.id
+    store.state.presence.periodSummary = {}
 
     return {
       titleSpacing

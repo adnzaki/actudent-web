@@ -62,6 +62,7 @@ export default {
     } 
 
     // current active year
+    store.state.presence.selectedPeriod.semester = '2'
     store.state.presence.selectedPeriod.year = 2021
 
     setTimeout(() => {

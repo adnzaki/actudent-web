@@ -73,6 +73,9 @@ export default {
       store.state.presence.selectedPeriod.year = model
     } 
 
+    store.state.presence.selectedPeriod.month = '1'
+    store.state.presence.selectedPeriod.year = 2022
+
     setTimeout(() => {
       period.value = {
         month: { label: t('mon1'), value: '1' },
