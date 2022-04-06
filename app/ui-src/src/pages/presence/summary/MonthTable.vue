@@ -70,19 +70,31 @@
     top: 0
     z-index: 1
   tr:first-child th:first-child, tr:first-child th:first-child,
-  tr:first-child th:nth-child(2)
+  tr:first-child 
     /* highest z-index */
-    z-index: 4
+    z-index: 5
 
-  td:first-child, td:nth-child(2)
-    z-index: 1
-
-  td:first-child, th:first-child, td:nth-child(2), th:nth-child(2)
+  td:first-child, th:first-child
     position: sticky
     left: 0
 
-  td:nth-child(2), th:nth-child(2)
-    left: 40px
+  @media(max-width: 600px)
+    td:first-child
+      z-index: 4
+
+  @media(min-width: 600px)
+    td:nth-child(2), th:nth-child(2)
+      left: 40px
+      position: sticky
+    td:first-child
+      position: sticky
+      left: 0
+
+    td:first-child, td:nth-child(2)
+      z-index: 4
+
+    tr:nth-child(1) th:nth-child(2)
+      z-index: 5
 </style>
 
 <script>
