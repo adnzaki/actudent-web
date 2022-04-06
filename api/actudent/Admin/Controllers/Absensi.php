@@ -289,6 +289,7 @@ class Absensi extends \Actudent
                     ? '0' . $acceptedPeriod[$period][5]
                     : $acceptedPeriod[$period][5];
         
+        $year = $period === '2' ? $year + 1 : $year;
         $dateStart = "{$year}-{$monthStart}-01";
         $dateEnd = "{$year}-{$monthEnd}-" . os_date()->daysInMonth($acceptedPeriod[$period][5], $year);
 
@@ -345,7 +346,8 @@ class Absensi extends \Actudent
 
         $response = [
             'activeDays'    => $journal,
-            'summary'       => $wrapper
+            'summary'       => $wrapper,
+            'year'          => $year
         ];
 
         return $response;
