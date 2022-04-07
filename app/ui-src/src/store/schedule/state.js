@@ -26,11 +26,14 @@ export default function () {
       checkAll: false,
       saveStatus: 500,
       options: [],
+      lessonId: ''
     },
     schedule: {
       lessonOptions: [], // this is the wrapper for normalList and inactiveList
       normalList: [],
       inactiveList: [],
+      defaultLesson: '',
+      defaultRoom: '',
       list: [],
       showForm: false,
       showLessonList: true, // show lesson list in schedule form

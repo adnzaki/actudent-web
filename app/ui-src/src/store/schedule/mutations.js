@@ -25,6 +25,12 @@ export default {
 
         // default lesson options
         state.schedule.lessonOptions = state.schedule.normalList
+        if(state.schedule.lessonOptions.length > 0) {
+          state.schedule.defaultLesson = {
+            label: state.schedule.lessonOptions[0].text,
+            value: state.schedule.lessonOptions[0].id
+          }
+        }
       })
   },
   removeLesson(state, id) {
@@ -98,6 +104,12 @@ export default {
     })
       .then(response => {
         state.rooms = response.data
+        if(state.rooms.length > 0) {
+          state.schedule.defaultRoom = {
+            label: state.rooms[0].text,
+            value: state.rooms[0].id
+          }
+        }
       })
   },
   showMappingForm(state, day) {
@@ -159,6 +171,9 @@ export default {
     })
       .then(response => {
         state.lesson.options = response.data
+        if(response.data.length > 0) {
+          state.lesson.lessonId = response.data[0].id
+        }
       })
   },
   showDeleteConfirm(state, id) {

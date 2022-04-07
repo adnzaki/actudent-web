@@ -20,6 +20,9 @@ export default {
     })
       .then(response => {
         state.teachers = response.data
+        if(response.data.length > 0) {
+          state.teacherId = response.data[0].staff_id
+        }
       })     
   },
   getDetail(state, id) {

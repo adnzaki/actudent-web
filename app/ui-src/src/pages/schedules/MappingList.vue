@@ -24,17 +24,14 @@ export default {
     MappingDay,
     MappingForm
   },
-  created() {
-    setTimeout(() => {
-      this.$store.commit('schedule/getSchedules', this.$route.params.id)
-      this.$store.commit('schedule/getLessonsList', this.$route.params.id)
-      this.$store.commit('schedule/getRooms')
-      this.$store.commit('schedule/getLessonsForSchedule', this.$route.params.id)
-    }, 500)
-  },
   setup() {
     const store = useStore()
     const route = useRoute()
+
+    store.commit('schedule/getSchedules', route.params.id)
+    store.commit('schedule/getLessonsList', route.params.id)
+    store.commit('schedule/getRooms')
+    store.commit('schedule/getLessonsForSchedule', route.params.id)
 
     return {
       

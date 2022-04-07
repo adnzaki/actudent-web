@@ -73,6 +73,10 @@ export default {
       room: '',
     }
 
+    // set default option
+    formValue.lesson = store.state.schedule.schedule.defaultLesson
+    formValue.room = store.state.schedule.schedule.defaultRoom
+
     const setLesson = model => formValue.lesson = model
     const setRoom = model => formValue.room = model
 

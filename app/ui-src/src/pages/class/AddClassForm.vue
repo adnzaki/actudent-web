@@ -61,6 +61,9 @@ export default {
     const formData = ref(formValue)
 
     const formOpen = () => {
+      // set default value
+      formData.value.teacher_id = store.state.grade.teacherId
+
       const saveStatus = computed(() => store.state.grade.saveStatus)
       if(saveStatus.value === 200) {
         formValue = {
