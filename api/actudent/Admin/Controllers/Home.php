@@ -14,21 +14,6 @@ class Home extends \Actudent
         $this->absensi = new AbsensiModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminHome.dashboard_title');
-        $todayPresence = $this->getTodayPresence();
-        $data['presence'] = $todayPresence['presence'];
-        $data['absence'] = $todayPresence['absence'];
-        $data['permit'] = $todayPresence['permit'];
-        $data['presentPercent'] = $todayPresence['presentPercent'];
-        $data['absentPercent'] = $todayPresence['absentPercent'];
-        $data['notePercent'] = $todayPresence['notePercent'];
-        
-        return parse('Actudent\Admin\Views\dashboard\home', $data);
-    }
-
     protected function getTodayPresence()
     {
         $percentage = $this->absensi->getPresencePercentage();

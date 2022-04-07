@@ -4,13 +4,6 @@ use CodeIgniter\Files\File;
 
 class Feedback extends \Actudent
 {
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminFeedback.page_title');
-        return parse('Actudent\Admin\Views\feedback\feedback-view', $data);
-    }    
-
     public function send($attachment = '')
     {
         $data = $this->formData();

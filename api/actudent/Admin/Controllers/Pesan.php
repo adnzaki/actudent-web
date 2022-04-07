@@ -13,15 +13,6 @@ class Pesan extends \Actudent
         $this->pengguna = new PenggunaModel();
     }
 
-    public function index()
-    {
-        $data = $this->common();
-        $data['title'] = lang('AdminPesan.page_title');
-        $data['userID'] = $_SESSION['id'];
-
-        return parse('Actudent\Admin\Views\pesan\pesan-view', $data);
-    }
-
     public function getMessages($chatUserID, $limit, $offset, $event)
     {
         $chat = $this->pesan->getMessages($chatUserID, 'DESC', $limit, $offset, $event);

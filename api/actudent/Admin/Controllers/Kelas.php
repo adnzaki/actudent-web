@@ -17,14 +17,6 @@ class Kelas extends \Actudent
         $this->kelas = new KelasModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminKelas.page_title');
-
-        return parse('Actudent\Admin\Views\kelas\kelas-view', $data);
-    }
-
     public function getDataKelas($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         $data = $this->kelas->getKelasQuery($limit, $offset, $orderBy, $searchBy, $sort, $search);

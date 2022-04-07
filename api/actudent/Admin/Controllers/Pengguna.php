@@ -17,14 +17,6 @@ class Pengguna extends \Actudent
         $this->user = new PenggunaModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminUser.page_title');
-
-        return parse('Actudent\Admin\Views\pengguna\pengguna-view', $data);
-    }
-
     public function getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
     {
         $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);

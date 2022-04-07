@@ -20,14 +20,6 @@ class Pegawai extends \Actudent
         $this->staff = new PegawaiModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminPegawai.page_title');
-
-        return parse('Actudent\Admin\Views\pegawai\pegawai-view', $data);
-    }
-
     public function getStaff($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
     {
         $data = $this->staff->getStaff($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);

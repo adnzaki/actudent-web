@@ -20,14 +20,6 @@ class Ortu extends \Actudent
         $this->ortu = new OrtuModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminOrtu.page_title');
-
-        return parse('Actudent\Admin\Views\ortu\ortu-view', $data);
-    }
-
     public function getParents($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         $data = $this->ortu->getParents($limit, $offset, $orderBy, $searchBy, $sort, $search);

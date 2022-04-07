@@ -19,13 +19,6 @@ class Timeline extends \Actudent
         $this->timeline = new TimelineModel;
     }
 
-    public function index()
-    {
-        $data = $this->common();
-        $data['title'] = lang('AdminTimeline.timeline_title');
-        return parse('Actudent\Admin\Views\timeline\timeline', $data);
-    }
-
     public function getPosts($limit, $offset)
     {
         $data = $this->timeline->getPosts($limit, $offset);

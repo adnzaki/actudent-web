@@ -14,14 +14,6 @@ class Agenda extends \Actudent
         $this->agenda = new AgendaModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminAgenda.agenda_title');
-
-        return parse('Actudent\Admin\Views\agenda\agenda-view', $data);
-    }
-
     public function getEvents($viewStart, $viewEnd, $sort = 'false')
     {
         if(session('email') !== null)

@@ -2,13 +2,6 @@
 
 class Setting extends \Actudent
 {
-    public function index()
-	{
-        $data = $this->common();
-        $data['title'] = lang('AdminSetting.page_title');
-        return parse('Actudent\Admin\Views\setting\setting-view', $data);
-    }
-
     public function setWarnaTema($tema)
     {
         $this->setting->setTheme($_SESSION['email'], $tema);

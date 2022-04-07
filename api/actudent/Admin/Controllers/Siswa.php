@@ -25,15 +25,6 @@ class Siswa extends \Actudent
         $this->kelas = new KelasModel;
     }
 
-    public function index()
-	{
-        $data = $this->common();
-        $data['limit'] = $this->studentLimitation();
-        $data['title'] = lang('AdminSiswa.page_title');
-
-        return parse('Actudent\Admin\Views\siswa\siswa-view', $data);
-    }
-
     public function getDataSiswa($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
     {
         $data = $this->siswa->getSiswaQuery($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);

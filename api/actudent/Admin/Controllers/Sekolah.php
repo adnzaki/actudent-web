@@ -2,13 +2,6 @@
 
 class Sekolah extends \Actudent
 {
-    public function index()
-    {
-        $data = $this->common();
-        $data['title'] = lang('Sekolah.title');
-        return parse('Actudent\Admin\Views\sekolah\sekolah-view', $data);
-    }
-
     public function schoolData()
     {
         $data = $this->common();
