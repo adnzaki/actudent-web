@@ -77,14 +77,13 @@ export default {
       ]
     }, 1500)  
 
-    const gradeId = route.params.id
     const token = $q.cookies.get(conf.cookieName)
 
     const exportPdf = () => {
-      return `${conf.reportPath}ekspor-rekap-semester.php?` +
-              `grade_id=${gradeId}&` +
-              `period=${store.state.presence.selectedPeriod.semester}&` +
-              `year=${store.state.presence.selectedPeriod.year}&token=${token}`
+      return `${conf.adminAPI}absensi/ekspor-rekap-semester/` +
+              `${route.params.id}/` +
+              `${store.state.presence.selectedPeriod.semester}/` +
+              `${store.state.presence.selectedPeriod.year}/${token}`
 
     }
 
