@@ -258,7 +258,7 @@ class Absensi extends \Actudent
             $data['period'] = 'Tahun Ajaran ' . $yearPeriod;
             $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
             $data['data']   = $this->_getPeriodSummary($gradeId, $period, $year);
-            $filename       = $title . ' ' . $yearPeriod .'_'. time();
+            $filename       = $data['title'] . '_' . $yearPeriod .'_'. time();
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-semester', $data);
             // return $html;
