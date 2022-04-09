@@ -42,7 +42,7 @@ class ActudentJWT
      * @param string $token
      * @param string $alg
      * 
-     * @return string
+     * @return object
      */
     public function decode($token, $alg = 'HS256')
     {

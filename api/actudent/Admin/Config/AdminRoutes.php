@@ -97,7 +97,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/ekspor-absen/(:any)/(:any)/(:any)', 'Absensi::exportPresence/$1/$2/$3');
 	$routes->add('absensi/rekap-bulanan/(:any)/(:any)/(:any)', 'Absensi::getMonthlySummary/$1/$2/$3');
 	$routes->add('absensi/rekap-semester/(:any)/(:any)/(:any)', 'Absensi::getPeriodSummary/$1/$2/$3');
-	$routes->add('absensi/ekspor-rekap-bulanan/(:any)/(:any)/(:any)', 'Absensi::exportMonthlySummary/$1/$2/$3');
+	$routes->add('absensi/ekspor-rekap-bulanan/(:any)/(:any)/(:any)/(:any)', 'Absensi::exportMonthlySummary/$1/$2/$3/$4');
 	$routes->add('absensi/excel-rekap-bulanan/(:any)/(:any)/(:any)/(:any)', 'Absensi::excelMonthlySummary/$1/$2/$3/$4');
 	$routes->add('absensi/ekspor-rekap-semester/(:any)/(:any)/(:any)', 'Absensi::exportPeriodSummary/$1/$2/$3');
 	$routes->add('agenda', 'Agenda::index');
