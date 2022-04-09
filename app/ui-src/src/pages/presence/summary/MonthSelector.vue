@@ -109,10 +109,10 @@ export default {
     }
 
     const exportPdf = () => {
-      return `${conf.reportPath}ekspor-rekap-bulanan.php?` +
-              `month=${store.state.presence.selectedPeriod.month}&` +
-              `year=${store.state.presence.selectedPeriod.year}&` +
-              `grade_id=${gradeId}&token=${token}`
+      return `${conf.adminAPI}absensi/ekspor-rekap-bulanan/` +
+              `${store.state.presence.selectedPeriod.month}/` +
+              `${store.state.presence.selectedPeriod.year}/` +
+              `${gradeId}/${token}`
 
     }
 

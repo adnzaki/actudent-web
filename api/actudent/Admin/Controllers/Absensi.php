@@ -222,11 +222,11 @@ class Absensi extends \Actudent
         }
     }
 
-    public function exportMonthlySummary($month, $year, $gradeId)
+    public function exportMonthlySummary($month, $year, $gradeId, $token)
     {
-        if(is_admin()) {
-            $data = $this->common();        
-            foreach($this->resources->getReportData() as $key => $val) {
+        if(valid_token($token)) {
+            $data = [];     
+            foreach($this->resources->getReportData($token) as $key => $val) {
                 $data[$key] = $val;
             }
     
