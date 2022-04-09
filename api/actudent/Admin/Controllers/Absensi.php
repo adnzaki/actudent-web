@@ -251,14 +251,14 @@ class Absensi extends \Actudent
             }
 
             $semester = 1 ? 'Ganjil' : 'Genap';
-            $yearPeriod = $year . '/' . ($year + 1);
+            $yearPeriod = $year . '-' . ($year + 1);
     
             $title          = 'Rekapitulasi Absensi Semester ' . $semester;
             $data['title']  = $title;
             $data['period'] = 'Tahun Ajaran ' . $yearPeriod;
             $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
             $data['data']   = $this->_getPeriodSummary($gradeId, $period, $year);
-            $filename       = $data['title'] . '_' . $yearPeriod .'_'. time();
+            $filename       = $title . '_' . $yearPeriod . '_'. time();
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-semester', $data);
             // return $html;
