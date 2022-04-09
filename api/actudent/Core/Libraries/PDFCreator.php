@@ -2,9 +2,8 @@
 
 use Dompdf\Dompdf;
 use Dompdf\Options;
-use CodeIgniter\Controller;
 
-class PDFCreator extends Controller
+class PDFCreator
 {
     public function create($html, $filename = '', $stream = true, $paper = 'A4', $orientation = 'portrait')
     {
@@ -17,13 +16,13 @@ class PDFCreator extends Controller
         $dompdf->render();
         if($stream) 
         {
-            $dompdf->stream($filename.".pdf", array("Attachment" => 0));
+            $dompdf->stream($filename, array("Attachment" => 1));
         }
         else 
         {
             return $dompdf->output();
         }
-
-        $this->response->setContentType('application/pdf');
+        
+        header('Content-type: application/pdf');
     }
 }
