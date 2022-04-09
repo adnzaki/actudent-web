@@ -312,7 +312,7 @@ if ( ! function_exists('jwt_decode'))
      * @param string $token
      * @param string $alg
      * 
-     * @return string
+     * @return object
      */
     function jwt_decode($token, $alg = 'HS256')
     {

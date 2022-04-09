@@ -135,7 +135,6 @@ class Actudent extends \CodeIgniter\Controller
      */
     protected function common()
     {
-        $pengguna = $this->getDataPengguna();        
         $data = [
             'base_url'              => base_url(),
             'assets'                => base_url() . '/assets/',
@@ -254,29 +253,16 @@ class Actudent extends \CodeIgniter\Controller
     }
 
     /**
-     * Get school data from SekolahModel
-     * 
-     * @param int $schoolID
-     * @return object
-     */
-    protected function getDataSekolah()
-    {
-        if(isset($_SESSION['email']))
-        {
-            return $this->sekolah->getDataSekolah()[0];
-        }        
-    }
-
-    /**
      * Get user's data who has been logged in
      * 
      * @return void
      */
-    protected function getDataPengguna()
+    protected function getDataPengguna($token = '')
     {
-        if(valid_token())
+        if(valid_token($token))
         {
-            $decodedToken = jwt_decode(bearer_token());
+            $inputToken = empty($token) ? bearer_token() : $token;
+            $decodedToken = jwt_decode($inputToken);
             return $this->auth->getDataPengguna($decodedToken->email);
         }
     }

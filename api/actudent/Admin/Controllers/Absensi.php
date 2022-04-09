@@ -222,11 +222,11 @@ class Absensi extends \Actudent
         }
     }
 
-    public function exportMonthlySummary($month, $year, $gradeId)
+    public function exportMonthlySummary($month, $year, $gradeId, $token)
     {
-        if(is_admin()) {
-            $data = $this->common();        
-            foreach($this->resources->getReportData() as $key => $val) {
+        if(valid_token($token)) {
+            $data = [];     
+            foreach($this->resources->getReportData($token) as $key => $val) {
                 $data[$key] = $val;
             }
     
@@ -242,23 +242,23 @@ class Absensi extends \Actudent
         }
     }
 
-    public function exportPeriodSummary($gradeId, $period, $year)
+    public function exportPeriodSummary($gradeId, $period, $year, $token)
     {
-        if(is_admin()) {
-            $data = $this->common();        
-            foreach($this->resources->getReportData() as $key => $val) {
+        if(valid_token($token)) {
+            $data = [];        
+            foreach($this->resources->getReportData($token) as $key => $val) {
                 $data[$key] = $val;
             }
 
             $semester = 1 ? 'Ganjil' : 'Genap';
-            $yearPeriod = $year . '/' . ($year + 1);
+            $yearPeriod = $year . '-' . ($year + 1);
     
             $title          = 'Rekapitulasi Absensi Semester ' . $semester;
             $data['title']  = $title;
             $data['period'] = 'Tahun Ajaran ' . $yearPeriod;
             $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
             $data['data']   = $this->_getPeriodSummary($gradeId, $period, $year);
-            $filename       = $title . ' ' . $yearPeriod .'_'. time();
+            $filename       = $title . '_' . $yearPeriod . '_'. time();
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-semester', $data);
             // return $html;
