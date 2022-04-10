@@ -32,7 +32,7 @@
         :width="menuWidth()"
         :breakpoint="400"
     >
-      <admin-menu />
+      <app-menu />
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
@@ -58,7 +58,7 @@ import { baseUrl } from '../../globalConfig'
 import { conf } from '../composables/common'
 import ToggleMode from 'components/ToggleMode.vue'
 import { headerColor } from '../composables/mode'
-import AdminMenu from './AdminMenu.vue'
+import AppMenu from './AppMenu.vue'
 import { pengguna, getPengguna } from '../composables/common'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 import { menuWidth } from '../composables/screen'
@@ -87,7 +87,7 @@ export default defineComponent({
     }, 1000);
   },
   components: {
-    ToggleMode, AdminMenu,
+    ToggleMode, AppMenu,
     SubscriptionWarning
   },
   methods: {

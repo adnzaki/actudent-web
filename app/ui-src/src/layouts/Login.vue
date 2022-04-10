@@ -160,10 +160,7 @@ export default {
                   if(res.level === '1') {
                     window.location.href = conf.homeUrl()
                   } else if(res.level === '2') {
-                    msg.value = `Oops, kami mendeteksi bahwa akun anda adalah akun guru
-                                 dan kami belum dapat menampilkan halaman yang anda minta.`
-                    msgClass.value = 'info'
-                    setTimeout(hideMsg, 10000)
+                    window.location.href = conf.teacherHomeUrl()
                   }
                 } else {
                   msgClass.value = 'negative'
