@@ -93,8 +93,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/izin', 'Absensi::validateMark');
 	$routes->add('absensi/salin-jurnal/(:any)/(:any)', 'Absensi::copyJournal/$1/$2');
 	$routes->add('absensi/arsip-jurnal/(:any)/(:any)', 'Absensi::getJournalArchives/$1/$2');
-	$routes->add('absensi/ekspor-jurnal/(:any)/(:any)/(:any)', 'Absensi::exportJournal/$1/$2/$3');
-	$routes->add('absensi/ekspor-absen/(:any)/(:any)/(:any)', 'Absensi::exportPresence/$1/$2/$3');
+	$routes->add('absensi/ekspor-jurnal/(:any)/(:any)/(:any)/(:any)', 'Absensi::exportJournal/$1/$2/$3/$4');
+	$routes->add('absensi/ekspor-absen/(:any)/(:any)/(:any)/(:any)', 'Absensi::exportPresence/$1/$2/$3/$4');
 	$routes->add('absensi/rekap-bulanan/(:any)/(:any)/(:any)', 'Absensi::getMonthlySummary/$1/$2/$3');
 	$routes->add('absensi/rekap-semester/(:any)/(:any)/(:any)', 'Absensi::getPeriodSummary/$1/$2/$3');
 	$routes->add('absensi/ekspor-rekap-bulanan/(:any)/(:any)/(:any)/(:any)', 'Absensi::exportMonthlySummary/$1/$2/$3/$4');

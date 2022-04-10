@@ -6,7 +6,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\SchedulePresenceModel;
-use Config\Mimes;
+use PDFCreator;
 
 class Absensi extends \Actudent
 {
@@ -238,7 +238,7 @@ class Absensi extends \Actudent
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-bulanan', $data);
             // return $html;
-            $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait'); 
+            PDFCreator::create($html, $filename); 
         }
     }
 
@@ -262,7 +262,7 @@ class Absensi extends \Actudent
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-semester', $data);
             // return $html;
-            $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait'); 
+            PDFCreator::create($html, $filename); 
         }
     }
 
@@ -455,12 +455,12 @@ class Absensi extends \Actudent
         return $presenceData;
     }
 
-    public function exportPresence($gradeID, $day, $date)
+    public function exportPresence($gradeID, $day, $date, $token)
     {
-        if(is_admin()) {
-            $data       = $this->common();
+        if(valid_token($token)) {
+            $data = [];
             
-            foreach($this->resources->getReportData() as $key => $val) {
+            foreach($this->resources->getReportData($token) as $key => $val) {
                 $data[$key] = $val;
             }
 
@@ -514,16 +514,16 @@ class Absensi extends \Actudent
             $html       = view('Actudent\Admin\Views\absensi\ekspor-absen', $data);
             $filename   = 'Laporan Absen '. $data['grade']->grade_name . ' ' . $date .'_'. time();
     
-            $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');
+            PDFCreator::create($html, $filename);
         }
     }
 
-    public function exportJournal($gradeID, $day, $date)
+    public function exportJournal($gradeID, $day, $date, $token)
     {
-        if(is_admin()) {
-            $data       = $this->common();
+        if(valid_token($token)) {
+            $data = [];
             
-            foreach($this->resources->getReportData() as $key => $val) {
+            foreach($this->resources->getReportData($token) as $key => $val) {
                 $data[$key] = $val;
             }
     
@@ -555,7 +555,7 @@ class Absensi extends \Actudent
             $filename               = 'Laporan Jurnal '. $data['grade']->grade_name . ' ' .$date .'_'. time();
     
             // return $html;
-            $this->pdfCreator->create($html, $filename, true, 'A4', 'portrait');            
+            PDFCreator::create($html, $filename);            
         }
     }
 

@@ -36,6 +36,7 @@
 					<th class="force-left" colspan="2">Catatan Kehadiran</th>
 				</tr>
 			</thead>
+			<?php if(count($journals) > 0): ?>
 			<tbody>				
 				<?php $no = 1; foreach($journals as $key => $val): ?>
 				<tr>
@@ -62,6 +63,7 @@
 				<?php $no++; endforeach; ?>
 				
 			</tbody>
+			<?php endif; ?>
 		</table>
 	</div>
 	<?= view_cell('\Actudent::masterSign') ?>

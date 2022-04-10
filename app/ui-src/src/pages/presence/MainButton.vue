@@ -93,7 +93,9 @@ export default {
         token: $q.cookies.get(conf.cookieName)
       }
 
-      return `${conf.reportPath}ekspor-${type}.php?${createQueryString(params)}`
+      const { grade_id, day, date, token } = params
+
+      return `${conf.adminAPI}absensi/ekspor-${type}/${grade_id}/${day}/${date}/${token}`
     }
 
     const backToClassList = () => {

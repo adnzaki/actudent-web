@@ -5,7 +5,7 @@ use Dompdf\Options;
 
 class PDFCreator
 {
-    public function create($html, $filename = '', $stream = true, $paper = 'A4', $orientation = 'portrait')
+    public static function create($html, $filename = '', $stream = true, $paper = 'A4', $orientation = 'portrait')
     {
         $options = new Options();
         $options->setIsHtml5ParserEnabled(true);
