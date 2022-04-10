@@ -55,6 +55,7 @@ return [
     'bersihkan'         => 'Clear',
     'hasil_cari'        => 'Search result for',
     'pilih_data_dulu'   => 'Please choose data to be removed',
+    'pilih_data'        => 'Please choose data first',
     'konfirmasi'        => 'Confirm',
     'progress_hapus'    => 'Deleting data...',
     'no_search_result'  => 'No results found for',

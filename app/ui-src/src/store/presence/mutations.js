@@ -19,7 +19,7 @@ export default {
     if(state.studentPresence.length > 0) {
       callback()
     } else {
-      flashAlert(t('pilih_data_dulu'), 'negative')
+      flashAlert(t('pilih_data'), 'negative')
     }
   },
   selectAll(state) {
