@@ -27,6 +27,11 @@ export const appConfig = {
       ? 'http://localhost:8080/#/'
       : `${uiPath()}app`
   },
+  teacherHomeUrl: () => {
+    return (mode === 'development')
+      ? 'http://localhost:8080/#/teacher/home'
+      : `${uiPath()}app/teacher`
+  },
   loginUrl: () => {
     return (mode === 'development')
       ? 'http://localhost:8080/#/login'

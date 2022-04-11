@@ -79,8 +79,8 @@ export default defineComponent({
     setTimeout(() => {
       setTimeout(() => {
         this.otherActions = [
-          { link: '', icon: 'manage_accounts', label: this.$t('navbar_profil'), action: () => {} },
-          { link: '', icon: 'school', label: this.$t('navbar_sekolah'), action: () => {} },
+          { link: '', icon: 'o_manage_accounts', label: this.$t('navbar_profil'), action: () => {} },
+          { link: '', icon: 'o_school', label: this.$t('navbar_sekolah'), action: () => {} },
           { link: '', icon: 'logout', label: this.$t('navbar_keluar'), action: () => this.logout() },
         ]
       }, 1000);
