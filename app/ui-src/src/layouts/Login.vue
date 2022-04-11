@@ -2,7 +2,7 @@
   <q-layout view="hHh lpR fFf">
 
     <q-page-container :class="['bg-login', styleSelector('bgImage')]">
-      <q-page-sticky position="top-right" :offset="[40, 18]">
+      <q-page-sticky position="top-right" style="z-index: 999;" :offset="langBtnPos()">
         <q-btn-group>
           <q-btn :color="getBtnClass('indonesia')" @click="switchLanguage('indonesia')" label="ID" />
           <q-btn :color="getBtnClass('english')" @click="switchLanguage('english')" label="EN" />
@@ -79,6 +79,9 @@ export default {
           rememberMe = ref(false)
     
     return {
+      langBtnPos() {
+        return $q.screen.lt.sm ? [-2, -2] : [40, 18]
+      },
       styleSelector(style) {
         const styles = {
           light: {
