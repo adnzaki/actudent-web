@@ -3,7 +3,7 @@
 use Actudent\Guru\Models\MainModel;
 use Actudent\Admin\Models\JadwalModel;
 
-class SchedulePresenceModel extends MainModel
+class JadwalKehadiranModel extends MainModel
 {
     /**
      * @var Actudent\Admin\Models\JadwalModel
@@ -37,12 +37,13 @@ class SchedulePresenceModel extends MainModel
      * Get teacher schedules
      * 
      * @param string $day
+     * @param string $teacherId
      * 
      * @return array
      */
-    public function getTeacherSchedules($day): array
+    public function getTeacherSchedules(string $day, string $teacherId): array
     {
-        $teacher = $this->getTeacherByUserID($_SESSION['id']);
+        $teacher = $this->getTeacherByUserID($teacherId);
         $tbKelas = $this->jadwalModel->kelas->kelas;
         $tbRuang = $this->jadwalModel->ruangan->ruang;
 

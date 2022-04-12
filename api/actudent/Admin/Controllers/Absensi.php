@@ -5,7 +5,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
-use Actudent\Guru\Models\SchedulePresenceModel;
+use Actudent\Guru\Models\JadwalKehadiranModel;
 use PDFCreator;
 
 class Absensi extends \Actudent
@@ -21,7 +21,7 @@ class Absensi extends \Actudent
     private $jadwal;
 
     /**
-     * @var \Actudent\Guru\Models\SchedulePresenceModel
+     * @var \Actudent\Guru\Models\JadwalKehadiranModel
      */
     protected $jadwalHadir;
 
@@ -39,7 +39,7 @@ class Absensi extends \Actudent
     {
         $this->absensi = new AbsensiModel;
         $this->jadwal = new JadwalModel;
-        $this->jadwalHadir = new SchedulePresenceModel;
+        $this->jadwalHadir = new JadwalKehadiranModel;
         $this->pdfCreator = new \PDFCreator;
     }
 

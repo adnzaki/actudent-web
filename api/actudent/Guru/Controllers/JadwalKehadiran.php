@@ -1,18 +1,12 @@
 <?php namespace Actudent\Guru\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Admin\Controllers\Jadwal;
 
-class SchedulePresence extends \Actudent\Admin\Controllers\Absensi
+class JadwalKehadiran extends \Actudent\Admin\Controllers\Absensi
 {
-    public function page()
-	{
-        $data = $this->common();
-        $data['title'] = lang('GuruAbsensi.page_title');
-        $data['isHomeroom'] = $this->jadwalHadir->isHomeroomTeacher($_SESSION['id']);
-
-        return parse('Actudent\Guru\Views\JadwalKehadiran\main-view', $data);
-    }
-
     public function getTeacherSchedules($day)
     {
         $days = [
@@ -20,7 +14,9 @@ class SchedulePresence extends \Actudent\Admin\Controllers\Absensi
             'rabu', 'kamis', 'jumat', 'sabtu'
         ];
 
-        $schedules = $this->jadwalHadir->getTeacherSchedules($days[$day]);
+        $decodedToken = jwt_decode(bearer_token());
+
+        $schedules = $this->jadwalHadir->getTeacherSchedules($days[$day], $decodedToken->id);
 
         // create Jadwal object
         $jadwal = new Jadwal();
@@ -35,6 +31,6 @@ class SchedulePresence extends \Actudent\Admin\Controllers\Absensi
         $time = array_column($schedules, 'schedule_decimal');
         array_multisort($time, SORT_ASC, $schedules);
 
-        return $this->response->setJSON($schedules);
+        return $this->createResponse($schedules, 'is_teacher');
     }
 }

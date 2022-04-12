@@ -2,6 +2,6 @@
 
 return [
     // teks halaman absensi
-    'page_title'                    => 'Jadwal dan Kehadiran',
-    'absensi_isi_jurnal'            => 'Isi Jurnal dan Kehadiran',
+    'guru_absensi_page_title'       => 'Jadwal dan Kehadiran',
+    'guru_absensi_isi_jurnal'       => 'Isi Jurnal dan Kehadiran',
 ];

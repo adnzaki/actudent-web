@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import Updates from '../home/Updates.vue'
-import Welcome from '../home/Welcome.vue'
+import Updates from 'pages/home/Updates.vue'
+import Welcome from 'pages/home/Welcome.vue'
 export default {
   name: 'TeacherIndex',
   components: {
