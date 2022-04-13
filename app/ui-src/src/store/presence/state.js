@@ -43,5 +43,8 @@ export default function () {
     showPeriodTable: false,
     showSpinner: false,
     showNoData: false,
+    teacherSchedules: [],
+    showScheduleDetail: false,
+    scheduleDetail: {},
   }
 }

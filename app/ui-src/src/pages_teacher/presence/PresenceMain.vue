@@ -10,7 +10,6 @@ import { wrapperPadding } from 'src/composables/screen'
 export default {
   name: 'PresenceMain',
   setup() {
-    console.log('Page loaded')
     return { 
       wrapperPadding 
     }

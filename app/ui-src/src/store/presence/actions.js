@@ -4,9 +4,7 @@ import {
   bearerToken,
   axios,
   timeout,
-  errorNotif,
   createFormData,
-  pengguna,
   t
 } from '../../composables/common'
 
@@ -15,6 +13,14 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getTeacherSchedules({ state, getters }) {
+    axios.get(`${getters.presenceApi}daftar-jadwal/${state.helper.activeDay}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(response => {
+        state.teacherSchedules = response.data
+      })
+  },
   getPeriodSummary({ state, getters }) {
     const period = `${state.selectedPeriod.semester}/${state.selectedPeriod.year}`
     state.showSpinner = true

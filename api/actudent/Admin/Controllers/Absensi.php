@@ -30,7 +30,7 @@ class Absensi extends \Actudent
      */
     private $pdfCreator;
 
-    private $days = [
+    protected $days = [
         'minggu', 'senin', 'selasa',
         'rabu', 'kamis', 'jumat', 'sabtu'
     ];
