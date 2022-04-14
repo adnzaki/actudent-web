@@ -1,38 +1,30 @@
 const indonesia = [
   {
-    key: '[Peningkatan] Komponen Dropdown',
-    desc: `Komponen pencarian dropdown kini menggunakan metode asynchronous yang lebih cepat minim bug`
+    key: '[Baru] Jadwal dan Pelajaran untuk Guru',
+    desc: 'Menambahkan akses guru disertai fitur jadwal mengajar dan kehadiran siswa'
   },
   {
-    key: '[Peningkatan] Tabel rekapitulasi bulanan',
-    desc: 'Tampilan tabel rekapitulasi absen bulanan kini telah disesuaikan untuk pengguna mobile'
+    key: '[Perbaikan] Bug pada cetak/download PDF',
+    desc: 'Memperbaiki masalah pada saat mencetak/download laporan PDF'
   },
   {
-    key: '[Perbaikan] Bug hak ases pengguna (Admin atau Guru)',
-    desc: 'Memperbaiki bug gagal memuat jadwal pelajaran pada kehadiran siswa'
-  },
-  {
-    key: '[Perbaikan] Bug komponen dropdown',
-    desc: `Memperbaiki tidak adanya nilai default komponen dropdown saat memasuki halaman baru`
+    key: '[Perbaikan] Bug pada komponen dropdown',
+    desc: 'Memperbaiki bug gagal memuat opsi default dropdown pada form edit'
   }
 ]
 
 const english = [
   {
-    key: '[Improvement] Dropdown Component',
-    desc: `Dropdown search now uses asynchronous method that faster and less buggy`
+    key: '[New] Schedule and Presence for teacher',
+    desc: 'Added teacher access along with student presence and teaching schedules'
   },
   {
-    key: '[Improvement] Monthly summary table',
-    desc: 'Monthly summary table now has been suited for mobile users'
+    key: '[Fix] Bug on PDF print/download',
+    desc: 'Fixed a bug when printing or downloading PDF report'
   },
   {
-    key: '[Fix] User access privilage bug (Admin or Teacher)',
-    desc: 'Fixed bug unable to load schedules on student presence'
-  },
-  {
-    key: '[Fix] Dropdown component bug',
-    desc: 'Fixed missing dropdown component default selected value when entering a new page'
+    key: '[Fix] Bug on dropdown component',
+    desc: 'Fixed bug failed to load dropdown default option on edit form'
   }
 ]
 

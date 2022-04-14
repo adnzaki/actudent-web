@@ -1,4 +1,22 @@
 export default {
+  'ac.v2.0033': [
+    {
+      key: '[Peningkatan] Komponen Dropdown',
+      desc: `Komponen pencarian dropdown kini menggunakan metode asynchronous yang lebih cepat minim bug`
+    },
+    {
+      key: '[Peningkatan] Tabel rekapitulasi bulanan',
+      desc: 'Tampilan tabel rekapitulasi absen bulanan kini telah disesuaikan untuk pengguna mobile'
+    },
+    {
+      key: '[Perbaikan] Bug hak ases pengguna (Admin atau Guru)',
+      desc: 'Memperbaiki bug gagal memuat jadwal pelajaran pada kehadiran siswa'
+    },
+    {
+      key: '[Perbaikan] Bug komponen dropdown',
+      desc: `Memperbaiki tidak adanya nilai default komponen dropdown saat memasuki halaman baru`
+    }
+  ],
   'ac.v2.0030': [
     {
       key: '[Perbaikan] Perbaikan bug tidak bisa login di browser berbasis Chromium',

@@ -1,4 +1,22 @@
 export default {
+  'ac.v2.0033': [
+    {
+      key: '[Improvement] Dropdown Component',
+      desc: `Dropdown search now uses asynchronous method that faster and less buggy`
+    },
+    {
+      key: '[Improvement] Monthly summary table',
+      desc: 'Monthly summary table now has been suited for mobile users'
+    },
+    {
+      key: '[Fix] User access privilage bug (Admin or Teacher)',
+      desc: 'Fixed bug unable to load schedules on student presence'
+    },
+    {
+      key: '[Fix] Dropdown component bug',
+      desc: 'Fixed missing dropdown component default selected value when entering a new page'
+    }
+  ],
   'ac.v2.0030': [
     {
       key: '[Fix] Fix bug unable to login in Chromium-based browser',
