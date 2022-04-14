@@ -155,12 +155,14 @@ export default {
       })
   },
   getDetailLesson(state, id) {
-    state.lesson.showEditForm = true
     admin.get(`${state.scheduleApi}detail-mapel/${id}`, {
       headers: { Authorization: bearerToken },
     })
       .then(response => {
         state.lesson.detail = response.data
+        setTimeout(() => {
+          state.lesson.showEditForm = true
+        }, 500)
       })
   },
   getLessonOptions(state, grade) {

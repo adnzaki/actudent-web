@@ -34,7 +34,9 @@ export default {
         const res = response.data
         state.detail = res
         state.classMember.name = res.grade_name
-        state.showEditForm = true
+        setTimeout(() => {
+          state.showEditForm = true
+        }, 500) 
       })
   },
   closeDeleteConfirm(state) {

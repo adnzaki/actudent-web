@@ -72,8 +72,7 @@ export default {
       }
     }
 
-    model.value = modelValue      
-
+    model.value = modelValue 
     stringOptions.value = [modelValue]
 
     const getList = async () => {
@@ -85,7 +84,7 @@ export default {
         }  
       }
 
-      return new Promise((resolve, reject) => setTimeout(resolve, 100))
+      return new Promise((resolve, reject) => setTimeout(resolve, 500))
     }
 
     getList().then(async () => {
@@ -99,7 +98,9 @@ export default {
           })
         }) 
 
-        model.value = stringOptions.value[0]
+        if(props.default === undefined) {
+          model.value = stringOptions.value[0]
+        }
       }
 
       await pushOptions()      
