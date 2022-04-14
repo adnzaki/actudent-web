@@ -70,6 +70,7 @@ export default {
     if(teacherSection.value) {
       store.state.presence.scheduleID = route.params.scheduleId
       store.state.presence.helper.activeDate = route.params.activeDate
+      store.state.presence.helper.activeDay = localStorage.getItem('date')
       store.dispatch('presence/checkJournal')
     }
 

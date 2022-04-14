@@ -68,6 +68,7 @@ import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { mapState, useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
+import { computed } from 'vue'
 import { conf, createQueryString } from 'src/composables/common'
 
 export default {
@@ -85,11 +86,14 @@ export default {
     const router = useRouter()
     const route = useRoute()
     const store = useStore()
+    const isTeacherSection = computed(() => store.state.presence.isTeacherSection)
 
     const exportReportUrl = type => { // type = "jurnal" | "absen"
       const params = {
-        grade_id: route.params.id,
-        day: store.state.presence.helper.activeDay,
+        grade_id: isTeacherSection.value ? route.params.classId : route.params.id,
+        day: store.state.presence.helper.activeDay === '' 
+             ? localStorage.getItem('date') 
+             : store.state.presence.helper.activeDay,
         date: store.state.presence.helper.activeDate,
         token: $q.cookies.get(conf.cookieName)
       }

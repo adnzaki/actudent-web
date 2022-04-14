@@ -66,10 +66,11 @@ export default {
         const activeDate = computed(() => store.state.presence.helper.activeDate)
         store.state.presence.className = detail.grade_name
         store.state.presence.lessonName = detail.lesson_name
-        store.state.presence.dateStr = date.formatDate(activeDate.value, 'dddd, DD MMMM YYYY')
         store.state.presence.scheduleID = detail.schedule_id
 
         // store lesson name to localStorage, it is safe
+        const date = new Date(activeDate.value)
+        localStorage.setItem('date', date.getDay())
         localStorage.setItem('class', detail.grade_name)
         localStorage.setItem('lesson', detail.lesson_name)
 
