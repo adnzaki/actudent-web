@@ -30,7 +30,7 @@ export const appConfig = {
   teacherHomeUrl: () => {
     return (mode === 'development')
       ? 'http://localhost:8080/#/teacher/home'
-      : `${uiPath()}app/teacher`
+      : `${uiPath()}app/#/teacher/home`
   },
   loginUrl: () => {
     return (mode === 'development')
