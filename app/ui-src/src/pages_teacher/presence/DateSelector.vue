@@ -33,13 +33,16 @@ export default {
     const dateValue = ref(today)
     const selectedDate = ref(date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang))
     const getDay = today.getDay()
+    const activeDate = val => date.formatDate(val, 'YYYY-MM-DD')
 
     store.state.presence.helper.activeDay = getDay
+    store.state.presence.helper.activeDate = activeDate(today)
 
     const dateChanged = (val, reason, details) => {
       const getDate = new Date(details.year, details.month - 1, details.day)
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
       store.state.presence.helper.activeDay = getDate.getDay()
+      store.state.presence.helper.activeDate = activeDate(getDate)
 
       store.dispatch('presence/getTeacherSchedules')
     }

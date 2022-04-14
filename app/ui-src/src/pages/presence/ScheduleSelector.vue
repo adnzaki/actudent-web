@@ -1,7 +1,7 @@
 <template>
   <div></div>
   <div class="col-12 col-sm-6 q-mt-md q-pr-sm" 
-    v-if="!$store.state.presence.isTeacherSection">
+    >
     <q-input v-model="selectedDate" outlined dense readonly>
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
@@ -17,7 +17,7 @@
     </q-input>   
   </div>
   <div class="col-12 col-sm-6 q-mt-sm q-pr-sm"
-    v-if="!$store.state.presence.isTeacherSection">
+    >
     <dropdown-search 
       vuex-module="presence"
       :selected="getPresence"
@@ -52,11 +52,9 @@ export default {
     store.state.presence.helper.activeDate = activeDate(today)
     store.dispatch('presence/getSchedules', route.params.id)
 
-
     const dateChanged = (val, reason, details) => {
       const getDate = new Date(details.year, details.month - 1, details.day)
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
-      activeDate.value = date.formatDate(getDate, 'YYYY-MM-DD')
       store.state.presence.helper.activeDay = getDate.getDay()
       store.state.presence.helper.activeDate = activeDate(getDate)
 

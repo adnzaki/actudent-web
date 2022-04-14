@@ -26,7 +26,8 @@
             <td class="text-center mobile-hide">{{ item.duration }} JP</td>
             <td class="text-left mobile-hide">{{ item.schedule_start }} - {{ item.schedule_end }}</td>
             <td class="text-left">
-              <q-btn color="accent" :round="round" icon="fact_check">
+              <q-btn color="accent" :round="round" icon="fact_check"
+                @click="goToPresenceFilling(item)">
                 <btn-tooltip :label="$t('absensi_isi_kehadiran')" />
               </q-btn>
             </td>
@@ -43,8 +44,9 @@
 import { useRouter } from 'vue-router'
 import { useStore, mapState } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
-import { useQuasar } from 'quasar'
+import { date, useQuasar } from 'quasar'
 import ScheduleDetail from './ScheduleDetail.vue'
+import { computed } from '@vue/runtime-core'
 
 export default {
   name: 'ScheduleItems',
@@ -60,6 +62,19 @@ export default {
     const $q = useQuasar()
 
     return {
+      goToPresenceFilling(detail) {
+        const activeDate = computed(() => store.state.presence.helper.activeDate)
+        store.state.presence.className = detail.grade_name
+        store.state.presence.lessonName = detail.lesson_name
+        store.state.presence.dateStr = date.formatDate(activeDate.value, 'dddd, DD MMMM YYYY')
+        store.state.presence.scheduleID = detail.schedule_id
+
+        // store lesson name to localStorage, it is safe
+        localStorage.setItem('class', detail.grade_name)
+        localStorage.setItem('lesson', detail.lesson_name)
+
+        router.push(`presence/fill/${detail.schedule_id}/${detail.grade_id}/${activeDate.value}`)
+      },
       showDetail(detail) {
         store.state.presence.showScheduleDetail = true
 

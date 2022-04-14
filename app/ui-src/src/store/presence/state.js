@@ -22,6 +22,8 @@ export default function () {
     }, 
     current: 1,
     className: '',
+    lessonName: '',
+    dateStr: '',
     classID: '',
     day: '', scheduleLength: 0,
     schedule: [], // schedule list
@@ -46,5 +48,6 @@ export default function () {
     teacherSchedules: [],
     showScheduleDetail: false,
     scheduleDetail: {},
+    isTeacherSection: false, // determine the app is in teacher section or not (admin)
   }
 }

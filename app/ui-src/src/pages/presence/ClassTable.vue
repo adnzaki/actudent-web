@@ -82,6 +82,7 @@ export default {
 
     const presenceAction = (id, name, url) => {
       store.state.presence.className = name
+      localStorage.setItem('class', name)
       router.push(`/presence/${url}/${id}`)
     }
 

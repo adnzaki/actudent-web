@@ -5,7 +5,7 @@ import {
   axios,
   timeout,
   createFormData,
-  t
+  t,
 } from '../../composables/common'
 
 import { date } from 'quasar'
@@ -215,7 +215,7 @@ export default {
         const data = response.data
 
         if(data.status === 'true') {
-          presenceUrl = `${baseUrl}${data.id}/${date}`
+          presenceUrl = `${baseUrl}${data.id}/${state.helper.activeDate}`
           state.presenceButtons = true
         } else {
           state.presenceButtons = false

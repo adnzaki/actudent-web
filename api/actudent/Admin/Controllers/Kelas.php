@@ -29,7 +29,7 @@ class Kelas extends \Actudent
 
     public function getClassDetail($id)
     {
-        return $this->createResponse($this->kelas->getClassDetail($id), 'is_admin');
+        return $this->createResponse($this->kelas->getClassDetail($id));
     }
 
     public function addMember()

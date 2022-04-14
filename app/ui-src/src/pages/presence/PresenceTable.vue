@@ -1,6 +1,6 @@
 <template>
-  <div class="q-mt-lg">
-    <q-scroll-area class="table-scroll-area">
+  <div :class="btnAndTableDistance">
+    <q-scroll-area :class="scrollArea">
       <q-markup-table bordered>
         <thead>
           <tr>
@@ -74,6 +74,8 @@ export default {
     }
 
     return {
+      btnAndTableDistance: store.state.presence.isTeacherSection ? 'q-mt-sm' : 'q-mt-lg',
+      scrollArea: store.state.presence.isTeacherSection ? 'no-paging-scroll-area' : 'table-scroll-area',
       checkColWidth,
       selectAll,
       presenceList: computed(() => store.state.presence.presenceList),

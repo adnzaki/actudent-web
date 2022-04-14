@@ -8,6 +8,9 @@ import { runLoadingBar } from './loading-bar'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { pengguna, getPengguna } from './get-pengguna'
 
+const apiEndpoint = Cookies.get(conf.userType) === '1'
+                  ? conf.adminAPI : conf.teacherAPI
+
 const t = key => i18n.global.t(key)
 
 const createQueryString = params => {
@@ -39,6 +42,7 @@ function createFormData(obj) {
 }
 
 export {
+  apiEndpoint,
   Cookies,
   ref,
   axios, core, admin, teacher,

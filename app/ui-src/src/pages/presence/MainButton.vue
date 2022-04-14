@@ -3,7 +3,7 @@
     <div class="q-gutter-xs">
       <q-btn color="deep-purple" icon="assessment" 
         class="q-pl-sm mobile-hide" :label="$t('absensi_jurnal')"
-        v-if="showJournalBtn"
+        v-if="showJournalBtn || isTeacherSection"
         @click="showJournalForm"
       />
       <q-btn-dropdown v-if="presenceButtons" color="info" icon="bookmark_add" class="q-pl-sm" :label="$t('aksi')">
@@ -76,6 +76,7 @@ export default {
     ...mapState('presence', {
       presenceButtons: state => state.presenceButtons,
       showJournalBtn: state => state.showJournalBtn,
+      isTeacherSection: state => state.isTeacherSection
     })
   },
   setup() {
