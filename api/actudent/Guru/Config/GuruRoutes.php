@@ -24,7 +24,7 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('absensi/save/(:any)/(:any)/(:any)', 'JadwalKehadiran::save/$1/$2/$3');
 	$routes->add('absensi/simpan-absen/(:any)/(:any)', 'JadwalKehadiran::savePresence/$1/$2');
 	$routes->add('absensi/izin', 'JadwalKehadiran::validateMark');
-	$routes->add('absensi/arsip-jurnal/(:any)/(:any)', 'JadwalKehadiran::getJournalArchives/$1/$2');
+	$routes->add('absensi/cek-walikelas', 'JadwalKehadiran::isHomeroomTeacher');
 	$routes->add('timeline', 'ReadTimeline::page');
 	$routes->add('timeline/get-posts/(:any)/(:any)', 'ReadTimeline::getPosts/$1/$2');
 	$routes->add('timeline/get-detail/(:any)', 'ReadTimeline::getPostDetail/$1');

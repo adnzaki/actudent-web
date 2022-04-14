@@ -31,7 +31,8 @@
           </q-item>
         </q-list>
       </q-btn-dropdown>
-      <q-btn-dropdown color="teal-9" icon="print" class="q-pl-lg" :label="printLabel">
+      <q-btn-dropdown color="teal-9" icon="print" class="q-pl-lg" 
+        :label="printLabel" v-if="isHomeroomTeacher">
         <q-list>
           <q-item clickable v-close-popup
             :href="exportReportUrl('jurnal')"
@@ -77,7 +78,8 @@ export default {
     ...mapState('presence', {
       presenceButtons: state => state.presenceButtons,
       showJournalBtn: state => state.showJournalBtn,
-      isTeacherSection: state => state.isTeacherSection
+      isTeacherSection: state => state.isTeacherSection,
+      isHomeroomTeacher: state => state.isHomeroomTeacher
     })
   },
   setup() {

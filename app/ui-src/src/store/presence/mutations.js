@@ -3,10 +3,19 @@ import {
   axios,
   flashAlert,
   t,
-  admin
+  admin,
+  teacher
 } from '../../composables/common'
 
 export default {
+  checkHomeroomTeacher(state) {
+    teacher.get('absensi/cek-walikelas', {
+      headers: { Authorization: bearerToken }
+    })
+      .then(({ data }) => {
+        state.isHomeroomTeacher = data.check
+      })
+  },
   getClassName(state, id) {
     admin.get(`kelas/detail/${id}`, {
       headers: { Authorization: bearerToken }

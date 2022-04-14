@@ -49,5 +49,6 @@ export default function () {
     showScheduleDetail: false,
     scheduleDetail: {},
     isTeacherSection: false, // determine the app is in teacher section or not (admin)
+    isHomeroomTeacher: 0
   }
 }

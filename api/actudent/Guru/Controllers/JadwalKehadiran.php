@@ -7,6 +7,18 @@ use Actudent\Admin\Controllers\Jadwal;
 
 class JadwalKehadiran extends \Actudent\Admin\Controllers\Absensi
 {
+    public function isHomeroomTeacher()
+    {
+        if(is_teacher()) {
+            $decodedToken = jwt_decode(bearer_token());
+
+            $check = $this->jadwalHadir->isHomeroomTeacher($decodedToken->id);
+            $result = $check ? 1 : 0;
+
+            return $this->response->setJSON(['check' => $result]);
+        }
+    }
+    
     public function getTeacherSchedules($day)
     {
         if(is_teacher()) {
