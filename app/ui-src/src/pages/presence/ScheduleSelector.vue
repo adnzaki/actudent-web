@@ -1,5 +1,7 @@
 <template>
-  <div class="col-12 col-sm-6 q-mt-md q-pr-sm">
+  <div></div>
+  <div class="col-12 col-sm-6 q-mt-md q-pr-sm" 
+    v-if="!$store.state.presence.isTeacherSection">
     <q-input v-model="selectedDate" outlined dense readonly>
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
@@ -14,7 +16,8 @@
       </template>
     </q-input>   
   </div>
-  <div class="col-12 col-sm-6 q-mt-sm q-pr-sm">
+  <div class="col-12 col-sm-6 q-mt-sm q-pr-sm"
+    v-if="!$store.state.presence.isTeacherSection">
     <dropdown-search 
       vuex-module="presence"
       :selected="getPresence"
@@ -43,14 +46,11 @@ export default {
     const dateValue = ref(today)
     const selectedDate = ref(date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang))
     const getDay = today.getDay()
-    const activeDate = ref(date.formatDate(today, 'YYYY-MM-DD'))
+    const activeDate = val => date.formatDate(val, 'YYYY-MM-DD')
 
     store.state.presence.helper.activeDay = getDay
-    store.state.presence.helper.activeDate = activeDate.value
-    store.dispatch('presence/getSchedules', {
-      grade: route.params.id,
-      date: activeDate.value
-    })
+    store.state.presence.helper.activeDate = activeDate(today)
+    store.dispatch('presence/getSchedules', route.params.id)
 
 
     const dateChanged = (val, reason, details) => {
@@ -58,11 +58,9 @@ export default {
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
       activeDate.value = date.formatDate(getDate, 'YYYY-MM-DD')
       store.state.presence.helper.activeDay = getDate.getDay()
+      store.state.presence.helper.activeDate = activeDate(getDate)
 
-      store.dispatch('presence/getSchedules', {
-        grade: route.params.id,
-        date: activeDate.value
-      })
+      store.dispatch('presence/getSchedules', route.params.id)
 
 
       if(store.state.presence.scheduleID === '') {
@@ -74,7 +72,7 @@ export default {
 
     const getPresence = model => {
       store.state.presence.scheduleID = model.value
-      store.dispatch('presence/checkJournal', activeDate.value)
+      store.dispatch('presence/checkJournal')
       store.state.presence.showJournalBtn = true
     }
     

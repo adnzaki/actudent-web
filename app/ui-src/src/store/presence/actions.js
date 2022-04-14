@@ -200,15 +200,12 @@ export default {
             homework_description: '',
             due_date: ''
           }
-          dispatch('checkJournal', state.helper.activeDate)
+          dispatch('checkJournal')
         }
       })
   },
-  checkJournal({ state, commit, getters, dispatch }, date) {
-    // set active date based on selected schedule
-    state.helper.activeDate = date
-
-    axios.get(`${getters.presenceApi}cek-jurnal/${state.scheduleID}/${date}`, {
+  checkJournal({ state, commit, getters, dispatch }) {
+    axios.get(`${getters.presenceApi}cek-jurnal/${state.scheduleID}/${state.helper.activeDate}`, {
       headers: { Authorization: bearerToken }
     })
       .then(response => {
@@ -274,8 +271,8 @@ export default {
         }
       })
   },
-  getSchedules({ state, getters, dispatch }, payload) {
-    axios.get(`${getters.presenceApi}get-jadwal/${state.helper.activeDay}/${payload.grade}`, {
+  getSchedules({ state, getters, dispatch }, grade) {
+    axios.get(`${getters.presenceApi}get-jadwal/${state.helper.activeDay}/${grade}`, {
       headers: { Authorization: bearerToken }
     })
       .then(response => {
@@ -283,7 +280,7 @@ export default {
         if(state.schedule.length > 0) {
           state.scheduleID = state.schedule[0].id
           state.showJournalBtn = true
-          dispatch('checkJournal', payload.date)
+          dispatch('checkJournal')
         }
       })
   }
