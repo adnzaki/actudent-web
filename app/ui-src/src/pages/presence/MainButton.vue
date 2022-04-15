@@ -32,7 +32,7 @@
         </q-list>
       </q-btn-dropdown>
       <q-btn-dropdown color="teal-9" icon="print" class="q-pl-lg" 
-        :label="printLabel" v-if="isHomeroomTeacher">
+        :label="printLabel" v-if="!isTeacherSection">
         <q-list>
           <q-item clickable v-close-popup
             :href="exportReportUrl('jurnal')"
