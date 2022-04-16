@@ -36,7 +36,7 @@
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="https://cdn.quasar.dev/img/boy-avatar.png">
+            <img src="../../public/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">{{ pengguna.user_name }}</div>
           <div>{{ pengguna.user_email }}</div>
