@@ -17,10 +17,9 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
 import { useStore } from 'vuex'
-import { date, useQuasar } from 'quasar'
+import { date } from 'quasar'
 import { selectedLang } from 'src/composables/date'
 
 export default {
@@ -41,13 +40,7 @@ export default {
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
       store.state.presence.helper.activeDay = getDate.getDay()
       store.state.presence.helper.activeDate = activeDate(getDate)
-
-      store.dispatch('presence/getTeacherSchedules')
     }
-
-    onMounted(() => {
-      setTimeout(() => store.dispatch('presence/getTeacherSchedules'), 500)
-    })
     
     return {
       selectedDate,

@@ -7,7 +7,7 @@ import checkSubscription from 'src/composables/subscription'
 // get token dynamically
 const bearerToken = `Bearer ${Cookies.get(conf.cookieName)}`
 
-function validateToken (validator) {
+function validateToken (validator, teacherReport) {
   runLoadingBar()
   if(Cookies.has(conf.cookieName)) {
     core.get(`validate-token/${validator}`, {
@@ -21,6 +21,9 @@ function validateToken (validator) {
           console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
         } else {
           console.log('Successfully established connection to Actudent API.')
+          if(teacherReport && response.data.check === 0) {
+            window.location.href = conf.teacherHomeUrl()
+          }
         }
       })
       .catch((error) => {
@@ -44,9 +47,9 @@ function redirect() {
   }
 }
 
-function routeValidator(type = 'is_admin') {
+function routeValidator(type = 'is_admin', teacherReport = false) {
   checkSubscription()
-  validateToken(type)
+  validateToken(type, teacherReport)
 }
 
 export { 

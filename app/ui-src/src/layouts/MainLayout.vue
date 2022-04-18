@@ -94,6 +94,10 @@ export default defineComponent({
     logout() {
       this.$q.cookies.remove(conf.cookieName)
       this.$q.cookies.remove(conf.userType)
+      localStorage.removeItem('class')
+      localStorage.removeItem('date')
+      localStorage.removeItem('grade_id')
+      localStorage.removeItem('lesson')
       window.location.href = conf.loginUrl()
     }
   },

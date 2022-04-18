@@ -72,7 +72,6 @@ export default {
       store.state.presence.helper.activeDate = route.params.activeDate
       store.state.presence.helper.activeDay = localStorage.getItem('date')
       store.dispatch('presence/checkJournal')
-      store.commit('presence/checkHomeroomTeacher')
     }
 
     const backToClassList = () => {

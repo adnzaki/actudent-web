@@ -21,16 +21,23 @@ class JadwalKehadiranModel extends MainModel
      * 
      * @param int $userID
      * 
-     * @return boolean
+     * @return object|boolean
      */
-    public function isHomeroomTeacher(int $userID): bool
+    public function isHomeroomTeacher(int $userID)
     {
+        $model = new \Actudent\Admin\Models\PegawaiModel;
+        $teacherDetail = $model->getStaffDetail($userID);
+
         $query = $this->jadwalModel->kelas
                       ->QBKelas
-                      ->getWhere(['teacher_id' => $userID])
+                      ->getWhere([
+                          'teacher_id' => $teacherDetail[0]->staff_id,
+                          'deleted' => 0,
+                          'grade_status' => 1
+                        ])
                       ->getResult();
         
-        return (count($query) > 0) ? true : false;
+        return (count($query) > 0) ? $query[0] : false;
     }
 
     /**

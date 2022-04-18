@@ -70,7 +70,7 @@ import { useI18n } from 'vue-i18n'
 import { mapState, useStore } from 'vuex'
 import { useRouter, useRoute } from 'vue-router'
 import { computed } from 'vue'
-import { conf, createQueryString } from 'src/composables/common'
+import { conf } from 'src/composables/common'
 
 export default {
   name: 'MainButton',

@@ -64,4 +64,5 @@ return [
     'absensi_print_pdf'             => 'Cetak PDF',
     'absensi_ringkasan'             => 'Rekapitulasi',
     'absensi_incomplete'            => 'Tidak Lengkap',
+    'absensi_laporan_harian'        => 'Rekap Harian',
 ];

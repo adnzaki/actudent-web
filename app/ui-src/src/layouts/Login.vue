@@ -163,6 +163,7 @@ export default {
                   if(res.level === '1') {
                     window.location.href = conf.homeUrl()
                   } else if(res.level === '2') {
+                    localStorage.setItem('grade_id', res.grade);
                     window.location.href = conf.teacherHomeUrl()
                   }
                 } else {

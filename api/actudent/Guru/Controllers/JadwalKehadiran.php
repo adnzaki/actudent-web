@@ -9,14 +9,8 @@ class JadwalKehadiran extends \Actudent\Admin\Controllers\Absensi
 {
     public function isHomeroomTeacher()
     {
-        if(is_teacher()) {
-            $decodedToken = jwt_decode(bearer_token());
-
-            $check = $this->jadwalHadir->isHomeroomTeacher($decodedToken->id);
-            $result = $check ? 1 : 0;
-
-            return $this->response->setJSON(['check' => $result]);
-        }
+        $resource = new \Actudent\Core\Controllers\Resources;
+        return $this->response->setJSON($resource->checkHomeroomTeacher());
     }
     
     public function getTeacherSchedules($day)

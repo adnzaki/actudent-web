@@ -64,4 +64,5 @@ return [
     'absensi_print_pdf'             => 'Print PDF',
     'absensi_ringkasan'             => 'Summary',
     'absensi_incomplete'            => 'Incomplete',
+    'absensi_laporan_harian'        => 'Daily Summary',
 ];

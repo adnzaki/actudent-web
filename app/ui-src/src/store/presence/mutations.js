@@ -14,6 +14,9 @@ export default {
     })
       .then(({ data }) => {
         state.isHomeroomTeacher = data.check
+        if(data.check !== 0) {
+          state.teacherOf = data.data.grade_id
+        }
       })
   },
   getClassName(state, id) {

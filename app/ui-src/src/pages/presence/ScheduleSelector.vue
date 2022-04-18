@@ -39,7 +39,6 @@ import { selectedLang } from '../../composables/date'
 export default {
   name: 'ScheduleSelector',
   setup() {
-    const $q = useQuasar()
     const route = useRoute()
     const store = useStore()
     const today = new Date()

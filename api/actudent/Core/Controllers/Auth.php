@@ -21,8 +21,7 @@ class Auth extends \Actudent
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
             $remember = $this->request->getPost('remember-me') ?? '';
-            if($this->auth->validasi($username, $password, '1'))
-            {
+            if($this->auth->validasi($username, $password, '1')) {
                 $pengguna = $this->auth->getDataPengguna($username);
                 $token = [
                     'id'        => $pengguna->user_id,
@@ -33,11 +32,22 @@ class Auth extends \Actudent
                     'exp'       => strtotime('now') + $this->tokenExp
                 ];
 
+                $gradeId = null;
+
+                if($pengguna->user_level === '2') {
+                    $model = new \Actudent\Guru\Models\JadwalKehadiranModel;
+                    $check = $model->isHomeroomTeacher($pengguna->user_id);
+                    if($check !== false) {
+                        $gradeId = (int)$check->grade_id;
+                    }
+                }
+
                 $this->auth->statusJaringan('online', $username);
                 return $this->response->setJSON([
                     'msg'   => 'valid', 
                     'token' => jwt_encode($token),
-                    'level' => $pengguna->user_level
+                    'level' => $pengguna->user_level,
+                    'grade' => $gradeId
                 ]);
             }
             else 

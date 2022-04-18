@@ -61,9 +61,27 @@ class Resources extends \Actudent
         else
         {
             $status = $this->setStatus(200);
+            if($validator === 'is_teacher') {
+                $status['check'] = $this->checkHomeroomTeacher()['check'];
+            }
         }
-        
+
         return $this->response->setJSON($status);
+    }
+
+    public function checkHomeroomTeacher()
+    {        
+        if(is_teacher()) {
+            $model          = new \Actudent\Guru\Models\JadwalKehadiranModel;
+            $decodedToken   = jwt_decode(bearer_token());
+            $check          = $model->isHomeroomTeacher($decodedToken->id);
+            $result         = $check !== false ? 1 : 0;
+
+            return [
+                'check' => $result,
+                'data'  => $check !== false ? $check : null
+            ];
+        }
     }
 
     /**

@@ -44,6 +44,25 @@
         </q-item-section>
       </q-item>
 
+      <!-- Report Menu -->
+      <q-expansion-item
+        expand-separator
+        icon="o_summarize"
+        :label="$t('laporan')"
+        v-if="$q.cookies.get(conf.userType) === '2' && isHomeroomTeacher"
+      >
+        <q-item 
+          :active-class="activeClass"
+          v-for="(item, index) in reportMenu" :key="index"
+          clickable v-ripple 
+          :inset-level="1" 
+          :to="item.link">
+          <q-item-section>
+            {{ item.label }}
+          </q-item-section>
+        </q-item>
+      </q-expansion-item>
+
       <!-- Settings Menu -->
       <q-expansion-item
         expand-separator
@@ -67,7 +86,8 @@
 </template>
 <script>
 import { useI18n } from 'vue-i18n'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
+import { useStore } from 'vuex'
 import { conf } from 'src/composables/common'
 import { useQuasar } from 'quasar'
 import { headerColor } from '../composables/mode'
@@ -77,11 +97,13 @@ export default {
   setup() {
     const { t } = useI18n()
     const $q = useQuasar()
+    const store = useStore()
 
     const activeClass = ref('') 
     const masterMenu = ref([])
     const adminMenu = ref([])
     const teacherMenu = ref([])
+    const reportMenu = ref([])
     const menus = ref({})
 
     const settings = ref([])
@@ -98,6 +120,7 @@ export default {
       }  
     }
     watch(headerColor, activeMenuTrigger)
+    store.commit('presence/checkHomeroomTeacher')
 
     onMounted(() => {
       activeMenuTrigger()
@@ -126,6 +149,12 @@ export default {
           { link: '', icon: 'o_forum', label: t('menu_pesan') },
         ]
 
+        reportMenu.value = [
+          { label: t('absensi_laporan_harian'), link: '/teacher/daily-report' },
+          { label: t('absensi_rekap_bulanan'), link: '/teacher/monthly-summary' },
+          { label: t('absensi_rekap_semester'), link: '/teacher/period-summary' },
+        ]
+
         menus.value = {
           '1': adminMenu.value, '2': teacherMenu.value
         }
@@ -144,9 +173,11 @@ export default {
     })    
 
     return {
+      isHomeroomTeacher: computed(() => store.state.presence.isHomeroomTeacher),
       dashboardLink,
       activeClass,
       masterMenu,
+      reportMenu,
       menus,
       settings,
       conf
