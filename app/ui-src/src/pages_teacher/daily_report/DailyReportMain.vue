@@ -10,7 +10,7 @@
             <q-btn-dropdown color="deep-purple" class="q-pl-lg"
               style="width: 100%;" 
               icon="print" 
-              :label="printLabel"
+              :label="$t('absensi_cetak_laporan')"
               @click="$store.dispatch('presence/getPeriodSummary')">
               <q-list>
                 <q-item clickable v-close-popup
@@ -76,7 +76,6 @@ export default {
     }
     
     return { 
-      printLabel: $q.screen.lt.sm ? '' : t('absensi_cetak_laporan'),
       exportReportUrl,
       wrapperPadding, 
       titleSpacing 

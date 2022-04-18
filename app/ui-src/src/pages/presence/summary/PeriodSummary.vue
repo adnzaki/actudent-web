@@ -7,7 +7,7 @@
           icon="arrow_back" 
           v-if="showBackBtn"
           @click="$router.push('/presence')" />
-        <div class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5" v-if="$q.screen.lt.sm">
+        <div :class="['text-subtitle1 text-uppercase q-mt-xs', pushLeft]" v-if="$q.screen.lt.sm">
           {{ $t('absensi_rekap_semester') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
@@ -34,6 +34,7 @@ import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import PeriodSelector from './PeriodSelector.vue'
 import PeriodTable from './PeriodTable.vue'
+import { useQuasar } from 'quasar'
 
 export default {
   name: 'PeriodSummary',
@@ -42,7 +43,7 @@ export default {
     PeriodTable
   },
   setup() {
-    
+    const $q = useQuasar()
     const route = useRoute()
     const store = useStore()
 
@@ -51,6 +52,7 @@ export default {
     store.state.presence.periodSummary = {}
 
     return {
+      pushLeft: $q.screen.lt.sm ? '' : 'page-title-pl-5',
       showBackBtn: localStorage.getItem('grade_id') === null ? true : false,
       titleSpacing
     }

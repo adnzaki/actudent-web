@@ -33,7 +33,9 @@
   </div>
 </template>
 <script>
-import { mapState } from 'vuex'
+import { mapState, useStore } from 'vuex'
+import { onMounted, onUnmounted } from 'vue'
+
 export default {
   name: 'PeriodTable',
   computed: {
@@ -41,5 +43,11 @@ export default {
       periodSummary: state => state.periodSummary
     })
   },
+  setup() {
+    const store = useStore()
+    onUnmounted(() => {
+      store.state.presence.showPeriodTable = false
+    })
+  }
 }
 </script>

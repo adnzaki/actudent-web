@@ -15,5 +15,5 @@ const moveFab = (ev) => {
   ]
 }
 
-export { fabPos, draggingFab, moveFab }
+export { fabPos, draggingFab, moveFab, singlePos }
 

@@ -29,8 +29,6 @@
 
   <q-page-sticky position="bottom-right" :offset="fabPos" class="force-elevated">
     <q-btn fab icon="print" color="secondary" 
-      :disable="draggingFab"
-      v-touch-pan.prevent.mouse="moveFab"
       :href="exportPdf()" target="_blank" />    
   </q-page-sticky>
 </template>
@@ -40,7 +38,7 @@ import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
+import { fabPos, draggingFab, moveFab, singlePos } from 'src/composables/fab'
 import { conf } from 'src/composables/common'
 
 export default {
@@ -52,6 +50,8 @@ export default {
     const period = ref({})
     const route = useRoute()
     const $q = useQuasar()
+
+    fabPos.value = [ singlePos, singlePos ]
 
     const periodSelected = model => {
       store.state.presence.selectedPeriod.semester = model.value
