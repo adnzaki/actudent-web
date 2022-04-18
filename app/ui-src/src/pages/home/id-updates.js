@@ -1,4 +1,18 @@
 export default {
+  'ac.v2.0038': [
+    {
+      key: '[Baru] Jadwal dan Pelajaran untuk Guru',
+      desc: 'Menambahkan akses guru disertai fitur jadwal mengajar dan kehadiran siswa'
+    },
+    {
+      key: '[Perbaikan] Bug pada cetak/download PDF',
+      desc: 'Memperbaiki masalah pada saat mencetak/download laporan PDF'
+    },
+    {
+      key: '[Perbaikan] Bug pada komponen dropdown',
+      desc: 'Memperbaiki bug gagal memuat opsi default dropdown pada form edit'
+    }
+  ],
   'ac.v2.0033': [
     {
       key: '[Peningkatan] Komponen Dropdown',

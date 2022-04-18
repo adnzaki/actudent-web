@@ -1,4 +1,18 @@
 export default {
+  'ac.v2.0038': [
+    {
+      key: '[New] Schedule and Presence for teacher',
+      desc: 'Added teacher access along with student presence and teaching schedules'
+    },
+    {
+      key: '[Fix] Bug on PDF print/download',
+      desc: 'Fixed a bug when printing or downloading PDF report'
+    },
+    {
+      key: '[Fix] Bug on dropdown component',
+      desc: 'Fixed bug failed to load dropdown default option on edit form'
+    }
+  ],
   'ac.v2.0033': [
     {
       key: '[Improvement] Dropdown Component',
