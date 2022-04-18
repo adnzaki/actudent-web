@@ -5,6 +5,7 @@
         <q-btn color="teal" flat rounded
           class="back-button"
           icon="arrow_back" 
+          v-if="showBackBtn"
           @click="$router.push('/presence')" />
         <div class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5" v-if="$q.screen.lt.sm">
           {{ $t('absensi_rekap_semester') }}
@@ -50,6 +51,7 @@ export default {
     store.state.presence.periodSummary = {}
 
     return {
+      showBackBtn: localStorage.getItem('grade_id') === null ? true : false,
       titleSpacing
     }
   }

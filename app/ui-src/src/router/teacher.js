@@ -4,6 +4,8 @@ import PresenceMain from 'src/pages_teacher/presence/PresenceMain.vue'
 import ScheduleList from 'src/pages_teacher/presence/ScheduleList.vue'
 import PresenceList from 'pages/presence/PresenceList.vue'
 import DailyReportMain from 'src/pages_teacher/daily_report/DailyReportMain.vue'
+import MonthSummary from 'src/pages/presence/summary/MonthSummary.vue'
+import PeriodSummary from 'src/pages/presence/summary/PeriodSummary.vue'
 
 export default [
   { 
@@ -19,6 +21,6 @@ export default [
     ]
   },
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/monthly-summary', component: PresenceMain, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/period-summary', component: PresenceMain, beforeEnter: () => routeValidator('is_teacher', true) },
+  { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
+  { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
 ]

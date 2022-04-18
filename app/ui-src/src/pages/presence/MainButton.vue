@@ -78,7 +78,6 @@ export default {
     ...mapState('presence', {
       presenceButtons: state => state.presenceButtons,
       showJournalBtn: state => state.showJournalBtn,
-      isTeacherSection: state => state.isTeacherSection,
       isHomeroomTeacher: state => state.isHomeroomTeacher
     })
   },
@@ -127,6 +126,7 @@ export default {
       showPermissionForm,
       savePresence,
       exportReportUrl,
+      isTeacherSection,
     }
   }
 }

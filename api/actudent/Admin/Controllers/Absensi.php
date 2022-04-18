@@ -268,7 +268,7 @@ class Absensi extends \Actudent
 
     public function getPeriodSummary($gradeId, $period, $year)
     {
-        if(is_admin()) {
+        if(valid_token()) {
             return $this->response->setJSON($this->_getPeriodSummary($gradeId, $period, $year));
         }
     }
@@ -369,7 +369,7 @@ class Absensi extends \Actudent
 
     public function getMonthlySummary($month, $year, $gradeId)
     {
-        if(is_admin()) {
+        if(valid_token()) {
             return $this->response->setJSON($this->_getMonthlySummary($month, $year, $gradeId));
         }
     }

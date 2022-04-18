@@ -142,6 +142,8 @@ export default {
           { link: '', icon: 'o_forum', label: t('menu_pesan') },
         ]
 
+        const gradeId = localStorage.getItem('grade_id')
+
         teacherMenu.value = [
           { link: '/teacher/presence', icon: 'o_book', label: t('menu_jadwal_guru') },
           { link: '', icon: 'today', label: t('menu_agenda') },
@@ -151,8 +153,8 @@ export default {
 
         reportMenu.value = [
           { label: t('absensi_laporan_harian'), link: '/teacher/daily-report' },
-          { label: t('absensi_rekap_bulanan'), link: '/teacher/monthly-summary' },
-          { label: t('absensi_rekap_semester'), link: '/teacher/period-summary' },
+          { label: t('absensi_rekap_bulanan'), link: `/teacher/monthly-summary/${gradeId}` },
+          { label: t('absensi_rekap_semester'), link: `/teacher/period-summary/${gradeId}` },
         ]
 
         menus.value = {

@@ -25,6 +25,11 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('absensi/simpan-absen/(:any)/(:any)', 'JadwalKehadiran::savePresence/$1/$2');
 	$routes->add('absensi/izin', 'JadwalKehadiran::validateMark');
 	$routes->add('absensi/cek-walikelas', 'JadwalKehadiran::isHomeroomTeacher');
+	$routes->add('absensi/rekap-bulanan/(:any)/(:any)/(:any)', 'JadwalKehadiran::getMonthlySummary/$1/$2/$3');
+	$routes->add('absensi/rekap-semester/(:any)/(:any)/(:any)', 'JadwalKehadiran::getPeriodSummary/$1/$2/$3');
+	$routes->add('absensi/ekspor-rekap-bulanan/(:any)/(:any)/(:any)/(:any)', 'JadwalKehadiran::exportMonthlySummary/$1/$2/$3/$4');
+	$routes->add('absensi/excel-rekap-bulanan/(:any)/(:any)/(:any)/(:any)', 'JadwalKehadiran::excelMonthlySummary/$1/$2/$3/$4');
+	$routes->add('absensi/ekspor-rekap-semester/(:any)/(:any)/(:any)/(:any)', 'JadwalKehadiran::exportPeriodSummary/$1/$2/$3/$4');
 	$routes->add('timeline', 'ReadTimeline::page');
 	$routes->add('timeline/get-posts/(:any)/(:any)', 'ReadTimeline::getPosts/$1/$2');
 	$routes->add('timeline/get-detail/(:any)', 'ReadTimeline::getPostDetail/$1');
