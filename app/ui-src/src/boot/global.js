@@ -8,6 +8,6 @@
 import { trim } from 'src/composables/common'
 
 export default ({ app }) => {
-  app.config.globalProperties.buildVersion = 'alpha-2.ac.v2.0039'
+  app.config.globalProperties.$buildVersion = 'beta-1.ac.v2.0041'
   app.config.globalProperties.$trim = (text, length = 25) => trim(text, length)
 }

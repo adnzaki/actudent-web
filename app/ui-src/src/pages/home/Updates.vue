@@ -4,7 +4,7 @@
       <div class="text-h6 text-capitalize">Riwayat Pembaruan</div>
       <div class="row q-mt-md">
         <p>Pembaruan yang terdapat dalam build saat ini 
-          <q-badge color="blue" class="text-subtitle2"><strong>{{ buildVersion }}</strong></q-badge>:
+          <q-badge color="blue" class="text-subtitle2"><strong>{{ $buildVersion }}</strong></q-badge>:
           <ul>
             <li v-for="(item, index) in updates" :key="index">
               <strong>{{ item.key }} - </strong>{{ item.desc }}                 
