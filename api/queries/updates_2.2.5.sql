@@ -1,0 +1,1 @@
+ALTER TABLE `tb_grade` CHANGE `grade_name` `grade_name` VARCHAR(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL; 
