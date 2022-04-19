@@ -8,6 +8,14 @@ import { runLoadingBar } from './loading-bar'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { pengguna, getPengguna } from './get-pengguna'
 
+const trim = (text, length = 25) => {
+  const returnedText = text.length <= length 
+                     ? text
+                     : text.substring(0, length) + '...'
+  
+  return returnedText
+}
+
 const apiEndpoint = Cookies.get(conf.userType) === '1'
                   ? conf.adminAPI : conf.teacherAPI
 
@@ -42,6 +50,7 @@ function createFormData(obj) {
 }
 
 export {
+  trim,
   apiEndpoint,
   Cookies,
   ref,

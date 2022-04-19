@@ -16,7 +16,8 @@
         <tbody>
           <tr v-for="(item, index) in presenceList" :key="index">
             <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.presence.studentPresence" :val="item.id" /></td>
-            <td class="text-left">{{ item.name }}</td>
+            <td class="text-left mobile-hide">{{ item.name }}</td>
+            <td class="text-left mobile-only">{{ $trim(item.name, 30) }}</td>
             <td class="text-left">
               <div v-if="item.statusID !== ''">
                 <q-badge :color="presenceStatus(item.statusID)">{{ item.status }}</q-badge>

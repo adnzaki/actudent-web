@@ -14,7 +14,8 @@
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
             <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.grade.selectedClasses" :val="item.grade_id" /></td>
-            <td class="text-left">{{ item.grade_name }}</td>
+            <td class="text-left mobile-hide">{{ item.grade_name }}</td>
+            <td class="text-left mobile-only">{{ $trim(item.grade_name, 30) }}</td>
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">{{ item.period_start }} / {{ item.period_end }}</td>
             <td class="text-left">

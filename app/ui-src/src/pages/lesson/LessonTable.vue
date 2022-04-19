@@ -14,7 +14,8 @@
           <tr v-for="(item, index) in data" :key="index">
             <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.lesson.selectedLessons" :val="item.lesson_id" /></td>
             <td class="text-left mobile-hide">{{ item.lesson_code }}</td>
-            <td class="text-left">{{ item.lesson_name }}</td>
+            <td class="text-left mobile-hide">{{ item.lesson_name }}</td>
+            <td class="text-left mobile-only">{{ $trim(item.lesson_name) }}</td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn color="accent" icon="edit" @click="getDetail(item.lesson_id)" />
