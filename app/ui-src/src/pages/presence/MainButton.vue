@@ -56,7 +56,7 @@
       :offset="fabPos" 
       class="mobile-only force-elevated">
       <q-btn fab icon="add" color="deep-purple" 
-        v-if="showJournalBtn"
+        v-if="showJournalBtn || isTeacherSection"
         @click="showJournalForm" 
       />
     </q-page-sticky>
