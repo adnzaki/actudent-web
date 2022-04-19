@@ -19,6 +19,7 @@ $routes->group('guru', ['namespace' => 'Actudent\Guru\Controllers'], function($r
 	$routes->add('absensi', 'JadwalKehadiran::page');
 	$routes->add('absensi/daftar-jadwal/(:any)', 'JadwalKehadiran::getTeacherSchedules/$1');
 	$routes->add('absensi/cek-jurnal/(:any)/(:any)', 'JadwalKehadiran::checkJournal/$1/$2');
+	$routes->add('absensi/salin-jurnal/(:any)/(:any)', 'JadwalKehadiran::copyJournal/$1/$2');
 	$routes->add('absensi/get-absen/(:any)/(:any)/(:any)', 'JadwalKehadiran::getListAbsensi/$1/$2/$3');
 	$routes->add('absensi/get-jurnal/(:any)', 'JadwalKehadiran::getJournal/$1');
 	$routes->add('absensi/save/(:any)/(:any)/(:any)', 'JadwalKehadiran::save/$1/$2/$3');
