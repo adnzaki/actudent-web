@@ -55,13 +55,12 @@
 
 import { defineComponent, ref, onMounted, computed, watch } from 'vue'
 import { baseUrl } from '../../globalConfig'
-import { conf } from '../composables/common'
-import ToggleMode from 'components/ToggleMode.vue'
 import { headerColor } from '../composables/mode'
-import AppMenu from './AppMenu.vue'
-import { pengguna, getPengguna } from '../composables/common'
-import SubscriptionWarning from './SubscriptionWarning.vue'
+import { conf, pengguna, getPengguna } from '../composables/common'
 import { menuWidth } from '../composables/screen'
+import ToggleMode from 'components/ToggleMode.vue'
+import AppMenu from './AppMenu.vue'
+import SubscriptionWarning from './SubscriptionWarning.vue'
 
 export default defineComponent({
   name: 'MainLayout',
