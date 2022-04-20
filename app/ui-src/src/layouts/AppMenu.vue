@@ -139,7 +139,6 @@ export default {
           { link: '/presence', icon: 'task_alt', label: t('menu_kehadiran') },
           { link: '', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
-          { link: '', icon: 'o_forum', label: t('menu_pesan') },
         ]
 
         const gradeId = localStorage.getItem('grade_id')
@@ -148,7 +147,6 @@ export default {
           { link: '/teacher/presence', icon: 'o_book', label: t('menu_jadwal_guru') },
           { link: '', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
-          { link: '', icon: 'o_forum', label: t('menu_pesan') },
         ]
 
         reportMenu.value = [
