@@ -40,12 +40,13 @@
             </q-form>
           </q-card-section>
         </q-card>
-        <div class="col-md-4 col-sm-8 offset-md-4 offset-sm-2">
+        <div id="company-logo" class="col-12 col-md-4 col-sm-8 offset-md-4 offset-sm-2">
           
           <q-img
+            :class="styleSelector('poweredLogo')"
             src="../../public/company-logo.png" 
             width="40%"
-            style="left: 30%" />
+            :style="companyLogoPushLeft" />
 
         </div>
       </div>
@@ -79,6 +80,7 @@ export default {
           rememberMe = ref(false)
     
     return {
+      companyLogoPushLeft: $q.screen.lt.sm ? 'left: 27%' : 'left: 30%',
       langBtnPos() {
         return $q.screen.lt.sm ? [-2, -2] : [40, 18]
       },
@@ -91,7 +93,8 @@ export default {
             label: '',
             input: 'auth-input',
             inputColor: 'input-color',
-            btn: 'blue'
+            btn: 'blue',
+            poweredLogo: 'powered-style'
           },
           dark: {
             bgImage: 'bg-img-dark',
@@ -100,7 +103,8 @@ export default {
             label: 'blue-1',
             input: 'auth-input-dark',
             inputColor: 'input-color-dark',
-            btn: 'cyan-10'
+            btn: 'cyan-10',
+            poweredLogo: ''
           }
         }
         

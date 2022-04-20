@@ -3,14 +3,48 @@
   height: calc(100vh + 5px);
   overflow: hidden;
   margin-top: -5px;
+  z-index: 99;
+}
+
+.auth-box {
+  width: 100%;
+  // border-radius: 8px !important;
+  box-shadow: 1px 1px 8px 1px rgba(0,0,0,0.3);
+  // background-color: #fff;
 }
 
 .auth-box-dark {
   border-color: rgba(255, 255, 255, 0.28);
   background: var(--q-dark);
   color:#fff;
+  margin-top: 30px;
 }
-// border-color: rgba(255, 255, 255, 0.28); 
+
+@media(max-width: $breakpoint-xs-max) {
+  .auth-box, .auth-box-dark {
+    margin-top: 60px;
+    margin-left: 5% !important;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  .powered-style {
+    filter: invert(1);
+  }
+
+  .bg-img-light {
+    background: #fff !important;
+  }
+  .input-color {
+    color: #000 !important;
+  }
+}
+
+@media(max-width: $breakpoint-sm-max) {
+  .auth-box, .auth-box-dark {
+    margin-top: 80px;
+  }
+}
 
 .bg-img-light {
   background: url('../../public/bg-login-light.png');
@@ -20,16 +54,10 @@
 .bg-img-dark {
   background: url('../../public/bg-login-dark.png');
   background-size: cover;
+  margin-left: -10px;
 }
 
 $input-focus-bg: #6252c76c;
-
-.auth-box {
-  width: 100%;
-  // border-radius: 8px !important;
-  box-shadow: 1px 2px 4px 1px rgba(0,0,0,0.3);
-  // background-color: #fff;
-}
 
 .auth-input {
   border-radius: 6px;
