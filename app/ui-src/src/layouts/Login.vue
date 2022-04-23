@@ -195,7 +195,7 @@ export default {
       btnStyle: reactive({
         fontSize: '18px',
         width: 'calc(100% - 5px)',
-        borderRadius: '5px'
+        borderRadius: $q.screen.lt.sm ? '28px' : '5px'
       })      
     }
   }
