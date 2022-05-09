@@ -15,8 +15,9 @@ import MappingWrapper from 'pages/schedules/MappingWrapper.vue'
 import PresenceMain from 'pages/presence/PresenceMain.vue'
 import PresenceClassList from 'pages/presence/PresenceClassList.vue'
 import PresenceList from 'pages/presence/PresenceList.vue'
-import MonthSummary from 'src/pages/presence/summary/MonthSummary.vue'
-import PeriodSummary from 'src/pages/presence/summary/PeriodSummary.vue'
+import MonthSummary from 'pages/presence/summary/MonthSummary.vue'
+import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
+import AgendaMain from 'pages/agenda/AgendaMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -50,4 +51,5 @@ export default [
       { path: 'period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator() },
     ]
   },
+  { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() }
 ]

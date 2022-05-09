@@ -137,7 +137,7 @@ export default {
         adminMenu.value = [
           { link: '/schedules', icon: 'list', label: t('menu_jadwal') },
           { link: '/presence', icon: 'task_alt', label: t('menu_kehadiran') },
-          { link: '', icon: 'today', label: t('menu_agenda') },
+          { link: '/agenda', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
         ]
 

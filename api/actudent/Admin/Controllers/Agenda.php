@@ -1,5 +1,8 @@
 <?php namespace Actudent\Admin\Controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
 use Actudent\Admin\Models\AgendaModel;
 
 class Agenda extends \Actudent
@@ -16,40 +19,33 @@ class Agenda extends \Actudent
 
     public function getEvents($viewStart, $viewEnd, $sort = 'false')
     {
-        if(session('email') !== null)
-        {
-            $arr = explode('-', $viewStart);
-            $monthStart = (int)$arr[1] - 1;
-            $yearStart = (int)$arr[0];
+        $arr = explode('-', $viewStart);
+        $monthStart = (int)$arr[1] - 1;
+        $yearStart = (int)$arr[0];
 
-            if($monthStart === 0)
-            {
-                $monthStart = 12;
-                $yearStart -= 1;
-            }
-
-            ($monthStart < 10) ? $monthStart = '0' . $monthStart : $monthStart = $monthStart;
-            $viewStart = $yearStart . '-' . $monthStart . '-01';
-            $events = $this->agenda->getEvents($viewStart, $viewEnd, $sort);
-            $formatted = [];
-            foreach($events as $key)
-            {
-                $data = [];
-                
-                // match format that supported by FullCalendar
-                $data['id'] = $key->agenda_id;
-                $data['title'] = $key->agenda_name;
-                $data['start'] = str_replace(' ', 'T', $key->agenda_start);
-                $data['end'] = str_replace(' ', 'T', $key->agenda_end);
-                array_push($formatted, $data);
-            }
-    
-            return $this->response->setJSON($formatted);
-        }
-        else 
+        if($monthStart === 0)
         {
-            return $this->response->setJSON('Session expired');
+            $monthStart = 12;
+            $yearStart -= 1;
         }
+
+        ($monthStart < 10) ? $monthStart = '0' . $monthStart : $monthStart = $monthStart;
+        $viewStart = $yearStart . '-' . $monthStart . '-01';
+        $events = $this->agenda->getEvents($viewStart, $viewEnd, $sort);
+        $formatted = [];
+        foreach($events as $key)
+        {
+            $data = [];
+            
+            // match format that supported by FullCalendar
+            $data['id'] = $key->agenda_id;
+            $data['title'] = $key->agenda_name;
+            $data['start'] = str_replace(' ', 'T', $key->agenda_start);
+            $data['end'] = str_replace(' ', 'T', $key->agenda_end);
+            array_push($formatted, $data);
+        }
+
+        return $this->createResponse($formatted);
     }
 
     public function searchGuest($keyword = '')
