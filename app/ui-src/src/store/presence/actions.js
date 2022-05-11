@@ -1,6 +1,4 @@
 import { 
-  Cookies,
-  conf,
   bearerToken,
   axios,
   timeout,

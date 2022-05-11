@@ -13,9 +13,11 @@ export default {
       headers: { Authorization: bearerToken }
     })
       .then(({ data }) => {
-        state.isHomeroomTeacher = data.check
-        if(data.check !== 0) {
-          state.teacherOf = data.data.grade_id
+        if(data !== null) {
+          state.isHomeroomTeacher = data.check
+          if(data.check !== 0) {
+            state.teacherOf = data.data.grade_id
+          }
         }
       })
   },
