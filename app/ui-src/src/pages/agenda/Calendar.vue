@@ -23,13 +23,16 @@ export default {
     const initialDate = ref(date.formatDate(new Date(), 'YYYY-MM-DD'))
     const fullCalendar = ref(null)
 
-    const startDate = date.startOfDate(new Date(), 'month')
-    const endDate = date.endOfDate(new Date(), 'month')      
+    const defaultStart = date.startOfDate(new Date(), 'month')
+    const defaultEnd = date.addToDate(defaultStart, { months: 2 })
+
+    // formatting in one function
+    const formatDate = v => date.formatDate(v, 'YYYY-MM-DD')
 
     store.dispatch('agenda/getEvents', {
       view: initialView.value,
-      start: date.formatDate(startDate, 'YYYY-MM-DD'),
-      end: date.formatDate(endDate, 'YYYY-MM-DD')
+      start: formatDate(defaultStart),
+      end: formatDate(defaultEnd)
     })    
 
     onMounted(() => {
@@ -37,14 +40,20 @@ export default {
       
       const prevBtn = document.querySelector('button.fc-prev-button')
       const nextBtn = document.querySelector('button.fc-next-button')
+      const todayBtn = document.querySelector('button.fc-today-button')
       
-      prevBtn.addEventListener('click', () => {
-        alert('Prev button clicked!')
-      })
+      prevBtn.addEventListener('click', () => navDate())
+      nextBtn.addEventListener('click', () => navDate())
+      todayBtn.addEventListener('click', () => navDate())
 
-      nextBtn.addEventListener('click', () => {
-        alert('Next button clicked!')
-      })
+      const navDate = () => {
+        const startDate = date.startOfDate(fcApi.getDate(), 'months')
+        store.dispatch('agenda/getEvents', {
+          view: initialView.value,
+          start: formatDate(date.subtractFromDate(startDate, { days: 7 })),
+          end: formatDate(date.addToDate(startDate, { days: 14, months: 1 }))
+        }) 
+      }
     })
 
     return {

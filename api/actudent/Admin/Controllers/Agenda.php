@@ -19,18 +19,6 @@ class Agenda extends \Actudent
 
     public function getEvents($viewStart, $viewEnd, $sort = 'false')
     {
-        $arr = explode('-', $viewStart);
-        $monthStart = (int)$arr[1] - 1;
-        $yearStart = (int)$arr[0];
-
-        if($monthStart === 0)
-        {
-            $monthStart = 12;
-            $yearStart -= 1;
-        }
-
-        ($monthStart < 10) ? $monthStart = '0' . $monthStart : $monthStart = $monthStart;
-        $viewStart = $yearStart . '-' . $monthStart . '-01';
         $events = $this->agenda->getEvents($viewStart, $viewEnd, $sort);
         $formatted = [];
         foreach($events as $key)
