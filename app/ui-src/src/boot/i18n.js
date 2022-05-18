@@ -19,4 +19,4 @@ export default ({ app }) => {
   app.use(i18n)
 }
 
-export { i18n }
+export { i18n, userLang }

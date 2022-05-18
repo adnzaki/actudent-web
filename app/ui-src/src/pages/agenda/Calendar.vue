@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="q-px-md q-pb-md" style="margin-top: -20px">
     <full-calendar ref="fullCalendar" :options="calendarOptions" />
   </div>
 </template>
@@ -9,9 +9,13 @@ import '@fullcalendar/core/vdom' // solves problem with Vite
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import id from '@fullcalendar/core/locales/id'
+import en from '@fullcalendar/core/locales/en-gb'
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
 import { date } from 'quasar'
+import { userLang } from 'boot/i18n'
+import { useI18n } from 'vue-i18n'
 
 export default {
   components: {
@@ -26,6 +30,13 @@ export default {
     const defaultStart = date.startOfDate(new Date(), 'month')    
     const defaultStartDate = date.subtractFromDate(defaultStart, { days: 7 })
     const defaultEnd = date.addToDate(defaultStart, { days: 14, months: 1 })
+
+    const locales = {
+      english: en,
+      indonesia: id
+    }
+
+    const { t } = useI18n()
 
     // formatting in one function
     const formatDate = v => date.formatDate(v, 'YYYY-MM-DD')
@@ -66,6 +77,20 @@ export default {
           events: store.state.agenda.events,
           eventClick({ event }) {
             alert(event.title)
+          },
+          locale: locales[userLang],
+          firstDay: 0,
+          customButtons: {
+            myCustomButton: {
+              text: t('tambah'),
+              click: function() {
+                alert('clicked the custom button!');
+              }
+            }
+          },
+          headerToolbar: {
+            left: 'title',
+            right: 'myCustomButton today prev,next'
           }
         }
       }),
