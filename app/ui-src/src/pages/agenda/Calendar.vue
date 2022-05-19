@@ -81,16 +81,16 @@ export default {
           locale: locales[userLang],
           firstDay: 0,
           customButtons: {
-            myCustomButton: {
+            addButton: {
               text: t('tambah'),
-              click: function() {
-                alert('clicked the custom button!');
+              click() {
+                store.state.agenda.showAddForm = true
               }
             }
           },
           headerToolbar: {
             left: 'title',
-            right: 'myCustomButton today prev,next'
+            right: 'addButton today prev,next'
           }
         }
       }),

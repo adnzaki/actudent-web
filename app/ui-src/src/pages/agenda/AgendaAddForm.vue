@@ -1,0 +1,165 @@
+<template>
+  <q-dialog v-model="$store.state.agenda.showAddForm">
+    <q-card class="q-pa-sm" :style="cardDialog()">
+      <q-card-section class="row items-center q-pb-none">
+        <div class="text-h6 text-capitalize">{{ $t('agenda_form_title') }}</div>
+        <q-space />
+        <q-btn icon="close" flat round dense v-close-popup />
+      </q-card-section>
+      <q-card-section class="scroll card-section">
+        <q-form class="q-gutter-xs">     
+          <q-input outlined :label="$t('agenda_label_nama') + ' (' + $t('agenda_input_nama') + ')'" dense v-model="formData.agenda_name" />
+          <error :label="error.agenda_name" />  
+
+          <!-- Agenda start date -->
+          <q-input outlined dense v-model="dateStartStr" readonly>
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-date @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-time @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm" format24h>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <error :label="error.agenda_start" />
+          <!-- ####### Agenda start date close -->
+
+          <!-- Agenda end date -->
+          <q-input outlined dense v-model="dateEndStr" readonly>
+            <template v-slot:prepend>
+              <q-icon name="event" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-date @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm">
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-date>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
+                  <q-time @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm" format24h>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <error :label="error.agenda_end" />
+          <!-- ####### Agenda end date close -->
+
+          <q-input autogrow outlined :label="$t('agenda_label_desc')" dense v-model="formData.agenda_description" />
+          <error :label="error.agenda_description" />
+
+
+          <p>{{ $t('agenda_label_prior') }}:</p>
+          <div class="row" style="margin-top: -25px; margin-left: -10px;">
+            <div class="col-4">
+              <q-radio size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="high" :label="$t('agenda_input_highprior')" />
+            </div>
+            <div class="col-4">
+              <q-radio size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="normal" :label="$t('agenda_input_normalprior')" />
+            </div>
+            <div class="col-4">
+              <q-radio size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="low" :label="$t('agenda_input_lowprior')" />
+            </div>
+          </div>
+
+          <q-input outlined :label="$t('agenda_input_loc')" dense v-model="formData.agenda_location" />
+          <error :label="error.agenda_location" />
+
+        </q-form>
+      </q-card-section>
+      <q-separator />
+      <q-card-actions align="right">
+        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
+        <q-btn :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
+</template>
+
+<script>
+import { cardDialog } from '../../composables/screen'
+import { ref, computed } from 'vue'
+import { useStore } from 'vuex'
+import { date } from 'quasar'
+import { selectedLang } from '../../composables/date'
+import { t } from 'src/composables/common'
+
+export default {
+  name: 'AgendaAddForm',
+  setup() {
+    const store = useStore()
+    const defaultDateValue = date.formatDate(new Date(), 'YYYY-MM-DD HH:mm')
+    const dateStartRaw = ref(defaultDateValue)
+    const dateEndRaw = ref(date.formatDate(date.addToDate(defaultDateValue, { hours: 1 }), 'YYYY-MM-DD HH:mm'))
+
+    let formValue = {
+      agenda_name: '',
+      agenda_description: '',
+      agenda_priority: 'normal',
+      agenda_location: '',
+    }
+
+    const strFormat = 'dddd, DD MMMM YYYY | HH:mm'
+    const formData = ref(formValue)
+    const formatDate = val => date.formatDate(val, strFormat, selectedLang)
+    const dateStartStr = ref(formatDate(new Date))
+    const dateEndStr =  ref(formatDate(date.addToDate(defaultDateValue, { hours: 1 })))
+
+    const pickerStartChanged = val => {
+      dateStartStr.value = formatDate(new Date(val))
+    }
+
+    const pickerEndChanged = val => {
+      dateEndStr.value = formatDate(new Date(val))
+    }
+
+    const save = () => {
+      const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
+      formData.value.agenda_start = phpTimestamp(dateStartRaw.value)
+      formData.value.agenda_end = phpTimestamp(dateEndRaw.value)
+      store.dispatch('agenda/save', {
+        data: formData.value,
+        edit: false,
+        id: null
+      })
+    }
+
+    return {
+      error: computed(() => store.state.agenda.error),
+      disableSaveButton: computed(() => store.state.agenda.helper.error),
+      formData,
+      cardDialog,
+      pickerStartChanged,
+      pickerEndChanged,
+      dateStartStr: computed(() => `${t('agenda_label_start')}: ${dateStartStr.value}`), 
+      dateEndStr: computed(() => `${t('agenda_label_end')}: ${dateEndStr.value}`),
+      dateStartRaw, dateEndRaw,
+      save
+    }
+  }
+}
+</script>

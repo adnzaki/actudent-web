@@ -1,8 +1,10 @@
 export default function () {
   return {
     // default FullCalendar options
-    fcDefault: {
-      
+    showAddForm: false,
+    error: {},
+    helper: {
+      disableSaveButton: false,
     },
     events: []
   }

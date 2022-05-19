@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Models;
 
 use Actudent\Admin\Models\SharedModel;
+use Actudent\Core\Models\AuthModel;
 
 class AgendaModel extends \Actudent\Core\Models\Connector
 {
@@ -141,14 +142,16 @@ class AgendaModel extends \Actudent\Core\Models\Connector
     /**
      * Insert data from user input to tb_agenda and its relations
      * 
-     * @param array $data
+     * @param array $value
      * 
      * @return int
      */
     public function insert(array $value): int
     {
         $data = $this->fillAgendaField($value);
-        $data['user_id'] = session()->get('id');
+        $username = jwt_decode(bearer_token())->email;
+        $auth = new AuthModel;
+        $data['user_id'] = $auth->getDataPengguna($username)->user_id;
         $this->QBAgenda->insert($data);
         
         // insert data to tb_agenda

@@ -10,6 +10,7 @@
           <search-box :label="$t('ortu_cari')" vuex-module="parent" class="q-mt-sm" /> -->
         </div>
       </q-card-section>
+      <agenda-add-form />
       <!-- <delete-confirm vuex-module="parent" action="deleteParent" /> -->
       <!-- <parent-table /> -->
       <calendar />
@@ -20,9 +21,10 @@
 <script>
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import Calendar from './Calendar.vue'
+import AgendaAddForm from './AgendaAddForm.vue'
 
 export default {
-  components: { Calendar },
+  components: { Calendar, AgendaAddForm },
   name: 'AgendaMain',
   setup () {
     return { wrapperPadding, titleSpacing }

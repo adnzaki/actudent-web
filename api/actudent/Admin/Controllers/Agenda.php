@@ -113,7 +113,7 @@ class Agenda extends \Actudent
     public function save($id = null)
     {
         $validation = $this->validation(); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
+        if(! validate($validation[0], $validation[1]))
         {
             return $this->response->setJSON([
                 'code' => '500',

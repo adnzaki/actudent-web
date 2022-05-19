@@ -161,8 +161,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-insert-id', 'Test::insertIDTest');
 	$routes->add('test-data', 'Test::testData');
 	$routes->add('test-array', 'Test::arrayEach');
-	$routes->add('test-result', 'Test::resultToArray');
-	$routes->add('test-pdf', 'Test::testPdf');
+	$routes->add('test-post', 'Test::testGetPost');
+	$routes->add('test-timestamp', 'Test::testTimestamp');
 	$routes->add('template/icons', 'Template::icons');
 	$routes->add('template/buttons', 'Template::buttons');
 });
