@@ -90,7 +90,7 @@ export default {
           initialDate: initialDate.value,
           events: store.state.agenda.events,
           eventClick({ event }) {
-            alert(event.title)
+            store.dispatch('agenda/getDetail', event.id)
           },
           locale: locales[userLang],
           firstDay: 0,
@@ -98,7 +98,7 @@ export default {
             addButton: {
               text: t('tambah'),
               click() {
-                store.state.agenda.showAddForm = true
+                store.state.agenda.showForm = true
               }
             }
           },

@@ -9,6 +9,16 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  getDetail({ state, getters }, id) {
+    axios.get(`${getters.agendaApi}get-event-detail/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(({ data }) => {
+        state.detail = data.data
+        state.showForm = true
+        state.isEditForm = true
+      })
+  },
   save({ state, getters, dispatch }, payload) {
     let url
     payload.edit ? url = `save/${payload.id}` : url = 'save'
@@ -39,7 +49,6 @@ export default {
           })
         } else {
           state.saveStatus = 200
-          dispatch('resetForm')
           if(payload.edit) {
             state.showEditForm = false
             notifyProgress({

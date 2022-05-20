@@ -92,16 +92,18 @@ class Agenda extends \Actudent
             'guests' => $this->agenda->getEventGuests($id),
         ];
 
-        return $this->response->setJSON($data);
+        return $this->createResponse($data);
     }
 
-    public function displayAttachment($agendaID)
+    public function displayAttachment($agendaID, $token)
     {
-        $data = $this->common();
-        $agenda = $this->agenda->getAttachment($agendaID);
-        $data['file'] = $agenda->agenda_attachment;
-
-        return redirect()->to(base_url('attachments/agenda/' . $data['file']));
+        if(valid_token($token)) {
+            $data = $this->common();
+            $agenda = $this->agenda->getAttachment($agendaID);
+            $data['file'] = $agenda->agenda_attachment;
+    
+            return redirect()->to(base_url('attachments/agenda/' . $data['file']));
+        }
     }
     
     public function delete($id)

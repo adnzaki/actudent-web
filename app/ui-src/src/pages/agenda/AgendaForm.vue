@@ -1,6 +1,7 @@
 <template>
-  <q-dialog v-model="$store.state.agenda.showAddForm"
-    @before-show="formOpen">
+  <q-dialog v-model="$store.state.agenda.showForm"
+    @before-show="formOpen"
+    @hide="$store.state.agenda.isEditForm = false">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('agenda_form_title') }}</div>
@@ -90,6 +91,16 @@
           <q-input outlined :label="$t('agenda_input_loc')" dense v-model="formData.agenda_location" />
           <error :label="error.agenda_location" />
 
+          <!-- <q-input outlined readonly :label="guestLabel" 
+            dense v-model="formData.agenda_guest"
+            input-class="cursor-pointer"
+            @click="showGuestDialog">
+            <template v-slot:prepend>
+              <q-badge v-for="(item, index) in guestWrapper" :key="index" color="blue" :label="item.label" />
+            </template>
+          </q-input>
+          <error :label="error.agenda_guest" /> -->
+
           <q-file
             color="grey-3" outlined dense 
             v-model="attachment" 
@@ -100,7 +111,13 @@
               <q-icon name="cloud_upload" />
             </template>
           </q-file>
-          <error :label="attachmentError" />
+          <error v-if="attachmentError !== ''" :label="attachmentError" />
+          <p v-if="isEditForm && formData.agenda_attachment !== ''">
+            {{ $t('agenda_label_att_name') }}
+            <a :href="attachmentUrl" target="_blank">
+              <q-badge color="blue" class="cursor-pointer" :label="formData.agenda_attachment" />
+            </a>
+          </p>
 
         </q-form>
       </q-card-section>
@@ -117,25 +134,32 @@
 import { cardDialog } from '../../composables/screen'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
-import { date } from 'quasar'
+import { date, useQuasar } from 'quasar'
 import { selectedLang } from '../../composables/date'
-import { t, axios, bearerToken } from 'src/composables/common'
+import { t, axios, bearerToken, conf } from 'src/composables/common'
 
 export default {
-  name: 'AgendaAddForm',
+  name: 'AgendaForm',
   setup() {
     const store = useStore()
+    const $q = useQuasar()
     const defaultDateValue = date.formatDate(new Date(), 'YYYY-MM-DD HH:mm')
     const dateStartRaw = ref(defaultDateValue)
     const dateEndRaw = ref(date.formatDate(date.addToDate(defaultDateValue, { hours: 1 }), 'YYYY-MM-DD HH:mm'))
+    const isEditForm = computed(() => store.state.agenda.isEditForm)
 
     let formValue = {
       agenda_name: '',
+      agenda_start: '',
+      agenda_end: '',
       agenda_description: '',
       agenda_priority: 'normal',
       agenda_location: '',
+      agenda_guest: '',
       agenda_attachment: '',
     }
+    
+    const guestWrapper = ref([])
 
     const strFormat = 'dddd, DD MMMM YYYY | HH:mm'
     const formData = ref(formValue)
@@ -152,21 +176,43 @@ export default {
     }
 
     const attachment = ref('')
+    const attachmentUrl = ref('')
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.agenda.saveStatus)
-      if(saveStatus.value === 200) {
+      if(isEditForm.value) {
+        const details = computed(() => store.state.agenda.detail).value
         formData.value = {
-          agenda_name: '',
-          agenda_description: '',
-          agenda_priority: 'normal',
-          agenda_location: '',
-          agenda_attachment: '',
+          agenda_name: details.agenda_name,
+          agenda_description: details.agenda_description,
+          agenda_priority: details.agenda_priority,
+          agenda_location: details.agenda_location,
+          agenda_attachment: details.agenda_attachment,
         }
 
-        attachment.value = ''
+        dateStartStr.value = details.agenda_start
+        dateEndStr.value = details.agenda_end
+        attachmentUrl.value = store.getters['agenda/agendaApi'] +
+                              'display-attachment/' +
+                              details.agenda_id + '/' +
+                              $q.cookies.get(conf.cookieName)
 
-        store.state.agenda.saveStatus = 500
+      } else {
+        const saveStatus = computed(() => store.state.agenda.saveStatus)
+        if(saveStatus.value === 200 || !isEditForm.value) {
+          formData.value = {
+            agenda_name: '',
+            agenda_description: '',
+            agenda_priority: 'normal',
+            agenda_location: '',
+            agenda_attachment: '',
+          }
+  
+          attachment.value = ''
+          dateStartStr.value = formatDate(new Date)
+          dateEndStr.value =  formatDate(date.addToDate(defaultDateValue, { hours: 1 }))
+  
+          store.state.agenda.saveStatus = 500
+        }
       }
     }
 
@@ -208,7 +254,14 @@ export default {
         .catch(error => console.error(error))
     }
 
+    const showGuestDialog = () => {
+
+    }
+
     return {
+      isEditForm,
+      attachmentUrl,
+      showGuestDialog,
       error: computed(() => store.state.agenda.error),
       disableSaveButton: computed(() => store.state.agenda.helper.error),
       formData,
@@ -220,7 +273,9 @@ export default {
       dateStartRaw, dateEndRaw,
       save, uploadFile,
       attachment, attachmentError,
-      formOpen
+      formOpen,
+      guestWrapper,
+      guestLabel: computed(() => guestWrapper.value.length > 0 ? '' : t('agenda_label_guest'))
     }
   }
 }

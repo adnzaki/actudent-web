@@ -1,7 +1,7 @@
 export default function () {
   return {
     // default FullCalendar options
-    showAddForm: false,
+    showForm: false,
     error: {},
     helper: {
       disableSaveButton: false,
@@ -11,6 +11,8 @@ export default function () {
       view: '',
       start: '',
       end: ''
-    }
+    },
+    isEditForm: false,
+    detail: {}
   }
 }
