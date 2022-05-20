@@ -1,5 +1,6 @@
 <template>
-  <q-dialog v-model="$store.state.agenda.showAddForm">
+  <q-dialog v-model="$store.state.agenda.showAddForm"
+    @before-show="formOpen">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('agenda_form_title') }}</div>
@@ -150,6 +151,25 @@ export default {
       dateEndStr.value = formatDate(new Date(val))
     }
 
+    const attachment = ref('')
+
+    const formOpen = () => {
+      const saveStatus = computed(() => store.state.agenda.saveStatus)
+      if(saveStatus.value === 200) {
+        formData.value = {
+          agenda_name: '',
+          agenda_description: '',
+          agenda_priority: 'normal',
+          agenda_location: '',
+          agenda_attachment: '',
+        }
+
+        attachment.value = ''
+
+        store.state.agenda.saveStatus = 500
+      }
+    }
+
     const save = () => {
       const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
       formData.value.agenda_start = phpTimestamp(dateStartRaw.value)
@@ -199,7 +219,8 @@ export default {
       dateEndStr: computed(() => `${t('agenda_label_end')}: ${dateEndStr.value}`),
       dateStartRaw, dateEndRaw,
       save, uploadFile,
-      attachment: ref(''), attachmentError
+      attachment, attachmentError,
+      formOpen
     }
   }
 }

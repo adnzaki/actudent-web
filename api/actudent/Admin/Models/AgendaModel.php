@@ -254,20 +254,8 @@ class AgendaModel extends \Actudent\Core\Models\Connector
             'agenda_description'    => $data['agenda_description'],
             'agenda_priority'       => $data['agenda_priority'],
             'agenda_location'       => $data['agenda_location'],
+            'agenda_attachment'     => $data['agenda_attachment']
         ];
-    }
-
-    /**
-     * Set the attachment from user input
-     * 
-     * @param string $filename
-     * @param int $id
-     * 
-     * @return void
-     */
-    public function setAttachment(string $filename, int $id): void
-    {        
-        $this->QBAgenda->where('agenda_id', $id)->update(['agenda_attachment' => $filename]);
     }
 
     /**
