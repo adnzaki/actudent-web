@@ -57,6 +57,12 @@ export default {
               spinner: false
             })
           }
+
+          dispatch('getEvents', {
+            view: state.calendar.view,
+            start: state.calendar.start,
+            end: state.calendar.end
+          })
         }
       })
   },

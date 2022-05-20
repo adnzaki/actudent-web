@@ -41,11 +41,19 @@ export default {
     // formatting in one function
     const formatDate = v => date.formatDate(v, 'YYYY-MM-DD')
 
-    store.dispatch('agenda/getEvents', {
-      view: initialView.value,
-      start: formatDate(defaultStartDate),
-      end: formatDate(defaultEnd)
-    })    
+    const initEvents = () => {
+      store.state.agenda.calendar.view = initialView.value
+      store.state.agenda.calendar.start = formatDate(defaultStartDate)
+      store.state.agenda.calendar.end = formatDate(defaultEnd)
+
+      store.dispatch('agenda/getEvents', {
+        view: initialView.value,
+        start: formatDate(defaultStartDate),
+        end: formatDate(defaultEnd)
+      })    
+    }
+
+    initEvents()
 
     onMounted(() => {
       const fcApi = fullCalendar.value.getApi()
@@ -60,10 +68,16 @@ export default {
 
       const navDate = () => {
         const startDate = date.startOfDate(fcApi.getDate(), 'months')
+        const nextStartDate = formatDate(date.subtractFromDate(startDate, { days: 7 }))
+        const nextEndDate = formatDate(date.addToDate(startDate, { days: 14, months: 1 }))
+        store.state.agenda.calendar.view = initialView.value
+        store.state.agenda.calendar.start = nextStartDate
+        store.state.agenda.calendar.end = nextEndDate
+
         store.dispatch('agenda/getEvents', {
           view: initialView.value,
-          start: formatDate(date.subtractFromDate(startDate, { days: 7 })),
-          end: formatDate(date.addToDate(startDate, { days: 14, months: 1 }))
+          start: nextStartDate,
+          end: nextEndDate
         }) 
       }
     })

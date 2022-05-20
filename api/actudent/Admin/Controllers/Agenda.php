@@ -112,41 +112,36 @@ class Agenda extends \Actudent
 
     public function save($id = null)
     {
-        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
-        if(! validate($validation[0], $validation[1]))
-        {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            $data = $this->formData();
-            if($id === null) 
-            {
-                $response = [
-                    'code' => '200',
-                    'id' => $this->agenda->insert($data), // return the insert_id
-                ];
-            }
-            else 
-            {
-                if(! empty($data['file_uploaded']))
-                {
-                    $path = PUBLICPATH . 'attachments/agenda/';
-                    if(file_exists($path . $data['file_uploaded']))
-                    {
-                        unlink($path . $data['file_uploaded']);
+        if(is_admin()) {
+            $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+            if(! validate($validation[0], $validation[1])) {
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
+            } else {
+                $data = $this->formData();
+                if($id === null) {
+                    $response = [
+                        'code' => '200',
+                        'id' => $this->agenda->insert($data), // return the insert_id
+                    ];
+                } else {
+                    if(! empty($data['file_uploaded'])) {
+                        $path = PUBLICPATH . 'attachments/agenda/';
+                        if(file_exists($path . $data['file_uploaded'])) {
+                            unlink($path . $data['file_uploaded']);
+                        }
                     }
+                    
+                    $response = [
+                        'code' => '200',
+                        'id' => $this->agenda->update($data, $id), // return the agenda_id
+                    ];
                 }
                 
-                $response = [
-                    'code' => '200',
-                    'id' => $this->agenda->update($data, $id), // return the agenda_id
-                ];
+                return $this->response->setJSON($response);
             }
-            return $this->response->setJSON($response);
         }
     }
 
@@ -180,46 +175,33 @@ class Agenda extends \Actudent
         return [$rules, $messages];
     }
 
-    public function uploadFile($insertID)
+    public function uploadFile()
     {        
-        $validated = $this->validateFile();
-
-        if($validated) 
-        {
-            $attachment = $this->request->getFile('agenda_attachment');
-            $newFilename = $attachment->getRandomName();
-            $attachment->move(PUBLICPATH . 'attachments/agenda', $newFilename);
-
-            // Set attachment
-            $this->agenda->setAttachment($newFilename, $insertID);
-            return $this->response->setJSON(['msg' => 'OK']);
-        }
-        else 
-        {
-            return $this->response->setJSON($this->validation->getErrors());
-        }
-    }
-
-    public function runFileValidation()
-    {
-        $validated = $this->validateFile();
-        if($validated)
-        {
-            return $this->response->setJSON(['msg' => 'OK']);
-        }
-        else 
-        {
-            return $this->response->setJSON($this->validation->getErrors());
+        if(is_admin()) {
+            $validated = $this->validateFile();
+    
+            if($validated) {
+                $attachment = $this->request->getFile('attachment');
+                $newFilename = $attachment->getRandomName();
+                $attachment->move(PUBLICPATH . 'attachments/agenda', $newFilename);
+    
+                return $this->response->setJSON([
+                    'msg'       => 'OK',
+                    'filename'  => $newFilename
+                ]);
+            } else {
+                return $this->response->setJSON($this->validation->getErrors());
+            }
         }
     }
 
     private function validateFile()
     {
         $fileRules = [
-            'agenda_attachment' => 'mime_in[agenda_attachment,application/pdf]|max_size[agenda_attachment,2048]'
+            'attachment' => 'mime_in[attachment,application/pdf]|max_size[attachment,2048]'
         ];
         $fileMessages = [
-            'agenda_attachment' => [
+            'attachment' => [
                 'mime_in' => lang('Admin.invalid_filetype'),
                 'max_size' => lang('Admin.file_too_large'),
             ]
@@ -238,6 +220,7 @@ class Agenda extends \Actudent
             'agenda_priority'       => $this->request->getPost('agenda_priority'),
             'agenda_location'       => $this->request->getPost('agenda_location'),
             'agenda_guest'          => $this->request->getPost('agenda_guest'),
+            'agenda_attachment'     => $this->request->getPost('agenda_attachment'),
             'file_uploaded'         => $this->request->getPost('file_uploaded'),
         ];
 

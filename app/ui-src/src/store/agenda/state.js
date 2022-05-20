@@ -6,6 +6,11 @@ export default function () {
     helper: {
       disableSaveButton: false,
     },
-    events: []
+    events: [],
+    calendar: {
+      view: '',
+      start: '',
+      end: ''
+    }
   }
 }

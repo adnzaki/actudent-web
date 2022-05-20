@@ -89,6 +89,18 @@
           <q-input outlined :label="$t('agenda_input_loc')" dense v-model="formData.agenda_location" />
           <error :label="error.agenda_location" />
 
+          <q-file
+            color="grey-3" outlined dense 
+            v-model="attachment" 
+            :label="$t('agenda_label_att')"
+            @update:model-value="uploadFile"
+            accept="application/pdf">
+            <template v-slot:prepend>
+              <q-icon name="cloud_upload" />
+            </template>
+          </q-file>
+          <error :label="attachmentError" />
+
         </q-form>
       </q-card-section>
       <q-separator />
@@ -106,7 +118,7 @@ import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { date } from 'quasar'
 import { selectedLang } from '../../composables/date'
-import { t } from 'src/composables/common'
+import { t, axios, bearerToken } from 'src/composables/common'
 
 export default {
   name: 'AgendaAddForm',
@@ -121,6 +133,7 @@ export default {
       agenda_description: '',
       agenda_priority: 'normal',
       agenda_location: '',
+      agenda_attachment: '',
     }
 
     const strFormat = 'dddd, DD MMMM YYYY | HH:mm'
@@ -148,6 +161,33 @@ export default {
       })
     }
 
+    const attachmentError = ref('')
+
+    const uploadFile = val => {
+      store.state.agenda.helper.disableSaveButton = true
+      const uploadData = new FormData()
+      uploadData.append('attachment', val)
+      axios.post(`${store.getters['agenda/agendaApi']}upload`, uploadData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: bearerToken
+        }
+      })
+        .then(({ data }) => {
+          if(data.msg === 'OK') {
+            attachmentError.value = ''
+            store.state.agenda.helper.disableSaveButton = false
+            formData.value.agenda_attachment = data.filename
+          } else {
+            attachmentError.value = data
+            store.state.agenda.helper.disableSaveButton = true
+          }
+
+          console.log(formData.value)
+        })
+        .catch(error => console.error(error))
+    }
+
     return {
       error: computed(() => store.state.agenda.error),
       disableSaveButton: computed(() => store.state.agenda.helper.error),
@@ -158,7 +198,8 @@ export default {
       dateStartStr: computed(() => `${t('agenda_label_start')}: ${dateStartStr.value}`), 
       dateEndStr: computed(() => `${t('agenda_label_end')}: ${dateEndStr.value}`),
       dateStartRaw, dateEndRaw,
-      save
+      save, uploadFile,
+      attachment: ref(''), attachmentError
     }
   }
 }
