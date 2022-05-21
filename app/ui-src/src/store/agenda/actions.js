@@ -50,7 +50,6 @@ export default {
         } else {
           state.saveStatus = 200
           if(payload.edit) {
-            state.showEditForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('agenda_edit_success')}`,
               color: 'positive',
@@ -58,7 +57,6 @@ export default {
               spinner: false
             })
           } else {
-            state.showAddForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('agenda_insert_success')}`,
               color: 'positive',
@@ -67,13 +65,18 @@ export default {
             })
           }
 
-          dispatch('getEvents', {
-            view: state.calendar.view,
-            start: state.calendar.start,
-            end: state.calendar.end
-          })
+          dispatch('resetDefault')
         }
       })
+  },
+  resetDefault({ state, dispatch }) {
+    dispatch('getEvents', {
+      view: state.calendar.view,
+      start: state.calendar.start,
+      end: state.calendar.end
+    })
+    
+    state.showForm = false
   },
   getEvents({ state, getters, dispatch }, { view, start, end }) {
     axios.get(`${getters.agendaApi}get-events/${start}/${end}`, {

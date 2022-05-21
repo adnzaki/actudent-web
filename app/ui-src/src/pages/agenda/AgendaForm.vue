@@ -4,7 +4,7 @@
     @hide="$store.state.agenda.isEditForm = false">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t('agenda_form_title') }}</div>
+        <div class="text-h6 text-capitalize">{{ cardTitle }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -112,7 +112,10 @@
             </template>
           </q-file>
           <error v-if="attachmentError !== ''" :label="attachmentError" />
-          <p v-if="isEditForm && formData.agenda_attachment !== ''">
+          <p v-if="isEditForm 
+            && formData.agenda_attachment !== null 
+            && formData.agenda_attachment !== ''
+            && formData.agenda_attachment !== 'null'">
             {{ $t('agenda_label_att_name') }}
             <a :href="attachmentUrl" target="_blank">
               <q-badge color="blue" class="cursor-pointer" :label="formData.agenda_attachment" />
@@ -123,7 +126,8 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
+        <q-btn outline :label="$t('hapus')" color="negative" />
+        <q-btn outline :label="$t('tutup')" color="deep-purple" v-close-popup />
         <q-btn :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
       </q-card-actions>
     </q-card>
@@ -177,10 +181,9 @@ export default {
 
     const attachment = ref('')
     const attachmentUrl = ref('')
-
     const formOpen = () => {
-      if(isEditForm.value) {
-        const details = computed(() => store.state.agenda.detail).value
+      const details = computed(() => store.state.agenda.detail).value
+      if(isEditForm.value) {        
         formData.value = {
           agenda_name: details.agenda_name,
           agenda_description: details.agenda_description,
@@ -189,8 +192,11 @@ export default {
           agenda_attachment: details.agenda_attachment,
         }
 
-        dateStartStr.value = details.agenda_start
-        dateEndStr.value = details.agenda_end
+        dateStartRaw.value = details.agenda_start
+        dateEndRaw.value = details.agenda_end
+
+        dateStartStr.value = formatDate(details.agenda_start)
+        dateEndStr.value = formatDate(details.agenda_end)
         attachmentUrl.value = store.getters['agenda/agendaApi'] +
                               'display-attachment/' +
                               details.agenda_id + '/' +
@@ -220,11 +226,20 @@ export default {
       const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
       formData.value.agenda_start = phpTimestamp(dateStartRaw.value)
       formData.value.agenda_end = phpTimestamp(dateEndRaw.value)
-      store.dispatch('agenda/save', {
-        data: formData.value,
-        edit: false,
-        id: null
-      })
+
+      if(isEditForm.value) {
+        store.dispatch('agenda/save', {
+          data: formData.value,
+          edit: true,
+          id: store.state.agenda.detail.agenda_id
+        })
+      } else {
+        store.dispatch('agenda/save', {
+          data: formData.value,
+          edit: false,
+          id: null
+        })
+      }
     }
 
     const attachmentError = ref('')
@@ -259,6 +274,7 @@ export default {
     }
 
     return {
+      cardTitle: computed(() => isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')),
       isEditForm,
       attachmentUrl,
       showGuestDialog,
