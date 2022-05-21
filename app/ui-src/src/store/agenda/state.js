@@ -6,6 +6,7 @@ export default function () {
     helper: {
       disableSaveButton: false,
     },
+    deleteConfirm: false,
     events: [],
     calendar: {
       view: '',

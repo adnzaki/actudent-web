@@ -109,8 +109,10 @@ class Agenda extends \Actudent
     
     public function delete($id)
     {
-        $this->agenda->delete($id);
-        return $this->response->setJSON(['status' => 'OK']);
+        if(is_admin()) {
+            $this->agenda->delete($id);
+            return $this->response->setJSON(['status' => 'OK']);
+        }
     }
 
     public function save($id = null)

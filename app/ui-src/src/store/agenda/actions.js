@@ -9,6 +9,33 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  delete({ state, getters, dispatch }) {
+    state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('agenda_delete_progress'),
+      color: 'info',
+      position: 'center',
+      timeout,
+    })
+
+    axios.get(`${getters.agendaApi}delete/${state.detail.agenda_id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(() => {
+        state.helper.disableSaveButton = false
+        notifyProgress({
+          message: `${t('sukses')} ${t('agenda_delete_success')}`,
+          color: 'positive',
+          icon: 'done',
+          spinner: false
+        })
+        
+        state.deleteConfirm = false
+        dispatch('resetDefault')
+      })
+  },
   getDetail({ state, getters }, id) {
     axios.get(`${getters.agendaApi}get-event-detail/${id}`, {
       headers: { Authorization: bearerToken }

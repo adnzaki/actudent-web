@@ -49,4 +49,5 @@ return [
     'agenda_parent_list'                => 'Daftar orang tua murid terkait pencarian',
     'agenda_delete_progress'            => 'Menghapus agenda...',
     'agenda_delete_success'             => 'Berhasil menghapus agenda',
+    'agenda_delete_confirm'             => 'Anda yakin ingin menghapus kegiatan ini?',
 ];

@@ -49,4 +49,5 @@ return [
     'agenda_parent_list'                => 'Parent list related to',
     'agenda_delete_progress'            => 'Deleting agenda...',
     'agenda_delete_success'             => 'Successfully deleted agenda',
+    'agenda_delete_confirm'             => 'Are you sure want to delete this event?',
 ];

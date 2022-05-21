@@ -3,7 +3,7 @@
     <q-card>
       <q-card-section class="row items-center">
         <q-avatar icon="notification_important" class="mobile-hide" color="negative" text-color="white" />
-        <span class="q-ml-sm">{{ $t('sure_to_delete') }}</span>
+        <span class="q-ml-sm">{{ confirmText }}</span>
       </q-card-section>
 
       <q-card-actions align="right">
@@ -18,14 +18,21 @@
 
 <script>
 import { useStore } from 'vuex'
+import { computed } from 'vue'
+import { t } from 'src/composables/common'
 
 export default {
   name: 'DeleteConfirm',
-  props: ['vuexModule', 'action'],
+  props: ['vuexModule', 'action', 'customText'],
   setup(props) {
     const store = useStore()
 
     return {
+      confirmText: computed(() => {
+        return props.customText !== undefined 
+                ? props.customText 
+                : t('sure_to_delete')
+      }),
       disableSaveButton: () => {
         return store.state[props.vuexModule]['disableSaveButton']
       },
