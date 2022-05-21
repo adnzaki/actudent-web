@@ -101,8 +101,9 @@ class Agenda extends \Actudent
             $data = $this->common();
             $agenda = $this->agenda->getAttachment($agendaID);
             $data['file'] = $agenda->agenda_attachment;
-    
-            return redirect()->to(base_url('attachments/agenda/' . $data['file']));
+            $data['path'] = base_url('attachments/agenda/' . $data['file']);
+
+            return view('Actudent\Admin\Views\agenda\attachment-view', $data);
         }
     }
     
