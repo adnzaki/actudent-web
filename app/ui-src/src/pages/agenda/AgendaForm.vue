@@ -303,7 +303,7 @@ export default {
       dateEndStr: computed(() => {
         let prefix = ''
         if($q.screen.gt.sm) {
-          prefix = `${('agenda_label_end')}: `
+          prefix = `${t('agenda_label_end')}: `
         }
 
         return `${prefix}${dateEndStr.value}`
