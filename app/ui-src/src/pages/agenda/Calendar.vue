@@ -2,6 +2,11 @@
   <div class="q-px-md q-pb-md" style="margin-top: -20px">
     <full-calendar ref="fullCalendar" :options="calendarOptions" />
   </div>
+  <q-page-sticky position="bottom-right" :offset="fabPos" class="force-elevated"
+    v-if="$q.cookies.get(conf.userType) === '1'">
+    <q-btn fab icon="add" color="secondary" 
+      @click="$store.state.agenda.showForm = true" />    
+  </q-page-sticky>
 </template>
 
 <script>
@@ -13,9 +18,10 @@ import id from '@fullcalendar/core/locales/id'
 import en from '@fullcalendar/core/locales/en-gb'
 import { ref, onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
-import { date } from 'quasar'
+import { date, useQuasar } from 'quasar'
 import { userLang } from 'boot/i18n'
-import { useI18n } from 'vue-i18n'
+import { conf } from 'src/composables/common'
+import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
 
 export default {
   components: {
@@ -23,6 +29,7 @@ export default {
   },
   setup() {
     const store = useStore()
+    const $q = useQuasar()
     const initialView = ref('dayGridMonth')
     const initialDate = ref(date.formatDate(new Date(), 'YYYY-MM-DD'))
     const fullCalendar = ref(null)
@@ -35,8 +42,6 @@ export default {
       english: en,
       indonesia: id
     }
-
-    const { t } = useI18n()
 
     // formatting in one function
     const formatDate = v => date.formatDate(v, 'YYYY-MM-DD')
@@ -56,6 +61,8 @@ export default {
     initEvents()
 
     onMounted(() => {
+      const customPos = $q.screen.lt.sm ? 20 : 30
+      fabPos.value = [ customPos, customPos ]
       const fcApi = fullCalendar.value.getApi()
       
       const prevBtn = document.querySelector('button.fc-prev-button')
@@ -83,9 +90,12 @@ export default {
     })
 
     return {
+      conf,
+      fabPos, draggingFab, moveFab,
       calendarOptions: computed(() => {
         return {
           plugins: [ dayGridPlugin, interactionPlugin ],
+          height: 'auto',
           initialView: initialView.value,
           initialDate: initialDate.value,
           events: store.state.agenda.events,
@@ -94,17 +104,9 @@ export default {
           },
           locale: locales[userLang],
           firstDay: 0,
-          customButtons: {
-            addButton: {
-              text: t('tambah'),
-              click() {
-                store.state.agenda.showForm = true
-              }
-            }
-          },
           headerToolbar: {
             left: 'title',
-            right: 'addButton today prev,next'
+            right: 'today prev,next'
           }
         }
       }),

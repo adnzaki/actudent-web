@@ -23,17 +23,25 @@ export default {
     axios.get(`${getters.agendaApi}delete/${state.detail.agenda_id}`, {
       headers: { Authorization: bearerToken }
     })
-      .then(() => {
-        state.helper.disableSaveButton = false
-        notifyProgress({
-          message: `${t('sukses')} ${t('agenda_delete_success')}`,
-          color: 'positive',
-          icon: 'done',
-          spinner: false
-        })
-        
-        state.deleteConfirm = false
-        dispatch('resetDefault')
+      .then(({ data }) => {
+        if(data.status === 'OK') {
+          state.helper.disableSaveButton = false
+          notifyProgress({
+            message: `${t('sukses')} ${t('agenda_delete_success')}`,
+            color: 'positive',
+            icon: 'done',
+            spinner: false
+          })
+          
+          state.deleteConfirm = false
+          dispatch('resetDefault')
+        } else {
+          notifyProgress({
+            message: state.errorAccess,
+            color: 'negative',
+            spinner: false
+          })
+        }
       })
   },
   getDetail({ state, getters }, id) {
@@ -74,7 +82,7 @@ export default {
             color: 'negative',
             spinner: false
           })
-        } else {
+        } else if(data.code === '200') {
           state.saveStatus = 200
           if(payload.edit) {
             notifyProgress({
@@ -93,6 +101,12 @@ export default {
           }
 
           dispatch('resetDefault')
+        } else {
+          notifyProgress({
+            message: state.errorAccess,
+            color: 'negative',
+            spinner: false
+          })
         }
       })
   },

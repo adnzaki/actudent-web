@@ -145,7 +145,7 @@ export default {
 
         teacherMenu.value = [
           { link: '/teacher/presence', icon: 'o_book', label: t('menu_jadwal_guru') },
-          { link: '', icon: 'today', label: t('menu_agenda') },
+          { link: '/teacher/agenda', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
         ]
 

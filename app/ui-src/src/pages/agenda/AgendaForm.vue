@@ -10,7 +10,7 @@
       </q-card-section>
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">     
-          <q-input outlined :label="$t('agenda_label_nama') + ' (' + $t('agenda_input_nama') + ')'" dense v-model="formData.agenda_name" />
+          <q-input :readonly="readonly" outlined :label="$t('agenda_label_nama') + ' (' + $t('agenda_input_nama') + ')'" dense v-model="formData.agenda_name" />
           <error :label="error.agenda_name" />  
 
           <!-- Agenda start date -->
@@ -18,7 +18,7 @@
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm">
+                  <q-date :disable="readonly" @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -30,7 +30,7 @@
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm" format24h>
+                  <q-time :disable="readonly" @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm" format24h>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -47,7 +47,7 @@
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm">
+                  <q-date :disable="readonly" @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm">
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -59,7 +59,7 @@
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm" format24h>
+                  <q-time :disable="readonly" @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm" format24h>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -71,24 +71,24 @@
           <error :label="error.agenda_end" />
           <!-- ####### Agenda end date close -->
 
-          <q-input autogrow outlined :label="$t('agenda_label_desc')" dense v-model="formData.agenda_description" />
+          <q-input :readonly="readonly" autogrow outlined :label="$t('agenda_label_desc')" dense v-model="formData.agenda_description" />
           <error :label="error.agenda_description" />
 
 
           <p>{{ $t('agenda_label_prior') }}:</p>
           <div class="row" style="margin-top: -25px; margin-left: -10px;">
-            <div class="col-4">
-              <q-radio size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="high" :label="$t('agenda_input_highprior')" />
+            <div class="col-12 col-md-4">
+              <q-radio :disable="readonly" size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="high" :label="$t('agenda_input_highprior')" />
             </div>
-            <div class="col-4">
-              <q-radio size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="normal" :label="$t('agenda_input_normalprior')" />
+            <div class="col-12 col-md-4">
+              <q-radio :disable="readonly" class="radio" size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="normal" :label="$t('agenda_input_normalprior')" />
             </div>
-            <div class="col-4">
-              <q-radio size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="low" :label="$t('agenda_input_lowprior')" />
+            <div class="col-12 col-md-4">
+              <q-radio :disable="readonly" class="radio" size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="low" :label="$t('agenda_input_lowprior')" />
             </div>
           </div>
 
-          <q-input outlined :label="$t('agenda_input_loc')" dense v-model="formData.agenda_location" />
+          <q-input :readonly="readonly" outlined :label="$t('agenda_input_loc')" dense v-model="formData.agenda_location" />
           <error :label="error.agenda_location" />
 
           <!-- <q-input outlined readonly :label="guestLabel" 
@@ -101,7 +101,7 @@
           </q-input>
           <error :label="error.agenda_guest" /> -->
 
-          <q-file
+          <q-file :readonly="readonly"
             color="grey-3" outlined dense 
             v-model="attachment" 
             :label="$t('agenda_label_att')"
@@ -126,13 +126,19 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn outline :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" color="negative" />
+        <q-btn outline v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" color="negative" />
         <q-btn outline :label="$t('tutup')" color="deep-purple" v-close-popup />
-        <q-btn :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
+        <q-btn v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
+
+<style lang="sass" scoped>
+@media(max-width: $breakpoint-sm-max)
+  .radio
+    margin-top: -10px
+</style>
 
 <script>
 import { cardDialog } from '../../composables/screen'
@@ -165,7 +171,7 @@ export default {
     
     const guestWrapper = ref([])
 
-    const strFormat = 'dddd, DD MMMM YYYY | HH:mm'
+    const strFormat = $q.screen.gt.sm ? 'dddd, DD MMMM YYYY | HH:mm' : 'ddd, DD-MMM-YYYY | HH:mm'
     const formData = ref(formValue)
     const formatDate = val => date.formatDate(val, strFormat, selectedLang)
     const dateStartStr = ref(formatDate(new Date))
@@ -274,6 +280,8 @@ export default {
     }
 
     return {
+      readonly: computed(() => $q.cookies.get(conf.userType) === '1' ? false : true),
+      conf,
       cardTitle: computed(() => isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')),
       isEditForm,
       attachmentUrl,
@@ -284,8 +292,22 @@ export default {
       cardDialog,
       pickerStartChanged,
       pickerEndChanged,
-      dateStartStr: computed(() => `${t('agenda_label_start')}: ${dateStartStr.value}`), 
-      dateEndStr: computed(() => `${t('agenda_label_end')}: ${dateEndStr.value}`),
+      dateStartStr: computed(() => {
+        let prefix = ''
+        if($q.screen.gt.sm) {
+          prefix = `${t('agenda_label_start')}: `
+        }
+
+        return `${prefix}${dateStartStr.value}`
+      }), 
+      dateEndStr: computed(() => {
+        let prefix = ''
+        if($q.screen.gt.sm) {
+          prefix = `${('agenda_label_end')}: `
+        }
+
+        return `${prefix}${dateEndStr.value}`
+      }),
       dateStartRaw, dateEndRaw,
       save, uploadFile,
       attachment, attachmentError,

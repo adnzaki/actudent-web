@@ -14,6 +14,7 @@ export default function () {
       end: ''
     },
     isEditForm: false,
-    detail: {}
+    detail: {},
+    errorAccess: 'Error! Unknown access.',
   }
 }
