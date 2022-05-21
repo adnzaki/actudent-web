@@ -1,5 +1,15 @@
 export default {
-  'ac.v2.0038': [
+  'alpha-2.ac.v2.0040': [
+    {
+      key: '[New] Dedicated report menu for homeroom teacher',
+      desc: 'Print report feature now has dedicated menu for teacher who set as homeroom teacher'
+    },
+    {
+      key: '[Fix] Admin daily report menu',
+      desc: 'Return missing daily report menu for admin'
+    }
+  ],
+  'alpha-1.ac.v2.0038': [
     {
       key: '[New] Schedule and Presence for teacher',
       desc: 'Added teacher access along with student presence and teaching schedules'

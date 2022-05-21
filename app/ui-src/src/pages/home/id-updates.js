@@ -1,5 +1,15 @@
 export default {
-  'ac.v2.0038': [
+  'alpha-2.ac.v2.0040': [
+    {
+      key: '[Baru] Menu khusus laporan untuk wali kelas',
+      desc: 'Fitur cetak laporan kini memiliki menu khusus untuk guru yang berstatus sebagai wali kelas'
+    },
+    {
+      key: '[Perbaikan] Menu cetak laporan untuk admin',
+      desc: 'Mengembalikan menu cetak laporan harian untuk admin'
+    }
+  ],
+  'alpha-1.ac.v2.0038': [
     {
       key: '[Baru] Jadwal dan Pelajaran untuk Guru',
       desc: 'Menambahkan akses guru disertai fitur jadwal mengajar dan kehadiran siswa'

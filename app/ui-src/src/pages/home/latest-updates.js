@@ -1,22 +1,22 @@
 const indonesia = [
   {
-    key: '[Baru] Menu khusus laporan untuk wali kelas',
-    desc: 'Fitur cetak laporan kini memiliki menu khusus untuk guru yang berstatus sebagai wali kelas'
+    key: '[Baru] Agenda',
+    desc: 'Menambahkan fitur agenda'
   },
   {
-    key: '[Perbaikan] Menu cetak laporan untuk admin',
-    desc: 'Mengembalikan menu cetak laporan harian untuk admin'
+    key: '[Peningkatan] Halaman login',
+    desc: 'Menyesuaikan style UI halaman login pada perangkat mobile dan tablet'
   }
 ]
 
 const english = [
   {
-    key: '[New] Dedicated report menu for homeroom teacher',
-    desc: 'Print report feature now has dedicated menu for teacher who set as homeroom teacher'
+    key: '[New] Agenda',
+    desc: 'Added agenda feature'
   },
   {
-    key: '[Fix] Admin daily report menu',
-    desc: 'Return missing daily report menu for admin'
+    key: '[Improvement] Login page',
+    desc: 'Match UI styling of login page on mobile and tablet devices'
   }
 ]
 
