@@ -1,7 +1,7 @@
 <template>
   <q-dialog v-model="$store.state.agenda.showForm"
     @before-show="formOpen"
-    @hide="$store.state.agenda.isEditForm = false">
+    @hide="formHide">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ cardTitle }}</div>
@@ -127,7 +127,7 @@
       <q-separator />
       <q-card-actions align="right">
         <q-btn outline v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" color="negative" />
-        <q-btn outline :label="$t('tutup')" color="deep-purple" v-close-popup />
+        <q-btn outline :label="$t('tutup')" :color="closeBtnColor" v-close-popup />
         <q-btn v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
       </q-card-actions>
     </q-card>
@@ -138,6 +138,7 @@
 @media(max-width: $breakpoint-sm-max)
   .radio
     margin-top: -10px
+  
 </style>
 
 <script>
@@ -153,9 +154,11 @@ export default {
   setup() {
     const store = useStore()
     const $q = useQuasar()
-    const defaultDateValue = date.formatDate(new Date(), 'YYYY-MM-DD HH:mm')
+    const dateModelFormat = 'YYYY-MM-DD HH:mm'
+    const defaultDateValue = date.formatDate(new Date(), dateModelFormat)
+    const defaultDateEndValue = date.formatDate(date.addToDate(defaultDateValue, { hours: 1 }), dateModelFormat)
     const dateStartRaw = ref(defaultDateValue)
-    const dateEndRaw = ref(date.formatDate(date.addToDate(defaultDateValue, { hours: 1 }), 'YYYY-MM-DD HH:mm'))
+    const dateEndRaw = ref(defaultDateEndValue)
     const isEditForm = computed(() => store.state.agenda.isEditForm)
 
     let formValue = {
@@ -222,6 +225,8 @@ export default {
           attachment.value = ''
           dateStartStr.value = formatDate(new Date)
           dateEndStr.value =  formatDate(date.addToDate(defaultDateValue, { hours: 1 }))
+          dateStartRaw.value = defaultDateValue
+          dateEndRaw.value = defaultDateEndValue
   
           store.state.agenda.saveStatus = 500
         }
@@ -275,11 +280,22 @@ export default {
         .catch(error => console.error(error))
     }
 
+    const formHide = () => {
+      if(store.state.agenda.isEditForm) {
+        dateStartRaw.value = defaultDateValue
+        dateEndRaw.value = defaultDateEndValue
+      }
+
+      store.state.agenda.isEditForm = false
+    }
+
     const showGuestDialog = () => {
 
     }
 
     return {
+      closeBtnColor: computed(() => $q.dark.isActive ? 'warning' : 'deep-purple'),
+      formHide,
       readonly: computed(() => $q.cookies.get(conf.userType) === '1' ? false : true),
       conf,
       cardTitle: computed(() => isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')),
@@ -287,7 +303,7 @@ export default {
       attachmentUrl,
       showGuestDialog,
       error: computed(() => store.state.agenda.error),
-      disableSaveButton: computed(() => store.state.agenda.helper.error),
+      disableSaveButton: computed(() => store.state.agenda.helper.disableSaveButton),
       formData,
       cardDialog,
       pickerStartChanged,

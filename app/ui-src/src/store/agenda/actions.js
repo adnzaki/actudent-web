@@ -117,6 +117,7 @@ export default {
       end: state.calendar.end
     })
     
+    state.error = {}
     state.showForm = false
   },
   getEvents({ state, getters, dispatch }, { view, start, end }) {

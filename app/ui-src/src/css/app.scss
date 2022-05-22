@@ -1,4 +1,9 @@
 // app global css in SCSS form
+
+.fc .fc-scrollgrid-section-sticky > * {
+  background: var(--fc-page-bg-color) !important
+}
+
 .bg-login {
   height: calc(100vh + 5px);
   overflow: hidden;
