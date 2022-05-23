@@ -55,7 +55,7 @@
     <q-page-sticky position="bottom-right" 
       :offset="fabPos" 
       class="mobile-only force-elevated">
-      <q-btn fab icon="add" color="deep-purple" 
+      <q-btn fab icon="description" color="deep-purple" 
         v-if="showJournalBtn || isTeacherSection"
         @click="showJournalForm" 
       />
