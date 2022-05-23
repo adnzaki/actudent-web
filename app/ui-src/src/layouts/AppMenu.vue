@@ -30,6 +30,25 @@
         </q-item>
       </q-expansion-item>
 
+      <!-- SiAbsen Menu -->
+      <q-expansion-item
+        expand-separator
+        icon="o_fact_check"
+        :label="$t('menu_siabsen')"
+        v-if="$q.cookies.get(conf.userType) === '1'"
+      >
+        <q-item 
+          :active-class="activeClass"
+          v-for="(item, index) in adminSiAbsen" :key="index"
+          clickable v-ripple 
+          :inset-level="1" 
+          :to="item.link">
+          <q-item-section>
+            {{ item.label }}
+          </q-item-section>
+        </q-item>
+      </q-expansion-item>
+
       <!-- Main App Menu -->
       <q-item
         :active-class="activeClass"
@@ -102,6 +121,7 @@ export default {
     const activeClass = ref('') 
     const masterMenu = ref([])
     const adminMenu = ref([])
+    const adminSiAbsen = ref([])
     const teacherMenu = ref([])
     const reportMenu = ref([])
     const menus = ref({})
@@ -139,6 +159,10 @@ export default {
           { link: '/presence', icon: 'task_alt', label: t('menu_kehadiran') },
           { link: '/agenda', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
+        ]
+
+        adminSiAbsen.value = [
+          { label: t('menu_manage_siabsen'), link: '/teacher-presence/manage' },
         ]
 
         const gradeId = localStorage.getItem('grade_id')
@@ -179,6 +203,7 @@ export default {
       masterMenu,
       reportMenu,
       menus,
+      adminSiAbsen,
       settings,
       conf
     }

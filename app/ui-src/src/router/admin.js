@@ -18,6 +18,8 @@ import PresenceList from 'pages/presence/PresenceList.vue'
 import MonthSummary from 'pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
+import SiAbsenIndex from 'pages/siabsen/Index.vue'
+import ManageMain from 'pages/siabsen/manage/ManageMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -51,5 +53,12 @@ export default [
       { path: 'period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator() },
     ]
   },
-  { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() }
+  { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
+  { 
+    path: 'teacher-presence', component: SiAbsenIndex, beforeEnter: () => routeValidator(),
+    children: [
+      { path: '', component: ManageMain, beforeEnter: () => routeValidator() },
+      { path: 'manage', component: ManageMain, beforeEnter: () => routeValidator() },
+    ]
+  },
 ]
