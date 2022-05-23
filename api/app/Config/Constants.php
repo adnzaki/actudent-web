@@ -23,6 +23,14 @@ defined('ACTUDENT_PATH') || define('ACTUDENT_PATH', ROOTPATH . 'actudent/');
 
 /**
  * -----------------------------------------------------------------------
+ * SiAbsen Extension Path
+ * -----------------------------------------------------------------------
+ * Path to SiAbsen root directory
+ */
+defined('SIABSEN_PATH') || define('SIABSEN_PATH', ROOTPATH . 'extensions/SiAbsen/');
+
+/**
+ * -----------------------------------------------------------------------
  * Actudent Public Path
  * -----------------------------------------------------------------------
  * Path to actudent root directory

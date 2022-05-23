@@ -46,7 +46,8 @@ class Autoload extends AutoloadConfig
         'Config'        => APPPATH . 'Config',
         'Actudent'	  	=> ACTUDENT_PATH,	
         'Mobile'		=> ACTUDENT_PATH . 'Mobile',
-        'Keys'			=> ACTUDENT_PATH . 'Core/Config/Keys'
+        'Keys'			=> ACTUDENT_PATH . 'Core/Config/Keys',
+        'SiAbsen'       => SIABSEN_PATH
     ];
 
     /**
