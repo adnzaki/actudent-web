@@ -8,6 +8,8 @@ import { runLoadingBar } from './loading-bar'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { pengguna, getPengguna } from './get-pengguna'
 
+const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
+
 const trim = (text, length = 25) => {
   const returnedText = text.length <= length 
                      ? text
@@ -50,6 +52,7 @@ function createFormData(obj) {
 }
 
 export {
+  phpTimestamp,
   trim,
   apiEndpoint,
   Cookies,
