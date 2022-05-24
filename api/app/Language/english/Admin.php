@@ -20,7 +20,6 @@ return [
     'menu_ruang'         => 'Room',
     'menu_feedback'      => 'Feedback',
     'menu_langganan'     => 'Subscription',
-    'menu_post'          => 'Posts',
 
     // menu guru
     'menu_post'         => 'Posts',
