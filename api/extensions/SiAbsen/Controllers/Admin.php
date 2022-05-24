@@ -45,7 +45,7 @@ class Admin extends \Actudent
 			
 		$res = 2 * asin(sqrt($val));
 			
-		$radius = 6378.8;
+		$radius = 6371;
         $toMeters = ($res * $radius) * 1000;
 			
 		return $toMeters;
