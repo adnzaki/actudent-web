@@ -9,19 +9,20 @@
         <search-box :label="$t('kelas_cari')" vuex-module="grade" class="q-mt-sm" /> -->
       </div>
     </q-card-section>
-    <class-table />
+    <test-capture />
   </q-card>
 </template>
 
 <script>
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
+import TestCapture from './TestCapture.vue'
 
 export default {
   name: 'ManageMain',
   components: {
-    
-  },
+    TestCapture
+},
   setup () {   
     const store = useStore()
     

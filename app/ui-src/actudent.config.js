@@ -19,6 +19,9 @@ export const appConfig = {
   // API for testing section
   testAPI: `${baseUrl()}ui-test/`,
 
+  // API Url for siabsen section
+  siabsenAPI: `${baseUrl()}siabsen/`,
+
   // This URL will be used to redirect from
   // Actudent authentication page into main
   // application page
