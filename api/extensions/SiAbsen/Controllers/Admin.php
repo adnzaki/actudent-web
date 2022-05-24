@@ -5,8 +5,16 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Admin extends \Actudent
 {
-    public function validatePosition()
+    public function getServerTime()
     {
+        $d = getdate();
+        $response = $d['hours'] . ':' . $d['minutes'];
+
+        return $this->response->setJSON(['msg' => $response]);
+    }
+        
+    public function validatePosition()
+    {        
         if(valid_token()) {
             $latFrom = -6.211010362521487;
             $longFrom = 106.98767371385004;
