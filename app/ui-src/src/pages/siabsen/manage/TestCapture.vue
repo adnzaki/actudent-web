@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">
     <div class="row">
-      <video ref="video" controls autoplay v-if="showVideo">Video tidak tersedia</video>
+      <video ref="video" autoplay v-if="showVideo" width="320">Video tidak tersedia</video>
       <canvas ref="canvas" width="320" height="240" style="display: none"></canvas>
       <img :src="imgSrc" />
     </div>
