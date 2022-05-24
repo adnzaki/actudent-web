@@ -22,6 +22,7 @@ return [
     'menu_langganan'     => 'Subscription',
 
     // menu guru
+    'menu_post'         => 'Posts',
     'menu_jadwal_guru'  => 'Schedule and Presence',
     
     // teks navbar
