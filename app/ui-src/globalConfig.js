@@ -25,6 +25,8 @@
 // ----- Switch to "production" mode first before create -----------
 // ----- build setup for production server/cloud hosting, ----------
 // ----- as Webpack will use this mode for bundling the UI files. --
+import port from './port.conf'
+
 const mode = 'development' // development, build, production
 
 // ------ WARNING! Do not touch below this line ------
@@ -33,7 +35,7 @@ const host = () => {
 
   const protocol = (mode === 'production') ? 'https' : 'http'
   
-  return `${protocol}://${path}/`
+  return `${protocol}://${path}${port}/`
 }
 
 const uiPath = () => {
