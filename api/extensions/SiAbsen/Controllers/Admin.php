@@ -8,9 +8,12 @@ class Admin extends \Actudent
     public function getServerTime()
     {
         $d = getdate();
-        $response = $d['hours'] . ':' . $d['minutes'];
+        $response = [
+            'hours'     => $d['hours'],
+            'minutes'   => $d['minutes']
+        ];
 
-        return $this->response->setJSON(['msg' => $response]);
+        return $this->response->setJSON($response);
     }
         
     public function validatePosition()
