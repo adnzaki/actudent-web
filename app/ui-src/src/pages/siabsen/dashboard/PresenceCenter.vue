@@ -11,7 +11,7 @@
                   <div class="text-subtitle2">{{ $t('siabsen_jam_masuk') }}:</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-subtitle2">06:30</div>
+                  <div class="text-subtitle2">{{ $store.state.siabsen.config.presence_timein }}</div>
                 </div>
               </div>
               <div class="row">
@@ -46,7 +46,7 @@
                   <div class="text-subtitle2">{{ $t('siabsen_jam_pulang') }}:</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-subtitle2">14:00</div>
+                  <div class="text-subtitle2">{{ $store.state.siabsen.config.presence_timeout }}</div>
                 </div>
               </div>
               <div class="row">
@@ -76,20 +76,22 @@
 import { useQuasar } from 'quasar'
 import { ref, onMounted, computed } from 'vue'
 import { phpTimestamp, conf, bearerToken, axios } from 'src/composables/common'
+import { useStore } from 'vuex'
 
 export default {
   name: 'PresenceCenter',
   setup() {
     const $q = useQuasar()
+    const store = useStore()
     const d = new Date()
     const disableEntry = ref(false)
     const disableOut = ref(false)
     const entryColor = ref('')
     const outColor = ref('')
-    const timestamp = ref(phpTimestamp(new Date))
-    const serverTime = ref('')
     
     onMounted(() => {
+      store.commit('siabsen/getConfig')
+
       axios.get(`${conf.siabsenAPI}get-server-time`, {
         headers: { Authorization: bearerToken }
       })

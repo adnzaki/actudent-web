@@ -1,6 +1,6 @@
 import { Cookies } from 'quasar'
 import { ref } from 'vue'
-import { axios, core, admin, teacher } from 'boot/axios'
+import { axios, core, admin, teacher, siabsen } from 'boot/axios'
 import { i18n } from 'boot/i18n'
 import { appConfig as conf} from '../../actudent.config'
 import { bearerToken, validateToken, redirect } from './validate-token'
@@ -57,7 +57,7 @@ export {
   apiEndpoint,
   Cookies,
   ref,
-  axios, core, admin, teacher,
+  axios, core, admin, teacher, siabsen,
   conf,
   bearerToken,
   validateToken,

@@ -4,4 +4,5 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
 {
     $routes->add('validate-position', 'Admin::validatePosition');
     $routes->add('get-server-time', 'Admin::getServerTime');
+    $routes->add('get-config', 'Admin::getConfig');
 });

@@ -5,6 +5,7 @@ import { appConfig as conf } from '../../actudent.config'
 const admin = axios.create({ baseURL: conf.adminAPI })
 const teacher = axios.create({ baseURL: conf.teacherAPI })
 const core = axios.create({ baseURL: conf.coreAPI })
+const siabsen = axios.create({ baseURL: conf.siabsenAPI })
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -16,8 +17,9 @@ export default boot(({ app }) => {
   app.config.globalProperties.$admin = admin
   app.config.globalProperties.$teacher = teacher
   app.config.globalProperties.$core = core
+  app.config.globalProperties.$siabsen = siabsen
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 })
 
-export { axios, admin, teacher, core }
+export { axios, admin, teacher, core, siabsen }

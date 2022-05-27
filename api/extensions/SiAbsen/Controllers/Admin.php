@@ -5,6 +5,20 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Admin extends \Actudent
 {
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new \SiAbsen\Models\CoreModels;
+    }
+
+    public function getConfig()
+    {
+        $config = $this->model->getConfig();
+
+        return $this->createResponse($config);
+    }
+
     public function getServerTime()
     {
         $d = getdate();
