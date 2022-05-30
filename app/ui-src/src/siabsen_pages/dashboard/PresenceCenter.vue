@@ -3,9 +3,9 @@
     <div :class="['col-12 col-sm-6', responsiveClass()]">
       <q-card :class="['my-card text-white', entryColor]">
         <q-card-section>
-          <div class="text-h6 q-mb-md">{{ $t('siabsen_masuk') }}</div>
+          <div class="text-h6 q-mb-md">{{ $store.state.siabsen.inStatus }}</div>
           <div class="row">
-            <div class="col-12 col-sm-8 q-mb-lg">
+            <div class="col-12 col-md-8 q-mb-lg">
               <div class="row">
                 <div class="col-6">
                   <div class="text-subtitle2">{{ $t('siabsen_jam_masuk') }}:</div>
@@ -23,8 +23,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-4">
-              <q-btn color="teal-14" rounded style="width: 100%" :disable="disableEntry">
+            <div class="col-12 col-md-4">
+              <q-btn color="light-blue-5" 
+                rounded style="width: 100%" 
+                :disable="disableEntry || !$store.state.siabsen.canInAbsent"
+                @click="openDialog('masuk')">
                 <q-icon name="touch_app" class="q-pb-sm" left size="3em" />
                 <div>{{ $t('siabsen_do_absen') }}</div>
               </q-btn>
@@ -38,9 +41,9 @@
     <div class="col-12 col-sm-6">
       <q-card :class="['my-card text-white', outColor]">
         <q-card-section>
-          <div class="text-h6 q-mb-md">{{ $t('siabsen_pulang') }}</div>
+          <div class="text-h6 q-mb-md">{{ $store.state.siabsen.outStatus }}</div>
           <div class="row">
-            <div class="col-12 col-sm-8 q-mb-lg">
+            <div class="col-12 col-md-8 q-mb-lg">
               <div class="row">
                 <div class="col-6">
                   <div class="text-subtitle2">{{ $t('siabsen_jam_pulang') }}:</div>
@@ -58,8 +61,11 @@
                 </div>
               </div>
             </div>
-            <div class="col-12 col-sm-4">
-              <q-btn color="teal-14" rounded style="width: 100%" :disable="disableOut">
+            <div class="col-12 col-md-4">
+              <q-btn color="light-blue-5" 
+                rounded style="width: 100%" 
+                :disable="disableOut || !$store.state.siabsen.canOutAbsent"
+                @click="openDialog('pulang')">
                 <q-icon name="touch_app" class="q-pb-sm" left size="3em" />
                 <div>{{ $t('siabsen_do_absen') }}</div>
               </q-btn>
@@ -75,7 +81,7 @@
 <script>
 import { useQuasar } from 'quasar'
 import { ref, onMounted, computed } from 'vue'
-import { phpTimestamp, conf, bearerToken, axios } from 'src/composables/common'
+import { toDecimal, conf, bearerToken, axios } from 'src/composables/common'
 import { useStore } from 'vuex'
 
 export default {
@@ -86,33 +92,44 @@ export default {
     const d = new Date()
     const disableEntry = ref(false)
     const disableOut = ref(false)
-    const entryColor = ref('')
-    const outColor = ref('')
-    
-    onMounted(() => {
-      store.commit('siabsen/getConfig')
+    const entryColor = ref('bg-blue')
+    const outColor = ref('bg-blue')
 
-      axios.get(`${conf.siabsenAPI}get-server-time`, {
-        headers: { Authorization: bearerToken }
+    const openDialog = type => {
+      store.state.siabsen.presenceType = type
+      store.state.siabsen.showPresenceDialog = true
+    }
+   
+    onMounted(() => {
+      const prepare = async () => {
+        store.commit('siabsen/getConfig')
+        store.commit('siabsen/getTeacherStatus', 'masuk')
+        store.commit('siabsen/getTeacherStatus', 'pulang')
+
+        return new Promise((resolve, reject) => setTimeout(resolve, 2000))
+      }
+
+      prepare().then(() => {
+        if(store.state.siabsen.canInAbsent) {
+          disableEntry.value = false
+          entryColor.value = 'bg-blue'
+          disableOut.value = true
+          outColor.value = 'bg-blue-9'
+        } else {
+          disableEntry.value = true
+          entryColor.value = 'bg-blue-9'
+          disableOut.value = false
+          outColor.value = 'bg-blue'
+        }
+  
+        if(store.state.siabsen.isLate) {
+          entryColor.value = 'bg-amber-10'
+        }
       })
-        .then(({ data }) => {
-          const decimalHours = computed(() => data.hours + (data.minutes / 60))
-          if(decimalHours.value > 6 && decimalHours.value < 14) {
-            disableEntry.value = false
-            entryColor.value = 'bg-secondary'
-            disableOut.value = true
-            outColor.value = 'bg-cyan-9'
-          } else {
-            disableEntry.value = true
-            entryColor.value = 'bg-cyan-9'
-            disableOut.value = false
-            outColor.value = 'bg-secondary'
-          }
-        })
-        
     })
 
     return {
+      openDialog,
       disableEntry, entryColor,
       disableOut, outColor,
       responsiveClass: () => $q.screen.lt.sm ? 'q-mb-md' : 'q-pr-sm'

@@ -1,17 +1,23 @@
 <template>
   <div class="q-pa-md">
     <div class="row">
-      <video ref="video" autoplay v-if="showVideo" width="320">Video tidak tersedia</video>
-      <canvas ref="canvas" width="320" height="240" style="display: none"></canvas>
-      <img :src="imgSrc" />
+      <div class="col-12">
+        <video ref="video" autoplay v-if="showVideo" style="width: 100%">Video tidak tersedia</video>
+        <canvas ref="canvas" width="320" height="240" style="display: none"></canvas>
+        <img :src="imgSrc" />
+      </div>
     </div>
-    <p>Informasi lokasi: 
-      <a :href="mapsURL" target="_blank" rel="noopener noreferrer">{{ locationDescription }}</a>
-    </p>
-    <p>Keterangan: {{ validationStatus }}</p>
-    <div class="row q-gutter-sm">
-      <q-btn color="secondary" @click="openCamera" rounded>Buka kamera</q-btn>
-      <q-btn color="primary" @click="takePicture" rounded v-if="canTakePicture">Ambil gambar</q-btn>
+    <div class="row">
+      <div class="col-12">
+        <p>Informasi lokasi: 
+          <a :href="mapsURL" target="_blank" rel="noopener noreferrer">{{ locationDescription }}</a>
+        </p>
+        <p>Keterangan: {{ validationStatus }}</p>
+        <div class="row q-gutter-sm">
+          <q-btn color="secondary" @click="openCamera" rounded>Buka kamera</q-btn>
+          <q-btn color="primary" @click="takePicture" rounded v-if="canTakePicture">Ambil gambar</q-btn>
+        </div>
+      </div>
     </div>
     
   </div>

@@ -10,6 +10,14 @@ import { pengguna, getPengguna } from './get-pengguna'
 
 const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
 
+const toDecimal = time => {
+  time = time.split(':')
+  let hour = time[0],
+      mins = time[1] / 60
+
+  return hour + mins
+}
+
 const trim = (text, length = 25) => {
   const returnedText = text.length <= length 
                      ? text
@@ -52,6 +60,7 @@ function createFormData(obj) {
 }
 
 export {
+  toDecimal,
   phpTimestamp,
   trim,
   apiEndpoint,

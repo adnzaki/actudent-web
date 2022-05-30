@@ -18,8 +18,8 @@ import PresenceList from 'pages/presence/PresenceList.vue'
 import MonthSummary from 'pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
-import SiAbsenIndex from 'pages/siabsen/Index.vue'
-import ManageMain from 'pages/siabsen/manage/ManageMain.vue'
+import SiAbsenIndex from 'src/siabsen_pages/Index.vue'
+import ManageMain from 'src/siabsen_pages/manage/ManageMain.vue'
 
 export default [
   { path: '', redirect: 'home' },

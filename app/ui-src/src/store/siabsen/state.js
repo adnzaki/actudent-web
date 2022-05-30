@@ -1,5 +1,13 @@
 export default function () {
   return {
     config: {},
+    inStatus: '',
+    outStatus: '',
+    canInAbsent: false,
+    canOutAbsent: false,
+    isLate: false,
+    showPresenceDialog: false,
+    presenceType: '',
+    presenceSuccess: false,
   }
 }
