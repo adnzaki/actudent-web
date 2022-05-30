@@ -23,4 +23,5 @@ return [
     'siabsen_progress_kirim'    => 'Mengirim absen...',
     'siabsen_absen_berhasil'    => 'Absen berhasil terkirim',
     'siabsen_absen_gagal'       => 'Gagal mengirim absen',
+    'siabsen_cek_posisi'        => 'Cek posisi',
 ];

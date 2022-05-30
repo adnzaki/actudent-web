@@ -103,7 +103,7 @@ export default {
               timeout: 0,
               actions: [
                 { 
-                  label: 'Cek posisi', color: 'white', handler: () => {
+                  label: t('siabsen_cek_posisi'), color: 'white', handler: () => {
                     window.open(`https://www.google.com/maps/@${crd.latitude},${crd.longitude},15z`, '_blank')
                   } 
                 }

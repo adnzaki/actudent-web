@@ -22,4 +22,5 @@ return [
     'siabsen_progress_kirim'    => 'Sending presence...',
     'siabsen_absen_berhasil'    => 'Presence successfully sent',
     'siabsen_absen_gagal'       => 'Failed to send presence',
+    'siabsen_cek_posisi'        => 'Check position',
 ];
