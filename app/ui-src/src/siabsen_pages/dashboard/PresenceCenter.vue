@@ -19,7 +19,7 @@
                   <div class="text-subtitle2 text-capitalize">{{ $t('siabsen_waktu_absen') }}:</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-subtitle2">06:55</div>
+                  <div class="text-subtitle2">{{ $store.state.siabsen.absenceIn }}</div>
                 </div>
               </div>
             </div>
@@ -57,7 +57,7 @@
                   <div class="text-subtitle2 text-capitalize">{{ $t('siabsen_waktu_absen') }}:</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-subtitle2">14:29</div>
+                  <div class="text-subtitle2">{{ $store.state.siabsen.absenceOut }}</div>
                 </div>
               </div>
             </div>
@@ -80,8 +80,7 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { ref, onMounted, computed } from 'vue'
-import { toDecimal, conf, bearerToken, axios } from 'src/composables/common'
+import { ref, onMounted } from 'vue'
 import { useStore } from 'vuex'
 
 export default {

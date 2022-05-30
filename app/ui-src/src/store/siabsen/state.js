@@ -9,5 +9,7 @@ export default function () {
     showPresenceDialog: false,
     presenceType: '',
     presenceSuccess: false,
+    absenceIn: {},
+    absenceOut: {}
   }
 }

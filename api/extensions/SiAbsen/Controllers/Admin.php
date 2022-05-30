@@ -40,7 +40,8 @@ class Admin extends \Actudent
 
             $response = [
                 'status'    => $status,
-                'canAbsent' => $canAbsent
+                'canAbsent' => $canAbsent,
+                'timeOut'   => $out === null ? '-' : substr($out->presence_datetime, 11, 8)
             ];
     
             return $this->response->setJSON($response);    
@@ -69,15 +70,16 @@ class Admin extends \Actudent
                     $timeLimit = $this->config->timelimit_allowed / 60 / 60;
                     $datetime = explode(' ', $presence->presence_datetime);
                     $presenceIn = $this->toDecimal($datetime[1]);
+                    $ontimeLimit = $timeIn + $timeLimit;
         
-                    if($presenceIn > $timeIn) {
+                    if($presenceIn > $ontimeLimit) {
                         $status = lang('SiAbsen.siabsen_telat_masuk');
                     } else {
                         $status = lang('SiAbsen.siabsen_sudah_masuk');
                     }
     
                     $canAbsent = 0; // unable to absent
-                    if($presenceIn > ($timeIn + $timeLimit)) {
+                    if($presenceIn > $ontimeLimit) {
                         $isLate = 1;
                     }
                 }
@@ -87,15 +89,15 @@ class Admin extends \Actudent
                 'status'    => $status,
                 'canAbsent' => $canAbsent,
                 'late'      => $isLate,
+                'timeIn'    => $presence === null ? '-' : substr($presence->presence_datetime, 11, 8)
             ];
     
             return $this->response->setJSON($response);
         }
     }
 
-    private function getPresence($date, $tag)
+    protected function getPresence($date, $tag)
     {
-        $pengguna = $this->getDataPengguna();
         $presence = $this->model->getPresence($this->getStaffId(), $date, $tag);
         
         return count($presence) > 0 ? $presence[0] : null;

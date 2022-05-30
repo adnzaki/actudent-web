@@ -11,9 +11,11 @@ export default {
           state.inStatus = data.status
           state.canInAbsent = canAbsent
           state.isLate = data.late === 1 ? true : false
+          state.absenceIn = data.timeIn
         } else {
           state.outStatus = data.status
           state.canOutAbsent = canAbsent
+          state.absenceOut = data.timeOut
         }
       })
   },
