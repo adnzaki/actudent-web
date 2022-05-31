@@ -19,7 +19,7 @@ class Pegawai extends Admin
                 $data = [
                     'lat'   => $this->request->getPost('lat'),
                     'long'  => $this->request->getPost('long'),
-                    'photo' => null // will be AWS url
+                    'photo' => $this->request->getPost('photo'),
                 ];
 
                 if($this->getPresence(date('Y-m-d'), $tag) === null) {
@@ -31,6 +31,33 @@ class Pegawai extends Admin
                     'msg'       => lang('SiAbsen.siabsen_absen_berhasil'),
                 ];
             }
+
+            return $this->response->setJSON($response);
+        }
+    }
+
+    public function uploadImage($tag)
+    {
+        if(valid_token()) {
+            $attachment = $this->request->getPost('photo');
+            $newFilename = date('Ymd').'_'.$this->getStaffNik().'_'.$tag.'.jpeg';
+            $dirPath = PUBLICPATH . 'images/absensi/';
+            file_put_contents($dirPath . $newFilename, base64_decode($attachment));
+            
+            $path = $dirPath . $newFilename;
+
+            // upload to AWS S3...
+            $aws = new \AwsClient;
+            $result = $aws->putObject($path);
+            if(file_exists($path))
+            {
+                unlink($path);
+            }
+            
+            $response = [
+                'msg' => 'OK',
+                'img' => $result // get AWS object URL
+            ];
 
             return $this->response->setJSON($response);
         }

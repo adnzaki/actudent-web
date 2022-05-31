@@ -105,7 +105,7 @@ export default {
         store.commit('siabsen/getTeacherStatus', 'masuk')
         store.commit('siabsen/getTeacherStatus', 'pulang')
 
-        return new Promise((resolve, reject) => setTimeout(resolve, 2000))
+        return new Promise((resolve, reject) => setTimeout(resolve, 2500))
       }
 
       prepare().then(() => {
@@ -118,11 +118,11 @@ export default {
         }  
 
         if(store.state.siabsen.canOutAbsent) {
-          disableOut.value = true
-          outColor.value = 'bg-blue-9'
-        } else {
           disableOut.value = false
           outColor.value = 'bg-blue'
+        } else {
+          disableOut.value = true
+          outColor.value = 'bg-blue-9'          
         }  
 
         if(store.state.siabsen.isLate) {

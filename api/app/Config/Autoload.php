@@ -74,7 +74,8 @@ class Autoload extends AutoloadConfig
         'PDFCreator'	=> ACTUDENT_PATH . 'Core/Libraries/PDFCreator.php',
         'ActudentJWT'	=> ACTUDENT_PATH . 'Core/Libraries/ActudentJWT.php',
         'Actudent'      => ACTUDENT_PATH . 'Core/Controllers/Actudent.php',
-        'SimpleTag'     => ACTUDENT_PATH . 'Core/Libraries/simple-tag/SimpleTag.php'
+        'SimpleTag'     => ACTUDENT_PATH . 'Core/Libraries/simple-tag/SimpleTag.php',
+        'AwsClient'     => SIABSEN_PATH . 'Libraries/AwsClient.php'
     ];
 
     /**

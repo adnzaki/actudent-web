@@ -17,8 +17,7 @@
               <div id="myVideo">
                 <video ref="video" autoplay v-if="showVideo" style="width: 100%;">Video tidak tersedia</video>
               </div>
-              <canvas ref="canvas" width="480" height="640" style="display: none"></canvas>
-              <img :src="imgSrc" />
+              <canvas ref="canvas" id="canvas" width="480" height="640" style="display: none"></canvas>
             </div>
           </div>
 
@@ -136,7 +135,9 @@ export default {
         const context = canvas.value.getContext('2d')
         
         context.drawImage(video.value, 0, 0, canvas.value.width, canvas.value.height);
-        // imgSrc.value = canvas.value.toDataURL('image/jpeg')
+        imgSrc.value = canvas.value.toDataURL('image/jpeg')
+        let base64String = imgSrc.value.split(',')
+        store.state.siabsen.base64String = base64String[1]
         store.dispatch('siabsen/pushPresence', {
           lat: location.value.lat,
           long: location.value.long

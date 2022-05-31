@@ -10,6 +10,7 @@ export default function () {
     presenceType: '',
     presenceSuccess: false,
     absenceIn: {},
-    absenceOut: {}
+    absenceOut: {},
+    base64String: '',
   }
 }

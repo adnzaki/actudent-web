@@ -5,6 +5,13 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Test extends Admin
 {
+    public function testAws($keyname)
+    {
+        $aws = new \AwsClient;
+
+        echo $aws->getObjectUrl($keyname);
+    }
+
     public function testStatus($tag)
     {
         if(valid_token()) {

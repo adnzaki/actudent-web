@@ -31,12 +31,22 @@ class Admin extends \Actudent
         return $hours + ($minutes / 60);
     }
 
+    protected function getStaffNik()
+    {
+        return $this->getStaffData()->staff_nik;
+    }
+
     protected function getStaffId()
+    {
+        return $this->getStaffData()->staff_id;
+    }
+
+    private function getStaffData()
     {
         $user = $this->getDataPengguna();
         $staff = $this->model->getStaffDetail($user->user_id);
 
-        return $staff[0]->staff_id;
+        return $staff[0];
     }
 
     public function getConfig()
