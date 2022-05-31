@@ -151,56 +151,6 @@ class Actudent extends \CodeIgniter\Controller
         return $data;
     }
 
-    /**
-     * Get unread messages
-     * 
-     * @return int
-     */
-    private function getUnreadMessages()
-    {
-        if(isset($_SESSION['email']))
-        {
-            return $this->pesan->getAllUnreadMessages();
-        }
-    }
-
-    /**
-     * Detect message page
-     * 
-     * @return boolean
-     */
-    private function isMessage()
-    {
-        $message = preg_match('/pesan/', current_url());
-        return ($message === 1) ? true : false;
-    }
-
-    /**
-     * Detect dashboard page
-     * 
-     * @return boolean
-     */
-    private function isDashboard()
-    {
-        $dashboard = preg_match('/home/', current_url());
-        return ($dashboard === 1) ? true : false;
-    }
-
-    /**
-     * Get current section whether it's admin or teacher
-     * 
-     * @return string
-     */
-    public function getSection()
-    {
-        $login = preg_match('/login/', current_url());
-        if($login === 1) 
-        {
-            $section = preg_match('/admin/', current_url());
-            return ($section === 1) ? 'admin' : 'guru';
-        }
-    }
-
     public function reportStyle()
     {
         return view('Actudent\Core\Views\report\style');
@@ -239,23 +189,9 @@ class Actudent extends \CodeIgniter\Controller
     }
 
     /**
-     * Get letter head data
-     * 
-     * @return object
-     */
-    protected function getLetterHead()
-    {
-        if(isset($_SESSION['email']))
-        {
-            $sekolah = $this->getDataSekolah();
-            return json_decode($sekolah->school_letterhead);
-        }  
-    }
-
-    /**
      * Get user's data who has been logged in
      * 
-     * @return void
+     * @return object
      */
     protected function getDataPengguna($token = '')
     {
