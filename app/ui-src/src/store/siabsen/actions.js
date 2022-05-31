@@ -52,7 +52,8 @@ export default {
               })  
     
               state.presenceSuccess = true
-              commit('getTeacherStatus', state.presenceType)
+              commit('getTeacherStatus', 'masuk')
+              commit('getTeacherStatus', 'pulang')
             }
           })
       })
