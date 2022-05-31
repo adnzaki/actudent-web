@@ -21,8 +21,10 @@ class Pegawai extends Admin
                     'long'  => $this->request->getPost('long'),
                     'photo' => null // will be AWS url
                 ];
-        
-                $this->model->sendPresence($tag, $data, $this->getStaffId());
+
+                if($this->getPresence(date('Y-m-d'), $tag) === null) {
+                    $this->model->sendPresence($tag, $data, $this->getStaffId());
+                }        
                 
                 $response = [
                     'code'      => 200,
@@ -48,9 +50,12 @@ class Pegawai extends Admin
                 $status = lang('SiAbsen.siabsen_tidak_masuk');
                 $canAbsent = 0; // unable to absent
             } else {
-                if($out === null) {
+                if($out === null && $currentTime > $timeOut) {
                     $status = lang('SiAbsen.siabsen_belum_pulang');
                     $canAbsent = 1; // able to absent
+                } elseif($out === null && $currentTime < $timeOut) {
+                    $status = lang('SiAbsen.siabsen_belum_pulang');
+                    $canAbsent = 0; // unable to absent
                 } else {
                     $status = lang('SiAbsen.siabsen_sudah_pulang');
                     $canAbsent = 0; // unable to absent

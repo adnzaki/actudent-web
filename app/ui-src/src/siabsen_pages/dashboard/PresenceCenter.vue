@@ -80,7 +80,7 @@
 
 <script>
 import { useQuasar } from 'quasar'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import { useStore } from 'vuex'
 
 export default {
@@ -112,15 +112,26 @@ export default {
         if(store.state.siabsen.canInAbsent) {
           disableEntry.value = false
           entryColor.value = 'bg-blue'
-          disableOut.value = true
-          outColor.value = 'bg-blue-9'
         } else {
           disableEntry.value = true
           entryColor.value = 'bg-blue-9'
+        }  
+
+        if(store.state.siabsen.canOutAbsent) {
+          disableOut.value = true
+          outColor.value = 'bg-blue-9'
+        } else {
           disableOut.value = false
           outColor.value = 'bg-blue'
+        }  
+
+        if(store.state.siabsen.isLate) {
+          entryColor.value = 'bg-amber-10'
         }
-  
+      })
+
+      const isLate = computed(() => store.state.siabsen.isLate)
+      watch(isLate, () => {
         if(store.state.siabsen.isLate) {
           entryColor.value = 'bg-amber-10'
         }
