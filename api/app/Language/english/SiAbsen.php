@@ -23,4 +23,8 @@ return [
     'siabsen_absen_berhasil'    => 'Presence successfully sent',
     'siabsen_absen_gagal'       => 'Failed to send presence',
     'siabsen_cek_posisi'        => 'Check position',
+    'siabsen_cari_guru'         => 'Search based on employee\'s name...',
+    'siabsen_error_network'     => 'Network error! Please check your internet connection or refresh this page',
+    'siabsen_in'                => 'In',
+    'siabsen_out'               => 'Out'
 ];

@@ -15,11 +15,34 @@ class Admin extends \Actudent
         $this->config = $this->model->getConfig();
     }
 
+    public function getStaffPresence($date, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+        $data = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
+        $rows = $this->model->getStaffRows($searchBy, 'null', $search);
+
+        $wrapper = [];
+        foreach($data as $key) {
+            $in = $this->model->getPresence($key->staff_id, $date, 'masuk');
+            $out = $this->model->getPresence($key->staff_id, $date, 'pulang');
+            $wrapper[] = [
+                'nip'   => $key->staff_nik,
+                'name'  => $key->staff_name,
+                'in'    => $in !== null ? explode(' ', $in->presence_datetime)[1] : '-',
+                'out'   => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
+            ];
+        }
+
+        return $this->createResponse([
+            'container' => $wrapper,
+            'totalRows' => $rows,
+        ], 'is_admin');
+    }
+
     protected function getPresence($date, $tag)
     {
         $presence = $this->model->getPresence($this->getStaffId(), $date, $tag);
         
-        return count($presence) > 0 ? $presence[0] : null;
+        return $presence;
     }
 
     protected function toDecimal($time)

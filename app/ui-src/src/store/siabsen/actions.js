@@ -4,6 +4,7 @@ import {
   timeout,
   createFormData,
   t,
+  conf,
 } from '../../composables/common'
 
 import { date } from 'quasar'
@@ -11,6 +12,21 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getStaffPresence({ state, dispatch }) {
+    const limit = 25
+    state.paging.rows = limit
+    dispatch('getData', {
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit,
+      offset: state.current - 1,
+      orderBy: 'staff_name',
+      searchBy: 'staff_name',
+      sort: 'ASC',
+      search: '',
+      url: `${conf.siabsenAPI}get-absensi-pegawai/${state.activeDate}/`,
+    })
+  },
   pushPresence({ state, commit }, { lat, long }) {
     const notifyProgress = Notify.create({
       group: false,
@@ -49,7 +65,7 @@ export default {
                 icon: 'done',
                 spinner: false,
                 timeout
-              })  
+              })
     
               state.presenceSuccess = true
               commit('getTeacherStatus', 'masuk')
@@ -57,7 +73,14 @@ export default {
             }
           })
       })
-        .catch(err => err)
+        .catch(err => {
+          notifyProgress({
+            message: t('siabsen_error_network'),
+            color: 'negative',
+            spinner: false,
+            timeout: 5000,
+          })  
+        })
 
   }
 }

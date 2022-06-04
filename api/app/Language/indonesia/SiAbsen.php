@@ -24,4 +24,8 @@ return [
     'siabsen_absen_berhasil'    => 'Absen berhasil terkirim',
     'siabsen_absen_gagal'       => 'Gagal mengirim absen',
     'siabsen_cek_posisi'        => 'Cek posisi',
+    'siabsen_cari_guru'         => 'Cari berdasarkan nama pegawai...',
+    'siabsen_error_network'     => 'Jaringan eror! Mohon periksa koneksi internet anda atau refresh halaman ini',
+    'siabsen_in'                => 'Datang',
+    'siabsen_out'               => 'Pulang'
 ];

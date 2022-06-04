@@ -12,5 +12,7 @@ export default function () {
     absenceIn: {},
     absenceOut: {},
     base64String: '',
+    activeDate: '',
+    current: 1,
   }
 }

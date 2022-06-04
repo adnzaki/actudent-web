@@ -2,6 +2,8 @@
 
 $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($routes)
 {
+    $routes->add('get-absensi-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getStaffPresence/$1/$2/$3/$4/$5/$6');
+    $routes->add('get-absensi-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getStaffPresence/$1/$2/$3/$4/$5/$6/$7');
     $routes->add('validate-position', 'Admin::validatePosition');
     $routes->add('get-config', 'Admin::getConfig');
     $routes->add('status-masuk', 'Pegawai::inStatus');

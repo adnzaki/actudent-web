@@ -35,7 +35,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->QBPresence->insert($values);
     }
 
-    public function getPresence(string $staffId, string $date, string $tag): array
+    public function getPresence(string $staffId, string $date, string $tag)
     {
         $params = [
             'presence_tag'  => $tag,
@@ -43,8 +43,9 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         ];
 
         $query = $this->QBPresence->like('presence_datetime', $date)->where($params)->get();
+        $result = $query->getResult();
 
-        return $query->getResult();
+        return count($result) > 0 ? $result[0] : null;
     }
 
     public function getConfig(): object
