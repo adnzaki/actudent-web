@@ -1,5 +1,7 @@
 <?php namespace SiAbsen\Models;
 
+use Actudent\Admin\Models\SharedModel;
+
 class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 {
     private $QBPresence;
@@ -14,12 +16,24 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     private $presencePermit = 'tb_staff_presence_permit';
 
+    private $shared;
+
     public function __construct()
     {
         parent::__construct();
         $this->QBPresence = $this->db->table($this->staffPresence);
         $this->QBConfig = $this->db->table($this->presenceConfig);
         $this->QBPermit = $this->db->table($this->presencePermit);
+        $this->shared = new SharedModel;
+    }
+
+    public function getTeacherSchedules(int $staffId)
+    {
+        $select = $this->shared->QBJadwal->select('DISTINCT `schedule_day`', false);
+        $join = $select->join($this->shared->mapelKelas, "{$this->shared->jadwal}.lessons_grade_id = {$this->shared->mapelKelas}.lessons_grade_id");
+        $where = $join->where(['teacher_id' => $staffId]);
+
+        return $where->get()->getResult();
     }
 
     public function sendPresence(string $tag, array $data, int $id): void

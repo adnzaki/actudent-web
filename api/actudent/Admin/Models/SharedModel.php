@@ -32,7 +32,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
     /**
      * Query builder for tb_schedule
      */
-    protected $QBJadwal;
+    public $QBJadwal;
     
     /**
      * Query Builder for tb_journal
@@ -90,7 +90,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
      * 
      * @var string
      */
-    protected $jadwal = 'tb_schedule';
+    public $jadwal = 'tb_schedule';
     
     /**
      * Table tb_journal
@@ -104,7 +104,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
      * 
      * @var string
      */
-    protected $mapelKelas = 'tb_lessons_grade';
+    public $mapelKelas = 'tb_lessons_grade';
 
     /**
      * Table tb_lessons

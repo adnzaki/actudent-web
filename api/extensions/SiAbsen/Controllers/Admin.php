@@ -9,10 +9,77 @@ class Admin extends \Actudent
 
     protected $config;
 
+    protected $days = [
+        'minggu' => 0, 'senin' => 1, 'selasa' => 2,
+        'rabu' => 3, 'kamis' => 4, 'jumat' => 5, 'sabtu' => 6
+    ];
+
     public function __construct()
     {
         $this->model = new \SiAbsen\Models\CoreModel;
         $this->config = $this->model->getConfig();
+    }
+
+    public function getMonthlySummary($date, $year)
+    {
+        $rows = $this->model->getStaffRows();
+        $employees = $this->model->getStaff($rows, 0);
+        $presenceSummary = [];
+        foreach($employees as $e) {
+            $data = $this->_getMonthlySummary($e->staff_id, $e->staff_type, $date, $year);
+            $presenceSummary[$e->staff_name] = $data;
+        }
+
+        return $this->response->setJSON($presenceSummary);
+    }
+
+    protected function _getMonthlySummary($staffId, $staffType, $month, $year)
+    {
+        if(valid_token()) {
+            $dayValues = [];
+
+            // if the employee is staff, then the schedule is from monday through friday
+            if($staffType === 'staff') {
+                $dayValues = [ 1, 2, 3, 4, 5 ];
+            } else {
+                // get which days the teacher has teaching schedule 
+                $schedules = $this->model->getTeacherSchedules($staffId);
+                foreach($schedules as $s) {
+                    $dayValues[] = $this->days[$s->schedule_day]; // example: $this->days['senin']
+                }
+            }
+
+            $presenceData = [];
+
+            // get total days of the selected month
+            $totalDays = os_date()->daysInMonth($month, $year);
+
+            // walk through the days of month and look for absence data
+            foreach(range(1, $totalDays) as $td) {
+                // set the date into YYYY-MM-DD format
+                $searchDate = reverse(os_date()->shortDate($td, $month, $year), '-', '-');
+
+                // get the day of week like 0 = sunday through 6 = saturday
+                $dayOfWeek = date('w', strtotime($searchDate));
+
+                // if day of week of the searched date is in teacher schedules...
+                if(in_array($dayOfWeek, $dayValues)) {
+                    // get only presence-in data
+                    // we do not need to check presence-out data, since teacher will only
+                    // be absent if they do not tap for presence-in
+                    $in = $this->model->getPresence($staffId, $searchDate, 'masuk');
+
+                    // if it exists, it means the teacher was present on that date
+                    // pass the value with 1 = present, 0 = absent                    
+                    $status = $in === null ? 0 : 1;
+                    $presenceData[] = [
+                        $searchDate => $status
+                    ];
+                }
+            }          
+
+            return $presenceData;
+        }
     }
 
     public function getStaffPresence($date, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
