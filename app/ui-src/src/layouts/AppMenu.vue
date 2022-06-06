@@ -163,6 +163,8 @@ export default {
 
         adminSiAbsen.value = [
           { label: t('menu_manage_siabsen'), link: '/teacher-presence/manage' },
+          { label: t('absensi_izin'), link: '/teacher-presence/permit' },
+          { label: t('absensi_rekap_bulanan'), link: '/teacher-presence/monthly-summary' },
         ]
 
         const gradeId = localStorage.getItem('grade_id')
