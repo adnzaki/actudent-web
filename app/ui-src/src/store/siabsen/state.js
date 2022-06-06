@@ -14,5 +14,8 @@ export default function () {
     base64String: '',
     activeDate: '',
     current: 1,
+    inPhotoURL: '',
+    outPhotoURL: '',
+    showPresenceDetail: false,
   }
 }

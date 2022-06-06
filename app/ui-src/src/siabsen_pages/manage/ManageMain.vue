@@ -10,6 +10,7 @@
       </div>
     </q-card-section>
     <staff-list />
+    <presence-detail />
   </q-card>
 </template>
 
@@ -18,10 +19,11 @@ import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import DateSelector from './DateSelector.vue'
 import StaffList from './StaffList.vue';
+import PresenceDetail from './PresenceDetail.vue';
 
 export default {
   name: 'ManageMain',
-  components: { DateSelector, StaffList },
+  components: { DateSelector, StaffList, PresenceDetail },
   setup() {
     const store = useStore();
     return {

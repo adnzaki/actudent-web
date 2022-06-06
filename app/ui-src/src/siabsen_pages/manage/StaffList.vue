@@ -16,29 +16,25 @@
           <tr v-for="(item, index) in data" :key="index">
             <td class="text-center">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
             <td class="text-left mobile-hide">{{ item.nip }}</td>
-            <td class="text-left mobile-only">{{ $trim(item.name, 30) }}</td>
+            <td class="text-left mobile-only">
+              {{ $trim(item.name, 30) }} <br>
+              {{ $t('siabsen_in') }}: <b>{{ item.in }}</b><br>
+              {{ $t('siabsen_out') }}: <b>{{ item.out }}</b>
+            </td>
             <td class="text-left mobile-hide">{{ item.name }}</td>
             <td class="text-left mobile-hide">{{ item.in }}</td>
             <td class="text-left mobile-hide">{{ item.out }}</td>
             <td class="text-left">
-              <!-- <q-btn-group class="mobile-hide">
-                <q-btn color="accent" icon="list" @click="showLessons(item.grade_id, item.grade_name)" />
-                <q-btn color="accent" icon="menu_book" @click="showSchedules(item.grade_id, item.grade_name)" />
+              <q-btn-group class="mobile-hide">
+                <q-btn color="accent" 
+                  :disable="disableBtn(item.in, item.out)" icon="image"
+                  @click="showImage(item.inPhoto, item.outPhoto)">
+                  <btn-tooltip :label="$t('siabsen_detail_absensi')" />
+                </q-btn>
+                <q-btn color="accent" icon="date_range">
+                  <btn-tooltip :label="$t('siabsen_atur_jadwal')" />
+                </q-btn>
               </q-btn-group>
-              <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
-                <q-menu>
-                  <q-list style="min-width: 200px">
-                    <q-item clickable v-close-popup @click="showLessons(item.grade_id, item.grade_name)">
-                      <q-item-section>{{ $t('jadwal_daftar_mapel') }}</q-item-section>
-                    </q-item>
-                    <q-separator />
-                    <q-item clickable v-close-popup @click="showSchedules(item.grade_id, item.grade_name)">
-                      <q-item-section>{{ $t('jadwal_jadwal_mapel') }}</q-item-section>
-                    </q-item>
-                    <q-separator />
-                  </q-list>
-                </q-menu>
-              </q-btn> -->
             </td>
           </tr>
         </tbody>
@@ -62,6 +58,14 @@ export default {
     const store = useStore()
 
     return {
+      disableBtn(inPhoto, outPhoto) {
+        return inPhoto === '-' && outPhoto === '-' ? true : false
+      },
+      showImage(inPhoto, outPhoto) {
+        store.state.siabsen.inPhotoURL = inPhoto
+        store.state.siabsen.outPhotoURL = outPhoto
+        store.state.siabsen.showPresenceDetail = true
+      },
       data: computed(() => store.state.siabsen.paging.data),
       checkColWidth,
     }

@@ -24,11 +24,14 @@ class Admin extends \Actudent
         foreach($data as $key) {
             $in = $this->model->getPresence($key->staff_id, $date, 'masuk');
             $out = $this->model->getPresence($key->staff_id, $date, 'pulang');
+            
             $wrapper[] = [
                 'nip'   => $key->staff_nik,
                 'name'  => $key->staff_name,
                 'in'    => $in !== null ? explode(' ', $in->presence_datetime)[1] : '-',
                 'out'   => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
+                'inPhoto'   => $in !== null ? $in->presence_photo : '-',
+                'outPhoto'  => $out !== null ? $out->presence_photo : '-',
             ];
         }
 

@@ -27,5 +27,7 @@ return [
     'siabsen_cari_guru'         => 'Cari berdasarkan nama pegawai...',
     'siabsen_error_network'     => 'Jaringan eror! Mohon periksa koneksi internet anda atau refresh halaman ini',
     'siabsen_in'                => 'Datang',
-    'siabsen_out'               => 'Pulang'
+    'siabsen_out'               => 'Pulang',
+    'siabsen_detail_absensi'    => 'Detil Kehadiran',
+    'siabsen_atur_jadwal'       => 'Atur Jadwal Absen',
 ];
