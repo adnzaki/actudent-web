@@ -11,7 +11,7 @@
       <q-card-section class="scroll card-section">
         <q-img 
           :src="imgSrc($store.state.siabsen.inPhotoURL)"
-          style="max-width: 300px; height: 400px;"
+          style="width: 300px; height: 400px;"
           class="rounded-borders q-mr-md q-mt-md"
           fit="cover">
           <div class="absolute-bottom text-subtitle1 text-center">
@@ -21,7 +21,7 @@
         </q-img>
         <q-img 
           :src="imgSrc($store.state.siabsen.outPhotoURL)"
-          style="max-width: 300px; height: 400px;"
+          style="width: 300px; height: 400px;"
           class="rounded-borders q-mt-md"
           fit="cover">
           <div class="absolute-bottom text-subtitle1 text-center">

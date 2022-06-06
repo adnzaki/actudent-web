@@ -25,16 +25,11 @@
             <td class="text-left mobile-hide">{{ item.in }}</td>
             <td class="text-left mobile-hide">{{ item.out }}</td>
             <td class="text-left">
-              <q-btn-group class="mobile-hide">
-                <q-btn color="accent" 
-                  :disable="disableBtn(item.in, item.out)" icon="image"
-                  @click="showImage(item.inPhoto, item.outPhoto)">
-                  <btn-tooltip :label="$t('siabsen_detail_absensi')" />
-                </q-btn>
-                <q-btn color="accent" icon="date_range">
-                  <btn-tooltip :label="$t('siabsen_atur_jadwal')" />
-                </q-btn>
-              </q-btn-group>
+              <q-btn color="accent" 
+                :disable="disableBtn(item.in, item.out)" icon="image"
+                @click="showImage(item.inPhoto, item.outPhoto)">
+                <btn-tooltip :label="$t('siabsen_detail_absensi')" />
+              </q-btn>
             </td>
           </tr>
         </tbody>
