@@ -22,6 +22,7 @@ return [
     'menu_langganan'        => 'Subscription',
     'menu_siabsen'          => 'Teacher Presence',
     'menu_manage_siabsen'   => 'Management',
+    'menu_siabsen_guru'     => 'My Absence',
 
     // menu guru
     'menu_post'         => 'Posts',

@@ -22,6 +22,7 @@ return [
     'menu_langganan'        => 'Langganan',
     'menu_siabsen'          => 'Absensi Guru',
     'menu_manage_siabsen'   => 'Manajemen',
+    'menu_siabsen_guru'     => 'Absensi Saya',
     
     // menu guru
     'menu_post'         => 'Post',

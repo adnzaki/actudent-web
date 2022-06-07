@@ -17,5 +17,8 @@ export default function () {
     inPhotoURL: '',
     outPhotoURL: '',
     showPresenceDetail: false,
+    showPermitForm: false,
+    disableSaveButton: false,
+    permitError: {},
   }
 }

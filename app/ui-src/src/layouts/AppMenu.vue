@@ -30,7 +30,7 @@
         </q-item>
       </q-expansion-item>
 
-      <!-- SiAbsen Menu -->
+      <!-- SiAbsen Menu for admin -->
       <q-expansion-item
         expand-separator
         icon="o_fact_check"
@@ -40,6 +40,25 @@
         <q-item 
           :active-class="activeClass"
           v-for="(item, index) in adminSiAbsen" :key="index"
+          clickable v-ripple 
+          :inset-level="1" 
+          :to="item.link">
+          <q-item-section>
+            {{ item.label }}
+          </q-item-section>
+        </q-item>
+      </q-expansion-item>
+
+      <!-- SiAbsen Menu for teacher -->
+      <q-expansion-item
+        expand-separator
+        icon="o_fact_check"
+        :label="$t('menu_siabsen_guru')"
+        v-if="$q.cookies.get(conf.userType) === '2'"
+      >
+        <q-item 
+          :active-class="activeClass"
+          v-for="(item, index) in guruSiAbsen" :key="index"
           clickable v-ripple 
           :inset-level="1" 
           :to="item.link">
@@ -122,6 +141,7 @@ export default {
     const masterMenu = ref([])
     const adminMenu = ref([])
     const adminSiAbsen = ref([])
+    const guruSiAbsen = ref([])
     const teacherMenu = ref([])
     const reportMenu = ref([])
     const menus = ref({})
@@ -167,6 +187,11 @@ export default {
           { label: t('absensi_rekap_bulanan'), link: '/teacher-presence/monthly-summary' },
         ]
 
+        guruSiAbsen.value = [
+          { label: t('absensi_izin'), link: '/absence/permit' },
+          { label: t('absensi_rekap_bulanan'), link: '/absence/monthly-summary' },
+        ]
+
         const gradeId = localStorage.getItem('grade_id')
 
         teacherMenu.value = [
@@ -210,6 +235,7 @@ export default {
       reportMenu,
       menus,
       adminSiAbsen,
+      guruSiAbsen,
       settings,
       conf
     }

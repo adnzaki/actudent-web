@@ -4,8 +4,8 @@ use function PHPSTORM_META\map;
 
 return [
     'siabsen_manage_page_title' => 'Presence Mangement',
-    'siabsen_masuk'             => 'Absent Entry',
-    'siabsen_pulang'            => 'Absen Out',
+    'siabsen_masuk'             => 'Absence Entry',
+    'siabsen_pulang'            => 'Absence Out',
     'siabsen_jam_masuk'         => 'Admission Time',
     'siabsen_jam_pulang'        => 'Return Time',
     'siabsen_waktu_absen'       => 'Your absent time',
@@ -31,4 +31,7 @@ return [
     'siabsen_out'               => 'Out',
     'siabsen_detail_absensi'    => 'Presence Detail',
     'siabsen_atur_jadwal'       => 'Set absence schedule',
+    'siabsen_form_izin_title'   => 'Permit Request Form',
+    'siabsen_alasan_izin'       => 'Permit reason',
+    'siabsen_lampiran_izin'     => 'Attachment',
 ];

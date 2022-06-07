@@ -40,16 +40,10 @@
 </template>
 
 <script>
-import { onMounted, ref, computed, watch } from 'vue'
-import { axios, conf, createFormData, bearerToken, t } from 'src/composables/common'
 import { cardDialog } from 'src/composables/screen'
-import { useStore } from 'vuex'
-import { useQuasar } from 'quasar'
 
 export default {
   setup() { 
-    const $q = useQuasar()
-    const store = useStore()    
 
     return {
       imgSrc: src => src !== '' && src !== '-' ? src : require('../../../public/no-image.png'),
