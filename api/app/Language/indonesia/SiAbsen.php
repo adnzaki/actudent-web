@@ -32,5 +32,5 @@ return [
     'siabsen_atur_jadwal'       => 'Atur Jadwal Absen',
     'siabsen_form_izin_title'   => 'Form Pengajuan Izin',
     'siabsen_alasan_izin'       => 'Alasan izin',
-    'siabsen_lampiran_izin'     => 'Lampiran',
+    'siabsen_lampiran_izin'     => 'Lampiran (File gambar dengan ukuran maks. 1 MB)',
 ];

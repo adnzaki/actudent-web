@@ -1,5 +1,6 @@
 <template>
-  <q-dialog v-model="$store.state.siabsen.showPermitForm">
+  <q-dialog v-model="$store.state.siabsen.showPermitForm"
+    @hide="formClose">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('siabsen_form_izin_title') }}</div>
@@ -25,8 +26,8 @@
               </q-icon>
             </template>
           </q-input>
-          <div class="row q-my-lg">
-            <div class="col-12 col-sm-6 q-pr-xs">
+          <div class="row">
+            <div class="col-12 col-sm-6 q-pr-xs q-mt-md q-mb-sm">
               <q-input outlined dense v-model="formData.permit_starttime" readonly>
                 <template v-slot:append>
                   <q-icon name="access_time" class="cursor-pointer">
@@ -43,7 +44,7 @@
                 </template>
               </q-input>
             </div>
-            <div class="col-12 col-sm-6">
+            <div class="col-12 col-sm-6 q-pr-xs q-my-md">
               <q-input outlined dense v-model="formData.permit_endtime" readonly>
                 <template v-slot:append>
                   <q-icon name="access_time" class="cursor-pointer">
@@ -68,13 +69,14 @@
           <q-file 
             color="grey-3" outlined dense 
             v-model="attachment" 
-            :label="$t('agenda_label_att')"
+            :label="$t('siabsen_lampiran_izin')"
             @update:model-value="uploadFile"
             accept="image/*">
             <template v-slot:prepend>
               <q-icon name="cloud_upload" />
             </template>
           </q-file>
+          <error v-if="attachmentError !== ''" :label="attachmentError" />
         </q-form>
         
       </q-card-section>
@@ -93,7 +95,7 @@ import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
 import { cardDialog } from 'src/composables/screen'
 import { selectedLang } from 'src/composables/date'
-import { siabsen } from 'src/composables/common'
+import { siabsen, bearerToken, createFormData } from 'src/composables/common'
 
 export default {
   setup() { 
@@ -119,6 +121,7 @@ export default {
 
     const attachment = ref([])
     const attachmentError = ref('')
+
     const dateOptions = val => {
       return val >= date.formatDate(new Date, 'YYYY/MM/DD')
     }
@@ -137,7 +140,7 @@ export default {
           if(data.msg === 'OK') {
             attachmentError.value = ''
             store.state.siabsen.disableSaveButton = false
-            formData.value.permit_photo = data.filename
+            formData.value.permit_photo = data.img
           } else {
             attachmentError.value = data
             store.state.siabsen.disableSaveButton = true
@@ -146,6 +149,19 @@ export default {
           console.log(formData.value)
         })
         .catch(error => console.error(error))
+    }
+
+    const formClose = () => {
+      const data = { url: formData.value.permit_photo }
+      siabsen.post('hapus-lampiran', data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [data => {
+          return createFormData(data)
+        }]
+      })
+        .then(() => {
+          console.log('Form canceled, attachment removed.')
+        })
     }
 
     const formData = ref(formValue)
@@ -157,10 +173,10 @@ export default {
       save,
       uploadFile,
       dateOptions,
-      formData,
+      formData, formClose,
       permitDateStr,
       error: computed(() => store.state.siabsen.permitError),
-      attachment,
+      attachment, attachmentError,
       dateChanged,
       disableSaveButton: computed(() => store.state.siabsen.disableSaveButton),
       cardDialog

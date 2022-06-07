@@ -9,10 +9,13 @@ class Admin extends \Actudent
 
     protected $config;
 
+    protected $aws;
+
     public function __construct()
     {
         $this->model = new \SiAbsen\Models\CoreModel;
         $this->config = $this->model->getConfig();
+        $this->aws = new \AwsClient;
     }
 
     public function getMonthlySummary($month, $year)

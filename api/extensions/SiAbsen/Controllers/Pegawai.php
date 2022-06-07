@@ -5,6 +5,57 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Pegawai extends Admin
 {
+    public function deleteUnusedPermitAttachment()
+    {
+        $url = $this->request->getPost('url');
+        $this->aws->folder('staff-permit')->deleteObject($url);
+        
+        return $this->response->setJSON(['msg' => 'OK']);
+    }
+
+    public function uploadPermitAttachment()
+    {
+        if(valid_token()) {   
+            if($this->validateFile()) {
+                $attachment = $this->request->getFile('attachment');
+                $newFilename = $attachment->getRandomName();
+                $dirPath = PUBLICPATH . 'attachments/izin/';
+                $filePath = $dirPath . $newFilename;
+                $attachment->move($dirPath, $newFilename);
+    
+                $result = $this->aws->folder('staff-permit')->putObject($filePath);
+                if(file_exists($filePath))
+                {
+                    unlink($filePath);
+                }
+                
+                $response = [
+                    'msg' => 'OK',
+                    'img' => $result // get AWS object URL
+                ];
+
+                return $this->response->setJSON($response);
+            } else {
+                return $this->response->setJSON($this->validation->getErrors());
+            }
+        }
+    }
+
+    private function validateFile()
+    {
+        $fileRules = [
+            'attachment' => 'is_image[attachment]|max_size[attachment,1024]'
+        ];
+        $fileMessages = [
+            'attachment' => [
+                'is_image' => lang('Admin.invalid_filetype'),
+                'max_size' => lang('Admin.file_too_large'),
+            ]
+        ];
+
+        return $this->validate($fileRules, $fileMessages);
+    }
+
     public function sendPresence($tag)
     {
         if(valid_token()) {
@@ -47,8 +98,7 @@ class Pegawai extends Admin
             $path = $dirPath . $newFilename;
 
             // upload to AWS S3...
-            $aws = new \AwsClient;
-            $result = $aws->putObject($path);
+            $result = $this->aws->putObject($path);
             if(file_exists($path))
             {
                 unlink($path);

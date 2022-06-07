@@ -33,5 +33,5 @@ return [
     'siabsen_atur_jadwal'       => 'Set absence schedule',
     'siabsen_form_izin_title'   => 'Permit Request Form',
     'siabsen_alasan_izin'       => 'Permit reason',
-    'siabsen_lampiran_izin'     => 'Attachment',
+    'siabsen_lampiran_izin'     => 'Attachment (Image file with max. size 1 MB)',
 ];
