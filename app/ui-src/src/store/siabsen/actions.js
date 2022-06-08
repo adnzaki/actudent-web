@@ -12,6 +12,50 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  sendPermitRequest({ state, dispatch }, data) {
+    state.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('siabsen_permit_progress'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    siabsen.post('kirim-izin', data, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(response => {
+        state.disableSaveButton = false
+        const res = response.data
+        if(res.code === '500') {
+          state.permitError = res.msg
+          notifyProgress({
+            message: `Error! ${t('siabsen_permit_error')}`,
+            color: 'negative',
+            spinner: false,
+            timeout
+          })
+        } else {
+          state.saveStatus = 200
+          state.disableSaveButton = true
+
+          // dispatch('resetForm')
+          state.showPermitForm = false
+          notifyProgress({
+            message: `${t('sukses')} ${t('siabsen_permit_success')}`,
+            color: 'positive',
+            icon: 'done',
+            spinner: false,
+            timeout
+          })
+        }
+      })
+  },
   getStaffPresence({ state, dispatch }) {
     const limit = 25
     state.paging.rows = limit

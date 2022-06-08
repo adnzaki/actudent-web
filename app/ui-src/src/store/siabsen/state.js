@@ -18,7 +18,8 @@ export default function () {
     outPhotoURL: '',
     showPresenceDetail: false,
     showPermitForm: false,
-    disableSaveButton: false,
+    disableSaveButton: true,
     permitError: {},
+    saveStatus: 500
   }
 }

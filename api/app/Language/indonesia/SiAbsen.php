@@ -33,4 +33,17 @@ return [
     'siabsen_form_izin_title'   => 'Form Pengajuan Izin',
     'siabsen_alasan_izin'       => 'Alasan izin',
     'siabsen_lampiran_izin'     => 'Lampiran (File gambar dengan ukuran maks. 1 MB)',
+    'siabsen_permit_error'  => [
+        'date_required'         => 'Kolom tanggal tidak boleh kosong',
+        'date_invalid'          => 'Format tanggal tidak valid [Format yang diizinkan: YYYY-MM-DD]',
+        'starttime_required'    => 'Waktu mulai izin tidak boleh kosong',
+        'endtime_required'      => 'Waktu selesai izin tidak boleh kosong',
+        'time_invalid'          => 'Format waktu tidak valid [Format yang diizinkan: HH:mm]',
+        'reason_required'       => 'Kolom alasan tidak boleh kosong',
+        'photo_required'        => 'Lampiran tidak boleh kosong',
+    ],
+    'siabsen_upload_progress'   => 'Menggunggah lampiran...',
+    'siabsen_permit_progress'   => 'Mengirim permintaan izin...',
+    'siabsen_permit_error'      => 'Gagal mengirim permintaan izin, silakan isi form dengan benar',
+    'siabsen_permit_success'    => 'Permintaan izin berhasil dikirim',
 ];

@@ -12,6 +12,7 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('kirim-absen/(:any)', 'Pegawai::sendPresence/$1');
     $routes->add('unggah-lampiran', 'Pegawai::uploadPermitAttachment');
     $routes->add('hapus-lampiran', 'Pegawai::deleteUnusedPermitAttachment');
+    $routes->add('kirim-izin', 'Pegawai::sendPermitRequest');
     $routes->add('rekap-bulanan/(:any)/(:any)', 'Admin::getMonthlySummary/$1/$2');
     $routes->add('test-status/(:any)', 'Test::testStatus/$1');
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');

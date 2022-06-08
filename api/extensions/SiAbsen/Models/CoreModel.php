@@ -27,6 +27,21 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function insertPermit(array $data, int $staffId): void
+    {
+        $values = [
+            'staff_id'          => $staffId,
+            'permit_date'       => $data['permit_date'],
+            'permit_starttime'  => $data['permit_starttime'],
+            'permit_endtime'    => $data['permit_endtime'],
+            'permit_reason'     => $data['permit_reason'],
+            'permit_photo'      => $data['permit_photo'],
+            'permit_status'     => 'submitted',
+        ];
+
+        $this->QBPermit->insert($values);
+    }
+
     public function getTeacherSchedules(int $staffId)
     {
         $select = $this->shared->QBJadwal->select('DISTINCT `schedule_day`', false);

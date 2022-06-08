@@ -5,6 +5,70 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Pegawai extends Admin
 {
+    public function sendPermitRequest()
+    {
+        if(valid_token()) {
+            $validation = $this->permitValidation();
+            if(! validate($validation[0], $validation[1])) {
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
+            } else {
+                $data = $this->formData();
+                $this->model->insertPermit($data, $this->getStaffId());
+
+                return $this->response->setJSON([
+                    'code' => '200',
+                    'msg' => 'Data submitted successfully',
+                ]);
+            }
+        }
+    }
+
+    private function permitValidation()
+    {
+        $rules = [
+            'permit_date'       => 'required|valid_date[Y-m-d]',
+            'permit_starttime'  => 'required|valid_date[H:i]',
+            'permit_endtime'    => 'required|valid_date[H:i]',
+            'permit_reason'     => 'required',
+            'permit_photo'      => 'required',
+        ];
+
+        $messages = [
+            'permit_date' => [
+                'required'      => lang('SiAbsen.siabsen_permit_error.date_required'),
+                'valid_date'    => lang('SiAbsen.siabsen_permit_error.date_invalid'),
+            ],
+            'permit_starttime' => [
+                'required'      => lang('SiAbsen.siabsen_permit_error.starttime_required'),
+                'valid_date'    => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+            ],
+            'permit_endtime' => [
+                'required'      => lang('SiAbsen.siabsen_permit_error.endtime_required'),
+                'valid_date'    => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+            ],
+            'permit_reason' => [
+                'required'      => lang('SiAbsen.siabsen_permit_error.reason_required'),
+            ],'permit_photo' => [
+                'required'      => lang('SiAbsen.siabsen_permit_error.photo_required'),
+            ]
+        ];
+        
+        return [$rules, $messages];
+    }
+    private function formData()
+    {
+        return [
+            'permit_date'       => $this->request->getPost('permit_date'),
+            'permit_starttime'  => $this->request->getPost('permit_starttime'),
+            'permit_endtime'    => $this->request->getPost('permit_endtime'),
+            'permit_reason'     => $this->request->getPost('permit_reason'),
+            'permit_photo'      => $this->request->getPost('permit_photo'),
+        ];
+    }
+
     public function deleteUnusedPermitAttachment()
     {
         $url = $this->request->getPost('url');

@@ -1,5 +1,6 @@
 <template>
   <q-dialog v-model="$store.state.siabsen.showPermitForm"
+    @before-show="formOpen"
     @hide="formClose">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -95,7 +96,7 @@ import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
 import { cardDialog } from 'src/composables/screen'
 import { selectedLang } from 'src/composables/date'
-import { siabsen, bearerToken, createFormData } from 'src/composables/common'
+import { siabsen, bearerToken, createFormData, t } from 'src/composables/common'
 
 export default {
   setup() { 
@@ -126,10 +127,27 @@ export default {
       return val >= date.formatDate(new Date, 'YYYY/MM/DD')
     }
 
+    const formData = ref(formValue)
+    const saveStatus = computed(() => store.state.siabsen.saveStatus)
+    const save = () => {
+      store.dispatch('siabsen/sendPermitRequest', formData.value)
+    }
+
     const uploadFile = val => {
-      store.state.siabsen.disableSaveButton = true
+      // clear any existing file before upload..
+      formClose()
+
       const uploadData = new FormData()
       uploadData.append('attachment', val)
+      const notifyProgress = $q.notify({
+        group: false,
+        spinner: true,
+        message: t('siabsen_upload_progress'),
+        color: 'info',
+        position: 'center',
+        timeout: 0,
+      })
+      
       siabsen.post('unggah-lampiran', uploadData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -141,6 +159,9 @@ export default {
             attachmentError.value = ''
             store.state.siabsen.disableSaveButton = false
             formData.value.permit_photo = data.img
+            notifyProgress({
+              timeout: 1
+            })
           } else {
             attachmentError.value = data
             store.state.siabsen.disableSaveButton = true
@@ -151,29 +172,43 @@ export default {
         .catch(error => console.error(error))
     }
 
+    const formOpen = () => {
+      attachment.value = []
+      store.state.siabsen.disableSaveButton = true
+      if(saveStatus.value === 200) {
+        formValue = {
+          permit_date: date.formatDate(new Date(), 'YYYY-MM-DD'),
+          permit_starttime: '08:00',
+          permit_endtime: '12:00',
+          permit_reason: '',
+          permit_photo: '',
+        }
+
+        formData.value = formValue
+        store.state.siabsen.saveStatus = 500
+      }
+    }
+
     const formClose = () => {
-      const data = { url: formData.value.permit_photo }
-      siabsen.post('hapus-lampiran', data, {
-        headers: { Authorization: bearerToken },
-        transformRequest: [data => {
-          return createFormData(data)
-        }]
-      })
-        .then(() => {
-          console.log('Form canceled, attachment removed.')
+      if(saveStatus.value === 500 && attachment.value !== []) {
+        const data = { url: formData.value.permit_photo }
+        siabsen.post('hapus-lampiran', data, {
+          headers: { Authorization: bearerToken },
+          transformRequest: [data => {
+            return createFormData(data)
+          }]
         })
-    }
-
-    const formData = ref(formValue)
-    const save = () => {
-
-    }
-
+          .then(() => {
+            console.log('Form canceled, attachment removed if exists.')
+          })
+      }
+    }    
+    
     return {
       save,
       uploadFile,
       dateOptions,
-      formData, formClose,
+      formData, formClose, formOpen,
       permitDateStr,
       error: computed(() => store.state.siabsen.permitError),
       attachment, attachmentError,
