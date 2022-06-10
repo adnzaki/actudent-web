@@ -10,6 +10,7 @@
       </div>
     </q-card-section>
     <permit-list class="q-mt-sm" />
+    <permit-detail />
     <!-- <staff-list />
     <presence-detail /> -->
   </q-card>
@@ -19,10 +20,12 @@
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import PermitList from './PermitList.vue';
+import PermitDetail from '../teacher_permit/PermitDetail.vue';
 
 export default {
   components: {
-    PermitList
+    PermitList,
+    PermitDetail
 },
   setup() {
     const store = useStore();

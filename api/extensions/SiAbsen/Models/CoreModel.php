@@ -52,6 +52,11 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->QBPermit->update(['permit_status' => $status], ['permit_id' => $id]);
     }
 
+    public function getPermissionDetail(int $id)
+    {
+        return $this->QBPermit->getWhere(['permit_id' => $id])->getResult()[0];
+    }
+
     /**
      * Get staff permissions
      * 

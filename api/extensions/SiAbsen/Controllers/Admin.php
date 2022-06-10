@@ -18,6 +18,16 @@ class Admin extends \Actudent
         $this->aws = new \AwsClient;
     }
 
+    public function getPermissionDetail($id)
+    {
+        $data = $this->model->getPermissionDetail($id);
+        $data->permit_date = os_date()->format('D-M-Y', reverse($data->permit_date, '-', '-'), '-');
+        $data->permit_starttime = substr($data->permit_starttime, 0, 5);
+        $data->permit_endtime = substr($data->permit_endtime, 0, 5);
+
+        return $this->createResponse($data);
+    }
+
     public function setPermitStatus($id)
     {
         if(is_admin()) {

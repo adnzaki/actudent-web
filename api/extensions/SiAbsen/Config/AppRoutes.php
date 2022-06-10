@@ -16,6 +16,7 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('get-izin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getPermissions/$1/$2/$3/$4/$5/$6');
     $routes->add('get-izin/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getPermissions/$1/$2/$3/$4/$5/$6/$7');
     $routes->add('set-status-izin/(:any)', 'Admin::setPermitStatus/$1');
+    $routes->add('get-detail-izin/(:any)', 'Admin::getPermissionDetail/$1');
     $routes->add('rekap-bulanan/(:any)/(:any)', 'Admin::getMonthlySummary/$1/$2');
     $routes->add('test-status/(:any)', 'Test::testStatus/$1');
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');

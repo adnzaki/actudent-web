@@ -13,7 +13,16 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
-  setPermitStatus({ dispatch }, { status, id }) {
+  getPermissionDetail({ state, dispatch }, id) {
+    siabsen.get(`get-detail-izin/${id}`, {
+      headers: { Authorization: bearerToken }
+    })
+      .then(({ data }) => {
+        state.permitDetail = data
+        state.showPermitDetail = true
+      }) 
+  },
+  setPermitStatus({ state, dispatch }, { status, id }) {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
@@ -31,6 +40,7 @@ export default {
     })
       .then(res => {
         dispatch('getPermissions')
+        state.showPermitDetail = false
         notifyProgress({
           message: `${t('sukses')} ${t('siabsen_renew_izin_success')}`,
           color: 'positive',
@@ -64,6 +74,10 @@ export default {
       sort: 'DESC',
       search: '',
       url: `${conf.siabsenAPI}get-izin/${withId}/`,
+      autoReset: {
+        active: true,
+        timeout: 500
+      },
     })
   },
   sendPermitRequest({ state, dispatch }, data) {

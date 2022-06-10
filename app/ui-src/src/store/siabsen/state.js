@@ -20,6 +20,8 @@ export default function () {
     showPermitForm: false,
     disableSaveButton: true,
     permitError: {},
-    saveStatus: 500
+    saveStatus: 500,
+    showPermitDetail: false,
+    permitDetail: {},
   }
 }

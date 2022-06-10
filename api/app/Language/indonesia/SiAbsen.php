@@ -57,4 +57,6 @@ return [
     'siabsen_renew_izin_failed' => 'Tidak dapat memperbarui status izin',
     'siabsen_permit_approved'   => 'Izin anda telah disetujui',
     'siabsen_permit_prayer'     => 'Semoga urusan anda segera selesai!',
+    'siabsen_permit_detail'     => 'Detil Pengajuan Izin',
+    'siabsen_nama_tanggal'      => 'Nama / Tanggal',
 ];

@@ -58,4 +58,6 @@ return [
     'siabsen_renew_izin_failed' => 'Unable to update permission status',
     'siabsen_permit_approved'   => 'Your permission has been approved',
     'siabsen_permit_prayer'     => 'Hope your business will be finished soon!',
+    'siabsen_permit_detail'     => 'Permission Request Detail',
+    'siabsen_nama_tanggal'      => 'Name / Date',
 ];
