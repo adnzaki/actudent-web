@@ -196,26 +196,34 @@ class Pegawai extends Admin
     public function outStatus()
     {
         if(is_teacher()) {
-            $out = $this->getPresence(date('Y-m-d'), 'pulang');
-            $in = $this->getPresence(date('Y-m-d'), 'masuk');
+            $currentDate = date('Y-m-d');
+            $out = $this->getPresence($currentDate, 'pulang');
+            $in = $this->getPresence($currentDate, 'masuk');
             $currentTime = $this->toDecimal(date('H:i:s'));
             $timeOut = $this->toDecimal($this->config->presence_timeout);
-            if($in === null && $currentTime < $timeOut) {
-                $status = lang('SiAbsen.siabsen_masuk_dulu');
-                $canAbsent = 0; // unable to absent
-            } elseif($in === null && $currentTime > $timeOut) {
-                $status = lang('SiAbsen.siabsen_tidak_masuk');
+            $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
+
+            if($in === null && $hasPermission) {
+                $status = lang('SiAbsen.siabsen_permit_prayer');
                 $canAbsent = 0; // unable to absent
             } else {
-                if($out === null && $currentTime > $timeOut) {
-                    $status = lang('SiAbsen.siabsen_belum_pulang');
-                    $canAbsent = 1; // able to absent
-                } elseif($out === null && $currentTime < $timeOut) {
-                    $status = lang('SiAbsen.siabsen_belum_pulang');
+                if($in === null && $currentTime < $timeOut) {
+                    $status = lang('SiAbsen.siabsen_masuk_dulu');
+                    $canAbsent = 0; // unable to absent
+                } elseif($in === null && $currentTime > $timeOut) {
+                    $status = lang('SiAbsen.siabsen_besok_absen');
                     $canAbsent = 0; // unable to absent
                 } else {
-                    $status = lang('SiAbsen.siabsen_sudah_pulang');
-                    $canAbsent = 0; // unable to absent
+                    if($out === null && $currentTime > $timeOut) {
+                        $status = lang('SiAbsen.siabsen_belum_pulang');
+                        $canAbsent = 1; // able to absent
+                    } elseif($out === null && $currentTime < $timeOut) {
+                        $status = lang('SiAbsen.siabsen_belum_pulang');
+                        $canAbsent = 0; // unable to absent
+                    } else {
+                        $status = lang('SiAbsen.siabsen_sudah_pulang');
+                        $canAbsent = 0; // unable to absent
+                    }
                 }
             }
 
@@ -232,36 +240,43 @@ class Pegawai extends Admin
     public function inStatus()
     {
         if(is_teacher()) {
-            $presence = $this->getPresence(date('Y-m-d'), 'masuk');
+            $currentDate = date('Y-m-d');
+            $presence = $this->getPresence($currentDate, 'masuk');
             $currentTime = $this->toDecimal(date('H:i:s'));
             $timeOut = $this->toDecimal($this->config->presence_timeout);
             $todayLimit = $this->toDecimal('23:59:00');
             $isLate = 0;
+            $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
             
-            if($presence === null && $currentTime > $timeOut && $currentTime < $todayLimit) {
-                $status = lang('SiAbsen.siabsen_tidak_masuk');
+            if($presence === null && $hasPermission) {
+                $status = lang('SiAbsen.siabsen_permit_approved');
                 $canAbsent = 0; // unable to absent
             } else {
-                if($presence === null) {
-                    $status = lang('SiAbsen.siabsen_belum_masuk');
-                    $canAbsent = 1; // able to absent
-                } else {
-                    
-                    $timeIn = $this->toDecimal($this->config->presence_timein);
-                    $timeLimit = $this->config->timelimit_allowed / 60 / 60;
-                    $datetime = explode(' ', $presence->presence_datetime);
-                    $presenceIn = $this->toDecimal($datetime[1]);
-                    $ontimeLimit = $timeIn + $timeLimit;
-        
-                    if($presenceIn > $ontimeLimit) {
-                        $status = lang('SiAbsen.siabsen_telat_masuk');
-                    } else {
-                        $status = lang('SiAbsen.siabsen_sudah_masuk');
-                    }
-    
+                if($presence === null && $currentTime > $timeOut && $currentTime < $todayLimit) {
+                    $status = lang('SiAbsen.siabsen_tidak_masuk');
                     $canAbsent = 0; // unable to absent
-                    if($presenceIn > $ontimeLimit) {
-                        $isLate = 1;
+                } else {
+                    if($presence === null) {
+                        $status = lang('SiAbsen.siabsen_belum_masuk');
+                        $canAbsent = 1; // able to absent
+                    } else {
+                        
+                        $timeIn = $this->toDecimal($this->config->presence_timein);
+                        $timeLimit = $this->config->timelimit_allowed / 60 / 60;
+                        $datetime = explode(' ', $presence->presence_datetime);
+                        $presenceIn = $this->toDecimal($datetime[1]);
+                        $ontimeLimit = $timeIn + $timeLimit;
+            
+                        if($presenceIn > $ontimeLimit) {
+                            $status = lang('SiAbsen.siabsen_telat_masuk');
+                        } else {
+                            $status = lang('SiAbsen.siabsen_sudah_masuk');
+                        }
+        
+                        $canAbsent = 0; // unable to absent
+                        if($presenceIn > $ontimeLimit) {
+                            $isLate = 1;
+                        }
                     }
                 }
             }

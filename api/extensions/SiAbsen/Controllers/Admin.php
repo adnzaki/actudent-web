@@ -85,8 +85,16 @@ class Admin extends \Actudent
                 $in = $this->model->getPresence($staffId, $searchDate, 'masuk');
 
                 // if it exists, it means the teacher was present on that date
-                // pass the value with 1 = present, 0 = absent                    
-                $status = $in === null ? 0 : 1;
+                // pass the value with 1 = present, 0 = absent, 2 = permit
+                $hasPermission = $this->model->hasPermissionToday($searchDate, $staffId);
+                if($in === null && $hasPermission) {
+                    $status = 2;
+                } elseif($in === null && ! $hasPermission) {
+                    $status = 0;
+                } else {
+                    $status = 1;
+                }
+
                 $presenceData[] = [
                     $searchDate => $status
                 ];

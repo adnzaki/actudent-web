@@ -13,6 +13,7 @@ return [
     'siabsen_sudah_masuk'       => 'Terimakasih telah datang tepat waktu!',
     'siabsen_tidak_masuk'       => 'Ups, anda tidak masuk hari ini.',
     'siabsen_belum_pulang'      => 'Jangan lupa absen pulang!',
+    'siabsen_besok_absen'       => 'Jangan lupa absen besok!',
     'siabsen_sudah_pulang'      => 'Selamat tinggal, sampai ketemu besok!',
     'siabsen_masuk_dulu'        => 'Silakan absen masuk terlebih dahulu',
     'siabsen_kehadiran'         => 'Kehadiran',
@@ -54,4 +55,6 @@ return [
     'siabsen_renew_izin'        => 'Memperbarui status izin...',
     'siabsen_renew_izin_success'=> 'Status izin telah diperbarui',
     'siabsen_renew_izin_failed' => 'Tidak dapat memperbarui status izin',
+    'siabsen_permit_approved'   => 'Izin anda telah disetujui',
+    'siabsen_permit_prayer'     => 'Semoga urusan anda segera selesai!',
 ];

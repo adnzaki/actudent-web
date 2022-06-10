@@ -36,6 +36,17 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function hasPermissionToday(string $date, int $staffId)
+    {
+        $select = $this->QBPermit->where([
+            'staff_id' => $staffId,
+            'permit_date' => $date,
+            'permit_status' => 'approved'
+        ]);
+
+        return $select->countAllResults() > 0 ? true : false;
+    }
+
     public function setPermitStatus(string $status, int $id): void
     {
         $this->QBPermit->update(['permit_status' => $status], ['permit_id' => $id]);

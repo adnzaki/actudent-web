@@ -14,6 +14,7 @@ return [
     'siabsen_telat_masuk'       => 'Unfortunately, you are coming late...',
     'siabsen_sudah_masuk'       => 'Thanks for coming on time!',
     'siabsen_belum_pulang'      => 'Don\'t forget to absent for go home!',
+    'siabsen_besok_absen'       => 'Don\'t forget to absent tomorrow!',
     'siabsen_sudah_pulang'      => 'Good bye, see you tomorrow!',
     'siabsen_masuk_dulu'        => 'Please be present first',
     'siabsen_kehadiran'         => 'Presence',
@@ -55,4 +56,6 @@ return [
     'siabsen_renew_izin'        => 'Updating permission status...',
     'siabsen_renew_izin_success'=> 'Permission status has been updated',
     'siabsen_renew_izin_failed' => 'Unable to update permission status',
+    'siabsen_permit_approved'   => 'Your permission has been approved',
+    'siabsen_permit_prayer'     => 'Hope your business will be finished soon!',
 ];
