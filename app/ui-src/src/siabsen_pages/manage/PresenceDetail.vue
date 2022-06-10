@@ -11,7 +11,7 @@
       <q-card-section class="scroll card-section">
         <q-img 
           :src="imgSrc($store.state.siabsen.inPhotoURL)"
-          style="width: 300px; height: 400px;"
+          :style="imgSize"
           class="rounded-borders q-mr-md q-mt-md"
           fit="cover">
           <div class="absolute-bottom text-subtitle1 text-center">
@@ -21,7 +21,7 @@
         </q-img>
         <q-img 
           :src="imgSrc($store.state.siabsen.outPhotoURL)"
-          style="width: 300px; height: 400px;"
+          :style="imgSize"
           class="rounded-borders q-mt-md"
           fit="cover">
           <div class="absolute-bottom text-subtitle1 text-center">
@@ -41,11 +41,28 @@
 
 <script>
 import { cardDialog } from 'src/composables/screen'
+import { useQuasar } from 'quasar'
+import { computed } from 'vue'
 
 export default {
   setup() { 
+    const $q = useQuasar()
+    const imgSize = computed(() => {
+      let defaultStyle = {
+        width: '300px', height: '400px'
+      }
+
+      if($q.screen.lt.md) {
+        defaultStyle = {
+          width: '290px', height: '387px'
+        }
+      }
+
+      return defaultStyle
+    })
 
     return {
+      imgSize,
       imgSrc: src => src !== '' && src !== '-' ? src : require('../../../public/no-image.png'),
       cardDialog
     }
