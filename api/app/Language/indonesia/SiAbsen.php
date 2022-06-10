@@ -49,4 +49,9 @@ return [
     'siabsen_submit_status'     => 'Diproses',
     'siabsen_approve_status'    => 'Disetujui',
     'siabsen_reject_status'     => 'Ditolak',
+    'siabsen_approve_permit'    => 'Setujui',
+    'siabsen_reject_permit'     => 'Tolak',
+    'siabsen_renew_izin'        => 'Memperbarui status izin...',
+    'siabsen_renew_izin_success'=> 'Status izin telah diperbarui',
+    'siabsen_renew_izin_failed' => 'Tidak dapat memperbarui status izin',
 ];

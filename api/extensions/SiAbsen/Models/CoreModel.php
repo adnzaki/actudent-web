@@ -36,6 +36,11 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function setPermitStatus(string $status, int $id): void
+    {
+        $this->QBPermit->update(['permit_status' => $status], ['permit_id' => $id]);
+    }
+
     /**
      * Get staff permissions
      * 

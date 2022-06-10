@@ -13,6 +13,41 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  setPermitStatus({ dispatch }, { status, id }) {
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('siabsen_renew_izin'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    siabsen.post(`set-status-izin/${id}`, { status }, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(res => {
+        dispatch('getPermissions')
+        notifyProgress({
+          message: `${t('sukses')} ${t('siabsen_renew_izin_success')}`,
+          color: 'positive',
+          icon: 'done',
+          spinner: false,
+          timeout
+        })
+      })
+      .catch(err => {
+        notifyProgress({
+          message: `Error! ${t('siabsen_renew_izin_failed')} [${err.message}]`,
+          color: 'negative',
+          spinner: false,
+          timeout
+        })
+      })
+  },
   getPermissions({ state, dispatch }) {
     const limit = 25
     state.paging.rows = limit

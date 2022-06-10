@@ -18,6 +18,18 @@ class Admin extends \Actudent
         $this->aws = new \AwsClient;
     }
 
+    public function setPermitStatus($id)
+    {
+        if(is_admin()) {
+            $status = $this->request->getPost('status');
+            $this->model->setPermitStatus($status, $id);
+
+            return $this->response->setJSON([
+                'msg' => 'OK'
+            ]);
+        }        
+    }
+
     public function getMonthlySummary($month, $year)
     {
         if(is_admin()) {

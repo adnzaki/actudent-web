@@ -50,4 +50,9 @@ return [
     'siabsen_submit_status'     => 'Processed',
     'siabsen_approve_status'    => 'Approved',
     'siabsen_reject_status'     => 'Rejected',
+    'siabsen_approve_permit'    => 'Approve',
+    'siabsen_reject_permit'     => 'Reject',
+    'siabsen_renew_izin'        => 'Updating permission status...',
+    'siabsen_renew_izin_success'=> 'Permission status has been updated',
+    'siabsen_renew_izin_failed' => 'Unable to update permission status',
 ];

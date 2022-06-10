@@ -20,6 +20,7 @@ import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
 import SiAbsenIndex from 'src/siabsen_pages/Index.vue'
 import ManageMain from 'src/siabsen_pages/manage/ManageMain.vue'
+import PermitMain from 'src/siabsen_pages/admin_permit/PermitMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -59,6 +60,7 @@ export default [
     children: [
       { path: '', component: ManageMain, beforeEnter: () => routeValidator() },
       { path: 'manage', component: ManageMain, beforeEnter: () => routeValidator() },
+      { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator() },
     ]
   },
 ]
