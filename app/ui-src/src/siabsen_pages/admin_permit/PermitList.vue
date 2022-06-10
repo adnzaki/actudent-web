@@ -19,7 +19,7 @@
             <td class="text-left">{{ item.staff_name }}</td>
             <td class="text-left">{{ $formatDate(item.permit_date, 'DD/MM/YYYY') }}</td>
             <td class="text-left">
-              {{ item.permit_starttime.substring(0, 5) }} - {{ item.permit_endtime.substring(0, 5) }}
+              {{ trimTime(item.permit_starttime) }} - {{ trimTime(item.permit_endtime) }}
             </td>
             <td class="text-left">{{ item.permit_reason }}</td>
             <td class="text-left">
@@ -71,6 +71,9 @@ export default {
     store.dispatch('siabsen/getPermissions');
 
     return {
+      trimTime(val) {
+        return val === undefined ? '' : val.substring(0, 5)
+      },
       setStatus: (val, id ) => {
         store.dispatch('siabsen/setPermitStatus', {
           status: val, 
