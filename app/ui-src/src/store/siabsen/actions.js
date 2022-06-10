@@ -5,6 +5,7 @@ import {
   createFormData,
   t,
   conf,
+  Cookies
 } from '../../composables/common'
 
 import { date } from 'quasar'
@@ -12,6 +13,24 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getPermissions({ state, dispatch }) {
+    const limit = 25
+    state.paging.rows = limit
+
+    const withId = Cookies.get(conf.userType) === '1' ? 'false' : 'true'
+
+    dispatch('getData', {
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit,
+      offset: state.current - 1,
+      orderBy: 'permit_date',
+      searchBy: 'staff_name',
+      sort: 'DESC',
+      search: '',
+      url: `${conf.siabsenAPI}get-izin/${withId}/`,
+    })
+  },
   sendPermitRequest({ state, dispatch }, data) {
     state.disableSaveButton = true
     const notifyProgress = Notify.create({
@@ -43,6 +62,7 @@ export default {
         } else {
           state.saveStatus = 200
           state.disableSaveButton = true
+          dispatch('getPermissions')
 
           // dispatch('resetForm')
           state.showPermitForm = false

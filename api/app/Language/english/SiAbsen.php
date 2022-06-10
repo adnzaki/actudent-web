@@ -47,4 +47,7 @@ return [
     'siabsen_permit_progress'   => 'Sending permission request...',
     'siabsen_permit_error'      => 'Unable to send permission request, please fill the form correctly',
     'siabsen_permit_success'    => 'Permission request sent successfully',
+    'siabsen_submit_status'     => 'Processed',
+    'siabsen_approve_status'    => 'Approved',
+    'siabsen_reject_status'     => 'Rejected',
 ];

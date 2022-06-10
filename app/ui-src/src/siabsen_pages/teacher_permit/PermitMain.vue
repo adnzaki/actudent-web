@@ -11,6 +11,7 @@
       </div>
     </q-card-section>
     <permit-request-form />
+    <permit-list class="q-mt-lg" />
     <!-- <staff-list />
     <presence-detail /> -->
   </q-card>
@@ -21,11 +22,13 @@ import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import PermitRequestForm from './PermitRequestForm.vue';
+import PermitList from './PermitList.vue';
 
 export default {
   components: {
     MainButton,
-    PermitRequestForm
+    PermitRequestForm,
+    PermitList
 },
   setup() {
     const store = useStore();

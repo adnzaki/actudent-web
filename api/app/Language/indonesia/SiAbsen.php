@@ -46,4 +46,7 @@ return [
     'siabsen_permit_progress'   => 'Mengirim permintaan izin...',
     'siabsen_permit_error'      => 'Gagal mengirim permintaan izin, silakan isi form dengan benar',
     'siabsen_permit_success'    => 'Permintaan izin berhasil dikirim',
+    'siabsen_submit_status'     => 'Diproses',
+    'siabsen_approve_status'    => 'Disetujui',
+    'siabsen_reject_status'     => 'Ditolak',
 ];

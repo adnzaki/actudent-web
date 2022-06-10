@@ -1,4 +1,4 @@
-import { Cookies } from 'quasar'
+import { Cookies, date } from 'quasar'
 import { ref } from 'vue'
 import { axios, core, admin, teacher, siabsen } from 'boot/axios'
 import { i18n } from 'boot/i18n'
@@ -7,6 +7,28 @@ import { bearerToken, validateToken, redirect } from './validate-token'
 import { runLoadingBar } from './loading-bar'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { pengguna, getPengguna } from './get-pengguna'
+import { selectedLang } from './date'
+
+const t = key => i18n.global.t(key)
+
+const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
+  return date.formatDate(val, format, selectedLang)
+}
+
+const monthList = [
+  { label: t('mon1'), value: '1' },
+  { label: t('mon2'), value: '2' },
+  { label: t('mon3'), value: '3' },
+  { label: t('mon4'), value: '4' },
+  { label: t('mon5'), value: '5' },
+  { label: t('mon6'), value: '6' },
+  { label: t('mon7'), value: '7' },
+  { label: t('mon8'), value: '8' },
+  { label: t('mon9'), value: '9' },
+  { label: t('mon10'), value: '10' },
+  { label: t('mon11'), value: '11' },
+  { label: t('mon12'), value: '12' },
+]
 
 const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
 
@@ -28,8 +50,6 @@ const trim = (text, length = 25) => {
 
 const apiEndpoint = Cookies.get(conf.userType) === '1'
                   ? conf.adminAPI : conf.teacherAPI
-
-const t = key => i18n.global.t(key)
 
 const createQueryString = params => {
   return Object.entries(params).map(item => item.join('=')).join('&')
@@ -60,6 +80,8 @@ function createFormData(obj) {
 }
 
 export {
+  formatDate,
+  monthList,
   toDecimal,
   phpTimestamp,
   trim,

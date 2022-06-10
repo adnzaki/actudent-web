@@ -5,6 +5,22 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Pegawai extends Admin
 {
+    public function getPermissions($withId, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+        if(valid_token()) {
+            if($withId === 'true') {
+                $withId = $this->getStaffId();
+            }
+
+            $data = $this->model->getPermissions($limit, $offset, $search, $withId, $orderBy, $searchBy, $sort);
+
+            return $this->response->setJSON([
+                'container' => $data,
+                'totalRows' => $this->model->getPermissionRows($withId),
+            ]);
+        }
+    }
+
     public function sendPermitRequest()
     {
         if(valid_token()) {

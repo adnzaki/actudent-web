@@ -10,10 +10,19 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     private $QBPermit;
 
+    /**
+     * @var string tb_staff_presence
+     */
     private $staffPresence = 'tb_staff_presence';
 
+    /**
+     * @var string tb_staff_presence_config
+     */
     private $presenceConfig = 'tb_staff_presence_config';
 
+    /**
+     * @var string tb_staff_presence_permit
+     */
     private $presencePermit = 'tb_staff_presence_permit';
 
     private $shared;
@@ -26,6 +35,63 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->QBPermit = $this->db->table($this->presencePermit);
         $this->shared = new SharedModel;
     }
+
+    /**
+     * Get staff permissions
+     * 
+     * @param int $limit
+     * @param int $offset
+     * @param string $search | The date to be searched
+     * @param mixed $staffId
+     * @param string $orderBy
+     * @param string $searchBy
+     * @param string $sort
+     * 
+     * @return array
+     */
+    public function getPermissions(
+        int $limit, 
+        int $offset, 
+        string $search,
+        $staffId,
+        string $orderBy, 
+        string $searchBy, 
+        string $sort = 'ASC',
+    ): array
+    {
+        $select = $this->search($searchBy, $search);
+        if($staffId !== 'false') {
+            $select->where(["{$this->presencePermit}.staff_id" => $staffId]);
+        }
+
+        $query = $select->orderBy($orderBy, $sort)->limit($limit, $offset);
+
+        return $query->get()->getResult();
+    }
+
+    public function getPermissionRows($staffId)
+    {
+        $select = $this->QBPermit->select('*');
+        if($staffId !== 'false') {
+            $select->where(['staff_id' => $staffId]);
+        }
+
+        return $select->countAllResults();
+    }
+
+    private function search(string $searchBy = 'staff_name', string $search = '')
+    {
+        $field = "permit_id, {$this->presencePermit}.staff_id, staff_name, permit_date, permit_starttime, permit_endtime, permit_reason, permit_photo, permit_status";
+
+        $select = $this->QBPermit->select($field);
+        $join = $select->join($this->staff, "{$this->presencePermit}.staff_id={$this->staff}.staff_id");
+
+        if(! empty($search)) {
+            $join->like($searchBy, $search); // search by one parameter
+        }
+        
+        return $join;
+    }      
 
     public function insertPermit(array $data, int $staffId): void
     {
