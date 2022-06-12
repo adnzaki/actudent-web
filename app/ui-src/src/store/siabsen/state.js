@@ -23,5 +23,6 @@ export default function () {
     saveStatus: 500,
     showPermitDetail: false,
     permitDetail: {},
+    period: '01-2022',
   }
 }

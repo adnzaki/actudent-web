@@ -13,6 +13,23 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getAllStaffSummary({ state, dispatch }, period) {
+    dispatch('getData', {
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit: 25,
+      offset: state.current - 1,
+      orderBy: 'staff_name',
+      searchBy: 'staff_name',
+      sort: 'ASC',
+      search: '',
+      url: `${conf.siabsenAPI}rekap-bulanan/${period}/`,
+      autoReset: {
+        active: true,
+        timeout: 500
+      },
+    })
+  },
   getPermissionDetail({ state, dispatch }, id) {
     siabsen.get(`get-detail-izin/${id}`, {
       headers: { Authorization: bearerToken }

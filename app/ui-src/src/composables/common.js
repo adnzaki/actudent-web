@@ -15,20 +15,23 @@ const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
   return date.formatDate(val, format, selectedLang)
 }
 
-const monthList = [
-  { label: t('mon1'), value: '1' },
-  { label: t('mon2'), value: '2' },
-  { label: t('mon3'), value: '3' },
-  { label: t('mon4'), value: '4' },
-  { label: t('mon5'), value: '5' },
-  { label: t('mon6'), value: '6' },
-  { label: t('mon7'), value: '7' },
-  { label: t('mon8'), value: '8' },
-  { label: t('mon9'), value: '9' },
-  { label: t('mon10'), value: '10' },
-  { label: t('mon11'), value: '11' },
-  { label: t('mon12'), value: '12' },
-]
+const monthList = () => {
+  const t = key => i18n.global.t(key)
+  return [
+    { label: t('mon1'), value: '1' },
+    { label: t('mon2'), value: '2' },
+    { label: t('mon3'), value: '3' },
+    { label: t('mon4'), value: '4' },
+    { label: t('mon5'), value: '5' },
+    { label: t('mon6'), value: '6' },
+    { label: t('mon7'), value: '7' },
+    { label: t('mon8'), value: '8' },
+    { label: t('mon9'), value: '9' },
+    { label: t('mon10'), value: '10' },
+    { label: t('mon11'), value: '11' },
+    { label: t('mon12'), value: '12' },
+  ]
+} 
 
 const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
 

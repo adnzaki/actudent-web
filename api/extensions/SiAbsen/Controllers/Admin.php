@@ -40,22 +40,65 @@ class Admin extends \Actudent
         }        
     }
 
-    public function getMonthlySummary($month, $year)
+    public function getIndividualSummary($period, $staffType, $staffId = '')
     {
-        if(is_admin()) {
-            $rows = $this->model->getStaffRows();
-            $employees = $this->model->getStaff($rows, 0);
-            $presenceSummary = [];
-            foreach($employees as $e) {
-                $data = $this->_getMonthlySummary($e->staff_id, $e->staff_type, $month, $year);
-                $presenceSummary[$e->staff_name] = $data;
-            }
-    
-            return $this->response->setJSON($presenceSummary);
+        if(valid_token()) {
+            return $this->response->setJSON($this->_getIndividualSummary($period, $staffType, $staffId));
         }
     }
 
-    protected function _getMonthlySummary($staffId, $staffType, $month, $year)
+    private function _getIndividualSummary($period, $staffType, $staffId)
+    {
+        if(empty($staffId)) {
+            $staffId = $this->getStaffId();
+        }
+
+        return $this->countMonthlySummary(
+            $staffId, 
+            $staffType, 
+            (int)substr($period, 0, 2), 
+            (int)substr($period, 3, 4)
+        );
+    }
+
+    public function getAllStaffSummary($period, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+        if(is_admin()) {
+            $data = $this->_getAllStaffSummary($period, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+            return $this->response->setJSON([
+                'container' => $data,
+                'totalRows' => $this->model->getStaffRows()
+            ]);
+        }
+    }
+
+    private function _getAllStaffSummary($period, $limit, $offset, $orderBy, $searchBy, $sort, $search)
+    {
+        $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
+        $presenceSummary = [];
+        foreach($employees as $e) {
+            $data = $this->countMonthlySummary($e->staff_id, $e->staff_type, (int)substr($period, 0, 2), (int)substr($period, 3, 4));
+            $presenceSummary[] = [
+                'name'      => $e->staff_name,
+                'nip'       => $e->staff_nik,
+                'absent'    => $this->filterPresence($data, 0),
+                'present'   => $this->filterPresence($data, 1),
+                'permit'    => $this->filterPresence($data, 2),
+                'data'      => $data,
+            ];
+        }
+
+        return $presenceSummary;
+    }
+
+    private function filterPresence($array, $status)
+    {
+        $result = count(array_filter($array, fn($v) => $v === $status));
+
+        return $result > 0 ? $result : '-';
+    }
+
+    protected function countMonthlySummary($staffId, $staffType, $month, $year)
     {
         $dayValues = [];
         $days = [
@@ -105,9 +148,7 @@ class Admin extends \Actudent
                     $status = 1;
                 }
 
-                $presenceData[] = [
-                    $searchDate => $status
-                ];
+                $presenceData[$searchDate] = $status;
             }
         }          
 

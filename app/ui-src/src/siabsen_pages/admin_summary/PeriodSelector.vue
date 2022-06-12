@@ -1,0 +1,102 @@
+<template>
+  <div class="col-6 col-md-2 q-mt-md q-pr-xs">
+    <q-select
+      outlined
+      v-model="period.month"
+      :options="monthOptions"
+      dense
+      @update:model-value="monthSelected"
+    />
+  </div>
+  <div class="col-6 col-md-2 q-mt-md q-pl-xs">
+    <q-select
+      outlined
+      v-model="period.year"
+      :options="yearOptions"
+      dense
+      @update:model-value="yearSelected"
+    />
+  </div>
+  <div class="col-12 col-md-2 q-mt-md q-px-xs mobile-hide">
+    <q-btn color="secondary" 
+      style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px;" 
+      icon="print" 
+      :label="$t('absensi_print_pdf')"
+      :href="exportPdf()" target="_blank" />
+  </div>
+  <q-page-sticky position="bottom-right" 
+    :offset="fabPos" 
+    class="mobile-only force-elevated">
+    <q-btn fab icon="print" color="secondary" 
+      :href="exportPdf()" target="_blank" />    
+  </q-page-sticky>
+</template>
+<script>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { useRoute } from 'vue-router'
+import { useQuasar, date } from 'quasar'
+import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
+import { conf, monthList, t } from 'src/composables/common'
+
+export default {
+  name: 'MonthSelector',
+  setup() {
+    const store = useStore()
+    const monthOptions = ref([])
+    const period = ref({})
+    const route = useRoute()
+    const $q = useQuasar()
+    
+    const selectedPeriod = ref(date.formatDate(new Date, 'MM-YYYY'))
+    store.dispatch('siabsen/getAllStaffSummary', selectedPeriod.value)
+
+    const monthSelected = model => {
+      selectedPeriod.value = `${model.value}-${period.value.year}`
+      store.dispatch('siabsen/getAllStaffSummary', selectedPeriod.value)
+    }
+
+    const yearSelected = model => {
+      selectedPeriod.value = `${period.value.month.value}-${model}`
+      store.dispatch('siabsen/getAllStaffSummary', selectedPeriod.value)
+    } 
+
+    setTimeout(() => {
+      let monthNum = parseInt(selectedPeriod.value.substring(0, 2))
+      period.value = {
+        month: { label: t('mon' + monthNum), value: monthNum },
+        year: 2022
+      }
+
+      monthOptions.value = monthList()
+    }, 1500)  
+
+    const gradeId = route.params.id
+    const token = $q.cookies.get(conf.cookieName)
+
+    const exportExcel = () => {
+      return `${conf.adminAPI}absensi/excel-rekap-bulanan/` +
+              `${store.state.presence.selectedPeriod.month}/` +
+              `${store.state.presence.selectedPeriod.year}/` +
+              `${gradeId}/${token}`
+    }
+
+    const exportPdf = () => {
+      return `${conf.adminAPI}absensi/ekspor-rekap-bulanan/` +
+              `${store.state.presence.selectedPeriod.month}/` +
+              `${store.state.presence.selectedPeriod.year}/` +
+              `${gradeId}/${token}`
+
+    }
+
+    return {
+      monthOptions,
+      yearOptions: [2020, 2021, 2022],
+      fabPos, draggingFab, moveFab,
+      period,
+      monthSelected, yearSelected,
+      exportExcel, exportPdf
+    }
+  }
+}
+</script>
