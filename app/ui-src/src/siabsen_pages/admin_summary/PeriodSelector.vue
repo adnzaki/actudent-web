@@ -49,15 +49,18 @@ export default {
     const $q = useQuasar()
     
     const selectedPeriod = ref(date.formatDate(new Date, 'MM-YYYY'))
+    store.state.siabsen.period = selectedPeriod.value
     store.dispatch('siabsen/getAllStaffSummary', selectedPeriod.value)
 
     const monthSelected = model => {
       selectedPeriod.value = `${model.value}-${period.value.year}`
+      store.state.siabsen.period = selectedPeriod.value
       store.dispatch('siabsen/getAllStaffSummary', selectedPeriod.value)
     }
 
     const yearSelected = model => {
       selectedPeriod.value = `${period.value.month.value}-${model}`
+      store.state.siabsen.period = selectedPeriod.value
       store.dispatch('siabsen/getAllStaffSummary', selectedPeriod.value)
     } 
 

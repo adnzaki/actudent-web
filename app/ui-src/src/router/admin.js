@@ -22,6 +22,8 @@ import SiAbsenIndex from 'src/siabsen_pages/Index.vue'
 import ManageMain from 'src/siabsen_pages/manage/ManageMain.vue'
 import PermitMain from 'src/siabsen_pages/admin_permit/PermitMain.vue'
 import AdminSummaryMain from 'src/siabsen_pages/admin_summary/SummaryMain.vue'
+import SummaryRoute from 'src/siabsen_pages/admin_summary/SummaryRoute.vue'
+import PresenceDetail from 'src/siabsen_pages/admin_summary/PresenceDetail.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -62,7 +64,13 @@ export default [
       { path: '', component: ManageMain, beforeEnter: () => routeValidator() },
       { path: 'manage', component: ManageMain, beforeEnter: () => routeValidator() },
       { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator() },
-      { path: 'monthly-summary', component: AdminSummaryMain, beforeEnter: () => routeValidator() },
+      { 
+        path: 'monthly-summary', component: SummaryRoute, beforeEnter: () => routeValidator(),
+        children: [
+          { path: '', component: AdminSummaryMain, beforeEnter: () => routeValidator() },
+          { path: 'detail/:staffId/:userId/:period', component: PresenceDetail, beforeEnter: () => routeValidator() },
+        ] 
+      },
     ]
   },
 ]

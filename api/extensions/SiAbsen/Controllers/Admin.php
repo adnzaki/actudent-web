@@ -20,6 +20,74 @@ class Admin extends \Actudent
         $this->aws = new \AwsClient;
     }
 
+    public function exportStaffSummary($staffId, $userId, $period, $token)
+    {
+        if(valid_token($token)) {
+            $data = [];        
+            foreach($this->resources->getReportData($token) as $key => $val) {
+                $data[$key] = $val;
+            }
+
+            $periodArr = explode('-', $period); // [ month, year ]
+            $month = (int)$periodArr[0];
+            $year = $periodArr[1];
+            $lastDate = os_date()->daysInMonth($month, $year);
+            $result = $this->_getDetailPresence($staffId, $userId, $period);
+            
+            $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
+            $data['title']  = $title;
+            $data['year']   = 'Tahun ' . $year;
+            $data['data']   = $result['data'];
+            $data['nip']    = $result['nip'];
+            $data['name']   = $result['name'];
+            $data['date']   = 'Bekasi, ' . os_date()->fullDate($lastDate, $month, $year, false);
+            $filename       = $title . '_' . $year . '_'. time();
+    
+            $html = view('SiAbsen\Views\ekspor-rekap-individu', $data);
+            // return $html;
+            PDFCreator::create($html, $filename); 
+        }
+    }
+
+    public function getDetailPresence($staffId, $userId, $period)
+    {
+        return $this->createResponse($this->_getDetailPresence($staffId, $userId, $period));
+    }
+
+    private function _getDetailPresence($staffId, $userId, $period)
+    {
+        $staffDetail = $this->model->getStaffDetail($userId)[0];
+        $period = explode('-', $period);
+        $summary = $this->countMonthlySummary($staffId, $staffDetail->staff_type, (int)$period[0], $period[1]);
+        $wrapper = [];
+        $presenceCategory = [
+            lang('AdminAbsensi.absensi_alfa'),
+            lang('AdminAbsensi.absensi_hadir'),
+            lang('AdminAbsensi.absensi_izin'),
+        ];
+
+        foreach($summary as $key => $val) {
+            $in = $this->model->getPresence($staffId, $key, 'masuk');
+            $out = $this->model->getPresence($staffId, $key, 'pulang');
+            $wrapper[] = [
+                'date'      => $key,
+                'label'     => $presenceCategory[$val],
+                'in'        => $in !== null ? explode(' ', $in->presence_datetime)[1] : '-',
+                'out'       => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
+                'status'    => $val,
+                'dateStr'   => os_date()->format('DD-MM-y', reverse($key, '-', '-'))
+            ];
+        }
+
+        $response = [
+            'nip'   => $staffDetail->staff_nik,
+            'name'  => $staffDetail->staff_name,
+            'data'  => $wrapper
+        ];
+
+        return $response;
+    }
+
     public function exportAllStaffSummary($period, $token)
     {
         if(valid_token($token)) {
@@ -33,7 +101,7 @@ class Admin extends \Actudent
             $month = (int)$periodArr[0];
             $year = $periodArr[1];
             $lastDate = os_date()->daysInMonth($month, $year);
-    
+            
             $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
             $data['title']  = $title;
             $data['year']   = 'Tahun ' . $year;
@@ -110,10 +178,11 @@ class Admin extends \Actudent
             $presenceSummary[] = [
                 'name'      => $e->staff_name,
                 'nip'       => $e->staff_nik,
+                'id'        => $e->staff_id,
+                'user'      => $e->user_id,
                 'absent'    => $this->filterPresence($data, 0),
                 'present'   => $this->filterPresence($data, 1),
                 'permit'    => $this->filterPresence($data, 2),
-                'data'      => $data,
             ];
         }
 

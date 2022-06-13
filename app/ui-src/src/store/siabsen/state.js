@@ -24,5 +24,6 @@ export default function () {
     showPermitDetail: false,
     permitDetail: {},
     period: '01-2022',
+    presenceDetail: {}
   }
 }

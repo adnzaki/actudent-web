@@ -21,7 +21,7 @@ return [
     'menu_feedback'         => 'Feedback',
     'menu_langganan'        => 'Subscription',
     'menu_siabsen'          => 'Teacher Presence',
-    'menu_manage_siabsen'   => 'Management',
+    'menu_manage_siabsen'   => 'Daily Data',
     'menu_siabsen_guru'     => 'My Absence',
 
     // menu guru
