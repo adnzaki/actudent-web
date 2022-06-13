@@ -71,22 +71,11 @@ export default {
       monthOptions.value = monthList()
     }, 1500)  
 
-    const gradeId = route.params.id
     const token = $q.cookies.get(conf.cookieName)
 
-    const exportExcel = () => {
-      return `${conf.adminAPI}absensi/excel-rekap-bulanan/` +
-              `${store.state.presence.selectedPeriod.month}/` +
-              `${store.state.presence.selectedPeriod.year}/` +
-              `${gradeId}/${token}`
-    }
-
     const exportPdf = () => {
-      return `${conf.adminAPI}absensi/ekspor-rekap-bulanan/` +
-              `${store.state.presence.selectedPeriod.month}/` +
-              `${store.state.presence.selectedPeriod.year}/` +
-              `${gradeId}/${token}`
-
+      return `${conf.siabsenAPI}print-rekap-bulanan/` +
+             `${selectedPeriod.value}/${token}`
     }
 
     return {
@@ -95,7 +84,7 @@ export default {
       fabPos, draggingFab, moveFab,
       period,
       monthSelected, yearSelected,
-      exportExcel, exportPdf
+      exportPdf
     }
   }
 }

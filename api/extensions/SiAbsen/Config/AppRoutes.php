@@ -21,6 +21,7 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('rekap-bulanan/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getAllStaffSummary/$1/$2/$3/$4/$5/$6');
     $routes->add('rekap-individu/(:any)/(:any)/(:any)', 'Admin::getIndividualSummary/$1/$2/$3');
     $routes->add('rekap-individu/(:any)/(:any)', 'Admin::getIndividualSummary/$1/$2');
+    $routes->add('print-rekap-bulanan/(:any)/(:any)', 'Admin::exportAllStaffSummary/$1/$2');
     $routes->add('test-status/(:any)', 'Test::testStatus/$1');
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');
 });

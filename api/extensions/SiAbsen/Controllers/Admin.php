@@ -3,6 +3,8 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
+use PDFCreator;
+
 class Admin extends \Actudent
 {
     protected $model;
@@ -16,6 +18,33 @@ class Admin extends \Actudent
         $this->model = new \SiAbsen\Models\CoreModel;
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;
+    }
+
+    public function exportAllStaffSummary($period, $token)
+    {
+        if(valid_token($token)) {
+            $data = [];        
+            foreach($this->resources->getReportData($token) as $key => $val) {
+                $data[$key] = $val;
+            }
+
+            $rows = $this->model->getStaffRows();
+            $periodArr = explode('-', $period); // [ month, year ]
+            $month = (int)$periodArr[0];
+            $year = $periodArr[1];
+            $lastDate = os_date()->daysInMonth($month, $year);
+    
+            $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
+            $data['title']  = $title;
+            $data['year']   = 'Tahun ' . $year;
+            $data['data']   = $this->_getAllStaffSummary($period, $rows, 0, 'staff_name', 'staff_name', 'ASC', '');
+            $data['date']   = 'Bekasi, ' . os_date()->fullDate($lastDate, $month, $year, false);
+            $filename       = $title . '_' . $year . '_'. time();
+    
+            $html = view('SiAbsen\Views\ekspor-rekap-bulanan', $data);
+            // return $html;
+            PDFCreator::create($html, $filename); 
+        }
     }
 
     public function getPermissionDetail($id)
