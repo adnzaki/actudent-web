@@ -6,6 +6,8 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('get-absensi-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getStaffPresence/$1/$2/$3/$4/$5/$6/$7');
     $routes->add('validate-position', 'Admin::validatePosition');
     $routes->add('get-config', 'Admin::getConfig');
+    $routes->add('get-detail-config', 'Admin::getFormattedConfig');
+    $routes->add('save-config', 'Admin::saveConfig');
     $routes->add('status-masuk', 'Pegawai::inStatus');
     $routes->add('status-pulang', 'Pegawai::outStatus');
     $routes->add('upload/(:any)', 'Pegawai::uploadImage/$1');

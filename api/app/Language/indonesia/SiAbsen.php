@@ -59,4 +59,17 @@ return [
     'siabsen_permit_prayer'     => 'Semoga urusan anda segera selesai!',
     'siabsen_permit_detail'     => 'Detil Pengajuan Izin',
     'siabsen_nama_tanggal'      => 'Nama / Tanggal',
+    'siabsen_config_absensi'    => 'Konfigurasi Absensi',
+    'siabsen_open_maps'         => 'Buka Maps',
+    'siabsen_toleransi_telat'   => 'Batas toleransi keterlambatan (dalam menit)',
+    'siabsen_batas_range'       => 'Batas maksimum jarak lokasi absen (dalam meter)',
+    'siabsen_config_progress'   => 'Memperbarui pengaturan...',
+    'siabsen_config_failed'     => 'Gagal memperbarui pengaturan, mohon isi form dengan benar',
+    'siabsen_config_success'    => 'Pengaturan berhasil diperbarui',
+    'siabsen_config_error'      => [
+        'field_required'        => 'Kolom ini tidak boleh kosong',
+        'integer_only'          => 'Kolom ini hanya boleh berisi bilangan bulat atau desimal',
+        'numeric_only'          => 'Kolom ini hanya boleh berisi angka natural (tanpa koma, atau tanda "-" dan "+")',
+        'timelimit'             => 'Toleransi keterlambatan tidak boleh lebih dari {0} menit'
+    ],
 ];

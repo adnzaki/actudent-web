@@ -24,6 +24,14 @@ export default function () {
     showPermitDetail: false,
     permitDetail: {},
     period: '01-2022',
-    presenceDetail: {}
+    presenceDetail: {},
+    presenceConfig: {
+      intime: 'HH:mm',
+      outtime: 'HH:mm',
+      lat: '', long: '',
+      tolerance: 0,
+      range: 0
+    },
+    configError: {},
   }
 }

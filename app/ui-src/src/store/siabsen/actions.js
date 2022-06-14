@@ -13,6 +13,43 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  saveConfig({ state, commit }) {
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('siabsen_config_progress'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    siabsen.post(`save-config`, state.presenceConfig, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    })
+      .then(( { data }) => {
+        if(data.code === '500') {
+          state.configError = data.msg
+          notifyProgress({
+            message: `Error! ${t('siabsen_config_failed')}`,
+            color: 'negative',
+            spinner: false,
+            timeout
+          })
+        } else {
+          state.configError = {}
+          notifyProgress({
+            message: `${t('sukses')} ${t('siabsen_config_success')}`,
+            color: 'positive',
+            icon: 'done',
+            spinner: false,
+            timeout
+          })
+        }
+      })
+  },
   getAllStaffSummary({ state, dispatch }, period) {
     dispatch('getData', {
       token: bearerToken,

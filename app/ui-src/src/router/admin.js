@@ -24,6 +24,7 @@ import PermitMain from 'src/siabsen_pages/admin_permit/PermitMain.vue'
 import AdminSummaryMain from 'src/siabsen_pages/admin_summary/SummaryMain.vue'
 import SummaryRoute from 'src/siabsen_pages/admin_summary/SummaryRoute.vue'
 import PresenceDetail from 'src/siabsen_pages/admin_summary/PresenceDetail.vue'
+import ConfigMain from 'src/siabsen_pages/config/ConfigMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -71,6 +72,7 @@ export default [
           { path: 'detail/:staffId/:userId/:period', component: PresenceDetail, beforeEnter: () => routeValidator() },
         ] 
       },
+      { path: 'config', component: ConfigMain, beforeEnter: () => routeValidator() },
     ]
   },
 ]

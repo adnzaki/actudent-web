@@ -185,6 +185,7 @@ export default {
           { label: t('menu_manage_siabsen'), link: '/teacher-presence/manage' },
           { label: t('absensi_izin'), link: '/teacher-presence/permit' },
           { label: t('absensi_rekap_bulanan'), link: '/teacher-presence/monthly-summary' },
+          { label: t('menu_pengaturan'), link: '/teacher-presence/config' },
         ]
 
         guruSiAbsen.value = [

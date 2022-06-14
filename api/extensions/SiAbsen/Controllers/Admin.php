@@ -330,6 +330,85 @@ class Admin extends \Actudent
         return $staff[0];
     }
 
+    public function saveConfig()
+    {
+        if(is_admin()) {
+            $rules = [
+                'intime'    => 'required|valid_date[H:i]',
+                'outtime'   => 'required|valid_date[H:i]',
+                'lat'       => 'required|decimal',
+                'long'      => 'required|decimal',
+                'tolerance' => 'required|is_natural|less_than_equal_to[120]',
+                'range'     => 'required|is_natural'
+            ];
+    
+            $messages = [
+                'intime' => [
+                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
+                    'valid_date'        => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                ],
+                'outtime' => [
+                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
+                    'valid_date'        => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                ],
+                'lat' => [
+                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
+                    'decimal'           => lang('SiAbsen.siabsen_config_error.integer_only'),
+                ],
+                'long' => [
+                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
+                    'decimal'           => lang('SiAbsen.siabsen_config_error.integer_only'),
+                ],
+                'tolerance' => [
+                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
+                    'is_natural'        => lang('SiAbsen.siabsen_config_error.numeric_only'),
+                    'less_than_equal_to'=> lang('SiAbsen.siabsen_config_error.timelimit', [120]),
+                ],
+                'range' => [
+                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
+                    'is_natural'        => lang('SiAbsen.siabsen_config_error.numeric_only'),
+                ]
+            ];
+    
+            if(! validate($rules, $messages)) {
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
+            } else {
+                $forms = [
+                    'intime'    => $this->request->getPost('intime'),
+                    'outtime'   => $this->request->getPost('outtime'),
+                    'lat'       => $this->request->getPost('lat'),
+                    'long'      => $this->request->getPost('long'),
+                    'tolerance' => $this->request->getPost('tolerance'),
+                    'range'     => $this->request->getPost('range'),
+                ];
+
+                $this->model->updateConfig(1, $forms);
+
+                return $this->response->setJSON([
+                    'code' => '200',
+                    'msg' => 'Config has been updated',
+                ]);
+            }
+        }
+    }
+
+    public function getFormattedConfig()
+    {
+        $presenceConfig = [
+            'intime'    => substr($this->config->presence_timein, 0, 5),
+            'outtime'   => substr($this->config->presence_timeout, 0, 5),
+            'lat'       => $this->config->latitude,
+            'long'      => $this->config->longitude,
+            'tolerance' => $this->config->timelimit_allowed / 60,
+            'range'     => $this->config->locationlimit_allowed
+        ];
+
+        return $this->createResponse($presenceConfig);
+    }
+
     public function getConfig()
     {
         return $this->createResponse($this->config);

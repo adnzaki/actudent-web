@@ -74,6 +74,7 @@ class Pegawai extends Admin
         
         return [$rules, $messages];
     }
+    
     private function formData()
     {
         return [

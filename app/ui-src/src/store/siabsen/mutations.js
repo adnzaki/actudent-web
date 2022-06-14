@@ -27,6 +27,14 @@ export default {
         }
       })
   },
+  getDetailConfig(state) {
+    siabsen.get('get-detail-config', {
+      headers: { Authorization: bearerToken }
+    })
+      .then(({ data }) => {
+        state.presenceConfig = data
+      })
+  },
   getConfig(state) {
     siabsen.get('get-config', {
       headers: { Authorization: bearerToken }

@@ -36,6 +36,18 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function updateConfig($configId, $values): void
+    {
+        $this->QBConfig->update([
+            'presence_timein'       => $values['intime'],
+            'presence_timeout'      => $values['outtime'],
+            'timelimit_allowed'     => $values['tolerance'] * 60,
+            'latitude'              => $values['lat'],
+            'longitude'             => $values['long'],
+            'locationlimit_allowed' => $values['range']
+        ], ['config_id' => $configId]);
+    }
+
     public function hasPermissionToday(string $date, int $staffId)
     {
         $select = $this->QBPermit->where([

@@ -60,4 +60,17 @@ return [
     'siabsen_permit_prayer'     => 'Hope your business will be finished soon!',
     'siabsen_permit_detail'     => 'Permission Request Detail',
     'siabsen_nama_tanggal'      => 'Name / Date',
+    'siabsen_config_absensi'    => 'Presence Configuration',
+    'siabsen_open_maps'         => 'Open Maps',
+    'siabsen_toleransi_telat'   => 'Lateness tolerance limit (in minute)',
+    'siabsen_batas_range'       => 'Maximum range limit of presence location (in meter)',
+    'siabsen_config_progress'   => 'Updating configuration...',
+    'siabsen_config_failed'     => 'Unable to update configuration, please fill the form correctly',
+    'siabsen_config_success'    => 'Configuration successfully updated',
+    'siabsen_config_error'      => [
+        'field_required'        => 'This field should not be empty',
+        'integer_only'          => 'This field should contained integer or decimal only',
+        'numeric_only'          => 'This field should contained natural number (without comma, or "-" and "+" sign)',
+        'timelimit'             => 'Lateness tolerance should not more than {0} minutes'
+    ],
 ];
