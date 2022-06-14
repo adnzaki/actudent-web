@@ -9,6 +9,7 @@ import PeriodSummary from 'src/pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
 import SiAbsenIndex from 'src/siabsen_pages/Index.vue'
 import PermitMain from 'src/siabsen_pages/teacher_permit/PermitMain.vue'
+import SummaryMain from 'src/siabsen_pages/teacher_summary/SummaryMain.vue'
 
 export default [
   { 
@@ -32,6 +33,7 @@ export default [
     children: [
       { path: '', component: PermitMain, beforeEnter: () => routeValidator('is_teacher') },
       { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator('is_teacher') },
+      { path: 'monthly-summary', component: SummaryMain, beforeEnter: () => routeValidator('is_teacher') },
     ]
   },
 ]

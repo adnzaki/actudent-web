@@ -28,6 +28,12 @@ class Admin extends \Actudent
                 $data[$key] = $val;
             }
 
+            if($staffId === 'null' || $userId === 'null') {
+                $staffData = $this->getStaffData($token);
+                $staffId = $staffData->staff_id;
+                $userId = $staffData->user_id;
+            }
+
             $periodArr = explode('-', $period); // [ month, year ]
             $month = (int)$periodArr[0];
             $year = $periodArr[1];
@@ -51,7 +57,18 @@ class Admin extends \Actudent
 
     public function getDetailPresence($staffId, $userId, $period)
     {
-        return $this->createResponse($this->_getDetailPresence($staffId, $userId, $period));
+        if(valid_token()) {
+            if($staffId === 'null') {
+                $staffId = $this->getStaffId();
+            }
+    
+            if($userId === 'null') {
+                $staffData = $this->getStaffData();
+                $userId = $staffData->user_id;
+            }
+    
+            return $this->response->setJSON($this->_getDetailPresence($staffId, $userId, $period));
+        }
     }
 
     private function _getDetailPresence($staffId, $userId, $period)
@@ -295,19 +312,19 @@ class Admin extends \Actudent
         return $hours + ($minutes / 60);
     }
 
-    protected function getStaffNik()
+    protected function getStaffNik($token = '')
     {
         return $this->getStaffData()->staff_nik;
     }
 
-    protected function getStaffId()
+    protected function getStaffId($token = '')
     {
         return $this->getStaffData()->staff_id;
     }
 
-    private function getStaffData()
+    private function getStaffData($token = '')
     {
-        $user = $this->getDataPengguna();
+        $user = $this->getDataPengguna($token);
         $staff = $this->model->getStaffDetail($user->user_id);
 
         return $staff[0];
