@@ -89,7 +89,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $staffId,
         string $orderBy, 
         string $searchBy, 
-        string $sort = 'ASC',
+        string $sort = 'ASC'
     ): array
     {
         $select = $this->search($searchBy, $search);
