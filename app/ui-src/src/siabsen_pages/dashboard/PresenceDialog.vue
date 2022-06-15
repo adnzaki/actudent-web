@@ -99,7 +99,7 @@ export default {
               message: data.msg,
               color: 'negative',
               position: 'center',
-              timeout: 0,
+              timeout: 5000,
               actions: [
                 { 
                   label: t('siabsen_cek_posisi'), color: 'white', handler: () => {
