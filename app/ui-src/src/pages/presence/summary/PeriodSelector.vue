@@ -50,6 +50,8 @@ export default {
     const period = ref({})
     const route = useRoute()
     const $q = useQuasar()
+    const currentYear = new Date().getFullYear()
+    const currentMonth = new Date().getMonth()
 
     fabPos.value = [ singlePos, singlePos ]
 
@@ -61,9 +63,12 @@ export default {
       store.state.presence.selectedPeriod.year = model.value
     } 
 
+    // if the current month is between January to June (0-5 in JS date)
+    // then it is the first semester, otherwise it is 2nd semester
+    store.state.presence.selectedPeriod.semester = currentMonth < 6 ? '2' : '1'
+    
     // current active year
-    store.state.presence.selectedPeriod.semester = '2'
-    store.state.presence.selectedPeriod.year = 2021
+    store.state.presence.selectedPeriod.year = currentYear - 1
 
     setTimeout(() => {
       period.value = {
@@ -87,12 +92,19 @@ export default {
 
     }
 
+    const yearOptions = () => {
+      const currentPeriod = currentYear - 1
+      const previousPeriod = currentYear - 2
+
+      return [
+        { label: t(`${previousPeriod}/${currentPeriod}`), value: previousPeriod },
+        { label: t(`${currentPeriod}/${currentYear}`), value: currentPeriod },
+      ]
+    }
+
     return {
       periodOptions,
-      yearOptions: [
-        { label: t('2020/2021'), value: 2020 },
-        { label: t('2021/2022'), value: 2021 },
-      ],
+      yearOptions: yearOptions(),
       fabPos, draggingFab, moveFab,
       period,
       periodSelected, yearSelected,
