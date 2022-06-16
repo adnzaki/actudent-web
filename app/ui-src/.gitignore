@@ -7,6 +7,7 @@ node_modules
 /dist
 
 port.conf.js
+.updates-raw
 
 # Cordova related directories and files
 /src-cordova/node_modules

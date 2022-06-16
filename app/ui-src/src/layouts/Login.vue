@@ -166,6 +166,7 @@ export default {
                   // redirect to dashboard depend on user type...
                   if(res.level === '1') {
                     window.location.href = conf.homeUrl()
+                    localStorage.removeItem('grade_id')
                   } else if(res.level === '2') {
                     localStorage.setItem('grade_id', res.grade);
                     window.location.href = conf.teacherHomeUrl()
