@@ -5,9 +5,14 @@
  * @author    Adnan Zaki 
  * @copyright Wolestech (c) 2021
  */
-import { trim } from 'src/composables/common'
+import { trim, formatDate } from 'src/composables/common'
 
 export default ({ app }) => {
-  app.config.globalProperties.$buildVersion = 'beta-1.ac.v2.0043'
-  app.config.globalProperties.$trim = (text, length = 25) => trim(text, length)
+  app.config.globalProperties.$buildVersion = 'beta-2.ac.v2.0044'
+  app.config.globalProperties.$trim = (text, length = 25) => {
+    return text === undefined ? '' : trim(text, length)
+  },
+  app.config.globalProperties.$formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
+    return val === undefined ? '' : formatDate(val, format)
+  }
 }
