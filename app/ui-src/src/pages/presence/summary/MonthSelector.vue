@@ -64,6 +64,7 @@ export default {
     const period = ref({})
     const route = useRoute()
     const $q = useQuasar()
+    const currentYear = new Date().getFullYear()
 
     const monthSelected = model => {
       store.state.presence.selectedPeriod.month = model.value
@@ -74,12 +75,12 @@ export default {
     } 
 
     store.state.presence.selectedPeriod.month = '1'
-    store.state.presence.selectedPeriod.year = 2022
+    store.state.presence.selectedPeriod.year = currentYear
 
     setTimeout(() => {
       period.value = {
         month: { label: t('mon1'), value: '1' },
-        year: 2022
+        year: currentYear
       }
 
       monthOptions.value = [
@@ -118,7 +119,7 @@ export default {
 
     return {
       monthOptions,
-      yearOptions: [2020, 2021, 2022],
+      yearOptions: [currentYear - 2, currentYear - 1, currentYear],
       fabPos, draggingFab, moveFab,
       period,
       monthSelected, yearSelected,
