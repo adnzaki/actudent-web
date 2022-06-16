@@ -108,13 +108,16 @@ export default {
   resetForm({ state, dispatch }) {
     state.error = {}
     state.current = 1
-    dispatch('getLessons')
+    dispatch('getLessons', true)
   },
-  getLessons({ state, dispatch }) {
+  getLessons({ state, dispatch }, afterSave = false) {
+    const limit = 25
+    state.paging.rows = limit
+
     dispatch('getData', {
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: 10,
+      limit: afterSave ? state.paging.limit : limit,
       offset: state.current - 1,
       orderBy: 'lesson_name',
       searchBy: ['lesson_code', 'lesson_name'],

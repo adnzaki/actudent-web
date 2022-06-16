@@ -13,14 +13,14 @@ import {
 import { Notify } from 'quasar'
 
 export default {
-  getOrtu({ state, dispatch }) {
+  getOrtu({ state, dispatch }, afterSave = false) {
     const limit = 25
     state.paging.rows = limit
 
     dispatch('getData', {
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit,
+      limit: afterSave ? state.paging.limit : limit,
       offset: state.current - 1,
       orderBy: 'parent_father_name',
       searchBy: [
@@ -132,6 +132,6 @@ export default {
   resetForm({ state, dispatch }) {
     state.error = {}
     state.current = 1
-    dispatch('getOrtu')
+    dispatch('getOrtu', true)
   }
 }
