@@ -20,7 +20,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
     private $QBTimelineComments;
     private $QBTimelineLikes;
     private $QBUserThemes;
-    private $QBUserLang;
 
 
     /**
@@ -39,7 +38,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
     private $timelineComments = 'tb_timeline_comments';
     private $timelineLikes = 'tb_timeline_likes';
     private $userthemes = 'tb_user_themes';
-    private $userlang = 'tb_user_language';
     
     /**
      * @var Actudent\Core\Models\SekolahModel
@@ -57,7 +55,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $this->QBTimelineComments = $this->db->table($this->timelineComments);
         $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
         $this->QBUserThemes = $this->db->table($this->userthemes);
-        $this->QBUserLang = $this->db->table($this->userlang);
         $this->sekolah = new SekolahModel;
     }
 
@@ -200,14 +197,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $staff['user_id'] = $userID;
         $staff['staff_tag'] = 1;
         $this->QBStaff->insert($staff);
-
-        // get the staff_id
-        $staffID = $this->db->insertID();
-
-        // insert user language table
-        $lang['user_id'] = $userID;
-        $lang['user_language'] = 'indonesia';
-        $this->QBUserLang->insert($lang);
 
         return $staffID;
     }
