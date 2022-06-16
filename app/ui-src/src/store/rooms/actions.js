@@ -28,7 +28,7 @@ export default {
       message: t('progress_hapus'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     const data = { id: idString }
@@ -45,7 +45,8 @@ export default {
           message: t('ruang_delete_success'),
           color: 'positive',
           icon: 'done',
-          spinner: false
+          spinner: false,
+           timeout
         })
 
         // refresh data
@@ -62,7 +63,7 @@ export default {
       message: t('ruang_save_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     admin.post(`${state.roomApi}${url}`, payload.data, {
@@ -72,6 +73,7 @@ export default {
       }]
     })
       .then(response => {
+        notifyProgress({ timeout })
         state.helper.disableSaveButton = false
         const res = response.data
         if(res.code === '500') {

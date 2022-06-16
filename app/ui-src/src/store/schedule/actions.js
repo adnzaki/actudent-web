@@ -23,7 +23,7 @@ export default {
       message: t('jadwal_update_setting_progress'),
       color: 'info',
       position: 'center',
-      timeout: 2500,
+      timeout: 0,
     })
 
     admin.post(`${state.scheduleApi}simpan-pengaturan`, data, {
@@ -33,6 +33,7 @@ export default {
       }]
     })
       .then(res => {
+        notifyProgress({ timeout })
         if(res.code === '500') {
           state.error = res.msg
           notifyProgress({
@@ -65,7 +66,7 @@ export default {
       message: t('jadwal_save_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     admin.post(`${state.scheduleApi}simpan-jadwal/${state.schedule.selectedDay}`, schedules, {
@@ -75,6 +76,7 @@ export default {
       }]
     })
       .then(() => {
+        notifyProgress({ timeout })
         state.helper.disableSaveButton = false
 
         // hide all forms
@@ -120,7 +122,7 @@ export default {
       message: t('progress_hapus'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     const data = { id: idString }
@@ -138,7 +140,8 @@ export default {
           message: t('jadwal_delete_success'),
           color: 'positive',
           icon: 'done',
-          spinner: false
+          spinner: false,
+          timeout
         })
 
         // refresh data
@@ -159,7 +162,7 @@ export default {
       message: t('jadwal_save_lesson_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     admin.post(`${state.scheduleApi}${url}`, payload.data, {
@@ -169,6 +172,7 @@ export default {
       }]
     })
       .then(response => {
+        notifyProgress({ timeout })
         state.helper.disableSaveButton = false
         const res = response.data
         if(res.code === '500') {

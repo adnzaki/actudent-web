@@ -28,7 +28,7 @@ export default {
       message: t('progress_hapus'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     const data = { id: idString }
@@ -39,6 +39,7 @@ export default {
       }]
     })
       .then(() => {
+        notifyProgress({ timeout })
         state.helper.disableSaveButton = false
         state.deleteConfirm = false
         notifyProgress({
@@ -62,7 +63,7 @@ export default {
       message: t('mapel_save_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     admin.post(`${state.lessonApi}${url}`, payload.data, {
@@ -72,6 +73,7 @@ export default {
       }]
     })
       .then(response => {
+        notifyProgress({ timeout })
         state.helper.disableSaveButton = false
         const res = response.data
         if(res.code === '500') {
