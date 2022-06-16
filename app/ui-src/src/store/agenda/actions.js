@@ -24,6 +24,7 @@ export default {
       headers: { Authorization: bearerToken }
     })
       .then(({ data }) => {
+        notifyProgress({ timeout })
         if(data.status === 'OK') {
           state.helper.disableSaveButton = false
           notifyProgress({
@@ -64,7 +65,7 @@ export default {
       message: t('agenda_saving_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     axios.post(`${getters.agendaApi}${url}`, payload.data, {
@@ -75,6 +76,7 @@ export default {
     })
       .then(({ data }) => {
         state.helper.disableSaveButton = false
+        notifyProgress({ timeout })
         if(data.code === '500') {
           state.error = data.msg
           notifyProgress({

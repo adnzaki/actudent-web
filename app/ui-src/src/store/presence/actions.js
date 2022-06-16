@@ -61,7 +61,7 @@ export default {
       message: t('absensi_izin_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     axios.post(`${getters.presenceApi}izin`, { presence_mark: state.permissionNote }, {
@@ -69,6 +69,7 @@ export default {
       transformRequest: [data => createFormData(data)]
     })
       .then(response => {
+        notifyProgress({ timeout })
         const res = response.data
         if(res.code === '500') {
           notifyProgress({
@@ -121,13 +122,14 @@ export default {
       message: t('absensi_salin_jurnal_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     axios.get(`${getters.presenceApi}salin-jurnal/${state.scheduleID}/${state.helper.activeDate}`, {
       headers: { Authorization: bearerToken }
     })
       .then(res => {
+        notifyProgress({ timeout })
         if(res.data.status === 'OK') {
           state.journalID = res.data.id
           state.salinJurnal = false
@@ -164,7 +166,7 @@ export default {
       message: t('absensi_jurnal_save_progress'),
       color: 'info',
       position: 'center',
-      timeout,
+      timeout: 0,
     })
 
     axios.post(`${baseUrl}/${includeHomework}`, data, {
@@ -174,6 +176,7 @@ export default {
       }]
     })
       .then(res => {
+        notifyProgress({ timeout })
         if(res.data.code === '500') {
           state.error = res.data.msg
           notifyProgress({
