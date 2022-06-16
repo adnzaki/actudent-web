@@ -124,9 +124,9 @@ export default {
     state.error = {}
     state.selectedParent = { id: '', father: '', mother: '' }
     state.current = 1
-    dispatch('getStudents')
+    dispatch('getStudents', true)
   },
-  getStudents({ state, dispatch }) {
+  getStudents({ state, dispatch }, afterSave = false) {
     // mutate paging.rows in order to affect
     // model-value on QSelect
     const limit = 25
@@ -135,7 +135,7 @@ export default {
     dispatch('getData', {
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit,
+      limit: afterSave ? state.paging.limit : limit,
       offset: state.current - 1,
       orderBy: 'student_name',
       searchBy: [

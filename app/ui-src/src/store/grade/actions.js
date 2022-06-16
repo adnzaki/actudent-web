@@ -155,13 +155,13 @@ export default {
     state.error = {}
     state.selectedTeacher = { id: '', name: '' }
     state.current = 1
-    dispatch('getClassList')
+    dispatch('getClassList', true)
   },
-  getClassList({ state, dispatch }) {
+  getClassList({ state, dispatch }, afterSave = false) {
     dispatch('getData', {
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: 10,
+      limit: afterSave ? state.paging.limit : 10,
       offset: state.current - 1,
       orderBy: 'grade_name',
       searchBy: 'grade_name',
