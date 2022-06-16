@@ -194,6 +194,8 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $staff['user_id'] = $userID;
         $staff['staff_tag'] = 1;
         $this->QBStaff->insert($staff);
+        
+        $staffID = $this->db->insertID();
 
         return $staffID;
     }
