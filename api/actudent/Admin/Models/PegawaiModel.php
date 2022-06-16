@@ -19,7 +19,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      */
     private $QBTimelineComments;
     private $QBTimelineLikes;
-    private $QBUserThemes;
 
 
     /**
@@ -37,7 +36,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
 
     private $timelineComments = 'tb_timeline_comments';
     private $timelineLikes = 'tb_timeline_likes';
-    private $userthemes = 'tb_user_themes';
     
     /**
      * @var Actudent\Core\Models\SekolahModel
@@ -54,7 +52,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $this->QBUser = $this->db->table($this->user);
         $this->QBTimelineComments = $this->db->table($this->timelineComments);
         $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
-        $this->QBUserThemes = $this->db->table($this->userthemes);
         $this->sekolah = new SekolahModel;
     }
 
