@@ -126,7 +126,7 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn outline v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" color="negative" />
+        <q-btn outline v-if="$q.cookies.get(conf.userType) === '1' && isEditForm" :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" color="negative" />
         <q-btn outline :label="$t('tutup')" :color="closeBtnColor" v-close-popup />
         <q-btn v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
       </q-card-actions>
