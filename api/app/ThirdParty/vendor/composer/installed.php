@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '2bb06b115215cc5efd4220609a782f010f386ffb',
+        'reference' => '8439e48ba596b47f6ffc188fc8bd08b67b9dae15',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '2bb06b115215cc5efd4220609a782f010f386ffb',
+            'reference' => '8439e48ba596b47f6ffc188fc8bd08b67b9dae15',
             'dev_requirement' => false,
         ),
         'adnzaki/excel-creator' => array(
