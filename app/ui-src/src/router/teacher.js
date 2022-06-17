@@ -27,7 +27,7 @@ export default [
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_teacher', true) },
+  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_teacher') },
   { 
     path: 'absence', component: SiAbsenIndex, beforeEnter: () => routeValidator('is_teacher'),
     children: [
