@@ -11,7 +11,7 @@
         </q-item-section>
       </q-item>
 
-      <!-- Master Data Menu -->
+      <!-- Master Data Menu | for Admin only-->
       <q-expansion-item
         expand-separator
         icon="o_inventory_2"
@@ -49,12 +49,12 @@
         </q-item>
       </q-expansion-item>
 
-      <!-- SiAbsen Menu for teacher -->
+      <!-- SiAbsen Menu for teacher and staff-->
       <q-expansion-item
         expand-separator
         icon="o_fact_check"
         :label="$t('menu_siabsen_guru')"
-        v-if="$q.cookies.get(conf.userType) === '2'"
+        v-if="$q.cookies.get(conf.userType) === '2' || $q.cookies.get(conf.userType) === '0'"
       >
         <q-item 
           :active-class="activeClass"
@@ -196,10 +196,15 @@ export default {
         const gradeId = localStorage.getItem('grade_id')
 
         teacherMenu.value = [
-          { link: '/teacher/presence', icon: 'o_book', label: t('menu_jadwal_guru') },
           { link: '/teacher/agenda', icon: 'today', label: t('menu_agenda') },
           { link: '', icon: 'restore', label: t('menu_timeline') },
         ]
+
+        if($q.cookies.get(conf.userType) === '2') {
+          teacherMenu.value.unshift(
+            { link: '/teacher/presence', icon: 'o_book', label: t('menu_jadwal_guru') }
+          )
+        }
 
         reportMenu.value = [
           { label: t('absensi_laporan_harian'), link: '/teacher/daily-report' },
@@ -208,7 +213,7 @@ export default {
         ]
 
         menus.value = {
-          '1': adminMenu.value, '2': teacherMenu.value
+          '1': adminMenu.value, '2': teacherMenu.value, '0': teacherMenu.value
         }
   
         settings.value = [

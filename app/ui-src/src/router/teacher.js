@@ -13,8 +13,8 @@ import SummaryMain from 'src/siabsen_pages/teacher_summary/SummaryMain.vue'
 
 export default [
   { 
-    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('is_teacher'), children: [
-      { path: 'home', component: TeacherIndex,  beforeEnter: () => routeValidator('is_teacher') },
+    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token'), children: [
+      { path: 'home', component: TeacherIndex,  beforeEnter: () => routeValidator('valid_token') },
     ],    
   },
   {
@@ -27,13 +27,13 @@ export default [
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_teacher') },
+  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('valid_token') },
   { 
-    path: 'absence', component: SiAbsenIndex, beforeEnter: () => routeValidator('is_teacher'),
+    path: 'absence', component: SiAbsenIndex, beforeEnter: () => routeValidator('valid_token'),
     children: [
-      { path: '', component: PermitMain, beforeEnter: () => routeValidator('is_teacher') },
-      { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator('is_teacher') },
-      { path: 'monthly-summary', component: SummaryMain, beforeEnter: () => routeValidator('is_teacher') },
+      { path: '', component: PermitMain, beforeEnter: () => routeValidator('valid_token') },
+      { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator('valid_token') },
+      { path: 'monthly-summary', component: SummaryMain, beforeEnter: () => routeValidator('valid_token') },
     ]
   },
 ]

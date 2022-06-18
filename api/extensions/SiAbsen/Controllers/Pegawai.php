@@ -196,7 +196,7 @@ class Pegawai extends Admin
 
     public function outStatus()
     {
-        if(is_teacher()) {
+        if(valid_token()) {
             $currentDate = date('Y-m-d');
             $out = $this->getPresence($currentDate, 'pulang');
             $in = $this->getPresence($currentDate, 'masuk');
@@ -240,7 +240,7 @@ class Pegawai extends Admin
 
     public function inStatus()
     {
-        if(is_teacher()) {
+        if(valid_token()) {
             $currentDate = date('Y-m-d');
             $presence = $this->getPresence($currentDate, 'masuk');
             $currentTime = $this->toDecimal(date('H:i:s'));
