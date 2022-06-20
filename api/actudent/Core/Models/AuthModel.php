@@ -18,6 +18,31 @@ class AuthModel extends \Actudent\Core\Models\Connector
     }
 
     /**
+     * Check whether the username is staff_nik or user_email
+     * If it is staff_nik, then return their user_email,
+     * if not, then return false
+     * 
+     * @param string $username
+     * 
+     * @return mixed
+     */
+    public function isNik(string $username)
+    {
+        $pegawai = new \Actudent\Admin\Models\PegawaiModel;
+        $query = $pegawai->QBStaff->where('staff_nik', $username);
+
+        if($query->countAllResults() > 0) {
+            $staffData = $query->get()->getResult()[0];
+            $userId = $staffData->user_id;
+            $joinData = $pegawai->getStaffDetail($userId)[0];
+
+            return $joinData->user_email;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Get user data who has been logged in
      * 
      * @param string $username 

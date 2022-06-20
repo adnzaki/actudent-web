@@ -21,7 +21,13 @@ class Auth extends \Actudent
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
             $remember = $this->request->getPost('remember-me') ?? '';
-            if($this->auth->validasi($username, $password, '1')) {
+            $isNik = $this->auth->isNik($username);
+
+            if($isNik !== false) {
+                $username = $isNik;
+            }
+
+            if($this->auth->validasi($username, $password)) {
                 $pengguna = $this->auth->getDataPengguna($username);
                 $token = [
                     'id'        => $pengguna->user_id,
