@@ -19,7 +19,7 @@
             <q-form class="q-gutter-xs" @submit.prevent="validate">
 
               <q-input :class="['q-pl-md q-mb-lg', styleSelector('input')]" borderless :color="styleSelector('icon')"
-                v-model="username" label="Username" :input-class="styleSelector('inputColor')" 
+                v-model="username" label="Username / NIK" :input-class="styleSelector('inputColor')" 
                 :label-color="styleSelector('label')" @keyup.enter="validate">
                 <template v-slot:prepend>
                   <q-icon name="mail_outline" :color="styleSelector('icon')" />

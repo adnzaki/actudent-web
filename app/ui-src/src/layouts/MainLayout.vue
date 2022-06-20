@@ -39,7 +39,7 @@
             <img src="../../public/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">{{ pengguna.user_name }}</div>
-          <div>{{ pengguna.user_email }}</div>
+          <div>{{ $trim(pengguna.user_email, 23) }}</div>
         </div>
       </q-img>
     </q-drawer>

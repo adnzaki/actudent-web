@@ -130,7 +130,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      /**
      * Get staff detail
      * 
-     * @param int $id
+     * @param int $id | the user_id not staff_id
      * 
      * @return array
      */
