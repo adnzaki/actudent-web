@@ -29,10 +29,10 @@ class AuthModel extends \Actudent\Core\Models\Connector
     public function isNik(string $username)
     {
         $pegawai = new \Actudent\Admin\Models\PegawaiModel;
-        $query = $pegawai->QBStaff->where('staff_nik', $username);
+        $query = $pegawai->QBStaff->getWhere(['staff_nik' => $username]);
 
-        if($query->countAllResults() > 0) {
-            $staffData = $query->get()->getResult()[0];
+        if($query->getNumRows() > 0) {
+            $staffData = $query->getResult()[0];
             $userId = $staffData->user_id;
             $joinData = $pegawai->getStaffDetail($userId)[0];
 
