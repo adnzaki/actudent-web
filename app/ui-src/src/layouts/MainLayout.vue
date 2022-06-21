@@ -39,7 +39,8 @@
             <img src="../../public/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">{{ pengguna.user_name }}</div>
-          <div>{{ $trim(pengguna.user_email, 23) }}</div>
+          <div class="mobile-hide">{{ $trim(pengguna.user_email, 25) }}</div>
+          <div class="mobile-only">{{ $trim(pengguna.user_email, 30) }}</div>
         </div>
       </q-img>
     </q-drawer>
