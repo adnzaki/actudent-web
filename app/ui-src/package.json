@@ -1,8 +1,8 @@
 {
-  "name": "actudent-v2",
-  "version": "2.0.0-dev",
-  "description": "Actudent - Attitude Control for Student",
-  "productName": "Actudent",
+  "name": "siabsen",
+  "version": "1.0.0",
+  "description": "SiAbsen - Make a brighter school",
+  "productName": "SiAbsen",
   "author": "Wolestech DevTeam",
   "private": true,
   "scripts": {
