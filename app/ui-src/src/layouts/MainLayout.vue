@@ -30,7 +30,7 @@
       v-model="drawer"
         show-if-above
         :width="menuWidth()"
-        :breakpoint="400"
+        :breakpoint="450"
     >
       <app-menu />
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
@@ -39,7 +39,8 @@
             <img src="../../public/boy-avatar.png">
           </q-avatar>
           <div class="text-weight-bold">{{ pengguna.user_name }}</div>
-          <div>{{ $trim(pengguna.user_email, 23) }}</div>
+          <div class="mobile-hide">{{ $trim(pengguna.user_email, 25) }}</div>
+          <div class="mobile-only">{{ $trim(pengguna.user_email, 30) }}</div>
         </div>
       </q-img>
     </q-drawer>
