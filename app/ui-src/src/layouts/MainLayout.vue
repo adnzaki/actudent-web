@@ -30,7 +30,7 @@
       v-model="drawer"
         show-if-above
         :width="menuWidth()"
-        :breakpoint="400"
+        :breakpoint="450"
     >
       <app-menu />
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
