@@ -1,7 +1,7 @@
 <template>
   <div class="q-pa-md">    
     <updates />
-    <welcome />
+    <!-- <welcome /> -->
   </div>
 </template>
 

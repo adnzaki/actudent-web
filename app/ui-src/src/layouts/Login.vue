@@ -12,8 +12,8 @@
         <q-card :class="['auth-box col-md-4 col-sm-8 offset-md-4 offset-sm-2', styleSelector('card')]">
           <q-card-section>
             <q-img
-              src="../../public/icons/icon-512x512.png" 
-              width="20%" :ratio="1"
+              :src="brandLogo" 
+              width="30%" :ratio="1"
               class="app-logo" />
             <p class="text-center text-uppercase q-pt-lg q-pb-sm">{{ $t('silakan_login') }}</p>
             <q-form class="q-gutter-xs" @submit.prevent="validate">
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { ref, reactive } from 'vue'
+import { ref, reactive, computed } from 'vue'
 import { axios } from 'boot/axios'
 import { t, conf, createFormData } from 'src/composables/common'
 import { useQuasar } from 'quasar'
@@ -80,6 +80,16 @@ export default {
           rememberMe = ref(false)
     
     return {
+      brandLogo: computed(() => {
+        let logo
+        if($q.cookies.get('theme') === 'dark') {
+          logo = 'siabsen-logo-white'
+        } else {
+          logo = 'siabsen-logo'
+        }
+
+        return require(`../../public/${logo}.png`)
+      }),
       companyLogoPushLeft: $q.screen.lt.sm ? 'left: 27%' : 'left: 30%',
       langBtnPos() {
         return $q.screen.lt.sm ? [-2, -2] : [40, 18]
