@@ -140,9 +140,9 @@ module.exports = configure(function (/* ctx */) {
       },
 
       manifest: {
-        name: 'Actudent',
-        short_name: 'Actudent',
-        description: 'Actudent - Attitude Control for Student',
+        name: 'SiAbsen',
+        short_name: 'SiAbsen',
+        description: 'SiAbsen - Make a Brighter School',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
