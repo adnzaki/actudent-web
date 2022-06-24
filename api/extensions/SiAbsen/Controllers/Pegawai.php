@@ -269,7 +269,8 @@ class Pegawai extends Admin
                         $ontimeLimit = $timeIn + $timeLimit;
             
                         if($presenceIn > $ontimeLimit) {
-                            $status = lang('SiAbsen.siabsen_telat_masuk');
+                            $late = $this->countLate($datetime[0], $datetime[1]);
+                            $status = lang('SiAbsen.siabsen_telat_masuk', [$late['str']]);
                         } else {
                             $status = lang('SiAbsen.siabsen_sudah_masuk');
                         }

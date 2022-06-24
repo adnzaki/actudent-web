@@ -46,6 +46,7 @@ class Admin extends \Actudent
             $data['data']   = $result['data'];
             $data['nip']    = $result['nip'];
             $data['name']   = $result['name'];
+            $data['late']   = $result['late'];
             $data['date']   = 'Bekasi, ' . os_date()->fullDate($lastDate, $month, $year, false);
             $filename       = $title . '_' . $year . '_'. time();
     
@@ -83,14 +84,21 @@ class Admin extends \Actudent
             lang('AdminAbsensi.absensi_izin'),
         ];
 
+        $totalLate = 0;
+
         foreach($summary as $key => $val) {
             $in = $this->model->getPresence($staffId, $key, 'masuk');
             $out = $this->model->getPresence($staffId, $key, 'pulang');
+            $timein = $in !== null ? explode(' ', $in->presence_datetime)[1] : '-';
+            $late = $this->countLate($key, $timein);
+            $totalLate += $late['raw'];
+
             $wrapper[] = [
                 'date'      => $key,
                 'label'     => $presenceCategory[$val],
-                'in'        => $in !== null ? explode(' ', $in->presence_datetime)[1] : '-',
+                'in'        => $timein,
                 'out'       => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
+                'late'      => $timein !== '-' ? $late['str'] : '',
                 'status'    => $val,
                 'dateStr'   => os_date()->format('DD-MM-y', reverse($key, '-', '-'))
             ];
@@ -99,7 +107,8 @@ class Admin extends \Actudent
         $response = [
             'nip'   => $staffDetail->staff_nik,
             'name'  => $staffDetail->staff_name,
-            'data'  => $wrapper
+            'data'  => $wrapper,
+            'late'  => $this->formatNumLate($totalLate, false)
         ];
 
         return $response;
@@ -206,6 +215,55 @@ class Admin extends \Actudent
         return $presenceSummary;
     }
 
+    protected function countLate($date, $time, $showSeconds = false)
+    {
+        $timein = $this->config->presence_timein;
+        $dateTimeIn = $date .' '. $time;
+        $timeConfig = $date . ' ' . $timein;
+        $timeinTimestamp = strtotime($dateTimeIn);
+        $timeConfigTimestamp = strtotime($timeConfig);
+        $diff = 0;
+        if($timeinTimestamp > $timeConfigTimestamp) {
+            $diff = $timeinTimestamp - $timeConfigTimestamp;
+        }
+
+        return [
+            'raw'   => $diff,
+            'str'   => $this->formatNumLate($diff, $showSeconds)
+        ];
+    }
+
+    private function formatNumLate($diff, $showSeconds)
+    {
+        $output = '';       
+        $minsText = lang('SiAbsen.siabsen_menit');
+
+        if($diff > 0) {
+            if($diff <= 60) {
+                $output = $diff . ' ' . lang('SiAbsen.siabsen_detik');
+            } elseif($diff > 60 && $diff < 3600) {
+                $minutes = $diff / 60;
+                $output = floor($minutes).' '. 
+                          $minsText . $this->getSeconds($minutes, $showSeconds);
+            } elseif($diff > 3600) {
+                $hours = $diff / 60 / 60;
+                $minutes = ($hours - floor($hours)) * 60;
+                $output = floor($hours) . ' ' .
+                          lang('SiAbsen.siabsen_jam') .' '. floor($minutes) . ' ' .
+                          $minsText . $this->getSeconds($minutes, $showSeconds);
+            }
+        }
+
+        return $output;
+    }
+
+    private function getSeconds($minutes, $showSeconds) {
+        if($showSeconds) {
+            $result = ($minutes - floor($minutes)) * 60;
+            return ' '.$result.' '.lang('SiAbsen.siabsen_detik');
+        }
+    }
+
     private function filterPresence($array, $status)
     {
         $result = count(array_filter($array, fn($v) => $v === $status));
@@ -225,7 +283,7 @@ class Admin extends \Actudent
         if($staffType === 'staff') {
             $dayValues = [ 1, 2, 3, 4, 5 ];
         } else {
-            // get which days the teacher has teaching schedule 
+            // get the days which teacher has teaching schedule 
             $schedules = $this->model->getTeacherSchedules($staffId);
             foreach($schedules as $s) {
                 $dayValues[] = $days[$s->schedule_day]; // example: $this->days['senin']
@@ -279,12 +337,14 @@ class Admin extends \Actudent
         foreach($data as $key) {
             $in = $this->model->getPresence($key->staff_id, $date, 'masuk');
             $out = $this->model->getPresence($key->staff_id, $date, 'pulang');
+            $timein = $in !== null ? explode(' ', $in->presence_datetime)[1] : '-';
             
             $wrapper[] = [
-                'nip'   => $key->staff_nik,
-                'name'  => $key->staff_name,
-                'in'    => $in !== null ? explode(' ', $in->presence_datetime)[1] : '-',
-                'out'   => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
+                'nip'       => $key->staff_nik,
+                'name'      => $key->staff_name,
+                'in'        => $timein,
+                'out'       => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
+                'late'      => $timein !== '-' ? $this->countLate($date, $timein)['str'] : '-',
                 'inPhoto'   => $in !== null ? $in->presence_photo : '-',
                 'outPhoto'  => $out !== null ? $out->presence_photo : '-',
             ];

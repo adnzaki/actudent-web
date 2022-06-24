@@ -28,4 +28,6 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('print-rekap-individu/(:any)/(:any)/(:any)/(:any)', 'Admin::exportStaffSummary/$1/$2/$3/$4');
     $routes->add('test-status/(:any)', 'Test::testStatus/$1');
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');
+    $routes->add('test-late/(:any)/(:any)', 'Test::testCountLate/$1/$2');
+    $routes->add('test-late/(:any)/(:any)/(:any)', 'Test::testCountLate/$1/$2/$3');
 });

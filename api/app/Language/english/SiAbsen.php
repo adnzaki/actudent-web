@@ -1,7 +1,5 @@
 <?php
 
-use function PHPSTORM_META\map;
-
 return [
     'siabsen_manage_page_title' => 'Presence Mangement',
     'siabsen_masuk'             => 'Absence Entry',
@@ -11,7 +9,7 @@ return [
     'siabsen_waktu_absen'       => 'Your absent time',
     'siabsen_do_absen'          => 'Present',
     'siabsen_belum_masuk'       => 'You have not been present yet!',
-    'siabsen_telat_masuk'       => 'Unfortunately, you are coming late...',
+    'siabsen_telat_masuk'       => 'Ups, you are {0} late ',
     'siabsen_sudah_masuk'       => 'Thanks for coming on time!',
     'siabsen_belum_pulang'      => 'Don\'t forget to absent for go home!',
     'siabsen_besok_absen'       => 'Don\'t forget to absent tomorrow!',
@@ -73,4 +71,8 @@ return [
         'numeric_only'          => 'This field should contained natural number (without comma, or "-" and "+" sign)',
         'timelimit'             => 'Lateness tolerance should not more than {0} minutes'
     ],
+    'siabsen_jam'               => 'hour(s)',
+    'siabsen_menit'             => 'mins',
+    'siabsen_detik'             => 'secs',
+    'siabsen_terlambat'         => 'Lateness',
 ];

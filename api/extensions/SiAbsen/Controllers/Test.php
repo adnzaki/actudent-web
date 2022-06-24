@@ -12,6 +12,40 @@ class Test extends Admin
         echo $aws->getObjectUrl($keyname);
     }
 
+    public function testCountLate($date, $time, $showSeconds = true)
+    {
+        $timein = '07:00:00';
+        $dateTimeIn = $date .' '. $time;
+        $timeConfig = $date . ' ' . $timein;
+        $diff = strtotime($dateTimeIn) - strtotime($timeConfig);
+        $output = '';
+
+        function getSeconds($minutes, $showSeconds) {
+            if($showSeconds) {
+                $result = ($minutes - floor($minutes)) * 60;
+                return ' '.$result.' '.lang('SiAbsen.siabsen_detik');
+            }
+        }
+
+        $minsText = lang('SiAbsen.siabsen_menit');
+
+        if($diff <= 60) {
+            $output = $diff . ' ' . lang('SiAbsen.siabsen_detik');
+        } elseif($diff > 60 && $diff < 3600) {
+            $minutes = $diff / 60;
+            $output = floor($minutes).' '. 
+                      $minsText . getSeconds($minutes, $showSeconds);
+        } else {
+            $hours = $diff / 60 / 60;
+            $minutes = ($hours - floor($hours)) * 60;
+            $output = floor($hours) . ' ' .
+                      lang('SiAbsen.siabsen_jam') .' '. floor($minutes) . ' ' .
+                      $minsText . getSeconds($minutes, $showSeconds);
+        }
+
+        echo $output;
+    }
+
     public function testStatus($tag)
     {
         if(valid_token()) {

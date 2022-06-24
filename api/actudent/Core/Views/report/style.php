@@ -8,6 +8,10 @@
         margin: 15px 20px;
     }
 
+    .text-negative {
+        color: crimson;
+    }
+
     .kop-header {
         padding-left: 10px;
         margin-bottom: 10px;
@@ -189,6 +193,11 @@
 
     .border-bottom {
         border-bottom: solid 1px #3f3f3f;
+    }
+    /* Padding top and bottom 4px */
+    .p-t-b-4 {
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
     }
 
     /* Padding top and bottom 3px */

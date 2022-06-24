@@ -5,9 +5,13 @@
         <thead>
           <tr>
             <th class="text-center cursor-pointer mobile-hide">#</th>
-            <th class="text-left cursor-pointer">{{ $t('tanggal') }}</th>
-            <th class="text-left cursor-pointer">{{ $t('siabsen_in') }}</th>
-            <th class="text-left cursor-pointer">{{ $t('siabsen_out') }}</th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('tanggal') }}</th>
+            <th class="text-left cursor-pointer mobile-only">
+              {{ $t('tanggal') }} /<br />{{ $t('siabsen_in') }} /<br />{{ $t('siabsen_out') }}
+            </th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('siabsen_in') }}</th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('siabsen_out') }}</th>
+            <th class="text-left cursor-pointer">{{ $t('siabsen_terlambat') }}</th>
             <th class="text-left cursor-pointer">Status</th>
           </tr>
         </thead>
@@ -15,9 +19,13 @@
           <tr v-for="(item, index) in presenceDetail.data" :key="index">
             <td class="text-center mobile-hide">{{ index + 1 }}</td>
             <td class="text-left mobile-hide">{{ $formatDate(item.date) }}</td>
-            <td class="text-left mobile-only">{{ $formatDate(item.date, 'DD/MM/YYYY') }}</td>
-            <td class="text-left">{{ item.in }}</td>
-            <td class="text-left">{{ item.out }}</td>
+            <td class="text-left mobile-only">
+              <strong>{{ $formatDate(item.date, 'DD/MM/YYYY') }}</strong> <br />
+              {{ item.in }} <br />{{ item.out }}
+            </td>
+            <td class="text-left mobile-hide">{{ item.in }}</td>
+            <td class="text-left mobile-hide">{{ item.out }}</td>
+            <td class="text-left">{{ item.late }}</td>
             <td class="text-left">
               <q-badge :label="item.label" :color="badgeColor(item.status)" />
             </td>

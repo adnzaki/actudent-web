@@ -9,7 +9,7 @@ return [
     'siabsen_waktu_absen'       => 'Waktu absen anda',
     'siabsen_do_absen'          => 'Absen',
     'siabsen_belum_masuk'       => 'Anda belum absen masuk!',
-    'siabsen_telat_masuk'       => 'Sayang sekali, anda datang terlambat...',
+    'siabsen_telat_masuk'       => 'Ups, anda terlambat {0}',
     'siabsen_sudah_masuk'       => 'Terimakasih telah datang tepat waktu!',
     'siabsen_tidak_masuk'       => 'Ups, anda tidak masuk hari ini.',
     'siabsen_belum_pulang'      => 'Jangan lupa absen pulang!',
@@ -72,4 +72,8 @@ return [
         'numeric_only'          => 'Kolom ini hanya boleh berisi angka natural (tanpa koma, atau tanda "-" dan "+")',
         'timelimit'             => 'Toleransi keterlambatan tidak boleh lebih dari {0} menit'
     ],
+    'siabsen_jam'               => 'jam',
+    'siabsen_menit'             => 'menit',
+    'siabsen_detik'             => 'detik',
+    'siabsen_terlambat'         => 'Keterlambatan',
 ];

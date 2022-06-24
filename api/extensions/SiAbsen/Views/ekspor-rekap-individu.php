@@ -18,8 +18,8 @@
 				<td class="no-border no-padding-top-bottom">: <?= $name ?></td>
 			</tr>
 			<tr>
-				<td class="no-border p-t-b-3" width="100"><?= lang('AdminPegawai.staff_id') ?></td>
-				<td class="no-border text-capitalize p-t-b-3">: <?= $nip ?></td>
+				<td class="no-border p-t-b-4" width="100"><?= lang('AdminPegawai.staff_id') ?></td>
+				<td class="no-border text-capitalize p-t-b-4">: <?= $nip ?></td>
 			</tr>
 		</table>
 		<table>
@@ -29,19 +29,26 @@
 					<th class="light-border center-align">Hari, Tanggal</th>
 					<th class="light-border center-align">Datang</th>
 					<th class="light-border center-align">Pulang</th>
+					<th class="light-border center-align">Keterlambatan</th>
 					<th class="light-border center-align">Status</th>
 				</tr>
 			</thead>
 			<tbody>				
 				<?php $no = 1; foreach($data as $key): ?>
 				<tr>
-					<td class="center-align" width="30"><?= $no ?></td>
-					<td class="light-border "><?= $key['dateStr'] ?></td>
-					<td class="center-align light-border "><?= $key['in'] ?></td>
-					<td class="center-align light-border "><?= $key['out'] ?></td>
-					<td class="center-align light-border "><?= $key['label'] ?></td>
+					<td class="center-align p-t-b-4" width="30"><?= $no ?></td>
+					<td class="light-border p-t-b-4"><?= $key['dateStr'] ?></td>
+					<td class="center-align light-border p-t-b-4"><?= $key['in'] ?></td>
+					<td class="center-align light-border p-t-b-4"><?= $key['out'] ?></td>
+					<td class="center-align light-border p-t-b-4"><?= $key['late'] ?></td>
+					<td class="center-align light-border p-t-b-4"><?= $key['label'] ?></td>
 				</tr>
 				<?php $no++; endforeach; ?>
+				<tr>
+					<td class="center-align light-border" colspan="4"><strong>Total Keterlambatan</strong></td>
+					<td class="center-align"><strong><?= $late ?></strong></td>
+					<td class="light-border"></td>
+				</tr>
 				
 			</tbody>
 		</table>
