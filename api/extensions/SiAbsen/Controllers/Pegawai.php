@@ -103,6 +103,10 @@ class Pegawai extends Admin
                 $dirPath = PUBLICPATH . 'attachments/izin/';
                 $filePath = $dirPath . $newFilename;
                 $attachment->move($dirPath, $newFilename);
+                \Config\Services::image()
+                        ->withFile($filePath)
+                        ->resize(1024, 1024, true)
+                        ->save($filePath);
     
                 $result = $this->aws->folder('staff-permit')->putObject($filePath);
                 if(file_exists($filePath))
@@ -125,12 +129,11 @@ class Pegawai extends Admin
     private function validateFile()
     {
         $fileRules = [
-            'attachment' => 'is_image[attachment]|max_size[attachment,1024]'
+            'attachment' => 'is_image[attachment]'
         ];
         $fileMessages = [
             'attachment' => [
                 'is_image' => lang('Admin.invalid_filetype'),
-                'max_size' => lang('Admin.file_too_large'),
             ]
         ];
 

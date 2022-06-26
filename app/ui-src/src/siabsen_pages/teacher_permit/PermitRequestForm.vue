@@ -163,7 +163,7 @@ export default {
               timeout: 1
             })
           } else {
-            attachmentError.value = data
+            attachmentError.value = data.attachment
             store.state.siabsen.disableSaveButton = true
           }
 

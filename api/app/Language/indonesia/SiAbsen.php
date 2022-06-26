@@ -33,7 +33,7 @@ return [
     'siabsen_atur_jadwal'       => 'Atur Jadwal Absen',
     'siabsen_form_izin_title'   => 'Form Pengajuan Izin',
     'siabsen_alasan_izin'       => 'Alasan izin',
-    'siabsen_lampiran_izin'     => 'Lampiran (File gambar dengan ukuran maks. 1 MB)',
+    'siabsen_lampiran_izin'     => 'Lampiran (hanya menerima file berupa gambar)',
     'siabsen_permit_error'  => [
         'date_required'         => 'Kolom tanggal tidak boleh kosong',
         'date_invalid'          => 'Format tanggal tidak valid [Format yang diizinkan: YYYY-MM-DD]',

@@ -32,7 +32,7 @@ return [
     'siabsen_atur_jadwal'       => 'Set absence schedule',
     'siabsen_form_izin_title'   => 'Permission Request Form',
     'siabsen_alasan_izin'       => 'Permission reason',
-    'siabsen_lampiran_izin'     => 'Attachment (Image file with max. size 1 MB)',
+    'siabsen_lampiran_izin'     => 'Attachment (accept image file type only)',
     'siabsen_permit_error'  => [
         'date_required'         => 'Date field should not be empty',
         'date_invalid'          => 'Invalid date format [Allowed format: YYYY-MM-DD]',
