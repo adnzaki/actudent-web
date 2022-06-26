@@ -159,13 +159,14 @@ export default {
             attachmentError.value = ''
             store.state.siabsen.disableSaveButton = false
             formData.value.permit_photo = data.img
-            notifyProgress({
-              timeout: 1
-            })
           } else {
             attachmentError.value = data.attachment
             store.state.siabsen.disableSaveButton = true
           }
+          
+          notifyProgress({
+            timeout: 1
+          })
 
           console.log(formData.value)
         })
