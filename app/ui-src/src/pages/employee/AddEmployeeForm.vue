@@ -101,6 +101,8 @@ export default {
     onMounted(getSchool)
     
     const save = () => {
+      let pattern = /(\s|\W+)/ig
+      formData.value.user_email = formData.value.user_email.replace(pattern, '')
       store.dispatch('employee/save', {
         data: formData.value,
         edit: false,
