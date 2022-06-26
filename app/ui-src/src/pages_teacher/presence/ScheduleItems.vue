@@ -20,7 +20,9 @@
             <td class="text-left mobile-hide">{{ item.lesson_name }}</td>
             <td class="text-left mobile-hide">{{ item.grade_name }}</td>
             <td class="text-left mobile-only cursor-pointer" @click="showDetail(item)">
-              {{ item.lesson_name }} - {{ item.grade_name }}
+              <strong>{{ item.lesson_name }} - {{ item.grade_name }}</strong><br />
+              {{ item.room_name }}<br />
+              {{ item.duration }} JP ({{ item.schedule_start }} - {{ item.schedule_end }})
             </td>
             <td class="text-left mobile-hide">{{ item.room_name }}</td>
             <td class="text-center mobile-hide">{{ item.duration }} JP</td>
