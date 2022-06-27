@@ -8,17 +8,17 @@
           <q-btn :color="getBtnClass('english')" @click="switchLanguage('english')" label="EN" />
         </q-btn-group>
       </q-page-sticky>
-      <div class="q-pa-md q-mt-md row items-start q-gutter-md">
+      <div :class="['q-pa-md row items-start q-gutter-md', cardTopSpacing]">
         <q-card :class="['auth-box col-md-4 col-sm-8 offset-md-4 offset-sm-2', styleSelector('card')]">
           <q-card-section>
             <q-img
               :src="brandLogo" 
               width="30%" :ratio="1"
               class="app-logo" />
-            <p class="text-center text-uppercase q-pt-lg q-pb-sm">{{ $t('silakan_login') }}</p>
+            <p :class="['text-center text-uppercase q-pt-lg', pleaseLoginText]">{{ $t('silakan_login') }}</p>
             <q-form class="q-gutter-xs" @submit.prevent="validate">
 
-              <q-input :class="['q-pl-md q-mb-lg', styleSelector('input')]" borderless :color="styleSelector('icon')"
+              <q-input :class="['q-pl-md', usernameSpacing, styleSelector('input')]" borderless :color="styleSelector('icon')"
                 v-model="username" label="Username / NIK" :input-class="styleSelector('inputColor')" 
                 :label-color="styleSelector('label')" @keyup.enter="validate">
                 <template v-slot:prepend>
@@ -34,7 +34,7 @@
                 </template>
               </q-input>
 
-              <q-checkbox color="primary" keep-color class="q-mb-lg" v-model="rememberMe" :label="$t('remember_me')" />
+              <q-checkbox color="primary" keep-color class="q-mb-md" v-model="rememberMe" :label="$t('remember_me')" />
               <p v-if="showMsg" style="margin-top: -20px" :class="`text-bold text-${msgClass}`">{{ msg }}</p>
               <q-btn :color="styleSelector('btn')" @click="validate" :style="btnStyle">{{ $t('login') }}</q-btn>
             </q-form>
@@ -80,6 +80,9 @@ export default {
           rememberMe = ref(false)
     
     return {
+      cardTopSpacing: $q.screen.gt.md ? 'q-mt-lg' : 'q-mt-xs',
+      usernameSpacing: $q.screen.lt.sm ? 'q-mb-lg' : 'q-mb-md',
+      pleaseLoginText: $q.screen.lt.sm ? 'q-pb-sm' : '',
       brandLogo: computed(() => {
         let logo
         if($q.cookies.get('theme') === 'dark') {
@@ -104,7 +107,7 @@ export default {
             input: 'auth-input',
             inputColor: 'input-color',
             btn: 'blue',
-            poweredLogo: 'powered-style'
+            poweredLogo: 'powered-style',
           },
           dark: {
             bgImage: 'bg-img-dark',
