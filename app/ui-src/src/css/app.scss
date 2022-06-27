@@ -1,5 +1,24 @@
 // app global css in SCSS form
 
+.check-btn {
+  top: 45px;
+  right: 10px;
+  transform: translateY(-50%);
+  padding: 40px 13px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@media(max-width: $breakpoint-sm-max) {
+  .check-btn {
+    top: 60px;
+    padding: 20px 13px;
+  }
+
+  .my-card {
+    margin-top: 10px;
+  }
+}
+
 .fc .fc-scrollgrid-section-sticky > * {
   background: var(--fc-page-bg-color) !important
 }
