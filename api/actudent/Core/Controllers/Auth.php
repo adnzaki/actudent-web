@@ -40,21 +40,25 @@ class Auth extends \Actudent
 
                 $gradeId = null;
 
-                if($pengguna->user_level === '2') {
-                    $model = new \Actudent\Guru\Models\JadwalKehadiranModel;
-                    $check = $model->isHomeroomTeacher($pengguna->user_id);
-                    if($check !== false) {
-                        $gradeId = (int)$check->grade_id;
+                if($pengguna->user_level === '3') {
+                    return $this->response->setJSON(['msg' => 'unauthorized']);
+                } else {
+                    if($pengguna->user_level === '2') {
+                        $model = new \Actudent\Guru\Models\JadwalKehadiranModel;
+                        $check = $model->isHomeroomTeacher($pengguna->user_id);
+                        if($check !== false) {
+                            $gradeId = (int)$check->grade_id;
+                        }
                     }
+    
+                    $this->auth->statusJaringan('online', $username);
+                    return $this->response->setJSON([
+                        'msg'   => 'valid', 
+                        'token' => jwt_encode($token),
+                        'level' => $pengguna->user_level,
+                        'grade' => $gradeId
+                    ]);
                 }
-
-                $this->auth->statusJaringan('online', $username);
-                return $this->response->setJSON([
-                    'msg'   => 'valid', 
-                    'token' => jwt_encode($token),
-                    'level' => $pengguna->user_level,
-                    'grade' => $gradeId
-                ]);
             }
             else 
             {
