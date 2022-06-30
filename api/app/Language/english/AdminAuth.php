@@ -16,4 +16,5 @@ return [
     'invalid_login'      => 'Incorrect username or password',
     'login_error'        => 'Unable to connect to the server',
     'remember_me'        => 'Remember me',
+    'salah_akses'        => 'The account you entered is parent\'s account, please login via Android app version'
 ];

@@ -184,6 +184,11 @@ export default {
                     localStorage.setItem('grade_id', res.grade);
                     window.location.href = conf.teacherHomeUrl()
                   }
+                } else if(res.msg === 'unauthorized') {
+                  msgClass.value = 'negative'
+                  msg.value = t('salah_akses')
+
+                  setTimeout(hideMsg, 8000)
                 } else {
                   msgClass.value = 'negative'
                   msg.value = t('invalid_login')
