@@ -75,4 +75,9 @@ return [
     'siabsen_menit'             => 'mins',
     'siabsen_detik'             => 'secs',
     'siabsen_terlambat'         => 'Lateness',
+    'siabsen_hadir_harian'      => 'Employees present today',
+    'siabsen_absen_harian'      => 'Employees absent today',
+    'siabsen_izin_harian'       => 'Employees has permission today',
+    'siabsen_cek_hadir'         => 'Check presence',
+    'siabsen_cek_izin'          => 'Check permission request',
 ];

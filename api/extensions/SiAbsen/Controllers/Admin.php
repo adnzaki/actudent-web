@@ -20,6 +20,26 @@ class Admin extends \Actudent
         $this->aws = new \AwsClient;
     }
 
+    public function getTodaySummary()
+    {
+        $rows = $this->model->getStaffRows();
+        $employees = $this->model->getStaff($rows, 0);
+        $summary = [];
+        foreach($employees as $e) {
+            $summary[$e->staff_name] = $this->getPresenceStatus($e->staff_id, $e->staff_type, date('Y-m-d'));
+        }
+
+        $countStatus = function ($type) use ($summary) {
+            return count(array_filter($summary, fn($v) => $v === $type));
+        };
+
+        return $this->createResponse([
+            'absent' => $countStatus(0),
+            'present' => $countStatus(1),
+            'permit' => $countStatus(2),
+        ]);
+    }
+
     public function exportStaffSummary($staffId, $userId, $period, $token)
     {
         if(valid_token($token)) {
@@ -273,23 +293,6 @@ class Admin extends \Actudent
 
     protected function countMonthlySummary($staffId, $staffType, $month, $year)
     {
-        $dayValues = [];
-        $days = [
-            'minggu' => 0, 'senin' => 1, 'selasa' => 2,
-            'rabu' => 3, 'kamis' => 4, 'jumat' => 5, 'sabtu' => 6
-        ];
-
-        // if the employee is staff, then the schedule is from monday through friday
-        if($staffType === 'staff') {
-            $dayValues = [ 1, 2, 3, 4, 5 ];
-        } else {
-            // get the days which teacher has teaching schedule 
-            $schedules = $this->model->getTeacherSchedules($staffId);
-            foreach($schedules as $s) {
-                $dayValues[] = $days[$s->schedule_day]; // example: $this->days['senin']
-            }
-        }
-
         $presenceData = [];
 
         // get total days of the selected month
@@ -300,32 +303,57 @@ class Admin extends \Actudent
             // set the date into YYYY-MM-DD format
             $searchDate = reverse(os_date()->shortDate($td, $month, $year), '-', '-');
 
-            // get the day of week like 0 = sunday through 6 = saturday
-            $dayOfWeek = date('w', strtotime($searchDate));
-
-            // if day of week of the searched date is in teacher schedules...
-            if(in_array($dayOfWeek, $dayValues)) {
-                // get only presence-in data
-                // we do not need to check presence-out data, since teacher will only
-                // be absent if they do not tap for presence-in
-                $in = $this->model->getPresence($staffId, $searchDate, 'masuk');
-
-                // if it exists, it means the teacher was present on that date
-                // pass the value with 1 = present, 0 = absent, 2 = permit
-                $hasPermission = $this->model->hasPermissionToday($searchDate, $staffId);
-                if($in === null && $hasPermission) {
-                    $status = 2;
-                } elseif($in === null && ! $hasPermission) {
-                    $status = 0;
-                } else {
-                    $status = 1;
-                }
-
-                $presenceData[$searchDate] = $status;
-            }
+            $presenceData[$searchDate] = $this->getPresenceStatus($staffId, $staffType, $searchDate);
         }          
 
         return $presenceData;
+    }
+
+    protected function getPresenceStatus($staffId, $staffType, $date)
+    {
+        $days = [
+            'senin' => 1, 'selasa' => 2, 'rabu' => 3, 
+            'kamis' => 4, 'jumat' => 5, 'sabtu' => 6
+        ];
+
+        $dayValues = [];
+
+        // if the employee is staff, use default working schedule,
+        // otherwise, the schedule is from monday through friday
+        if($staffType === 'teacher') {
+            // get the days which teacher has teaching schedule 
+            $schedules = $this->model->getTeacherSchedules($staffId);
+            foreach($schedules as $s) {
+                $dayValues[] = $days[$s->schedule_day]; // example: $days['senin']
+            }
+        } else {
+            $dayValues = [ 1, 2, 3, 4, 5 ];
+        }
+
+        // get the day of week like 0 = sunday through 6 = saturday
+        $dayOfWeek = date('w', strtotime($date));
+        $status = 3;
+
+        // if day of week of the searched date is in teacher schedules...
+        if(in_array($dayOfWeek, $dayValues)) {
+            // get only presence-in data
+            // we do not need to check presence-out data, since teacher will only
+            // be absent if they do not tap for presence-in
+            $in = $this->model->getPresence($staffId, $date, 'masuk');
+
+            // if it exists, it means the teacher was present on that date
+            // pass the value with 1 = present, 0 = absent, 2 = permit
+            $hasPermission = $this->model->hasPermissionToday($date, $staffId);
+            if($in === null && $hasPermission) {
+                $status = 2;
+            } elseif($in === null && ! $hasPermission) {
+                $status = 0;
+            } else {
+                $status = 1;
+            }
+        }
+
+        return $status;
     }
 
     public function getStaffPresence($date, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')

@@ -76,4 +76,9 @@ return [
     'siabsen_menit'             => 'menit',
     'siabsen_detik'             => 'detik',
     'siabsen_terlambat'         => 'Keterlambatan',
+    'siabsen_hadir_harian'      => 'Pegawai hadir hari ini',
+    'siabsen_absen_harian'      => 'Pegawai absen hari ini',
+    'siabsen_izin_harian'       => 'Pegawai izin hari ini',
+    'siabsen_cek_hadir'         => 'Cek kehadiran',
+    'siabsen_cek_izin'          => 'Cek permintaan izin',
 ];

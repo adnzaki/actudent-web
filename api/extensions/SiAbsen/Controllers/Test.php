@@ -5,6 +5,21 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Test extends Admin
 {
+    public function testGetSchedules($id)
+    {
+        $schedules = $this->model->getTeacherSchedules($id);
+        $days = [
+            'senin' => 1, 'selasa' => 2, 'rabu' => 3, 
+            'kamis' => 4, 'jumat' => 5, 'sabtu' => 6
+        ];
+
+        foreach($schedules as $s) {
+            $dayValues[] = $days[$s->schedule_day]; // example: $days['senin']
+        }
+
+        return $this->response->setJSON($this->getPresenceStatus($id, 'teacher', '2022-06-30')[1]);
+    }
+
     public function testAws($keyname)
     {
         $aws = new \AwsClient;
