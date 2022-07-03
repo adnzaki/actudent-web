@@ -21,6 +21,10 @@ const apiEndpoint = Cookies.get(conf.userType) === '1'
 
 const t = key => i18n.global.t(key)
 
+const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
+  return date.formatDate(val, format, selectedLang)
+}
+
 const createQueryString = params => {
   return Object.entries(params).map(item => item.join('=')).join('&')
 }
@@ -50,6 +54,7 @@ function createFormData(obj) {
 }
 
 export {
+  formatDate,
   trim,
   apiEndpoint,
   Cookies,
