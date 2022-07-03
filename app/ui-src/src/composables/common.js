@@ -84,12 +84,9 @@ function createFormData(obj) {
 
 export {
   formatDate,
-<<<<<<< HEAD
   monthList,
   toDecimal,
   phpTimestamp,
-=======
->>>>>>> v2-dev
   trim,
   apiEndpoint,
   Cookies,
