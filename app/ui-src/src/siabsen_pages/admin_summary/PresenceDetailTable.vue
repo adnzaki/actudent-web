@@ -20,7 +20,7 @@
             <td class="text-center mobile-hide">{{ index + 1 }}</td>
             <td class="text-left mobile-hide">{{ $formatDate(item.date) }}</td>
             <td class="text-left mobile-only">
-              <strong>{{ $formatDate(item.date, 'DD/MM/YYYY') }}</strong> <br />
+              <strong>{{ $formatDate(item.date, 'DD-MMM') }}</strong> <br />
               {{ item.in }} <br />{{ item.out }}
             </td>
             <td class="text-left mobile-hide">{{ item.in }}</td>
