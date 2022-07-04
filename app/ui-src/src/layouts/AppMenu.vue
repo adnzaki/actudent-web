@@ -46,6 +46,9 @@
           <q-item-section>
             {{ item.label }}
           </q-item-section>
+          <q-item-section side v-if="index === 1 && $store.state.siabsen.notifCounter > 0">
+            <q-badge :label="$store.state.siabsen.notifCounter" color="red" rounded />
+          </q-item-section>
         </q-item>
       </q-expansion-item>
 
@@ -126,7 +129,7 @@
 import { useI18n } from 'vue-i18n'
 import { onMounted, ref, watch, computed } from 'vue'
 import { useStore } from 'vuex'
-import { conf } from 'src/composables/common'
+import { conf, siabsen, bearerToken } from 'src/composables/common'
 import { useQuasar } from 'quasar'
 import { headerColor } from '../composables/mode'
 
@@ -164,6 +167,10 @@ export default {
 
     onMounted(() => {
       activeMenuTrigger()
+      
+      // get permission notif      
+      store.dispatch('siabsen/getPermissionNotif')
+
       setTimeout(() => {
         masterMenu.value = [
           { label: t('menu_parent'), link: '/parent' },

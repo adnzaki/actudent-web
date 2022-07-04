@@ -13,6 +13,15 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getPermissionNotif({ state }) {
+    siabsen.get('get-notif-izin', {
+      headers: {
+        Authorization: bearerToken
+      }
+    }).then(({ data }) => {
+      state.notifCounter = data.notif
+    })
+  },
   saveConfig({ state, commit }) {
     const notifyProgress = Notify.create({
       group: false,
@@ -94,6 +103,7 @@ export default {
     })
       .then(res => {
         dispatch('getPermissions')
+        dispatch('getPermissionNotif')
         state.showPermitDetail = false
         notifyProgress({
           message: `${t('sukses')} ${t('siabsen_renew_izin_success')}`,

@@ -27,6 +27,7 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('detail-absensi/(:any)/(:any)/(:any)', 'Admin::getDetailPresence/$1/$2/$3');
     $routes->add('print-rekap-individu/(:any)/(:any)/(:any)/(:any)', 'Admin::exportStaffSummary/$1/$2/$3/$4');
     $routes->add('rekap-harian', 'Admin::getTodaySummary');
+    $routes->add('get-notif-izin', 'Admin::getPermissionNotif');
     $routes->add('test-get-jadwal/(:any)', 'Test::testGetSchedules/$1');
     $routes->add('test-status/(:any)', 'Test::testStatus/$1');
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');

@@ -36,6 +36,12 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function getPermissionNotif()
+    {
+        return $this->QBPermit->getWhere(['permit_status' => 'submitted'])
+                    ->getNumRows();
+    }
+
     public function updateConfig($configId, $values): void
     {
         $this->QBConfig->update([

@@ -32,6 +32,6 @@ export default function () {
       tolerance: 0,
       range: 0
     },
-    configError: {},
+    configError: {}, notifCounter: 0,
   }
 }

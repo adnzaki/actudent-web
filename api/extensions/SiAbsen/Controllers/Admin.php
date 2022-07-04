@@ -20,6 +20,12 @@ class Admin extends \Actudent
         $this->aws = new \AwsClient;
     }
 
+    public function getPermissionNotif()
+    {
+        $data = $this->model->getPermissionNotif();
+        return $this->createResponse(['notif' => $data], 'is_admin');
+    }
+
     public function getTodaySummary()
     {
         $rows = $this->model->getStaffRows();
