@@ -102,6 +102,7 @@ class Admin extends \Actudent
             lang('AdminAbsensi.absensi_alfa'),
             lang('AdminAbsensi.absensi_hadir'),
             lang('AdminAbsensi.absensi_izin'),
+            '-'
         ];
 
         $totalLate = 0;

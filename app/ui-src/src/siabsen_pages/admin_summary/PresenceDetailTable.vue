@@ -27,7 +27,8 @@
             <td class="text-left mobile-hide">{{ item.out }}</td>
             <td class="text-left">{{ item.late }}</td>
             <td class="text-left">
-              <q-badge :label="item.label" :color="badgeColor(item.status)" />
+              <q-badge v-if="item.label !== '-'" :label="item.label" :color="badgeColor(item.status)" />
+              <div v-else>{{ item.label }}</div>
             </td>
           </tr>
         </tbody>

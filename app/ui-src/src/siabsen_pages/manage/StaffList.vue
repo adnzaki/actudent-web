@@ -18,11 +18,14 @@
             <td class="text-left mobile-hide">{{ item.nip }}</td>
             <td class="text-left mobile-only">
               {{ $trim(item.name, 30) }} <br>
-              {{ $t('siabsen_in') }}: <b>{{ item.in }}</b> {{ item.late }}<br>
+              {{ $t('siabsen_in') }}: <b>{{ item.in }}</b> 
+              <small class="text-negative" v-if="item.late !== '-'"> (+{{ item.late }})</small><br>
               {{ $t('siabsen_out') }}: <b>{{ item.out }}</b>
             </td>
             <td class="text-left mobile-hide">{{ item.name }}</td>
-            <td class="text-left mobile-hide">{{ item.in }} {{ item.late }}</td>
+            <td class="text-left mobile-hide">{{ item.in }} <br />
+              <small class="text-negative" v-if="item.late !== '-'">(+{{ item.late }})</small>
+            </td>
             <td class="text-left mobile-hide">{{ item.out }}</td>
             <td class="text-left">
               <q-btn color="accent" 
