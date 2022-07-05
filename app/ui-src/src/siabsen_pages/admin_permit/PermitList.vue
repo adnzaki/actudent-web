@@ -4,7 +4,7 @@
       <q-markup-table bordered>
         <thead>
           <tr>
-            <th class="text-center cursor-pointer">#</th>
+            <th class="text-center cursor-pointer mobile-hide">#</th>
             <th class="text-left mobile-hide">{{ $t('staff_nama') }}</th>
             <th class="text-left mobile-hide">{{ $t('tanggal') }}</th>
             <th class="text-left mobile-only">
@@ -18,11 +18,11 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td class="text-center">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
+            <td class="text-center mobile-hide">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">{{ $formatDate(item.permit_date, 'DD/MM/YYYY') }}</td>
             <td class="text-left mobile-only">
-              {{ $trim(item.staff_name) }} / <br>
+              {{ $trim(item.staff_name, 20) }} <br>
               {{ $formatDate(item.permit_date, 'DD-MMM-YYYY') }}
             </td>
             <td class="text-left mobile-hide">
