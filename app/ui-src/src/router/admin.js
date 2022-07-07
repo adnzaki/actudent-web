@@ -63,5 +63,21 @@ export default [
     ]
   },
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
-  { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() }
+  { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
+  { 
+    path: 'teacher-presence', component: SiAbsenIndex, beforeEnter: () => routeValidator(),
+    children: [
+      { path: '', component: ManageMain, beforeEnter: () => routeValidator() },
+      { path: 'manage', component: ManageMain, beforeEnter: () => routeValidator() },
+      { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator() },
+      { 
+        path: 'monthly-summary', component: SummaryRoute, beforeEnter: () => routeValidator(),
+        children: [
+          { path: '', component: AdminSummaryMain, beforeEnter: () => routeValidator() },
+          { path: 'detail/:staffId/:userId/:period', component: PresenceDetail, beforeEnter: () => routeValidator() },
+        ] 
+      },
+      { path: 'config', component: ConfigMain, beforeEnter: () => routeValidator() },
+    ]
+  },
 ]
