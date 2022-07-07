@@ -123,10 +123,10 @@ class Timeline extends \Actudent
 
         $messages = [
             'timeline_title' => [
-                'required' => lang('AdminTimeline.timeline_title_required'),
+                'required' => get_lang('AdminTimeline.timeline_title_required'),
             ],
             'image_feature' => [
-                'required' => lang('AdminTimeline.timeline_image_required'),
+                'required' => get_lang('AdminTimeline.timeline_image_required'),
             ],
         ];            
 
@@ -178,8 +178,8 @@ class Timeline extends \Actudent
         ];
         $fileMessages = [
             'timeline_image' => [
-                'mime_in' => lang('Admin.invalid_filetype'),
-                'max_size' => lang('Admin.file_too_large'),
+                'mime_in' => get_lang('Admin.invalid_filetype'),
+                'max_size' => get_lang('Admin.file_too_large'),
             ]
         ];
 

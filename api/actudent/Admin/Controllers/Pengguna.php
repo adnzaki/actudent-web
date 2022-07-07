@@ -26,10 +26,10 @@ class Pengguna extends \Actudent
         // User level category
         // Staff|Pegawai, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
-            lang('AdminUser.pengguna_staff'),
-            lang('AdminUser.pengguna_admin'),
-            lang('AdminUser.pengguna_guru'),
-            lang('AdminUser.pengguna_ortu')
+            get_lang('AdminUser.pengguna_staff'),
+            get_lang('AdminUser.pengguna_admin'),
+            get_lang('AdminUser.pengguna_guru'),
+            get_lang('AdminUser.pengguna_ortu')
         ];
         foreach($data as $key)
         {
@@ -59,10 +59,10 @@ class Pengguna extends \Actudent
         // User level category
         // Staff|Pegawai, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
-            lang('AdminUser.pengguna_staff'),
-            lang('AdminUser.pengguna_admin'),
-            lang('AdminUser.pengguna_guru'),
-            lang('AdminUser.pengguna_ortu')
+            get_lang('AdminUser.pengguna_staff'),
+            get_lang('AdminUser.pengguna_admin'),
+            get_lang('AdminUser.pengguna_guru'),
+            get_lang('AdminUser.pengguna_ortu')
         ];
         foreach($user as $key)
         {
@@ -115,12 +115,12 @@ class Pengguna extends \Actudent
 
         $messages = [
             'user_password' => [
-                'required'      => lang('AdminUser.user_err_pass_required'),
-                'min_length'    => lang('AdminUser.user_err_pass_minchars'),
+                'required'      => get_lang('AdminUser.user_err_pass_required'),
+                'min_length'    => get_lang('AdminUser.user_err_pass_minchars'),
             ],
             'user_password_confirm' => [
-                'required'      => lang('AdminUser.user_err_passconf_required'),
-                'matches'       => lang('AdminUser.user_err_pass_confirm'),
+                'required'      => get_lang('AdminUser.user_err_passconf_required'),
+                'matches'       => get_lang('AdminUser.user_err_pass_confirm'),
             ],
         ];              
         

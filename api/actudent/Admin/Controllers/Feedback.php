@@ -129,8 +129,8 @@ class Feedback extends \Actudent
         ];
         $fileMessages = [
             'feedback_image' => [
-                'mime_in' => lang('Admin.invalid_filetype'),
-                'max_size' => lang('Admin.file_too_large'),
+                'mime_in' => get_lang('Admin.invalid_filetype'),
+                'max_size' => get_lang('Admin.file_too_large'),
             ]
         ];
 
@@ -148,15 +148,15 @@ class Feedback extends \Actudent
 
         $messages = [
             'feedback_type' => [
-                'required'      => lang('AdminFeedback.feedback_err_type_req'),
+                'required'      => get_lang('AdminFeedback.feedback_err_type_req'),
             ], 
             'feedback_description' => [
-                'required'      => lang('AdminFeedback.feedback_err_desc_req'),
-                'min_length'    => lang('AdminFeedback.feedback_err_desc_min'),                
+                'required'      => get_lang('AdminFeedback.feedback_err_desc_req'),
+                'min_length'    => get_lang('AdminFeedback.feedback_err_desc_min'),                
             ],         
             'feedback_email' => [
-                'required'      => lang('AdminFeedback.feedback_err_email_req'),
-                'valid_email'   => lang('AdminFeedback.feedback_err_invalid_email')
+                'required'      => get_lang('AdminFeedback.feedback_err_email_req'),
+                'valid_email'   => get_lang('AdminFeedback.feedback_err_invalid_email')
             ],
         ];
 

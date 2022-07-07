@@ -92,7 +92,7 @@ class Jadwal extends \Actudent
                 $response[] = [
                     'id'    => "{$res->schedule_id}-{$res->lessons_grade_id}",
                     'text'  => "$res->lesson_name (ID: $res->schedule_id, " .
-                                lang('AdminJadwal.jadwal_jurnal_aktif') .
+                                get_lang('AdminJadwal.jadwal_jurnal_aktif') .
                                 ": $activeJournal)"
                 ];
             }
@@ -138,12 +138,12 @@ class Jadwal extends \Actudent
 
         $messages = [
             'lesson_hour' => [
-                'required'      => lang('AdminJadwal.jadwal_alokasi_required'),
-                'is_natural'    => lang('AdminJadwal.jadwal_alokasi_natural'),
+                'required'      => get_lang('AdminJadwal.jadwal_alokasi_required'),
+                'is_natural'    => get_lang('AdminJadwal.jadwal_alokasi_natural'),
             ],
             'start_time' => [
-                'required'      => lang('AdminJadwal.jadwal_mulai_required'),
-                'regex_match'   => lang('AdminJadwal.jadwal_mulai_format'),
+                'required'      => get_lang('AdminJadwal.jadwal_mulai_required'),
+                'regex_match'   => get_lang('AdminJadwal.jadwal_mulai_format'),
             ]
         ];
         
@@ -316,7 +316,7 @@ class Jadwal extends \Actudent
                             'lesson_grade_id'   => null,
                             'room_id'           => null,
                             'lesson_code'       => 'REST',
-                            'lesson_name'       => lang('AdminJadwal.jadwal_istirahat'),
+                            'lesson_name'       => get_lang('AdminJadwal.jadwal_istirahat'),
                             'duration'          => (string)$breakDuration,
                             'schedule_start'    => $finish,
                             'schedule_end'      => $arr->schedule_start,
@@ -448,12 +448,12 @@ class Jadwal extends \Actudent
 
         $messages = [
             'lesson_id' => [
-                'required'      => lang('AdminJadwal.jadwal_err_lesson_required'),
-                'is_natural'    => lang('AdminJadwal.jadwal_err_lesson_natural'),
+                'required'      => get_lang('AdminJadwal.jadwal_err_lesson_required'),
+                'is_natural'    => get_lang('AdminJadwal.jadwal_err_lesson_natural'),
             ],
             'teacher_id' => [
-                'required'      => lang('AdminJadwal.jadwal_err_teacher_required'),
-                'is_natural'    => lang('AdminKelas.kelas_err_teacher_natural'),
+                'required'      => get_lang('AdminJadwal.jadwal_err_teacher_required'),
+                'is_natural'    => get_lang('AdminKelas.kelas_err_teacher_natural'),
             ]
         ];
         

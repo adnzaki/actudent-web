@@ -13,7 +13,7 @@ class Subscription extends \Actudent
         else 
         {
             $data = $this->common();
-            $data['title'] = lang('AdminLangganan.title');
+            $data['title'] = get_lang('AdminLangganan.title');
             return parse('Actudent\Admin\Views\langganan\langganan-view', $data);
         }
     }
@@ -121,15 +121,15 @@ class Subscription extends \Actudent
 
         $messages = [
             'package_email' => [
-                'required'      => lang('AdminFeedback.feedback_err_email_req'),
-                'valid_email'   => lang('AdminFeedback.feedback_err_invalid_email')
+                'required'      => get_lang('AdminFeedback.feedback_err_email_req'),
+                'valid_email'   => get_lang('AdminFeedback.feedback_err_invalid_email')
             ],
             'package_type' => [
-                'required'      => lang('AdminLangganan.subs_type_required'),
+                'required'      => get_lang('AdminLangganan.subs_type_required'),
             ],
             'package_duration' => [
-                'required'      => lang('AdminLangganan.subs_duration_required'),
-                'is_natural'    => lang('AdminLangganan.subs_duration_natural'),
+                'required'      => get_lang('AdminLangganan.subs_duration_required'),
+                'is_natural'    => get_lang('AdminLangganan.subs_duration_natural'),
             ]
         ];
 
