@@ -4,11 +4,25 @@
  * This helper is created to help Wolestech DevTeam
  * to code easier and faster while developing their apps
  * 
- * @copyright   Copyright (c) 2021, Wolestech
+ * @copyright   Copyright (c) 2021-now, Wolestech
  * @package     Helper
  * @author      Wolestech DevTeam
  * @link        https://wolestech.com
  */
+
+if ( ! function_exists('get_lang'))
+{
+    /**
+     * Get language setting from public/settings.json
+     * 
+     * @return string
+     */
+    function get_lang(string $line, array $args = [])
+    {
+        $ac = new \Actudent;
+        return lang($line, $args, $ac->getLanguage());
+    }
+}
 
 if ( ! function_exists('st'))
 {
