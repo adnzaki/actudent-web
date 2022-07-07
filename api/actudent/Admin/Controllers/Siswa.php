@@ -49,7 +49,7 @@ class Siswa extends \Actudent
             {
                 return $this->response->setJSON([
                     'code' => '307',
-                    'msg' => lang('AdminSiswa.siswa_overlimit'),
+                    'msg' => get_lang('AdminSiswa.siswa_overlimit'),
                 ]);
             }
             else
@@ -135,18 +135,18 @@ class Siswa extends \Actudent
 
         $messages = [
             'student_nis' => [
-                'required'      => lang('AdminSiswa.siswa_err_nis_required'),
-                'is_natural'    => lang('AdminSiswa.siswa_err_nis_natural'),
-                'min_length'    => lang('AdminSiswa.siswa_err_nis_minlength'),
-                'max_length'    => lang('AdminSiswa.siswa_err_nis_maxlength'),
-                'is_unique'     => lang('AdminSiswa.siswa_err_nis_unique'),
+                'required'      => get_lang('AdminSiswa.siswa_err_nis_required'),
+                'is_natural'    => get_lang('AdminSiswa.siswa_err_nis_natural'),
+                'min_length'    => get_lang('AdminSiswa.siswa_err_nis_minlength'),
+                'max_length'    => get_lang('AdminSiswa.siswa_err_nis_maxlength'),
+                'is_unique'     => get_lang('AdminSiswa.siswa_err_nis_unique'),
             ],
             'student_name' => [
-                'required'      => lang('AdminSiswa.siswa_err_name_required'),
+                'required'      => get_lang('AdminSiswa.siswa_err_name_required'),
             ],
             'parent_id' => [
-                'required'      => lang('AdminSiswa.siswa_err_parent_required'),
-                'is_natural'    => lang('AdminSiswa.siswa_err_parent_natural'),
+                'required'      => get_lang('AdminSiswa.siswa_err_parent_required'),
+                'is_natural'    => get_lang('AdminSiswa.siswa_err_parent_natural'),
             ]
         ];
         

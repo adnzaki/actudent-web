@@ -118,28 +118,28 @@ class Pegawai extends \Actudent
 
         $messages = [
             'staff_nik' => [
-                'required'    => lang('AdminPegawai.staff_err_nik_required'),
-                'is_natural'  => lang('AdminPegawai.staff_err_nik_numeric'),
-                'max_length'  => lang('AdminPegawai.staff_err_nik_exact'),
-                'is_unique'   => lang('AdminPegawai.staff_err_nik_duplicate'),
+                'required'    => get_lang('AdminPegawai.staff_err_nik_required'),
+                'is_natural'  => get_lang('AdminPegawai.staff_err_nik_numeric'),
+                'max_length'  => get_lang('AdminPegawai.staff_err_nik_exact'),
+                'is_unique'   => get_lang('AdminPegawai.staff_err_nik_duplicate'),
             ],
             'staff_name' => [
-                'required'  => lang('AdminPegawai.staff_err_name'),
+                'required'  => get_lang('AdminPegawai.staff_err_name'),
             ],
             'staff_phone' => [
-                'required'      => lang('AdminPegawai.staff_err_phone_require'),
-                'is_natural'    => lang('AdminPegawai.staff_err_phone_num'),
-                'min_length'    => lang('AdminPegawai.staff_err_phone_min'),
-                'max_length'    => lang('AdminPegawai.staff_err_phone_max'),
+                'required'      => get_lang('AdminPegawai.staff_err_phone_require'),
+                'is_natural'    => get_lang('AdminPegawai.staff_err_phone_num'),
+                'min_length'    => get_lang('AdminPegawai.staff_err_phone_min'),
+                'max_length'    => get_lang('AdminPegawai.staff_err_phone_max'),
             ],
             'staff_type' => [
-                'required'  => lang('AdminPegawai.staff_err_type'),
+                'required'  => get_lang('AdminPegawai.staff_err_type'),
             ],
             'staff_title' => [
-                'required'  => lang('AdminPegawai.staff_err_title'),
+                'required'  => get_lang('AdminPegawai.staff_err_title'),
             ],
             'featured_image' => [
-                'required'  => lang('AdminPegawai.staff_err_image'),
+                'required'  => get_lang('AdminPegawai.staff_err_image'),
             ],
         ];      
 
@@ -153,16 +153,16 @@ class Pegawai extends \Actudent
 
             $insertMessages = [
                 'user_email' => [
-                    'required'      => lang('AdminUser.user_err_email_required'),
-                    'is_unique'     => lang('AdminUser.user_err_email_unique'),
+                    'required'      => get_lang('AdminUser.user_err_email_required'),
+                    'is_unique'     => get_lang('AdminUser.user_err_email_unique'),
                 ],
                 'user_password' => [
-                    'required'      => lang('AdminUser.user_err_pass_required'),
-                    'min_length'    => lang('AdminUser.user_err_pass_minchars'),
+                    'required'      => get_lang('AdminUser.user_err_pass_required'),
+                    'min_length'    => get_lang('AdminUser.user_err_pass_minchars'),
                 ],
                 'user_password_confirm' => [
-                    'required'      => lang('AdminUser.user_err_passconf_required'),
-                    'matches'       => lang('AdminUser.user_err_pass_confirm'),
+                    'required'      => get_lang('AdminUser.user_err_passconf_required'),
+                    'matches'       => get_lang('AdminUser.user_err_pass_confirm'),
                 ],
             ];
 
@@ -226,8 +226,8 @@ class Pegawai extends \Actudent
         ];
         $fileMessages = [
             'staff_photo' => [
-                'mime_in' => lang('Admin.invalid_filetype'),
-                'max_size' => lang('Admin.file_too_large'),
+                'mime_in' => get_lang('Admin.invalid_filetype'),
+                'max_size' => get_lang('Admin.file_too_large'),
             ]
         ];
 

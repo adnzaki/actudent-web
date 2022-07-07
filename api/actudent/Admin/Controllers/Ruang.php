@@ -100,13 +100,13 @@ class Ruang extends \Actudent
 
         $messages = [
             'room_code' => [
-                'required'      => lang('AdminRuang.ruang_err_code_required'),
-                'min_length'    => lang('AdminRuang.ruang_err_code_min'),
-                'max_length'    => lang('AdminRuang.ruang_err_code_max'),
-                'is_unique'     => lang('AdminRuang.ruang_err_code_duplicate'),
+                'required'      => get_lang('AdminRuang.ruang_err_code_required'),
+                'min_length'    => get_lang('AdminRuang.ruang_err_code_min'),
+                'max_length'    => get_lang('AdminRuang.ruang_err_code_max'),
+                'is_unique'     => get_lang('AdminRuang.ruang_err_code_duplicate'),
             ],
             'room_name' => [
-                'required'  => lang('AdminRuang.ruang_err_name_req'),
+                'required'  => get_lang('AdminRuang.ruang_err_name_req'),
             ],                  
         ];
 

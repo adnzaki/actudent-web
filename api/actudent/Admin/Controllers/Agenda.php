@@ -162,18 +162,18 @@ class Agenda extends \Actudent
 
         $messages = [
             'agenda_name' => [
-                'required' => lang('AdminAgenda.agenda_err_name_required'),
+                'required' => get_lang('AdminAgenda.agenda_err_name_required'),
             ],
             'agenda_start' => [
-                'required' => lang('AdminAgenda.agenda_err_eventstart_required'),
-                'less_than' => lang('AdminAgenda.agenda_err_eventstart_invalid'),
+                'required' => get_lang('AdminAgenda.agenda_err_eventstart_required'),
+                'less_than' => get_lang('AdminAgenda.agenda_err_eventstart_invalid'),
             ],
             'agenda_end' => [
-                'required' => lang('AdminAgenda.agenda_err_eventend_required'),
-                'greater_than' => lang('AdminAgenda.agenda_err_eventend_invalid'),
+                'required' => get_lang('AdminAgenda.agenda_err_eventend_required'),
+                'greater_than' => get_lang('AdminAgenda.agenda_err_eventend_invalid'),
             ],
             'agenda_priority' => [
-                'in_list' => lang('AdminAgenda.agenda_err_priority'),
+                'in_list' => get_lang('AdminAgenda.agenda_err_priority'),
             ],
         ];            
 
@@ -207,8 +207,8 @@ class Agenda extends \Actudent
         ];
         $fileMessages = [
             'attachment' => [
-                'mime_in' => lang('Admin.invalid_filetype'),
-                'max_size' => lang('Admin.file_too_large'),
+                'mime_in' => get_lang('Admin.invalid_filetype'),
+                'max_size' => get_lang('Admin.file_too_large'),
             ]
         ];
 

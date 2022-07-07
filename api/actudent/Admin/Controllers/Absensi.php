@@ -341,7 +341,7 @@ class Absensi extends \Actudent
                 ];
             }
         } else {
-            $wrapper = lang('Admin.no_data');
+            $wrapper = get_lang('Admin.no_data');
         }
 
         $response = [
@@ -464,7 +464,7 @@ class Absensi extends \Actudent
                 $data[$key] = $val;
             }
 
-            $data['title']  = lang('AdminAbsensi.absensi_judul_laporan_absen');
+            $data['title']  = get_lang('AdminAbsensi.absensi_judul_laporan_absen');
             $data['grade']  = $this->absensi->kelas->getClassDetail($gradeID);
             $gradeMember    = $this->absensi->kelas->getClassMember($gradeID);
             $data['day']    = $this->days[$day];
@@ -527,7 +527,7 @@ class Absensi extends \Actudent
                 $data[$key] = $val;
             }
     
-            $data['title']          = lang('AdminAbsensi.absensi_judul_laporan_jurnal');
+            $data['title']          = get_lang('AdminAbsensi.absensi_judul_laporan_jurnal');
             $data['grade']          = $this->absensi->kelas->getClassDetail($gradeID);
             $gradeMember            = $this->absensi->kelas->getClassMember($gradeID);
             $data['gradeMember']    = count($gradeMember);
@@ -593,10 +593,10 @@ class Absensi extends \Actudent
         // Presence status category
         // Absent|Absen, Present|Hadir, Permit|Izin, Sick|Sakit
         $presenceCategory = [
-            lang('AdminAbsensi.absensi_alfa'),
-            lang('AdminAbsensi.absensi_hadir'),
-            lang('AdminAbsensi.absensi_izin'),
-            lang('AdminAbsensi.absensi_sakit')
+            get_lang('AdminAbsensi.absensi_alfa'),
+            get_lang('AdminAbsensi.absensi_hadir'),
+            get_lang('AdminAbsensi.absensi_izin'),
+            get_lang('AdminAbsensi.absensi_sakit')
         ];
 
         foreach($student as $key) {          
@@ -679,13 +679,13 @@ class Absensi extends \Actudent
             if($hasCreated !== false) {
                 return $this->response->setJSON([
                     'status'    => 'OK',
-                    'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_sukses'),
+                    'msg'       => get_lang('AdminAbsensi.absensi_salin_jurnal_sukses'),
                     'id'        => $hasCreated,
                 ]);
             } else {
                 return $this->response->setJSON([
                     'status'    => 'ERROR',
-                    'msg'       => lang('AdminAbsensi.absensi_salin_jurnal_gagal'),
+                    'msg'       => get_lang('AdminAbsensi.absensi_salin_jurnal_gagal'),
                     'id'        => null
                 ]);
             }
@@ -717,7 +717,7 @@ class Absensi extends \Actudent
     
             $messages = [
                 'presence_mark' => [
-                    'required' => lang('AdminAbsensi.absensi_izin_error')
+                    'required' => get_lang('AdminAbsensi.absensi_izin_error')
                 ],
             ];
     
@@ -782,7 +782,7 @@ class Absensi extends \Actudent
 
         $messages = [
             'description' => [
-                'required' => lang('AdminAbsensi.absensi_err_jurnal_required')
+                'required' => get_lang('AdminAbsensi.absensi_err_jurnal_required')
             ],
         ];
 
@@ -795,14 +795,14 @@ class Absensi extends \Actudent
 
             $homeworkMessages = [
                 'homework_title' => [
-                    'required' => lang('AdminAbsensi.absensi_err_title_required')
+                    'required' => get_lang('AdminAbsensi.absensi_err_title_required')
                 ],
                 'homework_description' => [
-                    'required' => lang('AdminAbsensi.absensi_err_desc_required')
+                    'required' => get_lang('AdminAbsensi.absensi_err_desc_required')
                 ],
                 'due_date' => [
-                    'required'      => lang('AdminAbsensi.absensi_err_duedate_required'),
-                    'valid_date'    => lang('AdminAbsensi.absensi_err_duedate_format')
+                    'required'      => get_lang('AdminAbsensi.absensi_err_duedate_required'),
+                    'valid_date'    => get_lang('AdminAbsensi.absensi_err_duedate_format')
                 ],
             ];
 

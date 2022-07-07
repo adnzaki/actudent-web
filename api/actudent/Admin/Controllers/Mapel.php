@@ -98,13 +98,13 @@ class Mapel extends \Actudent
 
         $messages = [
             'lesson_code' => [
-                'required'      => lang('AdminMapel.mapel_err_code_required'),
-                'min_length'    => lang('AdminMapel.mapel_err_code_min'),
-                'max_length'    => lang('AdminMapel.mapel_err_code_max'),
-                'is_unique'     => lang('AdminMapel.mapel_err_code_duplicate'),
+                'required'      => get_lang('AdminMapel.mapel_err_code_required'),
+                'min_length'    => get_lang('AdminMapel.mapel_err_code_min'),
+                'max_length'    => get_lang('AdminMapel.mapel_err_code_max'),
+                'is_unique'     => get_lang('AdminMapel.mapel_err_code_duplicate'),
             ],
             'lesson_name' => [
-                'required'  => lang('AdminMapel.mapel_err_name_req'),
+                'required'  => get_lang('AdminMapel.mapel_err_name_req'),
             ],                  
         ];
 

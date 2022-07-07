@@ -222,9 +222,13 @@ export default {
         menus.value = {
           '1': adminMenu.value, '2': teacherMenu.value, '0': teacherMenu.value
         }
+
+        const appSettingsLink = $q.cookies.get(conf.userType) === '1'
+                        ? '/app-settings'
+                        : '/teacher/app-settings'
   
         settings.value = [
-          { label: t('menu_aplikasi'), link: '' },
+          { label: t('menu_aplikasi'), link: appSettingsLink },
           { label: t('menu_feedback'), link: '' },
         ]          
 

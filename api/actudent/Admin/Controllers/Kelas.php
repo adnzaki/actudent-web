@@ -149,11 +149,11 @@ class Kelas extends \Actudent
 
         $messages = [
             'grade_name' => [
-                'required'      => lang('AdminKelas.kelas_err_name_required'),
+                'required'      => get_lang('AdminKelas.kelas_err_name_required'),
             ],
             'teacher_id' => [
-                'required'      => lang('AdminKelas.kelas_err_teacher_required'),
-                'is_natural'    => lang('AdminKelas.kelas_err_teacher_natural'),
+                'required'      => get_lang('AdminKelas.kelas_err_teacher_required'),
+                'is_natural'    => get_lang('AdminKelas.kelas_err_teacher_natural'),
             ]
         ];
         

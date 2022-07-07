@@ -208,6 +208,12 @@ export default {
         }
       },
       switchLanguage(lang) {
+        axios.post(`${conf.coreAPI}set-language`, { lang }, {
+          transformRequest: [data => createFormData(data)]
+        }).then(({ data }) => {
+          console.log(data.msg)
+        })
+        
         localStorage.setItem(conf.userLang, lang)
         window.location.reload()
       },

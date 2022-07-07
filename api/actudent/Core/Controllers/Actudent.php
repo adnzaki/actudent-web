@@ -87,6 +87,19 @@ class Actudent extends \CodeIgniter\Controller
         ]);
     }
 
+    public function getLanguage()
+    {
+        return $this->loadSettings()->lang;
+    }
+
+    protected function loadSettings()
+    {
+        $path = PUBLICPATH . 'settings.json';
+        $settings = file_get_contents($path);
+
+        return json_decode($settings);
+    }
+
     /**
      * Create Response for any request from user.
      * Each request will be validated here before the response sent.
