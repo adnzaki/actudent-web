@@ -18,6 +18,7 @@ import PresenceList from 'pages/presence/PresenceList.vue'
 import MonthSummary from 'pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
+import AppSettingsMain from 'pages/app_settings/Index.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -51,5 +52,6 @@ export default [
       { path: 'period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator() },
     ]
   },
-  { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() }
+  { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
+  { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() }
 ]
