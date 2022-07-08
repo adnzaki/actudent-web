@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-toolbar-title>Actudent-v2 (Build {{ $buildVersion }})</q-toolbar-title>
-        <toggle-mode />
+        <!-- Notification button here -->
         <q-btn flat round dense icon="account_circle">
           <q-menu>
             <q-list separator>
@@ -59,7 +59,6 @@ import { baseUrl } from '../../globalConfig'
 import { headerColor } from '../composables/mode'
 import { conf, pengguna, getPengguna } from '../composables/common'
 import { menuWidth } from '../composables/screen'
-import ToggleMode from 'components/ToggleMode.vue'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 
@@ -87,7 +86,7 @@ export default defineComponent({
     }, 1000);
   },
   components: {
-    ToggleMode, AppMenu,
+    AppMenu,
     SubscriptionWarning
   },
   methods: {
