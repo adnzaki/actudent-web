@@ -5,7 +5,9 @@ return [
     'app_page_title'        => 'Pengaturan',
     'app_setting_title'     => 'Pengaturan Aplikasi',
     'app_setting_theme'     => 'Warna Tema',
-    'app_setting_desc'      => 'Pilihan warna tema tampilan aplikasi untuk menyesuaikan suasana anda saat ini.',
+    'app_theme_desc'        => 'Pilihan tema aplikasi untuk menyesuaikan kondisi anda.',
     'app_setting_lang'      => 'Bahasa',
     'app_lang_desc'         => 'Pilihan bahasa dalam aplikasi.',
+    'app_theme_dark'        => 'Gelap',
+    'app_theme_light'       => 'Terang',
 ];
