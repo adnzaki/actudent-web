@@ -7,6 +7,7 @@ import DailyReportMain from 'src/pages_teacher/daily_report/DailyReportMain.vue'
 import MonthSummary from 'src/pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'src/pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
+import AppSettingsMain from 'pages/app_settings/Index.vue'
 
 export default [
   { 
@@ -24,5 +25,6 @@ export default [
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_teacher') }
+  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_teacher') },
+  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('is_teacher') }
 ]

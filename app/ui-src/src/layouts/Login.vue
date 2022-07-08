@@ -2,12 +2,6 @@
   <q-layout view="hHh lpR fFf">
 
     <q-page-container :class="['bg-login', styleSelector('bgImage')]">
-      <q-page-sticky position="top-right" style="z-index: 999;" :offset="langBtnPos()">
-        <q-btn-group>
-          <q-btn :color="getBtnClass('indonesia')" @click="switchLanguage('indonesia')" label="ID" />
-          <q-btn :color="getBtnClass('english')" @click="switchLanguage('english')" label="EN" />
-        </q-btn-group>
-      </q-page-sticky>
       <div class="q-pa-md q-mt-md row items-start q-gutter-md">
         <q-card :class="['auth-box col-md-4 col-sm-8 offset-md-4 offset-sm-2', styleSelector('card')]">
           <q-card-section>
@@ -193,16 +187,6 @@ export default {
         } else {
           return btnLangColor.value.inactive
         }
-      },
-      switchLanguage(lang) {
-        axios.post(`${conf.coreAPI}set-language`, { lang }, {
-          transformRequest: [data => createFormData(data)]
-        }).then(({ data }) => {
-          console.log(data.msg)
-        })
-        
-        localStorage.setItem(conf.userLang, lang)
-        window.location.reload()
       },
       btnStyle: reactive({
         fontSize: '18px',
