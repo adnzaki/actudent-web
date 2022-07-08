@@ -39,12 +39,12 @@ export default {
       progress.value = true
       setTimeout(() => {
         axios.post(`${conf.adminAPI}pengaturan/set-bahasa`, { lang: val }, {
-            headers: { Authorization: bearerToken },
-            transformRequest: [data => createFormData(data)]
-          }).then(({ data }) => {
-            localStorage.setItem(conf.userLang, lang.value)
-            window.location.reload()
-          })                
+          headers: { Authorization: bearerToken },
+          transformRequest: [data => createFormData(data)]
+        }).then(({ data }) => {
+          localStorage.setItem(conf.userLang, lang.value)
+          window.location.reload()
+        })                
       }, 1500)
     }
 
