@@ -37,11 +37,11 @@ class Actudent extends \CodeIgniter\Controller
     protected $resources;
 
     /**
-     * PesanModel
+     * AuthModel
      * 
      * @var object
      */
-    protected $pesan;
+    protected $auth;
 
     /**
      * @var \CodeIgniter\Validation\Validation
@@ -71,10 +71,10 @@ class Actudent extends \CodeIgniter\Controller
         parent::initController($request, $response, $logger);
 
         // preload services
-        $this->sekolah  = new SekolahModel;
-        $this->resources= new Resources;
-        $this->pesan    = new PesanModel;
-        $this->validation = Services::validation();
+        $this->sekolah      = new SekolahModel;
+        $this->resources    = new Resources;
+        $this->auth         = new AuthModel;
+        $this->validation   = Services::validation();
         helper([
             'Actudent\Core\Helpers\ostium', 
             'Actudent\Core\Helpers\wolesdev',
