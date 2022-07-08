@@ -18,17 +18,7 @@ import PresenceList from 'pages/presence/PresenceList.vue'
 import MonthSummary from 'pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
-<<<<<<< HEAD
-import SiAbsenIndex from 'src/siabsen_pages/Index.vue'
-import ManageMain from 'src/siabsen_pages/manage/ManageMain.vue'
-import PermitMain from 'src/siabsen_pages/admin_permit/PermitMain.vue'
-import AdminSummaryMain from 'src/siabsen_pages/admin_summary/SummaryMain.vue'
-import SummaryRoute from 'src/siabsen_pages/admin_summary/SummaryRoute.vue'
-import PresenceDetail from 'src/siabsen_pages/admin_summary/PresenceDetail.vue'
-import ConfigMain from 'src/siabsen_pages/config/ConfigMain.vue'
-=======
 import AppSettingsMain from 'pages/app_settings/Index.vue'
->>>>>>> v2-dev
 
 export default [
   { path: '', redirect: 'home' },
