@@ -1,4 +1,54 @@
 export default {
+  'beta-2.ac.v2.0044': [
+    {
+      key: '[Fixes]',
+      desc: 'Fixed wrong journal icon on mobile display'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed an error message that still appears after saving data successfully on some forms'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed a color error and the background of the day name text in the event calendar when dark mode is active'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed error displaying date on some datepicker components (datepicker)'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed missing back button on student attendance recap page in admin panel'
+    },
+    {
+      key: '[Internal-Improvement]',
+      desc: 'Dynamically load year for month and period selector'
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Fixed display of month and year selector for student attendance recap on tablet screen'
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Adjusted the size of the attendance recap "Show" button with the month selector'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed the Delete agenda button still appearing on the Add Agenda Form'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed the pagination row count returning to default after saving data'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed the bug that teachers couldn\'t access the agenda menu in other versions of Actudent (extensions)'
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Fixed the notification of the process of saving data missing before the process ends'
+    },
+  ],
   'beta-1.ac.v2.0043': [
     {
       key: '[New] Agenda',

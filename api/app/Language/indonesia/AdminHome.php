@@ -14,4 +14,7 @@ return [
     'dashboard_timeline_title'  => 'Linimasa',
     'dashboard_agenda_empty'    => 'Belum ada agenda baru-baru ini.',
     'dashboard_timeline_empty'  => 'Belum ada postingan',
+    'dashboard_update_history'  => 'Riwayat Pembaruan',
+    'dashboard_current_update'  => 'Pembaruan yang terdapat dalam build saat ini',
+    'dashboard_prev_update'     => 'Pembaruan sebelumnya',
 ];

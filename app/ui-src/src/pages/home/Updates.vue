@@ -1,9 +1,9 @@
 <template>
   <q-card class="my-card q-mb-md">
     <q-card-section>
-      <div class="text-h6 text-capitalize">Riwayat Pembaruan</div>
+      <div class="text-h6 text-capitalize">{{ $t('dashboard_update_history') }} </div>
       <div class="row q-mt-md">
-        <p>Pembaruan yang terdapat dalam build saat ini 
+        <p>{{ $t('dashboard_current_update') }} 
           <q-badge color="blue" class="text-subtitle2"><strong>{{ $buildVersion }}</strong></q-badge>:
           <ul>
             <li v-for="(item, index) in updates" :key="index">
@@ -11,7 +11,7 @@
             </li>
           </ul>
           <strong class="text-primary cursor-pointer" @click="showOlder = !showOlder">
-            <u>Pembaruan sebelumnya</u>
+            <u>{{ $t('dashboard_prev_update') }}</u>
           </strong>
         </p>
       </div>
