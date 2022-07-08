@@ -109,22 +109,22 @@ class Ortu extends \Actudent
 
         $messages = [
             'parent_family_card' => [
-                'required'      => get_get_lang('AdminOrtu.ortu_err_kk_required'),
-                'is_natural'    => get_get_lang('AdminOrtu.ortu_err_kk_numeric'),
-                'exact_length'  => get_get_lang('AdminOrtu.ortu_err_kk_exact'),
-                'is_unique'     => get_get_lang('AdminOrtu.ortu_err_kk_duplicate'),
+                'required'      => get_lang('AdminOrtu.ortu_err_kk_required'),
+                'is_natural'    => get_lang('AdminOrtu.ortu_err_kk_numeric'),
+                'exact_length'  => get_lang('AdminOrtu.ortu_err_kk_exact'),
+                'is_unique'     => get_lang('AdminOrtu.ortu_err_kk_duplicate'),
             ],
             'parent_father_name' => [
-                'required'  => get_get_lang('AdminOrtu.ortu_err_ayah'),
+                'required'  => get_lang('AdminOrtu.ortu_err_ayah'),
             ],
             'parent_mother_name' => [
-                'required'  => get_get_lang('AdminOrtu.ortu_err_ibu'),
+                'required'  => get_lang('AdminOrtu.ortu_err_ibu'),
             ],
             'parent_phone_number' => [
-                'required'      => get_get_lang('AdminOrtu.ortu_err_phone_require'),
-                'is_natural'    => get_get_lang('AdminOrtu.ortu_err_phone_num'),
-                'min_length'    => get_get_lang('AdminOrtu.ortu_err_phone_min'),
-                'max_length'    => get_get_lang('AdminOrtu.ortu_err_phone_max'),
+                'required'      => get_lang('AdminOrtu.ortu_err_phone_require'),
+                'is_natural'    => get_lang('AdminOrtu.ortu_err_phone_num'),
+                'min_length'    => get_lang('AdminOrtu.ortu_err_phone_min'),
+                'max_length'    => get_lang('AdminOrtu.ortu_err_phone_max'),
             ],            
         ];      
 
@@ -138,16 +138,16 @@ class Ortu extends \Actudent
 
             $insertMessages = [
                 'user_email' => [
-                    'required'      => get_get_lang('AdminUser.user_err_email_required'),
-                    'is_unique'     => get_get_lang('AdminUser.user_err_email_unique'),
+                    'required'      => get_lang('AdminUser.user_err_email_required'),
+                    'is_unique'     => get_lang('AdminUser.user_err_email_unique'),
                 ],
                 'user_password' => [
-                    'required'      => get_get_lang('AdminUser.user_err_pass_required'),
-                    'min_length'    => get_get_lang('AdminUser.user_err_pass_minchars'),
+                    'required'      => get_lang('AdminUser.user_err_pass_required'),
+                    'min_length'    => get_lang('AdminUser.user_err_pass_minchars'),
                 ],
                 'user_password_confirm' => [
-                    'required'      => get_get_lang('AdminUser.user_err_passconf_required'),
-                    'matches'       => get_get_lang('AdminUser.user_err_pass_confirm'),
+                    'required'      => get_lang('AdminUser.user_err_passconf_required'),
+                    'matches'       => get_lang('AdminUser.user_err_pass_confirm'),
                 ],
             ];
 

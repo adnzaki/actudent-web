@@ -12,6 +12,8 @@ actudent/Trash
 actudent/Admin/Controllers/Test.php
 actudent/Installer/Controllers/Test.php
 extensions/SiAbsen/Libraries/AwsCredentials.php
+writable/settings/*
+!writable/settings/_default.json
 public/settings.json
 public/extras
 public/app-assets

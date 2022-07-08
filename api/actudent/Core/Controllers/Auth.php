@@ -6,19 +6,6 @@ class Auth extends \Actudent
 {
     private $tokenExp = 3 * 30 * 24 * 60 * 60; // expired every 3 months
 
-    public function setLanguage()
-    {
-        $lang = $this->request->getPost('lang');        
-        $path = PUBLICPATH . 'settings.json';
-        $settings = json_decode(file_get_contents($path));
-        $settings->lang = $lang;
-
-        // write settings file...
-        file_put_contents($path, json_encode($settings));
-
-        return $this->response->setJSON(['msg' => 'Language setting updated']);
-    }
-
     public function isValidLogin()
     {
         $subscriber = new \Actudent\Core\Models\SubscriptionModel;

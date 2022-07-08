@@ -72,7 +72,7 @@ class ActudentJWT
                     'error' => $e->getMessage()
                 ];
 
-                echo json_encode($response);
+                return false;
             }
         } 
     }
