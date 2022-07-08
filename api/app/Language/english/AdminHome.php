@@ -14,4 +14,7 @@ return [
     'dashboard_timeline_title'  => 'Timeline',
     'dashboard_agenda_empty'    => 'No agenda recently.',
     'dashboard_timeline_empty'  => 'No posts yet.',
+    'dashboard_update_history'  => 'Update history',
+    'dashboard_current_update'  => 'Current build updates',
+    'dashboard_prev_update'     => 'Previous updates',
 ];
