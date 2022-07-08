@@ -139,7 +139,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pesan/belum-dibaca', 'Pesan::getUnreadMessages');
 	$routes->add('pengaturan-aplikasi', 'Setting::index');
 	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
-	$routes->add('pengaturan-aplikasi/set-bahasa/(:any)', 'Setting::setBahasa/$1');
+	$routes->add('pengaturan/set-bahasa', 'Setting::setLanguage');
 	$routes->add('umpan-balik', 'Feedback::index');
 	$routes->add('umpan-balik/validasi', 'Feedback::feedbackValidation');
 	$routes->add('umpan-balik/send/', 'Feedback::send');

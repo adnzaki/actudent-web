@@ -7,9 +7,7 @@ import DailyReportMain from 'src/pages_teacher/daily_report/DailyReportMain.vue'
 import MonthSummary from 'src/pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'src/pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
-import SiAbsenIndex from 'src/siabsen_pages/Index.vue'
-import PermitMain from 'src/siabsen_pages/teacher_permit/PermitMain.vue'
-import SummaryMain from 'src/siabsen_pages/teacher_summary/SummaryMain.vue'
+import AppSettingsMain from 'pages/app_settings/Index.vue'
 
 export default [
   { 
@@ -27,13 +25,6 @@ export default [
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('valid_token') },
-  { 
-    path: 'absence', component: SiAbsenIndex, beforeEnter: () => routeValidator('valid_token'),
-    children: [
-      { path: '', component: PermitMain, beforeEnter: () => routeValidator('valid_token') },
-      { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator('valid_token') },
-      { path: 'monthly-summary', component: SummaryMain, beforeEnter: () => routeValidator('valid_token') },
-    ]
-  },
+  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_teacher') },
+  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('is_teacher') }
 ]

@@ -13,14 +13,17 @@
 if ( ! function_exists('get_lang'))
 {
     /**
-     * Get language setting from public/settings.json
+     * Get language based on its setting
+     * 
+     * @param string $line
+     * @param array $args
      * 
      * @return string
      */
     function get_lang(string $line, array $args = [])
     {
         $ac = new \Actudent;
-        return lang($line, $args, $ac->getLanguage());
+        return lang($line, $args, $ac->getLangSetting()->lang);
     }
 }
 

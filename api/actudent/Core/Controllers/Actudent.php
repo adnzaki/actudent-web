@@ -30,13 +30,6 @@ class Actudent extends \CodeIgniter\Controller
     protected $sekolah;
 
     /**
-     * AuthModel
-     * 
-     * @var object
-     */
-    protected $auth;
-
-    /**
      * Core resources 
      *  
      * @var object
@@ -44,11 +37,11 @@ class Actudent extends \CodeIgniter\Controller
     protected $resources;
 
     /**
-     * PesanModel
+     * AuthModel
      * 
      * @var object
      */
-    protected $pesan;
+    protected $auth;
 
     /**
      * @var \CodeIgniter\Validation\Validation
@@ -68,6 +61,8 @@ class Actudent extends \CodeIgniter\Controller
         503 => 'Unauthorized Access'
     ];
 
+    protected $defaultLangPath = WRITEPATH . 'settings/_default.json';
+
     /**
      * Initialize any classes needed and core helper for this class
      */
@@ -76,28 +71,36 @@ class Actudent extends \CodeIgniter\Controller
         parent::initController($request, $response, $logger);
 
         // preload services
-        $this->sekolah  = new SekolahModel;
-        $this->auth     = new AuthModel;
-        $this->resources= new Resources;
-        $this->pesan    = new PesanModel;
-        $this->validation = Services::validation();
+        $this->sekolah      = new SekolahModel;
+        $this->resources    = new Resources;
+        $this->auth         = new AuthModel;
+        $this->validation   = Services::validation();
         helper([
             'Actudent\Core\Helpers\ostium', 
             'Actudent\Core\Helpers\wolesdev',
         ]);
     }
 
-    public function getLanguage()
+    public function getLangSetting()
     {
-        return $this->loadSettings()->lang;
+        $path = $this->defaultLangPath;
+
+        if(valid_token()) {
+            $userData = $this->getDataPengguna();
+            $userPath = $this->userLangPath().$userData->user_id.'.json';
+            if(file_exists($userPath)) {
+                $path = $userPath;
+            }
+        }
+
+        $lang = file_get_contents($path);
+
+        return json_decode($lang);
     }
 
-    protected function loadSettings()
+    protected function userLangPath()
     {
-        $path = PUBLICPATH . 'settings.json';
-        $settings = file_get_contents($path);
-
-        return json_decode($settings);
+        return WRITEPATH.'settings/'.get_subdomain().'/';
     }
 
     /**
@@ -208,11 +211,11 @@ class Actudent extends \CodeIgniter\Controller
      */
     protected function getDataPengguna($token = '')
     {
-        if(valid_token($token))
-        {
+        if(valid_token($token)) {
             $inputToken = empty($token) ? bearer_token() : $token;
             $decodedToken = jwt_decode($inputToken);
-            return $this->auth->getDataPengguna($decodedToken->email);
+            $auth = new AuthModel;
+            return $auth->getDataPengguna($decodedToken->email);
         }
     }
 }
