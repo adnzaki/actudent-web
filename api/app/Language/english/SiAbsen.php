@@ -82,4 +82,5 @@ return [
     'siabsen_cek_izin'          => 'Check permission request',
     'siabsen_detail_izin'       => 'View permission detail',
     'siabsen_sukses_hapus_izin' => 'Successfully deleted permission request',
+    'siabsen_gagal_hapus_izin'  => 'Unable to delete permission because your request has been processed by admin',
 ];

@@ -10,10 +10,15 @@ class Pegawai extends Admin
         if(valid_token()) {
             $id = $this->request->getPost('id');
             $detail = $this->_getPermissionDetail($id);
-            $this->aws->folder('staff-permit')->deleteObject($detail->permit_photo);
-            $this->model->deletePermission($id);
+            if($detail->permit_status === 'submitted') {
+                $this->aws->folder('staff-permit')->deleteObject($detail->permit_photo);
+                $this->model->deletePermission($id);
+                $response = ['status' => 200];
+            } else {
+                $response = ['status' => 500];
+            }
 
-            return $this->response->setJSON(['msg' => 'OK']);
+            return $this->response->setJSON($response);
         }
     }
     public function getPermissions($withId, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')

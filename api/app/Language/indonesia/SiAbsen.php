@@ -83,4 +83,5 @@ return [
     'siabsen_cek_izin'          => 'Cek permintaan izin',
     'siabsen_detail_izin'       => 'Lihat detil izin',
     'siabsen_sukses_hapus_izin' => 'Berhasil menghapus permintaan izin',
+    'siabsen_gagal_hapus_izin'  => 'Tidak dapat menghapus izin karena permintaan anda telah diproses oleh admin',
 ];

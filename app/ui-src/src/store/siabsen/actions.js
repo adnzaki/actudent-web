@@ -29,15 +29,25 @@ export default {
         return createFormData(data)
       }]
     }).then(({ data }) => {
+      if(data.status === 200) {
+        notifyProgress({
+          message: `${t('sukses')} ${t('siabsen_sukses_hapus_izin')}`,
+          color: 'positive',
+          icon: 'done',
+          spinner: false,
+          timeout
+        })
+      } else {
+        notifyProgress({
+          message: `Error! ${t('siabsen_gagal_hapus_izin')}`,
+          color: 'negative',
+          spinner: false,
+          timeout: 7000
+        })        
+      }
+
       dispatch('getPermissions')
       commit('closeDeleteConfirm')
-      notifyProgress({
-        message: `${t('sukses')} ${t('siabsen_sukses_hapus_izin')}`,
-        color: 'positive',
-        icon: 'done',
-        spinner: false,
-        timeout
-      })
     })
   },
   showDeleteConfirm({ state }, id) {
