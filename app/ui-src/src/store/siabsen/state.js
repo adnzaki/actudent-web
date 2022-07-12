@@ -21,8 +21,8 @@ export default function () {
     disableSaveButton: true,
     permitError: {},
     saveStatus: 500,
-    showPermitDetail: false,
-    permitDetail: {},
+    showPermitDetail: false, deleteConfirm: false,
+    permitDetail: {}, selectedPermission: null,
     period: '01-2022',
     presenceDetail: {},
     presenceConfig: {

@@ -1,6 +1,11 @@
 import { bearerToken, siabsen } from 'src/composables/common'
 
 export default {
+  closeDeleteConfirm(state) {
+    state.selectedPermission = null
+    state.deleteConfirm = false
+    state.disableSaveButton = true
+  },
   getDetailPresence(state, { staffId, userId, period }) {
     siabsen.get(`detail-absensi/${staffId}/${userId}/${period}`, {
       headers: { Authorization: bearerToken }

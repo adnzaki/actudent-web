@@ -62,6 +62,8 @@ import { conf, pengguna, getPengguna } from '../composables/common'
 import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
+import { useStore } from 'vuex'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -123,6 +125,16 @@ export default defineComponent({
     const hideUserAction = () => {
       userAction.value = false
     }
+
+    const store = useStore()
+    const $q = useQuasar()
+    onMounted(() => {
+      if($q.cookies.get(conf.userType) === '1') {
+        setInterval(() => {
+          store.dispatch('siabsen/getPermissionNotif')
+        }, 15 * 60 * 1000) // notify admin every 15 minutes
+      }
+    })
 
     return {
       drawer: ref(false),

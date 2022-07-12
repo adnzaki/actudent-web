@@ -5,6 +5,17 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Pegawai extends Admin
 {
+    public function deletePermission()
+    {
+        if(valid_token()) {
+            $id = $this->request->getPost('id');
+            $detail = $this->_getPermissionDetail($id);
+            $this->aws->folder('staff-permit')->deleteObject($detail->permit_photo);
+            $this->model->deletePermission($id);
+
+            return $this->response->setJSON(['msg' => 'OK']);
+        }
+    }
     public function getPermissions($withId, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         if(valid_token()) {

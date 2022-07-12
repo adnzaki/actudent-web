@@ -26,13 +26,32 @@
               <status-badge :value="item.permit_status" />
             </td>
             <td class="text-left mobile-hide">
-              <q-btn target="_blank" color="accent" icon="image" :href="item.permit_photo">
-                <btn-tooltip :label="$t('feedback_label_att')" />
-              </q-btn>
+              <q-btn-group>
+                <q-btn target="_blank" color="accent" icon="image" :href="item.permit_photo">
+                  <btn-tooltip :label="$t('feedback_label_att')" />
+                </q-btn>
+                <q-btn color="accent" :disable="item.permit_status !== 'submitted'" 
+                  icon="delete" @click="showDeleteConfirm(item.permit_id)">
+                  <btn-tooltip :label="$t('hapus')" />
+                </q-btn>
+              </q-btn-group>
             </td>
             <td class="text-left mobile-only">
-              <q-btn color="accent" icon="o_info" @click="getDetail(item.permit_id)">
-                <btn-tooltip :label="$t('absensi_label_pr')" />
+              <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
+                <q-menu>
+                  <q-list style="min-width: 100px">
+                    <q-item clickable v-close-popup @click="getDetail(item.permit_id)">
+                      <q-item-section>{{ $t('siabsen_detail_izin') }}</q-item-section>
+                    </q-item>
+                    <q-separator />
+                    <q-item clickable v-close-popup 
+                      :disable="item.permit_status !== 'submitted'" 
+                      @click="showDeleteConfirm(item.permit_id)">
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
+                    </q-item>
+                    <q-separator />
+                  </q-list>
+                </q-menu>
               </q-btn>
             </td>
           </tr>
@@ -59,6 +78,9 @@ export default {
     store.dispatch('siabsen/getPermissions')
 
     return {
+      showDeleteConfirm(id) {
+        store.dispatch('siabsen/showDeleteConfirm', id)
+      },
       getDetail: id => store.dispatch('siabsen/getPermissionDetail', id),
       data: computed(() => store.state.siabsen.paging.data),
       checkColWidth,

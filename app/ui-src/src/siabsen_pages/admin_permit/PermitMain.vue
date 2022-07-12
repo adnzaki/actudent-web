@@ -19,8 +19,9 @@
 <script>
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
-import PermitList from './PermitList.vue';
-import PermitDetail from '../teacher_permit/PermitDetail.vue';
+import PermitList from './PermitList.vue'
+import PermitDetail from '../teacher_permit/PermitDetail.vue'
+import { onBeforeRouteLeave } from 'vue-router'
 
 export default {
   components: {
@@ -28,7 +29,12 @@ export default {
     PermitDetail
 },
   setup() {
-    const store = useStore();
+    const store = useStore()
+    store.dispatch('siabsen/getPermissionNotif')
+    onBeforeRouteLeave(() => {
+      store.dispatch('siabsen/getPermissionNotif')
+    })
+
     return {
         titleSpacing
     }

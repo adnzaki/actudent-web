@@ -80,4 +80,6 @@ return [
     'siabsen_izin_harian'       => 'Employees has permission today',
     'siabsen_cek_hadir'         => 'Check presence',
     'siabsen_cek_izin'          => 'Check permission request',
+    'siabsen_detail_izin'       => 'View permission detail',
+    'siabsen_sukses_hapus_izin' => 'Successfully deleted permission request',
 ];

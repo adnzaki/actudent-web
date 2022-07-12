@@ -81,4 +81,6 @@ return [
     'siabsen_izin_harian'       => 'Pegawai izin hari ini',
     'siabsen_cek_hadir'         => 'Cek kehadiran',
     'siabsen_cek_izin'          => 'Cek permintaan izin',
+    'siabsen_detail_izin'       => 'Lihat detil izin',
+    'siabsen_sukses_hapus_izin' => 'Berhasil menghapus permintaan izin',
 ];

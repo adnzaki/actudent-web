@@ -36,6 +36,11 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function deletePermission($id)
+    {
+        $this->QBPermit->delete(['permit_id' => $id]);
+    }
+
     public function getPermissionNotif()
     {
         return $this->QBPermit->getWhere(['permit_status' => 'submitted'])

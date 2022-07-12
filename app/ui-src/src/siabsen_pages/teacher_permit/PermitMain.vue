@@ -13,6 +13,7 @@
     <permit-request-form />
     <permit-list class="q-mt-lg" />
     <permit-detail />
+    <delete-confirm vuex-module="siabsen" action="deletePermission" />
     <!-- <staff-list />
     <presence-detail /> -->
   </q-card>
@@ -22,9 +23,9 @@
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
-import PermitRequestForm from './PermitRequestForm.vue';
-import PermitList from './PermitList.vue';
-import PermitDetail from './PermitDetail.vue';
+import PermitRequestForm from './PermitRequestForm.vue'
+import PermitList from './PermitList.vue'
+import PermitDetail from './PermitDetail.vue'
 
 export default {
   components: {
@@ -35,6 +36,7 @@ export default {
 },
   setup() {
     const store = useStore();
+    
     return {
         titleSpacing
     }
