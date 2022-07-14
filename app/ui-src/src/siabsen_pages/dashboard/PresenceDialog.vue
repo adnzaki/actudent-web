@@ -1,7 +1,8 @@
 <template>
   <q-dialog v-model="$store.state.siabsen.showPresenceDialog" 
     @show="openCamera"
-    @before-hide="stopVideo">
+    @before-hide="stopVideo"
+    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('siabsen_kehadiran') }}</div>
@@ -25,10 +26,11 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
+        <q-btn flat v-if="!$q.screen.lt.sm" :label="$t('tutup')" color="negative" v-close-popup />
         <q-btn :label="$t('siabsen_ambil_gambar')" 
           @click="takePicture" v-if="canTakePicture" 
-          color="primary" padding="8px 20px" />
+          color="primary" padding="8px 20px"
+          class="mobile-form-btn" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -37,7 +39,7 @@
 <script>
 import { onMounted, ref, computed, watch } from 'vue'
 import { axios, conf, createFormData, bearerToken, t } from 'src/composables/common'
-import { cardDialog } from 'src/composables/screen'
+import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
 
@@ -66,12 +68,12 @@ export default {
 
     const getLocationSuccess = pos => {
       const crd = pos.coords
-      if(crd.accuracy > 100) {
+      if(crd.accuracy > 500) {
         const notifyAccuracy = $q.notify({
           group: true,
           message: t('siabsen_tidak_akurat'),
           color: 'negative',
-          position: 'center',
+          position: 'top',
           timeout: 3000,
           actions: [
             { label: 'X', color: 'white', handler: () => { /* ... */ } }
@@ -98,7 +100,7 @@ export default {
               group: true,
               message: data.msg,
               color: 'negative',
-              position: 'center',
+              position: 'top',
               timeout: 5000,
               actions: [
                 { 
@@ -155,6 +157,7 @@ export default {
     
 
     return {
+      maximizedDialog,
       stopVideo,
       canTakePicture,
       validationStatus,
