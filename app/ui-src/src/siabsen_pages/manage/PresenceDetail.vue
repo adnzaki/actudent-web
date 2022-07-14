@@ -1,6 +1,7 @@
 <template>
   <q-dialog v-model="$store.state.siabsen.showPresenceDetail"
-    @hide="$store.state.siabsen.showPresenceDetail = false">
+    @hide="$store.state.siabsen.showPresenceDetail = false"
+    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('siabsen_detail_absensi') }}</div>
@@ -8,7 +9,7 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
-      <q-card-section class="scroll card-section">
+      <q-card-section :class="photoWrapper.cardSection">
         <q-img 
           :src="imgSrc($store.state.siabsen.inPhotoURL)"
           :style="imgSize"
@@ -22,7 +23,7 @@
         <q-img 
           :src="imgSrc($store.state.siabsen.outPhotoURL)"
           :style="imgSize"
-          class="rounded-borders q-mt-md"
+          :class="photoWrapper.imgOut"
           fit="cover">
           <div class="absolute-bottom text-subtitle1 text-center">
             {{ $t('siabsen_out') }}
@@ -31,8 +32,8 @@
         </q-img>
         <!-- content -->
       </q-card-section>
-      <q-separator />
-      <q-card-actions align="right">
+      <q-separator v-if="!$q.screen.lt.sm" />
+      <q-card-actions align="right" v-if="!$q.screen.lt.sm">
         <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
       </q-card-actions>
     </q-card>
@@ -40,9 +41,9 @@
 </template>
 
 <script>
-import { cardDialog } from 'src/composables/screen'
+import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { useQuasar } from 'quasar'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 export default {
   setup() { 
@@ -58,10 +59,23 @@ export default {
         }
       }
 
+      if($q.screen.lt.sm) {
+        defaultStyle = {
+          width: '310px', height: '413px'
+        }
+      }      
+
       return defaultStyle
     })
 
+    const photoWrapper = ref({
+      cardSection: $q.screen.lt.sm ? 'card-section' : 'scroll card-section',
+      imgOut: $q.screen.lt.sm ? 'rounded-borders q-mt-md q-mb-lg' : 'rounded-borders q-mt-md'
+    })
+
     return {
+      photoWrapper,
+      maximizedDialog,
       imgSize,
       imgSrc: src => src !== '' && src !== '-' ? src : require('../../../public/no-image.png'),
       cardDialog

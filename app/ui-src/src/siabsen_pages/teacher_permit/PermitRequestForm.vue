@@ -1,7 +1,8 @@
 <template>
   <q-dialog v-model="$store.state.siabsen.showPermitForm"
     @before-show="formOpen"
-    @hide="formClose">
+    @hide="formClose"
+    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('siabsen_form_izin_title') }}</div>
@@ -83,8 +84,8 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
+        <q-btn flat :label="$t('tutup')" v-if="!$q.screen.lt.sm" color="negative" v-close-popup />
+        <q-btn class="mobile-form-btn" :label="$t('simpan')" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -94,7 +95,7 @@
 import { computed, ref } from 'vue'
 import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
-import { cardDialog } from 'src/composables/screen'
+import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { selectedLang } from 'src/composables/date'
 import { siabsen, bearerToken, createFormData, t } from 'src/composables/common'
 
@@ -215,7 +216,7 @@ export default {
       attachment, attachmentError,
       dateChanged,
       disableSaveButton: computed(() => store.state.siabsen.disableSaveButton),
-      cardDialog
+      cardDialog, maximizedDialog
     }
   }
 }

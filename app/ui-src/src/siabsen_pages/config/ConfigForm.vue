@@ -71,6 +71,7 @@
   <q-separator />
   <q-card-actions align="right">
     <q-btn :label="$t('simpan')" 
+      class="mobile-form-btn q-ml-md"
       :disable="$store.state.siabsen.disableSaveButton" 
       @click="save" color="primary" padding="8px 20px" 
       style="margin-right: 20px;" />

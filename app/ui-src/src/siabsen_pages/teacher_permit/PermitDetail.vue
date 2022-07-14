@@ -1,5 +1,6 @@
 <template>
-  <q-dialog v-model="$store.state.siabsen.showPermitDetail">
+  <q-dialog v-model="$store.state.siabsen.showPermitDetail" 
+    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('siabsen_permit_detail') }}</div>
@@ -29,8 +30,8 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn-dropdown style="padding-left: 17px;" label="Status" v-if="$q.cookies.get(conf.userType) === '1'" color="primary">
+        <q-btn flat :label="$t('tutup')" v-if="!$q.screen.lt.sm" color="negative" v-close-popup />
+        <q-btn-dropdown class="mobile-form-btn" style="padding-left: 17px;" label="Status" v-if="$q.cookies.get(conf.userType) === '1'" color="primary">
           <q-list>
             <q-item clickable v-close-popup @click="setStatus('approved', $store.state.siabsen.permitDetail.permit_id)">
               <q-item-section>
@@ -51,7 +52,7 @@
 
 <script>
 import { useStore } from 'vuex'
-import { cardDialog } from 'src/composables/screen'
+import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { conf } from 'src/composables/common'
 
 export default {
@@ -59,6 +60,7 @@ export default {
     const store = useStore()
     
     return {
+      maximizedDialog,
       setStatus: (val, id ) => {
         store.dispatch('siabsen/setPermitStatus', {
           status: val, 
