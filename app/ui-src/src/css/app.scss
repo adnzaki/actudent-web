@@ -14,6 +14,20 @@
   background: var(--fc-page-bg-color) !important
 }
 
+.check-btn {
+  top: 45px;
+  right: 10px;
+  transform: translateY(-50%);
+  padding: 40px 13px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+@media(max-width: $breakpoint-xs-max) {
+  .my-card {
+    margin-top: 10px;
+  }
+}
+
 .bg-login {
   height: calc(100vh + 5px);
   overflow: hidden;
