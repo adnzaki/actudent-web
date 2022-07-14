@@ -13,6 +13,7 @@
 		<div class="judul-laporan center-align"><?= $title ?></div>
 		<div class="judul-laporan center-align n-mt-15"><?= $period ?></div>
 		<div class="judul-laporan center-align n-mt-15">Kelas <?= $grade->grade_name ?></div>
+		<?php if(gettype($data['summary']) !== 'string'): ?>
 		<table>
 			<thead class="grey-shading">
 				<tr style="text-transform: capitalize;">
@@ -29,7 +30,7 @@
 					<th class="light-border p-t-b-3" width="45">Tidak Lengkap</th>
 				</tr>
 			</thead>
-			<tbody>				
+			<tbody>		
 				<?php $no = 1; foreach($data['summary'] as $key => $val): ?>
 				<tr>
 					<td class="center-align" width="30"><?= $no ?></td>
@@ -42,9 +43,9 @@
 					<td class="center-align light-border "><?= $val['incomplete'] ?></td>
 				</tr>
 				<?php $no++; endforeach; ?>
-				
 			</tbody>
 		</table>
+		<?php endif; ?>
 	</div>
 	<?= view_cell('\Actudent::masterSign') ?>
 </body>

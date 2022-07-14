@@ -35,6 +35,7 @@
         :label="printLabel" v-if="!isTeacherSection">
         <q-list>
           <q-item clickable v-close-popup
+            style="min-width: 200px;"
             :href="exportReportUrl('jurnal')"
             target="_blank">
             <q-item-section>

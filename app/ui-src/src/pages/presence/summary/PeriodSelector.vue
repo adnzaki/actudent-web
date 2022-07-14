@@ -33,7 +33,7 @@
   </q-page-sticky>
 </template>
 <script>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
@@ -71,8 +71,13 @@ export default {
     store.state.presence.selectedPeriod.year = currentYear - 1
 
     setTimeout(() => {
+      const periodLabel = computed(() => {
+        return store.state.presence.selectedPeriod.semester === '1'
+          ? t('ganjil') : t('genap')
+      }) 
+
       period.value = {
-        semester: { label: t('genap'), value: store.state.presence.selectedPeriod.semester },
+        semester: { label: periodLabel.value, value: store.state.presence.selectedPeriod.semester },
         year: { label: '2021/2022', value: store.state.presence.selectedPeriod.year }
       }
 

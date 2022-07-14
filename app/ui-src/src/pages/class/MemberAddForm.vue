@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="$store.state.grade.classMember.showForm" 
-    @before-show="formOpen"
+    @before-show="formOpen" :maximized="maximizedDialog()"
     @hide="$store.commit('grade/getClassMember', $route.params.id)">
     <q-card :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -44,7 +44,7 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
+        <q-btn flat :label="$t('tutup')" v-if="!$q.screen.lt.sm" color="negative" v-close-popup />
       </q-card-actions>
     </q-card>
   </q-dialog>

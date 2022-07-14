@@ -1,6 +1,6 @@
 <template>
   <q-dialog v-model="$store.state.parent.showAddForm" 
-    @before-show="formOpen">
+    @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('ortu_form_add_title') }}</div>
@@ -49,8 +49,8 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
+        <q-btn flat :label="$t('tutup')" v-if="!$q.screen.lt.sm" color="negative" v-close-popup />
+        <q-btn :label="$t('simpan')" class="mobile-form-btn" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
       </q-card-actions>
     </q-card>
   </q-dialog>

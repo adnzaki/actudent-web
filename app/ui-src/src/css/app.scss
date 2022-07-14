@@ -1,5 +1,15 @@
 // app global css in SCSS form
 
+@media(max-width: $breakpoint-xs-max) {
+  .mobile-form-btn {
+    width: 100%;
+    border-radius: 30px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+    margin-top: 10px;
+  }
+}
+
 .fc .fc-scrollgrid-section-sticky > * {
   background: var(--fc-page-bg-color) !important
 }
@@ -193,6 +203,12 @@ $input-focus-bg: #6252c76c;
   height: 39vh; 
   max-width: 100vw; 
   margin-top: -10px;
+}
+
+@media(max-width: $breakpoint-xs-max) {
+  .in-form-scroll-area {
+    height: 60vh;
+  }
 }
 
 @media(min-width: 1920px) {

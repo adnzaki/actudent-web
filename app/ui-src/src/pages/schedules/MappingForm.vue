@@ -1,6 +1,7 @@
 <template>
   <q-dialog v-model="$store.state.schedule.schedule.showForm" 
-    @before-show="formOpen" @hide="formClose">
+    @before-show="formOpen" @hide="formClose"
+    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('jadwal_add_title') }}</div>
@@ -38,8 +39,9 @@
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
+        <q-btn flat v-if="!$q.screen.lt.sm" :label="$t('tutup')" color="negative" v-close-popup />
         <q-btn :label="$t('simpan')" 
+          class="mobile-form-btn"
           :disable="disableSaveButton" 
           @click="$store.dispatch('schedule/saveSchedules')" 
           color="primary" padding="8px 20px" 

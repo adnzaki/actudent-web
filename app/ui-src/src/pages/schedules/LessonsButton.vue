@@ -10,24 +10,30 @@
     <q-page-sticky position="bottom-right" 
       :offset="fabPos" 
       class="mobile-only force-elevated">
-      <q-fab color="primary" icon="keyboard_arrow_up" direction="up">
-        <q-fab-action color="deep-purple" icon="add"
-          @click="$store.state.schedule.lesson.showAddForm = true" />
-        <q-fab-action color="negative" icon="delete"
-          @click="$store.commit('schedule/multipleDeleteConfirm')" />
-      </q-fab>
+      <q-btn fab icon="add" color="deep-purple" 
+        @click="$store.state.schedule.lesson.showAddForm = true" 
+        v-if="selected.length === 0"
+      />
+      <q-btn fab icon="delete" color="negative" 
+        @click="$store.commit('schedule/multipleDeleteConfirm')" 
+        v-if="selected.length > 0"
+      />
     </q-page-sticky>
   </div>
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useStore } from 'vuex'
 import { fabPos } from 'src/composables/fab'
 
 export default {
   name: 'LessonsButton',
   setup() {
+    const store = useStore()
     
     return {
+      selected: computed(() => store.state.schedule.lesson.selected),
       fabPos,
     }
   }
