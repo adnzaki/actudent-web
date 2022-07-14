@@ -1,7 +1,8 @@
 <template>
   <q-dialog v-model="$store.state.agenda.showForm"
     @before-show="formOpen"
-    @hide="formHide">
+    @hide="formHide"
+    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ cardTitle }}</div>
@@ -126,9 +127,26 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn outline v-if="$q.cookies.get(conf.userType) === '1' && isEditForm" :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" color="negative" />
-        <q-btn outline :label="$t('tutup')" :color="closeBtnColor" v-close-popup />
-        <q-btn v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
+        <!-- delete button for desktop -->
+        <q-btn outline 
+          v-if="$q.cookies.get(conf.userType) === '1' && isEditForm && !$q.screen.lt.sm" 
+          :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" 
+          color="negative" />
+        <!-- #END -->
+
+        <q-btn outline v-if="!$q.screen.lt.sm" :label="$t('tutup')" :color="closeBtnColor" v-close-popup />
+        <q-btn v-if="$q.cookies.get(conf.userType) === '1'" class="mobile-form-btn" :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
+
+        <!-- delete button for mobile -->
+        <q-btn outline 
+          v-if="$q.cookies.get(conf.userType) === '1' && isEditForm && $q.screen.lt.sm" 
+            class="mobile-form-btn" 
+            style="margin-left: -10px;"
+            :label="$t('hapus')" 
+            @click="$store.state.agenda.deleteConfirm = true" 
+            color="negative" />
+        <!-- #END -->
+
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -142,7 +160,7 @@
 </style>
 
 <script>
-import { cardDialog } from '../../composables/screen'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { ref, computed } from 'vue'
 import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
@@ -305,7 +323,7 @@ export default {
       error: computed(() => store.state.agenda.error),
       disableSaveButton: computed(() => store.state.agenda.helper.disableSaveButton),
       formData,
-      cardDialog,
+      cardDialog, maximizedDialog,
       pickerStartChanged,
       pickerEndChanged,
       dateStartStr: computed(() => {

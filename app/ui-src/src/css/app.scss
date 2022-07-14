@@ -1,20 +1,11 @@
 // app global css in SCSS form
 
-.check-btn {
-  top: 45px;
-  right: 10px;
-  transform: translateY(-50%);
-  padding: 40px 13px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-}
-
-@media(max-width: $breakpoint-sm-max) {
-  .check-btn {
-    top: 60px;
-    padding: 20px 13px;
-  }
-
-  .my-card {
+@media(max-width: $breakpoint-xs-max) {
+  .mobile-form-btn {
+    width: 100%;
+    border-radius: 30px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
     margin-top: 10px;
   }
 }
@@ -212,6 +203,12 @@ $input-focus-bg: #6252c76c;
   height: 39vh; 
   max-width: 100vw; 
   margin-top: -10px;
+}
+
+@media(max-width: $breakpoint-xs-max) {
+  .in-form-scroll-area {
+    height: 60vh;
+  }
 }
 
 @media(min-width: 1920px) {

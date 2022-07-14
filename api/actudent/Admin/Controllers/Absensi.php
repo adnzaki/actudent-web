@@ -250,8 +250,8 @@ class Absensi extends \Actudent
                 $data[$key] = $val;
             }
 
-            $semester = 1 ? 'Ganjil' : 'Genap';
-            $yearPeriod = $year . '-' . ($year + 1);
+            $semester = $period === '1' ? 'Ganjil' : 'Genap';
+            $yearPeriod = $year . ' / ' . ($year + 1);
     
             $title          = 'Rekapitulasi Absensi Semester ' . $semester;
             $data['title']  = $title;
