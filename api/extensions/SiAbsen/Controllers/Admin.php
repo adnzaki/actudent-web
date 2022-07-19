@@ -13,11 +13,91 @@ class Admin extends \Actudent
 
     protected $aws;
 
+    private $days = [
+        'senin' => 1, 'selasa' => 2, 'rabu' => 3, 
+        'kamis' => 4, 'jumat' => 5, 'sabtu' => 6
+    ];
+
     public function __construct()
     {
         $this->model = new \SiAbsen\Models\CoreModel;
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;
+    }
+
+    public function getPresenceSchedule($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+        // get the employees first (must be SSPaging-compatible format)
+        $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
+        $rows = $this->model->getStaffRows($searchBy, 'null', $search);
+        
+        // prepare the data container
+        $data = [];
+
+        foreach($employees as $e) {
+            $presenceSchedule = $this->model->getPresenceSchedule($e->staff_id);
+            $dayValues = [];
+            $schedule = [];
+
+            // if presence schedule exists
+            if($presenceSchedule !== null) {
+                // create array containing presence schedule
+
+                if(strpos($presenceSchedule->days, ',') !== false) {
+                    $daysArray = explode(',', $presenceSchedule->days);
+                } else {
+                    $daysArray = [$presenceSchedule->days];
+                }
+
+                foreach($daysArray as $a => $b) {
+                    $dayValues[] = [
+                        'editable'  => 1, // schedule from tb_staff_presence_schedule must be editable
+                        'value'     => (int)$b
+                    ];
+                }
+            }            
+
+            // if employee is a teacher, then we have to merge the schedule
+            // from their teaching schedule
+            if($e->staff_type === 'teacher') {
+                $teachingSchedule = [];
+                $schedules = $this->model->getTeacherSchedules($e->staff_id);
+                foreach($schedules as $s) {
+                    $teachingSchedule[] = [
+                        'editable'  => 0, // schedule from teaching schedule should not be editable
+                        'value'     => $this->days[$s->schedule_day]                        
+                    ]; 
+                }
+                
+                $schedule = array_merge($dayValues, $teachingSchedule);
+            }
+
+            // here we loop the days from monday to saturday (0-6)
+            // to generate the final presence schedule
+            $finalSchedule = [];
+            foreach(range(0, 6) as $k => $v) {   
+                $filtered = function($array, $val) {
+                    $filterItems = array_filter($array, fn($v) => $v['value'] === $val);
+
+                    return count($filterItems) > 0 
+                            ? array_slice($filterItems, 0, 1)[0] 
+                            : ['editable' => 1, 'value' => 'null'];
+                };
+
+                $finalSchedule['day'.$k] = $filtered($schedule, $v);
+            }
+
+            $data[] = [
+                'name'      => $e->staff_name,
+                'id'        => $e->staff_id,
+                'schedule'  => $finalSchedule
+            ];
+        }
+
+        return $this->createResponse([
+            'container' => $data,
+            'totalRows' => $rows
+        ], 'is_admin');
     }
 
     public function getPermissionNotif()
@@ -323,11 +403,6 @@ class Admin extends \Actudent
 
     protected function getPresenceStatus($staffId, $staffType, $date)
     {
-        $days = [
-            'senin' => 1, 'selasa' => 2, 'rabu' => 3, 
-            'kamis' => 4, 'jumat' => 5, 'sabtu' => 6
-        ];
-
         $dayValues = [];
 
         // if the employee is staff, use default working schedule,
@@ -336,7 +411,7 @@ class Admin extends \Actudent
             // get the days which teacher has teaching schedule 
             $schedules = $this->model->getTeacherSchedules($staffId);
             foreach($schedules as $s) {
-                $dayValues[] = $days[$s->schedule_day]; // example: $days['senin']
+                $dayValues[] = $this->days[$s->schedule_day]; // example: $this->days['senin']
             }
         } else {
             $dayValues = [ 1, 2, 3, 4, 5 ];

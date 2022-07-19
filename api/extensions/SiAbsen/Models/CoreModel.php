@@ -10,6 +10,8 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     private $QBPermit;
 
+    private $QBSchedule;
+
     /**
      * @var string tb_staff_presence
      */
@@ -25,6 +27,11 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
      */
     private $presencePermit = 'tb_staff_presence_permit';
 
+    /**
+     * @var string tb_staff_presence_permit
+     */
+    private $presenceSchedule = 'tb_staff_presence_schedule';
+
     private $shared;
 
     public function __construct()
@@ -33,7 +40,38 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->QBPresence = $this->db->table($this->staffPresence);
         $this->QBConfig = $this->db->table($this->presenceConfig);
         $this->QBPermit = $this->db->table($this->presencePermit);
+        $this->QBSchedule = $this->db->table($this->presenceSchedule);
         $this->shared = new SharedModel;
+    }
+
+    public function updateSchedule(int $staffId, array $values): void
+    {
+        if($this->scheduleExists($staffId)) {
+            $this->QBSchedule->update([
+
+            ], ['staff_id' => $staffId]);
+        } else {
+            $this->QBSchedule->insert([
+
+            ]);
+        }
+    }
+
+    public function getPresenceSchedule(int $staffId)
+    {
+        if($this->scheduleExists($staffId)) {
+            $query = $this->QBSchedule->getWhere(['staff_id' => $staffId]);
+            return $query->getResult()[0];
+        } else {
+            return null;
+        }
+    }
+
+    public function scheduleExists(int $staffId): bool
+    {
+        $check = $this->QBSchedule->getWhere(['staff_id' => $staffId]);
+
+        return $check->getNumRows() > 0 ? true : false;
     }
 
     public function deletePermission($id)
