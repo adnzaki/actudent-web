@@ -75,7 +75,7 @@ export default {
 
     return {
       todaySummary,
-      responsiveClass: () => $q.screen.lt.sm ? 'q-mb-md' : 'q-pr-sm'
+      responsiveClass: () => $q.screen.lt.md ? 'q-mb-md' : 'q-pr-sm'
     }
   }
 }
