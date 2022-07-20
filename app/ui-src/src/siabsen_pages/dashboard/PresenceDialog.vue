@@ -117,11 +117,12 @@ export default {
     }
 
     const getLocationError = err => locationDescription.value = `${err.code}: ${err.message}`
+    let id
 
     onMounted(() => {
       openCamera.value = () => { 
           showVideo.value = true
-          navigator.geolocation.watchPosition(getLocationSuccess, getLocationError, locationOptions)
+          id = navigator.geolocation.watchPosition(getLocationSuccess, getLocationError, locationOptions)
           navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
             video.value.srcObject = stream
           })
@@ -151,6 +152,7 @@ export default {
         if(store.state.siabsen.presenceSuccess) {
           stopVideo.value()
           store.state.siabsen.showPresenceDialog = false
+          navigator.geolocation.clearWatch(id)
         }
       })
     })
