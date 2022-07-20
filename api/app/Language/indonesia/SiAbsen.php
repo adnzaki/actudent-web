@@ -30,7 +30,7 @@ return [
     'siabsen_in'                => 'Datang',
     'siabsen_out'               => 'Pulang',
     'siabsen_detail_absensi'    => 'Detil Kehadiran',
-    'siabsen_atur_jadwal'       => 'Atur Jadwal Absen',
+    'siabsen_atur_jadwal'       => 'Jadwal Absensi',
     'siabsen_form_izin_title'   => 'Form Pengajuan Izin',
     'siabsen_alasan_izin'       => 'Alasan izin',
     'siabsen_lampiran_izin'     => 'Lampiran (hanya menerima file berupa gambar)',
@@ -84,4 +84,5 @@ return [
     'siabsen_detail_izin'       => 'Lihat detil izin',
     'siabsen_sukses_hapus_izin' => 'Berhasil menghapus permintaan izin',
     'siabsen_gagal_hapus_izin'  => 'Tidak dapat menghapus izin karena permintaan anda telah diproses oleh admin',
+    'siabsen_jadwal'            => 'Jadwal',
 ];

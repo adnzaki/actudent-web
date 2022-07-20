@@ -69,6 +69,7 @@ class Admin extends \Actudent
                     ]; 
                 }
                 
+                // merge schedule from tb_staff_presence_schedule and teaching schedule
                 $schedule = array_merge($dayValues, $teachingSchedule);
             }
 
@@ -89,6 +90,7 @@ class Admin extends \Actudent
 
             $data[] = [
                 'name'      => $e->staff_name,
+                'nip'       => $e->staff_nik,
                 'id'        => $e->staff_id,
                 'schedule'  => $finalSchedule
             ];

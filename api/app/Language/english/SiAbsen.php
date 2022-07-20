@@ -29,7 +29,7 @@ return [
     'siabsen_in'                => 'In',
     'siabsen_out'               => 'Out',
     'siabsen_detail_absensi'    => 'Presence Detail',
-    'siabsen_atur_jadwal'       => 'Set absence schedule',
+    'siabsen_atur_jadwal'       => 'Presence Schedule',
     'siabsen_form_izin_title'   => 'Permission Request Form',
     'siabsen_alasan_izin'       => 'Permission reason',
     'siabsen_lampiran_izin'     => 'Attachment (accept image file type only)',
@@ -83,4 +83,5 @@ return [
     'siabsen_detail_izin'       => 'View permission detail',
     'siabsen_sukses_hapus_izin' => 'Successfully deleted permission request',
     'siabsen_gagal_hapus_izin'  => 'Unable to delete permission because your request has been processed by admin',
+    'siabsen_jadwal'            => 'Schedule',
 ];

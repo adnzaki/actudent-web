@@ -26,6 +26,7 @@ import SummaryRoute from 'src/siabsen_pages/admin_summary/SummaryRoute.vue'
 import PresenceDetail from 'src/siabsen_pages/admin_summary/PresenceDetail.vue'
 import ConfigMain from 'src/siabsen_pages/config/ConfigMain.vue'
 import AppSettingsMain from 'pages/app_settings/Index.vue'
+import PresenceScheduleMain from 'src/siabsen_pages/presence_schedule/ScheduleMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -75,6 +76,7 @@ export default [
         ] 
       },
       { path: 'config', component: ConfigMain, beforeEnter: () => routeValidator() },
+      { path: 'schedule', component: PresenceScheduleMain, beforeEnter: () => routeValidator() },
     ]
   },
 ]

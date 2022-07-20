@@ -13,6 +13,32 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  getDetailSchedule({ state, dispatch }, schedule) {
+    console.log(schedule)
+    for(let i in schedule) {
+      state.scheduleDays[i] = schedule[i]['value'] !== 'null' ? true : false
+    }
+  },
+  getStaffScheduleList({ state, dispatch }) {
+    const limit = 25
+    state.paging.rows = limit
+
+    dispatch('getData', {
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit,
+      offset: state.current - 1,
+      orderBy: 'staff_name',
+      searchBy: 'staff_name',
+      sort: 'ASC',
+      search: '',
+      url: `${conf.siabsenAPI}jadwal-absen-guru/`,
+      autoReset: {
+        active: true,
+        timeout: 500
+      },
+    })
+  },
   deletePermission({ state, commit, dispatch }) {
     const notifyProgress = Notify.create({
       group: false,
