@@ -8,6 +8,7 @@
 .LSOverride
 
 # Actudent ignored files 
+app/Config/DatabaseList/SiAbsen.php
 actudent/Trash
 actudent/Admin/Controllers/Test.php
 actudent/Installer/Controllers/Test.php
