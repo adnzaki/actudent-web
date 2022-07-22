@@ -13,11 +13,16 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
-  getDetailSchedule({ state, dispatch }, schedule) {
-    console.log(schedule)
+  getDetailSchedule({ state, dispatch }, { schedule, name }) {
+    state.staffName = name
     for(let i in schedule) {
-      state.scheduleDays[i] = schedule[i]['value'] !== 'null' ? true : false
+      state.scheduleDays[i] = {
+        editable: schedule[i]['editable'] === 1 ? true : false,
+        value: schedule[i]['value'] !== 'null' ? true : false
+      }
     }
+
+    state.showScheduleForm = true
   },
   getStaffScheduleList({ state, dispatch }) {
     const limit = 25

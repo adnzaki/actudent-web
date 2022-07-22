@@ -7,7 +7,8 @@ class Test extends Admin
 {
     public function testGetSchedules()
     {
-        $exec = $this->model->getPresenceSchedule(1);
+        //$exec = $this->model->getTeacherSchedules(93);
+        $exec = $this->model->getFirstAndLastSchedule(93, 'jumat', 'max');
         //print_r($filtered);
         return $this->response->setJSON($exec);
     }

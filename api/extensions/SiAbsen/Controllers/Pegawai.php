@@ -70,21 +70,21 @@ class Pegawai extends Admin
 
         $messages = [
             'permit_date' => [
-                'required'      => lang('SiAbsen.siabsen_permit_error.date_required'),
-                'valid_date'    => lang('SiAbsen.siabsen_permit_error.date_invalid'),
+                'required'      => get_lang('SiAbsen.siabsen_permit_error.date_required'),
+                'valid_date'    => get_lang('SiAbsen.siabsen_permit_error.date_invalid'),
             ],
             'permit_starttime' => [
-                'required'      => lang('SiAbsen.siabsen_permit_error.starttime_required'),
-                'valid_date'    => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                'required'      => get_lang('SiAbsen.siabsen_permit_error.starttime_required'),
+                'valid_date'    => get_lang('SiAbsen.siabsen_permit_error.time_invalid'),
             ],
             'permit_endtime' => [
-                'required'      => lang('SiAbsen.siabsen_permit_error.endtime_required'),
-                'valid_date'    => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                'required'      => get_lang('SiAbsen.siabsen_permit_error.endtime_required'),
+                'valid_date'    => get_lang('SiAbsen.siabsen_permit_error.time_invalid'),
             ],
             'permit_reason' => [
-                'required'      => lang('SiAbsen.siabsen_permit_error.reason_required'),
+                'required'      => get_lang('SiAbsen.siabsen_permit_error.reason_required'),
             ],'permit_photo' => [
-                'required'      => lang('SiAbsen.siabsen_permit_error.photo_required'),
+                'required'      => get_lang('SiAbsen.siabsen_permit_error.photo_required'),
             ]
         ];
         
@@ -149,7 +149,7 @@ class Pegawai extends Admin
         ];
         $fileMessages = [
             'attachment' => [
-                'is_image' => lang('Admin.invalid_filetype'),
+                'is_image' => get_lang('Admin.invalid_filetype'),
             ]
         ];
 
@@ -163,7 +163,7 @@ class Pegawai extends Admin
             if($position['code'] === 500) {
                 $response = [
                     'code'      => 500,
-                    'msg'       => lang('SiAbsen.siabsen_absen_gagal'),
+                    'msg'       => get_lang('SiAbsen.siabsen_absen_gagal'),
                     'reason'    => $position['msg']
                 ];
             } else {
@@ -179,7 +179,7 @@ class Pegawai extends Admin
                 
                 $response = [
                     'code'      => 200,
-                    'msg'       => lang('SiAbsen.siabsen_absen_berhasil'),
+                    'msg'       => get_lang('SiAbsen.siabsen_absen_berhasil'),
                 ];
             }
 
@@ -224,24 +224,24 @@ class Pegawai extends Admin
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
 
             if($in === null && $hasPermission) {
-                $status = lang('SiAbsen.siabsen_permit_prayer');
+                $status = get_lang('SiAbsen.siabsen_permit_prayer');
                 $canAbsent = 0; // unable to absent
             } else {
                 if($in === null && $currentTime < $timeOut) {
-                    $status = lang('SiAbsen.siabsen_masuk_dulu');
+                    $status = get_lang('SiAbsen.siabsen_masuk_dulu');
                     $canAbsent = 0; // unable to absent
                 } elseif($in === null && $currentTime > $timeOut) {
-                    $status = lang('SiAbsen.siabsen_besok_absen');
+                    $status = get_lang('SiAbsen.siabsen_besok_absen');
                     $canAbsent = 0; // unable to absent
                 } else {
                     if($out === null && $currentTime > $timeOut) {
-                        $status = lang('SiAbsen.siabsen_belum_pulang');
+                        $status = get_lang('SiAbsen.siabsen_belum_pulang');
                         $canAbsent = 1; // able to absent
                     } elseif($out === null && $currentTime < $timeOut) {
-                        $status = lang('SiAbsen.siabsen_belum_pulang');
+                        $status = get_lang('SiAbsen.siabsen_belum_pulang');
                         $canAbsent = 0; // unable to absent
                     } else {
-                        $status = lang('SiAbsen.siabsen_sudah_pulang');
+                        $status = get_lang('SiAbsen.siabsen_sudah_pulang');
                         $canAbsent = 0; // unable to absent
                     }
                 }
@@ -269,15 +269,15 @@ class Pegawai extends Admin
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
             
             if($presence === null && $hasPermission) {
-                $status = lang('SiAbsen.siabsen_permit_approved');
+                $status = get_lang('SiAbsen.siabsen_permit_approved');
                 $canAbsent = 0; // unable to absent
             } else {
                 if($presence === null && $currentTime > $timeOut && $currentTime < $todayLimit) {
-                    $status = lang('SiAbsen.siabsen_tidak_masuk');
+                    $status = get_lang('SiAbsen.siabsen_tidak_masuk');
                     $canAbsent = 0; // unable to absent
                 } else {
                     if($presence === null) {
-                        $status = lang('SiAbsen.siabsen_belum_masuk');
+                        $status = get_lang('SiAbsen.siabsen_belum_masuk');
                         $canAbsent = 1; // able to absent
                     } else {
                         
@@ -289,9 +289,9 @@ class Pegawai extends Admin
             
                         if($presenceIn > $ontimeLimit) {
                             $late = $this->countLate($datetime[0], $datetime[1]);
-                            $status = lang('SiAbsen.siabsen_telat_masuk', [$late['str']]);
+                            $status = get_lang('SiAbsen.siabsen_telat_masuk', [$late['str']]);
                         } else {
-                            $status = lang('SiAbsen.siabsen_sudah_masuk');
+                            $status = get_lang('SiAbsen.siabsen_sudah_masuk');
                         }
         
                         $canAbsent = 0; // unable to absent

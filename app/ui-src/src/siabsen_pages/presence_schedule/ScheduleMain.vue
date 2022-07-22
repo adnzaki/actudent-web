@@ -11,6 +11,7 @@
     </q-card-section>
     <employee-list />
     <employee-list-mobile />
+    <schedule-form />
   </q-card>
 </template>
 
@@ -19,10 +20,11 @@ import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import EmployeeList from './EmployeeList.vue';
 import EmployeeListMobile from './EmployeeListMobile.vue';
+import ScheduleForm from './ScheduleForm.vue';
 
 export default {
   name: 'ManageMain',
-  components: { EmployeeList, EmployeeListMobile },
+  components: { EmployeeList, EmployeeListMobile, ScheduleForm },
   setup() {
     const store = useStore();
     return {

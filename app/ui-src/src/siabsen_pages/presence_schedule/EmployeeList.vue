@@ -15,15 +15,23 @@
             <td class="text-center mobile-hide">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
             <td class="text-left mobile-hide">{{ item.name }}</td>
             <td class="text-left q-gutter-xs mobile-hide">
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day1.value)" :label="$t('day1')" /><br class="mobile-only" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day2.value)" :label="$t('day2')" /><br class="mobile-only" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day3.value)" :label="$t('day3')" /><br class="mobile-only" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day4.value)" :label="$t('day4')" /><br class="mobile-only" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day5.value)" :label="$t('day5')" /><br class="mobile-only" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day6.value)" :label="$t('day6')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day0.value)" :label="$t('day1')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day1.value)" :label="$t('day2')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day2.value)" :label="$t('day3')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day3.value)" :label="$t('day4')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day4.value)" :label="$t('day5')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day5.value)" :label="$t('day6')" />
             </td>
-            <td class="text-left mobile-hide">
-              <q-btn @click="getDetail(item.schedule)" color="accent" icon="edit" />
+            <td class="text-left" v-if="item.type === 'staff'">
+              <q-btn @click="getDetail(item.schedule, item.name)" color="accent" icon="edit" />
+            </td>
+            <td class="text-left" v-else>
+              <q-btn-group>
+                <q-btn @click="getDetail(item.schedule, item.name)" color="accent" icon="edit" />
+                <q-btn color="accent" icon="sync">
+                  <btn-tooltip :label="$t('siabsen_sync_jadwal')" />
+                </q-btn>
+              </q-btn-group>
             </td>
           </tr>
         </tbody>
@@ -53,8 +61,8 @@ export default {
       return val !== 'null' ? true : false
     }
 
-    const getDetail = schedule => {
-      store.dispatch('siabsen/getDetailSchedule', schedule)
+    const getDetail = (schedule, name) => {
+      store.dispatch('siabsen/getDetailSchedule', { schedule, name })
     }
 
     return {

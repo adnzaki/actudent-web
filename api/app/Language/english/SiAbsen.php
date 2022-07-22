@@ -72,8 +72,8 @@ return [
         'timelimit'             => 'Lateness tolerance should not more than {0} minutes'
     ],
     'siabsen_jam'               => 'hour(s)',
-    'siabsen_menit'             => 'mins',
-    'siabsen_detik'             => 'secs',
+    'siabsen_menit'             => 'minutes',
+    'siabsen_detik'             => 'seconds',
     'siabsen_terlambat'         => 'Lateness',
     'siabsen_hadir_harian'      => 'Employees present today',
     'siabsen_absen_harian'      => 'Employees absent today',
@@ -84,4 +84,5 @@ return [
     'siabsen_sukses_hapus_izin' => 'Successfully deleted permission request',
     'siabsen_gagal_hapus_izin'  => 'Unable to delete permission because your request has been processed by admin',
     'siabsen_jadwal'            => 'Schedule',
+    'siabsen_sync_jadwal'       => 'Sync from teaching jadwal',
 ];

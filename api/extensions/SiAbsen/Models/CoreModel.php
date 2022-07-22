@@ -61,7 +61,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
     {
         if($this->scheduleExists($staffId)) {
             $query = $this->QBSchedule->getWhere(['staff_id' => $staffId]);
-            return $query->getResult()[0];
+            return $query->getResultArray();
         } else {
             return null;
         }
@@ -190,13 +190,39 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->QBPermit->insert($values);
     }
 
+    public function getFirstAndLastSchedule(int $staffId, string $day, string $pointer)
+    {
+        if($pointer === 'min') {
+            $select = $this->shared->QBJadwal->selectMin('schedule_start');
+        } else {
+            $select = $this->shared->QBJadwal->selectMax('schedule_end');
+        }
+
+        $join = $this->joinScheduleTeacherTable($select);
+        $where = $join->where([
+            'teacher_id' => $staffId,
+            'schedule_status' => 'active',
+            'schedule_day' => $day
+        ]);
+
+        return $where->get()->getResult();        
+    }
+
     public function getTeacherSchedules(int $staffId)
     {
         $select = $this->shared->QBJadwal->select('DISTINCT `schedule_day`', false);
-        $join = $select->join($this->shared->mapelKelas, "{$this->shared->jadwal}.lessons_grade_id = {$this->shared->mapelKelas}.lessons_grade_id");
-        $where = $join->where(['teacher_id' => $staffId]);
+        //$join = $select->join($this->shared->mapelKelas, "{$this->shared->jadwal}.lessons_grade_id = {$this->shared->mapelKelas}.lessons_grade_id");
+        $join = $this->joinScheduleTeacherTable($select);
+        $where = $join->where(['teacher_id' => $staffId, 'schedule_status' => 'active']);
 
         return $where->get()->getResult();
+    }
+
+    private function joinScheduleTeacherTable($select)
+    {
+        return $select->join($this->shared->mapelKelas, 
+            "{$this->shared->jadwal}.lessons_grade_id = {$this->shared->mapelKelas}.lessons_grade_id"
+        );
     }
 
     public function sendPresence(string $tag, array $data, int $id): void

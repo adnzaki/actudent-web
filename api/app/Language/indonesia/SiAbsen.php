@@ -85,4 +85,5 @@ return [
     'siabsen_sukses_hapus_izin' => 'Berhasil menghapus permintaan izin',
     'siabsen_gagal_hapus_izin'  => 'Tidak dapat menghapus izin karena permintaan anda telah diproses oleh admin',
     'siabsen_jadwal'            => 'Jadwal',
+    'siabsen_sync_jadwal'       => 'Sinkron dari jadwal mengajar',
 ];

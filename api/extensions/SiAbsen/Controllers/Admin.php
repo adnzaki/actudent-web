@@ -13,9 +13,12 @@ class Admin extends \Actudent
 
     protected $aws;
 
+    protected $timer;
+
     private $days = [
-        'senin' => 1, 'selasa' => 2, 'rabu' => 3, 
-        'kamis' => 4, 'jumat' => 5, 'sabtu' => 6
+        'senin' => 0, 'selasa' => 1, 'rabu' => 2, 
+        'kamis' => 3, 'jumat' => 4, 'sabtu' => 5,
+        'minggu' => 6
     ];
 
     public function __construct()
@@ -23,10 +26,12 @@ class Admin extends \Actudent
         $this->model = new \SiAbsen\Models\CoreModel;
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;
+        $this->timer = \Config\Services::timer();
     }
 
     public function getPresenceSchedule($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
+        timer('getSchedule');
         // get the employees first (must be SSPaging-compatible format)
         $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
         $rows = $this->model->getStaffRows($searchBy, 'null', $search);
@@ -42,61 +47,53 @@ class Admin extends \Actudent
             // if presence schedule exists
             if($presenceSchedule !== null) {
                 // create array containing presence schedule
-
-                if(strpos($presenceSchedule->days, ',') !== false) {
-                    $daysArray = explode(',', $presenceSchedule->days);
-                } else {
-                    $daysArray = [$presenceSchedule->days];
-                }
+                $daysArray = array_column($presenceSchedule, 'schedule_day');
+                $timeinArray = array_column($presenceSchedule, 'schedule_timein');
+                $timeoutArray = array_column($presenceSchedule, 'schedule_timeout');
 
                 foreach($daysArray as $a => $b) {
                     $dayValues[] = [
-                        'editable'  => 1, // schedule from tb_staff_presence_schedule must be editable
-                        'value'     => (int)$b
+                        'value'     => (int)$b,
+                        'timein'    => $timeinArray[$a],
+                        'timeout'   => $timeoutArray[$a]
                     ];
                 }
             }            
 
-            // if employee is a teacher, then we have to merge the schedule
-            // from their teaching schedule
-            if($e->staff_type === 'teacher') {
-                $teachingSchedule = [];
-                $schedules = $this->model->getTeacherSchedules($e->staff_id);
-                foreach($schedules as $s) {
-                    $teachingSchedule[] = [
-                        'editable'  => 0, // schedule from teaching schedule should not be editable
-                        'value'     => $this->days[$s->schedule_day]                        
-                    ]; 
-                }
-                
-                // merge schedule from tb_staff_presence_schedule and teaching schedule
-                $schedule = array_merge($dayValues, $teachingSchedule);
-            }
-
-            // here we loop the days from monday to saturday (0-6)
+            // here we loop the days from monday to sunday (0-6)
             // to generate the final presence schedule
-            $finalSchedule = [];
+            $schedule = [];
             foreach(range(0, 6) as $k => $v) {   
                 $filtered = function($array, $val) {
                     $filterItems = array_filter($array, fn($v) => $v['value'] === $val);
+                    $default = [
+                        'value'     => 'null',
+                        'timein'    => 'null',
+                        'timeout'   => 'null'
+                    ];
 
                     return count($filterItems) > 0 
                             ? array_slice($filterItems, 0, 1)[0] 
-                            : ['editable' => 1, 'value' => 'null'];
+                            : $default;
                 };
 
-                $finalSchedule['day'.$k] = $filtered($schedule, $v);
+                $schedule['day'.$k] = $filtered($dayValues, $v);
             }
 
             $data[] = [
                 'name'      => $e->staff_name,
                 'nip'       => $e->staff_nik,
                 'id'        => $e->staff_id,
-                'schedule'  => $finalSchedule
+                'type'      => $e->staff_type,
+                'schedule'  => $schedule
             ];
         }
 
+        timer('getSchedule');
+        $elapsed = timer()->getElapsedTime('getSchedule');
+
         return $this->createResponse([
+            'elapsed'   => number_format($elapsed, 5, ',', '.'),
             'container' => $data,
             'totalRows' => $rows
         ], 'is_admin');
@@ -187,9 +184,9 @@ class Admin extends \Actudent
         $summary = $this->countMonthlySummary($staffId, $staffDetail->staff_type, (int)$period[0], $period[1]);
         $wrapper = [];
         $presenceCategory = [
-            lang('AdminAbsensi.absensi_alfa'),
-            lang('AdminAbsensi.absensi_hadir'),
-            lang('AdminAbsensi.absensi_izin'),
+            get_lang('AdminAbsensi.absensi_alfa'),
+            get_lang('AdminAbsensi.absensi_hadir'),
+            get_lang('AdminAbsensi.absensi_izin'),
             '-'
         ];
 
@@ -217,7 +214,7 @@ class Admin extends \Actudent
             'nip'   => $staffDetail->staff_nik,
             'name'  => $staffDetail->staff_name,
             'data'  => $wrapper,
-            'late'  => $this->formatNumLate($totalLate, false)
+            'late'  => $this->formatTime($totalLate, 'm')
         ];
 
         return $response;
@@ -329,7 +326,7 @@ class Admin extends \Actudent
         return $presenceSummary;
     }
 
-    protected function countLate($date, $time, $showSeconds = false)
+    protected function countLate($date, $time, $timeFormat = 'm')
     {
         $timein = $this->config->presence_timein;
         $dateTimeIn = $date .' '. $time;
@@ -343,38 +340,36 @@ class Admin extends \Actudent
 
         return [
             'raw'   => $diff,
-            'str'   => $this->formatNumLate($diff, $showSeconds)
+            'str'   => $this->formatTime($diff, $timeFormat)
         ];
     }
 
-    private function formatNumLate($diff, $showSeconds)
+    private function formatTime($diff, $displayFormat)
     {
-        $output = '';       
-        $minsText = lang('SiAbsen.siabsen_menit');
-
         if($diff > 0) {
-            if($diff <= 60) {
-                $output = $diff . ' ' . lang('SiAbsen.siabsen_detik');
-            } elseif($diff > 60 && $diff < 3600) {
-                $minutes = $diff / 60;
-                $output = floor($minutes).' '. 
-                          $minsText . $this->getSeconds($minutes, $showSeconds);
-            } elseif($diff > 3600) {
-                $hours = $diff / 60 / 60;
-                $minutes = ($hours - floor($hours)) * 60;
-                $output = floor($hours) . ' ' .
-                          lang('SiAbsen.siabsen_jam') .' '. floor($minutes) . ' ' .
-                          $minsText . $this->getSeconds($minutes, $showSeconds);
-            }
-        }
-
-        return $output;
-    }
-
-    private function getSeconds($minutes, $showSeconds) {
-        if($showSeconds) {
-            $result = ($minutes - floor($minutes)) * 60;
-            return ' '.$result.' '.lang('SiAbsen.siabsen_detik');
+            $minutes = $diff / 60;
+            $minutesFormat = number_format($minutes, 2, ',', '.');
+            $minutesStr = ' '.get_lang('SiAbsen.siabsen_menit');
+            $hours = $minutes / 60;
+            $hoursFormat = number_format($hours, 2, ',', '.');
+            $hoursStr = ' '.get_lang('SiAbsen.siabsen_jam');
+            $secondsStr = ' '.get_lang('SiAbsen.siabsen_detik');
+            $secondsDiff = ($minutes - floor($minutes)) * 60;
+            $hm = floor($hours) . $hoursStr.' '.floor($minutes).$minutesStr;
+            $ms = floor($minutes) . $minutesStr .' '. $secondsDiff . $secondsStr;
+    
+            $format = [
+                'h'     => $hoursFormat . $hoursStr, // 1 hour | 1,233 hour
+                'h:m'   => $hm, // 1 hour 32 minutes
+                'h:m:s' => floor($hours) . $hoursStr .' '. $ms, // 1 hour 32 minutes 24 detik
+                'm'     => $minutesFormat . $minutesStr, // 32,345 minutes
+                'm:s'   => $ms, // 32 minutes 24 seconds
+                's'     => $diff . $secondsStr // 3842 seconds
+            ];        
+    
+            return $format[$displayFormat];
+        } else {
+            return '-';
         }
     }
 
@@ -407,24 +402,19 @@ class Admin extends \Actudent
     {
         $dayValues = [];
 
-        // if the employee is staff, use default working schedule,
-        // otherwise, the schedule is from monday through friday
-        if($staffType === 'teacher') {
-            // get the days which teacher has teaching schedule 
-            $schedules = $this->model->getTeacherSchedules($staffId);
-            foreach($schedules as $s) {
-                $dayValues[] = $this->days[$s->schedule_day]; // example: $this->days['senin']
-            }
-        } else {
-            $dayValues = [ 1, 2, 3, 4, 5 ];
-        }
+        $schedules = $this->model->getPresenceSchedule($staffId);
 
         // get the day of week like 0 = sunday through 6 = saturday
         $dayOfWeek = date('w', strtotime($date));
+
+        // match the day of week config
+        // if $dayOfWeek is 0 (sunday), then convert it to 6
+        // otherwise subtract one (eg. 1-1 = 0 for monday)
+        $dayOfWeekMatch = $dayOfWeek === 0 ? 6 : $dayOfWeek - 1;
         $status = 3;
 
         // if day of week of the searched date is in teacher schedules...
-        if(in_array($dayOfWeek, $dayValues)) {
+        if(in_array($dayOfWeekMatch, $dayValues)) {
             // get only presence-in data
             // we do not need to check presence-out data, since teacher will only
             // be absent if they do not tap for presence-in
@@ -521,29 +511,29 @@ class Admin extends \Actudent
     
             $messages = [
                 'intime' => [
-                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
-                    'valid_date'        => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                    'required'          => get_lang('SiAbsen.siabsen_config_error.field_required'),
+                    'valid_date'        => get_lang('SiAbsen.siabsen_permit_error.time_invalid'),
                 ],
                 'outtime' => [
-                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
-                    'valid_date'        => lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                    'required'          => get_lang('SiAbsen.siabsen_config_error.field_required'),
+                    'valid_date'        => get_lang('SiAbsen.siabsen_permit_error.time_invalid'),
                 ],
                 'lat' => [
-                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
-                    'decimal'           => lang('SiAbsen.siabsen_config_error.integer_only'),
+                    'required'          => get_lang('SiAbsen.siabsen_config_error.field_required'),
+                    'decimal'           => get_lang('SiAbsen.siabsen_config_error.integer_only'),
                 ],
                 'long' => [
-                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
-                    'decimal'           => lang('SiAbsen.siabsen_config_error.integer_only'),
+                    'required'          => get_lang('SiAbsen.siabsen_config_error.field_required'),
+                    'decimal'           => get_lang('SiAbsen.siabsen_config_error.integer_only'),
                 ],
                 'tolerance' => [
-                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
-                    'is_natural'        => lang('SiAbsen.siabsen_config_error.numeric_only'),
-                    'less_than_equal_to'=> lang('SiAbsen.siabsen_config_error.timelimit', [120]),
+                    'required'          => get_lang('SiAbsen.siabsen_config_error.field_required'),
+                    'is_natural'        => get_lang('SiAbsen.siabsen_config_error.numeric_only'),
+                    'less_than_equal_to'=> get_lang('SiAbsen.siabsen_config_error.timelimit', [120]),
                 ],
                 'range' => [
-                    'required'          => lang('SiAbsen.siabsen_config_error.field_required'),
-                    'is_natural'        => lang('SiAbsen.siabsen_config_error.numeric_only'),
+                    'required'          => get_lang('SiAbsen.siabsen_config_error.field_required'),
+                    'is_natural'        => get_lang('SiAbsen.siabsen_config_error.numeric_only'),
                 ]
             ];
     
@@ -607,12 +597,12 @@ class Admin extends \Actudent
         if($this->calculatePoints($latFrom, $longFrom, $latTo, $longTo) <= $range) {
             $response = [
                 'code'  => 200,
-                'msg'   => lang('SiAbsen.siabsen_lokasi_valid')
+                'msg'   => get_lang('SiAbsen.siabsen_lokasi_valid')
             ];
         } else {
             $response = [
                 'code'  => 500,
-                'msg'   => lang('SiAbsen.siabsen_lokasi_invalid', [ $range ])
+                'msg'   => get_lang('SiAbsen.siabsen_lokasi_invalid', [ $range ])
             ];
         }
 
