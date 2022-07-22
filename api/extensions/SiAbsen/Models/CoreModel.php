@@ -44,15 +44,23 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
-    public function updateSchedule(int $staffId, array $values): void
+    public function updateSchedule(int $staffId, int $day, array $values): void
     {
-        if($this->scheduleExists($staffId)) {
+        if($this->scheduleExists($staffId, $day)) {
+            $this->QBSchedule->where([
+                'staff_id'      => $staffId,
+                'schedule_day'  => $day
+            ]);
             $this->QBSchedule->update([
-
-            ], ['staff_id' => $staffId]);
+                'schedule_timein'   => $values['timein'],
+                'schedule_timeout'  => $values['timeout']
+            ]);
         } else {
             $this->QBSchedule->insert([
-
+                'staff_id'          => $staffId,
+                'schedule_day'      => $day,
+                'schedule_timein'   => $values['timein'],
+                'schedule_timeout'  => $values['timeout']
             ]);
         }
     }
@@ -67,9 +75,14 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         }
     }
 
-    public function scheduleExists(int $staffId): bool
+    public function scheduleExists(int $staffId, int|null $day = null): bool
     {
-        $check = $this->QBSchedule->getWhere(['staff_id' => $staffId]);
+        $params = ['staff_id' => $staffId];
+        if($day !== null) {
+            $params['schedule_day'] = $day;
+        }
+
+        $check = $this->QBSchedule->getWhere($params);
 
         return $check->getNumRows() > 0 ? true : false;
     }
@@ -205,7 +218,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
             'schedule_day' => $day
         ]);
 
-        return $where->get()->getResult();        
+        return $where->get()->getResult()[0];        
     }
 
     public function getTeacherSchedules(int $staffId)

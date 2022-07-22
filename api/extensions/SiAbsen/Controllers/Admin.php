@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use PDFCreator;
+use CodeIgniter\I18n\Time;
 
 class Admin extends \Actudent
 {
@@ -12,8 +13,6 @@ class Admin extends \Actudent
     protected $config;
 
     protected $aws;
-
-    protected $timer;
 
     private $days = [
         'senin' => 0, 'selasa' => 1, 'rabu' => 2, 
@@ -27,6 +26,42 @@ class Admin extends \Actudent
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;
         $this->timer = \Config\Services::timer();
+    }
+
+    public function getTeachingSchedule($staffId)
+    {
+        timer('sync');
+        $schedule = $this->model->getTeacherSchedules($staffId);
+        $wrapper = [];
+        foreach($schedule as $s) {
+            $first = $this->model->getFirstAndLastSchedule($staffId, $s->schedule_day, 'min');
+            $last = $this->model->getFirstAndLastSchedule($staffId, $s->schedule_day, 'max');
+            $wrapper[] = [
+                'day'   => $s->schedule_day,
+                'first' => $first->schedule_start,
+                'last'  => $last->schedule_end
+            ];
+        }
+
+        if(count($wrapper) > 0) {
+            foreach($wrapper as $w) {
+                $day = $this->days[$w['day']];
+                $time = [
+                    'timein'   => str_replace('.', ':', $w['first']),
+                    'timeout'  => str_replace('.', ':', $w['last'])
+                ];
+
+                $this->model->updateSchedule($staffId, $day, $time);
+            }
+        }
+
+        timer('sync');
+        $elapsed = timer()->getElapsedTime('sync');
+
+        return $this->createResponse([
+            'elapsed'   => number_format($elapsed, 3, ',', '.'),
+            'status'    => 'OK',
+        ], 'is_admin');
     }
 
     public function getPresenceSchedule($limit, $offset, $orderBy, $searchBy, $sort, $search = '')

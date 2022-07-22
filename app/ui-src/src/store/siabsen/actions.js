@@ -13,12 +13,45 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  syncFromTeachingSchedule({ dispatch }, id) {
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('siabsen_sync_progress'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    siabsen.get(`sync-jadwal-mengajar/${id}`, {
+      headers: {
+        Authorization: bearerToken
+      }
+    }).then(({ data }) => {
+      dispatch('getStaffScheduleList')
+      notifyProgress({
+        message: `${t('sukses')} ${t('siabsen_sync_success')}`,
+        color: 'positive',
+        icon: 'done',
+        spinner: false,
+        timeout
+      })
+    }).catch(error => {
+      notifyProgress({
+        message: `Error! ${t('siabsen_sync_error')} [${error}]`,
+        color: 'negative',
+        spinner: false,
+        timeout: 8000
+      }) 
+    })
+  },
   getDetailSchedule({ state, dispatch }, { schedule, name }) {
     state.staffName = name
     for(let i in schedule) {
       state.scheduleDays[i] = {
-        editable: schedule[i]['editable'] === 1 ? true : false,
-        value: schedule[i]['value'] !== 'null' ? true : false
+        value: schedule[i]['value'] !== 'null' ? true : false,
+        timein: schedule[i]['timein'],
+        timeout: schedule[i]['timeout']
       }
     }
 

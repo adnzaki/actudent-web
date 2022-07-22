@@ -85,4 +85,7 @@ return [
     'siabsen_gagal_hapus_izin'  => 'Unable to delete permission because your request has been processed by admin',
     'siabsen_jadwal'            => 'Schedule',
     'siabsen_sync_jadwal'       => 'Sync from teaching jadwal',
+    'siabsen_sync_progress'     => 'Syncing teaching schedule...',
+    'siabsen_sync_success'      => 'Successfully synced with teaching schedule',
+    'siabsen_sync_error'        => 'Unable to sync with teaching schedule',
 ];

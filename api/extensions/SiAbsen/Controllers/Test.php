@@ -3,14 +3,17 @@
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
+use CodeIgniter\I18n\Time;
+
 class Test extends Admin
 {
     public function testGetSchedules()
     {
-        //$exec = $this->model->getTeacherSchedules(93);
+        $schedule = $this->model->getTeacherSchedules(1);
         $exec = $this->model->getFirstAndLastSchedule(93, 'jumat', 'max');
+        $time = Time::createFromTime(10, 25, 00);
         //print_r($filtered);
-        return $this->response->setJSON($exec);
+        return $this->response->setJSON($time);
     }
 
     public function testAws($keyname)

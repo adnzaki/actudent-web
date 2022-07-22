@@ -28,7 +28,7 @@
             <td class="text-left" v-else>
               <q-btn-group>
                 <q-btn @click="getDetail(item.schedule, item.name)" color="accent" icon="edit" />
-                <q-btn color="accent" icon="sync">
+                <q-btn color="accent" icon="sync" @click="sync(item.id)">
                   <btn-tooltip :label="$t('siabsen_sync_jadwal')" />
                 </q-btn>
               </q-btn-group>
@@ -66,6 +66,7 @@ export default {
     }
 
     return {
+      sync: id => store.dispatch('siabsen/syncFromTeachingSchedule', id),
       dayMarginLeft: computed(() => $q.screen.lt.sm ? { marginLeft: '-10px' } : {}),
       getDetail,
       scheduleStatus,
