@@ -66,7 +66,7 @@ export default {
     }
 
     return {
-      sync: id => store.dispatch('siabsen/syncFromTeachingSchedule', id),
+      sync: id => store.dispatch('siabsen/promptSync', id),
       dayMarginLeft: computed(() => $q.screen.lt.sm ? { marginLeft: '-10px' } : {}),
       getDetail,
       scheduleStatus,

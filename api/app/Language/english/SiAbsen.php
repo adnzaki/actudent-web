@@ -88,4 +88,6 @@ return [
     'siabsen_sync_progress'     => 'Syncing teaching schedule...',
     'siabsen_sync_success'      => 'Successfully synced with teaching schedule',
     'siabsen_sync_error'        => 'Unable to sync with teaching schedule',
+    'siabsen_sync_confirm'      => 'Confirm',
+    'siabsen_sync_confirm_msg'  => 'Sync with teaching schedule will delete schedule that previously set. Are you sure to continue?',
 ];

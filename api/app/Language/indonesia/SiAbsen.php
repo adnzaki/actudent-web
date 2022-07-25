@@ -89,4 +89,6 @@ return [
     'siabsen_sync_progress'     => 'Menyinkronkan jadwal mengajar...',
     'siabsen_sync_success'      => 'Sinkronisasi jadwal mengajar berhasil',
     'siabsen_sync_error'        => 'Tidak dapat menyinkronkan dengan jadwal mengajar',
+    'siabsen_sync_confirm'      => 'Konfirmasi',
+    'siabsen_sync_confirm_msg'  => 'Sinkronisasi dengan jadwal mengajar akan menghapus jadwal yang telah diatur sebelumnya. Yakin akan melanjutkan?',
 ];

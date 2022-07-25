@@ -44,6 +44,11 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function resetPresenceSchedule(int $staffId): void
+    {
+        $this->QBSchedule->delete(['staff_id' => $staffId]);
+    }
+
     public function updateSchedule(int $staffId, int $day, array $values): void
     {
         if($this->scheduleExists($staffId, $day)) {

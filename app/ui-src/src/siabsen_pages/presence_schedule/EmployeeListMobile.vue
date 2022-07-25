@@ -7,7 +7,7 @@
             <q-btn color="accent" v-if="item.type === 'staff'" icon="edit" @click="getDetail(item.schedule, item.name)" />
             <q-btn-group v-else>
               <q-btn @click="getDetail(item.schedule, item.name)" color="accent" icon="edit" />
-              <q-btn color="accent" icon="sync">
+              <q-btn color="accent" icon="sync" @click="sync(item.id)">
                 <btn-tooltip :label="$t('siabsen_sync_jadwal')" />
               </q-btn>
             </q-btn-group>
@@ -68,6 +68,7 @@ export default {
     }
 
     return {
+      sync: id => store.dispatch('siabsen/promptSync', id),
       getDetail,
       scheduleStatus,
       data: computed(() => store.state.siabsen.paging.data),

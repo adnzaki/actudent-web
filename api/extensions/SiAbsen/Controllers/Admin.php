@@ -51,6 +51,7 @@ class Admin extends \Actudent
                     'timeout'  => str_replace('.', ':', $w['last'])
                 ];
 
+                $this->model->resetPresenceSchedule($staffId);
                 $this->model->updateSchedule($staffId, $day, $time);
             }
         }

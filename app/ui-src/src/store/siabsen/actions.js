@@ -10,9 +10,21 @@ import {
 
 import { date } from 'quasar'
 
-import { Notify } from 'quasar'
+import { Notify, Dialog } from 'quasar'
 
 export default {
+  promptSync({ dispatch }, id) {
+    const dialog = Dialog.create({
+      title: t('siabsen_sync_confirm'),
+      message: t('siabsen_sync_confirm_msg'),
+      cancel: {
+        label: t('batal'),
+        flat: true
+      }      
+    }).onOk(() => {
+      dispatch('syncFromTeachingSchedule', id)
+    })
+  },
   syncFromTeachingSchedule({ dispatch }, id) {
     const notifyProgress = Notify.create({
       group: false,
