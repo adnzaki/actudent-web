@@ -4,7 +4,6 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use PDFCreator;
-use CodeIgniter\I18n\Time;
 
 class Admin extends \Actudent
 {
@@ -28,41 +27,73 @@ class Admin extends \Actudent
         $this->timer = \Config\Services::timer();
     }
 
+    public function updateSchedule()
+    {
+        if(is_admin()) {
+            $scheduleStr = $this->request->getPost('schedule');    
+            $staffId = (int)$this->request->getPost('id');  
+            $schedule = json_decode($scheduleStr, true);
+            $values = [];
+
+            foreach($schedule as $key => $val) {
+                $day = substr($key, -1, 1);
+                $values[] = [
+                    'staff_id'          => $staffId,
+                    'schedule_day'      => $day,
+                    'schedule_timein'   => $val['timein'],
+                    'schedule_timeout'  => $val['timeout']
+                ];
+            }
+
+            $this->model->updateSchedule($staffId, $values);
+
+            return $this->response->setJSON(['msg' => 'OK']);
+        }                
+    }
+
     public function getTeachingSchedule($staffId)
     {
-        timer('sync');
-        $schedule = $this->model->getTeacherSchedules($staffId);
-        $wrapper = [];
-        foreach($schedule as $s) {
-            $first = $this->model->getFirstAndLastSchedule($staffId, $s->schedule_day, 'min');
-            $last = $this->model->getFirstAndLastSchedule($staffId, $s->schedule_day, 'max');
-            $wrapper[] = [
-                'day'   => $s->schedule_day,
-                'first' => $first->schedule_start,
-                'last'  => $last->schedule_end
-            ];
-        }
-
-        if(count($wrapper) > 0) {
-            foreach($wrapper as $w) {
-                $day = $this->days[$w['day']];
-                $time = [
-                    'timein'   => str_replace('.', ':', $w['first']),
-                    'timeout'  => str_replace('.', ':', $w['last'])
+        if(is_admin()) {
+            timer('sync');
+            $schedule = $this->model->getTeacherSchedules($staffId);
+            $wrapper = [];
+            foreach($schedule as $s) {
+                $first = $this->model->getFirstAndLastSchedule($staffId, $s->schedule_day, 'min');
+                $last = $this->model->getFirstAndLastSchedule($staffId, $s->schedule_day, 'max');
+                $wrapper[] = [
+                    'day'   => $s->schedule_day,
+                    'first' => $first->schedule_start,
+                    'last'  => $last->schedule_end
                 ];
-
-                $this->model->resetPresenceSchedule($staffId);
-                $this->model->updateSchedule($staffId, $day, $time);
             }
+
+            $values = [];    
+            if(count($wrapper) > 0) {
+                foreach($wrapper as $w) {
+                    $day = $this->days[$w['day']];
+
+                    // prepare data
+                    $values[] = [
+                        'staff_id'          => $staffId,
+                        'schedule_day'      => $day,
+                        'schedule_timein'   => str_replace('.', ':', $w['first']),
+                        'schedule_timeout'  => str_replace('.', ':', $w['last'])
+                    ];
+    
+                }
+            }
+
+            // do insertion
+            $this->model->updateSchedule($staffId, $values);
+    
+            timer('sync');
+            $elapsed = timer()->getElapsedTime('sync');
+    
+            return $this->response->setJSON([
+                'elapsed'   => number_format($elapsed, 3, ',', '.'),
+                'status'    => 'OK',
+            ]);
         }
-
-        timer('sync');
-        $elapsed = timer()->getElapsedTime('sync');
-
-        return $this->createResponse([
-            'elapsed'   => number_format($elapsed, 3, ',', '.'),
-            'status'    => 'OK',
-        ], 'is_admin');
     }
 
     public function getPresenceSchedule($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
@@ -104,8 +135,8 @@ class Admin extends \Actudent
                     $filterItems = array_filter($array, fn($v) => $v['value'] === $val);
                     $default = [
                         'value'     => 'null',
-                        'timein'    => 'null',
-                        'timeout'   => 'null'
+                        'timein'    => '',
+                        'timeout'   => ''
                     ];
 
                     return count($filterItems) > 0 

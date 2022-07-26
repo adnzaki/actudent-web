@@ -13,6 +13,47 @@ import { date } from 'quasar'
 import { Notify, Dialog } from 'quasar'
 
 export default {
+  updatePresenceSchedule({ state, dispatch }) {
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('siabsen_jadwal_progress'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    const data = Object.entries(state.scheduleDays).filter(key => key[1].value === true)
+    const filtered = Object.fromEntries(data)
+    const postData = {
+      id: state.staffId,
+      schedule: JSON.stringify(filtered)
+    }
+
+    siabsen.post('update-jadwal', postData, {
+      headers: {
+        Authorization: bearerToken
+      },
+      transformRequest: [data => createFormData(data)]
+    }).then(({ data }) => {
+      dispatch('getStaffScheduleList')
+      state.showScheduleForm = false
+      notifyProgress({
+        message: `${t('sukses')} ${t('siabsen_jadwal_success')}`,
+        color: 'positive',
+        icon: 'done',
+        spinner: false,
+        timeout
+      })
+    }).catch(error => {
+      notifyProgress({
+        message: `Error! ${t('siabsen_jadwal_error')} [${error}]`,
+        color: 'negative',
+        spinner: false,
+        timeout: 8000
+      }) 
+    })
+  },
   promptSync({ dispatch }, id) {
     const dialog = Dialog.create({
       title: t('siabsen_sync_confirm'),
@@ -57,8 +98,9 @@ export default {
       }) 
     })
   },
-  getDetailSchedule({ state, dispatch }, { schedule, name }) {
+  getDetailSchedule({ state, dispatch }, { schedule, name, id }) {
     state.staffName = name
+    state.staffId = id
     for(let i in schedule) {
       state.scheduleDays[i] = {
         value: schedule[i]['value'] !== 'null' ? true : false,

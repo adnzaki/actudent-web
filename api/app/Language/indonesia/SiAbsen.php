@@ -91,4 +91,10 @@ return [
     'siabsen_sync_error'        => 'Tidak dapat menyinkronkan dengan jadwal mengajar',
     'siabsen_sync_confirm'      => 'Konfirmasi',
     'siabsen_sync_confirm_msg'  => 'Sinkronisasi dengan jadwal mengajar akan menghapus jadwal yang telah diatur sebelumnya. Yakin akan melanjutkan?',
+    'siabsen_must_present'      => 'Wajib hadir',
+    'siabsen_no_schedule'       => 'Tidak ada jadwal',
+    'siabsen_show_all'          => 'Tampilkan semua detil jadwal',
+    'siabsen_jadwal_progress'   => 'Memperbarui jadwal kehadiran...',
+    'siabsen_jadwal_error'      => 'Gagal memperbarui jadwal kehadiran',
+    'siabsen_jadwal_success'    => 'Jadwal kehadiran berhasil diperbarui',
 ];

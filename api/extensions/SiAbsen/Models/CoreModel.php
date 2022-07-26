@@ -44,30 +44,18 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
-    public function resetPresenceSchedule(int $staffId): void
+    public function updateSchedule(int $staffId, array $values): void
     {
-        $this->QBSchedule->delete(['staff_id' => $staffId]);
-    }
-
-    public function updateSchedule(int $staffId, int $day, array $values): void
-    {
-        if($this->scheduleExists($staffId, $day)) {
-            $this->QBSchedule->where([
-                'staff_id'      => $staffId,
-                'schedule_day'  => $day
-            ]);
-            $this->QBSchedule->update([
-                'schedule_timein'   => $values['timein'],
-                'schedule_timeout'  => $values['timeout']
-            ]);
-        } else {
-            $this->QBSchedule->insert([
-                'staff_id'          => $staffId,
-                'schedule_day'      => $day,
-                'schedule_timein'   => $values['timein'],
-                'schedule_timeout'  => $values['timeout']
-            ]);
+        $this->db->transStart();
+        if($this->scheduleExists($staffId)) {
+            $this->QBSchedule->delete(['staff_id' => $staffId]);
         }
+        
+        if(count($values) > 0) {
+            $this->QBSchedule->insertBatch($values);
+        }
+
+        $this->db->transComplete();
     }
 
     public function getPresenceSchedule(int $staffId)
@@ -80,16 +68,12 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         }
     }
 
-    public function scheduleExists(int $staffId, int|null $day = null): bool
+    public function scheduleExists(int $staffId): bool
     {
         $params = ['staff_id' => $staffId];
-        if($day !== null) {
-            $params['schedule_day'] = $day;
-        }
+        $check = $this->QBSchedule->where($params);
 
-        $check = $this->QBSchedule->getWhere($params);
-
-        return $check->getNumRows() > 0 ? true : false;
+        return $check->countAllResults() > 0 ? true : false;
     }
 
     public function deletePermission($id)

@@ -4,9 +4,9 @@
       <q-card class="q-px-md q-pt-sm" v-for="(item, index) in data" :key="index">
         <q-input class="q-mt-md" dense outlined readonly :model-value="$trim(item.name, 30)">
           <template v-slot:after>
-            <q-btn color="accent" v-if="item.type === 'staff'" icon="edit" @click="getDetail(item.schedule, item.name)" />
+            <q-btn color="accent" v-if="item.type === 'staff'" icon="edit" @click="getDetail(item.schedule, item.name, item.id)" />
             <q-btn-group v-else>
-              <q-btn @click="getDetail(item.schedule, item.name)" color="accent" icon="edit" />
+              <q-btn @click="getDetail(item.schedule, item.name, item.id)" color="accent" icon="edit" />
               <q-btn color="accent" icon="sync" @click="sync(item.id)">
                 <btn-tooltip :label="$t('siabsen_sync_jadwal')" />
               </q-btn>
@@ -63,8 +63,8 @@ export default {
       return val !== 'null' ? true : false
     }
 
-    const getDetail = (schedule, name) => {
-      store.dispatch('siabsen/getDetailSchedule', { schedule, name })
+    const getDetail = (schedule, name, id) => {
+      store.dispatch('siabsen/getDetailSchedule', { schedule, name, id })
     }
 
     return {

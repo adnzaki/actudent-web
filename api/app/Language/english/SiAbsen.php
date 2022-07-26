@@ -90,4 +90,10 @@ return [
     'siabsen_sync_error'        => 'Unable to sync with teaching schedule',
     'siabsen_sync_confirm'      => 'Confirm',
     'siabsen_sync_confirm_msg'  => 'Sync with teaching schedule will delete schedule that previously set. Are you sure to continue?',
+    'siabsen_must_present'      => 'Must attend',
+    'siabsen_no_schedule'       => 'No schedule',
+    'siabsen_show_all'          => 'Show all schedule detail',
+    'siabsen_jadwal_progress'   => 'Updating presence schedule...',
+    'siabsen_jadwal_error'      => 'Unable to update presence schedule',
+    'siabsen_jadwal_success'    => 'Presence schedule successfully updated',
 ];

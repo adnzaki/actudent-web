@@ -33,6 +33,7 @@ export default function () {
       range: 0
     },
     configError: {}, notifCounter: 0,
-    scheduleDays: {}, staffName: '', showScheduleForm: false
+    scheduleDays: {}, staffName: '', showScheduleForm: false,
+    staffId: '',
   }
 }

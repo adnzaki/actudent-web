@@ -3,7 +3,8 @@
     <q-form class="q-gutter-xs">
       <div class="row">
         <div class="col-12 col-sm-6 q-mt-sm q-pr-sm">
-          <q-input outlined dense v-model="$store.state.siabsen.presenceConfig.intime" readonly>
+          <q-input outlined dense :label="$t('siabsen_jam_masuk')" 
+            v-model="$store.state.siabsen.presenceConfig.intime" readonly>
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
@@ -20,7 +21,8 @@
           </q-input>        
         </div>
         <div class="col-12 col-sm-6 q-my-sm q-pr-sm">
-          <q-input outlined dense v-model="$store.state.siabsen.presenceConfig.outtime" readonly>
+          <q-input outlined dense :label="$t('siabsen_jam_pulang')" 
+            v-model="$store.state.siabsen.presenceConfig.outtime" readonly>
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
                 <q-popup-proxy cover transition-show="scale" transition-hide="scale">
