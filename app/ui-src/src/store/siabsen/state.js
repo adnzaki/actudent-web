@@ -1,6 +1,6 @@
 export default function () {
   return {
-    config: {},
+    config: {}, dailySchedule: {},
     inStatus: '',
     outStatus: '',
     canInAbsent: false,

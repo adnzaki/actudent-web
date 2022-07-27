@@ -263,7 +263,7 @@ class Admin extends \Actudent
             $in = $this->model->getPresence($staffId, $key, 'masuk');
             $out = $this->model->getPresence($staffId, $key, 'pulang');
             $timein = $in !== null ? explode(' ', $in->presence_datetime)[1] : '-';
-            $late = $this->countLate($key, $timein);
+            $late = $this->countLate($staffId, $key, $timein);
             $totalLate += $late['raw'];
 
             $wrapper[] = [
@@ -393,9 +393,10 @@ class Admin extends \Actudent
         return $presenceSummary;
     }
 
-    protected function countLate($date, $time, $timeFormat = 'm')
+    protected function countLate($staffId, $date, $time, $timeFormat = 'm')
     {
-        $timein = $this->config->presence_timein;
+        $dailySchedule = $this->_getDailySchedule($staffId, $date);
+        $timein = $dailySchedule['schedule_timein'];
         $dateTimeIn = $date .' '. $time;
         $timeConfig = $date . ' ' . $timein;
         $timeinTimestamp = strtotime($dateTimeIn);
@@ -409,6 +410,13 @@ class Admin extends \Actudent
             'raw'   => $diff,
             'str'   => $this->formatTime($diff, $timeFormat)
         ];
+    }
+
+    protected function _getDailySchedule($staffId, $date)
+    {
+        $schedule = $this->model->getPresenceSchedule($staffId, $this->getDayOfWeek($date))[0];
+
+        return $schedule;
     }
 
     private function formatTime($diff, $displayFormat)
@@ -471,17 +479,10 @@ class Admin extends \Actudent
 
         $schedules = $this->model->getPresenceSchedule($staffId);
 
-        // get the day of week like 0 = sunday through 6 = saturday
-        $dayOfWeek = date('w', strtotime($date));
-
-        // match the day of week config
-        // if $dayOfWeek is 0 (sunday), then convert it to 6
-        // otherwise subtract one (eg. 1-1 = 0 for monday)
-        $dayOfWeekMatch = $dayOfWeek === 0 ? 6 : $dayOfWeek - 1;
         $status = 3;
 
         // if day of week of the searched date is in teacher schedules...
-        if(in_array($dayOfWeekMatch, $dayValues)) {
+        if(in_array($this->getDayOfWeek($date), $dayValues)) {
             // get only presence-in data
             // we do not need to check presence-out data, since teacher will only
             // be absent if they do not tap for presence-in
@@ -502,6 +503,17 @@ class Admin extends \Actudent
         return $status;
     }
 
+    protected function getDayOfWeek(string $date)
+    {
+        // get the day of week like 0 = sunday through 6 = saturday
+        $dayOfWeek = date('w', strtotime($date));
+
+        // match the day of week config
+        // if $dayOfWeek is 0 (sunday), then convert it to 6
+        // otherwise subtract one (eg. 1-1 = 0 for monday)
+        return $dayOfWeek === 0 ? 6 : $dayOfWeek - 1;
+    }
+
     public function getStaffPresence($date, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         $data = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
@@ -518,7 +530,7 @@ class Admin extends \Actudent
                 'name'      => $key->staff_name,
                 'in'        => $timein,
                 'out'       => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
-                'late'      => $timein !== '-' ? $this->countLate($date, $timein)['str'] : '-',
+                'late'      => $timein !== '-' ? $this->countLate($key->staff_id, $date, $timein)['str'] : '-',
                 'inPhoto'   => $in !== null ? $in->presence_photo : '-',
                 'outPhoto'  => $out !== null ? $out->presence_photo : '-',
             ];

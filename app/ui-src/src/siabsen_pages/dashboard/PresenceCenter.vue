@@ -11,7 +11,7 @@
                   <div class="text-subtitle2">{{ $t('siabsen_jam_masuk') }}:</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-subtitle2">{{ $store.state.siabsen.config.presence_timein }}</div>
+                  <div class="text-subtitle2">{{ $store.state.siabsen.dailySchedule.schedule_timein }}</div>
                 </div>
               </div>
               <div class="row">
@@ -49,7 +49,7 @@
                   <div class="text-subtitle2">{{ $t('siabsen_jam_pulang') }}:</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-subtitle2">{{ $store.state.siabsen.config.presence_timeout }}</div>
+                  <div class="text-subtitle2">{{ $store.state.siabsen.dailySchedule.schedule_timeout }}</div>
                 </div>
               </div>
               <div class="row">
@@ -101,7 +101,7 @@ export default {
    
     onMounted(() => {
       const prepare = async () => {
-        store.commit('siabsen/getConfig')
+        store.commit('siabsen/getDailySchedule')
         store.commit('siabsen/getTeacherStatus', 'masuk')
         store.commit('siabsen/getTeacherStatus', 'pulang')
 

@@ -40,6 +40,14 @@ export default {
         state.presenceConfig = data
       })
   },
+  getDailySchedule(state) {
+    siabsen.get('get-jadwal-harian', {
+      headers: { Authorization: bearerToken }
+    })
+      .then(({ data }) => {
+        state.dailySchedule = data
+      })
+  },
   getConfig(state) {
     siabsen.get('get-config', {
       headers: { Authorization: bearerToken }

@@ -44,6 +44,14 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function getTodaySchedule(int $staffId, int $day)
+    {
+        return $this->QBSchedule->getWhere([
+            'staff_id'      => $staffId,
+            'schedule_day'  => $day
+        ])->getResult()[0];
+    }
+
     public function updateSchedule(int $staffId, array $values): void
     {
         $this->db->transStart();
@@ -58,19 +66,27 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->db->transComplete();
     }
 
-    public function getPresenceSchedule(int $staffId)
+    public function getPresenceSchedule(int $staffId, int $day = 99)
     {
         if($this->scheduleExists($staffId)) {
-            $query = $this->QBSchedule->getWhere(['staff_id' => $staffId]);
-            return $query->getResultArray();
+            $query = $this->QBSchedule->where(['staff_id' => $staffId]);
+            if($day !== 99) {
+                $query->where(['schedule_day' => $day]);
+            }
+
+            return $query->get()->getResultArray();
         } else {
             return null;
         }
     }
 
-    public function scheduleExists(int $staffId): bool
+    public function scheduleExists(int $staffId, int|null $day = null): bool
     {
         $params = ['staff_id' => $staffId];
+        if($day !== null) {
+            $params['schedule_day'] = $day;
+        }
+
         $check = $this->QBSchedule->where($params);
 
         return $check->countAllResults() > 0 ? true : false;

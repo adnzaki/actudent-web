@@ -220,8 +220,10 @@ class Pegawai extends Admin
             $out = $this->getPresence($currentDate, 'pulang');
             $in = $this->getPresence($currentDate, 'masuk');
             $currentTime = $this->toDecimal(date('H:i:s'));
-            $timeOut = $this->toDecimal($this->config->presence_timeout);
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
+            $dayOfWeek = $this->getDayOfWeek($currentDate);
+            $todaySchedule = $this->model->getTodaySchedule($this->getStaffId(), $dayOfWeek);
+            $timeOut = $this->toDecimal($todaySchedule->schedule_timeout);
 
             if($in === null && $hasPermission) {
                 $status = get_lang('SiAbsen.siabsen_permit_prayer');
@@ -229,9 +231,6 @@ class Pegawai extends Admin
             } else {
                 if($in === null && $currentTime < $timeOut) {
                     $status = get_lang('SiAbsen.siabsen_masuk_dulu');
-                    $canAbsent = 0; // unable to absent
-                } elseif($in === null && $currentTime > $timeOut) {
-                    $status = get_lang('SiAbsen.siabsen_besok_absen');
                     $canAbsent = 0; // unable to absent
                 } else {
                     if($out === null && $currentTime > $timeOut) {
@@ -262,45 +261,62 @@ class Pegawai extends Admin
         if(valid_token()) {
             $currentDate = date('Y-m-d');
             $presence = $this->getPresence($currentDate, 'masuk');
-            $currentTime = $this->toDecimal(date('H:i:s'));
-            $timeOut = $this->toDecimal($this->config->presence_timeout);
+            $currentTime = $this->toDecimal(date('H:i:s'));            
             $todayLimit = $this->toDecimal('23:59:00');
             $isLate = 0;
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
-            
-            if($presence === null && $hasPermission) {
-                $status = get_lang('SiAbsen.siabsen_permit_approved');
+            $dayOfWeek = $this->getDayOfWeek($currentDate);
+
+            // get today schedule                       
+            $todaySchedule = $this->model->getTodaySchedule($this->getStaffId(), $dayOfWeek);
+
+            $timeOut = $this->toDecimal($todaySchedule->schedule_timeout);
+
+            $checkSchedule = $this->model->scheduleExists($this->getStaffId(), $dayOfWeek);
+            if(! $checkSchedule) {
+                $status = get_lang('SiAbsen.siabsen_no_schedule_today');
                 $canAbsent = 0; // unable to absent
             } else {
-                if($presence === null && $currentTime > $timeOut && $currentTime < $todayLimit) {
-                    $status = get_lang('SiAbsen.siabsen_tidak_masuk');
+                if($presence === null && $hasPermission) {
+                    $status = get_lang('SiAbsen.siabsen_permit_approved');
                     $canAbsent = 0; // unable to absent
                 } else {
-                    if($presence === null) {
-                        $status = get_lang('SiAbsen.siabsen_belum_masuk');
-                        $canAbsent = 1; // able to absent
-                    } else {
-                        
-                        $timeIn = $this->toDecimal($this->config->presence_timein);
-                        $timeLimit = $this->config->timelimit_allowed / 60 / 60;
-                        $datetime = explode(' ', $presence->presence_datetime);
-                        $presenceIn = $this->toDecimal($datetime[1]);
-                        $ontimeLimit = $timeIn + $timeLimit;
-            
-                        if($presenceIn > $ontimeLimit) {
-                            $late = $this->countLate($datetime[0], $datetime[1]);
-                            $status = get_lang('SiAbsen.siabsen_telat_masuk', [$late['str']]);
-                        } else {
-                            $status = get_lang('SiAbsen.siabsen_sudah_masuk');
-                        }
-        
+                    if($presence === null && $currentTime > $timeOut && $currentTime < $todayLimit) {
+                        $status = get_lang('SiAbsen.siabsen_tidak_masuk');
                         $canAbsent = 0; // unable to absent
-                        if($presenceIn > $ontimeLimit) {
-                            $isLate = 1;
+                    } else {
+                        if($presence === null) {
+                            $status = get_lang('SiAbsen.siabsen_belum_masuk');
+                            $canAbsent = 1; // able to absent
+                        } else {     
+                            // check the schedule timein
+                            $timeIn = $this->toDecimal($todaySchedule->schedule_timein);
+
+                            // get late tolerance
+                            $timeLimit = $this->config->timelimit_allowed / 60 / 60;
+
+                            // get today presence data
+                            $datetime = explode(' ', $presence->presence_datetime);
+                            $presenceIn = $this->toDecimal($datetime[1]);
+
+                            // get time limit for counting lateness
+                            $ontimeLimit = $timeIn + $timeLimit;
+                
+                            if($presenceIn > $ontimeLimit) {
+                                $late = $this->countLate($this->getStaffId(), $datetime[0], $datetime[1]);
+                                $status = get_lang('SiAbsen.siabsen_telat_masuk', [$late['str']]);
+                            } else {
+                                $status = get_lang('SiAbsen.siabsen_sudah_masuk');
+                            }
+            
+                            $canAbsent = 0; // unable to absent
+                            if($presenceIn > $ontimeLimit) {
+                                $isLate = 1;
+                            }
                         }
                     }
                 }
-            }
+            }            
 
             $response = [
                 'status'    => $status,
@@ -310,6 +326,15 @@ class Pegawai extends Admin
             ];
     
             return $this->response->setJSON($response);
+        }
+    }
+
+    public function getDailySchedule()
+    {
+        if(valid_token()) {
+            $schedule = $this->_getDailySchedule($this->getStaffId(), date('Y-m-d'));
+    
+            return $this->response->setJSON($schedule);
         }
     }
 }
