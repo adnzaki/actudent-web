@@ -98,4 +98,7 @@ return [
     'siabsen_jadwal_progress'   => 'Updating presence schedule...',
     'siabsen_jadwal_error'      => 'Unable to update presence schedule',
     'siabsen_jadwal_success'    => 'Presence schedule successfully updated',
+    'siabsen_dari'              => 'from',
+    'siabsen_worktime'          => 'Working time',
+    'siabsen_overtime'          => 'Overtime',
 ];

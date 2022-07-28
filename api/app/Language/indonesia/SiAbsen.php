@@ -98,4 +98,7 @@ return [
     'siabsen_jadwal_progress'   => 'Memperbarui jadwal kehadiran...',
     'siabsen_jadwal_error'      => 'Gagal memperbarui jadwal kehadiran',
     'siabsen_jadwal_success'    => 'Jadwal kehadiran berhasil diperbarui',
+    'siabsen_dari'              => 'dari',
+    'siabsen_worktime'          => 'Waktu kerja',
+    'siabsen_overtime'          => 'Lembur',
 ];

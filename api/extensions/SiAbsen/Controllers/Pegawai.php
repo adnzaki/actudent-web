@@ -198,7 +198,7 @@ class Pegawai extends Admin
             $path = $dirPath . $newFilename;
 
             // upload to AWS S3...
-            //$result = $this->aws->putObject($path);
+            $result = $this->aws->putObject($path);
             if(file_exists($path))
             {
                 unlink($path);
@@ -206,7 +206,7 @@ class Pegawai extends Admin
             
             $response = [
                 'msg' => 'OK',
-                'img' => null //$result // get AWS object URL
+                'img' => $result // get AWS object URL
             ];
 
             return $this->response->setJSON($response);

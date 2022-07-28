@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table bordered class="mobile-hide">
         <thead>
           <tr>
             <th class="text-center cursor-pointer">#</th>
@@ -9,6 +9,8 @@
             <th class="text-left cursor-pointer">{{ $t('staff_nama') }}</th>
             <th class="text-left cursor-pointer mobile-hide">{{ $t('siabsen_in') }}</th>
             <th class="text-left cursor-pointer mobile-hide">{{ $t('siabsen_out') }}</th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('siabsen_worktime') }}</th>
+            <th class="text-left cursor-pointer mobile-hide">{{ $t('siabsen_overtime') }}</th>
             <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
@@ -27,6 +29,8 @@
               <small class="text-negative" v-if="item.late !== '-'">(+{{ item.late }})</small>
             </td>
             <td class="text-left mobile-hide">{{ item.out }}</td>
+            <td class="text-left mobile-hide">{{ item.workTime }}</td>
+            <td class="text-left mobile-hide">{{ item.overtime }}</td>
             <td class="text-left">
               <q-btn color="accent" 
                 :disable="disableBtn(item.in, item.out)" icon="image"

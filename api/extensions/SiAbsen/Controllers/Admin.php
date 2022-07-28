@@ -419,14 +419,15 @@ class Admin extends \Actudent
         return $schedule === null ? null : $schedule[0];
     }
 
-    private function formatTime($diff, $displayFormat)
+    private function formatTime($diff, $displayFormat, $useDecimal = true)
     {
         if($diff > 0) {
+            $decimalPlaces = $useDecimal ? 2 : 0;
             $minutes = $diff / 60;
-            $minutesFormat = number_format($minutes, 2, ',', '.');
+            $minutesFormat = number_format($minutes, $decimalPlaces, ',', '.');
             $minutesStr = ' '.get_lang('SiAbsen.siabsen_menit');
             $hours = $minutes / 60;
-            $hoursFormat = number_format($hours, 2, ',', '.');
+            $hoursFormat = number_format($hours, $decimalPlaces, ',', '.');
             $hoursStr = ' '.get_lang('SiAbsen.siabsen_jam');
             $secondsStr = ' '.get_lang('SiAbsen.siabsen_detik');
             $secondsDiff = ($minutes - floor($minutes)) * 60;
@@ -525,18 +526,40 @@ class Admin extends \Actudent
             $in = $this->model->getPresence($key->staff_id, $date, 'masuk');
             $out = $this->model->getPresence($key->staff_id, $date, 'pulang');
             $timein = $in !== null ? explode(' ', $in->presence_datetime)[1] : '-';
-            $dailySchedule = $this->_getDailySchedule($key->staff_id, $date);
-            $minWorkTime = $this->getWorkTime($dailySchedule['schedule_timein'], $dailySchedule['schedule_timeout']);
+            $timeout = $out !== null ? explode(' ', $out->presence_datetime)[1] : '-';
+            $dailySchedule = $this->model->getSnapshot($key->staff_id, $date);
+            $minWorkTime = 0; // default minimum work time if there is no schedule on the selected day
+
+            if($dailySchedule !== null) {
+                $minWorkTime = $this->getWorkTime($dailySchedule->snapshot_timein, $dailySchedule->snapshot_timeout, 'raw');
+            }
+
+            $workTime = 0;
+            if($timein !== '-' && $timeout !== '-') {
+                $workTime = $this->getWorkTime($timein, $timeout, 'raw');
+            } else {
+                if($timein !== '-' && $timeout === '-') {
+                    $workTime = $this->getWorkTime($timein, $dailySchedule->snapshot_timeout, 'raw');
+                } elseif($timein === '-' && $timeout !== '-') {
+                    $workTime = $this->getWorkTime($dailySchedule->snapshot_timein, $timeout, 'raw');
+                }
+
+                $workTime -= $minWorkTime / 2;
+            }
+
+            $overtime = $workTime > $minWorkTime ? $workTime - $minWorkTime : 0;
             
             $wrapper[] = [
-                'nip'       => $key->staff_nik,
-                'name'      => $key->staff_name,
-                'in'        => $timein,
-                'out'       => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
-                'late'      => $timein !== '-' ? $this->countLate($key->staff_id, $date, $timein)['str'] : '-',
-                'inPhoto'   => $in !== null ? $in->presence_photo : '-',
-                'outPhoto'  => $out !== null ? $out->presence_photo : '-',
-                'workTime'  => $minWorkTime,
+                'nip'           => $key->staff_nik,
+                'name'          => $key->staff_name,
+                'in'            => $timein,
+                'out'           => $timeout,
+                'late'          => $timein !== '-' ? $this->countLate($key->staff_id, $date, $timein)['str'] : '-',
+                'inPhoto'       => $in !== null ? $in->presence_photo : '-',
+                'outPhoto'      => $out !== null ? $out->presence_photo : '-',
+                'minWorkTime'   => $this->formatTime($minWorkTime, 'm', false),
+                'workTime'      => $this->formatTime($workTime, 'm'),
+                'overtime'      => $this->formatTime($overtime, 'm')
             ];
         }
 
@@ -551,8 +574,9 @@ class Admin extends \Actudent
         $workStart = $this->toDecimal($workStart);
         $workEnd = $this->toDecimal($workEnd);
         $workTime = $workEnd - $workStart;
+        $result = $workTime * 60 * 60;
 
-        return $this->formatTime($workTime * 60 * 60, $format);
+        return $format === 'raw' ? $result : $this->formatTime($result, $format);
     }
 
     protected function getPresence($date, $tag)
