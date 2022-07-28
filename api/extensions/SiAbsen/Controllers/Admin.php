@@ -395,8 +395,8 @@ class Admin extends \Actudent
 
     protected function countLate($staffId, $date, $time, $timeFormat = 'm')
     {
-        $dailySchedule = $this->_getDailySchedule($staffId, $date);
-        $timein = $dailySchedule['schedule_timein'];
+        $dailySchedule = $this->model->getSnapshot($staffId, $date);
+        $timein = $dailySchedule->snapshot_timein;
         $dateTimeIn = $date .' '. $time;
         $timeConfig = $date . ' ' . $timein;
         $timeinTimestamp = strtotime($dateTimeIn);
@@ -414,9 +414,9 @@ class Admin extends \Actudent
 
     protected function _getDailySchedule($staffId, $date)
     {
-        $schedule = $this->model->getPresenceSchedule($staffId, $this->getDayOfWeek($date))[0];
+        $schedule = $this->model->getPresenceSchedule($staffId, $this->getDayOfWeek($date));
 
-        return $schedule;
+        return $schedule === null ? null : $schedule[0];
     }
 
     private function formatTime($diff, $displayFormat)
@@ -430,13 +430,14 @@ class Admin extends \Actudent
             $hoursStr = ' '.get_lang('SiAbsen.siabsen_jam');
             $secondsStr = ' '.get_lang('SiAbsen.siabsen_detik');
             $secondsDiff = ($minutes - floor($minutes)) * 60;
-            $hm = floor($hours) . $hoursStr.' '.floor($minutes).$minutesStr;
-            $ms = floor($minutes) . $minutesStr .' '. $secondsDiff . $secondsStr;
+            $modHour = ($hours - floor($hours)) * 60;
+            $hm = floor($hours) . $hoursStr.' '. round($modHour) .$minutesStr;
+            $ms = floor($minutes) . $minutesStr .' '. round($secondsDiff) . $secondsStr;
     
             $format = [
                 'h'     => $hoursFormat . $hoursStr, // 1 hour | 1,233 hour
                 'h:m'   => $hm, // 1 hour 32 minutes
-                'h:m:s' => floor($hours) . $hoursStr .' '. $ms, // 1 hour 32 minutes 24 detik
+                'h:m:s' => floor($hours) . $hoursStr .' '. floor($modHour) .$minutesStr.' '. round($secondsDiff) .$secondsStr, // 1 hour 32 minutes 24 detik
                 'm'     => $minutesFormat . $minutesStr, // 32,345 minutes
                 'm:s'   => $ms, // 32 minutes 24 seconds
                 's'     => $diff . $secondsStr // 3842 seconds
@@ -524,6 +525,8 @@ class Admin extends \Actudent
             $in = $this->model->getPresence($key->staff_id, $date, 'masuk');
             $out = $this->model->getPresence($key->staff_id, $date, 'pulang');
             $timein = $in !== null ? explode(' ', $in->presence_datetime)[1] : '-';
+            $dailySchedule = $this->_getDailySchedule($key->staff_id, $date);
+            $minWorkTime = $this->getWorkTime($dailySchedule['schedule_timein'], $dailySchedule['schedule_timeout']);
             
             $wrapper[] = [
                 'nip'       => $key->staff_nik,
@@ -533,6 +536,7 @@ class Admin extends \Actudent
                 'late'      => $timein !== '-' ? $this->countLate($key->staff_id, $date, $timein)['str'] : '-',
                 'inPhoto'   => $in !== null ? $in->presence_photo : '-',
                 'outPhoto'  => $out !== null ? $out->presence_photo : '-',
+                'workTime'  => $minWorkTime,
             ];
         }
 
@@ -540,6 +544,15 @@ class Admin extends \Actudent
             'container' => $wrapper,
             'totalRows' => $rows,
         ], 'is_admin');
+    }
+
+    protected function getWorkTime($workStart, $workEnd, $format = 'm')
+    {
+        $workStart = $this->toDecimal($workStart);
+        $workEnd = $this->toDecimal($workEnd);
+        $workTime = $workEnd - $workStart;
+
+        return $this->formatTime($workTime * 60 * 60, $format);
     }
 
     protected function getPresence($date, $tag)
@@ -553,9 +566,14 @@ class Admin extends \Actudent
     {
         $timeArr = explode(':', $time);
         $hours = intval($timeArr[0]);
-        $minutes = intval($timeArr[1]);
+        $minutes = intval($timeArr[1]) / 60;
+        $seconds = 0;
 
-        return $hours + ($minutes / 60);
+        if(count($timeArr) > 2) {
+            $seconds = intval($timeArr[2]) / 60 / 60;
+        }
+
+        return $hours + $minutes + $seconds;
     }
 
     protected function getStaffNik($token = '')

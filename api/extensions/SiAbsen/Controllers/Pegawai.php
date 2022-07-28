@@ -198,7 +198,7 @@ class Pegawai extends Admin
             $path = $dirPath . $newFilename;
 
             // upload to AWS S3...
-            $result = $this->aws->putObject($path);
+            //$result = $this->aws->putObject($path);
             if(file_exists($path))
             {
                 unlink($path);
@@ -206,7 +206,7 @@ class Pegawai extends Admin
             
             $response = [
                 'msg' => 'OK',
-                'img' => $result // get AWS object URL
+                'img' => null //$result // get AWS object URL
             ];
 
             return $this->response->setJSON($response);
@@ -222,29 +222,36 @@ class Pegawai extends Admin
             $currentTime = $this->toDecimal(date('H:i:s'));
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
             $dayOfWeek = $this->getDayOfWeek($currentDate);
-            $todaySchedule = $this->model->getTodaySchedule($this->getStaffId(), $dayOfWeek);
-            $timeOut = $this->toDecimal($todaySchedule->schedule_timeout);
-
-            if($in === null && $hasPermission) {
-                $status = get_lang('SiAbsen.siabsen_permit_prayer');
+            
+            $checkSchedule = $this->model->scheduleExists($this->getStaffId(), $dayOfWeek);
+            if(! $checkSchedule) {
+                $status = get_lang('SiAbsen.siabsen_no_schedule_today');
                 $canAbsent = 0; // unable to absent
             } else {
-                if($in === null && $currentTime < $timeOut) {
-                    $status = get_lang('SiAbsen.siabsen_masuk_dulu');
+                if($in === null && $hasPermission) {
+                    $status = get_lang('SiAbsen.siabsen_permit_prayer');
                     $canAbsent = 0; // unable to absent
                 } else {
-                    if($out === null && $currentTime > $timeOut) {
-                        $status = get_lang('SiAbsen.siabsen_belum_pulang');
-                        $canAbsent = 1; // able to absent
-                    } elseif($out === null && $currentTime < $timeOut) {
-                        $status = get_lang('SiAbsen.siabsen_belum_pulang');
+                    $todaySchedule = $this->model->getTodaySchedule($this->getStaffId(), $dayOfWeek);
+                    $timeOut = $this->toDecimal($todaySchedule->schedule_timeout);
+                    if($in === null && $currentTime < $timeOut) {
+                        $status = get_lang('SiAbsen.siabsen_masuk_dulu');
                         $canAbsent = 0; // unable to absent
                     } else {
-                        $status = get_lang('SiAbsen.siabsen_sudah_pulang');
-                        $canAbsent = 0; // unable to absent
+                        if($out === null && $currentTime > $timeOut) {
+                            $status = get_lang('SiAbsen.siabsen_belum_pulang');
+                            $canAbsent = 1; // able to absent
+                        } elseif($out === null && $currentTime < $timeOut) {
+                            $status = get_lang('SiAbsen.siabsen_belum_pulang');
+                            $canAbsent = 0; // unable to absent
+                        } else {
+                            $status = get_lang('SiAbsen.siabsen_sudah_pulang');
+                            $canAbsent = 0; // unable to absent
+                        }
                     }
                 }
             }
+
 
             $response = [
                 'status'    => $status,
@@ -267,11 +274,6 @@ class Pegawai extends Admin
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
             $dayOfWeek = $this->getDayOfWeek($currentDate);
 
-            // get today schedule                       
-            $todaySchedule = $this->model->getTodaySchedule($this->getStaffId(), $dayOfWeek);
-
-            $timeOut = $this->toDecimal($todaySchedule->schedule_timeout);
-
             $checkSchedule = $this->model->scheduleExists($this->getStaffId(), $dayOfWeek);
             if(! $checkSchedule) {
                 $status = get_lang('SiAbsen.siabsen_no_schedule_today');
@@ -281,6 +283,10 @@ class Pegawai extends Admin
                     $status = get_lang('SiAbsen.siabsen_permit_approved');
                     $canAbsent = 0; // unable to absent
                 } else {
+                    // get today schedule                       
+                    $todaySchedule = $this->model->getTodaySchedule($this->getStaffId(), $dayOfWeek);
+                    $timeOut = $this->toDecimal($todaySchedule->schedule_timeout);
+
                     if($presence === null && $currentTime > $timeOut && $currentTime < $todayLimit) {
                         $status = get_lang('SiAbsen.siabsen_tidak_masuk');
                         $canAbsent = 0; // unable to absent
@@ -289,14 +295,16 @@ class Pegawai extends Admin
                             $status = get_lang('SiAbsen.siabsen_belum_masuk');
                             $canAbsent = 1; // able to absent
                         } else {     
-                            // check the schedule timein
-                            $timeIn = $this->toDecimal($todaySchedule->schedule_timein);
+                            // get today presence data
+                            $datetime = explode(' ', $presence->presence_datetime);
+
+                            // check the schedule timein compared to snapshot
+                            $snapshot = $this->model->getSnapshot($this->getStaffId(), $datetime[0]);
+                            $timeIn = $this->toDecimal($snapshot->snapshot_timein);
 
                             // get late tolerance
                             $timeLimit = $this->config->timelimit_allowed / 60 / 60;
-
-                            // get today presence data
-                            $datetime = explode(' ', $presence->presence_datetime);
+                            
                             $presenceIn = $this->toDecimal($datetime[1]);
 
                             // get time limit for counting lateness
@@ -333,8 +341,16 @@ class Pegawai extends Admin
     {
         if(valid_token()) {
             $schedule = $this->_getDailySchedule($this->getStaffId(), date('Y-m-d'));
+            if($schedule === null) {
+                $response = [
+                    'schedule_timein' => '-',
+                    'schedule_timeout' => '-'
+                ];
+            } else {
+                $response = $schedule;
+            }
     
-            return $this->response->setJSON($schedule);
+            return $this->response->setJSON($response);
         }
     }
 }

@@ -12,6 +12,8 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     private $QBSchedule;
 
+    private $QBSnapshot;
+
     /**
      * @var string tb_staff_presence
      */
@@ -32,6 +34,11 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
      */
     private $presenceSchedule = 'tb_staff_presence_schedule';
 
+    /**
+     * @var string tb_staff_presence_snapshot
+     */
+    private $snapshot = 'tb_staff_presence_snapshot';
+
     private $shared;
 
     public function __construct()
@@ -41,15 +48,18 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->QBConfig = $this->db->table($this->presenceConfig);
         $this->QBPermit = $this->db->table($this->presencePermit);
         $this->QBSchedule = $this->db->table($this->presenceSchedule);
+        $this->QBSnapshot = $this->db->table($this->snapshot);
         $this->shared = new SharedModel;
     }
 
     public function getTodaySchedule(int $staffId, int $day)
     {
-        return $this->QBSchedule->getWhere([
+        $query = $this->QBSchedule->getWhere([
             'staff_id'      => $staffId,
             'schedule_day'  => $day
-        ])->getResult()[0];
+        ]);
+
+        return $query->getNumRows() > 0 ? $query->getResult()[0] : null;
     }
 
     public function updateSchedule(int $staffId, array $values): void
@@ -66,15 +76,35 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->db->transComplete();
     }
 
-    public function getPresenceSchedule(int $staffId, int $day = 99)
+    public function getSnapshot(int $staffId, string $date)
+    {
+        $query = $this->QBSnapshot->getWhere([
+            'staff_id' => $staffId,
+            'snapshot_date' => $date
+        ]);
+
+        if($query->getNumRows() > 0) {
+            return $query->getResult()[0];
+        } else {
+            return null;
+        }
+    }
+
+    public function getPresenceSchedule(int $staffId, int|null $day = null)
     {
         if($this->scheduleExists($staffId)) {
-            $query = $this->QBSchedule->where(['staff_id' => $staffId]);
-            if($day !== 99) {
-                $query->where(['schedule_day' => $day]);
+            $params = ['staff_id' => $staffId];
+            if($day !== null) {
+                $params = [
+                    'staff_id' => $staffId,
+                    'schedule_day' => $day
+                ];
             }
-
-            return $query->get()->getResultArray();
+            
+            $query = $this->QBSchedule->getWhere($params);
+            return $query->getNumRows() > 0 
+                    ? $query->getResultArray() 
+                    : null;
         } else {
             return null;
         }

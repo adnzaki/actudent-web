@@ -9,11 +9,11 @@ class Test extends Admin
 {
     public function testGetSchedules()
     {
-        $schedule = $this->model->getTeacherSchedules(1);
-        $exec = $this->model->getFirstAndLastSchedule(93, 'jumat', 'max');
-        $time = Time::createFromTime(10, 25, 00);
+        $data = $this->getWorkTime('07:22:13', '14:15:25', 'm');
         //print_r($filtered);
-        return $this->response->setJSON($time);
+        return $this->response->setJSON([
+            'res' => $data
+        ]);
     }
 
     public function testAws($keyname)
