@@ -90,7 +90,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         }
     }
 
-    public function getPresenceSchedule(int $staffId, int|null $day = null)
+    public function getPresenceSchedule(int $staffId, $day = null)
     {
         if($this->scheduleExists($staffId)) {
             $params = ['staff_id' => $staffId];
@@ -110,7 +110,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         }
     }
 
-    public function scheduleExists(int $staffId, int|null $day = null): bool
+    public function scheduleExists(int $staffId, $day = null): bool
     {
         $params = ['staff_id' => $staffId];
         if($day !== null) {
