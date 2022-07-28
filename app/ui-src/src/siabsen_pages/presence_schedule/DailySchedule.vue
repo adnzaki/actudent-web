@@ -2,15 +2,15 @@
   
   <q-list>
     <q-expansion-item
-        v-model="expanded"
-        class="shadow-3 overflow-hidden q-mb-md"
-        style="border-radius: 25px"
-        expand-separator
-        icon="perm_identity"
-        :label="$t(`day${parseInt(day)+1}`)"
-        :caption="caption"
-        header-class="bg-primary text-white"
-        expand-icon-class="text-white">
+      v-model="expanded"
+      class="shadow-3 overflow-hidden q-mb-md"
+      style="border-radius: 25px"
+      expand-separator
+      icon="perm_identity"
+      :label="$t(`day${parseInt(day)+1}`)"
+      :caption="caption"
+      header-class="bg-primary text-white"
+      expand-icon-class="text-white">
         <q-card>
           <q-card-section>
             <q-toggle :label="$t('siabsen_must_present')" 

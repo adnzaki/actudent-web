@@ -528,26 +528,9 @@ class Admin extends \Actudent
             $timein = $in !== null ? explode(' ', $in->presence_datetime)[1] : '-';
             $timeout = $out !== null ? explode(' ', $out->presence_datetime)[1] : '-';
             $dailySchedule = $this->model->getSnapshot($key->staff_id, $date);
-            $minWorkTime = 0; // default minimum work time if there is no schedule on the selected day
 
-            if($dailySchedule !== null) {
-                $minWorkTime = $this->getWorkTime($dailySchedule->snapshot_timein, $dailySchedule->snapshot_timeout, 'raw');
-            }
-
-            $workTime = 0;
-            if($timein !== '-' && $timeout !== '-') {
-                $workTime = $this->getWorkTime($timein, $timeout, 'raw');
-            } else {
-                if($timein !== '-' && $timeout === '-') {
-                    $workTime = $this->getWorkTime($timein, $dailySchedule->snapshot_timeout, 'raw');
-                } elseif($timein === '-' && $timeout !== '-') {
-                    $workTime = $this->getWorkTime($dailySchedule->snapshot_timein, $timeout, 'raw');
-                }
-
-                $workTime -= $minWorkTime / 2;
-            }
-
-            $overtime = $workTime > $minWorkTime ? $workTime - $minWorkTime : 0;
+            // use this magic method!
+            $worktime = $this->formatWorkTime($timein, $timeout, $dailySchedule);
             
             $wrapper[] = [
                 'nip'           => $key->staff_nik,
@@ -557,9 +540,9 @@ class Admin extends \Actudent
                 'late'          => $timein !== '-' ? $this->countLate($key->staff_id, $date, $timein)['str'] : '-',
                 'inPhoto'       => $in !== null ? $in->presence_photo : '-',
                 'outPhoto'      => $out !== null ? $out->presence_photo : '-',
-                'minWorkTime'   => $this->formatTime($minWorkTime, 'm', false),
-                'workTime'      => $this->formatTime($workTime, 'm'),
-                'overtime'      => $this->formatTime($overtime, 'm')
+                'minWorkTime'   => $this->formatTime($worktime['minWorkTime'], 'm', false),
+                'workTime'      => $this->formatTime($worktime['worktime'], 'm'),
+                'overtime'      => $this->formatTime($worktime['overtime'], 'm')
             ];
         }
 
@@ -567,6 +550,36 @@ class Admin extends \Actudent
             'container' => $wrapper,
             'totalRows' => $rows,
         ], 'is_admin');
+    }
+
+    protected function formatWorkTime($timein, $timeout, $dailySchedule)
+    {
+        $minWorkTime = 0; // default minimum work time if there is no schedule on the selected day
+
+        if($dailySchedule !== null) {
+            $minWorkTime = $this->getWorkTime($dailySchedule->snapshot_timein, $dailySchedule->snapshot_timeout, 'raw');
+        }
+
+        $workTime = 0;
+        if($timein !== '-' && $timeout !== '-') {
+            $workTime = $this->getWorkTime($timein, $timeout, 'raw');
+        } else {
+            if($timein !== '-' && $timeout === '-') {
+                $workTime = $this->getWorkTime($timein, $dailySchedule->snapshot_timeout, 'raw');
+            } elseif($timein === '-' && $timeout !== '-') {
+                $workTime = $this->getWorkTime($dailySchedule->snapshot_timein, $timeout, 'raw');
+            }
+
+            $workTime -= $minWorkTime / 2;
+        }
+
+        $overtime = $workTime > $minWorkTime ? $workTime - $minWorkTime : 0;
+
+        return [
+            'worktime'      => $workTime,
+            'overtime'      => $overtime,
+            'minWorkTime'   => $minWorkTime
+        ];
     }
 
     protected function getWorkTime($workStart, $workEnd, $format = 'm')

@@ -5,7 +5,7 @@
       <div class="text-h6 text-capitalize" v-else>{{ $t('siabsen_manage_page_title') }}</div>
       <div :class="['row', titleSpacing()]">
         <date-selector />
-        <row-dropdown vuex-module="siabsen" class="q-mt-md" root-class="col-12 col-md-3 q-pr-sm" />
+        <row-dropdown v-if="$q.screen.gt.sm" vuex-module="siabsen" class="q-mt-md" root-class="col-12 col-md-3 q-pr-sm" />
         <search-box :label="$t('siabsen_cari_guru')" vuex-module="siabsen" class="q-mt-md q-pr-sm" />
       </div>
     </q-card-section>

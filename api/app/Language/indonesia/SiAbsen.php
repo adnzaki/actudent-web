@@ -101,4 +101,6 @@ return [
     'siabsen_dari'              => 'dari',
     'siabsen_worktime'          => 'Waktu kerja',
     'siabsen_overtime'          => 'Lembur',
+    'siabsen_berlangsung'       => 'Sedang berlangsung',
+    'siabsen_belum_dihitung'    => 'Belum dihitung',
 ];
