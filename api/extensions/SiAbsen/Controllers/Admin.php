@@ -468,7 +468,7 @@ class Admin extends \Actudent
         foreach(range(1, $totalDays) as $td) {
             // set the date into YYYY-MM-DD format
             $searchDate = reverse(os_date()->shortDate($td, $month, $year), '-', '-');
-
+            
             $presenceData[$searchDate] = $this->getPresenceStatus($staffId, $staffType, $searchDate);
         }          
 
@@ -480,6 +480,9 @@ class Admin extends \Actudent
         $dayValues = [];
 
         $schedules = $this->model->getPresenceSchedule($staffId);
+        if($schedules !== null) { 
+            $dayValues = $schedules; 
+        }
 
         $status = 3;
 
@@ -488,14 +491,17 @@ class Admin extends \Actudent
             // get only presence-in data
             // we do not need to check presence-out data, since teacher will only
             // be absent if they do not tap for presence-in
-            $in = $this->model->getPresence($staffId, $date, 'masuk');
+            $presence = $this->model->getPresence($staffId, $date, 'masuk');
+            if($presence === null) {
+                $presence = $this->model->getPresence($staffId, $date, 'pulang');
+            }
 
             // if it exists, it means the teacher was present on that date
             // pass the value with 1 = present, 0 = absent, 2 = permit
             $hasPermission = $this->model->hasPermissionToday($date, $staffId);
-            if($in === null && $hasPermission) {
+            if($presence === null && $hasPermission) {
                 $status = 2;
-            } elseif($in === null && ! $hasPermission) {
+            } elseif($presence === null && ! $hasPermission) {
                 $status = 0;
             } else {
                 $status = 1;
@@ -541,8 +547,9 @@ class Admin extends \Actudent
                 'inPhoto'       => $in !== null ? $in->presence_photo : '-',
                 'outPhoto'      => $out !== null ? $out->presence_photo : '-',
                 'minWorkTime'   => $this->formatTime($worktime['minWorkTime'], 'm', false),
-                'workTime'      => $this->formatTime($worktime['worktime'], 'm'),
-                'overtime'      => $this->formatTime($worktime['overtime'], 'm')
+                'workTime'      => $this->formatTime($worktime['worktime'], 'm', false),
+                'overtime'      => $this->formatTime($worktime['overtime'], 'm', false),
+                'scheduled'     => $worktime['scheduled'],
             ];
         }
 
@@ -552,33 +559,46 @@ class Admin extends \Actudent
         ], 'is_admin');
     }
 
-    protected function formatWorkTime($timein, $timeout, $dailySchedule)
+    protected function formatWorkTime($timein, $timeout, $ds)
     {
         $minWorkTime = 0; // default minimum work time if there is no schedule on the selected day
-
-        if($dailySchedule !== null) {
-            $minWorkTime = $this->getWorkTime($dailySchedule->snapshot_timein, $dailySchedule->snapshot_timeout, 'raw');
-        }
-
         $workTime = 0;
-        if($timein !== '-' && $timeout !== '-') {
-            $workTime = $this->getWorkTime($timein, $timeout, 'raw');
-        } else {
-            if($timein !== '-' && $timeout === '-') {
-                $workTime = $this->getWorkTime($timein, $dailySchedule->snapshot_timeout, 'raw');
-            } elseif($timein === '-' && $timeout !== '-') {
-                $workTime = $this->getWorkTime($dailySchedule->snapshot_timein, $timeout, 'raw');
-            }
+        $snapshot = [
+            'timein'    => '--:--:--',
+            'timeout'   => '--:--:--',
+        ];
 
-            $workTime -= $minWorkTime / 2;
+        // $ds = daily schedule
+        if($ds !== null) {
+            $snapshot = [
+                'timein'    => $ds->snapshot_timein,
+                'timeout'   => $ds->snapshot_timeout,
+            ];
+
+            $minWorkTime = $this->getWorkTime($ds->snapshot_timein, $ds->snapshot_timeout, 'raw');
+            $workTime = $this->getWorkTime($timein, $ds->snapshot_timeout, 'raw');
+
+            // if an employee only tap for presence-out
+            // then their work time is a half of range from minimum work time
+            if($timein === '-' && $timeout !== '-') {                
+                $workTime = $minWorkTime / 2;
+            }
         }
 
-        $overtime = $workTime > $minWorkTime ? $workTime - $minWorkTime : 0;
+        $overtime = 0;
+        if($ds !== null && $timeout !== '-') {
+            $timeoutSnapshot = $this->toDecimal($ds->snapshot_timeout);
+            $presenceTimeout = $this->toDecimal($timeout);
+            if($presenceTimeout > $timeoutSnapshot) {
+                $overtime = ($presenceTimeout - $timeoutSnapshot) * 60 * 60;
+            }
+        }
 
         return [
             'worktime'      => $workTime,
             'overtime'      => $overtime,
-            'minWorkTime'   => $minWorkTime
+            'minWorkTime'   => $minWorkTime,
+            'scheduled'     => $snapshot
         ];
     }
 
@@ -601,6 +621,7 @@ class Admin extends \Actudent
 
     protected function toDecimal($time)
     {
+        // a simple way to convert clock format HH:mm:ss into decimal value
         $timeArr = explode(':', $time);
         $hours = intval($timeArr[0]);
         $minutes = intval($timeArr[1]) / 60;

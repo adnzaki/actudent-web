@@ -9,7 +9,7 @@ class Test extends Admin
 {
     public function testGetSchedules()
     {
-        $data = $this->getWorkTime('07:22:13', '14:15:25', 'm');
+        $data = $this->model->getMonthlyPresence(1, '2022-07', 'masuk');
         //print_r($filtered);
         return $this->response->setJSON([
             'res' => $data
