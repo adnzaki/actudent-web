@@ -1,8 +1,8 @@
 <template>
   <q-card class="my-card">
     <q-card-section>
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('siabsen_detail_absensi') }}</div>
-      <div class="text-h6 text-capitalize" v-else>{{ $t('siabsen_detail_absensi') }}</div>
+      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('absensi_rekap_bulanan') }}</div>
+      <div class="text-h6 text-capitalize" v-else>{{ $t('absensi_rekap_bulanan') }}</div>
       <div :class="['row q-mb-md', titleSpacing()]" style="margin-top: 0;">
         <period-selector />
       </div>
