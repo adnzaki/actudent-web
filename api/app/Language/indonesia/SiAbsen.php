@@ -103,4 +103,6 @@ return [
     'siabsen_overtime'          => 'Lembur',
     'siabsen_berlangsung'       => 'Sedang berlangsung',
     'siabsen_belum_dihitung'    => 'Belum dihitung',
+    'siabsen_rekap_waktu'       => 'Rekapitulasi Waktu',
+    'siabsen_presence_note'     => 'Catatan Kehadiran',
 ];

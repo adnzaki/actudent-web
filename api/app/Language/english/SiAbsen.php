@@ -103,4 +103,6 @@ return [
     'siabsen_overtime'          => 'Overtime',
     'siabsen_berlangsung'       => 'On going',
     'siabsen_belum_dihitung'    => 'Not calculated',
+    'siabsen_rekap_waktu'       => 'Time Summary',
+    'siabsen_presence_note'     => 'Presence Note',
 ];

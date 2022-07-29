@@ -1,6 +1,6 @@
 <template>
   <div class="mobile-only">
-    <q-scroll-area class="table-scroll-area">
+    <q-scroll-area class="no-paging-scroll-area">
       <q-card class="q-px-md q-pt-sm" v-for="(item, index) in data" :key="index">
         <q-input class="q-mt-md" dense outlined readonly :model-value="$trim(item.name, 30)">
           <template v-slot:after>

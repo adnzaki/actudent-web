@@ -52,6 +52,13 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function getMonthlyPresence(int $staffId, int $month, int $year)
+    {
+        $query = $this->db->query("CALL SP_GET_DETAIL_STAFF_PRESENCE('$staffId', '$month', '$year')");
+
+        return $query->getNumRows() > 0 ? $query->getResultArray() : null;
+    }
+
     public function getTodaySchedule(int $staffId, int $day)
     {
         $query = $this->QBSchedule->getWhere([

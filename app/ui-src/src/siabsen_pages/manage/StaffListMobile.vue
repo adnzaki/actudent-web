@@ -5,6 +5,7 @@
         class="shadow-3 overflow-hidden q-mb-md"
         style="border-radius: 15px"
         expand-separator
+        expand-icon-toggle
         icon="perm_identity"
         :label="$trim(item.name, 30)"
         :caption="item.nip"
@@ -52,7 +53,7 @@
                 @click="showImage(item.inPhoto, item.outPhoto)" color="accent" />
             </q-card-actions>
           </q-card>
-        </q-expansion-item>
+      </q-expansion-item>
     </q-list>
     <!-- <q-scroll-area class="no-paging-scroll-area">
     </q-scroll-area> -->

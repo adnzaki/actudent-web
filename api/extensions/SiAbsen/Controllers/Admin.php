@@ -212,15 +212,21 @@ class Admin extends \Actudent
             $lastDate = os_date()->daysInMonth($month, $year);
             $result = $this->_getDetailPresence($staffId, $userId, $period);
             
-            $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
+            $title          = 'Rekap Absensi ' .$result['name'].' - '. os_date()->getMonthName($month);
             $data['title']  = $title;
             $data['year']   = 'Tahun ' . $year;
             $data['data']   = $result['data'];
             $data['nip']    = $result['nip'];
             $data['name']   = $result['name'];
             $data['late']   = $result['late'];
+            $data['work']   = $result['work'];
+            $data['over']   = $result['over'];
+            $data['alfa']   = $result['absent'];
+            $data['hadir']  = $result['present'];
+            $data['izin']   = $result['permit'];
+            $data['bulan']  = os_date()->getMonthName($month);
             $data['date']   = 'Bekasi, ' . os_date()->fullDate($lastDate, $month, $year, false);
-            $filename       = $title . '_' . $year . '_'. time();
+            $filename       = $title . ' ' . $year;
     
             $html = view('SiAbsen\Views\ekspor-rekap-individu', $data);
             // return $html;
@@ -248,40 +254,63 @@ class Admin extends \Actudent
     {
         $staffDetail = $this->model->getStaffDetail($userId)[0];
         $period = explode('-', $period);
-        $summary = $this->countMonthlySummary($staffId, $staffDetail->staff_type, (int)$period[0], $period[1]);
+        $summary = $this->getMonthlyPresence($staffId, (int)$period[0], $period[1]);
         $wrapper = [];
         $presenceCategory = [
-            get_lang('AdminAbsensi.absensi_alfa'),
-            get_lang('AdminAbsensi.absensi_hadir'),
-            get_lang('AdminAbsensi.absensi_izin'),
-            '-'
+            'alfa'  => get_lang('AdminAbsensi.absensi_alfa'),
+            'hadir' => get_lang('AdminAbsensi.absensi_hadir'),
+            'izin'  => get_lang('AdminAbsensi.absensi_izin'),
+            '0'     => '-'
         ];
 
-        $totalLate = 0;
+        $totalLate = array_sum(array_column($summary, 'late_in_minute'));
+        $totalWork = array_sum(array_column($summary, 'work_in_minute'));
+        $totalOvertime = array_sum(array_column($summary, 'overtime_in_minute'));
 
-        foreach($summary as $key => $val) {
-            $in = $this->model->getPresence($staffId, $key, 'masuk');
-            $out = $this->model->getPresence($staffId, $key, 'pulang');
-            $timein = $in !== null ? explode(' ', $in->presence_datetime)[1] : '-';
-            $late = $this->countLate($staffId, $key, $timein);
-            $totalLate += $late['raw'];
+        foreach($summary as $key) {
+            $late = $key['late_in_minute'] !== '0' 
+                    ? $key['late_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
+                    : '-';
+
+            $work = $key['work_in_minute'] !== '0' 
+                    ? $key['work_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
+                    : '-';
+                    
+            $over = $key['overtime_in_minute'] !== '0' 
+                    ? $key['overtime_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
+                    : '-';
 
             $wrapper[] = [
-                'date'      => $key,
-                'label'     => $presenceCategory[$val],
-                'in'        => $timein,
-                'out'       => $out !== null ? explode(' ', $out->presence_datetime)[1] : '-',
-                'late'      => $timein !== '-' ? $late['str'] : '',
-                'status'    => $val,
-                'dateStr'   => os_date()->format('DD-MM-y', reverse($key, '-', '-'))
+                'date'      => $key['date'],
+                'label'     => $presenceCategory[$key['status_day']],
+                'in'        => empty($key['timein']) ? '-' : $key['timein'],
+                'out'       => empty($key['timeout']) ? '-' : $key['timeout'],
+                'late'      => $late,
+                'work'      => $work,
+                'over'      => $over,
+                'required'  => $key['required_day'],
+                'status'    => $key['status_day'],
+                'dateStr'   => os_date()->format('DD-MM-y', reverse($key['date'], '-', '-'))
             ];
         }
 
+        $monthlyStatus = array_column($summary, 'status_day');      
+        $totalTime = function($time) {
+            return $time > 0 
+                    ? number_format($time, 0, ',', '.') .' '. get_lang('SiAbsen.siabsen_menit') 
+                    : '-';
+        };
+
         $response = [
-            'nip'   => $staffDetail->staff_nik,
-            'name'  => $staffDetail->staff_name,
-            'data'  => $wrapper,
-            'late'  => $this->formatTime($totalLate, 'm')
+            'nip'       => $staffDetail->staff_nik,
+            'name'      => $staffDetail->staff_name,
+            'data'      => $wrapper,
+            'late'      => $totalTime($totalLate),
+            'work'      => $totalTime($totalWork),
+            'over'      => $totalTime($totalOvertime),
+            'absent'    => $this->filterPresence($monthlyStatus, 'alfa'),
+            'present'   => $this->filterPresence($monthlyStatus, 'hadir'),
+            'permit'    => $this->filterPresence($monthlyStatus, 'izin'),
         ];
 
         return $response;
@@ -341,22 +370,21 @@ class Admin extends \Actudent
         }        
     }
 
-    public function getIndividualSummary($period, $staffType, $staffId = '')
+    public function getIndividualSummary($period, $staffId = '')
     {
         if(valid_token()) {
-            return $this->response->setJSON($this->_getIndividualSummary($period, $staffType, $staffId));
+            return $this->response->setJSON($this->_getIndividualSummary($period, $staffId));
         }
     }
 
-    private function _getIndividualSummary($period, $staffType, $staffId)
+    private function _getIndividualSummary($period, $staffId)
     {
         if(empty($staffId)) {
             $staffId = $this->getStaffId();
         }
 
-        return $this->countMonthlySummary(
+        return $this->getMonthlyPresence(
             $staffId, 
-            $staffType, 
             (int)substr($period, 0, 2), 
             (int)substr($period, 3, 4)
         );
@@ -378,15 +406,16 @@ class Admin extends \Actudent
         $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
         $presenceSummary = [];
         foreach($employees as $e) {
-            $data = $this->countMonthlySummary($e->staff_id, $e->staff_type, (int)substr($period, 0, 2), (int)substr($period, 3, 4));
+            $data = $this->getMonthlyPresence($e->staff_id, (int)substr($period, 0, 2), (int)substr($period, 3, 4));
+            $monthlyStatus = array_column($data, 'status_day');
             $presenceSummary[] = [
                 'name'      => $e->staff_name,
                 'nip'       => $e->staff_nik,
                 'id'        => $e->staff_id,
                 'user'      => $e->user_id,
-                'absent'    => $this->filterPresence($data, 0),
-                'present'   => $this->filterPresence($data, 1),
-                'permit'    => $this->filterPresence($data, 2),
+                'absent'    => $this->filterPresence($monthlyStatus, 'alfa'),
+                'present'   => $this->filterPresence($monthlyStatus, 'hadir'),
+                'permit'    => $this->filterPresence($monthlyStatus, 'izin'),
             ];
         }
 
@@ -457,22 +486,11 @@ class Admin extends \Actudent
         return $result > 0 ? $result : '-';
     }
 
-    protected function countMonthlySummary($staffId, $staffType, $month, $year)
+    protected function getMonthlyPresence($staffId, $month, $year)
     {
-        $presenceData = [];
+        $presenceData = $this->model->getMonthlyPresence($staffId, $month, $year);
 
-        // get total days of the selected month
-        $totalDays = os_date()->daysInMonth($month, $year);
-
-        // walk through the days of month and look for absence data
-        foreach(range(1, $totalDays) as $td) {
-            // set the date into YYYY-MM-DD format
-            $searchDate = reverse(os_date()->shortDate($td, $month, $year), '-', '-');
-            
-            $presenceData[$searchDate] = $this->getPresenceStatus($staffId, $staffType, $searchDate);
-        }          
-
-        return $presenceData;
+        return $presenceData !== null ? $presenceData : [];
     }
 
     protected function getPresenceStatus($staffId, $staffType, $date)

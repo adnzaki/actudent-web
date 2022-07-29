@@ -9,10 +9,11 @@ class Test extends Admin
 {
     public function testGetSchedules()
     {
-        $data = $this->model->getMonthlyPresence(1, '2022-07', 'masuk');
+        $data = $this->model->getMonthlyPresence(1, 7, 2022);
         //print_r($filtered);
         return $this->response->setJSON([
-            'res' => $data
+            'res'   => $data,
+            //'col'   => array_sum(array_column($data, 'late_in_minute'))
         ]);
     }
 

@@ -17,18 +17,28 @@
         <q-tree :nodes="treeData" node-key="label" />
       </div>
     </q-card-section>
-    <presence-detail-table class="q-mt-md" />
-    <q-page-sticky position="bottom-right" 
+    <div class="row mobile-hide">
+      <div class="col-6">
+        <presence-note-mobile bg-color="bg-blue" />
+      </div>
+      <div class="col-6">
+        <time-recap-mobile bg-color="bg-deep-orange" />
+      </div>
+    </div>
+    <presence-detail-table class="q-mt-md q-mb-xl" />
+    <presence-detail-mobile class="q-mt-md" />
+    <q-page-sticky position="bottom-right mobile-only" 
       :offset="fabPos" 
       class="force-elevated">
       <q-btn fab icon="print" color="secondary" 
         :href="exportPdf()" target="_blank" />    
     </q-page-sticky>
+    <print-btn />
   </q-card>
 </template>
 
 <script>
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, watch, computed, provide } from 'vue'
 import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import { titleSpacing } from 'src/composables/screen'
@@ -36,11 +46,19 @@ import PresenceDetailTable from './PresenceDetailTable.vue'
 import { formatDate, conf } from 'src/composables/common'
 import { fabPos } from 'src/composables/fab'
 import { useQuasar } from 'quasar'
+import PresenceDetailMobile from './PresenceDetailMobile.vue'
+import PrintBtn from './PrintBtn.vue'
+import PresenceNoteMobile from './PresenceNoteMobile.vue'
+import TimeRecapMobile from './TimeRecapMobile.vue'
 
 export default {
   components: {
-    PresenceDetailTable
-  },
+    PresenceDetailTable,
+    PresenceDetailMobile,
+    PrintBtn,
+    PresenceNoteMobile,
+    TimeRecapMobile
+},
   setup() {
     const store = useStore()
     const route = useRoute()
@@ -61,6 +79,13 @@ export default {
              `${route.params.userId}/` + 
              `${route.params.period}/${$q.cookies.get(conf.cookieName)}`
     }
+
+    provide('print', {
+      conf, route, $q
+    })
+
+    const presenceDetail = computed(() => store.state.siabsen.presenceDetail)
+    provide('presenceDetail', presenceDetail)
 
     const treeData = ref([{ label: 'Loading...' }])
     onMounted(() => {
