@@ -7,10 +7,10 @@
           icon="arrow_back" 
           @click="$router.push('/teacher-presence/monthly-summary')" />
         <div class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5" v-if="$q.screen.lt.sm">
-          {{ $t('siabsen_detail_absensi') }}
+          {{ $t('absensi_rekap_bulanan') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
-          {{ $t('siabsen_detail_absensi') }}
+          {{ $t('absensi_rekap_bulanan') }}
         </div>
       </div>
       <div :class="['row', titleSpacing()]">
