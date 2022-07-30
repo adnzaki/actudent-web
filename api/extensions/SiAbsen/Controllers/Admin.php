@@ -24,7 +24,6 @@ class Admin extends \Actudent
         $this->model = new \SiAbsen\Models\CoreModel;
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;
-        $this->timer = \Config\Services::timer();
     }
 
     public function updateSchedule()
@@ -594,7 +593,14 @@ class Admin extends \Actudent
             ];
 
             $minWorkTime = $this->getWorkTime($ds->snapshot_timein, $ds->snapshot_timeout, 'raw');
-            $workTime = $this->getWorkTime($timein, $ds->snapshot_timeout, 'raw');
+            $workTime = $this->getWorkTime($ds->snapshot_timein, $ds->snapshot_timeout, 'raw');
+            $timeinDecimal = $this->toDecimal($timein);
+            $snapshotTimeinDecimal = $this->toDecimal($ds->snapshot_timein);
+
+            // if an employee come late, then their working time is counted from presence-in to snapshot_timeout
+            if($timeinDecimal > $snapshotTimeinDecimal) {
+                $workTime = $this->getWorkTime($timein, $ds->snapshot_timeout, 'raw');
+            }
 
             // if an employee only tap for presence-out
             // then their work time is a half of range from minimum work time

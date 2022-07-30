@@ -9,10 +9,17 @@ class Test extends Admin
 {
     public function testGetSchedules()
     {
+        timer('monthly-recap');
         $data = $this->model->getMonthlyPresence(1, 7, 2022);
-        //print_r($filtered);
+        timer('monthly-recap');
+        // $path = SIABSEN_PATH . 'Models/IndividualMonthlyRecap.sql';
+        // $query = file_get_contents($path);
+        // print_r($query);
+        $elapsed = timer()->getElapsedTime('monthly-recap');
+
         return $this->response->setJSON([
-            'res'   => $data,
+            'elapsed'   => number_format($elapsed, 5),
+            'res'       => $data,
             //'col'   => array_sum(array_column($data, 'late_in_minute'))
         ]);
     }

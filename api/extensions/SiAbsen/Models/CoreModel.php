@@ -54,7 +54,11 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     public function getMonthlyPresence(int $staffId, int $month, int $year)
     {
-        $query = $this->db->query("CALL SP_GET_DETAIL_STAFF_PRESENCE('$staffId', '$month', '$year')");
+        $query = $this->db->query("CALL SP_GET_DETAIL_STAFF_PRESENCE(:staffId:, :month:, :year:)", [
+            'staffId'   => $staffId,
+            'month'     => $month,
+            'year'      => $year
+        ]);
 
         return $query->getNumRows() > 0 ? $query->getResultArray() : null;
     }
