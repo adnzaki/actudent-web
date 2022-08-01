@@ -70,21 +70,21 @@ class Pegawai extends Admin
 
         $messages = [
             'permit_date' => [
-                'required'      => get_lang('SiAbsen.siabsen_permit_error.date_required'),
-                'valid_date'    => get_lang('SiAbsen.siabsen_permit_error.date_invalid'),
+                'required'      => get_lang('SiAbsen.permit_date_required'),
+                'valid_date'    => get_lang('SiAbsen.permit_date_invalid'),
             ],
             'permit_starttime' => [
-                'required'      => get_lang('SiAbsen.siabsen_permit_error.starttime_required'),
-                'valid_date'    => get_lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                'required'      => get_lang('SiAbsen.permit_starttime_required'),
+                'valid_date'    => get_lang('SiAbsen.permit_time_invalid'),
             ],
             'permit_endtime' => [
-                'required'      => get_lang('SiAbsen.siabsen_permit_error.endtime_required'),
-                'valid_date'    => get_lang('SiAbsen.siabsen_permit_error.time_invalid'),
+                'required'      => get_lang('SiAbsen.permit_endtime_required'),
+                'valid_date'    => get_lang('SiAbsen.permit_time_invalid'),
             ],
             'permit_reason' => [
-                'required'      => get_lang('SiAbsen.siabsen_permit_error.reason_required'),
+                'required'      => get_lang('SiAbsen.permit_reason_required'),
             ],'permit_photo' => [
-                'required'      => get_lang('SiAbsen.siabsen_permit_error.photo_required'),
+                'required'      => get_lang('SiAbsen.permit_photo_required'),
             ]
         ];
         
