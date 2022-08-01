@@ -10,6 +10,7 @@ const userLang = localStorage.getItem('ac_userlang')
 const selectedLang = userLang !== null ? userLang : 'indonesia'
 
 const i18n = createI18n({
+  legacy: false,
   locale: langOptions[selectedLang],
   messages
 })
