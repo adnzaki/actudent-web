@@ -259,7 +259,8 @@ class Admin extends \Actudent
             'alfa'  => get_lang('AdminAbsensi.absensi_alfa'),
             'hadir' => get_lang('AdminAbsensi.absensi_hadir'),
             'izin'  => get_lang('AdminAbsensi.absensi_izin'),
-            '0'     => '-'
+            '0'     => '-',
+            'wajib' => '-',
         ];
 
         $totalLate = array_sum(array_column($summary, 'late_in_minute'));
@@ -271,7 +272,14 @@ class Admin extends \Actudent
                     ? $key['late_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
                     : '-';
 
-            $work = $key['work_in_minute'] !== '0' 
+            $currentTime = strtotime(date('Y-m-d H:i:s'));
+            $ds = $this->model->getSnapshot($staffId, $key['date']);
+            $snapshotTimeoutDecimal = 0;
+            if($ds !== null) {
+                $snapshotTimeoutDecimal = strtotime($ds->snapshot_date .' '. $ds->snapshot_timeout);
+            }
+
+            $work = $key['work_in_minute'] !== '0' && $currentTime > $snapshotTimeoutDecimal
                     ? $key['work_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
                     : '-';
                     
@@ -597,17 +605,24 @@ class Admin extends \Actudent
             $workTime = $this->getWorkTime($ds->snapshot_timein, $ds->snapshot_timeout, 'raw');
             $timeinDecimal = $this->toDecimal($timein);
             $snapshotTimeinDecimal = $this->toDecimal($ds->snapshot_timein);
+            $timeoutTimestamp = strtotime($ds->snapshot_date .' '. $ds->snapshot_timeout);
 
-            // if an employee come late, then their working time is counted from presence-in to snapshot_timeout
-            if($timeinDecimal > $snapshotTimeinDecimal) {
-                $workTime = $this->getWorkTime($timein, $ds->snapshot_timeout, 'raw');
+            $currentTime = strtotime(date('Y-m-d H:i:s'));
+            if($currentTime < $timeoutTimestamp) {
+                $workTime = 0;
+            } else {
+                // if an employee come late, then their working time is counted from presence-in to snapshot_timeout
+                if($timeinDecimal > $snapshotTimeinDecimal) {
+                    $workTime = $this->getWorkTime($timein, $ds->snapshot_timeout, 'raw');
+                }
+    
+                // if an employee tap for presence-in or out only,
+                // then their work time is a half of range from minimum work time
+                if($timein === '-' && $timeout !== '-' || $timein !== '-' && $timeout === '-') {                
+                    $workTime = $minWorkTime / 2;
+                }
             }
 
-            // if an employee only tap for presence-out
-            // then their work time is a half of range from minimum work time
-            if($timein === '-' && $timeout !== '-') {                
-                $workTime = $minWorkTime / 2;
-            }
         }
 
         $overtime = 0;

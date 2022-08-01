@@ -10,13 +10,15 @@ class Test extends Admin
     public function testGetSchedules()
     {
         timer('monthly-recap');
-        $data = $this->model->baseStaffScheduleQuery(null, 'staff_name');
+        $t1 = strtotime('2022-07-28 07:14:25');
+        $t2 = strtotime('2022-07-29 07:14:25');
+        $data = $t1 > $t2;
         timer('monthly-recap');
         $elapsed = timer()->getElapsedTime('monthly-recap');
 
         return $this->response->setJSON([
             'elapsed'   => number_format($elapsed, 5),
-            'rows'      => $this->model->baseStaffScheduleRows(null, 'staff_name'),
+            // 'rows'      => $this->model->baseStaffScheduleRows(null, 'staff_name'),
             'res'       => $data,
         ]);
     }
