@@ -16,24 +16,24 @@
           <q-markup-table bordered class="q-my-md">
             <tr>
               <td class="text-left">
-                <q-checkbox disable :model-value="scheduleStatus(item.schedule.day0.value)" :label="$t('day1')" />
+                <q-checkbox disable :model-value="scheduleStatus(item.schedule, 0)" :label="$t('day1')" />
               </td>
               <td class="text-left">
-                <q-checkbox disable :model-value="scheduleStatus(item.schedule.day1.value)" :label="$t('day2')" />
+                <q-checkbox disable :model-value="scheduleStatus(item.schedule, 1)" :label="$t('day2')" />
               </td>
               <td class="text-left">
-                <q-checkbox disable :model-value="scheduleStatus(item.schedule.day2.value)" :label="$t('day3')" />
+                <q-checkbox disable :model-value="scheduleStatus(item.schedule, 2)" :label="$t('day3')" />
               </td>
             </tr>
             <tr>
               <td class="text-left">
-                <q-checkbox disable :model-value="scheduleStatus(item.schedule.day3.value)" :label="$t('day4')" />
+                <q-checkbox disable :model-value="scheduleStatus(item.schedule, 3)" :label="$t('day4')" />
               </td>
               <td class="text-left">
-                <q-checkbox disable :model-value="scheduleStatus(item.schedule.day4.value)" :label="$t('day5')" />
+                <q-checkbox disable :model-value="scheduleStatus(item.schedule, 4)" :label="$t('day5')" />
               </td>
               <td class="text-left">
-                <q-checkbox disable :model-value="scheduleStatus(item.schedule.day5.value)" :label="$t('day6')" />
+                <q-checkbox disable :model-value="scheduleStatus(item.schedule, 5)" :label="$t('day6')" />
               </td>
             </tr>
           </q-markup-table>
@@ -59,10 +59,6 @@ export default {
 
     store.dispatch('siabsen/getStaffScheduleList')
 
-    const scheduleStatus = val => {
-      return val !== 'null' ? true : false
-    }
-
     const getDetail = (schedule, name, id) => {
       store.dispatch('siabsen/getDetailSchedule', { schedule, name, id })
     }
@@ -70,7 +66,13 @@ export default {
     return {
       sync: id => store.dispatch('siabsen/promptSync', id),
       getDetail,
-      scheduleStatus,
+      scheduleStatus(src, val) {
+        if(src !== undefined) {
+          return src[ 'day'+val ]['value'] !== 'null' ? true : false
+        } else {
+          return false
+        }
+      },
       data: computed(() => store.state.siabsen.paging.data),
       checkColWidth,
     }

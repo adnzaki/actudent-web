@@ -15,12 +15,12 @@
             <td class="text-center mobile-hide">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
             <td class="text-left mobile-hide">{{ item.name }}</td>
             <td class="text-left q-gutter-xs mobile-hide">
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day0.value)" :label="$t('day1')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day1.value)" :label="$t('day2')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day2.value)" :label="$t('day3')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day3.value)" :label="$t('day4')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day4.value)" :label="$t('day5')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule.day5.value)" :label="$t('day6')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 0)" :label="$t('day1')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 1)" :label="$t('day2')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 2)" :label="$t('day3')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 3)" :label="$t('day4')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 4)" :label="$t('day5')" />
+              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 5)" :label="$t('day6')" />
             </td>
             <td class="text-left" v-if="item.type === 'staff'">
               <q-btn @click="getDetail(item.schedule, item.name, item.id)" color="accent" icon="edit" />
@@ -57,19 +57,21 @@ export default {
 
     store.dispatch('siabsen/getStaffScheduleList')
 
-    const scheduleStatus = val => {
-      return val !== 'null' ? true : false
-    }
-
     const getDetail = (schedule, name, id) => {
       store.dispatch('siabsen/getDetailSchedule', { schedule, name, id })
     }
 
     return {
+      scheduleStatus(src, val) {
+        if(src !== undefined) {
+          return src[ 'day'+val ]['value'] !== 'null' ? true : false
+        } else {
+          return false
+        }
+      },
       sync: id => store.dispatch('siabsen/promptSync', id),
       dayMarginLeft: computed(() => $q.screen.lt.sm ? { marginLeft: '-10px' } : {}),
       getDetail,
-      scheduleStatus,
       data: computed(() => store.state.siabsen.paging.data),
       checkColWidth,
     }
