@@ -103,4 +103,5 @@ return [
     'siabsen_belum_dihitung'    => 'Not calculated',
     'siabsen_rekap_waktu'       => 'Time Summary',
     'siabsen_presence_note'     => 'Presence Note',
+    'siabsen_presence_monitor'  => 'Presence Monitoring',
 ];

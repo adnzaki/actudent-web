@@ -34,6 +34,6 @@ export default function () {
     },
     configError: {}, notifCounter: 0,
     scheduleDays: {}, staffName: '', showScheduleForm: false,
-    staffId: '',
+    staffId: '', requiredPresent: 'wajib'
   }
 }

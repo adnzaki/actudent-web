@@ -13,6 +13,10 @@ import { date } from 'quasar'
 import { Notify, Dialog } from 'quasar'
 
 export default {
+  getRequiredPresent({ state, dispatch }, val) {
+    state.requiredPresent = val
+    dispatch('getStaffPresence')
+  },
   updatePresenceSchedule({ state, dispatch }) {
     const notifyProgress = Notify.create({
       group: false,
@@ -361,7 +365,7 @@ export default {
       searchBy: 'staff_name',
       sort: 'ASC',
       search: '',
-      url: `${conf.siabsenAPI}get-absensi-pegawai/${state.activeDate}/`,
+      url: `${conf.siabsenAPI}get-absensi-pegawai/${state.requiredPresent}/${state.activeDate}/`,
     })
   },
   pushPresence({ state, commit }, { lat, long }) {

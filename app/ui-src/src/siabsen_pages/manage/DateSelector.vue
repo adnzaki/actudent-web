@@ -1,5 +1,5 @@
 <template>
-  <div :class="['col-12 col-md-5 q-mt-md', pr()]">
+  <div :class="['col-12 col-md-4 q-mt-md', pr()]">
     <q-input v-model="selectedDate" outlined dense readonly>
       <template v-slot:append>
         <q-icon name="event" class="cursor-pointer">
@@ -29,7 +29,8 @@ export default {
     const $q = useQuasar()
     const today = new Date()
     const dateValue = ref(today)
-    const selectedDate = ref(date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang))
+    const dateFormat = 'dddd, DD MMMM YYYY'
+    const selectedDate = ref(date.formatDate(dateValue.value, dateFormat, selectedLang))
     const activeDate = val => date.formatDate(val, 'YYYY-MM-DD')
 
     store.state.siabsen.activeDate = activeDate(today)
@@ -37,7 +38,7 @@ export default {
 
     const dateChanged = (val, reason, details) => {
       const getDate = new Date(details.year, details.month - 1, details.day)
-      selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
+      selectedDate.value = date.formatDate(getDate, dateFormat, selectedLang)
       store.state.siabsen.activeDate = activeDate(getDate)
 
       store.dispatch('siabsen/getStaffPresence')

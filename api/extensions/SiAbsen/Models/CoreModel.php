@@ -30,7 +30,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
     private $presencePermit = 'tb_staff_presence_permit';
 
     /**
-     * @var string tb_staff_presence_permit
+     * @var string tb_staff_presence_schedule
      */
     private $presenceSchedule = 'tb_staff_presence_schedule';
 
@@ -50,6 +50,35 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->QBSchedule = $this->db->table($this->presenceSchedule);
         $this->QBSnapshot = $this->db->table($this->snapshot);
         $this->shared = new SharedModel;
+    }
+
+    public function getTodayStaffPresence($day, $limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $search = '')
+    {
+        return $this->baseStaffScheduleQuery($day, $searchBy, $search)
+                    ->orderBy($orderBy, $sort)->limit($limit, $offset)
+                    ->get()->getResult();
+    }
+
+    public function baseStaffScheduleRows($day, string $searchBy, string $search = '')
+    {
+        return $this->baseStaffScheduleQuery($day, $searchBy, $search)->get()->getNumRows();
+    }
+
+    public function baseStaffScheduleQuery($day, string $searchBy, string $search = '')
+    {
+        $field = "{$this->staff}.staff_id, staff_nik, staff_name";
+        $select = $this->QBStaff->select($field);
+        
+        if($day !== null) {
+            $this->QBStaff->join($this->presenceSchedule, "{$this->staff}.staff_id={$this->presenceSchedule}.staff_id");
+            $select->where(['schedule_day' => $day]);
+        }
+
+        if(! empty($search)) {
+            $select->like($searchBy, $search);
+        }
+
+        return $select;
     }
 
     public function getMonthlyPresence(int $staffId, int $month, int $year)
