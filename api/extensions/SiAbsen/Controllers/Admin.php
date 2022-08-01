@@ -661,17 +661,21 @@ class Admin extends \Actudent
 
     protected function toDecimal($time)
     {
-        // a simple way to convert clock format HH:mm:ss into decimal value
-        $timeArr = explode(':', $time);
-        $hours = intval($timeArr[0]);
-        $minutes = intval($timeArr[1]) / 60;
-        $seconds = 0;
-
-        if(count($timeArr) > 2) {
-            $seconds = intval($timeArr[2]) / 60 / 60;
+        // ensure that $time has the correct time format
+        if(strpos($time, ':') !== false) {
+            $timeArr = explode(':', $time);
+            $hours = intval($timeArr[0]);
+            $minutes = intval($timeArr[1]) / 60;
+            $seconds = 0;
+    
+            if(count($timeArr) > 2) {
+                $seconds = intval($timeArr[2]) / 60 / 60;
+            }
+    
+            return $hours + $minutes + $seconds;
+        } else {
+            return 0;
         }
-
-        return $hours + $minutes + $seconds;
     }
 
     protected function getStaffNik($token = '')
