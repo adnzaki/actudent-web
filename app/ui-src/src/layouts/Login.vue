@@ -201,7 +201,20 @@ export default {
         fontSize: '18px',
         width: 'calc(100% - 5px)',
         borderRadius: $q.screen.lt.sm ? '28px' : '5px'
-      })      
+      }),
+      cardTopSpacing: $q.screen.gt.md ? 'q-mt-lg' : 'q-mt-xs',
+      usernameSpacing: $q.screen.lt.sm ? 'q-mb-lg' : 'q-mb-md',
+      pleaseLoginText: $q.screen.lt.sm ? 'q-pb-sm' : '',
+      brandLogo: computed(() => {
+        let logo
+        if($q.cookies.get('theme') === 'dark') {
+          logo = 'siabsen-logo-white'
+        } else {
+          logo = 'siabsen-logo'
+        }
+
+        return require(`../../public/${logo}.png`)
+      }),      
     }
   }
 }
