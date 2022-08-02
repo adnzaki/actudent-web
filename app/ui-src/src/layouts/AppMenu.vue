@@ -25,19 +25,26 @@
         :label="$t('menu_siabsen')"
         v-if="$q.cookies.get(conf.userType) === '1'"
       >
+        <submenu-item :label="$t('menu_manage_siabsen')" link="/teacher-presence/manage" />
+
+        <!-- Permission menu only -->
         <q-item 
           :active-class="activeClass"
-          v-for="(item, index) in adminSiAbsen" :key="index"
           clickable v-ripple 
           :inset-level="1" 
-          :to="item.link">
+          to="/teacher-presence/permit">
           <q-item-section>
-            {{ item.label }}
+            {{ $t('absensi_izin') }}
           </q-item-section>
-          <q-item-section side v-if="index === 1 && $store.state.siabsen.notifCounter > 0">
+          <q-item-section side v-if="$store.state.siabsen.notifCounter > 0">
             <q-badge :label="$store.state.siabsen.notifCounter" color="red" rounded />
           </q-item-section>
         </q-item>
+        <!-- End permission menu -->
+
+        <submenu-item :label="$t('absensi_rekap_bulanan')" link="/teacher-presence/monthly-summary" />
+        <submenu-item :label="$t('siabsen_jadwal')" link="/teacher-presence/schedule" />
+        <submenu-item :label="$t('menu_pengaturan')" link="/teacher-presence/config" />
       </q-expansion-item>
 
       <!-- SiAbsen Menu for teacher and staff-->
@@ -47,16 +54,8 @@
         :label="$t('menu_siabsen_guru')"
         v-if="$q.cookies.get(conf.userType) === '2' || $q.cookies.get(conf.userType) === '0'"
       >
-        <q-item 
-          :active-class="activeClass"
-          v-for="(item, index) in guruSiAbsen" :key="index"
-          clickable v-ripple 
-          :inset-level="1" 
-          :to="item.link">
-          <q-item-section>
-            {{ item.label }}
-          </q-item-section>
-        </q-item>
+        <submenu-item :label="$t('absensi_izin')" link="/absence/permit" />
+        <submenu-item :label="$t('absensi_rekap_bulanan')" link="/absence/monthly-summary" />
       </q-expansion-item>
 
       <!-- Main App Menu -->
@@ -102,7 +101,7 @@
 <script>
 import { onMounted, ref, watch, computed, provide } from 'vue'
 import { useStore } from 'vuex'
-import { conf, siabsen, bearerToken } from 'src/composables/common'
+import { conf } from 'src/composables/common'
 import { useQuasar } from 'quasar'
 import { headerColor } from '../composables/mode'
 import MenuItem from './MenuItem.vue'
