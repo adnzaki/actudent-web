@@ -8,6 +8,9 @@ import { runLoadingBar } from './loading-bar'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { pengguna, getPengguna } from './get-pengguna'
 
+const isAuthenticated = Cookies.get(conf.cookieName) !== null
+const userType = Cookies.get(conf.userType)
+
 const trim = (text, length = 25) => {
   const returnedText = text.length <= length 
                      ? text
@@ -54,6 +57,8 @@ function createFormData(obj) {
 }
 
 export {
+  userType,
+  isAuthenticated,
   formatDate,
   trim,
   apiEndpoint,
