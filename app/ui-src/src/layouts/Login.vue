@@ -58,7 +58,7 @@ import { useQuasar } from 'quasar'
 export default {
   name: 'Login',
   beforeRouteEnter(to, from, next) {
-    const url = '/login'
+    let url = '/login'
     if(userType === '1') url = '/home'
     else if(userType === '2') url = '/teacher/home'
     
