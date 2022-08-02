@@ -101,6 +101,7 @@ export default defineComponent({
       localStorage.removeItem('grade_id')
       localStorage.removeItem('lesson')
       window.location.href = conf.loginUrl()
+      window.location.reload()
     }
   },
 

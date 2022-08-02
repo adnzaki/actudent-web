@@ -50,15 +50,26 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { axios } from 'boot/axios'
-import { t, conf, createFormData } from 'src/composables/common'
+import { t, conf, createFormData, isAuthenticated, userType } from 'src/composables/common'
 import { useQuasar } from 'quasar'
+import { route } from 'quasar/wrappers'
 
 export default {
   name: 'Login',
+  beforeRouteEnter(to, from, next) {
+    const url = '/login'
+    if(userType === '1') url = '/home'
+    else if(userType === '2') url = '/teacher/home'
+    
+    if(to.path === '/login' && isAuthenticated) next({ path: url })
+    else next()
+  },
   setup() {
     const $q = useQuasar()
+    const router = useRouter()
     const userLang = localStorage.getItem(conf.userLang)
     const btnLangColor = ref({
       active: $q.cookies.get('theme') === 'dark' ? 'cyan-10' : 'accent',
@@ -72,21 +83,24 @@ export default {
           msgClass = ref('black'),
           showMsg = ref(false),
           rememberMe = ref(false)
+
+    onMounted(() => {
+      setTimeout(() => {
+        if($q.cookies.get(conf.cookieName) !== null) {
+          const url = $q.cookies.get(conf.userType) === '1'
+                    ? '/home'
+                    : '/teacher/home'
+    
+          //router.push({ path: url })
+          //window.location.href = url         
+    
+        }        
+      }, 2000)
+    })
+
     
     return {
-      cardTopSpacing: $q.screen.gt.md ? 'q-mt-lg' : 'q-mt-xs',
-      usernameSpacing: $q.screen.lt.sm ? 'q-mb-lg' : 'q-mb-md',
-      pleaseLoginText: $q.screen.lt.sm ? 'q-pb-sm' : '',
-      brandLogo: computed(() => {
-        let logo
-        if($q.cookies.get('theme') === 'dark') {
-          logo = 'siabsen-logo-white'
-        } else {
-          logo = 'siabsen-logo'
-        }
-
-        return require(`../../public/${logo}.png`)
-      }),
+      conf,
       companyLogoPushLeft: $q.screen.lt.sm ? 'left: 27%' : 'left: 30%',
       langBtnPos() {
         return $q.screen.lt.sm ? [-2, -2] : [40, 18]

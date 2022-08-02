@@ -43,6 +43,9 @@ const toDecimal = time => {
   return hour + mins
 }
 
+const isAuthenticated = Cookies.get(conf.cookieName) !== null
+const userType = Cookies.get(conf.userType)
+
 const trim = (text, length = 25) => {
   const returnedText = text.length <= length 
                      ? text
@@ -83,6 +86,8 @@ function createFormData(obj) {
 }
 
 export {
+  userType,
+  isAuthenticated,
   formatDate,
   monthList,
   toDecimal,
