@@ -2,6 +2,9 @@
 
 use Actudent\Admin\Models\SharedModel;
 use Actudent\Core\Models\AuthModel;
+use Actudent\Admin\Models\KelasModel;
+use Actudent\Admin\Models\PegawaiModel;
+use Actudent\Admin\Models\PenggunaModel;
 
 class AgendaModel extends \Actudent\Core\Models\Connector
 {
@@ -15,6 +18,10 @@ class AgendaModel extends \Actudent\Core\Models\Connector
     private $QBAgendaUser;
 
     private $QBUser;
+
+    private $class;
+
+    private $employee;
 
     /**
      * Table definition
@@ -48,7 +55,39 @@ class AgendaModel extends \Actudent\Core\Models\Connector
         $this->QBParent = $this->db->table($this->parent);
         $this->QBAgendaUser = $this->db->table($this->agendaUser);
         $this->QBUser = $this->db->table($this->user);
-        $this->shared = new SharedModel();
+        $this->shared = new SharedModel;
+        $this->class = new KelasModel;
+        $this->employee = new PegawaiModel;
+    }
+
+    public function getHomeroomTeacher($limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = '')
+    {
+        $select = $this->baseGetHomeroomTeacherQuery($searchBy, $search);
+        $query = $select->orderBy($orderBy, $sort)->limit($limit, $offset);
+        
+        return $query->get()->getResult();
+    }
+
+    public function getHomeroomTeacherRows($searchBy, $search)
+    {
+        return $this->baseGetHomeroomTeacherQuery($searchBy, $search)
+                    ->countAllResults();
+    }
+
+    private function baseGetHomeroomTeacherQuery($searchBy, $search)
+    {
+        $field = "{$this->user}.user_id as id, user_name as name, user_email as email";
+        $select = $this->class->QBKelas->select($field);
+        $joinStaff = $select->join($this->employee->staff, "{$this->class->kelas}.teacher_id={$this->employee->staff}.staff_id");
+        $joinUser = $joinStaff->join($this->user, "{$this->employee->staff}.user_id={$this->user}.user_id");
+
+        if(! empty($search)) {
+            $joinUser->like($searchBy, $search);
+        }
+
+        return $joinUser->where([
+            "{$this->class->kelas}.deleted" => 0
+        ]);
     }
 
     /**

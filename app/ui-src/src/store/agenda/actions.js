@@ -4,11 +4,29 @@ import {
   timeout,
   createFormData,
   t,
+  conf
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
 
 export default {
+  getUsers({ state, dispatch }, type) {
+    dispatch('getData', {
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit: 25,
+      offset: state.current - 1,
+      orderBy: 'user_name',
+      searchBy: 'user_name',
+      sort: 'ASC',
+      search: '',
+      url: `${conf.adminAPI}agenda/get-users/${type}/`,
+      autoReset: {
+        active: true,
+        timeout: 500
+      },
+    })
+  },
   delete({ state, getters, dispatch }) {
     state.helper.disableSaveButton = true
     const notifyProgress = Notify.create({

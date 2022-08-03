@@ -76,6 +76,7 @@ return [
     'selesai'           => 'Selesai',
     'laporan'           => 'Laporan',
     'keterangan'        => 'Keterangan',
+    'pilih_semua'       => 'Pilih semua',
 
     // hari-hari
     'day1'              => 'Senin',

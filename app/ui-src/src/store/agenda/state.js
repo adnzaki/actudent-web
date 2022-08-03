@@ -6,6 +6,8 @@ export default function () {
     helper: {
       disableSaveButton: false,
     },
+    showGuestSelector: false,
+    mainForm: true,
     deleteConfirm: false,
     events: [],
     calendar: {
@@ -16,5 +18,6 @@ export default function () {
     isEditForm: false,
     detail: {},
     errorAccess: 'Error! Unknown access.',
+    current: 1, guests: [],
   }
 }

@@ -110,7 +110,7 @@ class PenggunaModel extends \Actudent\Core\Models\Connector
      */
     public function getUserDetail(int $id): array
     {
-        $field = 'user_id, user_name, user_email, user_password, user_level, deleted, modified';
+        $field = 'user_id, user_name, user_email, user_level, deleted, modified';
         $select = $this->QBUser->select($field)
                   ->where('user_id', $id)->get();
 
@@ -157,7 +157,7 @@ class PenggunaModel extends \Actudent\Core\Models\Connector
     private function search(bool $where, string $searchBy, string $search)
     {        
         // If $where is true, then include user_name in $field
-        $field = 'user_id, user_name, user_email, user_password, user_level, deleted, modified';
+        $field = 'user_id as id, user_name as name, user_email as email, user_level as level, modified';
         if($where)
         {
             $field = $field . ', user_level';

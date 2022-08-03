@@ -111,6 +111,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('agenda/upload', 'Agenda::uploadFile');
 	$routes->add('agenda/delete/(:any)', 'Agenda::delete/$1');
 	$routes->add('agenda/display-attachment/(:any)', 'Agenda::displayAttachment/$1');
+	$routes->add('agenda/get-users/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Agenda::getUsers/$1/$2/$3/$4/$5/$6/$7');
+	$routes->add('agenda/get-users/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Agenda::getUsers/$1/$2/$3/$4/$5/$6');
 	$routes->add('timeline', 'Timeline::index');
 	$routes->add('timeline/get-posts/(:any)/(:any)', 'Timeline::getPosts/$1/$2');
 	$routes->add('timeline/simpan/(:any)', 'Timeline::save/$1');

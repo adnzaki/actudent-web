@@ -3,7 +3,8 @@
     @before-show="formOpen"
     @hide="formHide"
     :maximized="maximizedDialog()">
-    <q-card class="q-pa-sm" :style="cardDialog()">
+    <guest-selector />
+    <q-card class="q-pa-sm" :style="cardDialog()" v-if="$store.state.agenda.mainForm">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ cardTitle }}</div>
         <q-space />
@@ -75,8 +76,12 @@
           <q-input :readonly="readonly" autogrow outlined :label="$t('agenda_label_desc')" dense v-model="formData.agenda_description" />
           <error :label="error.agenda_description" />
 
+          <q-btn icon="turned_in" 
+            style="width: 100%" color="accent" 
+            :label="$t('agenda_add_guests')" v-if="userType === '1'"
+            @click="showGuestSelector" />
 
-          <p>{{ $t('agenda_label_prior') }}:</p>
+          <p class="q-mt-md">{{ $t('agenda_label_prior') }}:</p>
           <div class="row" style="margin-top: -25px; margin-left: -10px;">
             <div class="col-12 col-md-4">
               <q-radio :disable="readonly" size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="high" :label="$t('agenda_input_highprior')" />
@@ -161,14 +166,16 @@
 
 <script>
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { ref, computed } from 'vue'
+import { ref, computed, provide } from 'vue'
 import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
 import { selectedLang } from '../../composables/date'
-import { t, axios, bearerToken, conf } from 'src/composables/common'
+import { t, axios, bearerToken, conf, userType } from 'src/composables/common'
+import GuestSelector from './GuestSelector.vue'
 
 export default {
   name: 'AgendaForm',
+  components: { GuestSelector },
   setup() {
     const store = useStore()
     const $q = useQuasar()
@@ -206,7 +213,7 @@ export default {
       dateEndStr.value = formatDate(new Date(val))
     }
 
-    const attachment = ref('')
+    const attachment = ref([])
     const attachmentUrl = ref('')
     const formOpen = () => {
       const details = computed(() => store.state.agenda.detail).value
@@ -240,7 +247,7 @@ export default {
             agenda_attachment: '',
           }
   
-          attachment.value = ''
+          attachment.value = []
           dateStartStr.value = formatDate(new Date)
           dateEndStr.value =  formatDate(date.addToDate(defaultDateValue, { hours: 1 }))
           dateStartRaw.value = defaultDateValue
@@ -307,11 +314,17 @@ export default {
       store.state.agenda.isEditForm = false
     }
 
-    const showGuestDialog = () => {
-
-    }
+    const disableSaveButton = computed(() => store.state.agenda.helper.disableSaveButton)
+    provide('shared', {
+      disableSaveButton,
+      store
+    })
 
     return {
+      showGuestSelector() {
+        store.state.agenda.mainForm = false
+      },
+      userType,
       closeBtnColor: computed(() => $q.dark.isActive ? 'warning' : 'deep-purple'),
       formHide,
       readonly: computed(() => $q.cookies.get(conf.userType) === '1' ? false : true),
@@ -319,9 +332,8 @@ export default {
       cardTitle: computed(() => isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')),
       isEditForm,
       attachmentUrl,
-      showGuestDialog,
       error: computed(() => store.state.agenda.error),
-      disableSaveButton: computed(() => store.state.agenda.helper.disableSaveButton),
+      disableSaveButton,
       formData,
       cardDialog, maximizedDialog,
       pickerStartChanged,

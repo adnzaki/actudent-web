@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Actudent\Admin\Models\AgendaModel;
+use Actudent\Admin\Models\PenggunaModel;
 
 class Agenda extends \Actudent
 {
@@ -12,9 +13,15 @@ class Agenda extends \Actudent
      */
     private $agenda;
 
+    /**
+     * @var Actudent\Admin\Models\PenggunaModel
+     */
+    private $user;
+
     public function __construct()
     {
         $this->agenda = new AgendaModel;
+        $this->user = new PenggunaModel;
     }
 
     public function getEvents($viewStart, $viewEnd, $sort = 'false')
@@ -36,39 +43,26 @@ class Agenda extends \Actudent
         return $this->createResponse($formatted);
     }
 
-    public function searchGuest($keyword = '')
+    public function getUsers($type, $limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = '')
     {
-        $wrapper = [
-            'wali_murid' => [],
-            'wali_kelas' => [],
+        $level = [
+            'staff'     => 0,
+            'guru'      => 2,
+            'orang_tua' => 3
         ];
 
-        if(empty($keyword))
-        {
-            return $this->response->setJSON($wrapper);
+        if($type !== 'wali_kelas') {
+            $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $level[$type], $search);
+            $rows = $this->user->getUserRows($searchBy, $level[$type], $search);
+        } else {
+            $data = $this->agenda->getHomeroomTeacher($limit, $offset, $orderBy, $searchBy, $sort, $search);
+            $rows = $this->agenda->getHomeroomTeacherRows($searchBy, $search);
         }
-        else 
-        {
-            // search the guests!
-            $data = $this->agenda->searchGuest($keyword);
-        
-            // create a wrapper to store the result
 
-            foreach($data as $res)
-            {
-                // push the result into the wrapper
-                $userParent = "{$res->parent_father_name} & {$res->parent_mother_name}";
-                array_push($wrapper['wali_murid'], ['id' => $res->user_parent, 'text' => $userParent]);
-                array_push($wrapper['wali_kelas'], ['id' => $res->user_guru, 'text' => "{$res->staff_name}"]);
-            }
-
-            $output = [
-                'wali_kelas' => resort(multidimensional_array_unique($wrapper['wali_kelas'], 'id')),
-                'wali_murid' => resort(multidimensional_array_unique($wrapper['wali_murid'], 'id'))
-            ];
-
-            return $this->response->setJSON($output);
-        }        
+        return $this->createResponse([
+            'totalRows' => $rows,
+            'container' => $data
+        ]);
     }
 
     public function getEventDetail($id)
