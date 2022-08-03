@@ -1,10 +1,10 @@
 <template>
   <div class="q-pa-sm">
     <div class="row">
-      <div class="col-12 col-md-6 q-mt-sm">
+      <div :class="[rangeWidth, 'q-mt-sm']">
         <p> {{ $store.getters[`${vuexModule}/rowRange`] }} </p>
       </div>
-      <div class="col-12 col-md-2 offset-md-4" v-if="totalPages() > 0">
+      <div :class="[navWidth, navOffset]" v-if="totalPages() > 0">
         <q-pagination
           v-model="$store.state[vuexModule]['current']"
           :max="totalPages()"
@@ -24,7 +24,24 @@ import { conf, errorNotif } from 'src/composables/common'
 
 export default {
   name: 'SSPaging',
-  props: ['vuexModule'],
+  props: {
+    vuexModule: {
+      type: String,
+      required: true,
+    },
+    rangeWidth: {
+      type: String,
+      default: 'col-12 col-md-6'
+    },
+    navWidth: {
+      type: String,
+      default: 'col-12 col-md-2'
+    },
+    navOffset: {
+      type: String,
+      default: 'offset-md-4'
+    }
+  },
   setup (props) {
     const store = useStore()
     const $q = useQuasar()
