@@ -140,6 +140,7 @@ export default {
     
     state.error = {}
     state.showForm = false
+    state.guests = []
   },
   getEvents({ state, getters, dispatch }, { view, start, end }) {
     axios.get(`${getters.agendaApi}get-events/${start}/${end}`, {
