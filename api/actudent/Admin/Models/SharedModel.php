@@ -27,7 +27,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
     /**
      * Query Builder for table tb_student_grade
      */
-    protected $QBRombel;
+    public $QBRombel;
 
     /**
      * Query builder for tb_schedule
@@ -76,14 +76,14 @@ class SharedModel extends \Actudent\Core\Models\Connector
      * 
      * @var string
      */
-    protected $studentParent = 'tb_student_parent';
+    public $studentParent = 'tb_student_parent';
 
     /**
      * Table tb_student_grade
      * 
      * @var string
      */
-    protected $rombel = 'tb_student_grade';
+    public $rombel = 'tb_student_grade';
 
     /**
      * Table tb_schedule
@@ -166,28 +166,34 @@ class SharedModel extends \Actudent\Core\Models\Connector
     /**
      * Send notification to parent or staff
      * 
-     * @param int $recipient
+     * @param array|int $recipient
      * @param array $content
      * @param string $type => student, mixed (parent and staff)
      * 
      * @return void
      */
-    public function sendNotification(int $recipient, array $content = [], string $type = 'student'): void
+    public function sendNotification($recipient, array $content = [], string $type = 'student'): void
     {
-        $userID = $this->checkUserDevice($recipient, $type);
-        
-        if($userID !== false)
-        {
-            $userDevice = $this->getUserDevice($userID)[0];
-            $sekolah = $this->sekolah->getDataSekolah()[0];
-            $this->QBNotifikasi->insert([
-                'user_id'       => $userID,
-                'notif_from'    => $sekolah->school_domain,
-                'notif_to'      => $userDevice->fcm_registration_id,
-                'notif_title'   => $content['title'],
-                'notif_body'    => $content['body'],
-            ]);
+        $values = [];
+        $sekolah = $this->sekolah->getDataSekolah()[0];
+        foreach($recipient as $id) {
+            $userID = $this->checkUserDevice($id, $type);
+            if($userID !== false) {
+                $userDevice = $this->getUserDevice($userID)[0];                
+                $values[] = [
+                    'user_id'       => $userID,
+                    'notif_from'    => $sekolah->school_domain,
+                    'notif_to'      => $userDevice->fcm_registration_id,
+                    'notif_title'   => $content['title'],
+                    'notif_body'    => $content['body'],
+                ];
+            }
         }
+
+        if(count($values) > 0) {
+            $this->QBNotifikasi->insertBatch($values);
+        }
+
     }
 
     /**
