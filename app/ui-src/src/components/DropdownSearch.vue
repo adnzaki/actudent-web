@@ -1,6 +1,8 @@
 <template>
   <div :class="['col-12 q-mt-sm', flexGrid]">
     <q-select
+      :class="customClass"
+      :disable="disable"
       outlined
       v-model="model"
       use-input
@@ -40,6 +42,8 @@ export default {
     'param', // add 1 optional parameter if needed
     'loadOnRoute', // load data that to be fetched on route enter
     'default', // default selected option -> useful when displaying in edit form
+    'disable',
+    'customClass', // custom class to be applied directly to QSelect component
   ],
 
   setup(props) {
