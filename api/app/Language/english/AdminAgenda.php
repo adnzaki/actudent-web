@@ -50,4 +50,8 @@ return [
     'agenda_delete_progress'            => 'Deleting agenda...',
     'agenda_delete_success'             => 'Successfully deleted agenda',
     'agenda_delete_confirm'             => 'Are you sure want to delete this event?',
+    'agenda_add_guests'                 => 'Add Invitation',
+    'agenda_manage_guests'              => 'Manage Undangan',
+    'agenda_all_school_residents'       => 'All school residents',
+    'agenda_search_name'                => 'Search users name...',
 ];

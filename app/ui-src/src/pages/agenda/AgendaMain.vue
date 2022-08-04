@@ -21,9 +21,10 @@
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import Calendar from './Calendar.vue'
 import AgendaForm from './AgendaForm.vue'
+import GuestSelector from './GuestSelector.vue'
 
 export default {
-  components: { Calendar, AgendaForm },
+  components: { Calendar, AgendaForm, GuestSelector },
   name: 'AgendaMain',
   setup () {
     return { wrapperPadding, titleSpacing }

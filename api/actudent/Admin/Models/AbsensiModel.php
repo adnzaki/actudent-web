@@ -385,21 +385,21 @@ class AbsensiModel extends SharedModel
         if($data['status'] === 1)
         {
             $content = [
-                'title' => 'Kehadiran Mata Pelajaran',
+                'title' => 'Status Kehadiran',
                 'body' => $student->student_name . ' mengikuti pelajaran ' . $lesson->lesson_name,
             ];
         }
         elseif($data['status'] === 0)
         {
             $content = [
-                'title' => 'Kehadiran Mata Pelajaran',
+                'title' => 'Status Kehadiran',
                 'body' => $student->student_name . ' tidak mengikuti pelajaran ' . $lesson->lesson_name,
             ];
         }
 
         if($data['status'] === 1 || $data['status'] === 0)
         {
-            $this->sendNotification($data['id'], $content);
+            $this->sendNotification([ $data['id'] ], $content);
         }
     }    
 
@@ -510,7 +510,7 @@ class AbsensiModel extends SharedModel
             ];
 
             // send notification
-            $this->sendNotification($member->student_id, $content);
+            $this->sendNotification([ $member->student_id ], $content);
         }
     } 
 

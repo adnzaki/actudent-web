@@ -50,4 +50,8 @@ return [
     'agenda_delete_progress'            => 'Menghapus agenda...',
     'agenda_delete_success'             => 'Berhasil menghapus agenda',
     'agenda_delete_confirm'             => 'Anda yakin ingin menghapus kegiatan ini?',
+    'agenda_add_guests'                 => 'Tambahkan Undangan',
+    'agenda_manage_guests'              => 'Kelola Undangan',
+    'agenda_all_school_residents'       => 'Semua warga sekolah',
+    'agenda_search_name'                => 'Cari nama pengguna...',
 ];
