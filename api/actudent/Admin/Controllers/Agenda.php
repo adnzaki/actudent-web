@@ -43,21 +43,37 @@ class Agenda extends \Actudent
         return $this->createResponse($formatted);
     }
 
+    /**
+     * Get users based on their type
+     * 
+     * @param string|int $type guru | staff | wali_kelas | @gradeId
+     * @param int $limit
+     * @param int $offset
+     * @param string $orderBy
+     * @param string $searchBy
+     * @param string $sort
+     * @param string $search
+     * 
+     * @return array
+     */
     public function getUsers($type, $limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = '')
     {
         $level = [
             'staff'     => 0,
             'guru'      => 2,
-            'orang_tua' => 3
         ];
 
-        if($type !== 'wali_kelas') {
-            $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $level[$type], $search);
-            $rows = $this->user->getUserRows($searchBy, $level[$type], $search);
-        } else {
+        if(is_numeric($type)) {
+            $data = $this->agenda->getParents($type, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+            // $data = $this->agenda->baseGetParentsQuery($type, $searchBy, $search);
+            $rows = $this->agenda->getParentRows($type, $searchBy, $search);
+        } elseif($type === 'wali_kelas') {
             $data = $this->agenda->getHomeroomTeacher($limit, $offset, $orderBy, $searchBy, $sort, $search);
             $rows = $this->agenda->getHomeroomTeacherRows($searchBy, $search);
-        }
+        } else {
+            $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $level[$type], $search);
+            $rows = $this->user->getUserRows($searchBy, $level[$type], $search);
+        }        
 
         return $this->createResponse([
             'totalRows' => $rows,
@@ -80,10 +96,12 @@ class Agenda extends \Actudent
             'agenda_end' => strtotime($event->agenda_end),
         ];
 
+        $guests = $this->agenda->getEventGuests($id);
+
         $data = [
             'data' => $event,
             'dataForPlugin' => $dateTime,
-            'guests' => $this->agenda->getEventGuests($id),
+            'guests' => array_column($guests, 'user_id'),
         ];
 
         return $this->createResponse($data);

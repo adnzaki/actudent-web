@@ -60,6 +60,56 @@ class AgendaModel extends \Actudent\Core\Models\Connector
         $this->employee = new PegawaiModel;
     }
 
+    public function getParents($gradeId, $limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = '')
+    {
+        $query = $this->baseGetParentsQuery($gradeId, $searchBy, $search);
+
+        return $query->orderBy($orderBy, $sort)->limit($limit, $offset)
+                     ->get()->getResult();
+    }
+
+    /**
+     * Base query of get parents
+     * 
+     * @param int $gradeId
+     * @param string $searchBy
+     * @param string $search
+     * 
+     * @return int
+     */
+    public function getParentRows($gradeId, $searchBy, $search)
+    {
+        return $this->baseGetParentsQuery($gradeId, $searchBy, $search)
+                    ->get()->getNumRows();
+    }
+
+    /**
+     * Base query of get parents
+     * 
+     * @param int $gradeId
+     * @param string $searchBy
+     * @param string $search
+     * 
+     * @return QueryBuilder
+     */
+    public function baseGetParentsQuery(int $gradeId, string $searchBy, string $search = '')
+    {
+        $field = 'DISTINCT `u`.`user_id` as `id`, `user_name` as `name`, `user_email` as `email`';
+        $select = $this->class->QBRombel->select($field, false);
+        $join1 = $select->join("{$this->class->student} as s", "{$this->class->rombel}.student_id=s.student_id");
+        $join2 = $join1->join("{$this->class->studentParent} as sp", 's.student_id=sp.student_id');
+        $join3 = $join2->join("{$this->class->parent} as p", 'sp.parent_id=p.parent_id');
+        $join4 = $join3->join("{$this->user} as u", 'p.user_id=u.user_id');
+
+        if(! empty($search)) {
+            $join4->like($searchBy, $search);
+        }
+
+        return $join4->where([
+            'grade_id' => $gradeId
+        ]);
+    }
+
     public function getHomeroomTeacher($limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = '')
     {
         $select = $this->baseGetHomeroomTeacherQuery($searchBy, $search);
@@ -143,26 +193,17 @@ class AgendaModel extends \Actudent\Core\Models\Connector
     /**
      * Get event's guests
      * 
-     * @param int $id
+     * @param int $id Agenda ID
      * 
      * @return mixed
      */
     public function getEventGuests(int $id)
     {
-        $eventGuest = $this->QBAgendaUser->getWhere(['agenda_id' => $id])->getResult();
+        $eventGuest = $this->QBAgendaUser->select('user_id')
+                           ->getWhere(['agenda_id' => $id])
+                           ->getResultArray();
 
-        // process only if data is found
-        if(count($eventGuest) > 0)
-        {
-            $eventGuest = explode(',', $eventGuest[0]->guests);
-            $guests = [];
-            foreach($eventGuest as $g)
-            {
-                $guests[] = $this->findUser($g);
-            }
-    
-            return $guests;
-        }
+        return $eventGuest;
     }
 
     /**
@@ -195,13 +236,7 @@ class AgendaModel extends \Actudent\Core\Models\Connector
         
         // insert data to tb_agenda
         $insertID = $this->db->insertID();
-
-        if(! empty($value['agenda_guest']))
-        {
-            // insert guest IDs to tb_agenda_user
-            $this->insertAgendaGuests($value['agenda_guest'], $insertID);
-            $this->sendAgendaNotification($value['agenda_name'], $value['agenda_guest']);
-        }
+        $this->insertAgendaGuests($value['agenda_guest'], $insertID, $value['agenda_name']);
 
         return $insertID;
     }
@@ -218,21 +253,7 @@ class AgendaModel extends \Actudent\Core\Models\Connector
     {
         $data = $this->fillAgendaField($value);
         $this->QBAgenda->update($data, ['agenda_id' => $id]);
-
-        if(! empty($value['agenda_guest']))
-        {
-            // insert guest IDs to tb_agenda_user
-            if($this->getEventGuests($id) === null)
-            {
-                $this->insertAgendaGuests($value['agenda_guest'], $id);
-            } 
-            else 
-            {
-                $this->updateAgendaGuests($value['agenda_guest'], $id);
-            }
-
-            $this->sendAgendaNotification($value['agenda_name'], $value['agenda_guest']);
-        }
+        $this->insertAgendaGuests($value['agenda_guest'], $id, $value['agenda_name']);
 
         return $id;
     }
@@ -241,22 +262,18 @@ class AgendaModel extends \Actudent\Core\Models\Connector
      * Send agenda notification 
      * 
      * @param string $name => agenda_name
-     * @param string $guests
+     * @param array $guests
      * 
      * @return void
      */
-    public function sendAgendaNotification(string $name, string $guests): void
+    public function sendAgendaNotification(string $name, array $guests): void
     {
-        $guestArray = explode(',', $guests);
         $content = [
             'title' => 'Undangan Kegiatan',
             'body' => 'Anda diundang dalam kegiatan ' . $name,
         ];
 
-        foreach($guestArray as $guest)
-        {
-            $this->shared->sendNotification($guest, $content, 'mixed');
-        }
+        $this->shared->sendNotification($guests, $content, 'mixed');
     }
 
     /**
@@ -301,31 +318,30 @@ class AgendaModel extends \Actudent\Core\Models\Connector
      * Insert guest IDs to tb_agenda_user
      * 
      * @param string $data
-     * @param int $id
+     * @param int $agendaId
      * 
      * @return void
      */
-    private function insertAgendaGuests(string $data, int $id): void
+    private function insertAgendaGuests(string $data, int $agendaId, string $agendaName): void
     {
-        $this->QBAgendaUser->insert([
-            'agenda_id' => $id,
-            'guests'   => $data,
-        ]);
-    }
+        if(! empty($data))
+        {
+            $guest = json_decode($data, true);
+            $guestValues = [];
+            foreach($guest as $key) {
+                $guestValues[] = [
+                    'agenda_id' => $agendaId,
+                    'user_id'   => $key
+                ];
+            }
 
-    /**
-     * Update guest IDs on tb_agenda_user
-     * 
-     * @param string $data
-     * @param int $id
-     * 
-     * @return void
-     */
-    private function updateAgendaGuests(string $data, int $id): void
-    {
-        $this->QBAgendaUser->update([
-            'guests'    => $data,
-        ], ['agenda_id' => $id]);
+            // clear all agenda guests if they are exist
+            $this->QBAgendaUser->delete(['agenda_id' => $agendaId]);
+
+            // insert guest IDs to tb_agenda_user
+            $this->QBAgendaUser->insertBatch($guestValues);
+            $this->sendAgendaNotification($agendaName, $guest);
+        }
     }
 
     /**

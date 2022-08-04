@@ -263,6 +263,11 @@ export default {
       formData.value.agenda_start = phpTimestamp(dateStartRaw.value)
       formData.value.agenda_end = phpTimestamp(dateEndRaw.value)
 
+      const agendaGuest = computed(() => store.state.agenda.guests)
+      if(agendaGuest.value.length > 0) {
+        formData.value.agenda_guest = JSON.stringify(agendaGuest.value)
+      }
+
       if(isEditForm.value) {
         store.dispatch('agenda/save', {
           data: formData.value,

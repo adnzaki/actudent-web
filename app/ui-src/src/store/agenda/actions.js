@@ -71,6 +71,7 @@ export default {
         state.detail = data.data
         state.showForm = true
         state.isEditForm = true
+        state.guests = data.guests
       })
   },
   save({ state, getters, dispatch }, payload) {
