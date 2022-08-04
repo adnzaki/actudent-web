@@ -10,7 +10,8 @@
       :label="$t(`day${parseInt(day)+1}`)"
       :caption="caption"
       header-class="bg-primary text-white"
-      expand-icon-class="text-white">
+      expand-icon-class="text-white"
+      id="list">
         <q-card>
           <q-card-section>
             <q-toggle :label="$t('siabsen_must_present')" 
@@ -58,12 +59,6 @@
     </q-expansion-item>
   </q-list>
 </template>
-
-<style>
-.q-item__label--caption {
-	color: rgba(255, 255, 255, 0.7) !important;
-}
-</style>
 
 <script>
 import { useQuasar } from 'quasar'

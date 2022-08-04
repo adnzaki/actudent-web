@@ -2,6 +2,7 @@
   <div style="margin-top: -15px">
     <q-list class="q-px-md q-mt-sm">
       <q-expansion-item
+        id="list"
         class="shadow-3 overflow-hidden q-mb-md"
         style="border-radius: 15px"
         expand-separator

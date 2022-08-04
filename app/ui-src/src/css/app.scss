@@ -251,3 +251,7 @@ $input-focus-bg: #6252c76c;
 .force-elevated {
   z-index: 999 !important;
 }
+
+#list .q-item__label--caption {
+	color: rgba(255, 255, 255, 0.7) !important;
+}
