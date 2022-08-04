@@ -13,6 +13,7 @@
 import '@fullcalendar/core/vdom' // solves problem with Vite
 import FullCalendar from '@fullcalendar/vue3'
 import dayGridPlugin from '@fullcalendar/daygrid'
+import listPlugin from '@fullcalendar/list'
 import interactionPlugin from '@fullcalendar/interaction'
 import id from '@fullcalendar/core/locales/id'
 import en from '@fullcalendar/core/locales/en-gb'
@@ -30,7 +31,7 @@ export default {
   setup() {
     const store = useStore()
     const $q = useQuasar()
-    const initialView = ref('dayGridMonth')
+    const initialView = $q.screen.lt.sm ? ref('listMonth') : ref('dayGridMonth')
     const initialDate = ref(date.formatDate(new Date(), 'YYYY-MM-DD'))
     const fullCalendar = ref(null)
 
@@ -89,12 +90,18 @@ export default {
       }
     })
 
+    const titleFormat = computed(() => {
+      return $q.screen.lt.sm 
+              ? { year: 'numeric', month: '2-digit' }
+              : { year: 'numeric', month: 'long' }
+    })
+
     return {
       conf,
       fabPos, draggingFab, moveFab,
       calendarOptions: computed(() => {
         return {
-          plugins: [ dayGridPlugin, interactionPlugin ],
+          plugins: [ dayGridPlugin, interactionPlugin, listPlugin ],
           height: 'auto',
           initialView: initialView.value,
           initialDate: initialDate.value,
@@ -107,7 +114,8 @@ export default {
           headerToolbar: {
             left: 'title',
             right: 'today prev,next'
-          }
+          },
+          titleFormat: titleFormat.value
         }
       }),
       fullCalendar

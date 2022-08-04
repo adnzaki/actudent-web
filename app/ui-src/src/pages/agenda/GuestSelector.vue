@@ -9,7 +9,7 @@
         <filter-guest />
       </div>
       <div class="row q-mb-md q-pr-xs">
-        <search-box :label="$t('staff_cari')" root-class="col-12" vuex-module="agenda" class="q-mt-sm" />
+        <search-box :label="$t('agenda_search_name')" root-class="col-12" vuex-module="agenda" class="q-mt-sm" />
       </div>
       <q-checkbox v-model="selectAllToggle" @update:model-value="selectAll" style="margin-left: -10px; margin-top: -15px;" :label="$t('pilih_semua')" />
       <q-list bordered separator>
