@@ -71,7 +71,7 @@ export default {
         state.detail = data.data
         state.showForm = true
         state.isEditForm = true
-        state.guests = data.guests
+        state.guestsEdit = data.guests
       })
   },
   save({ state, getters, dispatch }, payload) {
@@ -141,6 +141,7 @@ export default {
     state.error = {}
     state.showForm = false
     state.guests = []
+    state.guestsEdit = []
   },
   getEvents({ state, getters, dispatch }, { view, start, end }) {
     axios.get(`${getters.agendaApi}get-events/${start}/${end}`, {

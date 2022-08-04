@@ -18,6 +18,6 @@ export default function () {
     isEditForm: false,
     detail: {},
     errorAccess: 'Error! Unknown access.',
-    current: 1, guests: [],
+    current: 1, guests: [], guestsEdit: [],
   }
 }
