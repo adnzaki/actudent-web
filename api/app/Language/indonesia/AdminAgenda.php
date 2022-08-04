@@ -53,5 +53,5 @@ return [
     'agenda_add_guests'                 => 'Tambahkan Undangan',
     'agenda_manage_guests'              => 'Kelola Undangan',
     'agenda_all_school_residents'       => 'Semua warga sekolah',
-    'agenda_search_name'                => 'Cari nama pengguna...',
+    'agenda_search_name'                => 'Cari berdasarkan nama...',
 ];

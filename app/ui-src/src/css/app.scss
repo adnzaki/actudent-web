@@ -1,6 +1,57 @@
 // app global css in SCSS form
 
 @media(max-width: $breakpoint-xs-max) {
+  $fc-listmonth-radius: 15px 15px 0 0;
+  $padding-y: 5px;
+
+  .fc .fc-list-sticky .fc-list-day > * {
+    background: $primary !important;
+  }
+
+  .fc .fc-list-table td, .fc .fc-list-day-cushion {
+    padding: 12px 14px !important;
+  }
+
+  .fc .fc-list-sticky .fc-list-day:first-child > * {
+    border-radius: $fc-listmonth-radius;
+  }
+
+  .fc-theme-standard .fc-list {
+    border: none !important;
+    border-radius: 15px;
+    box-shadow: $shadow-6;
+  }
+
+  .fc-theme-standard .fc-list-day-cushion,
+  .fc .fc-cell-shaded, .fc .fc-day-disabled {
+    background-color: transparent !important;
+  }
+
+  .fc .fc-list-empty {
+    border-radius: 15px;
+  }
+
+  $fc-list-item-bg: transparent !important;
+
+  .fc-list-event:hover > .fc-theme-standard .fc-list {
+    background-color: $fc-list-item-bg;
+  }
+
+  .fc-list-event:hover > .fc-list-event-title {
+    background-color: $fc-list-item-bg;
+  }
+
+  .fc-list-event:hover > .fc-list-event-graphic {
+    background-color: $fc-list-item-bg;
+  }
+
+  .fc-list-event:hover > .fc-list-event-time {
+    background-color: $fc-list-item-bg;
+  }
+
+  .fc-list-day {
+    color: #fff;
+  }
   .mobile-form-btn {
     width: 100%;
     border-radius: 30px;
