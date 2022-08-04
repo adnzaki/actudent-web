@@ -52,6 +52,8 @@ export default {
     const { disableSaveButton, store } = inject('shared')
     const selectAllToggle = ref(false)
     const data = computed(() => store.state.agenda.paging.data)
+    const guestType = store.state.agenda.isEditForm ? 'guestsEdit' : 'guests'
+    const guests = computed(() => store.state.agenda[guestType])
 
     watch(data, () => {
       selectAllToggle.value = false
@@ -64,11 +66,10 @@ export default {
     return {
       toggleUserSelection(id, type = 'add' /* add or delete */) {
         if(type === 'add') {
-          store.state.agenda.guests.push(id)
+          store.state.agenda[guestType].push(id)
         } else {
-          const guests = computed(() => store.state.agenda.guests)
           let index = guests.value.findIndex(el => el === id)
-          store.state.agenda.guests.splice(index, 1)
+          store.state.agenda[guestType].splice(index, 1)
         }
       },
       selectAll() {
@@ -76,17 +77,17 @@ export default {
           for(let item of data.value) {
 
             // Skip duplicate IDs
-            if(!store.state.agenda.guests.includes(item.id)) {
-              store.state.agenda.guests.push(item.id)
+            if(!store.state.agenda[guestType].includes(item.id)) {
+              store.state.agenda[guestType].push(item.id)
             }
           }
         } else {
-          store.state.agenda.guests = []
+          store.state.agenda[guestType] = []
         }
       },
       selectAllToggle,
-      isSelectedUser(id) {
-        return store.state.agenda.guests.includes(id)
+      isSelectedUser(id) {                  
+        return store.state.agenda[guestType].includes(id)
       },
       data,
       disableSaveButton,
