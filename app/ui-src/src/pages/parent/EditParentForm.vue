@@ -72,8 +72,6 @@ export default {
   setup() {
     const store = useStore()
 
-    const getLang = computed(() => inject('textLang')).value
-
     onMounted(getSchool)
     
     const save = () => {
@@ -96,7 +94,6 @@ export default {
       save,
       user_name: ref('1'),
       maximizedDialog, cardDialog,
-      getLang
     }
   }
 }

@@ -84,7 +84,6 @@ export default {
     })
 
     return {
-      getLang: computed(() => inject('textLang')).value,
       checkColWidth
     }
   }

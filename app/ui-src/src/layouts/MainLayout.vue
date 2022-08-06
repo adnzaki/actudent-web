@@ -61,17 +61,13 @@ import { conf, pengguna, getPengguna } from '../composables/common'
 import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
+import { useQuasar } from 'quasar'
 
 export default defineComponent({
   name: 'MainLayout',
   data() {
     return {
       otherActions: []  
-    }
-  },
-  provide() {
-    return {
-      textLang: computed(() => this.lang)
     }
   },
   mounted() {
@@ -89,20 +85,8 @@ export default defineComponent({
     AppMenu,
     SubscriptionWarning
   },
-  methods: {
-    logout() {
-      this.$q.cookies.remove(conf.cookieName)
-      this.$q.cookies.remove(conf.userType)
-      localStorage.removeItem('class')
-      localStorage.removeItem('date')
-      localStorage.removeItem('grade_id')
-      localStorage.removeItem('lesson')
-      window.location.href = conf.loginUrl()
-      window.location.reload()
-    }
-  },
-
   setup () {
+    const $q = useQuasar()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
     function triggerHeader() {
@@ -125,6 +109,16 @@ export default defineComponent({
     }
 
     return {
+      logout() {
+        $q.cookies.remove(conf.cookieName)
+        $q.cookies.remove(conf.userType)
+        localStorage.removeItem('class')
+        localStorage.removeItem('date')
+        localStorage.removeItem('grade_id')
+        localStorage.removeItem('lesson')
+        window.location.href = conf.loginUrl()
+        window.location.reload()
+      },
       drawer: ref(false),
       userAction,
       hideUserAction,
