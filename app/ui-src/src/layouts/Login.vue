@@ -57,14 +57,6 @@ import { useQuasar } from 'quasar'
 
 export default {
   name: 'Login',
-  beforeRouteEnter(to, from, next) {
-    let url = '/login'
-    if(userType === '1') url = '/home'
-    else if(userType === '2') url = '/teacher/home'
-    
-    if(to.path === '/login' && isAuthenticated) next({ path: url })
-    else next()
-  },
   setup() {
     const $q = useQuasar()
     const userLang = localStorage.getItem(conf.userLang)
@@ -84,9 +76,6 @@ export default {
     return {
       conf,
       companyLogoPushLeft: $q.screen.lt.sm ? 'left: 27%' : 'left: 30%',
-      langBtnPos() {
-        return $q.screen.lt.sm ? [-2, -2] : [40, 18]
-      },
       styleSelector(style) {
         const styles = {
           light: {
@@ -190,13 +179,6 @@ export default {
         }
       },
       username, password, error, msg, msgClass, showMsg, rememberMe,
-      getBtnClass(lang) {
-        if(userLang === lang || (userLang === null && lang === 'indonesia')) {
-          return btnLangColor.value.active
-        } else {
-          return btnLangColor.value.inactive
-        }
-      },
       btnStyle: reactive({
         fontSize: '18px',
         width: 'calc(100% - 5px)',
