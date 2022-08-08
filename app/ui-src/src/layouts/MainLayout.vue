@@ -63,6 +63,7 @@ import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 import { useQuasar } from 'quasar'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -87,6 +88,8 @@ export default defineComponent({
     SubscriptionWarning
   },
   setup () {
+    const $q = useQuasar()
+    const store = useStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
     function triggerHeader() {
@@ -108,8 +111,6 @@ export default defineComponent({
       userAction.value = false
     }
 
-    const store = useStore()
-    const $q = useQuasar()
     onMounted(() => {
       if($q.cookies.get(conf.userType) === '1') {
         setInterval(() => {
