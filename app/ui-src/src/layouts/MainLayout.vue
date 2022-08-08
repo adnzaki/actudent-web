@@ -126,7 +126,7 @@ export default defineComponent({
         localStorage.removeItem('date')
         localStorage.removeItem('grade_id')
         localStorage.removeItem('lesson')
-        window.location.href = conf.loginUrl()
+        // window.location.href = conf.loginUrl()
         window.location.reload()
       },
       drawer: ref(false),
