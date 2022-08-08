@@ -9,18 +9,9 @@
         <q-btn flat round dense icon="account_circle">
           <q-menu>
             <q-list separator>
-              <q-item v-for="(item, key) in otherActions" :key="key" 
-                clickable v-ripple class="q-pr-xl"
-                :to="item.link"
-                @click="item.action()"
-                v-close-popup>
-                <q-item-section avatar>
-                  <q-icon :name="item.icon" />
-                </q-item-section>
-                <q-item-section>
-                  {{ item.label }}
-                </q-item-section>
-              </q-item>
+              <other-actions icon="o_manage_accounts" :label="$t('navbar_profil')" />
+              <other-actions icon="o_school" :label="$t('navbar_sekolah')" />
+              <other-actions icon="logout" :label="$t('navbar_keluar')" @click="logout" />
             </q-list>
           </q-menu>
         </q-btn>
@@ -58,25 +49,26 @@
 import { defineComponent, ref, onMounted, computed, watch, reactive } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import { headerColor } from '../composables/mode'
-import { conf, pengguna, getPengguna, t } from '../composables/common'
+import { conf, pengguna, getPengguna } from '../composables/common'
 import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 import { useQuasar } from 'quasar'
 import { useStore } from 'vuex'
+import OtherActions from './OtherActions.vue'
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
     AppMenu,
-    SubscriptionWarning
+    SubscriptionWarning,
+    OtherActions
   },
   setup () {
     const $q = useQuasar()
     const store = useStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
-    const otherActions = ref([])
     function triggerHeader() {
       if(headerColor.value === 'dark') {
         header.value = 'bg-grey-10'
@@ -84,29 +76,6 @@ export default defineComponent({
         header.value = 'bg-blue'
       }  
     }
-
-    const logout = () => {
-      $q.cookies.remove(conf.cookieName)
-      $q.cookies.remove(conf.userType)
-      localStorage.removeItem('class')
-      localStorage.removeItem('date')
-      localStorage.removeItem('grade_id')
-      localStorage.removeItem('lesson')
-      // window.location.href = conf.loginUrl()
-      window.location.reload()
-    }
-
-    onMounted(() => {
-      setTimeout(() => {
-        setTimeout(() => {
-          otherActions.value = [
-            { link: '', icon: 'o_manage_accounts', label: t('navbar_profil'), action: () => {} },
-            { link: '', icon: 'o_school', label: t('navbar_sekolah'), action: () => {} },
-            { link: '', icon: 'logout', label: t('navbar_keluar'), action: () => logout() },
-          ]
-        }, 1000);
-      }, 1000);
-    })
 
     onMounted(triggerHeader) 
 
@@ -128,7 +97,15 @@ export default defineComponent({
     })
 
     return {
-      otherActions,
+      logout() {
+        $q.cookies.remove(conf.cookieName, { path: '/' })
+        $q.cookies.remove(conf.userType, { path: '/' })
+        localStorage.removeItem('class')
+        localStorage.removeItem('date')
+        localStorage.removeItem('grade_id')
+        localStorage.removeItem('lesson')
+        window.location.reload()
+      },
       drawer: ref(false),
       userAction,
       hideUserAction,
