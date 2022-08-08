@@ -62,6 +62,7 @@ import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 import { useQuasar } from 'quasar'
+import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -87,6 +88,7 @@ export default defineComponent({
   },
   setup () {
     const $q = useQuasar()
+    const store = useStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
     function triggerHeader() {
