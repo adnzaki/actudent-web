@@ -55,10 +55,10 @@
 
 <script>
 
-import { defineComponent, ref, onMounted, computed, watch } from 'vue'
+import { defineComponent, ref, onMounted, computed, watch, reactive } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import { headerColor } from '../composables/mode'
-import { conf, pengguna, getPengguna } from '../composables/common'
+import { conf, pengguna, getPengguna, t } from '../composables/common'
 import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
@@ -67,22 +67,6 @@ import { useStore } from 'vuex'
 
 export default defineComponent({
   name: 'MainLayout',
-  data() {
-    return {
-      otherActions: []  
-    }
-  },
-  mounted() {
-    setTimeout(() => {
-      setTimeout(() => {
-        this.otherActions = [
-          { link: '', icon: 'o_manage_accounts', label: this.$t('navbar_profil'), action: () => {} },
-          { link: '', icon: 'o_school', label: this.$t('navbar_sekolah'), action: () => {} },
-          { link: '', icon: 'logout', label: this.$t('navbar_keluar'), action: () => this.logout() },
-        ]
-      }, 1000);
-    }, 1000);
-  },
   components: {
     AppMenu,
     SubscriptionWarning
@@ -92,6 +76,7 @@ export default defineComponent({
     const store = useStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
+    const otherActions = ref([])
     function triggerHeader() {
       if(headerColor.value === 'dark') {
         header.value = 'bg-grey-10'
@@ -99,6 +84,29 @@ export default defineComponent({
         header.value = 'bg-blue'
       }  
     }
+
+    const logout = () => {
+      $q.cookies.remove(conf.cookieName)
+      $q.cookies.remove(conf.userType)
+      localStorage.removeItem('class')
+      localStorage.removeItem('date')
+      localStorage.removeItem('grade_id')
+      localStorage.removeItem('lesson')
+      // window.location.href = conf.loginUrl()
+      window.location.reload()
+    }
+
+    onMounted(() => {
+      setTimeout(() => {
+        setTimeout(() => {
+          otherActions.value = [
+            { link: '', icon: 'o_manage_accounts', label: t('navbar_profil'), action: () => {} },
+            { link: '', icon: 'o_school', label: t('navbar_sekolah'), action: () => {} },
+            { link: '', icon: 'logout', label: t('navbar_keluar'), action: () => logout() },
+          ]
+        }, 1000);
+      }, 1000);
+    })
 
     onMounted(triggerHeader) 
 
@@ -120,16 +128,7 @@ export default defineComponent({
     })
 
     return {
-      logout() {
-        $q.cookies.remove(conf.cookieName)
-        $q.cookies.remove(conf.userType)
-        localStorage.removeItem('class')
-        localStorage.removeItem('date')
-        localStorage.removeItem('grade_id')
-        localStorage.removeItem('lesson')
-        // window.location.href = conf.loginUrl()
-        window.location.reload()
-      },
+      otherActions,
       drawer: ref(false),
       userAction,
       hideUserAction,

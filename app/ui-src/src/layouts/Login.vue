@@ -57,13 +57,17 @@ import { useQuasar } from 'quasar'
 
 export default {
   name: 'Login',
+  beforeRouteEnter(to, from, next) {
+    let url = '/login'
+    if(userType === '1') url = '/home'
+    else if(userType === '2') url = '/teacher/home'
+    
+    if(to.path === '/login' && isAuthenticated) next({ path: url })
+    else next()
+  },
   setup() {
     const $q = useQuasar()
     const userLang = localStorage.getItem(conf.userLang)
-    const btnLangColor = ref({
-      active: $q.cookies.get('theme') === 'dark' ? 'cyan-10' : 'accent',
-      inactive: $q.cookies.get('theme') === 'dark' ? 'cyan-8' : 'purple-5'
-    })
 
     const username = ref(''),
           password = ref(''),
