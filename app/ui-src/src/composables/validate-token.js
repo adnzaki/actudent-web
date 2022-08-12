@@ -15,15 +15,18 @@ function validateToken (validator, teacherReport) {
         Authorization: bearerToken
       }
     })
-      .then(response => {
-        if (response.data.status === 503) {
+      .then(({ data }) => {
+        if (data.status === 503) {
           redirect()
           console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
         } else {
-          console.log('Successfully established connection to Actudent API.')
+          console.info('Successfully established connection to Actudent API.')
           if(teacherReport && response.data.check === 0) {
             window.location.href = conf.teacherHomeUrl()
           }
+
+          localStorage.setItem(conf.userLang, data.lang)
+          console.info('App language synced. Need a full reload to take effect')
         }
       })
       .catch((error) => {

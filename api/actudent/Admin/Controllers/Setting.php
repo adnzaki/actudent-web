@@ -4,12 +4,6 @@ use CodeIgniter\Files\FileCollection;
 
 class Setting extends \Actudent
 {
-    public function setWarnaTema($tema)
-    {
-        $this->setting->setTheme($_SESSION['email'], $tema);
-        return redirect()->to(base_url('admin/pengaturan-aplikasi'));
-    }
-
     public function setLanguage()
     {
         if(valid_token()) {

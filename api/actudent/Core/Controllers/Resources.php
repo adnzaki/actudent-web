@@ -66,6 +66,10 @@ class Resources extends \Actudent
             }
         }
 
+        // let's become a passenger, 
+        // no need to create a new route to get the lang config :p
+        $status['lang'] = $this->getLangSetting()->lang;
+
         return $this->response->setJSON($status);
     }
 
