@@ -77,7 +77,7 @@
           <error :label="error.agenda_description" />
 
           <q-btn icon="turned_in" 
-            style="width: 100%" color="accent" 
+            :style="inviteBtn" color="accent" 
             :label="$t('agenda_add_guests')" v-if="userType === '1'"
             @click="showGuestSelector" />
 
@@ -166,7 +166,7 @@
 
 <script>
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { ref, computed, provide } from 'vue'
+import { ref, reactive, computed, provide } from 'vue'
 import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
 import { selectedLang } from '../../composables/date'
@@ -318,6 +318,7 @@ export default {
       }
 
       store.state.agenda.isEditForm = false
+      store.state.agenda.mainForm = true
     }
 
     const disableSaveButton = computed(() => store.state.agenda.helper.disableSaveButton)
@@ -327,6 +328,11 @@ export default {
     })
 
     return {
+      inviteBtn: reactive({
+        width: $q.screen.lt.sm ? '98%' : '99%', 
+        marginLeft: 0,
+        marginTop: '15px'
+      }),
       showGuestSelector() {
         store.state.agenda.mainForm = false
       },
