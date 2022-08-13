@@ -56,7 +56,8 @@ class Auth extends \Actudent
                         'msg'   => 'valid', 
                         'token' => jwt_encode($token),
                         'level' => $pengguna->user_level,
-                        'grade' => $gradeId
+                        'grade' => $gradeId,
+                        'lang'  => $this->getAppConfig($pengguna->user_id)->lang
                     ]);
                 }
             }

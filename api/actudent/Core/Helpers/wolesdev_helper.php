@@ -23,7 +23,11 @@ if ( ! function_exists('get_lang'))
     function get_lang(string $line, array $args = [])
     {
         $ac = new \Actudent;
-        return lang($line, $args, $ac->getLangSetting()->lang);
+        if(valid_token()) {
+            $user = $ac->getDataPengguna();
+            $lang = $ac->getAppConfig($user->user_id)->lang;
+            return lang($line, $args, $lang);
+        }
     }
 }
 
