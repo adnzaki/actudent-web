@@ -1,4 +1,34 @@
 export default {
+  'beta-3.ac.v2.0045': [
+    {
+      key: '[Baru]',
+      desc: 'Login menggunakan NIK'
+    },
+    {
+      key: '[Baru]',
+      desc: 'Menu pengaturan aplikasi'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki bug tidak dapat memuat bahasa Inggris di sisi server'
+    },
+    {
+      key: '[Peningkatan]',
+      desc: 'Penambahan detil jadwal pada menu Jadwal Kehadiran (Guru) di tampilan mobile'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki app drawer yang muncul secara default di beberapa layar smartphone'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Menghapus karakter yang tidak diperbolehkan untuk input username orang tua/pegawai'
+    },
+    {
+      key: '[Internal]',
+      desc: 'Mencegah akses masuk untuk akun orang tua saat validasi login'
+    },
+  ],
   'beta-2.ac.v2.0044': [
     {
       key: '[Perbaikan]',
@@ -177,29 +207,5 @@ export default {
       key: 'Perubahan ukuran form',
       desc: `Modal form kini tidak lagi menggunakan layar penuh untuk perangkat mobile`
     }
-  ],
-  'ac.v2.0024': [
-    {
-      key: 'Status Layanan',
-      desc: `Perbaikan tampilan multi-line teks yang tidak terbaca pada 
-             peringatan status layanan segera berakhir`
-    },
-    {
-      key: 'Mata Pelajaran',
-      desc: `Menambahkan fitur Mata Pelajaran untuk mengelola daftar mata pelajaran
-             yang tersedia di sekolah`
-    },
-    {
-      key: 'Perbaikan Pagination',
-      desc: `Memperbaiki bug halaman saat ini tidak terupdate setelah menghapus data`
-    },
-    {
-      key: 'Beranda',
-      desc: `Menambahkan informasi riwayat pembaruan sebelumnya`
-    },
-    {
-      key: 'Informasi Pembaruan',
-      desc: `Informasi pembaruan kini tersedia dalam bahasa Indonesia dan Inggris`
-    },
   ],
 }
