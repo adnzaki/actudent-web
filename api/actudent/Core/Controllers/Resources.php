@@ -64,7 +64,14 @@ class Resources extends \Actudent
             if($validator === 'is_teacher') {
                 $status['check'] = $this->checkHomeroomTeacher()['check'];
             }
+
+            // let's become a passenger, 
+            // no need to create a new route to get the lang config :p
+            $user = $this->getDataPengguna();
+            $status['lang'] = $this->getAppConfig($user->user_id)->lang;
         }
+
+        
 
         return $this->response->setJSON($status);
     }

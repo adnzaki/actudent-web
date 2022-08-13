@@ -1,62 +1,62 @@
 const indonesia = [
   {
     key: '[Baru]',
-    desc: 'Login menggunakan NIK'
-  },
-  {
-    key: '[Baru]',
-    desc: 'Menu pengaturan aplikasi'
-  },
-  {
-    key: '[Perbaikan]',
-    desc: 'Memperbaiki bug tidak dapat memuat bahasa Inggris di sisi server'
+    desc: 'Menambahkan fitur undangan pada Agenda'
   },
   {
     key: '[Peningkatan]',
-    desc: 'Penambahan detil jadwal pada menu Jadwal Kehadiran (Guru) di tampilan mobile'
+    desc: 'Mencegah akses ke halaman login untuk pengguna yang sudah login'
+  },
+  {
+    key: '[Peningkatan]',
+    desc: 'Menyesuaikan tampilan Agenda untuk perangkat mobile'
+  },
+  {
+    key: '[Peningkatan]',
+    desc: 'Menyesuaikan tampilan form untuk perangkat mobile'
   },
   {
     key: '[Perbaikan]',
-    desc: 'Memperbaiki app drawer yang muncul secara default di beberapa layar smartphone'
+    desc: 'Sinkronisasi sistem bahasa antar client-server'
   },
   {
     key: '[Perbaikan]',
-    desc: 'Menghapus karakter yang tidak diperbolehkan untuk input username orang tua/pegawai'
+    desc: 'Error saat menampilkan cetak PDF rekap semester jika data tidak tersedia'
   },
   {
-    key: '[Internal]',
-    desc: 'Mencegah akses masuk untuk akun orang tua saat validasi login'
+    key: '[Perbaikan]',
+    desc: 'Teks menu yang gagal termuat saat pengguna melakukan full reload'
   },
 ]
 
 const english = [
   {
     key: '[New]',
-    desc: 'Login using NIK'
-  },
-  {
-    key: '[New]',
-    desc: 'App settings menu'
-  },
-  {
-    key: '[Fixes]',
-    desc: 'Fixed the bug cannot load English on server side'
+    desc: 'Added invitation feature to Agenda'
   },
   {
     key: '[Improvement]',
-    desc: 'Added schedule details to the Schedule Attendance (Teacher) menu on the mobile display'
+    desc: 'Prevent access to login page for already logged in users'
+  },
+  {
+    key: '[Improvement]',
+    desc: 'Customizing the Agenda view for mobile devices'
+  },
+  {
+    key: '[Improvement]',
+    desc: 'Customize the appearance of the form for mobile devices'
   },
   {
     key: '[Fixes]',
-    desc: ' Fixed app drawer appearing by default on some smartphone screens'
+    desc: 'Synchronization of language system between client-server'
   },
   {
     key: '[Fixes]',
-    desc: 'Removed characters that are not allowed to input parent/employee username'
+    desc: 'Error displaying printable PDF of semester recap if data is not available'
   },
   {
     key: '[Fixes]',
-    desc: 'Prevent login access for parent account during login validation'
+    desc: 'Menu text that failed to load when user make a full reload'
   },
 ]
 

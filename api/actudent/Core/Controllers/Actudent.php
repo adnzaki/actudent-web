@@ -81,21 +81,18 @@ class Actudent extends \CodeIgniter\Controller
         ]);
     }
 
-    public function getLangSetting()
+    public function getAppConfig($userId)
     {
         $path = $this->defaultLangPath;
+        $userPath = $this->userLangPath().$userId.'.json';
 
-        if(valid_token()) {
-            $userData = $this->getDataPengguna();
-            $userPath = $this->userLangPath().$userData->user_id.'.json';
-            if(file_exists($userPath)) {
-                $path = $userPath;
-            }
+        if(file_exists($userPath)) {
+            $path = $userPath;
         }
 
-        $lang = file_get_contents($path);
+        $config = file_get_contents($path);
 
-        return json_decode($lang);
+        return json_decode($config);
     }
 
     protected function userLangPath()
@@ -209,7 +206,7 @@ class Actudent extends \CodeIgniter\Controller
      * 
      * @return object
      */
-    protected function getDataPengguna($token = '')
+    public function getDataPengguna($token = '')
     {
         if(valid_token($token)) {
             $inputToken = empty($token) ? bearer_token() : $token;

@@ -154,10 +154,8 @@ export default {
                   $q.cookies.set(conf.cookieName, res.token, cookieOptions)
                   $q.cookies.set(conf.userType, res.level, cookieOptions)
 
-                  // if user login for the first time and does not set the language
-                  if(userLang === null) {
-                    localStorage.setItem(conf.userLang, 'indonesia')
-                  }
+                  // always re-set the language after login successful
+                  localStorage.setItem(conf.userLang, res.lang)
 
                   // redirect to dashboard depend on user type...
                   if(res.level === '1') {
