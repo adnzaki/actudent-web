@@ -64,6 +64,14 @@
               </q-input>
             </div>
           </div>
+
+          <q-select class="q-mb-lg"
+            outlined
+            :label="$t('siabsen_permit_type')"
+            v-model="permitType"
+            :options="permitOptions"
+            dense
+          />
   
           <q-input outlined :label="$t('siabsen_alasan_izin')" dense v-model="formData.permit_reason" />
           <error :label="error.permit_reason" />  
@@ -92,7 +100,7 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
 import { maximizedDialog, cardDialog } from 'src/composables/screen'
@@ -103,6 +111,22 @@ export default {
   setup() { 
     const store = useStore()
     const $q = useQuasar()
+
+    const permitType = ref({})
+
+    const permitOptions = ref([])
+
+    setTimeout(() => {
+      permitType.value = {
+        label: t('siabsen_izin_full'), value: 'none'
+      }
+
+      permitOptions.value = [
+        { label: t('siabsen_izin_full'), value: 'none' },
+        { label: t('siabsen_izin_masuk'), value: 'masuk' },
+        { label: t('siabsen_izin_pulang'), value: 'pulang' }
+      ]
+    }, 1500)
 
     let formValue = {
       permit_date: date.formatDate(new Date(), 'YYYY-MM-DD'),
@@ -131,6 +155,7 @@ export default {
     const formData = ref(formValue)
     const saveStatus = computed(() => store.state.siabsen.saveStatus)
     const save = () => {
+      formData.value.permit_presence = permitType.value.value
       store.dispatch('siabsen/sendPermitRequest', formData.value)
     }
 
@@ -182,6 +207,7 @@ export default {
           permit_date: date.formatDate(new Date(), 'YYYY-MM-DD'),
           permit_starttime: '08:00',
           permit_endtime: '12:00',
+          permit_presence: permitType.value.value,
           permit_reason: '',
           permit_photo: '',
         }
@@ -201,12 +227,13 @@ export default {
           }]
         })
           .then(() => {
-            console.log('Form canceled, attachment removed if exists.')
+            console.info('Form canceled, attachment removed if exists.')
           })
       }
     }    
     
     return {
+      permitType, permitOptions,
       save,
       uploadFile,
       dateOptions,

@@ -251,7 +251,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     private function search(string $searchBy = 'staff_name', string $search = '')
     {
-        $field = "permit_id, {$this->presencePermit}.staff_id, staff_name, permit_date, permit_starttime, permit_endtime, permit_reason, permit_photo, permit_status";
+        $field = "permit_id, {$this->presencePermit}.staff_id, staff_name, permit_date, permit_starttime, permit_endtime, permit_presence, permit_reason, permit_photo, permit_status";
 
         $select = $this->QBPermit->select($field);
         $join = $select->join($this->staff, "{$this->presencePermit}.staff_id={$this->staff}.staff_id");
@@ -270,6 +270,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
             'permit_date'       => $data['permit_date'],
             'permit_starttime'  => $data['permit_starttime'],
             'permit_endtime'    => $data['permit_endtime'],
+            'permit_presence'   => $data['permit_presence'],
             'permit_reason'     => $data['permit_reason'],
             'permit_photo'      => $data['permit_photo'],
             'permit_status'     => 'submitted',

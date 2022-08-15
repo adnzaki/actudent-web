@@ -64,6 +64,7 @@ class Pegawai extends Admin
             'permit_date'       => 'required|valid_date[Y-m-d]',
             'permit_starttime'  => 'required|valid_date[H:i]',
             'permit_endtime'    => 'required|valid_date[H:i]',
+            'permit_presence'   => 'required',
             'permit_reason'     => 'required',
             'permit_photo'      => 'required',
         ];
@@ -81,6 +82,9 @@ class Pegawai extends Admin
                 'required'      => get_lang('SiAbsen.permit_endtime_required'),
                 'valid_date'    => get_lang('SiAbsen.permit_time_invalid'),
             ],
+            'permit_presence' => [
+                'required'      => get_lang('SiAbsen.permit_type_required'),
+            ],
             'permit_reason' => [
                 'required'      => get_lang('SiAbsen.permit_reason_required'),
             ],'permit_photo' => [
@@ -97,6 +101,7 @@ class Pegawai extends Admin
             'permit_date'       => $this->request->getPost('permit_date'),
             'permit_starttime'  => $this->request->getPost('permit_starttime'),
             'permit_endtime'    => $this->request->getPost('permit_endtime'),
+            'permit_presence'   => $this->request->getPost('permit_presence'),
             'permit_reason'     => $this->request->getPost('permit_reason'),
             'permit_photo'      => $this->request->getPost('permit_photo'),
         ];

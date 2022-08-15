@@ -20,6 +20,10 @@
               <q-input outlined dense v-model="$store.state.siabsen.permitDetail.permit_endtime" readonly />
             </div>
           </div>
+
+          <q-input outlined :label="$t('siabsen_permit_type')" dense 
+            class="q-mb-lg"
+            readonly :model-value="permitType($store.state.siabsen.permitDetail.permit_presence)" />
   
           <q-input outlined :label="$t('siabsen_alasan_izin')" dense readonly v-model="$store.state.siabsen.permitDetail.permit_reason" />
           <q-btn target="_blank" style="width: 100%;" class="q-mt-md"
@@ -54,12 +58,14 @@
 import { useStore } from 'vuex'
 import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { conf } from 'src/composables/common'
+import permitType from '../admin_permit/permit-type'
 
 export default {
   setup() { 
     const store = useStore()
     
     return {
+      permitType,
       maximizedDialog,
       setStatus: (val, id ) => {
         store.dispatch('siabsen/setPermitStatus', {

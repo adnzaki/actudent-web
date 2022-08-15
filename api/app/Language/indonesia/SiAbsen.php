@@ -42,6 +42,7 @@ return [
     'permit_time_invalid'       => 'Format waktu tidak valid [Format yang diizinkan: HH:mm]',
     'permit_reason_required'    => 'Kolom alasan tidak boleh kosong',
     'permit_photo_required'     => 'Lampiran tidak boleh kosong',
+    'permit_type_required'      => 'Jenis izin tidak boleh kosong',
     'siabsen_upload_progress'   => 'Menggunggah lampiran...',
     'siabsen_permit_progress'   => 'Mengirim permintaan izin...',
     'siabsen_permit_error'      => 'Gagal mengirim permintaan izin, silakan isi form dengan benar',
@@ -104,4 +105,8 @@ return [
     'siabsen_rekap_waktu'       => 'Rekapitulasi Waktu',
     'siabsen_presence_note'     => 'Catatan Kehadiran',
     'siabsen_presence_monitor'  => 'Monitoring Kehadiran',
+    'siabsen_permit_type'       => 'Jenis izin',
+    'siabsen_izin_full'         => 'Datang-Pulang',
+    'siabsen_izin_masuk'        => 'Datang saja',
+    'siabsen_izin_pulang'       => 'Pulang saja',
 ];

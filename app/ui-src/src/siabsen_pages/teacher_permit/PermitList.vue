@@ -8,6 +8,7 @@
             <th class="text-left">{{ $t('tanggal') }}</th>
             <th class="text-left mobile-hide">{{ $t('jadwal_waktu') }}</th>
             <th class="text-left mobile-hide">{{ $t('siabsen_alasan_izin') }}</th>
+            <th class="text-left mobile-hide">{{ $t('siabsen_permit_type') }}</th>
             <th class="text-left">Status</th>
             <th class="text-left mobile-hide">{{ $t('feedback_label_att') }}</th>
             <th class="text-left mobile-only">{{ $t('aksi') }}</th>
@@ -17,11 +18,12 @@
           <tr v-for="(item, index) in data" :key="index">
             <td class="text-center">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
             <td class="text-left" v-if="$q.screen.lt.sm">{{ $formatDate(item.permit_date, 'DD/MM/YYYY') }}</td>
-            <td class="text-left" v-else>{{ $formatDate(item.permit_date) }}</td>
+            <td class="text-left" v-else>{{ $formatDate(item.permit_date, 'dddd, DD-MMM-YYYY') }}</td>
             <td class="text-left mobile-hide">
               {{ item.permit_starttime.substring(0, 5) }} - {{ item.permit_endtime.substring(0, 5) }}
             </td>
-            <td class="text-left mobile-hide">{{ item.permit_reason }}</td>
+            <td class="text-left mobile-hide">{{ $trim(item.permit_reason) }}</td>
+            <td class="text-left mobile-hide">{{ permitType(item.permit_presence) }}</td>
             <td class="text-left">
               <status-badge :value="item.permit_status" />
             </td>
@@ -69,6 +71,7 @@ import { useStore } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StatusBadge from './StatusBadge.vue'
+import permitType from '../admin_permit/permit-type'
 
 export default {
   components: { StatusBadge },
@@ -78,6 +81,7 @@ export default {
     store.dispatch('siabsen/getPermissions')
 
     return {
+      permitType,
       showDeleteConfirm(id) {
         store.dispatch('siabsen/showDeleteConfirm', id)
       },

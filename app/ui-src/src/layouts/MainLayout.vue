@@ -90,6 +90,7 @@ export default defineComponent({
 
     onMounted(() => {
       if($q.cookies.get(conf.userType) === '1') {
+        store.dispatch('siabsen/getPermissionNotif')
         setInterval(() => {
           store.dispatch('siabsen/getPermissionNotif')
         }, 15 * 60 * 1000) // notify admin every 15 minutes

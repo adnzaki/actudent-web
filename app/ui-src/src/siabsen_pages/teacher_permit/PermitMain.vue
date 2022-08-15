@@ -35,7 +35,7 @@ export default {
     PermitDetail
 },
   setup() {
-    const store = useStore();
+    const store = useStore()
     
     return {
         titleSpacing
