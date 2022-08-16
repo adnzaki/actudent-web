@@ -11,11 +11,11 @@ class AgendaModel extends \Actudent\Core\Models\Connector
     /**
      * The Query Builders
      */
-    private $QBAgenda;
+    protected $QBAgenda;
 
     private $QBParent;
 
-    private $QBAgendaUser;
+    protected $QBAgendaUser;
 
     private $QBUser;
 
@@ -28,9 +28,9 @@ class AgendaModel extends \Actudent\Core\Models\Connector
      * 
      * @var string
      */
-    private $agenda = 'tb_agenda';
+    protected $agenda = 'tb_agenda';
 
-    private $agendaUser = 'tb_agenda_user';
+    protected $agendaUser = 'tb_agenda_user';
 
     private $parent = 'tb_parent';
 
