@@ -56,6 +56,7 @@
       >
         <submenu-item :label="$t('absensi_izin')" link="/absence/permit" />
         <submenu-item :label="$t('absensi_rekap_bulanan')" link="/absence/monthly-summary" />
+        <submenu-item :label="$t('siabsen_kegiatan')" link="/absence/events" />
       </q-expansion-item>
 
       <!-- Main App Menu -->

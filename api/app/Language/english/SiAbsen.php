@@ -109,4 +109,5 @@ return [
     'siabsen_izin_full'         => 'In-Out',
     'siabsen_izin_masuk'        => 'In only',
     'siabsen_izin_pulang'       => 'Out only',
+    'siabsen_kegiatan'          => 'Events',
 ];
