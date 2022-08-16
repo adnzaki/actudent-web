@@ -39,7 +39,6 @@ import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
 import { conf, monthList, t } from 'src/composables/common'
 
 export default {
-  name: 'MonthSelector',
   setup() {
     const store = useStore()
     const monthOptions = ref([])

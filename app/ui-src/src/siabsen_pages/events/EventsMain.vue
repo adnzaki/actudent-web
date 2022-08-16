@@ -7,6 +7,7 @@
 
       </div>
     </q-card-section>
+    <month-selector class="q-pa-md" />
     <!-- content here -->
   </q-card>
 </template>
@@ -14,8 +15,12 @@
 <script>
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
+import MonthSelector from './MonthSelector.vue'
 
 export default {
+  components: {
+    MonthSelector
+  },
   setup() {
     return {
       titleSpacing
