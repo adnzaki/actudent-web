@@ -7,20 +7,25 @@
 
       </div>
     </q-card-section>
+    <agenda-form />
     <month-selector class="q-pa-md" />
+    <events-list />
     <!-- content here -->
   </q-card>
 </template>
 
 <script>
-import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import MonthSelector from './MonthSelector.vue'
+import EventsList from './EventsList.vue'
+import AgendaForm from 'src/pages/agenda/AgendaForm.vue'
 
 export default {
   components: {
-    MonthSelector
-  },
+    MonthSelector,
+    EventsList,
+    AgendaForm
+},
   setup() {
     return {
       titleSpacing

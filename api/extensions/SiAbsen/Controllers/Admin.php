@@ -13,6 +13,8 @@ class Admin extends \Actudent
 
     protected $aws;
 
+    protected $kegiatan;
+
     private $days = [
         'senin' => 0, 'selasa' => 1, 'rabu' => 2, 
         'kamis' => 3, 'jumat' => 4, 'sabtu' => 5,
@@ -22,6 +24,7 @@ class Admin extends \Actudent
     public function __construct()
     {
         $this->model = new \SiAbsen\Models\CoreModel;
+        $this->kegiatan = new \SiAbsen\Models\KegiatanModel;
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;
     }
@@ -688,7 +691,7 @@ class Admin extends \Actudent
         return $this->getStaffData()->staff_id;
     }
 
-    private function getStaffData($token = '')
+    protected function getStaffData($token = '')
     {
         $user = $this->getDataPengguna($token);
         $staff = $this->model->getStaffDetail($user->user_id);

@@ -7,7 +7,7 @@ return [
     'siabsen_jam_masuk'         => 'Admission Time',
     'siabsen_jam_pulang'        => 'Return Time',
     'siabsen_waktu_absen'       => 'Your absent time',
-    'siabsen_do_absen'          => 'Present',
+    'siabsen_do_absen'          => 'Absent',
     'siabsen_belum_masuk'       => 'You have not been present yet!',
     'siabsen_telat_masuk'       => 'Ups, you are {0} late ',
     'siabsen_sudah_masuk'       => 'Thanks for coming on time!',

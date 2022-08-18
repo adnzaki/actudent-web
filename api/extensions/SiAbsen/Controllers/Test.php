@@ -8,18 +8,11 @@ use CodeIgniter\I18n\Time;
 class Test extends Admin
 {
     public function testGetSchedules()
-    {
-        timer('monthly-recap');
-        $t1 = strtotime('2022-07-28 07:14:25');
-        $t2 = strtotime('2022-07-29 07:14:25');
-        $data = $t1 > $t2;
-        timer('monthly-recap');
-        $elapsed = timer()->getElapsedTime('monthly-recap');
-
+    {        
+        $user = $this->getDataPengguna();
+        $event = new \SiAbsen\Controllers\Kegiatan;
         return $this->response->setJSON([
-            'elapsed'   => number_format($elapsed, 5),
-            // 'rows'      => $this->model->baseStaffScheduleRows(null, 'staff_name'),
-            'res'       => $data,
+            'data' => $event->getEvents('08-2022')
         ]);
     }
 

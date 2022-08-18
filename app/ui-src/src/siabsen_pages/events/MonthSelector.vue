@@ -38,7 +38,7 @@ export default {
     store.state.siabsen.period = selectedPeriod.value
 
     const getEvents = () => {
-        
+      store.dispatch('siabsen/getUserEvents')
     }    
     
     getEvents()

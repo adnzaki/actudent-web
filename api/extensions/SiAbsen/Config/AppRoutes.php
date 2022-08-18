@@ -34,6 +34,7 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('sync-jadwal-mengajar/(:any)', 'Admin::getTeachingSchedule/$1');
     $routes->add('update-jadwal', 'Admin::updateSchedule');
     $routes->add('get-jadwal-harian', 'Pegawai::getDailySchedule');
+    $routes->add('get-kegiatan/(:any)', 'Kegiatan::getEvents/$1');
     $routes->add('test-get-jadwal', 'Test::testGetSchedules');
     $routes->add('test-status/(:any)', 'Test::testStatus/$1');
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');

@@ -13,6 +13,13 @@ import { date } from 'quasar'
 import { Notify, Dialog } from 'quasar'
 
 export default {
+  getUserEvents({ state }) {
+    siabsen.get(`get-kegiatan/${state.period}`, {
+      headers: { Authorization: bearerToken }
+    }).then(({ data }) => {
+      state.userEvents = data
+    })
+  },
   getRequiredPresent({ state, dispatch }, val) {
     state.requiredPresent = val
     dispatch('getStaffPresence')
