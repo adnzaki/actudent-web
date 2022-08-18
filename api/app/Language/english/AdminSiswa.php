@@ -37,4 +37,5 @@ return [
     'siswa_delete_success'      => 'Successfully deleted student data',
     'siswa_overlimit'           => 'Your Actudent service has reached its limit for number of students, 
                                     please contact your service provider.',
+    'siswa_all'                 => 'All students',
 ];

@@ -6,7 +6,8 @@
     <guest-selector />
     <q-card class="q-pa-sm" :style="cardDialog()" v-if="$store.state.agenda.mainForm">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ cardTitle }}</div>
+        <div class="text-h6 text-capitalize" v-if="conf.userType === '1'">{{ cardTitle }}</div>
+        <div class="text-h6 text-capitalize" v-else>{{ $t('agenda_detail_title') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -108,6 +109,7 @@
           <error :label="error.agenda_guest" /> -->
 
           <q-file :readonly="readonly"
+            v-if="conf.userType === '1'"
             color="grey-3" outlined dense 
             v-model="attachment" 
             :label="$t('agenda_label_att')"

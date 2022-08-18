@@ -12,7 +12,7 @@
             vuex-module="student"
             selected="getStudentsByClass"
             loader="getClassGroup"
-            :label="$t('siswa_semua_kelas')"
+            label="Filter"
             :list="$store.state.student.classGroupList"
             :options-value="{ label: 'grade_name', value: 'grade_id' }"
           />

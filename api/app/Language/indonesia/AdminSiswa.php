@@ -37,4 +37,5 @@ return [
     'siswa_delete_success'      => 'Data siswa berhasil dihapus',
     'siswa_overlimit'           => 'Layanan Actudent anda telah mencapai batas jumlah siswa,
                                     silakan hubungi penyedia layanan anda.',
+    'siswa_all'                 => 'Semua siswa',
 ];
