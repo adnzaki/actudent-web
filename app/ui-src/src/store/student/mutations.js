@@ -93,6 +93,10 @@ export default {
     })
       .then(response => {
         state.classGroupList = response.data
+        state.classGroupList.unshift({
+          grade_name: t('siswa_all'),
+          grade_id: 'null'
+        })
       })
   },
   selectAll(state) {
