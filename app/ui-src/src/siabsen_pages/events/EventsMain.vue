@@ -10,6 +10,7 @@
     <agenda-form />
     <month-selector class="q-pa-md" />
     <events-list />
+    <presence-dialog presence-type="agenda" />
     <!-- content here -->
   </q-card>
 </template>
@@ -19,12 +20,14 @@ import { titleSpacing } from 'src/composables/screen'
 import MonthSelector from './MonthSelector.vue'
 import EventsList from './EventsList.vue'
 import AgendaForm from 'src/pages/agenda/AgendaForm.vue'
+import PresenceDialog from '../dashboard/PresenceDialog.vue'
 
 export default {
   components: {
     MonthSelector,
     EventsList,
-    AgendaForm
+    AgendaForm,
+    PresenceDialog
 },
   setup() {
     return {

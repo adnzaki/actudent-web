@@ -203,7 +203,12 @@ class Pegawai extends Admin
             $path = $dirPath . $newFilename;
 
             // upload to AWS S3...
-            $result = $this->aws->putObject($path);
+            if($tag === 'agenda') {
+                $result = $this->aws->folder('agenda-presence')->putObject($path);
+            } else {
+                $result = $this->aws->putObject($path);
+            }
+
             if(file_exists($path))
             {
                 unlink($path);

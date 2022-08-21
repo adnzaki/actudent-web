@@ -8,8 +8,6 @@ import {
   Cookies
 } from '../../composables/common'
 
-import { date } from 'quasar'
-
 import { Notify, Dialog } from 'quasar'
 
 export default {
@@ -375,7 +373,7 @@ export default {
       url: `${conf.siabsenAPI}get-absensi-pegawai/${state.requiredPresent}/${state.activeDate}/`,
     })
   },
-  pushPresence({ state, commit }, { lat, long }) {
+  pushPresence({ state, commit, dispatch }, { lat, long }) {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
@@ -384,6 +382,10 @@ export default {
       position: 'center',
       timeout: 0,
     })
+
+    const presenceUrl = state.presenceType === 'agenda' 
+                        ? `kirim-absen-agenda/${state.agendaId}`
+                        : `kirim-absen/${state.presenceType}`
 
     siabsen.post(`upload/${state.presenceType}`, { photo: state.base64String }, {
       headers: { Authorization: bearerToken },
@@ -394,7 +396,7 @@ export default {
           lat, long, photo: data.img
         }
 
-        siabsen.post(`kirim-absen/${state.presenceType}`, posts, {
+        siabsen.post(presenceUrl, posts, {
           headers: { Authorization: bearerToken },
           transformRequest: [data => createFormData(data)]
         })
@@ -418,6 +420,7 @@ export default {
               state.presenceSuccess = true
               commit('getTeacherStatus', 'masuk')
               commit('getTeacherStatus', 'pulang')
+              dispatch('getUserEvents')
             }
           })
       })

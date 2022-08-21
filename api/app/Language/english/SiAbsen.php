@@ -110,4 +110,7 @@ return [
     'siabsen_izin_masuk'        => 'In only',
     'siabsen_izin_pulang'       => 'Out only',
     'siabsen_kegiatan'          => 'Events',
+    'siabsen_event_not_started' => 'This is event has not been started yet, please absent at least 30 minutes before the event started.',
+    'siabsen_event_ended'       => 'Sorry, this event has ended.',
+    'siabsen_sudah_absen'       => 'You have filled presence for this event',
 ];
