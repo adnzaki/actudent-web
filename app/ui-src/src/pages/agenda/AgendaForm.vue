@@ -109,7 +109,7 @@
           <error :label="error.agenda_guest" /> -->
 
           <q-file :readonly="readonly"
-            v-if="conf.userType === '1'"
+            v-if="$q.cookies.get(conf.userType) === '1'"
             color="grey-3" outlined dense 
             v-model="attachment" 
             :label="$t('agenda_label_att')"
