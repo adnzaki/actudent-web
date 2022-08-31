@@ -36,41 +36,17 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useStore } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
 import { useQuasar } from 'quasar'
-import { t } from 'src/composables/common'
+
 
 export default {
   setup () {
     const store = useStore()
     const $q = useQuasar()
-
-    const openPresenceDialog = (id, canPresent) => {
-      if(canPresent === 1) {
-        store.state.siabsen.presenceType = 'agenda'
-        store.state.siabsen.agendaId = id
-        store.state.siabsen.showPresenceDialog = true
-      } else {
-        if(canPresent === 'ended') {
-          $q.dialog({
-            title: 'Info',
-            message: t('siabsen_event_ended'),    
-          })
-        } else if(canPresent === 'not_started') {
-          $q.dialog({
-            title: 'Info',
-            message: t('siabsen_event_not_started'),    
-          })
-        } else {
-          $q.dialog({
-            title: 'Info',
-            message: t('siabsen_sudah_absen'),    
-          })
-        }
-      }
-    }
+    const openPresenceDialog = inject('openPresenceDialog')    
 
     return {
       openPresenceDialog,

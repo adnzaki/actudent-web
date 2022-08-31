@@ -9,7 +9,8 @@
     </q-card-section>
     <agenda-form />
     <month-selector class="q-pa-md" />
-    <events-list />
+    <events-list class="mobile-hide" />
+    <events-list-mobile class="mobile-only" />
     <presence-dialog presence-type="agenda" />
     <!-- content here -->
   </q-card>
@@ -21,15 +22,51 @@ import MonthSelector from './MonthSelector.vue'
 import EventsList from './EventsList.vue'
 import AgendaForm from 'src/pages/agenda/AgendaForm.vue'
 import PresenceDialog from '../dashboard/PresenceDialog.vue'
+import EventsListMobile from './EventsListMobile.vue'
+import { useQuasar } from 'quasar'
+import { provide } from 'vue'
+import { useStore } from 'vuex'
+import { t } from 'src/composables/common'
 
 export default {
   components: {
     MonthSelector,
     EventsList,
     AgendaForm,
-    PresenceDialog
+    PresenceDialog,
+    EventsListMobile
 },
   setup() {
+    const store = useStore()
+    const $q = useQuasar()
+
+    const openPresenceDialog = (id, canPresent) => {
+      if(canPresent === 1) {
+        store.state.siabsen.presenceType = 'agenda'
+        store.state.siabsen.agendaId = id
+        store.state.siabsen.showPresenceDialog = true
+      } else {
+        if(canPresent === 'ended') {
+          $q.dialog({
+            title: 'Info',
+            message: t('siabsen_event_ended'),    
+          })
+        } else if(canPresent === 'not_started') {
+          $q.dialog({
+            title: 'Info',
+            message: t('siabsen_event_not_started'),    
+          })
+        } else {
+          $q.dialog({
+            title: 'Info',
+            message: t('siabsen_sudah_absen'),    
+          })
+        }
+      }
+    }
+
+    provide('openPresenceDialog', openPresenceDialog)
+
     return {
       titleSpacing
     }

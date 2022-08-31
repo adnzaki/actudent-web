@@ -43,6 +43,7 @@ class Kegiatan extends Pegawai
             $period = reverse($period, '-', '-');
             $data = $this->kegiatan->getUserEvents($this->getUserId(), $period);
             $formattedData = [];
+
             foreach($data as $d) {
                 $start = explode(' ', $d->agenda_start);
                 $end = explode(' ', $d->agenda_end);
@@ -53,7 +54,7 @@ class Kegiatan extends Pegawai
                 
                 $rStartDate = reverse($startDate, '-', '-');
                 $rEndDate = reverse($endDate, '-', '-');
-                $time = $startTime .' - '. $endTime;
+                $time = substr($startTime, 0, 5) .' - '. substr($endTime, 0, 5);
                 $dateFormat = 'DD-MM-y';
 
                 if($startDate === $endDate) {
@@ -62,6 +63,7 @@ class Kegiatan extends Pegawai
                         'date'      => os_date()->format($dateFormat, $rStartDate),
                         'name'      => $d->agenda_name,
                         'time'      => $time,
+                        'priority'  => $d->agenda_priority,
                         'canPresent'=> $this->canPresent($d->agenda_id, $d->agenda_start, $d->agenda_end)
                     ];
                 } else {
@@ -78,6 +80,7 @@ class Kegiatan extends Pegawai
                             'date'      => os_date()->format($dateFormat, $currentDate),
                             'name'      => $d->agenda_name,
                             'time'      => $time,
+                            'priority'  => $d->agenda_priority,
                             'canPresent'=> $this->canPresent($d->agenda_id, $dateTimeRaw, $d->agenda_end)
                         ];
 

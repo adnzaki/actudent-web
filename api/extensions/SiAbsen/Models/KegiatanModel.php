@@ -28,7 +28,7 @@ class KegiatanModel extends \Actudent\Admin\Models\AgendaModel
     
     public function getUserEvents(int $id, string $period)
     {
-        $query = $this->QBAgenda->select("{$this->agenda}.agenda_id, agenda_name, agenda_start, agenda_end")
+        $query = $this->QBAgenda->select("{$this->agenda}.agenda_id, agenda_name, agenda_start, agenda_end, agenda_priority")
                  ->join($this->agendaUser, "{$this->agenda}.agenda_id={$this->agendaUser}.agenda_id")
                  ->like('agenda_start', $period)->where(["{$this->agendaUser}.user_id" => $id])
                  ->orderBy('agenda_start', 'DESC');
