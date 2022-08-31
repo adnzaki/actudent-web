@@ -41,13 +41,11 @@
 <script>
 import { computed, inject } from 'vue'
 import { useStore } from 'vuex'
-import { useQuasar } from 'quasar'
 import { t } from 'src/composables/common'
 
 export default {
   setup() {
     const store = useStore()
-    const $q = useQuasar()
 
     const openPresenceDialog = inject('openPresenceDialog')
 
