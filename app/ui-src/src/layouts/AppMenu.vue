@@ -26,6 +26,7 @@
         v-if="$q.cookies.get(conf.userType) === '1'"
       >
         <submenu-item :label="$t('menu_manage_siabsen')" link="/teacher-presence/manage" />
+        <submenu-item :label="$t('siabsen_kegiatan')" link="/teacher-presence/events" />
 
         <!-- Permission menu only -->
         <q-item 

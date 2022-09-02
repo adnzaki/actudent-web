@@ -27,6 +27,7 @@ import PresenceDetail from 'src/siabsen_pages/admin_summary/PresenceDetail.vue'
 import ConfigMain from 'src/siabsen_pages/config/ConfigMain.vue'
 import AppSettingsMain from 'pages/app_settings/Index.vue'
 import PresenceScheduleMain from 'src/siabsen_pages/presence_schedule/ScheduleMain.vue'
+import AdminEvents from 'src/siabsen_pages/admin_events/EventsMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -66,6 +67,7 @@ export default [
     path: 'teacher-presence', component: SiAbsenIndex, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: ManageMain, beforeEnter: () => routeValidator() },
+      { path: 'events', component: AdminEvents, beforeEnter: () => routeValidator() },
       { path: 'manage', component: ManageMain, beforeEnter: () => routeValidator() },
       { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator() },
       { 

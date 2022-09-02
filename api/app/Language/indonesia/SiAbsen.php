@@ -113,4 +113,5 @@ return [
     'siabsen_event_not_started' => 'Acara ini belum dimulai, silakan absen minimal 30 menit sebelum acara dimulai.',
     'siabsen_event_ended'       => 'Maaf, acara ini sudah berakhir.',
     'siabsen_sudah_absen'       => 'Anda sudah mengisi absen untuk kegiatan ini',
+    'siabsen_event_attendance'  => 'Daftar Hadir Kegiatan',
 ];

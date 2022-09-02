@@ -28,7 +28,13 @@ import { conf, monthList, t } from 'src/composables/common'
 
 export default {
   name: 'MonthSelector',
-  setup() {
+  props: {
+    allEvents: {
+      default: false,
+      type: Boolean
+    }
+  },
+  setup(props) {
     const store = useStore()
     const monthOptions = ref([])
     const period = ref({})
@@ -38,7 +44,8 @@ export default {
     store.state.siabsen.period = selectedPeriod.value
 
     const getEvents = () => {
-      store.dispatch('siabsen/getUserEvents')
+      if(props.allEvents) store.dispatch('siabsen/getAllEvents')
+      else store.dispatch('siabsen/getUserEvents')
     }    
     
     getEvents()

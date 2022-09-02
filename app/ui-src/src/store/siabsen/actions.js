@@ -11,6 +11,13 @@ import {
 import { Notify, Dialog } from 'quasar'
 
 export default {
+  getAllEvents({ state }) {
+    siabsen.get(`get-kegiatan/${state.period}/1`, {
+      headers: { Authorization: bearerToken }
+    }).then(({ data }) => {
+      state.allEvents = data
+    })
+  },
   getUserEvents({ state }) {
     siabsen.get(`get-kegiatan/${state.period}`, {
       headers: { Authorization: bearerToken }

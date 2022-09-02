@@ -37,11 +37,16 @@ class Kegiatan extends Pegawai
         }
     }
 
-    public function getEvents($period)
+    public function getEvents($period, $forAdmin = 0)
     {
         if(valid_token()) {
             $period = reverse($period, '-', '-');
-            $data = $this->kegiatan->getUserEvents($this->getUserId(), $period);
+            if($forAdmin === '1') {
+                $data = $this->kegiatan->getAllEvents($period);
+            } else {
+                $data = $this->kegiatan->getUserEvents($this->getUserId(), $period);
+            }
+
             $formattedData = [];
 
             foreach($data as $d) {

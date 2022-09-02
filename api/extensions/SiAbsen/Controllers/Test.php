@@ -11,9 +11,11 @@ class Test extends Admin
     {        
         $user = $this->getDataPengguna();
         $event = new \SiAbsen\Controllers\Kegiatan;
+        $model = new \SiAbsen\Models\KegiatanModel;
         return $this->response->setJSON([
-            'data' => $event->getEvents('08-2022')
+            'data' => $model->getAllEvents('2022-08')
         ]);
+        // echo $model->getAllEvents('2022-08');
     }
 
     public function testAws($keyname)
