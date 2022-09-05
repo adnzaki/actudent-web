@@ -9,7 +9,8 @@
     </q-card-section>
     <agenda-form />
     <month-selector class="q-pa-md" all-events />
-    <events-list />
+    <events-list class="mobile-hide" />
+    <events-list-mobile class="mobile-only" />
     <!-- content here -->
   </q-card>
 </template>
@@ -19,12 +20,14 @@ import { titleSpacing } from 'src/composables/screen'
 import MonthSelector from '../events/MonthSelector.vue';
 import EventsList from './EventsList.vue';
 import AgendaForm from 'src/pages/agenda/AgendaForm.vue';
+import EventsListMobile from './EventsListMobile.vue';
 
 export default {
   components: {
     MonthSelector,
     EventsList,
-    AgendaForm
+    AgendaForm,
+    EventsListMobile
   },
   setup() {
     
