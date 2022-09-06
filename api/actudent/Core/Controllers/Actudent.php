@@ -212,7 +212,7 @@ class Actudent extends \CodeIgniter\Controller
             $inputToken = empty($token) ? bearer_token() : $token;
             $decodedToken = jwt_decode($inputToken);
             $auth = new AuthModel;
-            return $auth->getDataPengguna($decodedToken->email);
+            return $auth->getDataPengguna($decodedToken->id);
         }
     }
 }
