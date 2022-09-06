@@ -5,15 +5,13 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use CodeIgniter\I18n\Time;
 
-class Test extends Admin
+class Test extends Kegiatan
 {
     public function testGetSchedules()
     {        
         $user = $this->getDataPengguna();
-        $event = new \SiAbsen\Controllers\Kegiatan;
-        $model = new \SiAbsen\Models\KegiatanModel;
         return $this->response->setJSON([
-            'data' => $model->getAllEvents('2022-08')
+            'data' => $this->getEventDetail(61, 25, 0)
         ]);
         // echo $model->getAllEvents('2022-08');
     }

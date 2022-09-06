@@ -12,7 +12,48 @@ class KegiatanModel extends \Actudent\Admin\Models\AgendaModel
         $this->QBAgendaPresence = $this->db->table($this->agendaPresence);
     }
 
-    public function insertPresence($data)
+    public function getPresence($agendaId, $userId)
+    {
+        $search = $this->QBAgendaPresence->getWhere([
+            'agenda_id' => $agendaId,
+            'user_id'   => $userId
+        ]);
+
+        $user = new \Actudent\Admin\Models\PenggunaModel;
+        $userDetail = $user->getUserDetail($userId);
+        $userName = $userDetail[0]->user_name;
+        $level = [
+            0 => 'Staff',
+            2 => get_lang('AdminPegawai.staff_guru'),
+            3 => get_lang('AdminAgenda.agenda_check_ortu')
+        ];
+
+        $userLevel = $level[$userDetail[0]->user_level];
+
+        if($search->getNumRows() > 0) {            
+            $result = $search->getResult()[0];
+            $time = explode(' ', $result->presence_datetime)[1];
+            return [
+                'name'  => $userName,
+                'type'  => $userLevel,
+                'time'  => substr($time, 0, 5),
+                'photo' => $result->presence_photo,
+                'level' => $userDetail[0]->user_level
+            ];
+        } else {
+            return [
+                'name'  => $userName,
+                'type'  => $userLevel,
+                'time'  => '--:--',
+                'photo' => '-',
+                'level' => $userDetail[0]->user_level
+            ];
+        }
+
+        return $search->getResult();
+    }
+
+    public function insertPresence(array $data): void
     {
         $values = [
             'agenda_id'         => $data['agenda'],

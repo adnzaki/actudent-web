@@ -31,7 +31,7 @@
         </q-card-section>
         <q-card-actions align="center">
           <q-btn class="stafflist-btn" :label="$t('siabsen_event_attendance')" 
-             color="accent" />
+            @click="goToAttendance(item.id)" color="accent" />
         </q-card-actions>
       </q-card>
     </q-expansion-item>    
@@ -39,15 +39,17 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, inject } from 'vue'
 import { useStore } from 'vuex'
 import { t } from 'src/composables/common'
 
 export default {
   setup() {
     const store = useStore()
+    const goToAttendance = inject('goToAttendance')
 
     return {
+      goToAttendance,
       badgeLabel: priority => {
         const label = {
           'high': t('agenda_input_highprior'),

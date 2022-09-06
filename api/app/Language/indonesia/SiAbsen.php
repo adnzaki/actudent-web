@@ -114,4 +114,7 @@ return [
     'siabsen_event_ended'       => 'Maaf, acara ini sudah berakhir.',
     'siabsen_sudah_absen'       => 'Anda sudah mengisi absen untuk kegiatan ini',
     'siabsen_event_attendance'  => 'Daftar Hadir Kegiatan',
+    'siabsen_not_present_1'     => 'Belum hadir',
+    'siabsen_not_present_2'     => 'Tidak hadir',
+    'siabsen_present_time'      => 'Waktu absen',
 ];

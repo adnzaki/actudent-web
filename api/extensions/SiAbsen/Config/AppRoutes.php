@@ -37,6 +37,7 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('get-kegiatan/(:any)', 'Kegiatan::getEvents/$1');
     $routes->add('get-kegiatan/(:any)/(:any)', 'Kegiatan::getEvents/$1/$2');
     $routes->add('kirim-absen-agenda/(:any)', 'Kegiatan::sendAgendaPresence/$1');
+    $routes->add('get-daftar-hadir/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kegiatan::getEventDetail/$1/$2/$3/$4/$5/$6');
     $routes->add('test-get-jadwal', 'Test::testGetSchedules');
     $routes->add('test-status/(:any)', 'Test::testStatus/$1');
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');

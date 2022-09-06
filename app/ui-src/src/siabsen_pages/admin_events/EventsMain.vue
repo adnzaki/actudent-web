@@ -7,7 +7,6 @@
 
       </div>
     </q-card-section>
-    <agenda-form />
     <month-selector class="q-pa-md" all-events />
     <events-list class="mobile-hide" />
     <events-list-mobile class="mobile-only" />
@@ -16,20 +15,29 @@
 </template>
 
 <script>
+import { provide } from 'vue'
+import { useStore } from 'vuex'
+import { useRouter } from 'vue-router'
 import { titleSpacing } from 'src/composables/screen'
 import MonthSelector from '../events/MonthSelector.vue';
 import EventsList from './EventsList.vue';
-import AgendaForm from 'src/pages/agenda/AgendaForm.vue';
 import EventsListMobile from './EventsListMobile.vue';
 
 export default {
   components: {
     MonthSelector,
     EventsList,
-    AgendaForm,
     EventsListMobile
   },
   setup() {
+    const store = useStore()
+    const router = useRouter()
+
+    const goToAttendance = agendaId => {
+      router.push('events/attendance/' + agendaId)
+    }
+
+    provide('goToAttendance', goToAttendance)
     
     return {
       titleSpacing

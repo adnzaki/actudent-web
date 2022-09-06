@@ -5,6 +5,22 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class Kegiatan extends Pegawai
 {
+    public function getEventDetail($agendaId, $limit, $offset, $orderBy = 'none', $searchBy = 'none', $sort = 'none')
+    {
+        $guest = array_column($this->kegiatan->getEventGuests($agendaId), 'user_id');
+
+        $guestToLoad = array_slice($guest, $offset, $limit);
+        $wrapper = [];
+        foreach($guestToLoad as $g) {
+            $wrapper[] = $this->kegiatan->getPresence($agendaId, $g);
+        }
+
+        return $this->createResponse([
+            'container' => $wrapper,
+            'totalRows' => count($guest)
+        ], 'is_admin');
+    }
+
     public function sendAgendaPresence($agendaId)
     {
         if(valid_token()) {

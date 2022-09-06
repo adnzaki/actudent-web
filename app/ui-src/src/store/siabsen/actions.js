@@ -11,6 +11,19 @@ import {
 import { Notify, Dialog } from 'quasar'
 
 export default {
+  getAttendance({ state, dispatch }, agendaId) {
+    dispatch('getData', {
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit: 50,
+      offset: state.current - 1,
+      orderBy: 'none',
+      searchBy: 'none',
+      sort: 'none',
+      search: '',
+      url: `${conf.siabsenAPI}get-daftar-hadir/${agendaId}/`,
+    })
+  },
   getAllEvents({ state }) {
     siabsen.get(`get-kegiatan/${state.period}/1`, {
       headers: { Authorization: bearerToken }

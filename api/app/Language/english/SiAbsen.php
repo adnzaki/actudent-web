@@ -114,4 +114,7 @@ return [
     'siabsen_event_ended'       => 'Sorry, this event has ended.',
     'siabsen_sudah_absen'       => 'You have filled presence for this event',
     'siabsen_event_attendance'  => 'Event Attendance',
+    'siabsen_not_present_1'     => 'Not present yet',
+    'siabsen_not_present_2'     => 'Not present',
+    'siabsen_present_time'      => 'Present time',
 ];
