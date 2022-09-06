@@ -63,7 +63,10 @@ class Auth extends \Actudent
             }
             else 
             {
-                return $this->response->setJSON(['msg' => 'invalid']);
+                return $this->response->setJSON([
+                    'msg'   => 'invalid',
+                    'user'  => $username
+                ]);
             }
         }
     }

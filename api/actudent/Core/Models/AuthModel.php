@@ -34,9 +34,8 @@ class AuthModel extends \Actudent\Core\Models\Connector
         if($query->getNumRows() > 0) {
             $staffData = $query->getResult()[0];
             $userId = $staffData->user_id;
-            $joinData = $pegawai->getStaffDetail($userId)[0];
 
-            return $joinData->user_email;
+            return $userId;
         } else {
             return false;
         }
@@ -54,23 +53,9 @@ class AuthModel extends \Actudent\Core\Models\Connector
         $field = 'user_id, user_name, user_email, user_level';
         $query = $this->user->select($field)
             ->where('user_email', $username)
-            ->orWhere('user_id', $username)
+            ->orWhere('user_id', (int)$username)
             ->get()->getResult();
         return $query[0];
-    }
-
-    /**
-     * Show get users query
-     * 
-     * @param string $username
-     * 
-     * @return string
-     */
-    public function showPenggunaQuery(string $username): string
-    {
-        $query = $this->user->select('user_name, user_email, user_level')
-                ->where('user_email', $username)->getCompiledSelect();
-        return $query;
     }
 
     /**
@@ -97,7 +82,9 @@ class AuthModel extends \Actudent\Core\Models\Connector
      */
     public function validasi(string $username, string $password): bool
     {
-        $find = $this->user->where(['user_email' => $username]);
+        $find = $this->user
+                     ->where(['user_email' => $username])
+                     ->orWhere(['user_id' => (int)$username]);
         $userAktif = $find->get()->getResult();
         if($find->countAllResults() > 0 && $this->userAktif($username))
         {
@@ -125,7 +112,10 @@ class AuthModel extends \Actudent\Core\Models\Connector
      */
     public function userAktif(string $username): bool
     {
-        $query = $this->user->where('user_email', $username)->get()->getResult();
+        $query = $this->user
+                      ->where('user_email', $username)
+                      ->orWhere(['user_id' => (int)$username])
+                      ->get()->getResult();
         if(count($query) > 0)
         {
             if($query[0]->deleted === '0')
