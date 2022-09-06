@@ -16,7 +16,7 @@
     </q-card-section>
     <!-- content here -->
     <q-card-section>
-      <div class="row q-mb-sm">
+      <div class="row q-mb-sm" style="margin-top: -15px">
         <div class="col-12 col-md-2">{{ $t('agenda_label_nama') }}:</div>
         <div class="col-12 col-md-10"><strong>{{ agenda.agenda_name }}</strong></div>
       </div>
