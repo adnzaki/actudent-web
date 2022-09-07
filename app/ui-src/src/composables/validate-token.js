@@ -21,7 +21,7 @@ function validateToken (validator, teacherReport) {
           console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
         } else {
           console.info('Successfully established connection to Actudent API.')
-          if(teacherReport && response.data.check === 0) {
+          if(teacherReport && data.check === 0) {
             window.location.href = conf.teacherHomeUrl()
           }
 
