@@ -52,6 +52,7 @@
 import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { siabsen, bearerToken } from 'src/composables/common'
+import { onBeforeRouteLeave } from 'vue-router'
 
 export default {
   setup() {
@@ -74,10 +75,15 @@ export default {
           }
         }) 
     }
-
+    
+    // run when page firstly loaded
     getDailyRecap()
 
-    setInterval(getDailyRecap, 10000)
+    // run task every 10 secs
+    const updateRecap = setInterval(getDailyRecap, 10000)
+
+    // clear task after route leave
+    onBeforeRouteLeave(() => clearInterval(updateRecap))
 
     return {
       todaySummary,
