@@ -11,7 +11,7 @@ class Test extends Kegiatan
     {        
         $user = $this->getDataPengguna();
         return $this->response->setJSON([
-            'data' => $this->getEventDetail(61, 25, 0)
+            'data' => $this->getPresenceStatus(1, date('Y-m-d'))
         ]);
         // echo $model->getAllEvents('2022-08');
     }

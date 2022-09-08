@@ -180,7 +180,7 @@ class Admin extends \Actudent
         $employees = $this->model->getStaff($rows, 0);
         $summary = [];
         foreach($employees as $e) {
-            $summary[$e->staff_name] = $this->getPresenceStatus($e->staff_id, $e->staff_type, date('Y-m-d'));
+            $summary[$e->staff_name] = $this->getPresenceStatus($e->staff_id, date('Y-m-d'));
         }
 
         $countStatus = function ($type) use ($summary) {
@@ -503,13 +503,13 @@ class Admin extends \Actudent
         return $presenceData !== null ? $presenceData : [];
     }
 
-    protected function getPresenceStatus($staffId, $staffType, $date)
+    protected function getPresenceStatus($staffId, $date)
     {
         $dayValues = [];
 
         $schedules = $this->model->getPresenceSchedule($staffId);
         if($schedules !== null) { 
-            $dayValues = $schedules; 
+            $dayValues = array_column($schedules, 'schedule_day'); 
         }
 
         $status = 3;
