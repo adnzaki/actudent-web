@@ -81,6 +81,7 @@
 <script>
 import { useQuasar } from 'quasar'
 import { ref, onMounted, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default {
@@ -88,6 +89,7 @@ export default {
   setup() {
     const $q = useQuasar()
     const store = useStore()
+    const router = useRouter()
     const d = new Date()
     const disableEntry = ref(false)
     const disableOut = ref(false)
@@ -96,7 +98,12 @@ export default {
 
     const openDialog = type => {
       store.state.siabsen.presenceType = type
-      store.state.siabsen.showPresenceDialog = true
+
+      if($q.screen.lt.sm) {
+        router.push('/absence/presence-action')
+      } else {        
+        store.state.siabsen.showPresenceDialog = true
+      }
     }
    
     onMounted(() => {
