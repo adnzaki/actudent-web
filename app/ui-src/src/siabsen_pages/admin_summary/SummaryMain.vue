@@ -8,7 +8,12 @@
         <search-box :label="$t('siabsen_cari_guru')" root-class="col-12 col-md-4 offset-md-2" vuex-module="siabsen" class="q-mt-md" />
       </div>
     </q-card-section>
-    <summary-table />
+    <q-scroll-area class="table-scroll-area mobile-hide">
+      <summary-table />
+    </q-scroll-area>
+    <summary-table class="mobile-only" />
+    <q-separator/>
+    <ss-paging vuex-module="siabsen" />
   </q-card>
 </template>
 

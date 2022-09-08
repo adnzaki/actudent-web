@@ -9,7 +9,7 @@
         <search-box :label="$t('siabsen_cari_guru')" vuex-module="siabsen" class="q-mt-md q-pr-sm" />
       </div>
     </q-card-section>
-    <permit-list class="q-mt-sm" />
+    <permit-list-wrapper />
     <permit-detail />
     <!-- <staff-list />
     <presence-detail /> -->
@@ -19,15 +19,15 @@
 <script>
 import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
-import PermitList from './PermitList.vue'
 import PermitDetail from '../teacher_permit/PermitDetail.vue'
 import { onBeforeRouteLeave } from 'vue-router'
+import PermitListWrapper from './PermitListWrapper.vue'
 
 export default {
   components: {
-    PermitList,
-    PermitDetail
-},
+    PermitDetail,
+    PermitListWrapper
+  },
   setup() {
     const store = useStore()
     store.dispatch('siabsen/getPermissionNotif')
