@@ -62,16 +62,22 @@ export default {
       permit: 0
     })
 
-    siabsen.get('rekap-harian', {
-      headers: { Authorization: bearerToken }
-    })
-      .then(({ data }) => {
-        todaySummary.value = {
-          absent: data.absent,
-          present: data.present,
-          permit: data.permit
-        }
-      }) 
+    const getDailyRecap = () => {
+      siabsen.get('rekap-harian', {
+        headers: { Authorization: bearerToken }
+      })
+        .then(({ data }) => {
+          todaySummary.value = {
+            absent: data.absent,
+            present: data.present,
+            permit: data.permit
+          }
+        }) 
+    }
+
+    getDailyRecap()
+
+    setInterval(getDailyRecap, 10000)
 
     return {
       todaySummary,
