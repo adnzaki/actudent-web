@@ -94,7 +94,7 @@ export default {
           rememberMe = ref(false)
   
     return {
-      usernameLabel: `Username / NIG (${t('login_nig')})`,
+      usernameLabel: computed(() => `Username / NIG (${t('login_nig')})`),
       conf,
       companyLogoPushLeft: $q.screen.lt.sm ? 'left: 27%' : 'left: 30%',
       styleSelector(style) {
