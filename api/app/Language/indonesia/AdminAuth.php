@@ -16,5 +16,6 @@ return [
     'invalid_login'         => 'Username atau password yang anda masukkan salah',
     'login_error'           => 'Tidak dapat terhubung ke server',
     'remember_me'           => 'Ingatkan saya',
-    'salah_akses'           => 'Akun yang anda masukkan adalah akun orang tua, silakan login menggunakan aplikasi versi Android'
+    'salah_akses'           => 'Akun yang anda masukkan adalah akun orang tua, silakan login menggunakan aplikasi versi Android',
+    'login_nig'             => 'Khusus Guru/Staff',
 ];
