@@ -52,6 +52,16 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
+    public function getRecentPresence()
+    {
+        return $this->QBPresence
+                    ->join($this->staff, "{$this->staffPresence}.staff_id={$this->staff}.staff_id")
+                    ->like('presence_datetime', date('Y-m-d'))
+                    ->orderBy('presence_datetime', 'DESC')
+                    ->limit(5, 0)
+                    ->get()->getResult();
+    }
+
     public function getTodayStaffPresence($filter, $day, $limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $search = '')
     {
         $baseQuery = $this->baseStaffScheduleQuery($day, $searchBy, $search);

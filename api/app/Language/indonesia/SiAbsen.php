@@ -117,4 +117,5 @@ return [
     'siabsen_not_present_1'     => 'Belum hadir',
     'siabsen_not_present_2'     => 'Tidak hadir',
     'siabsen_present_time'      => 'Waktu absen',
+    'siabsen_recent_presence'   => 'Riwayat absen terkini',
 ];

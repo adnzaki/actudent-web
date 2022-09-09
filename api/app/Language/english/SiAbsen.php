@@ -117,4 +117,5 @@ return [
     'siabsen_not_present_1'     => 'Not present yet',
     'siabsen_not_present_2'     => 'Not present',
     'siabsen_present_time'      => 'Present time',
+    'siabsen_recent_presence'   => 'Recent presence history',
 ];

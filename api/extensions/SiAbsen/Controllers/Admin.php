@@ -188,9 +188,10 @@ class Admin extends \Actudent
         };
 
         return $this->createResponse([
-            'absent' => $countStatus(0),
-            'present' => $countStatus(1),
-            'permit' => $countStatus(2),
+            'absent'    => $countStatus(0),
+            'present'   => $countStatus(1),
+            'permit'    => $countStatus(2),
+            'recent'    => $this->model->getRecentPresence()
         ]);
     }
 
@@ -584,7 +585,7 @@ class Admin extends \Actudent
 
         return $this->createResponse([
             'totalRows' => $rows,
-            'container' => $wrapper,
+            'container' => $wrapper
         ], 'is_admin');
     }
 
