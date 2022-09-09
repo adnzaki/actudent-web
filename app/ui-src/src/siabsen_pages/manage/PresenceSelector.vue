@@ -28,13 +28,15 @@ export default {
     setTimeout(() => {
       options.value = [
         { label: t('staff_semua_bagian'), value: 'all' },
-        { label: t('siabsen_must_present'), value: 'wajib' },
+        { label: t('staff_guru'), value: 'teacher' },
+        { label: 'Staff', value: 'staff' }
       ]
 
       model.value = { 
-        label: t('siabsen_must_present'), value: 'wajib'
+        label: t('staff_semua_bagian'), value: 'all'
       }
-      
+
+      store.dispatch('siabsen/getRequiredPresent', model.value.value)      
     }, 1500);
 
 

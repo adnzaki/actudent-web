@@ -550,11 +550,11 @@ class Admin extends \Actudent
         return $dayOfWeek === 0 ? 6 : $dayOfWeek - 1;
     }
 
-    public function getStaffPresence($required /* all | wajib */, $date, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    public function getStaffPresence($filter, $date, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
-        $day = $required === 'wajib' ? $this->getDayOfWeek($date) : null;
-        $data = $this->model->getTodayStaffPresence($day, $limit, $offset, $orderBy, $searchBy, $sort, $search);
-        $rows = $this->model->baseStaffScheduleRows($day, $searchBy, $search);
+        $day = $this->getDayOfWeek($date);
+        $data = $this->model->getTodayStaffPresence($filter, $day, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->model->getTodayStaffPresenceRows($filter, $day, $searchBy, $search);
 
         $wrapper = [];
         foreach($data as $key) {

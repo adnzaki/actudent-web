@@ -52,11 +52,26 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         $this->shared = new SharedModel;
     }
 
-    public function getTodayStaffPresence($day, $limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $search = '')
+    public function getTodayStaffPresence($filter, $day, $limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $search = '')
     {
-        return $this->baseStaffScheduleQuery($day, $searchBy, $search)
-                    ->orderBy($orderBy, $sort)->limit($limit, $offset)
-                    ->get()->getResult();
+        $baseQuery = $this->baseStaffScheduleQuery($day, $searchBy, $search);
+        if($filter !== 'all') {
+            $baseQuery->where(['staff_type' => $filter]);
+        }
+
+        return $baseQuery->orderBy($orderBy, $sort)
+                         ->limit($limit, $offset)
+                         ->get()->getResult();
+    }
+
+    public function getTodayStaffPresenceRows($filter, $day, string $searchBy, string $search = '')
+    {
+        $baseQuery = $this->baseStaffScheduleQuery($day, $searchBy, $search);
+        if($filter !== 'all') {
+            $baseQuery->where(['staff_type' => $filter]);
+        }
+
+        return $baseQuery->get()->getNumRows();
     }
 
     public function baseStaffScheduleRows($day, string $searchBy, string $search = '')
