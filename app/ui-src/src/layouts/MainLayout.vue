@@ -9,7 +9,7 @@
           <q-menu>
             <q-list separator>
               <other-actions icon="o_manage_accounts" :label="$t('navbar_profil')" />
-              <other-actions icon="o_school" :label="$t('navbar_sekolah')" />
+              <!-- <other-actions icon="o_school" :label="$t('navbar_sekolah')" /> -->
               <other-actions icon="logout" :label="$t('navbar_keluar')" @click="logout" />
             </q-list>
           </q-menu>
