@@ -47,8 +47,8 @@
           <error :label="error.staff_photo" />
           <error :label="error.featured_image" />
 
-          <q-input outlined :label="$t('user_email')" dense 
-            v-model="formData.user_email" :suffix="`@${school.school_domain}`" />
+          <q-input outlined :label="$t('user_label_email')" dense 
+            v-model="formData.user_email" />
           <error :label="error.user_email" />
 
           <q-input outlined :label="$t('user_pass')" dense 
@@ -101,8 +101,8 @@ export default {
     onMounted(getSchool)
     
     const save = () => {
-      let pattern = /(\s|\W+)/ig
-      formData.value.user_email = formData.value.user_email.replace(pattern, '')
+      //let pattern = /(\s|\W+)/ig
+      //formData.value.user_email = formData.value.user_email.replace(pattern, '')
       store.dispatch('employee/save', {
         data: formData.value,
         edit: false,
