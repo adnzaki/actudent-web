@@ -113,7 +113,6 @@ class Pegawai extends \Actudent
             'staff_phone'   => 'required|is_natural|min_length[11]|max_length[13]',
             'staff_type'    => 'required',
             'staff_title'   => 'required',
-            'featured_image'=> 'required',
         ];
 
         $messages = [
@@ -138,15 +137,12 @@ class Pegawai extends \Actudent
             'staff_title' => [
                 'required'  => get_lang('AdminPegawai.staff_err_title'),
             ],
-            'featured_image' => [
-                'required'  => get_lang('AdminPegawai.staff_err_image'),
-            ],
         ];      
 
         if($id === null) 
         {
             $insertRules = [
-                'user_email'            => 'required|is_unique[tb_user.user_email]',
+                'user_email'            => 'required|valid_email|is_unique[tb_user.user_email]',
                 'user_password'         => 'required|min_length[8]',
                 'user_password_confirm' => 'required|matches[user_password]'
             ];
@@ -155,6 +151,7 @@ class Pegawai extends \Actudent
                 'user_email' => [
                     'required'      => get_lang('AdminUser.user_err_email_required'),
                     'is_unique'     => get_lang('AdminUser.user_err_email_unique'),
+                    'valid_email'   => get_lang('AdminPegawai.staff_err_email'),
                 ],
                 'user_password' => [
                     'required'      => get_lang('AdminUser.user_err_pass_required'),

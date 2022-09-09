@@ -1,7 +1,5 @@
 <?php namespace Actudent\Admin\Models;
 
-use Actudent\Core\Models\SekolahModel;
-
 class PegawaiModel extends \Actudent\Core\Models\Connector
 {
     /**
@@ -13,13 +11,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      * Query Builder for table tb_user
      */
     public $QBUser;
-
-     /**
-     * Tables related to tb_user
-     */
-    private $QBTimelineComments;
-    private $QBTimelineLikes;
-
 
     /**
      * Table tb_staff
@@ -33,15 +24,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      * @var string
      */
     public $user = 'tb_user';
-
-    private $timelineComments = 'tb_timeline_comments';
-    private $timelineLikes = 'tb_timeline_likes';
     
-    /**
-     * @var Actudent\Core\Models\SekolahModel
-     */
-    private $sekolah;
-
     /**
      * Load the tables...
      */
@@ -50,9 +33,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         parent::__construct();
         $this->QBStaff = $this->db->table($this->staff);
         $this->QBUser = $this->db->table($this->user);
-        $this->QBTimelineComments = $this->db->table($this->timelineComments);
-        $this->QBTimelineLikes = $this->db->table($this->timelineLikes);
-        $this->sekolah = new SekolahModel;
     }
 
     /**
@@ -70,9 +50,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      */
     public function getStaff($limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $whereClause = 'null', $search = ''): array
     {
-        // $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
-        // return $query->get()->getResult();
-
         if($whereClause !== 'null')
         {
             $selector = [
@@ -175,14 +152,12 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $staff = $this->fillStaffField($value);
 
         //get user level
-        if($staff['staff_type'] === 'teacher')
-        {
-            $user['user_level'] = '2';
-        }
-        else
-        {
-            $user['user_level'] = '0';
-        }
+        $employeeType = [
+            'teacher'   => '2',
+            'staff'     => '0'
+        ];
+
+        $user['user_level'] = $employeeType[$staff['staff_type']];
 
         // insert user table
         $this->QBUser->insert($user);
@@ -212,14 +187,16 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
     public function update(array $value, int $id): void
     {
         $data = $this->fillStaffField($value);
-        if($data['staff_type'] == 'teacher')
-        {
-            $user['user_level'] = '2';
-        }
-        else
-        {
-            $user['user_level'] = '0';
-        };        
+        $employeeType = [
+            'teacher'   => '2',
+            'staff'     => '0'
+        ];
+
+        $user = [
+            'user_name'     => $data['staff_name'],
+            'user_level'    => $employeeType[$data['staff_type']],
+        ];
+
         $this->QBStaff->update($data, ['user_id' => $id]);
         $this->QBUser->update($user, ['user_id' => $id]);
     }
@@ -275,12 +252,10 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
      */
     private function fillUserField(array $data): array
     {
-        $sekolah = $this->sekolah->getDataSekolah()[0];
         return [
             'user_name'     => $data['user_name'],
-            'user_email'    => $data['user_email'] . '@' . $sekolah->school_domain,
+            'user_email'    => $data['user_email'],
             'user_password' => password_hash($data['user_password'], PASSWORD_BCRYPT),
-            // 'user_level'    => $data['user_level'],
         ];
     }
 
