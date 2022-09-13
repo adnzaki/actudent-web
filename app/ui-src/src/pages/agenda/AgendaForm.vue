@@ -269,6 +269,8 @@ export default {
       const agendaGuest = computed(() => store.state.agenda[guestType])
       if(agendaGuest.value.length > 0) {
         formData.value.agenda_guest = JSON.stringify(agendaGuest.value)
+      } else {
+        formData.value.agenda_guest = ''
       }
 
       if(isEditForm.value) {
