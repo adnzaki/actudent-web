@@ -118,4 +118,5 @@ return [
     'siabsen_not_present_2'     => 'Tidak hadir',
     'siabsen_present_time'      => 'Waktu absen',
     'siabsen_recent_presence'   => 'Riwayat absen terkini',
+    'siabsen_validasi_lokasi'   => 'Memvalidasi lokasi...',
 ];

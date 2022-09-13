@@ -38,7 +38,7 @@
     <q-card-actions align="right">
       <q-btn flat v-if="!$q.screen.lt.sm" :label="$t('tutup')" color="negative" v-close-popup />
       <q-btn :label="$t('siabsen_ambil_gambar')" 
-        @click="takePicture" v-if="canTakePicture" 
+        @click="takePicture" 
         color="primary" padding="8px 20px"
         class="mobile-form-btn" />
     </q-card-actions>
@@ -77,66 +77,14 @@ export default {
       maximumAge: 0
     }
 
-    const getLocationSuccess = pos => {
-      const crd = pos.coords
-      if(crd.accuracy > 500) {
-        const notifyAccuracy = $q.notify({
-          group: true,
-          message: t('siabsen_tidak_akurat'),
-          color: 'negative',
-          position: 'top',
-          timeout: 3000,
-          actions: [
-            { label: 'X', color: 'white', handler: () => { /* ... */ } }
-          ]
-        })
-      }
-      const crdData = {
-        lat: crd.latitude,
-        long: crd.longitude
-      }
-
-      location.value = crdData
-
-      axios.post(`${conf.siabsenAPI}validate-position`, crdData, {
-        headers: { Authorization: bearerToken },
-        transformRequest: [data => {
-          return createFormData(data)
-        }]
-      })
-        .then(({ data }) => {
-          if(data.code === 500) {
-            canTakePicture.value = false
-            const notifyPosition = $q.notify({
-              group: true,
-              message: data.msg,
-              color: 'negative',
-              position: 'top',
-              timeout: 5000,
-              actions: [
-                { 
-                  label: t('siabsen_cek_posisi'), color: 'white', handler: () => {
-                    window.open(`https://www.google.com/maps/@${crd.latitude},${crd.longitude},15z`, '_blank')
-                  } 
-                }
-              ]
-            })
-          } else if(data.code === 200) {
-            canTakePicture.value = true
-          }
-        })
-    }
-
     const getLocationError = err => locationDescription.value = `${err.code}: ${err.message}`
-    let id
 
     onMounted(() => {
       openCamera.value = () => { 
-          showVideo.value = true
-          id = navigator.geolocation.watchPosition(getLocationSuccess, getLocationError, locationOptions)
-          navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-            video.value.srcObject = stream
-          })
+        showVideo.value = true
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+          video.value.srcObject = stream
+        })
       }  
       
       openCamera.value()
@@ -147,17 +95,69 @@ export default {
         // store.state.siabsen.showPresenceDialog = false
       }
 
-      takePicture.value = () => {
-        const context = canvas.value.getContext('2d')
-        
-        context.drawImage(video.value, 0, 0, canvas.value.width, canvas.value.height);
-        imgSrc.value = canvas.value.toDataURL('image/jpeg')
-        let base64String = imgSrc.value.split(',')
-        store.state.siabsen.base64String = base64String[1]
-        store.dispatch('siabsen/pushPresence', {
-          lat: location.value.lat,
-          long: location.value.long
+      takePicture.value = () => {   
+        const notifyProgress = $q.notify({
+          group: false,
+          message: t('siabsen_validasi_lokasi'),
+          color: 'info',
+          position: 'center',
+          timeout: 0,
+          spinner: true
         })
+
+        const validatePosition = pos => {         
+          // implicitly close progress notification
+          notifyProgress({ timeout: 1 })
+          
+          const crd = pos.coords
+          const crdData = {
+            lat: crd.latitude,
+            long: crd.longitude
+          }
+
+          location.value = crdData
+
+          axios.post(`${conf.siabsenAPI}validate-position`, crdData, {
+            headers: { Authorization: bearerToken },
+            transformRequest: [data => {
+              return createFormData(data)
+            }]
+          })
+            .then(({ data }) => {              
+              if(data.code === 500) {
+                canTakePicture.value = false
+                const notifyPosition = $q.notify({
+                  group: true,
+                  message: data.msg,
+                  color: 'negative',
+                  position: 'top',
+                  timeout: 5000,
+                  actions: [
+                    { 
+                      label: 'X' /* t('siabsen_cek_posisi') */, color: 'white', handler: () => {
+                        //window.open(`https://www.google.com/maps/@${crd.latitude},${crd.longitude},15z`, '_blank')
+                      } 
+                    }
+                  ]
+                })
+              } else if(data.code === 200) {
+                setTimeout(() => {
+                  const context = canvas.value.getContext('2d')
+            
+                  context.drawImage(video.value, 0, 0, canvas.value.width, canvas.value.height);
+                  imgSrc.value = canvas.value.toDataURL('image/jpeg')
+                  let base64String = imgSrc.value.split(',')
+                  store.state.siabsen.base64String = base64String[1]
+                  store.dispatch('siabsen/pushPresence', {
+                    lat: location.value.lat,
+                    long: location.value.long
+                  })
+                }, 500);
+              }
+            })          
+        }
+
+        navigator.geolocation.getCurrentPosition(validatePosition, getLocationError, locationOptions)        
       }
 
       const presenceSuccess = computed(() => store.state.siabsen.presenceSuccess)
@@ -165,7 +165,6 @@ export default {
         if(store.state.siabsen.presenceSuccess) {
           stopVideo.value()
           store.state.siabsen.showPresenceDialog = false
-          navigator.geolocation.clearWatch(id)
           if($q.screen.lt.sm) {
             router.push('/teacher/home')
           }

@@ -118,4 +118,5 @@ return [
     'siabsen_not_present_2'     => 'Not present',
     'siabsen_present_time'      => 'Present time',
     'siabsen_recent_presence'   => 'Recent presence history',
+    'siabsen_validasi_lokasi'   => 'Validating location...',
 ];
