@@ -165,7 +165,7 @@ class Pegawai extends Admin
     {
         if(valid_token()) {
             $position = $this->_validatePosition();
-            if($position['code'] === 500) {
+            if($position['code'] === 400) {
                 $response = [
                     'code'      => 500,
                     'msg'       => get_lang('SiAbsen.siabsen_absen_gagal'),
