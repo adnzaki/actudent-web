@@ -34,10 +34,10 @@ export default {
       }]
     })
       .then(response => {
-        dispatch('getUnregisteredStudents')
+        dispatch('getUnregisteredStudents', payload.grade)
       })
   },
-  getUnregisteredStudents({ dispatch }) {
+  getUnregisteredStudents({ dispatch }, gradeId) {
     dispatch('getData', {
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
@@ -47,7 +47,7 @@ export default {
       searchBy: 'student_name',
       sort: 'ASC',
       search: '',
-      url: `${conf.adminAPI}kelas/get-siswa/`,
+      url: `${conf.adminAPI}kelas/get-siswa/${gradeId}/`,
       autoReset: {
         active: true,
         timeout: 500

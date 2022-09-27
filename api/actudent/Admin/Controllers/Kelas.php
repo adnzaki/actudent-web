@@ -73,10 +73,10 @@ class Kelas extends \Actudent
         return $this->createResponse($this->kelas->getClassMember($id), 'is_admin');
     }
 
-    public function getUnregisteredStudents($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    public function getUnregisteredStudents($gradeId, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
-        $data = $this->kelas->getUnregisteredStudents($limit, $offset, $orderBy, $searchBy, $sort, $search);
-        $rows = $this->kelas->unregisteredStudentsRows($searchBy, $search);
+        $data = $this->kelas->getUnregisteredStudents($gradeId, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->kelas->unregisteredStudentsRows($gradeId, $searchBy, $search);
         return $this->response->setJSON([
             'container' => $data,
             'totalRows' => $rows,
