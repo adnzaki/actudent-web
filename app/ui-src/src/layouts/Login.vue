@@ -22,7 +22,9 @@
 
               <q-input filled class="q-mb-md"
                 v-model="username" :label="usernameLabel" 
-                @keyup.enter="validate">
+                @keyup.enter="validate"
+                :label-color="styleSelector('label')"
+                :color="styleSelector('icon')">
                 <template v-slot:prepend>
                   <q-icon name="mail_outline" />
                 </template>
@@ -38,7 +40,8 @@
 
               <q-input type="password" filled
                 v-model="password" label="Password"
-                @keyup.enter="validate">
+                @keyup.enter="validate"
+                :label-color="styleSelector('label')">
                 <template v-slot:prepend>
                   <q-icon name="vpn_key" />
                 </template>

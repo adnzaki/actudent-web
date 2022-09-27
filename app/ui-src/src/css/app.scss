@@ -81,17 +81,23 @@
 
 .auth-box-dark {
   border-color: rgba(255, 255, 255, 0.28);
-  background: var(--q-dark);
+  background: #3F3D4D;
   color:#fff;
   margin-top: 30px;
 }
 
 @media(max-width: $breakpoint-xs-max) {
-  .auth-box, .auth-box-dark {
+  .auth-box {
     margin-top: 60px;
     margin-left: 5% !important;
     background-color: transparent;
     box-shadow: none;
+  }
+
+  .auth-box-dark {
+    margin-top: 60px;
+    left: 5px;
+    background: #3f3d4d;
   }
 
   .auth-input, .auth-input-dark {
