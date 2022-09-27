@@ -72,7 +72,7 @@ export default {
     const route = useRoute()
 
     const formOpen = () => {
-      store.dispatch('grade/getUnregisteredStudents')
+      store.dispatch('grade/getUnregisteredStudents', route.params.id)
     }
 
     const addMember = id => {

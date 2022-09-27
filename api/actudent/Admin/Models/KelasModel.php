@@ -162,6 +162,7 @@ class KelasModel extends SharedModel
     /**
      * Get students where not in class group
      * 
+     * @param int $gradeId
      * @param int $limit 
      * @param int $offset 
      * @param string $orderBy
@@ -171,9 +172,9 @@ class KelasModel extends SharedModel
      * 
      * @return array
      */
-    public function getUnregisteredStudents($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = ''): array
+    public function getUnregisteredStudents($gradeId, $limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = ''): array
     {
-        $select = $this->unregisteredStudentsQuery($searchBy, $search)->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $select = $this->unregisteredStudentsQuery($gradeId, $searchBy, $search)->orderBy($orderBy, $sort)->limit($limit, $offset);
 
         return $select->get()->getResult();
     }
@@ -181,14 +182,15 @@ class KelasModel extends SharedModel
     /**
      * Count results of unregistered students
      * 
+     * @param int $gradeId
      * @param string $searchBy
      * @param string $search
      * 
      * @return int
      */
-    public function unregisteredStudentsRows(string $searchBy = 'student_name', string $search = ''): int
+    public function unregisteredStudentsRows(int $gradeId, string $searchBy = 'student_name', string $search = ''): int
     {
-        $select = $this->unregisteredStudentsQuery($searchBy, $search);
+        $select = $this->unregisteredStudentsQuery($gradeId, $searchBy, $search);
 
         return $select->countAllResults();
     }
@@ -196,24 +198,29 @@ class KelasModel extends SharedModel
     /**
      * Get unregistered students query
      * 
+     * @param int $gradeId
      * @param string $searchBy
      * @param string $search
      * 
      * @return QueryBuilder
      */
-    private function unregisteredStudentsQuery(string $searchBy, string $search)
+    public function unregisteredStudentsQuery(int $gradeId, string $searchBy, string $search)
     {
-        $rombel = $this->QBRombel;
-        $query = $this->QBStudent->select('student_id, student_nis, student_name');
+        $query = $this->QBStudent->select("{$this->student}.student_id, student_nis, student_name");
 
-        if(! empty($search))
-        {
+        if(! empty($search)) {
             $query->like($searchBy, $search);
         }
 
-        return $query->whereNotIn('student_id', function($rombel) {
-            return $rombel->select('student_id')->from($this->rombel);
-        })->where('deleted', '0');
+        return $query->whereNotIn("{$this->student}.student_id", function($rombel) {
+            return $rombel->select('student_id')
+                          ->from($this->rombel)
+                          ->join($this->kelas, "{$this->kelas}.grade_id={$this->rombel}.grade_id")
+                          ->where([
+                            'period_start'  => $this->periodStart,
+                            'period_end'    => $this->periodEnd
+                          ]);
+        })->where(["{$this->student}.deleted" => 0]);
     }
 
     /**
