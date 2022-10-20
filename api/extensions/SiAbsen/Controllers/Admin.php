@@ -212,6 +212,8 @@ class Admin extends \Actudent
             $periodStart = os_date()->format('d-MM-y', reverse($startDate, '-', '-'));
             $periodEnd = os_date()->format('d-MM-y', reverse($endDate, '-', '-'));
             $result = $this->_getDetailPresence($staffId, $userId, $startDate, $endDate);
+            $splitEndDate = explode('-', $endDate);
+            $printDate = os_date()->create("{$splitEndDate[0]}-{$splitEndDate[1]}-21");
             
             $title          = 'Rekap Absensi ' .$result['name'];
             $data['title']  = $title;
@@ -225,7 +227,7 @@ class Admin extends \Actudent
             $data['alfa']   = $result['absent'];
             $data['hadir']  = $result['present'];
             $data['izin']   = $result['permit'];
-            $data['date']   = 'Bekasi, ' . $periodEnd;
+            $data['date']   = 'Bekasi, ' . $printDate;
             $filename       = $title . ' ' . $data['period'];
     
             $html = view('SiAbsen\Views\ekspor-rekap-individu', $data);
@@ -334,12 +336,14 @@ class Admin extends \Actudent
             $rows = $this->model->getStaffRows();
             $periodStart = os_date()->format('d-MM-y', reverse($startDate, '-', '-'));
             $periodEnd = os_date()->format('d-MM-y', reverse($endDate, '-', '-'));
+            $splitEndDate = explode('-', $endDate);
+            $printDate = os_date()->create("{$splitEndDate[0]}-{$splitEndDate[1]}-21");
             
             $title          = 'Rekapitulasi Absensi';
             $data['title']  = $title;
             $data['period'] = 'Periode '.$periodStart.' sd. '.$periodEnd;
             $data['data']   = $this->_getAllStaffSummary($startDate, $endDate, $rows, 0, 'staff_name', 'staff_name', 'ASC', '');
-            $data['date']   = 'Bekasi, ' . $periodEnd;
+            $data['date']   = 'Bekasi, ' . $printDate;
             $filename       = $title . '_' . $data['period']. '_'. time();
     
             $html = view('SiAbsen\Views\ekspor-rekap-bulanan', $data);
