@@ -69,7 +69,7 @@ class Autoload extends AutoloadConfig
      * @var array<string, string>
      */
     public $classmap = [
-        'OstiumDate' 	=> ACTUDENT_PATH . 'Core/Libraries/OstiumDate.php',
+        'OstiumDate' 	=> ACTUDENT_PATH . 'Core/Libraries/OstiumDate/OstiumDate.php',
         'PDFCreator'	=> ACTUDENT_PATH . 'Core/Libraries/PDFCreator.php',
         'ActudentJWT'	=> ACTUDENT_PATH . 'Core/Libraries/ActudentJWT.php',
         'Actudent'      => ACTUDENT_PATH . 'Core/Controllers/Actudent.php',
