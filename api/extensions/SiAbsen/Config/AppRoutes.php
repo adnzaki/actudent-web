@@ -20,13 +20,13 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('set-status-izin/(:any)', 'Admin::setPermitStatus/$1');
     $routes->add('get-detail-izin/(:any)', 'Admin::getPermissionDetail/$1');
     $routes->add('hapus-izin', 'Pegawai::deletePermission');
+    $routes->add('rekap-bulanan/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getAllStaffSummary/$1/$2/$3/$4/$5/$6/$7/$8');
     $routes->add('rekap-bulanan/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getAllStaffSummary/$1/$2/$3/$4/$5/$6/$7');
-    $routes->add('rekap-bulanan/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getAllStaffSummary/$1/$2/$3/$4/$5/$6');
+    $routes->add('rekap-individu/(:any)/(:any)/(:any)', 'Admin::getIndividualSummary/$1/$2/$3');
     $routes->add('rekap-individu/(:any)/(:any)', 'Admin::getIndividualSummary/$1/$2');
-    $routes->add('rekap-individu/(:any)', 'Admin::getIndividualSummary/$1');
-    $routes->add('print-rekap-bulanan/(:any)/(:any)', 'Admin::exportAllStaffSummary/$1/$2');
-    $routes->add('detail-absensi/(:any)/(:any)/(:any)', 'Admin::getDetailPresence/$1/$2/$3');
-    $routes->add('print-rekap-individu/(:any)/(:any)/(:any)/(:any)', 'Admin::exportStaffSummary/$1/$2/$3/$4');
+    $routes->add('print-rekap-bulanan/(:any)/(:any)/(:any)', 'Admin::exportAllStaffSummary/$1/$2/$3');
+    $routes->add('detail-absensi/(:any)/(:any)/(:any)/(:any)', 'Admin::getDetailPresence/$1/$2/$3/$4');
+    $routes->add('print-rekap-individu/(:any)/(:any)/(:any)/(:any)', 'Admin::exportStaffSummary/$1/$2/$3/$4/$5');
     $routes->add('rekap-harian', 'Admin::getTodaySummary');
     $routes->add('get-notif-izin', 'Admin::getPermissionNotif');
     $routes->add('jadwal-absen-guru/(:any)/(:any)/(:any)/(:any)/(:any)', 'Admin::getPresenceSchedule/$1/$2/$3/$4/$5');

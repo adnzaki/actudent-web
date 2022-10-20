@@ -6,8 +6,8 @@ export default {
     state.deleteConfirm = false
     state.disableSaveButton = true
   },
-  getDetailPresence(state, { staffId, userId, period }) {
-    siabsen.get(`detail-absensi/${staffId}/${userId}/${period}`, {
+  getDetailPresence(state, { staffId, userId, dateStart, dateEnd }) {
+    siabsen.get(`detail-absensi/${staffId}/${userId}/${dateStart}/${dateEnd}`, {
       headers: { Authorization: bearerToken }
     })
     .then(({ data }) => {

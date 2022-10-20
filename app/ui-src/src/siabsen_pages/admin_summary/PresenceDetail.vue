@@ -7,10 +7,10 @@
           icon="arrow_back" 
           @click="$router.push('/teacher-presence/monthly-summary')" />
         <div class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5" v-if="$q.screen.lt.sm">
-          {{ $t('absensi_rekap_bulanan') }}
+          {{ $t('siabsen_rekap_periodik') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
-          {{ $t('absensi_rekap_bulanan') }}
+          {{ $t('siabsen_rekap_periodik') }}
         </div>
       </div>
       <div :class="['row', titleSpacing()]">
@@ -67,17 +67,19 @@ export default {
     store.commit('siabsen/getDetailPresence', {
       staffId: route.params.staffId, 
       userId: route.params.userId,
-      period: route.params.period
+      dateStart: route.params.dateStart,
+      dateEnd: route.params.dateEnd
     })      
 
-    const yearMonth = route.params.period.split('-').reverse().join('-')
-    const period = formatDate(`${yearMonth}-01`, 'MMMM YYYY')
+    //const yearMonth = route.params.period.split('-').reverse().join('-')
+    //const period = formatDate(`${yearMonth}-01`, 'MMMM YYYY')
 
     const exportPdf = () => {
       return `${conf.siabsenAPI}print-rekap-individu/` +
              `${route.params.staffId}/` + 
              `${route.params.userId}/` + 
-             `${route.params.period}/${$q.cookies.get(conf.cookieName)}`
+             `${route.params.dateStart}/` +
+             `${route.params.dateEnd}/${$q.cookies.get(conf.cookieName)}`
     }
 
     provide('print', {
@@ -103,10 +105,10 @@ export default {
                 label: store.state.siabsen.presenceDetail.nip,
                 icon: 'badge',
               },
-              {
-                label: period,
-                icon: 'calendar_month',
-              }
+              // {
+              //   label: `${route.params.dateStart}`,
+              //   icon: 'calendar_month',
+              // }
             ]
           }
         ]        

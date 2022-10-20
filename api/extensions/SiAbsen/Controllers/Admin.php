@@ -195,7 +195,7 @@ class Admin extends \Actudent
         ]);
     }
 
-    public function exportStaffSummary($staffId, $userId, $period, $token)
+    public function exportStaffSummary($staffId, $userId, $startDate, $endDate, $token)
     {
         if(valid_token($token)) {
             $data = [];        
@@ -209,15 +209,13 @@ class Admin extends \Actudent
                 $userId = $staffData->user_id;
             }
 
-            $periodArr = explode('-', $period); // [ month, year ]
-            $month = (int)$periodArr[0];
-            $year = $periodArr[1];
-            $lastDate = os_date()->daysInMonth($month, $year);
-            $result = $this->_getDetailPresence($staffId, $userId, $period);
+            $periodStart = os_date()->format('d-MM-y', reverse($startDate, '-', '-'));
+            $periodEnd = os_date()->format('d-MM-y', reverse($endDate, '-', '-'));
+            $result = $this->_getDetailPresence($staffId, $userId, $startDate, $endDate);
             
-            $title          = 'Rekap Absensi ' .$result['name'].' - '. os_date()->getMonthName($month);
+            $title          = 'Rekap Absensi ' .$result['name'];
             $data['title']  = $title;
-            $data['year']   = 'Tahun ' . $year;
+            $data['period'] = 'Periode '.$periodStart.' sd. '.$periodEnd;
             $data['data']   = $result['data'];
             $data['nip']    = $result['nip'];
             $data['name']   = $result['name'];
@@ -227,9 +225,8 @@ class Admin extends \Actudent
             $data['alfa']   = $result['absent'];
             $data['hadir']  = $result['present'];
             $data['izin']   = $result['permit'];
-            $data['bulan']  = os_date()->getMonthName($month);
-            $data['date']   = 'Bekasi, ' . os_date()->fullDate($lastDate, $month, $year, false);
-            $filename       = $title . ' ' . $year;
+            $data['date']   = 'Bekasi, ' . $periodEnd;
+            $filename       = $title . ' ' . $data['period'];
     
             $html = view('SiAbsen\Views\ekspor-rekap-individu', $data);
             // return $html;
@@ -237,7 +234,7 @@ class Admin extends \Actudent
         }
     }
 
-    public function getDetailPresence($staffId, $userId, $period)
+    public function getDetailPresence($staffId, $userId, $startDate, $endDate)
     {
         if(valid_token()) {
             if($staffId === 'null') {
@@ -249,15 +246,14 @@ class Admin extends \Actudent
                 $userId = $staffData->user_id;
             }
     
-            return $this->response->setJSON($this->_getDetailPresence($staffId, $userId, $period));
+            return $this->response->setJSON($this->_getDetailPresence($staffId, $userId, $startDate, $endDate));
         }
     }
 
-    private function _getDetailPresence($staffId, $userId, $period)
+    private function _getDetailPresence($staffId, $userId, $startDate, $endDate)
     {
         $staffDetail = $this->model->getStaffDetail($userId)[0];
-        $period = explode('-', $period);
-        $summary = $this->getMonthlyPresence($staffId, (int)$period[0], $period[1]);
+        $summary = $this->getMonthlyPresence($staffId, $startDate, $endDate);
         $wrapper = [];
         $presenceCategory = [
             'alfa'  => get_lang('AdminAbsensi.absensi_alfa'),
@@ -327,7 +323,7 @@ class Admin extends \Actudent
         return $response;
     }
 
-    public function exportAllStaffSummary($period, $token)
+    public function exportAllStaffSummary($startDate, $endDate, $token)
     {
         if(valid_token($token)) {
             $data = [];        
@@ -336,17 +332,15 @@ class Admin extends \Actudent
             }
 
             $rows = $this->model->getStaffRows();
-            $periodArr = explode('-', $period); // [ month, year ]
-            $month = (int)$periodArr[0];
-            $year = $periodArr[1];
-            $lastDate = os_date()->daysInMonth($month, $year);
+            $periodStart = os_date()->format('d-MM-y', reverse($startDate, '-', '-'));
+            $periodEnd = os_date()->format('d-MM-y', reverse($endDate, '-', '-'));
             
-            $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
+            $title          = 'Rekapitulasi Absensi';
             $data['title']  = $title;
-            $data['year']   = 'Tahun ' . $year;
-            $data['data']   = $this->_getAllStaffSummary($period, $rows, 0, 'staff_name', 'staff_name', 'ASC', '');
-            $data['date']   = 'Bekasi, ' . os_date()->fullDate($lastDate, $month, $year, false);
-            $filename       = $title . '_' . $year . '_'. time();
+            $data['period'] = 'Periode '.$periodStart.' sd. '.$periodEnd;
+            $data['data']   = $this->_getAllStaffSummary($startDate, $endDate, $rows, 0, 'staff_name', 'staff_name', 'ASC', '');
+            $data['date']   = 'Bekasi, ' . $periodEnd;
+            $filename       = $title . '_' . $data['period']. '_'. time();
     
             $html = view('SiAbsen\Views\ekspor-rekap-bulanan', $data);
             // return $html;
@@ -381,30 +375,26 @@ class Admin extends \Actudent
         }        
     }
 
-    public function getIndividualSummary($period, $staffId = '')
+    public function getIndividualSummary($startDate, $endDate, $staffId = '')
     {
         if(valid_token()) {
-            return $this->response->setJSON($this->_getIndividualSummary($period, $staffId));
+            return $this->response->setJSON($this->_getIndividualSummary($startDate, $endDate, $staffId));
         }
     }
 
-    private function _getIndividualSummary($period, $staffId)
+    private function _getIndividualSummary($startDate, $endDate, $staffId)
     {
         if(empty($staffId)) {
             $staffId = $this->getStaffId();
         }
 
-        return $this->getMonthlyPresence(
-            $staffId, 
-            (int)substr($period, 0, 2), 
-            (int)substr($period, 3, 4)
-        );
+        return $this->getMonthlyPresence($staffId, $startDate, $endDate);
     }
 
-    public function getAllStaffSummary($period, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    public function getAllStaffSummary($startDate, $endDate, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         if(is_admin()) {
-            $data = $this->_getAllStaffSummary($period, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+            $data = $this->_getAllStaffSummary($startDate, $endDate, $limit, $offset, $orderBy, $searchBy, $sort, $search);
             return $this->response->setJSON([
                 'container' => $data,
                 'totalRows' => $this->model->getStaffRows()
@@ -412,12 +402,12 @@ class Admin extends \Actudent
         }
     }
 
-    private function _getAllStaffSummary($period, $limit, $offset, $orderBy, $searchBy, $sort, $search)
+    private function _getAllStaffSummary($startDate, $endDate, $limit, $offset, $orderBy, $searchBy, $sort, $search)
     {
         $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
         $presenceSummary = [];
         foreach($employees as $e) {
-            $data = $this->getMonthlyPresence($e->staff_id, (int)substr($period, 0, 2), (int)substr($period, 3, 4));
+            $data = $this->getMonthlyPresence($e->staff_id, $startDate, $endDate);
             $monthlyStatus = array_column($data, 'status_day');
             $presenceSummary[] = [
                 'name'      => $e->staff_name,
@@ -497,9 +487,9 @@ class Admin extends \Actudent
         return $result > 0 ? $result : '-';
     }
 
-    protected function getMonthlyPresence($staffId, $month, $year)
+    protected function getMonthlyPresence($staffId, $startDate, $endDate)
     {
-        $presenceData = $this->model->getMonthlyPresence($staffId, $month, $year);
+        $presenceData = $this->model->getMonthlyPresence($staffId, $startDate, $endDate);
 
         return $presenceData !== null ? $presenceData : [];
     }

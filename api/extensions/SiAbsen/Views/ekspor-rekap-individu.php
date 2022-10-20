@@ -10,8 +10,8 @@
 <body>
 	<?= view_cell('\Actudent::reportHeader') ?>
 	<div class="pdf-content">
-		<div class="judul-laporan center-align">Rekapitulasi Absensi Bulan <?= $bulan ?></div>
-		<div class="judul-laporan center-align n-mt-15"><?= $year ?></div>
+		<div class="judul-laporan center-align"><?= $title ?></div>
+		<div class="judul-laporan center-align n-mt-15"><?= $period ?></div>
 		<table class="no-border sub-judul">
 			<tr>
 				<td class="no-border no-padding-top-bottom" width="100"><?= lang('AdminPegawai.staff_nama') ?></td>

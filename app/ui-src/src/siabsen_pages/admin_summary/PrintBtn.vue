@@ -27,7 +27,8 @@ export default {
       return `${conf.siabsenAPI}print-rekap-individu/` +
              `${route.params.staffId}/` + 
              `${route.params.userId}/` + 
-             `${route.params.period}/${$q.cookies.get(conf.cookieName)}`
+             `${route.params.dateStart}/` +
+             `${route.params.dateEnd}/${$q.cookies.get(conf.cookieName)}`
     }
 
     return {

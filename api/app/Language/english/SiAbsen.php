@@ -119,4 +119,5 @@ return [
     'siabsen_present_time'      => 'Present time',
     'siabsen_recent_presence'   => 'Recent presence history',
     'siabsen_validasi_lokasi'   => 'Validating location...',
+    'siabsen_rekap_periodik'    => 'Periodic Summary',
 ];

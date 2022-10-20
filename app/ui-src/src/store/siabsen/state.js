@@ -24,6 +24,9 @@ export default function () {
     showPermitDetail: false, deleteConfirm: false,
     permitDetail: {}, selectedPermission: null,
     period: '01-2022',
+    // date range
+    dateRangeStart: '',
+    dateRangeEnd: '',
     presenceDetail: {},
     presenceConfig: {
       intime: 'HH:mm',

@@ -11,7 +11,7 @@
 	<?= view_cell('\Actudent::reportHeader') ?>
 	<div class="pdf-content">
 		<div class="judul-laporan center-align"><?= $title ?></div>
-		<div class="judul-laporan center-align n-mt-15"><?= $year ?></div>
+		<div class="judul-laporan center-align n-mt-15"><?= $period ?></div>
 		<table>
 			<thead class="grey-shading">
 				<tr style="text-transform: capitalize;">

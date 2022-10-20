@@ -106,12 +106,13 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         return $select;
     }
 
-    public function getMonthlyPresence(int $staffId, int $month, int $year)
+    // TO DO: CHANGE TO DATE PERIOD
+    public function getMonthlyPresence(int $staffId, string $startDate, string $endDate)
     {
-        $query = $this->db->query("CALL SP_GET_DETAIL_STAFF_PRESENCE(:staffId:, :month:, :year:)", [
+        $query = $this->db->query("CALL SP_GET_DETAIL_STAFF_PRESENCE_BY_DATE_PERIOD(:staffId:, :start:, :end:)", [
             'staffId'   => $staffId,
-            'month'     => $month,
-            'year'      => $year
+            'start'     => $startDate,
+            'end'       => $endDate
         ]);
 
         return $query->getNumRows() > 0 ? $query->getResultArray() : null;

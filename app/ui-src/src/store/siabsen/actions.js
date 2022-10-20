@@ -248,7 +248,7 @@ export default {
         }
       })
   },
-  getAllStaffSummary({ state, dispatch }, period) {
+  getAllStaffSummary({ state, dispatch }, { start, end }) {
     dispatch('getData', {
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
@@ -258,7 +258,7 @@ export default {
       searchBy: 'staff_name',
       sort: 'ASC',
       search: '',
-      url: `${conf.siabsenAPI}rekap-bulanan/${period}/`,
+      url: `${conf.siabsenAPI}rekap-bulanan/${start}/${end}/`,
       autoReset: {
         active: true,
         timeout: 500

@@ -119,4 +119,5 @@ return [
     'siabsen_present_time'      => 'Waktu absen',
     'siabsen_recent_presence'   => 'Riwayat absen terkini',
     'siabsen_validasi_lokasi'   => 'Memvalidasi lokasi...',
+    'siabsen_rekap_periodik'    => 'Rekap Periodik',
 ];

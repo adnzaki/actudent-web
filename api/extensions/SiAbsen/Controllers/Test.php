@@ -5,13 +5,12 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use CodeIgniter\I18n\Time;
 
-class Test extends Kegiatan
+class Test extends Admin
 {
     public function testGetSchedules()
     {        
-        $user = $this->getDataPengguna();
         return $this->response->setJSON([
-            'data' => $this->getPresenceStatus(1, date('Y-m-d'))
+            'data' => $this->model->getMonthlyPresence(1, '2022-08-20', '2022-09-20'),
         ]);
         // echo $model->getAllEvents('2022-08');
     }

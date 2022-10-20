@@ -70,14 +70,16 @@ export default {
     const exportPdf = (id, user) => {
       return `${conf.siabsenAPI}print-rekap-individu/` +
              `${id}/${user}/` + 
-             `${store.state.siabsen.period}/${$q.cookies.get(conf.cookieName)}`
+             `${store.state.siabsen.dateRangeStart}/${store.state.siabsen.dateRangeEnd}/` +
+             `${$q.cookies.get(conf.cookieName)}`
     }
     
     return {
       exportPdf,
       openDetail(staffId, userId) {
         const url = '/teacher-presence/monthly-summary/detail/' +
-                    staffId + '/' + userId + '/' + store.state.siabsen.period
+                    staffId + '/' + userId + '/' + store.state.siabsen.dateRangeStart +
+                    '/' + store.state.siabsen.dateRangeEnd
         router.push(url)
       },
       separator: $q.screen.lt.sm ? 'horizontal' : 'cell',
