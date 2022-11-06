@@ -124,7 +124,7 @@ export default {
             }]
           })
             .then(({ data }) => {              
-              if(data.code === 400) {
+              if(data.code === 500) {
                 canTakePicture.value = false
                 const notifyPosition = $q.notify({
                   group: true,
@@ -140,7 +140,7 @@ export default {
                     }
                   ]
                 })
-              } else if(data.code === 200 || data.code === 500) {
+              } else if(data.code === 200) {
                 setTimeout(() => {
                   const context = canvas.value.getContext('2d')
             
