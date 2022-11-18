@@ -27,7 +27,7 @@
 // ----- as Webpack will use this mode for bundling the UI files. --
 import port from './port.conf'
 
-const mode = 'production' // development, build, production
+const mode = 'development' // development, build, production
 
 // ------ WARNING! Do not touch below this line ------
 const host = () => {
