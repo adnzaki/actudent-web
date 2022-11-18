@@ -24,19 +24,28 @@ export default {
     const model = ref({})
     const $q = useQuasar()
     const store = useStore()
+
+    const allStaffValue = 'null'
+
+    store.state.siabsen.employeeFilter = allStaffValue
     
     setTimeout(() => {
       options.value = [
-        { label: t('staff_semua_bagian'), value: 'null' },
+        { label: t('staff_semua_bagian'), value: allStaffValue },
         { label: t('staff_guru'), value: 'teacher' },
         { label: 'Staff', value: 'staff' }
       ]
 
       model.value = { 
-        label: t('staff_semua_bagian'), value: 'null'
+        label: t('staff_semua_bagian'), value: allStaffValue
       }
+            
+      store.dispatch('siabsen/getAllStaffSummary', {
+        start: store.state.siabsen.dateRangeStart,
+        end: store.state.siabsen.dateRangeEnd,
+        type: store.state.siabsen.employeeFilter
+      })
 
-      // store.dispatch('siabsen/getRequiredPresent', model.value.value)      
     }, 1500);
 
 

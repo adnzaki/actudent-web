@@ -120,13 +120,13 @@ export default {
     store.state.siabsen.dateRangeEnd = date.formatDate(dateEndValue.value, sendFormat)
 
     setTimeout(() => {     
-      const selectedPeriod = ref(date.formatDate(new Date, 'MM-YYYY'))
-      store.state.siabsen.period = selectedPeriod.value
-      store.dispatch('siabsen/getAllStaffSummary', {
-        start: store.state.siabsen.dateRangeStart,
-        end: store.state.siabsen.dateRangeEnd,
-        type: store.state.siabsen.employeeFilter
-      })
+      // const selectedPeriod = ref(date.formatDate(new Date, 'MM-YYYY'))
+      // store.state.siabsen.period = selectedPeriod.value
+      // store.dispatch('siabsen/getAllStaffSummary', {
+      //   start: store.state.siabsen.dateRangeStart,
+      //   end: store.state.siabsen.dateRangeEnd,
+      //   type: store.state.siabsen.employeeFilter
+      // })
     }, 1500)
     
 
