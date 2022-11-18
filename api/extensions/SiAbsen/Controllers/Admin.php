@@ -325,7 +325,7 @@ class Admin extends \Actudent
         return $response;
     }
 
-    public function exportAllStaffSummary($startDate, $endDate, $token)
+    public function exportAllStaffSummary($startDate, $endDate, $type, $token)
     {
         if(valid_token($token)) {
             $data = [];        
@@ -342,7 +342,7 @@ class Admin extends \Actudent
             $title          = 'Rekapitulasi Absensi';
             $data['title']  = $title;
             $data['period'] = 'Periode '.$periodStart.' sd. '.$periodEnd;
-            $data['data']   = $this->_getAllStaffSummary($startDate, $endDate, $rows, 0, 'staff_name', 'staff_name', 'ASC', '');
+            $data['data']   = $this->_getAllStaffSummary($startDate, $endDate, $type, $rows, 0, 'staff_name', 'staff_name', 'ASC', '');
             $data['date']   = 'Bekasi, ' . $printDate;
             $filename       = $title . '_' . $data['period']. '_'. time();
     
@@ -395,20 +395,20 @@ class Admin extends \Actudent
         return $this->getMonthlyPresence($staffId, $startDate, $endDate);
     }
 
-    public function getAllStaffSummary($startDate, $endDate, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    public function getAllStaffSummary($startDate, $endDate, $type, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
         if(is_admin()) {
-            $data = $this->_getAllStaffSummary($startDate, $endDate, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+            $data = $this->_getAllStaffSummary($startDate, $endDate, $type, $limit, $offset, $orderBy, $searchBy, $sort, $search);
             return $this->response->setJSON([
-                'container' => $data,
-                'totalRows' => $this->model->getStaffRows()
+                'totalRows' => $this->model->getStaffRows('staff_name', $type, $search),
+                'container' => $data
             ]);
         }
     }
 
-    private function _getAllStaffSummary($startDate, $endDate, $limit, $offset, $orderBy, $searchBy, $sort, $search)
+    private function _getAllStaffSummary($startDate, $endDate, $type, $limit, $offset, $orderBy, $searchBy, $sort, $search)
     {
-        $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
+        $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, $type, $search);
         $presenceSummary = [];
         foreach($employees as $e) {
             $data = $this->getMonthlyPresence($e->staff_id, $startDate, $endDate);

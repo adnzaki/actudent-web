@@ -29,6 +29,9 @@
       </template>
     </q-input>  
   </div>
+  
+  <employee-selector />
+
   <div class="col-12 col-md-2 q-mt-md q-px-xs mobile-hide">
     <q-btn color="secondary" 
       style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px;" 
@@ -36,6 +39,7 @@
       :label="$t('absensi_print_pdf')"
       :href="exportPdf()" target="_blank" />
   </div>
+ 
   <q-page-sticky position="bottom-right" 
     :offset="fabPos" 
     class="mobile-only force-elevated">
@@ -50,10 +54,11 @@ import { useRoute } from 'vue-router'
 import { useQuasar, date } from 'quasar'
 import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
 import { conf, monthList, t } from 'src/composables/common'
-import { def } from '@vue/shared'
+import EmployeeSelector from './EmployeeSelector.vue'
 
 export default {
   name: 'MonthSelector',
+  components: { EmployeeSelector },
   setup() {
     const store = useStore()
     const monthOptions = ref([])
@@ -96,7 +101,8 @@ export default {
       store.state.siabsen.dateRangeStart = date.formatDate(val, sendFormat)
       store.dispatch('siabsen/getAllStaffSummary', {
         start: store.state.siabsen.dateRangeStart,
-        end: store.state.siabsen.dateRangeEnd
+        end: store.state.siabsen.dateRangeEnd,
+        type: store.state.siabsen.employeeFilter
       })
     }
 
@@ -105,7 +111,8 @@ export default {
       store.state.siabsen.dateRangeEnd = date.formatDate(val, sendFormat)
       store.dispatch('siabsen/getAllStaffSummary', {
         start: store.state.siabsen.dateRangeStart,
-        end: store.state.siabsen.dateRangeEnd
+        end: store.state.siabsen.dateRangeEnd,
+        type: store.state.siabsen.employeeFilter
       })
     }
 
@@ -117,7 +124,8 @@ export default {
       store.state.siabsen.period = selectedPeriod.value
       store.dispatch('siabsen/getAllStaffSummary', {
         start: store.state.siabsen.dateRangeStart,
-        end: store.state.siabsen.dateRangeEnd
+        end: store.state.siabsen.dateRangeEnd,
+        type: store.state.siabsen.employeeFilter
       })
     }, 1500)
     
@@ -148,7 +156,8 @@ export default {
 
     const exportPdf = () => {
       return `${conf.siabsenAPI}print-rekap-bulanan/` +
-             `${store.state.siabsen.dateRangeStart}/${store.state.siabsen.dateRangeEnd}/${token}`
+             `${store.state.siabsen.dateRangeStart}/${store.state.siabsen.dateRangeEnd}/` + 
+             `${store.state.siabsen.employeeFilter}/${token}`
     }
 
     return {
