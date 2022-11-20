@@ -1,5 +1,5 @@
 <template>
-  <q-scroll-area style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
+  <q-scroll-area class="menu-list" style="height: calc(100% - 150px); margin-top: 150px; border-right: 1px solid #ddd">
     <q-list padding>
       <menu-item icon="o_home" :label="$t('menu_dashboard')" :link="dashboardLink" />
 
