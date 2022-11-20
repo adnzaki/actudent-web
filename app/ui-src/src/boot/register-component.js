@@ -15,6 +15,7 @@ import SSPaging from 'components/SSPaging.vue'
 import EmployeePhoto from 'src/pages/employee/EmployeePhoto.vue'
 import DropdownSearch from 'components/DropdownSearch.vue'
 import BtnTooltip from 'components/BtnTooltip.vue'
+import Spinner from 'components/Spinnner.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)
@@ -26,4 +27,5 @@ export default ({ app }) => {
   app.component('employee-photo', EmployeePhoto)
   app.component('dropdown-search', DropdownSearch)
   app.component('btn-tooltip', BtnTooltip)
+  app.component('spinner', Spinner)
 }
