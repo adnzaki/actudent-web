@@ -5,7 +5,7 @@
       <div class="text-h6 text-capitalize" v-else>{{ $t('siabsen_rekap_periodik') }}</div>
       <div :class="['row', titleSpacing()]" style="margin-top: 0;">
         <period-selector />
-        <search-box :label="$t('siabsen_cari_guru')" root-class="col-12 col-md-3 offset-md-1" vuex-module="siabsen" class="q-mt-md" />
+        <search-box :label="$t('siabsen_cari_guru')" root-class="col-12 col-md-3" vuex-module="siabsen" class="q-mt-md" />
       </div>
     </q-card-section>
     <q-scroll-area class="table-scroll-area mobile-hide">

@@ -1,5 +1,5 @@
 <template>
-  <div class="col-12 col-md-2 q-mt-md q-px-xs">
+  <div class="col-12 col-md-3 q-mt-md q-px-xs">
     <q-select
       :style="{ width: width() }"
       outlined

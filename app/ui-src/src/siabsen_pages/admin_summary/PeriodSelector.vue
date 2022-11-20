@@ -34,7 +34,7 @@
 
   <div class="col-12 col-md-2 q-mt-md q-px-xs mobile-hide">
     <q-btn color="secondary" 
-      style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px;" 
+      style="padding-top: 7.5px; padding-bottom: 7.5px;" 
       icon="print" 
       :label="$t('absensi_print_pdf')"
       :href="exportPdf()" target="_blank" />
