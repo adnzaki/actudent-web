@@ -249,21 +249,30 @@ export default {
       })
   },
   getAllStaffSummary({ state, dispatch }, { start, end, type }) {
-    dispatch('getData', {
-      token: bearerToken,
-      lang: localStorage.getItem(conf.userLang),
-      limit: 25,
-      offset: state.current - 1,
-      orderBy: 'staff_name',
-      searchBy: 'staff_name',
-      sort: 'ASC',
-      search: '',
-      url: `${conf.siabsenAPI}rekap-bulanan/${start}/${end}/${type}/`,
-      autoReset: {
-        active: true,
-        timeout: 500
-      },
+    state.spinner = true
+    return new Promise((resolve, reject) => {
+      dispatch('getData', {
+        token: bearerToken,
+        lang: localStorage.getItem(conf.userLang),
+        limit: 5,
+        offset: state.current - 1,
+        orderBy: 'staff_name',
+        searchBy: 'staff_name',
+        sort: 'ASC',
+        search: '',
+        url: `${conf.siabsenAPI}rekap-bulanan/${start}/${end}/${type}/`,
+        autoReset: {
+          active: true,
+          timeout: 500
+        },
+      })
+
+      setTimeout(() => {
+        resolve()
+      }, 500)
+
     })
+    //state.spinner = false
   },
   getPermissionDetail({ state, dispatch }, id) {
     siabsen.get(`get-detail-izin/${id}`, {

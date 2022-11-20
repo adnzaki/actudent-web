@@ -1,6 +1,7 @@
 <template>
   <div>
-    <q-markup-table :separator="separator" flat bordered>
+    <spinner v-if="$store.state.siabsen.spinner" />
+    <q-markup-table :separator="separator" flat bordered v-if="!$store.state.siabsen.spinner">
       <thead>
         <tr>
           <th class="text-center" rowspan="2">#</th>

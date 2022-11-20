@@ -44,7 +44,7 @@ export default {
         start: store.state.siabsen.dateRangeStart,
         end: store.state.siabsen.dateRangeEnd,
         type: store.state.siabsen.employeeFilter
-      })
+      }).then(() => store.state.siabsen.spinner = false)
 
     }, 1500);
 
@@ -57,7 +57,7 @@ export default {
           start: store.state.siabsen.dateRangeStart,
           end: store.state.siabsen.dateRangeEnd,
           type: store.state.siabsen.employeeFilter
-        })
+        }).then(() => store.state.siabsen.spinner = false)
       },
       options,
       model,

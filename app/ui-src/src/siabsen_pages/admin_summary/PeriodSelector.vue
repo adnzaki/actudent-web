@@ -103,7 +103,7 @@ export default {
         start: store.state.siabsen.dateRangeStart,
         end: store.state.siabsen.dateRangeEnd,
         type: store.state.siabsen.employeeFilter
-      })
+      }).then(() => store.state.siabsen.spinner = false)
     }
 
     const dateEndChanged = val => {
@@ -113,7 +113,7 @@ export default {
         start: store.state.siabsen.dateRangeStart,
         end: store.state.siabsen.dateRangeEnd,
         type: store.state.siabsen.employeeFilter
-      })
+      }).then(() => store.state.siabsen.spinner = false)
     }
 
     store.state.siabsen.dateRangeStart = date.formatDate(dateStartValue.value, sendFormat)

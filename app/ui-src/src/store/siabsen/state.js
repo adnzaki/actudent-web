@@ -39,6 +39,6 @@ export default function () {
     scheduleDays: {}, staffName: '', showScheduleForm: false,
     staffId: '', requiredPresent: 'wajib',
     userEvents: [], agendaId: null,
-    allEvents: [], employeeFilter: 'null'
+    allEvents: [], employeeFilter: 'null', spinner: true,
   }
 }
