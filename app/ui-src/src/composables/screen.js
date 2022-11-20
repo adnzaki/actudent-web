@@ -9,7 +9,7 @@ const titleSpacing = () => {
 const menuWidth = () => {
   return Screen.lt.sm
     ? 300
-    : 230
+    : 250
 }
 
 const wrapperPadding = () => {

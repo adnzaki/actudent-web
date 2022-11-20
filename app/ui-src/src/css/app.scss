@@ -1,5 +1,32 @@
 // app global css in SCSS form
 
+.menu-list {
+  .q-router-link--exact-active,
+  .q-item:hover,
+  .q-focus-helper {
+    border-radius: 15px !important;
+  }
+  
+  .q-list--padding {
+    padding: 8px;
+  }
+}
+
+.q-btn,
+.q-btn-group {
+	border-radius: 10px;
+}
+
+.q-btn {
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.q-btn-group .q-btn {
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
 @media(max-width: $breakpoint-xs-max) {
   $fc-listmonth-radius: 15px 15px 0 0;
   $padding-y: 5px;
