@@ -1,5 +1,5 @@
 <template>
-  <q-dialog 
+  <q-dialog no-backdrop-dismiss 
     v-model="$store.state.presence.showScheduleDetail">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">

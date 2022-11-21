@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state[vuexModule]['deleteConfirm']" @hide="closeDeleteConfirm">
+  <q-dialog no-backdrop-dismiss v-model="$store.state[vuexModule]['deleteConfirm']" @hide="closeDeleteConfirm">
     <q-card>
       <q-card-section class="row items-center">
         <q-avatar icon="notification_important" class="mobile-hide" color="negative" text-color="white" />

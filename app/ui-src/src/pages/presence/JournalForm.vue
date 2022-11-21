@@ -1,5 +1,5 @@
 <template>
-  <q-dialog 
+  <q-dialog no-backdrop-dismiss 
     v-model="$store.state.presence.showJournalForm"
     :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">

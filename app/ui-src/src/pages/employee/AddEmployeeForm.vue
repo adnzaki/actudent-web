@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.employee.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="$store.state.employee.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()"
     @hide="$store.state.employee.helper.filename = ''">
     <q-card class="q-pa-sm" :style="cardDialog()">

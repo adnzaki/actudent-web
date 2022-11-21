@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.schedule.lesson.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="$store.state.schedule.lesson.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
