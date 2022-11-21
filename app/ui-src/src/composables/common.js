@@ -12,9 +12,10 @@ const isAuthenticated = Cookies.get(conf.cookieName) !== null
 const userType = Cookies.get(conf.userType)
 
 const trim = (text, length = 25, ellipsis = true) => {
+  const dots = ellipsis ? '...' : ''
   const returnedText = text.length <= length 
                      ? text
-                     : text.substring(0, length) + ellipsis ? '...' : ''
+                     : text.substring(0, length) + dots
   
   return returnedText
 }
