@@ -24,6 +24,7 @@
           <daily-schedule day="3" :expanded="expanded" />
           <daily-schedule day="4" :expanded="expanded" />
           <daily-schedule day="5" :expanded="expanded" />
+          <daily-schedule day="6" :expanded="expanded" />
         </q-form>
       </q-card-section>
       <q-separator />

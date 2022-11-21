@@ -1,30 +1,40 @@
 <template>
   <div class="mobile-hide">
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table separator="cell" bordered>
         <thead class="mobile-hide">
           <tr>
             <th rowspan="2" class="text-center cursor-pointer mobile-hide">#</th>
             <th rowspan="2" class="text-left cursor-pointer">{{ $t('staff_nama') }}</th>
-            <th class="text-center cursor-pointer mobile-hide">{{ $t('siabsen_jadwal') }}</th>
-            <th rowspan="2" class="text-left mobile-hide">{{ $t('aksi') }}</th>
+            <th colspan="7" class="text-center cursor-pointer mobile-hide">{{ $t('siabsen_jadwal') }}</th>
+            <th rowspan="2" class="text-center mobile-hide">{{ $t('aksi') }}</th>
           </tr>
           <tr>
             <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day1'), 3, false) }}</th>
+            <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day2'), 3, false) }}</th>
+            <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day3'), 3, false) }}</th>
+            <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day4'), 3, false) }}</th>
+            <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day5'), 3, false) }}</th>
+            <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day6'), 3, false) }}</th>
+            <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day7'), 3, false) }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
             <td class="text-center mobile-hide">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
             <td class="text-left mobile-hide">{{ item.name }}</td>
-            <td class="text-left q-gutter-xs mobile-hide">
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 0)" :label="$t('day1')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 1)" :label="$t('day2')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 2)" :label="$t('day3')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 3)" :label="$t('day4')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 4)" :label="$t('day5')" />
-              <q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 5)" :label="$t('day6')" />
-            </td>
+            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 0)" /></td>
+            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 1)" /></td>
+            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 2)" /></td>
+            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 3)" /></td>
+            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 4)" /></td>
+            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 5)" /></td>
+            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 6)" /></td>
+              
+              
+              
+              
+              
             <td class="text-left" v-if="item.type === 'staff'">
               <q-btn @click="getDetail(item.schedule, item.name, item.id)" color="accent" icon="edit" />
             </td>
