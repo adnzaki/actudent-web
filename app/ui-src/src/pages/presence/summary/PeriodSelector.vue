@@ -68,7 +68,7 @@ export default {
     store.state.presence.selectedPeriod.semester = currentMonth < 6 ? '2' : '1'
     
     // current active year
-    store.state.presence.selectedPeriod.year = currentYear - 1
+    store.state.presence.selectedPeriod.year = currentYear
 
     setTimeout(() => {
       const periodLabel = computed(() => {
@@ -78,7 +78,7 @@ export default {
 
       period.value = {
         semester: { label: periodLabel.value, value: store.state.presence.selectedPeriod.semester },
-        year: { label: '2021/2022', value: store.state.presence.selectedPeriod.year }
+        year: { label: '2022/2023', value: store.state.presence.selectedPeriod.year }
       }
 
       periodOptions.value = [
@@ -97,19 +97,12 @@ export default {
 
     }
 
-    const yearOptions = () => {
-      const currentPeriod = currentYear - 1
-      const previousPeriod = currentYear - 2
-
-      return [
-        { label: t(`${previousPeriod}/${currentPeriod}`), value: previousPeriod },
-        { label: t(`${currentPeriod}/${currentYear}`), value: currentPeriod },
-      ]
-    }
-
     return {
       periodOptions,
-      yearOptions: yearOptions(),
+      yearOptions: [
+        { label: '2021/2022', value: 2021 },
+        { label: '2022/2023', value: 2022 },
+      ],
       fabPos, draggingFab, moveFab,
       period,
       periodSelected, yearSelected,
