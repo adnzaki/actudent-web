@@ -1,5 +1,9 @@
 // app global css in SCSS form
 
+.q-card {
+  box-shadow: 3px 2px 15px #00000042;
+}
+
 .menu-list {
   .q-router-link--exact-active,
   .q-item:hover,
