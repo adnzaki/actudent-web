@@ -85,6 +85,7 @@ return [
     'day4'              => 'Kamis',
     'day5'              => 'Jumat',
     'day6'              => 'Sabtu',
+    'day7'              => 'Minggu',
     'kemarin'           => 'Kemarin',
 
     // month
