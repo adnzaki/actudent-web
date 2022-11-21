@@ -3,8 +3,9 @@
 .menu-list {
   .q-router-link--exact-active,
   .q-item:hover,
-  .q-focus-helper {
-    border-radius: 15px !important;
+  .q-focus-helper,
+  .q-item-type {
+    border-radius: 10px !important;
   }
   
   .q-list--padding {
