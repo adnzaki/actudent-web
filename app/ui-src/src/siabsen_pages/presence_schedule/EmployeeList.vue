@@ -4,10 +4,13 @@
       <q-markup-table bordered>
         <thead class="mobile-hide">
           <tr>
-            <th class="text-center cursor-pointer mobile-hide">#</th>
-            <th class="text-left cursor-pointer">{{ $t('staff_nama') }}</th>
+            <th rowspan="2" class="text-center cursor-pointer mobile-hide">#</th>
+            <th rowspan="2" class="text-left cursor-pointer">{{ $t('staff_nama') }}</th>
             <th class="text-center cursor-pointer mobile-hide">{{ $t('siabsen_jadwal') }}</th>
-            <th class="text-left mobile-hide">{{ $t('aksi') }}</th>
+            <th rowspan="2" class="text-left mobile-hide">{{ $t('aksi') }}</th>
+          </tr>
+          <tr>
+            <th class="text-center cursor-pointer mobile-hide">{{ $trim($t('day1'), 3, false) }}</th>
           </tr>
         </thead>
         <tbody>
