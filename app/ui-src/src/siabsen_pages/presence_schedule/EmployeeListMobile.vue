@@ -35,6 +35,11 @@
               <q-checkbox disable :model-value="scheduleStatus(item.schedule, 5)" :label="$t('day6')" />
             </td>
           </tr>
+          <tr>
+            <td class="text-left">
+              <q-checkbox disable :model-value="scheduleStatus(item.schedule, 6)" :label="$t('day7')" />
+            </td>
+          </tr>
         </q-markup-table>
     </q-card>      
     <q-separator/>
