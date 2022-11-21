@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.siabsen.showPermitDetail" 
+  <q-dialog no-backdrop-dismiss v-model="$store.state.siabsen.showPermitDetail" 
     :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">

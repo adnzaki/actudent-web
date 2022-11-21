@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.siabsen.showScheduleForm"
+  <q-dialog no-backdrop-dismiss v-model="$store.state.siabsen.showScheduleForm"
     :maximized="maximizedDialog()"
     @before-show="formOpen"
     @hide="formClose">

@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.siabsen.showPermitForm"
+  <q-dialog no-backdrop-dismiss v-model="$store.state.siabsen.showPermitForm"
     @before-show="formOpen"
     @hide="formClose"
     :maximized="maximizedDialog()">

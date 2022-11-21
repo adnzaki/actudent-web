@@ -1,5 +1,5 @@
 <template>
-  <!-- <q-dialog v-model="$store.state.siabsen.showPresenceDialog" 
+  <!-- <q-dialog no-backdrop-dismiss v-model="$store.state.siabsen.showPresenceDialog" 
     @show="openCamera"
     @before-hide="stopVideo"
     :maximized="maximizedDialog()">

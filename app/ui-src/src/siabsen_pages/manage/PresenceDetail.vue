@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.siabsen.showPresenceDetail"
+  <q-dialog no-backdrop-dismiss v-model="$store.state.siabsen.showPresenceDetail"
     @hide="$store.state.siabsen.showPresenceDetail = false"
     :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
