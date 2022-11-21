@@ -9,8 +9,8 @@ import { trim, formatDate } from 'src/composables/common'
 
 export default ({ app }) => {
   app.config.globalProperties.$buildVersion = 'beta-4.ac.v2.0050'
-  app.config.globalProperties.$trim = (text, length = 25) => {
-    return text === undefined ? '' : trim(text, length)
+  app.config.globalProperties.$trim = (text, length = 25, ellipsis = true) => {
+    return text === undefined ? '' : trim(text, length, ellipsis)
   },
   app.config.globalProperties.$formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
     return val === undefined ? '' : formatDate(val, format)
