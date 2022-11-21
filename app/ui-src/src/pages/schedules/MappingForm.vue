@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.schedule.schedule.showForm" 
+  <q-dialog no-backdrop-dismiss v-model="$store.state.schedule.schedule.showForm" 
     @before-show="formOpen" @hide="formClose"
     :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">

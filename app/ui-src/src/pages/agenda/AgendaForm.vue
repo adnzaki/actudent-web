@@ -1,5 +1,5 @@
 <template>
-  <q-dialog v-model="$store.state.agenda.showForm"
+  <q-dialog no-backdrop-dismiss v-model="$store.state.agenda.showForm"
     @before-show="formOpen"
     @hide="formHide"
     :maximized="maximizedDialog()">
