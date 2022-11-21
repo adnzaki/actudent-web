@@ -23,13 +23,13 @@
           <tr v-for="(item, index) in data" :key="index">
             <td class="text-center mobile-hide">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
             <td class="text-left mobile-hide">{{ item.name }}</td>
-            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 0)" /></td>
-            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 1)" /></td>
-            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 2)" /></td>
-            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 3)" /></td>
-            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 4)" /></td>
-            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 5)" /></td>
-            <td><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 6)" /></td>
+            <td class="text-center"><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 0)" /></td>
+            <td class="text-center"><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 1)" /></td>
+            <td class="text-center"><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 2)" /></td>
+            <td class="text-center"><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 3)" /></td>
+            <td class="text-center"><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 4)" /></td>
+            <td class="text-center"><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 5)" /></td>
+            <td class="text-center"><q-checkbox :style="dayMarginLeft" disable :model-value="scheduleStatus(item.schedule, 6)" /></td>
               
               
               
