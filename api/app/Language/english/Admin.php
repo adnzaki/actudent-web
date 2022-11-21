@@ -88,6 +88,7 @@ return [
     'day4'              => 'Thursday',
     'day5'              => 'Friday',
     'day6'              => 'Saturday',
+    'day7'              => 'Sunday',
     'kemarin'           => 'Yesterday',
 
     // month

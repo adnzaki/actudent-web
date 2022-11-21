@@ -46,10 +46,10 @@ const toDecimal = time => {
 const isAuthenticated = Cookies.get(conf.cookieName) !== null
 const userType = Cookies.get(conf.userType)
 
-const trim = (text, length = 25) => {
+const trim = (text, length = 25, ellipsis = true) => {
   const returnedText = text.length <= length 
                      ? text
-                     : text.substring(0, length) + '...'
+                     : text.substring(0, length) + ellipsis ? '...' : ''
   
   return returnedText
 }
