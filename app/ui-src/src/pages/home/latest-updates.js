@@ -1,62 +1,54 @@
 const indonesia = [
   {
     key: '[Baru]',
-    desc: 'Menambahkan fitur undangan pada Agenda'
+    desc: 'Menambahkan opsi tampilan "Semua siswa" pada menu daftar siswa'
+  },
+  {
+    key: '[Baru]',
+    desc: 'Pembaruan basis desain antarmuka aplikasi'
   },
   {
     key: '[Peningkatan]',
-    desc: 'Mencegah akses ke halaman login untuk pengguna yang sudah login'
-  },
-  {
-    key: '[Peningkatan]',
-    desc: 'Menyesuaikan tampilan Agenda untuk perangkat mobile'
-  },
-  {
-    key: '[Peningkatan]',
-    desc: 'Menyesuaikan tampilan form untuk perangkat mobile'
+    desc: 'Penambahan nama wali kelas pada daftar rombel versi mobile'
   },
   {
     key: '[Perbaikan]',
-    desc: 'Sinkronisasi sistem bahasa antar client-server'
+    desc: 'Bug: filter kelas pada menu siswa yang tidak sesuai dengan data yang ditampilkan setelah menyimpan data siswa'
   },
   {
     key: '[Perbaikan]',
-    desc: 'Error saat menampilkan cetak PDF rekap semester jika data tidak tersedia'
+    desc: 'Bug: menu laporan siswa tidak bisa diakses'
   },
   {
     key: '[Perbaikan]',
-    desc: 'Teks menu yang gagal termuat saat pengguna melakukan full reload'
+    desc: 'Bug: tidak bisa mengganti wali kelas'
   },
 ]
 
 const english = [
   {
     key: '[New]',
-    desc: 'Added invitation feature to Agenda'
+    desc: 'Added "All students" display option on student list menu'
   },
   {
-    key: '[Improvement]',
-    desc: 'Prevent access to login page for already logged in users'
+    key: '[New]',
+    desc: 'App interface design base update'
   },
   {
-    key: '[Improvement]',
-    desc: 'Customizing the Agenda view for mobile devices'
+    key: '[Improvements]',
+    desc: 'Added homeroom teacher\'s name to the mobile version class list'
   },
   {
-    key: '[Improvement]',
-    desc: 'Customize the appearance of the form for mobile devices'
+    key: '[Fix]',
+    desc: 'Bug: class filter on student menu that doesn\'t match the data displayed after saving student data'
   },
   {
-    key: '[Fixes]',
-    desc: 'Synchronization of language system between client-server'
+    key: '[Fix]',
+    desc: 'Bug: student report menu cannot be accessed'
   },
   {
-    key: '[Fixes]',
-    desc: 'Error displaying printable PDF of semester recap if data is not available'
-  },
-  {
-    key: '[Fixes]',
-    desc: 'Menu text that failed to load when user make a full reload'
+    key: '[Fix]',
+    desc: 'Bug: Unable to change homeroom'
   },
 ]
 
