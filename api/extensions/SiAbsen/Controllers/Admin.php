@@ -310,16 +310,19 @@ class Admin extends \Actudent
                     : '-';
         };
 
+        $accumulation = ceil($totalWork / (8 * 60));
+
         $response = [
             'nip'       => $staffDetail->staff_nik,
             'name'      => $staffDetail->staff_name,
-            'data'      => $wrapper,
             'late'      => $totalTime($totalLate),
             'work'      => $totalTime($totalWork),
             'over'      => $totalTime($totalOvertime),
             'absent'    => $this->filterPresence($monthlyStatus, 'alfa'),
             'present'   => $this->filterPresence($monthlyStatus, 'hadir'),
             'permit'    => $this->filterPresence($monthlyStatus, 'izin'),
+            'accumulation'  => $accumulation > 0 ? $accumulation : '-',
+            'data'      => $wrapper,
         ];
 
         return $response;

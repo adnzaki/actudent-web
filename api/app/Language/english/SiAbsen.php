@@ -120,4 +120,6 @@ return [
     'siabsen_recent_presence'   => 'Recent presence history',
     'siabsen_validasi_lokasi'   => 'Validating location...',
     'siabsen_rekap_periodik'    => 'Periodic Summary',
+    'siabsen_akumulasi_hadir'   => 'Presence Accumulation',
+    'siabsen_akumulasi_desc'    => 'The accumulated number of attendance calculated based on the ideal working hours of 8 hours per day.',
 ];

@@ -1,6 +1,6 @@
 <template>
   <div class="q-px-md q-mb-lg" style="margin-top: -10px">
-    <q-card :class="['shadow-8', bgColor]" style="border-radius: 10px">
+    <q-card :class="['shadow-8', bgColor]" style="border-radius: 10px; min-height: 180px;">
       <q-card-section>
         <div class="text-subtitle1 q-mb-xs text-uppercase text-white">
           <q-icon name="summarize" size="sm" style="bottom: 2px" />
@@ -31,13 +31,27 @@
             <div class="text-body2 text-right text-bold text-white">{{ presenceDetail.absent }} {{ $t('hari') }}</div>
           </div>          
         </div>
+        <div class="row q-mt-sm" @click="accumulationInfo = !accumulationInfo">
+          <div class="col-8 cursor-pointer">
+            <div class="text-body2 text-bold text-white">
+              {{ $t('siabsen_akumulasi_hadir') }} <q-icon style="margin-top: -5px" name="o_info" />
+              <q-tooltip anchor="bottom end" self="center end">{{ $t('siabsen_akumulasi_desc') }}</q-tooltip>
+              <p v-if="accumulationInfo && $q.screen.lt.sm">
+                <small><i>{{ $t('siabsen_akumulasi_desc') }}</i></small>
+              </p>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="text-body2 text-right text-bold text-white">{{ presenceDetail.accumulation }} {{ $t('hari') }}</div>
+          </div>          
+        </div>
       </q-card-section>
     </q-card>
   </div>
 </template>
 
 <script>
-import { inject } from 'vue'
+import { inject, ref } from 'vue'
 
 export default {
   props: {
@@ -49,7 +63,8 @@ export default {
   setup() {
     const presenceDetail = inject('presenceDetail')
     return {
-      presenceDetail
+      presenceDetail,
+      accumulationInfo: ref(false)
     }
   },
 }

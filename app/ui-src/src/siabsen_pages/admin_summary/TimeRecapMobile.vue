@@ -1,6 +1,6 @@
 <template>
   <div class="q-px-md q-mb-lg" style="margin-top: -10px">
-    <q-card :class="['shadow-8', bgColor]" style="border-radius: 10px">
+    <q-card :class="['shadow-8', bgColor]" :style="{ borderRadius: '10px', height: cardHeight }">
       <q-card-section>
         <div class="text-subtitle1 q-mb-xs text-uppercase text-white">
           <q-icon name="watch_later" size="sm" style="bottom: 2px" />
@@ -38,6 +38,7 @@
 
 <script>
 import { inject } from 'vue'
+import { useQuasar } from 'quasar'
 
 export default {
   props: {
@@ -48,8 +49,11 @@ export default {
   },
   setup() {
     const presenceDetail = inject('presenceDetail')
+    const $q = useQuasar()
+
     return {
-      presenceDetail
+      presenceDetail,
+      cardHeight: $q.screen.lt.sm ? '150px' : '180px'
     }
   },
 }

@@ -120,4 +120,6 @@ return [
     'siabsen_recent_presence'   => 'Riwayat absen terkini',
     'siabsen_validasi_lokasi'   => 'Memvalidasi lokasi...',
     'siabsen_rekap_periodik'    => 'Rekap Periodik',
+    'siabsen_akumulasi_hadir'   => 'Akumulasi Kehadiran',
+    'siabsen_akumulasi_desc'    => 'Akumulasi jumlah kehadiran yang dihitung berdasarkan jam kerja ideal 8 jam per hari.',
 ];
