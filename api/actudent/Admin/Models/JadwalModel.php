@@ -280,19 +280,16 @@ class JadwalModel extends SharedModel
                 && preg_match('/inactive/', $id) === 0)
             {
                 $this->QBJadwal->update($value, ['schedule_id' => $id]);
-            }
-            else 
-            {
-                if(preg_match('/new/', $id) === 1)
-                {
-                    $this->QBJadwal->insert($value);
-                }
-                else 
-                {
-                    $split = explode('-', $id);
-                    $value['schedule_status'] = 'active';
-                    $this->QBJadwal->update($value, ['schedule_id' => $split[1]]);
-                    $this->QBJurnal->update(['is_archive' => 0], ['schedule_id' => $split[1]]);
+            } else {
+                if(preg_match('/break/', $id) === 0) {
+                    if(preg_match('/new/', $id) === 1) {
+                        $this->QBJadwal->insert($value);
+                    } else {
+                        $split = explode('-', $id);
+                        $value['schedule_status'] = 'active';
+                        $this->QBJadwal->update($value, ['schedule_id' => $split[1]]);
+                        $this->QBJurnal->update(['is_archive' => 0], ['schedule_id' => $split[1]]);
+                    }
                 }
             }
 
