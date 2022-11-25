@@ -5,6 +5,8 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->get('/', 'Home::goToHome');
 	$routes->add('home', 'Home::index');
 	$routes->add('home/absensi-seminggu', 'Home::getLastSevenDaysPresence');
+	$routes->add('home/absen-harian', 'Home::getTodayPresence');
+	$routes->add('home/absen-harian-kelas', 'Home::getTodayPresenceByGrade');
 	$routes->add('siswa', 'Siswa::index');
 	$routes->add('siswa/limit', 'Siswa::getStudentLimit');
 	$routes->add('siswa/get-kelas', 'Siswa::getKelas');

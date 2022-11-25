@@ -146,71 +146,57 @@ class AbsensiModel extends SharedModel
     /**
      * Get today's presence
      * 
+     * @param int $gradeId
      * @param int $status
      * @param null|string $date
      * 
      * @return int
      */
-    public function getTodayPresence(int $status, $date = null): int
+    public function getTodayPresence(int $gradeId, int $status, $date = null): int
     {
-        if($date === null)
-        {
+        if($date === null) {
             $date = date('Y-m-d');
         }
-
-        $grade = $this->getRombel();
-        $presence = 0;
-
-        foreach($grade as $key)
-        {
-            $journal = $this->getJournalByDate($date, $key->grade_id);
-            if(count($journal) > 0)
-            {
-                $query = $this->QBAbsen
-                            ->select('DISTINCT `student_id`', false)
-                            ->where(['presence_status' => $status, 'journal_id' => $journal[0]->journal_id])
-                            ->like('created', $date)
-                            ->get()->getResult();
-                
-                $presence += count($query);
-            }
+        
+        $journal = $this->getJournalByDate($date, $gradeId);
+        $query = 0;
+        if(count($journal) > 0) {
+            $query = $this->QBAbsen
+                        ->select('DISTINCT `student_id`', false)
+                        ->where(['presence_status' => $status, 'journal_id' => $journal[0]->journal_id])
+                        ->like('created', $date)
+                        ->get()->getNumRows();            
         }
 
-        return $presence;
+        return $query;
     }
 
     /**
      * Get today's absence with permission
      * 
+     * @param int $grade
      * @param null|string $date
+     * @param int $type
      * 
      * @return int
      */
-    public function getTodayAbsenceWithPermission($date = null): int
+    public function getTodayAbsenceWithPermission($gradeId, $type, $date = null): int
     {
-        if($date === null)
-        {
+        if($date === null) {
             $date = date('Y-m-d');
         }
 
-        $grade = $this->getRombel();
-        $presence = 0;
-        foreach($grade as $key)
-        {
-            $journal = $this->getJournalByDate($date, $key->grade_id);
-            if(count($journal) > 0)
-            {
-                $query = $this->QBAbsen
-                            ->like('created', $date)
-                            ->where('(presence_status = 2 or presence_status = 3)')
-                            ->where('journal_id', $journal[0]->journal_id)
-                            ->get()->getResult();
-                
-                $presence += count($query);
-            }
+        $query = 0;
+        $journal = $this->getJournalByDate($date, $gradeId);
+        if(count($journal) > 0) {
+            $query = $this->QBAbsen
+                        ->like('created', $date)
+                        ->where('presence_status', $type)
+                        ->where('journal_id', $journal[0]->journal_id)
+                        ->get()->getNumRows();            
         }
 
-        return $presence;
+        return $query;
     }
 
     /**

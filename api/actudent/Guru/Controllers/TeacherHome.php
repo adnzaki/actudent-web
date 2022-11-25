@@ -6,7 +6,7 @@ class TeacherHome extends \Actudent\Admin\Controllers\Home
 	{
         $data = $this->common();
         $data['title'] = lang('AdminHome.dashboard_title');;
-        $todayPresence = $this->getTodayPresence();
+        $todayPresence = $this->_getTodayPresence();
         $data['presence'] = $todayPresence['presence'];
         $data['absence'] = $todayPresence['absence'];
         $data['permit'] = $todayPresence['permit'];

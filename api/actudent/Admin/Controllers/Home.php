@@ -14,7 +14,48 @@ class Home extends \Actudent
         $this->absensi = new AbsensiModel;
     }
 
-    protected function getTodayPresence()
+    public function getTodayPresence()
+    {
+        $grade = $this->absensi->getRombel();
+        $present = 0;
+        $absent = 0;
+        $sick = 0;
+        $permit = 0;
+
+        foreach($grade as $key) {
+            $present += $this->absensi->getTodayPresence($key->grade_id, '1');
+            $absent += $this->absensi->getTodayPresence($key->grade_id, '0');
+            $sick += $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 3);
+            $permit += $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 2);
+        }
+
+        return $this->createResponse([
+            'present'   => $present,
+            'absent'    => $absent,
+            'sick'      => $sick,
+            'permit'    => $permit,
+        ], 'is_admin');
+    }
+
+    public function getTodayPresenceByGrade()
+    {
+        $grade = $this->absensi->getRombel();
+        $response = [];
+        foreach($grade as $key) {
+            $response[] = [
+                'grade_name'    => $key->grade_name,
+                'present'       => $this->absensi->getTodayPresence($key->grade_id, '1'),
+                'absent'        => $this->absensi->getTodayPresence($key->grade_id, '0'),
+                'sick'          => $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 3),
+                'permit'        => $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 2),
+            ];
+            
+        }
+
+        return $this->createResponse($response, 'is_admin');
+    }
+
+    protected function _getTodayPresence()
     {
         $percentage = $this->absensi->getPresencePercentage();
         return [
@@ -79,15 +120,5 @@ class Home extends \Actudent
         }
         
         return $result;
-    }
-
-    public function goToHome()
-    {
-        return redirect()->to(base_url('admin/home'));
-    }
-
-    public function showQuery()
-    {
-        echo $this->auth->showPenggunaQuery('admin@wolestech.com');
     }
 }
