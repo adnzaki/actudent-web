@@ -1,25 +1,24 @@
 <template>
-  <div class="row q-mb-md q-col-gutter-sm">
-    <div class="col-12">
-      <!-- <q-card>
-        <q-card-section>
-        </q-card-section>
-      </q-card> -->
-      <div class="text-h6 text-capitalize">Rekap Kehadiran Harian Siswa </div>
-    </div>
-    <div class="col-12 col-sm-6 col-md-3">
-      <presence-card :title="'Hadir'" :number="present" color="secondary" />
-    </div>
-    <div class="col-12 col-sm-6 col-md-3">
-      <presence-card :title="'Alfa'" :number="absent" color="negative" />
-    </div>
-    <div class="col-12 col-sm-6 col-md-3">
-      <presence-card :title="'Sakit'" :number="sick" color="orange" />
-    </div>
-    <div class="col-12 col-sm-6 col-md-3">
-      <presence-card :title="'Izin'" :number="permit" color="light-blue" />
-    </div>
-  </div>
+  <q-card class="q-mb-md">
+    <q-card-section>
+      <div class="text-h6 text-capitalize q-mb-md">{{ $t('dashboard_daily_recap') }}</div>
+      <div class="row q-mb-md q-col-gutter-sm">
+        <div class="col-12 col-sm-6 col-md-3">
+          <presence-card :title="$t('absensi_hadir')" :number="present" color="secondary" />
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <presence-card :title="$t('absensi_alfa')" :number="absent" color="negative" />
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <presence-card :title="$t('absensi_sakit')" :number="sick" color="orange" />
+        </div>
+        <div class="col-12 col-sm-6 col-md-3">
+          <presence-card :title="$t('absensi_izin')" :number="permit" color="light-blue" />
+        </div>
+      </div>
+    </q-card-section>
+  </q-card>
+  
 </template>
 
 <script>

@@ -17,4 +17,6 @@ return [
     'dashboard_update_history'  => 'Riwayat Pembaruan',
     'dashboard_current_update'  => 'Pembaruan yang terdapat dalam build saat ini',
     'dashboard_prev_update'     => 'Pembaruan sebelumnya',
+    'dashboard_daily_recap'     => 'Rekap Kehadiran Harian Siswa',
+    'dashboard_weekly_chart'    => 'Grafik Kehadiran Mingguan',
 ];

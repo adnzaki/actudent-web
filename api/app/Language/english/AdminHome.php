@@ -17,4 +17,6 @@ return [
     'dashboard_update_history'  => 'Update history',
     'dashboard_current_update'  => 'Current build updates',
     'dashboard_prev_update'     => 'Previous updates',
+    'dashboard_daily_recap'     => 'Student Daily Presence Recap',
+    'dashboard_weekly_chart'    => 'Weekly Presence Graphic',
 ];

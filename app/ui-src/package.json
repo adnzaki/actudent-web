@@ -20,6 +20,7 @@
     "@quasar/extras": "^1.13.5",
     "@quasar/icongenie": "^2.5.1",
     "axios": "^0.26.1",
+    "chart.js": "^4.0.1",
     "core-js": "^3.21.1",
     "quasar": "^2.6.5",
     "vue": "^3.2.31",
