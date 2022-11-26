@@ -19,4 +19,7 @@ return [
     'dashboard_prev_update'     => 'Previous updates',
     'dashboard_daily_recap'     => "Today's Student Presence Recap",
     'dashboard_weekly_chart'    => 'Student Weekly Presence Graphic',
+    'dashboard_high_rank'       => 'Class With Highest Presence Today',
+    'dashboard_low_rank'        => 'Class With Lowest Presence Today',
+    'dashboard_presence_level'  => 'Presence level',
 ];

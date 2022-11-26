@@ -160,6 +160,18 @@ class KelasModel extends SharedModel
     }
 
     /**
+     * Get the number of member of a class group
+     * 
+     * @param int $id grade_id
+     * 
+     * @return int
+     */
+    public function getClassMemberRows(int $id): int
+    {
+        return $this->QBRombel->getWhere(['grade_id' => $id])->getNumRows();
+    }
+
+    /**
      * Get students where not in class group
      * 
      * @param int $gradeId
