@@ -24,7 +24,7 @@
 <script>
 import PresenceCard from './PresenceCard.vue'
 import { admin } from 'boot/axios'
-import { conf, bearerToken } from 'src/composables/common'
+import { bearerToken } from 'src/composables/common'
 import { ref } from 'vue'
 
 export default {
@@ -50,7 +50,7 @@ export default {
 
     getTodayPresence()
 
-    setInterval(getTodayPresence, 10000)
+    setInterval(getTodayPresence, 20000)
     
     return {
       present, absent, sick, permit

@@ -3,7 +3,7 @@
     <q-card-section>
       <div class="text-h6 text-capitalize q-mb-md">{{ $t('dashboard_weekly_chart') }}</div>
       <div style="width: 100%" class="chart-container">
-        <canvas id="presence-chart"></canvas>
+        <canvas height="110" id="presence-chart"></canvas>
       </div>
     </q-card-section>
   </q-card>
@@ -12,18 +12,18 @@
 <script>
 import { Chart } from 'chart.js/auto'
 import { ref, onMounted }  from 'vue'
+import { admin } from 'boot/axios'
+import { bearerToken, t } from 'src/composables/common'
 
 export default {
   setup() {
-    const data = ref([
-      { year: 2010, count: 10 },
-      { year: 2011, count: 20 },
-      { year: 2012, count: 15 },
-      { year: 2013, count: 25 },
-      { year: 2014, count: 22 },
-      { year: 2015, count: 30 },
-      { year: 2016, count: 28 },
-    ])
+    const present = ref([])
+    const absent = ref([])
+    const sick = ref([])
+    const permit = ref([])
+    const days = ref([])
+
+    
 
     const CHART_COLORS = {
       red: 'rgb(255, 99, 132)',
@@ -35,37 +35,87 @@ export default {
       grey: 'rgb(201, 203, 207)'
     };
 
+    
     onMounted(() => {
+      
       setTimeout(() => {
-        const chartId = document.getElementById('presence-chart')
+        const getLastSevenDays = () => {
+          admin.get('home/absen-seminggu', {
+            headers: { Authorization: bearerToken },
+          }).then(({ data }) => {
+            present.value = data.present
+            absent.value = data.absent
+            sick.value = data.sick
+            permit.value = data.permit
+            days.value = data.date
 
-        const chart = () => { 
-          new Chart(chartId, {
-            type: 'line',
-            options: {
-              responsive: true,
-              interaction: {
-                intersect: false,
+            const labels = days.value
+
+            const datasets = [
+              {
+                label: t('absensi_hadir'),
+                data: present.value,
+                borderColor: CHART_COLORS.green,
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4
               },
-            },
-            data: {
-              labels: data.value.map(row => row.year),
-              datasets: [
-                {
-                  label: 'Acquisitions by year',
-                  data: data.value.map(row => row.count),
-                  borderColor: CHART_COLORS.red,
-                  fill: false,
-                  cubicInterpolationMode: 'monotone',
-                  tension: 0.4
-                }
-              ]
-            },
-          })
+              {
+                label: t('absensi_alfa'),
+                data: absent.value,
+                borderColor: CHART_COLORS.red,
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4
+              },
+              {
+                label: t('absensi_sakit'),
+                data: sick.value,
+                borderColor: CHART_COLORS.orange,
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4
+              },
+              {
+                label: t('absensi_izin'),
+                data: permit.value,
+                borderColor: CHART_COLORS.blue,
+                fill: false,
+                cubicInterpolationMode: 'monotone',
+                tension: 0.4
+              },
+            ]
+    
+            // update the chart
+            setTimeout(() => {
+              chart.data.labels = labels
+              chart.data.datasets = datasets
+              chart.update('none')
+            }, 500)
+          })      
         }
+        
+        getLastSevenDays()
+    
+        const chartId = document.getElementById('presence-chart')    
+    
+        const chart = new Chart(chartId, {
+          type: 'line',
+          options: {
+            responsive: true,
+            interaction: {
+              intersect: false,
+            },
+          },
+          data: {
+            labels: [],
+            datasets: []
+          },
+        })
+        
+        
 
-        chart()
-        setInterval(chart, 10000)
+        setInterval(getLastSevenDays, 23000)
 
       }, 2000)
     })
