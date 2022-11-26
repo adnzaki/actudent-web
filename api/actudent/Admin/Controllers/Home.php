@@ -74,14 +74,10 @@ class Home extends \Actudent
 
         // subtract only 6 days because today will be counted
         $startDate = os_date()->sub('now', 6);
-        for($i = 0; $i < 7; $i++)
-        {
-            if($i === 0)
-            {
+        for($i = 0; $i < 7; $i++) {
+            if($i === 0) {
                 $lastSevenDays[] = $startDate;
-            }
-            else
-            {
+            } else {
                 $lastSevenDays[] = os_date()->add($startDate, 1);
             }
 
@@ -91,22 +87,37 @@ class Home extends \Actudent
         // store presence data in percent (%)
         $weekPresence = [];
         $weekAbsence = [];
+        $weekSick = [];
         $weekPermission = [];
+        $days = [];
 
-        foreach($lastSevenDays as $key)
-        {
-            $present = $this->absensi->getTodayPresence('1', reverse($key, '-', '-'));
-            $absent = $this->absensi->getTodayPresence('0', reverse($key, '-', '-'));
-            $permit = $this->absensi->getTodayAbsenceWithPermission(reverse($key, '-', '-'));
-            $weekPresence[] = $this->percentage($present);
-            $weekAbsence[] = $this->percentage($absent);
-            $weekPermission[] = $this->percentage($permit);
+        foreach($lastSevenDays as $key) {
+            $grade = $this->absensi->getRombel();
+            $present = 0;
+            $absent = 0;
+            $sick = 0;
+            $permit = 0;
+            
+            foreach($grade as $g) {
+                $date = reverse($key, '-', '-');
+                $present += $this->absensi->getTodayPresence($g->grade_id, '1', $date);
+                $absent += $this->absensi->getTodayPresence($g->grade_id, '0', $date);
+                $sick += $this->absensi->getTodayAbsenceWithPermission($g->grade_id, 3, $date);
+                $permit += $this->absensi->getTodayAbsenceWithPermission($g->grade_id, 2, $date);
+            }
+            $weekPresence[] = $present;
+            $weekAbsence[] = $absent;
+            $weekSick[] = $sick;
+            $weekPermission[] = $permit;
+            $days[] = $key;
         }
 
         return $this->response->setJSON([
-            'present' => $weekPresence,
-            'absent' => $weekAbsence,
-            'permit' => $weekPermission
+            'date'      => $days,
+            'present'   => $weekPresence,
+            'absent'    => $weekAbsence,
+            'sick'      => $weekSick,
+            'permit'    => $weekPermission
         ]);
     }
 
