@@ -75,11 +75,10 @@ class Home extends \Actudent
         $grade = $this->absensi->getRombel();
         $response = [];
         foreach($grade as $key) {
-            $date = '2022-11-25';
-            $present = $this->absensi->getTodayPresence($key->grade_id, '1', $date);
-            $absent = $this->absensi->getTodayPresence($key->grade_id, '0', $date);
-            $sick = $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 3, $date);
-            $permit = $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 2, $date);
+            $present = $this->absensi->getTodayPresence($key->grade_id, '1');
+            $absent = $this->absensi->getTodayPresence($key->grade_id, '0');
+            $sick = $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 3);
+            $permit = $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 2);
             $response[] = [
                 'grade_name'    => $key->grade_name,
                 'present'       => $this->percentage($present, $key->grade_id),
