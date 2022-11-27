@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Admin\Models\AbsensiModel;
+use Actudent\Admin\Models\KelasModel;
 
 class Home extends \Actudent
 {
@@ -9,9 +10,15 @@ class Home extends \Actudent
      */
     private $absensi;
 
+    /**
+     * @var Actudent\Admin\Models\KelasModel
+     */
+    private $kelas;
+
     public function __construct()
     {
         $this->absensi = new AbsensiModel;
+        $this->kelas = new KelasModel;
     }
 
     public function getTodayPresence()
@@ -37,35 +44,52 @@ class Home extends \Actudent
         ], 'is_admin');
     }
 
-    public function getTodayPresenceByGrade()
+    public function getTodayPresencePercentage()
+    {
+        return $this->createResponse([
+            'highest'   => $this->getHighestPresent()[0],
+            'lowest'    => $this->getLowestPresent()[0]
+        ], 'is_admin');
+    }
+
+    private function getHighestPresent()
+    {
+        $presence = $this->_getTodayPresenceByGrade();
+        $presentColumn = array_column($presence, 'present');
+        array_multisort($presentColumn, SORT_DESC, $presence);
+
+        return array_chunk($presence, 5);
+    }
+
+    private function getLowestPresent()
+    {
+        $presence = $this->_getTodayPresenceByGrade();
+        $presentColumn = array_column($presence, 'present');
+        array_multisort($presentColumn, SORT_ASC, $presence);
+
+        return array_chunk($presence, 5);
+    }
+
+    private function _getTodayPresenceByGrade()
     {
         $grade = $this->absensi->getRombel();
         $response = [];
         foreach($grade as $key) {
+            $date = '2022-11-25';
+            $present = $this->absensi->getTodayPresence($key->grade_id, '1', $date);
+            $absent = $this->absensi->getTodayPresence($key->grade_id, '0', $date);
+            $sick = $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 3, $date);
+            $permit = $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 2, $date);
             $response[] = [
                 'grade_name'    => $key->grade_name,
-                'present'       => $this->absensi->getTodayPresence($key->grade_id, '1'),
-                'absent'        => $this->absensi->getTodayPresence($key->grade_id, '0'),
-                'sick'          => $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 3),
-                'permit'        => $this->absensi->getTodayAbsenceWithPermission($key->grade_id, 2),
-            ];
-            
-        }
+                'present'       => $this->percentage($present, $key->grade_id),
+                'absent'        => $this->percentage($absent, $key->grade_id),
+                'sick'          => $this->percentage($sick, $key->grade_id),
+                'permit'        => $this->percentage($permit, $key->grade_id)
+            ];            
+        }             
 
-        return $this->createResponse($response, 'is_admin');
-    }
-
-    protected function _getTodayPresence()
-    {
-        $percentage = $this->absensi->getPresencePercentage();
-        return [
-            'presence' => $this->absensi->getTodayPresence('1'),
-            'absence' => $this->absensi->getTodayPresence('0'),
-            'permit' => $this->absensi->getTodayAbsenceWithPermission(),
-            'presentPercent' => round($percentage['present'], 1),
-            'absentPercent' => round($percentage['absent'], 1),
-            'notePercent' => round($percentage['withPermission'], 1),
-        ];
+        return $response;
     }
 
     public function getLastSevenDaysPresence()
@@ -121,9 +145,9 @@ class Home extends \Actudent
         ]);
     }
 
-    private function percentage($input, $depth = 1)
+    private function percentage($input, $gradeId, $depth = 1)
     {
-        $countStudents = $this->absensi->QBStudent->where('deleted', 0)->countAllResults();
+        $countStudents = $this->kelas->getClassMemberRows($gradeId);
         $result = 0;
         if($countStudents > 0)
         {

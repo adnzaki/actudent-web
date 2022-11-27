@@ -31,12 +31,17 @@ class Agenda extends \Actudent
         foreach($events as $key)
         {
             $data = [];
+            $eventStart = explode(' ', $key->agenda_start);
+            $eventEnd = explode(' ', $key->agenda_end);
             
             // match format that supported by FullCalendar
-            $data['id'] = $key->agenda_id;
-            $data['title'] = $key->agenda_name;
-            $data['start'] = str_replace(' ', 'T', $key->agenda_start);
-            $data['end'] = str_replace(' ', 'T', $key->agenda_end);
+            $data['id']         = $key->agenda_id;
+            $data['title']      = $key->agenda_name;
+            $data['start']      = str_replace(' ', 'T', $key->agenda_start);
+            $data['end']        = str_replace(' ', 'T', $key->agenda_end);
+            $data['startStr']   = os_date()->create($eventStart[0]).' | '.substr($eventStart[1], 0, 5);
+            $data['endStr']     = os_date()->create($eventEnd[0]).' | '.substr($eventEnd[1], 0, 5);
+            $data['priority']   = $key->agenda_priority;
             array_push($formatted, $data);
         }
 

@@ -19,4 +19,9 @@ return [
     'dashboard_prev_update'     => 'Pembaruan sebelumnya',
     'dashboard_daily_recap'     => 'Rekap Kehadiran Siswa Hari Ini',
     'dashboard_weekly_chart'    => 'Grafik Kehadiran Mingguan Siswa',
+    'dashboard_high_rank'       => 'Kelas Dengan Kehadiran Tertinggi Hari Ini',
+    'dashboard_low_rank'        => 'Kelas Dengan Kehadiran Terendah Hari Ini',
+    'dashboard_presence_level'  => 'Tingkat kehadiran',
+    'dashboard_today_schedule'  => 'Jadwal Hari Ini',
+    'dashboard_no_schedule'     => 'Tidak ada jadwal hari ini, silakan nikmati hari anda.',
 ];

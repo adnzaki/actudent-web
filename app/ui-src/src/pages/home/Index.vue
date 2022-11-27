@@ -3,6 +3,7 @@
     <presence-flash-recap />   
     <total-daily-recap />
     <weekly-chart />
+    <presence-rank />
     <updates />
   </div>
 </template>
@@ -12,13 +13,15 @@ import PresenceFlashRecap from 'src/siabsen_pages/dashboard/PresenceFlashRecap.v
 import TotalDailyRecap from './TotalDailyRecap.vue'
 import Updates from './Updates.vue'
 import WeeklyChart from './WeeklyChart.vue'
+import PresenceRank from './PresenceRank.vue'
 export default {
   name: 'PageIndex',
   components: {
     PresenceFlashRecap,
     Updates,
     TotalDailyRecap,
-    WeeklyChart
+    WeeklyChart,
+    PresenceRank
   },
   beforeRouteEnter(to, from) {
     if(from.fullPath === '/login') {

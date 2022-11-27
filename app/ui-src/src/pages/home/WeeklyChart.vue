@@ -115,7 +115,7 @@ export default {
         
         
 
-        setInterval(getLastSevenDays, 23000)
+        setInterval(getLastSevenDays, 24000)
 
       }, 2000)
     })
