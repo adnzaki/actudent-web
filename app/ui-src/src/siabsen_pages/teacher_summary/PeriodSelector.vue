@@ -1,5 +1,5 @@
 <template>
-  <div class="col-6 col-md-2 q-mt-md q-pr-xs">
+  <!-- <div class="col-6 col-md-2 q-mt-md q-pr-xs">
     <q-select
       outlined
       v-model="period.month"
@@ -16,6 +16,36 @@
       dense
       @update:model-value="yearSelected"
     />
+  </div> -->
+  <div class="col-6 col-md-2 q-mt-md q-pr-xs">
+    <q-input v-model="dateStart" outlined dense readonly>
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
+            <q-date v-model="dateStartValue" @update:model-value="dateStartChanged" today-btn>
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup :label="$t('tutup')" color="primary" flat />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>   
+  </div>
+  <div class="col-6 col-md-2 q-mt-md q-pl-xs">
+    <q-input v-model="dateEnd" outlined dense readonly>
+      <template v-slot:append>
+        <q-icon name="event" class="cursor-pointer">
+          <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
+            <q-date v-model="dateEndValue" @update:model-value="dateEndChanged" today-btn>
+              <div class="row items-center justify-end">
+                <q-btn v-close-popup :label="$t('tutup')" color="primary" flat />
+              </div>
+            </q-date>
+          </q-popup-proxy>
+        </q-icon>
+      </template>
+    </q-input>  
   </div>
   <div class="col-12 col-md-2 q-mt-md q-px-xs mobile-hide">
     <q-btn color="secondary" 
@@ -45,54 +75,113 @@ export default {
     const period = ref({})
     const $q = useQuasar()
 
-    const selectedPeriod = ref(date.formatDate(new Date, 'MM-YYYY'))
-    store.state.siabsen.period = selectedPeriod.value
+    const dateFormat = 'DD-MM-YYYY'
+    const sendFormat = 'YYYY-MM-DD'
+    const dateObj = new Date()
+    const createDate = (type, format = 'YYYY/MM/DD') => {
+      let year = dateObj.getFullYear(), 
+          month, startDate
+      if(type === 'start') {
+        if(dateObj.getMonth() === 0) {
+          month = 12
+          year -= 1
+        } else {
+          month = dateObj.getMonth()  
+        }
+
+        startDate = '21'
+      } else {
+        month = dateObj.getMonth() + 1
+        startDate = '20'
+      }
+      console.log(month)
+
+      return date.formatDate(`${year}-${month}-${startDate}`, format)
+    } 
+
+    const dateStart = ref(createDate('start', dateFormat))
+    const dateEnd = ref(createDate('end', dateFormat))
+    const dateStartValue = ref(createDate('start'))
+    const dateEndValue = ref(createDate('end'))
+    
+
+    const dateStartChanged = val => {
+      dateStart.value = date.formatDate(val, sendFormat)
+      store.state.siabsen.dateRangeStart = date.formatDate(val, sendFormat)
+      getDetailPresence()
+    }
+
+    const dateEndChanged = val => {
+      dateEnd.value = date.formatDate(val, sendFormat)
+      store.state.siabsen.dateRangeEnd = date.formatDate(val, sendFormat)
+      getDetailPresence()
+    }
+
+    store.state.siabsen.dateRangeStart = date.formatDate(dateStartValue.value, sendFormat)
+    store.state.siabsen.dateRangeEnd = date.formatDate(dateEndValue.value, sendFormat)
 
     const getDetailPresence = () => {
       store.commit('siabsen/getDetailPresence', {
         staffId: 'null', 
         userId: 'null',
-        period: store.state.siabsen.period
-      })   
-    }    
-    
-    getDetailPresence()
-
-    const monthSelected = model => {
-      selectedPeriod.value = `${model.value}-${period.value.year}`
-      store.state.siabsen.period = selectedPeriod.value
-      getDetailPresence()
+        dateStart: store.state.siabsen.dateRangeStart,
+        dateEnd: store.state.siabsen.dateRangeEnd
+      })  
     }
 
-    const yearSelected = model => {
-      selectedPeriod.value = `${period.value.month.value}-${model}`
-      store.state.siabsen.period = selectedPeriod.value
-      getDetailPresence()
-    } 
+    getDetailPresence()
 
-    setTimeout(() => {
-      let monthNum = parseInt(selectedPeriod.value.substring(0, 2))
-      period.value = {
-        month: { label: t('mon' + monthNum), value: monthNum },
-        year: 2022
-      }
+    // const selectedPeriod = ref(date.formatDate(new Date, 'MM-YYYY'))
+    // store.state.siabsen.period = selectedPeriod.value
 
-      monthOptions.value = monthList()
-    }, 1500)  
+    // const getDetailPresence = () => {
+    //   store.commit('siabsen/getDetailPresence', {
+    //     staffId: 'null', 
+    //     userId: 'null',
+    //     period: store.state.siabsen.period
+    //   })   
+    // }    
+    
+    // getDetailPresence()
+
+    // const monthSelected = model => {
+    //   selectedPeriod.value = `${model.value}-${period.value.year}`
+    //   store.state.siabsen.period = selectedPeriod.value
+    //   getDetailPresence()
+    // }
+
+    // const yearSelected = model => {
+    //   selectedPeriod.value = `${period.value.month.value}-${model}`
+    //   store.state.siabsen.period = selectedPeriod.value
+    //   getDetailPresence()
+    // } 
+
+    // setTimeout(() => {
+    //   let monthNum = parseInt(selectedPeriod.value.substring(0, 2))
+    //   period.value = {
+    //     month: { label: t('mon' + monthNum), value: monthNum },
+    //     year: 2022
+    //   }
+
+    //   monthOptions.value = monthList()
+    // }, 1500)  
 
     const token = $q.cookies.get(conf.cookieName)
 
     const exportPdf = () => {
       return `${conf.siabsenAPI}print-rekap-individu/null/null/` + 
-             `${store.state.siabsen.period}/${$q.cookies.get(conf.cookieName)}`
+             `${store.state.siabsen.dateRangeStart}/` + 
+             `${store.state.siabsen.dateRangeEnd}/${token}`
     }
 
     return {
+      dateStartChanged, dateEndChanged,
+      dateStart, dateEnd, dateStartValue, dateEndValue,
       monthOptions,
       yearOptions: [2020, 2021, 2022],
       fabPos, draggingFab, moveFab,
       period,
-      monthSelected, yearSelected,
+      // monthSelected, yearSelected,
       exportPdf
     }
   }
