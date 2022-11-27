@@ -151,7 +151,7 @@ class AgendaModel extends \Actudent\Core\Models\Connector
      */
     public function getEvents(string $viewStart, string $viewEnd, string $sort = 'false'): array
     {
-        $query = $this->QBAgenda->select('agenda_id, agenda_name, agenda_start, agenda_end')
+        $query = $this->QBAgenda->select('agenda_id, agenda_name, agenda_start, agenda_end, agenda_priority')
                  ->where([
                      "{$this->agenda}.agenda_start >=" => $viewStart,
                      "{$this->agenda}.agenda_start <" => $viewEnd

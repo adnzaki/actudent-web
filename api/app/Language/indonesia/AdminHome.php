@@ -22,4 +22,6 @@ return [
     'dashboard_high_rank'       => 'Kelas Dengan Kehadiran Tertinggi Hari Ini',
     'dashboard_low_rank'        => 'Kelas Dengan Kehadiran Terendah Hari Ini',
     'dashboard_presence_level'  => 'Tingkat kehadiran',
+    'dashboard_today_schedule'  => 'Jadwal Hari Ini',
+    'dashboard_no_schedule'     => 'Tidak ada jadwal hari ini, silakan nikmati hari anda.',
 ];
