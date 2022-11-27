@@ -17,15 +17,11 @@ import RecentAgenda from './RecentAgenda.vue'
 export default {
   name: 'TeacherIndex',
   components: {
-<<<<<<< HEAD
     PresenceCenter,
     PresenceDialog,
-    Updates
-=======
     Updates,
     TodaySchedule,
     RecentAgenda
->>>>>>> v2-dev
   },
   beforeRouteEnter(to, from) {
     if(from.fullPath === '/login') {
