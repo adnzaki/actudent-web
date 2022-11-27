@@ -28,7 +28,7 @@ export default {
   setup() {
     const store = useStore()
     const getDay = new Date().getDay()
-    store.state.presence.helper.activeDay = 1
+    store.state.presence.helper.activeDay = getDay
 
     onMounted(() => {
       setTimeout(() => store.dispatch('presence/getTeacherSchedules'), 500)
