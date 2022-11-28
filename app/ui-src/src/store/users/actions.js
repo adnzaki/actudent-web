@@ -10,6 +10,34 @@ import {
 import { Notify } from 'quasar'
 
 export default {
+  deactivate({ state, dispatch, commit }) {
+    state.helper.disableSaveButton = true
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('user_deactivate_progress'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    admin.get(`${state.userApi}deactivate/${state.selectedUser}`, {
+      headers: { Authorization: bearerToken },
+    }).then(({ data }) => {
+      state.helper.disableSaveButton = false
+
+      notifyProgress({ timeout })
+      dispatch('resetForm')
+      commit('closeDeleteConfirm')
+
+      notifyProgress({
+        message: `${t('sukses')} ${t('user_deactivate_success')}`,
+        color: 'positive',
+        icon: 'done',
+        spinner: false
+      })
+    })
+  },
   save({ state, dispatch }, payload) {
     state.helper.disableSaveButton = true
     const notifyProgress = Notify.create({

@@ -5,4 +5,13 @@ import {
   t
 } from '../../composables/common'
 
-export default {}
+export default {
+  showDeactivateConfirm(state, id) {
+    state.selectedUser = id
+    state.deleteConfirm = true
+  },
+  closeDeleteConfirm(state) {
+    state.selectedUser = null
+    state.deleteConfirm = false
+  },
+}

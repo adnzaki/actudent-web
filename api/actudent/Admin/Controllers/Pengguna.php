@@ -58,6 +58,17 @@ class Pengguna extends \Actudent
         return $this->createResponse($user, 'is_admin');
     }
 
+    public function deactivate($id)
+    {
+        if(is_admin()) {
+            $this->user->deactivateUser($id);
+
+            return $this->response->setJSON([
+                'code' => '200',
+            ]);
+        }
+    }
+
     public function save($id)
     {
         if(is_admin()) {

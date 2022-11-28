@@ -118,6 +118,18 @@ class PenggunaModel extends \Actudent\Core\Models\Connector
     }
 
     /**
+     * Deactivate user account
+     * 
+     * @param int $id
+     * 
+     * @return void
+     */
+    public function deactivateUser(int $id): void
+    {
+        $this->QBUser->update(['deleted' => '1'], ['user_id' => $id]);
+    }
+
+    /**
      * Update user data
      * 
      * @param array $value

@@ -18,8 +18,28 @@
             <td class="text-left mobile-hide">{{ item.email }}</td>
             <td class="text-left mobile-hide">{{ item.level }}</td>
             <td class="text-left">
-              <q-btn color="accent" icon="o_autorenew" @click="getDetail(item.id)">
-                <btn-tooltip :label="$t('user_reset_password')" />
+              <q-btn-group class="mobile-hide">
+                <q-btn color="accent" icon="o_autorenew" @click="getDetail(item.id)">
+                  <btn-tooltip :label="$t('user_reset_password')" />
+                </q-btn>
+                <q-btn color="accent" icon="o_person_off" 
+                  @click="showDeactivateConfirm(item.id)">
+                  <btn-tooltip :label="$t('user_deactivate')" />
+                </q-btn>
+              </q-btn-group>
+              <q-btn round icon="more_vert" color="accent" class="mobile-only" outline>
+                <q-menu>
+                  <q-list style="min-width: 100px">
+                    <q-item clickable v-close-popup @click="getDetail(item.id)">
+                      <q-item-section>{{ $t('user_reset_password') }}</q-item-section>
+                    </q-item>
+                    <q-separator />
+                    <q-item clickable v-close-popup 
+                      @click="showDeactivateConfirm(item.id)">
+                      <q-item-section>{{ $t('user_deactivate') }}</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
               </q-btn>
             </td>
           </tr>
@@ -41,6 +61,7 @@ export default {
     const store = useStore()
 
     return {
+      showDeactivateConfirm: id => store.commit('users/showDeactivateConfirm', id),
       sortData: sortBy => store.dispatch('users/sortData', sortBy),
       getDetail: id => store.dispatch('users/getUserDetail', id),
       data: computed(() => store.state.users.paging.data),
