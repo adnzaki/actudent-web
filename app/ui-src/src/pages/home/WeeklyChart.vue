@@ -3,7 +3,7 @@
     <q-card-section>
       <div class="text-h6 text-capitalize q-mb-md">{{ $t('dashboard_weekly_chart') }}</div>
       <div style="width: 100%" class="chart-container">
-        <canvas height="110" id="presence-chart"></canvas>
+        <canvas :height="canvasHeight" id="presence-chart"></canvas>
       </div>
     </q-card-section>
   </q-card>
@@ -11,9 +11,10 @@
 
 <script>
 import { Chart } from 'chart.js/auto'
-import { ref, onMounted }  from 'vue'
+import { ref, onMounted, computed }  from 'vue'
 import { admin } from 'boot/axios'
 import { bearerToken, t } from 'src/composables/common'
+import { useQuasar } from 'quasar'
 
 export default {
   setup() {
@@ -22,8 +23,7 @@ export default {
     const sick = ref([])
     const permit = ref([])
     const days = ref([])
-
-    
+    const $q = useQuasar()    
 
     const CHART_COLORS = {
       red: 'rgb(255, 99, 132)',
@@ -33,8 +33,7 @@ export default {
       blue: 'rgb(54, 162, 235)',
       purple: 'rgb(153, 102, 255)',
       grey: 'rgb(201, 203, 207)'
-    };
-
+    }
     
     onMounted(() => {
       
@@ -103,6 +102,7 @@ export default {
           type: 'line',
           options: {
             responsive: true,
+            maintainAspectRatio: false,
             interaction: {
               intersect: false,
             },
@@ -111,16 +111,16 @@ export default {
             labels: [],
             datasets: []
           },
-        })
-        
-        
+        })      
 
         setInterval(getLastSevenDays, 24000)
 
       }, 2000)
     })
     
-    return {}    
+    return {
+      canvasHeight: computed(() => $q.screen.lt.sm ? 300 : 320)
+    }    
   }
 }
 </script>
