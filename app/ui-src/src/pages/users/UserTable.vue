@@ -18,7 +18,7 @@
             <td class="text-left mobile-hide">{{ item.email }}</td>
             <td class="text-left mobile-hide">{{ item.level }}</td>
             <td class="text-left">
-              <q-btn color="accent" icon="o_autorenew" @click="getDetail(item.user_id)">
+              <q-btn color="accent" icon="o_autorenew" @click="getDetail(item.id)">
                 <btn-tooltip :label="$t('user_reset_password')" />
               </q-btn>
             </td>
@@ -42,7 +42,7 @@ export default {
 
     return {
       sortData: sortBy => store.dispatch('users/sortData', sortBy),
-      getDetail: id => store.commit('users/getDetail', id),
+      getDetail: id => store.dispatch('users/getUserDetail', id),
       data: computed(() => store.state.users.paging.data),
       checkColWidth
     }

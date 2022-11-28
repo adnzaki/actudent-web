@@ -1,6 +1,6 @@
 export default function () {
   return {
-    studentApi: 'pengguna/',
+    userApi: 'pengguna/',
     error: {},
     helper: {
       disableSaveButton: false,
@@ -11,8 +11,8 @@ export default function () {
     searchParam: '',
     detail: {}, 
     current: 1,
-    showAddForm: false, showEditForm: false,
-    saveStatus: 500, deleteConfirm: false,
+    showForm: false,
+    saveStatus: 500,
     searchTimeout: false,
   }
 }

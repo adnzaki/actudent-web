@@ -4,9 +4,9 @@ return [
     // teks halaman data user management
     'page_title'                => 'Pengguna',
     'user_title'                => 'Kelola Pengguna',
-    'user_save_progress'        => 'Menyimpan data pegawai...',
+    'user_save_progress'        => 'Menyimpan data pengguna...',
     'user_error_text'           => 'Tidak dapat menyimpan data, silakan isi form dengan benar',
-    'user_update_success'       => 'Password pegawai berhasil diperbarui',
+    'user_update_success'       => 'Password pengguna berhasil diperbarui',
     'user_update_title'         => 'Reset password',
     'user_cari'                 => 'Cari nama pengguna, atau email pengguna', 
     'user_label_nama'           => 'Nama Pengguna',

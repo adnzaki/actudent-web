@@ -12,6 +12,7 @@
         </div>
       </q-card-section>
       <user-table />
+      <reset-password-form />
       <!-- <add-employee-form />
       <edit-employee-form />
       <delete-confirm vuex-module="employee" action="deleteEmployee" />
@@ -25,11 +26,13 @@ import { computed } from 'vue'
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import UserType from './UserType.vue'
 import UserTable from './UserTable.vue'
+import ResetPasswordForm from './ResetPasswordForm.vue'
 
 export default {
   components: {
     UserType,
-    UserTable
+    UserTable,
+    ResetPasswordForm
   },
   setup() {
     return { wrapperPadding, titleSpacing }
