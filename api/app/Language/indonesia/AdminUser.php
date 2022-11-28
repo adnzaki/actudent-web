@@ -3,10 +3,10 @@
 return [
     // teks halaman data user management
     'page_title'                => 'Pengguna',
-    'user_title'                => 'Pengelola Pengguna',
-    'user_save_progress'        => 'Menyimpan data pegawai...',
+    'user_title'                => 'Kelola Pengguna',
+    'user_save_progress'        => 'Menyimpan data pengguna...',
     'user_error_text'           => 'Tidak dapat menyimpan data, silakan isi form dengan benar',
-    'user_update_success'       => 'Password pegawai berhasil diperbarui',
+    'user_update_success'       => 'Password pengguna berhasil diperbarui',
     'user_update_title'         => 'Reset password',
     'user_cari'                 => 'Cari nama pengguna, atau email pengguna', 
     'user_label_nama'           => 'Nama Pengguna',
@@ -33,5 +33,6 @@ return [
     'user_newPass'              => 'Kata sandi baru',
     'user_newPass_confirm'      => 'Konfirmasi password baru',
     'user_attention'            => 'Perhatian',
-    'user_manage_info'          => 'Silakan menuju menu pegawai/orang tua untuk menambah dan menghapus pengguna'
+    'user_manage_info'          => 'Silakan menuju menu pegawai/orang tua untuk menambah dan menghapus pengguna',
+    'user_reset_password'       => 'Atur ulang kata sandi',
 ];

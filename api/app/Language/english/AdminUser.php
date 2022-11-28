@@ -3,7 +3,7 @@
 return [
     // teks halaman data user management
     'page_title'                => 'User',
-    'user_title'                => 'User Manager',
+    'user_title'                => 'User Management',
     'user_save_progress'        => 'Saving user data...',
     'user_error_text'           => 'Can not save data, fill the form corectly please',
     'user_update_success'       => 'User password has been updated successfully',
@@ -33,5 +33,6 @@ return [
     'user_newPass'              => 'New Password',
     'user_newPass_confirm'      => 'Confirm New Password',
     'user_attention'            => 'Attention',
-    'user_manage_info'          => 'Please refer to staff/parent menu to add or delete user'
+    'user_manage_info'          => 'Please refer to staff/parent menu to add or delete user',
+    'user_reset_password'       => 'Reset password',
 ];

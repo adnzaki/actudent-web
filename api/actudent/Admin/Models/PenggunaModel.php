@@ -108,13 +108,13 @@ class PenggunaModel extends \Actudent\Core\Models\Connector
      * 
      * @return array
      */
-    public function getUserDetail(int $id): array
+    public function getUserDetail(int $id): object
     {
-        $field = 'user_id, user_name, user_email, user_level, deleted, modified';
+        $field = 'user_id as id, user_name as name, user_email as email, user_level as level, modified';
         $select = $this->QBUser->select($field)
                   ->where('user_id', $id)->get();
 
-        return $select->getResult();                  
+        return $select->getResult()[0];                  
     }
 
     /**

@@ -20,87 +20,61 @@ class Pengguna extends \Actudent
     public function getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
     {
         $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
-        // User data to be wrapped
-        $userWrapper = [];
 
         // User level category
-        // Staff|Pegawai, Admin|Admin, Teacher|Guru, Parent|Orang tua
+        // Staff, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
-            get_lang('AdminUser.pengguna_staff'),
+            'Staff',
             get_lang('AdminUser.pengguna_admin'),
             get_lang('AdminUser.pengguna_guru'),
             get_lang('AdminUser.pengguna_ortu')
         ];
-        foreach($data as $key)
-        {
-            $userWrapper[] = [ 
-                'user_id'        => $key->user_id,
-                'user_name'      => $key->user_name,
-                'user_email'     => $key->user_email,
-                'user_password'  => $key->user_password,
-                'user_level'     => $key->user_level,
-                'level_text'     => $userLevel[$key->user_level],
-            ];
+
+        foreach($data as $key) {
+            $key->level = $userLevel[$key->level];
         }
 
         $rows = $this->user->getUserRows($searchBy, $whereClause, $search);
-        return $this->response->setJSON([
-            'container' => $userWrapper,
+        return $this->createResponse([
+            'container' => $data,
             'totalRows' => $rows,
-        ]);
+        ], 'is_admin');
     }
 
     public function getUserDetail($id)
     {
         $user = $this->user->getUserDetail($id);
-        // User data to be wrapped
-        $userWrapper = [];
-
         // User level category
-        // Staff|Pegawai, Admin|Admin, Teacher|Guru, Parent|Orang tua
+        // Staff, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
             get_lang('AdminUser.pengguna_staff'),
             get_lang('AdminUser.pengguna_admin'),
             get_lang('AdminUser.pengguna_guru'),
             get_lang('AdminUser.pengguna_ortu')
         ];
-        foreach($user as $key)
-        {
-            $userWrapper[] = [ 
-                'user_id'        => $key->user_id,
-                'user_name'      => $key->user_name,
-                'user_email'     => $key->user_email,
-                'user_password'  => $key->user_password,
-                'user_level'     => $key->user_level,
-                'level_text'     => $userLevel[$key->user_level],
-            ];
-        }
 
-        $data = [
-            'user' => $userWrapper[0],
-        ];
+        $user->level = $userLevel[$user->level];
 
-        return $this->response->setJSON($data);
+        return $this->createResponse($user, 'is_admin');
     }
 
     public function save($id)
     {
-        $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
-        {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            $data = $this->formData();
-            $this->user->update($data, $id);
-            
-            return $this->response->setJSON([
-                'code' => '200',
-            ]);
+        if(is_admin()) {
+            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+            if(! validate($validation[0], $validation[1])) {
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
+            } else {
+                $data = $this->formData();
+                $this->user->update($data, $id);
+                
+                return $this->response->setJSON([
+                    'code' => '200',
+                ]);
+            }
         }
     }
 
@@ -131,6 +105,7 @@ class Pengguna extends \Actudent
     {
         return [            
             'user_password'         => $this->request->getPost('user_password'),
+            'user_password_confirm' => $this->request->getPost('user_password_confirm'),
         ];
     }
 }

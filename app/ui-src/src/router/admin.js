@@ -30,6 +30,7 @@ import PresenceScheduleMain from 'src/siabsen_pages/presence_schedule/ScheduleMa
 import AdminEvents from 'src/siabsen_pages/admin_events/EventsMain.vue'
 import EventsRoute from 'src/siabsen_pages/admin_events/EventsRoute.vue'
 import EventsAttendance from 'src/siabsen_pages/admin_events/EventsAttendance.vue'
+import UsersMain from 'pages/users/UsersMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -89,4 +90,5 @@ export default [
       { path: 'schedule', component: PresenceScheduleMain, beforeEnter: () => routeValidator() },
     ]
   },
+  { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() }
 ]
