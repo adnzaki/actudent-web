@@ -215,8 +215,6 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
         $this->db->transStart();
 
         // start transcation
-        $this->QBTimelineComments->delete(['user_id' => $userID]);
-        $this->QBTimelineLikes->delete(['user_id' => $userID]);
         $this->QBStaff->update($deleted, ['staff_id' => $staffID]);
         $this->QBUser->update($deleted, ['user_id' => $userID]);
 

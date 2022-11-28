@@ -13,10 +13,10 @@
       </q-card-section>
       <user-table />
       <reset-password-form />
-      <!-- <add-employee-form />
-      <edit-employee-form />
-      <delete-confirm vuex-module="employee" action="deleteEmployee" />
-      <employee-table /> -->
+      <delete-confirm vuex-module="users" 
+        :ok-button-text="$t('user_deactivate').split(' ')[0]" 
+        :custom-text="$t('user_deactivate_confirm')" 
+        action="deactivate" />
     </q-card>
   </div>
 </template>
