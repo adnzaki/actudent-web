@@ -33,5 +33,6 @@ return [
     'user_newPass'              => 'New Password',
     'user_newPass_confirm'      => 'Confirm New Password',
     'user_attention'            => 'Attention',
-    'user_manage_info'          => 'Please refer to staff/parent menu to add or delete user'
+    'user_manage_info'          => 'Please refer to staff/parent menu to add or delete user',
+    'user_reset_password'       => 'Reset password',
 ];

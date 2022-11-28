@@ -20,42 +20,30 @@ class Pengguna extends \Actudent
     public function getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
     {
         $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
-        // User data to be wrapped
-        $userWrapper = [];
 
         // User level category
         // Staff, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
-            get_lang('AdminUser.pengguna_staff'),
+            'Staff',
             get_lang('AdminUser.pengguna_admin'),
             get_lang('AdminUser.pengguna_guru'),
             get_lang('AdminUser.pengguna_ortu')
         ];
-        foreach($data as $key)
-        {
-            $userWrapper[] = [ 
-                'user_id'        => $key->user_id,
-                'user_name'      => $key->user_name,
-                'user_email'     => $key->user_email,
-                'user_password'  => $key->user_password,
-                'user_level'     => $key->user_level,
-                'level_text'     => $userLevel[$key->user_level],
-            ];
+
+        foreach($data as $key) {
+            $key->level = $userLevel[$key->level];
         }
 
         $rows = $this->user->getUserRows($searchBy, $whereClause, $search);
-        return $this->response->setJSON([
-            'container' => $userWrapper,
+        return $this->createResponse([
+            'container' => $data,
             'totalRows' => $rows,
-        ]);
+        ], 'is_admin');
     }
 
     public function getUserDetail($id)
     {
         $user = $this->user->getUserDetail($id);
-        // User data to be wrapped
-        $userWrapper = [];
-
         // User level category
         // Staff, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
@@ -64,23 +52,12 @@ class Pengguna extends \Actudent
             get_lang('AdminUser.pengguna_guru'),
             get_lang('AdminUser.pengguna_ortu')
         ];
-        foreach($user as $key)
-        {
-            $userWrapper[] = [ 
-                'user_id'        => $key->user_id,
-                'user_name'      => $key->user_name,
-                'user_email'     => $key->user_email,
-                'user_password'  => $key->user_password,
-                'user_level'     => $key->user_level,
-                'level_text'     => $userLevel[$key->user_level],
-            ];
+
+        foreach($user as $key) {
+            $key->level = $userLevel[$key->level];
         }
 
-        $data = [
-            'user' => $userWrapper[0],
-        ];
-
-        return $this->response->setJSON($data);
+        return $this->createResponse($user, 'is_admin');
     }
 
     public function save($id)
