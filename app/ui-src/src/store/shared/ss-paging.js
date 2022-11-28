@@ -19,7 +19,7 @@
       next: 0, first: 0, last: 0, setStart: 0, totalRows: 0,
       numLinks: true, activeClass: 'active', linkClass: 'item',
       showPaging: true, search: '', data: [],
-      orderBy: '', searchBy: '', sort: 'ASC', whereClause: '',
+      orderBy: '', searchBy: '', sort: 'ASC', whereClause: null,
       url: '', ascendingSort: false, linkNum: false, rows: 10, // custom limit
       token: '',
 
@@ -204,12 +204,11 @@
       state.search = options.search
       let searchParam
       state.search === '' ? searchParam = '' : searchParam = '/' + state.search
-      options.where === undefined ? state.whereClause = '' : state.whereClause = options.where
 
       let baseURL = `${options.url}${state.limit}/${state.offset}/${state.orderBy}/${state.searchBy}/${state.sort}`,
         requestURL
 
-      state.whereClause === '' ?
+      options.where === undefined ?
         requestURL = `${baseURL}${searchParam}` :
         requestURL = `${baseURL}/${state.whereClause}${searchParam}`
 

@@ -126,8 +126,7 @@ export default {
     state.error = {}
     state.selectedParent = { id: '', father: '', mother: '' }
     state.current = 1
-    state.whereClause = ''
-    commit('getClassGroup')
+    //commit('getClassGroup')
     dispatch('getStudents', true)
   },
   getStudents({ state, dispatch }, afterSave = false) {
