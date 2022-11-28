@@ -79,7 +79,7 @@ export default {
   beforeRouteEnter(to, from, next) {
     let url = '/login'
     if(userType === '1') url = '/home'
-    else if(userType === '2') url = '/teacher/home'
+    else if(userType === '2' || userType === '0') url = '/teacher/home'
     
     if(to.path === '/login' && isAuthenticated) next({ path: url })
     else next()
@@ -181,7 +181,7 @@ export default {
                   if(res.level === '1') {
                     window.location.href = conf.homeUrl()
                     localStorage.removeItem('grade_id')
-                  } else if(res.level === '2') {
+                  } else if(res.level === '2' || res.level === '0') {
                     localStorage.setItem('grade_id', res.grade);
                     window.location.href = conf.teacherHomeUrl()
                   }

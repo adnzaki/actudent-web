@@ -25,8 +25,10 @@
         <menu-item icon="today" :label="$t('menu_agenda')" link="/agenda" />
         <menu-item icon="restore" :label="$t('menu_post')" link="" />
       </div>
-      <div v-if="$q.cookies.get(conf.userType) === '2'">
-        <menu-item icon="o_book" :label="$t('menu_jadwal_guru')" link="/teacher/presence" />
+      <menu-item icon="o_book" :label="$t('menu_jadwal_guru')" 
+        v-if="$q.cookies.get(conf.userType) === '2'"
+        link="/teacher/presence" />
+      <div v-if="$q.cookies.get(conf.userType) === '2' || $q.cookies.get(conf.userType) === '0'">
         <menu-item icon="today" :label="$t('menu_agenda')" link="/teacher/agenda" />
         <menu-item icon="restore" :label="$t('menu_timeline')" link="" />
       </div>

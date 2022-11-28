@@ -11,8 +11,8 @@ import AppSettingsMain from 'pages/app_settings/Index.vue'
 
 export default [
   { 
-    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('is_teacher'), children: [
-      { path: 'home', component: TeacherIndex,  beforeEnter: () => routeValidator('is_teacher') },
+    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token'), children: [
+      { path: 'home', component: TeacherIndex,  beforeEnter: () => routeValidator('valid_token') },
     ],    
   },
   {
@@ -25,6 +25,6 @@ export default [
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_teacher') },
-  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('is_teacher') }
+  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('valid_token') },
+  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('valid_token') }
 ]
