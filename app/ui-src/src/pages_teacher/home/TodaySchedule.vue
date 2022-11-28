@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-mb-md">
+  <q-card class="q-mb-md" v-if="$q.cookies.get(conf.userType) === '2'">
     <q-card-section>
       <div class="text-h6 text-capitalize q-mb-md">{{ $t('dashboard_today_schedule') }}</div>
       <q-list bordered separator v-if="schedules.length > 0">
@@ -23,6 +23,7 @@
 <script>
 import { onMounted, computed } from 'vue'
 import { useStore } from 'vuex'
+import { conf } from 'src/composables/common'
 
 export default {
   setup() {
@@ -35,6 +36,7 @@ export default {
     })
 
     return {
+      conf,
       schedules: computed(() => store.state.presence.teacherSchedules)
     } 
   }
