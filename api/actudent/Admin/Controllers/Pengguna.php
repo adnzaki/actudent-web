@@ -24,7 +24,7 @@ class Pengguna extends \Actudent
         $userWrapper = [];
 
         // User level category
-        // Staff|Pegawai, Admin|Admin, Teacher|Guru, Parent|Orang tua
+        // Staff, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
             get_lang('AdminUser.pengguna_staff'),
             get_lang('AdminUser.pengguna_admin'),
@@ -57,7 +57,7 @@ class Pengguna extends \Actudent
         $userWrapper = [];
 
         // User level category
-        // Staff|Pegawai, Admin|Admin, Teacher|Guru, Parent|Orang tua
+        // Staff, Admin|Admin, Teacher|Guru, Parent|Orang tua
         $userLevel = [
             get_lang('AdminUser.pengguna_staff'),
             get_lang('AdminUser.pengguna_admin'),

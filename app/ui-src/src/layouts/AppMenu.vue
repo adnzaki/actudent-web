@@ -50,7 +50,7 @@
         icon="o_settings"
         :label="$t('menu_pengaturan')"
       >
-        <submenu-item v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('menu_pengguna')" link="" />
+        <submenu-item v-if="$q.cookies.get(conf.userType) === '1'" :label="$t('menu_pengguna')" link="/users" />
         <submenu-item :label="$t('menu_aplikasi')" :link="appSettingsLink" />
         <submenu-item :label="$t('menu_feedback')" link="" />
       </q-expansion-item>

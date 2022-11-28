@@ -3,7 +3,7 @@
 return [
     // teks halaman data user management
     'page_title'                => 'Pengguna',
-    'user_title'                => 'Pengelola Pengguna',
+    'user_title'                => 'Kelola Pengguna',
     'user_save_progress'        => 'Menyimpan data pegawai...',
     'user_error_text'           => 'Tidak dapat menyimpan data, silakan isi form dengan benar',
     'user_update_success'       => 'Password pegawai berhasil diperbarui',

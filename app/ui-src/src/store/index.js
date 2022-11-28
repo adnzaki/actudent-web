@@ -9,6 +9,7 @@ import lesson from './lesson'
 import schedule from './schedule'
 import presence from './presence'
 import agenda from './agenda'
+import users from './users'
 
 /*
  * If not building with SSR mode, you can
@@ -24,7 +25,7 @@ export default store(function (/* { ssrContext } */) {
     modules: {
       parent, student, employee, grade,
       rooms, lesson, schedule, presence,
-      agenda
+      agenda, users
     },
 
     // enable strict mode (adds overhead!)
