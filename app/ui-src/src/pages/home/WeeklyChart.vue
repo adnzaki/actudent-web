@@ -15,6 +15,7 @@ import { ref, onMounted, computed }  from 'vue'
 import { admin } from 'boot/axios'
 import { bearerToken, t } from 'src/composables/common'
 import { useQuasar } from 'quasar'
+import { onBeforeRouteLeave } from 'vue-router'
 
 export default {
   setup() {
@@ -34,9 +35,10 @@ export default {
       purple: 'rgb(153, 102, 255)',
       grey: 'rgb(201, 203, 207)'
     }
+
+    let intervalId;
     
-    onMounted(() => {
-      
+    onMounted(() => {      
       setTimeout(() => {
         const getLastSevenDays = () => {
           admin.get('home/absen-seminggu', {
@@ -113,10 +115,11 @@ export default {
           },
         })      
 
-        setInterval(getLastSevenDays, 24000)
-
+        intervalId = setInterval(getLastSevenDays, 24000)
       }, 2000)
     })
+
+    onBeforeRouteLeave(() => clearInterval(intervalId))
     
     return {
       canvasHeight: computed(() => $q.screen.lt.sm ? 300 : 320)
