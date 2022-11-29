@@ -4,7 +4,7 @@ header('Access-Control-Allow-Origin: *');
 
 class Auth extends \Actudent
 {
-    private $tokenExp = 3 * 30 * 24 * 60 * 60; // expired every 3 months
+    private $tokenExp = 2 * 60 * 60; // expired every 2 hours
 
     public function isValidLogin()
     {
@@ -20,7 +20,7 @@ class Auth extends \Actudent
         {
             $username = $this->request->getPost('username');
             $password = $this->request->getPost('password');
-            $remember = $this->request->getPost('remember-me') ?? '';
+            $remember = $this->request->getPost('remember');
             $isNik = $this->auth->isNik($username);
 
             if($isNik !== false) {
@@ -29,13 +29,16 @@ class Auth extends \Actudent
 
             if($this->auth->validasi($username, $password)) {
                 $pengguna = $this->auth->getDataPengguna($username);
+                $tokenExpiration = $remember === 1 
+                                    ? $this->tokenExp * 12 * 30 // extend expiration to 1 month
+                                    : $this->tokenExp; // keep expiration in 2 hours
                 $token = [
                     'id'        => $pengguna->user_id,
                     'email'     => $username,
                     'nama'      => $pengguna->user_name,
                     'userLevel' => $pengguna->user_level,
                     'iat'       => strtotime('now'),
-                    'exp'       => strtotime('now') + $this->tokenExp
+                    'exp'       => strtotime('now') + $tokenExpiration
                 ];
 
                 $gradeId = null;
