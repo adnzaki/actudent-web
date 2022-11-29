@@ -208,9 +208,12 @@
       let baseURL = `${options.url}${state.limit}/${state.offset}/${state.orderBy}/${state.searchBy}/${state.sort}`,
         requestURL
 
-      options.where === undefined ?
-        requestURL = `${baseURL}${searchParam}` :
+      if(options.where === undefined || options.where === false) {
+        requestURL = `${baseURL}${searchParam}`
+        state.whereClause = false
+      } else {
         requestURL = `${baseURL}/${state.whereClause}${searchParam}`
+      }
 
       if (options.autoReset !== undefined) {
         state.autoReset.active = options.autoReset.active
