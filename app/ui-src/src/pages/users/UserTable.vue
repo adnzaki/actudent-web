@@ -4,7 +4,7 @@
       <q-markup-table bordered>
         <thead>
           <tr>
-            <th class="text-center cursor-pointer">#</th>
+            <th class="text-center cursor-pointer mobile-hide">#</th>
             <th class="text-left cursor-pointer" @click="sortData('user_name')">{{ $t('user_label_nama') }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide" @click="sortData('user_email')">{{ $t('user_label_email') }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide">Status</th>
@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td class="text-center">{{ $store.getters['users/itemNumber'](index) }}</td>
+            <td class="text-center mobile-hide">{{ $store.getters['users/itemNumber'](index) }}</td>
             <td class="text-left">{{ item.name }}</td>
             <td class="text-left mobile-hide">{{ item.email }}</td>
             <td class="text-left mobile-hide">{{ item.level }}</td>
