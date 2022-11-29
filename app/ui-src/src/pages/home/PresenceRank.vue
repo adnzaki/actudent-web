@@ -44,6 +44,7 @@
 import { ref } from 'vue'
 import { admin } from 'boot/axios'
 import { bearerToken, t } from 'src/composables/common'
+import { onBeforeRouteLeave } from 'vue-router'
 
 export default {
   setup() {
@@ -60,7 +61,8 @@ export default {
     }
 
     getPercentage()
-    setInterval(getPercentage, 22000)
+    const intervalId = setInterval(getPercentage, 22000)
+    onBeforeRouteLeave(() => clearInterval(intervalId))
     
     return {
       highest, lowest

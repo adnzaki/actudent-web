@@ -26,6 +26,7 @@ import PresenceCard from './PresenceCard.vue'
 import { admin } from 'boot/axios'
 import { bearerToken } from 'src/composables/common'
 import { ref } from 'vue'
+import { onBeforeRouteLeave } from 'vue-router'
 
 export default {
   components: {
@@ -50,7 +51,8 @@ export default {
 
     getTodayPresence()
 
-    setInterval(getTodayPresence, 20000)
+    const intervalId = setInterval(getTodayPresence, 20000)
+    onBeforeRouteLeave(() => clearInterval(intervalId))
     
     return {
       present, absent, sick, permit

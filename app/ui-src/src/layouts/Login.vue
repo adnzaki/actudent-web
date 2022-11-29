@@ -141,6 +141,7 @@ export default {
           const postData = {
             username: username.value,
             password: password.value,
+            remember: rememberMe.value ? 1 : 0
           }
 
           msg.value = t('mengautentikasi')
@@ -159,6 +160,10 @@ export default {
                 if(res.msg === 'valid') {
                   msg.value = t('login_sukses')
                   msgClass.value = 'positive'
+
+                  if(rememberMe.value) {
+                    conf.cookieExp *= 12 * 30 // 30 days
+                  }
 
                   const dt = new Date(),
                         now = dt.getTime(),
