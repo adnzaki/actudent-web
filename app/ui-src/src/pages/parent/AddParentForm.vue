@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.parent.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="$store.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -57,21 +57,14 @@
 </template>
 
 <script>
-import { ref, onMounted, watch, computed, inject } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useParentStore } from 'stores/parent'
 import { school, getSchool } from '../../composables/common'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
 
 export default {
-  name: 'AddParentForm',
-  computed: {
-    ...mapState('parent', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useParentStore()
 
     let formData = ref({
       parent_family_card: '',
@@ -89,7 +82,7 @@ export default {
     const save = () => {
       let pattern = /(\s|\W+)/ig
       formData.value.user_email = formData.value.user_email.replace(pattern, '')
-      store.dispatch('parent/save', {
+      store.save({
         data: formData.value,
         edit: false,
         id: null
@@ -97,8 +90,7 @@ export default {
     }
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.parent.saveStatus)
-      if(saveStatus.value === 200) {
+      if(store.saveStatus === 200) {
         formData.value = {
           parent_family_card: '',
           parent_father_name: '',
@@ -110,16 +102,20 @@ export default {
           user_name: '1'
         }
 
-        store.state.parent.saveStatus = 500
+        store.saveStatus = 500
       }
     }
 
     return {
-      formData,
-      school,
       save,
-      maximizedDialog, cardDialog,
-      formOpen
+      store,
+      school,
+      formOpen,
+      formData,
+      cardDialog,
+      maximizedDialog, 
+      error: store.error,
+      disableSaveButton: store.helper.disableSaveButton,
     }
   }
 }

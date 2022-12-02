@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.parent.showEditForm" :maximized="maximizedDialog()">
+  <q-dialog no-backdrop-dismiss v-model="store.showEditForm" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('ortu_edit_title') }}</div>
@@ -10,21 +10,21 @@
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
           <q-input outlined :label="$t('ortu_kk')" minlength="16" maxlength="16" dense 
-            v-model="$store.state.parent.detail.parent_family_card" />
+            v-model="store.detail.parent_family_card" />
           <error :label="error.parent_family_card" />
           
           <q-input outlined :label="$t('ortu_label_ayah')" dense 
-            v-model="$store.state.parent.detail.parent_father_name">
+            v-model="store.detail.parent_father_name">
           </q-input>
           <error :label="error.parent_father_name" />
 
           <q-input outlined :label="$t('ortu_label_ibu')" dense 
-            v-model="$store.state.parent.detail.parent_mother_name">
+            v-model="store.detail.parent_mother_name">
           </q-input>
           <error :label="error.parent_mother_name" />
 
           <q-input outlined :label="$t('ortu_label_telp')" minlength="11" maxlength="13" dense 
-            v-model="$store.state.parent.detail.parent_phone_number" 
+            v-model="store.detail.parent_phone_number" 
           />
           <error :label="error.parent_phone_number" />
 
@@ -55,45 +55,38 @@
 </template>
 
 <script>
-import { ref, onMounted, watch, computed, inject } from 'vue'
-import { school, getSchool } from '../../composables/common'
+import { ref, watch, computed } from 'vue'
+import { useParentStore } from 'stores/parent'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
 
 export default {
-  name: 'EditParentForm',
-  computed: {
-    ...mapState('parent', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton,
-      children: state => state.children
-    })
-  },
   setup() {
-    const store = useStore()
-
-    onMounted(getSchool)
-    
+    const store = useParentStore()
+   
     const save = () => {
-      store.dispatch('parent/save', {
-        data: store.state.parent.detail,
+      store.save({
+        data: store.detail,
         edit: true,
-        id: store.state.parent.detail.parent_id
+        id: store.detail.parent_id
       })
     }
 
-    let saveStatus = computed(() => store.state.parent.saveStatus)
+    let saveStatus = computed(() => store.saveStatus)
     watch(saveStatus, () => {
       if(saveStatus.value === 200) {
-        store.state.parent.detail = {}
+        store.detail = {}
       }
     })
 
     return {
-      school,
       save,
+      store,
+      cardDialog,
+      maximizedDialog, 
+      error: store.error,
       user_name: ref('1'),
-      maximizedDialog, cardDialog,
+      children: store.children,
+      disableSaveButton: store.helper.disableSaveButton,
     }
   }
 }

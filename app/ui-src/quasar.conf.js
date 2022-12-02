@@ -28,6 +28,9 @@ module.exports = configure(function (/* ctx */) {
     css: [
       'app.scss'
     ],
+    sourceFiles: {
+      store: 'src/stores'
+    },
 
     // https://github.com/quasarframework/quasar/tree/dev/extras
     extras: [

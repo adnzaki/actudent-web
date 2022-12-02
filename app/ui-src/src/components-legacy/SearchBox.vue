@@ -1,6 +1,6 @@
 <template>
   <div :class="[rootClass, 'justify-data-options']">
-    <q-input outlined bottom-slots v-model="paging.search" 
+    <q-input outlined bottom-slots v-model="$store.state[vuexModule]['paging']['search']" 
       :label="label"
       @keyup.enter="filter"
       dense>
@@ -14,10 +14,11 @@
 <script>
 import { useQuasar } from 'quasar'
 import { computed, watch } from 'vue'
+import { useStore } from 'vuex'
 import { conf, errorNotif } from '../composables/common'
-import { usePagingStore } from 'src/stores/ss-paging'
 
 export default {
+  name: 'SearchBox',
   props: {
     label: {
       type: String
@@ -26,18 +27,21 @@ export default {
       type: String,
       default: 'col-12 col-md-4'
     },
+    vuexModule: {
+      type: String,
+      required: true,
+    }
   },
-  setup() {
-    const paging = usePagingStore()
+  setup(props) {
+    const $store = useStore()
     const $q = useQuasar()
-    let search = computed(() => paging.search)
-    watch(search, () => paging.onSearchChanged())
+    let search = computed(() => $store.state[props.vuexModule]['paging']['search'])
+    watch(search, () => $store.dispatch(`${props.vuexModule}/onSearchChanged`))
 
     return {
-      paging,
       filter: () => {
         if($q.cookies.has(conf.cookieName)) {
-          paging.filter()
+          $store.dispatch(`${props.vuexModule}/filter`)
         } else {
           errorNotif()
         }

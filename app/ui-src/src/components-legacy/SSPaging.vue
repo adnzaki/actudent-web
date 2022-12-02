@@ -2,11 +2,11 @@
   <div class="q-pa-sm">
     <div class="row">
       <div :class="[rangeWidth, 'q-mt-sm']">
-        <p> {{ paging.rowRange }} </p>
+        <p> {{ $store.getters[`${vuexModule}/rowRange`] }} </p>
       </div>
       <div :class="[navWidth, navOffset]" v-if="totalPages() > 0">
         <q-pagination
-          v-model="store.current"
+          v-model="$store.state[vuexModule]['current']"
           :max="totalPages()"
           input
           @update:model-value="onPaginationUpdate"
@@ -18,14 +18,15 @@
 
 <script>
 import { computed } from 'vue'
+import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
 import { conf, errorNotif } from 'src/composables/common'
-import { usePagingStore } from 'src/stores/ss-paging'
 
 export default {
+  name: 'SSPaging',
   props: {
-    store: {
-      type: Object,
+    vuexModule: {
+      type: String,
       required: true,
     },
     rangeWidth: {
@@ -42,25 +43,24 @@ export default {
     }
   },
   setup (props) {
+    const store = useStore()
     const $q = useQuasar()
-    const paging = usePagingStore()
     const totalPages = () => {
-      const pageLinks = computed(() => paging.pageLinks)
+      const pageLinks = computed(() => store.state[props.vuexModule]['paging']['pageLinks'])
 
       return pageLinks.value.length
     }
 
     const onPaginationUpdate = () => {
       if($q.cookies.has(conf.cookieName)) {
-        const current = computed(() => props.store.current).value
-        paging.nav(current - 1)
+        const current = computed(() => store.state[props.vuexModule]['current']).value
+        store.dispatch(`${props.vuexModule}/nav`, current - 1)
       } else {
         errorNotif()
       }
     }
 
     return {
-      paging,
       totalPages,
       onPaginationUpdate
     }

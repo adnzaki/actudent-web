@@ -26,12 +26,12 @@
 
 <script>
 import { computed, ref, watch } from 'vue'
-
+import { useStore } from 'vuex'
 
 export default {
   name: 'DropdownSearch',
   props: [
-    'store', 
+    'vuexModule', 
     'selected', 
     'loader', // provide only if loadOnRoute is not defined
     'labelAsOption', // use option to be a label, "label" prop will be overriden if it is used
@@ -50,8 +50,15 @@ export default {
     const options = ref([])
     const model = ref({})
     const stringOptions = ref([])     
+    const store = useStore()
 
-    const selectedHandler = () => props.store.selected
+    let selectedHandler
+
+    if(typeof props.selected === 'string') {
+      selectedHandler = model => store.dispatch(`${props.vuexModule}/${props.selected}`, model)
+    } else {
+      selectedHandler = props.selected
+    }
 
     let modelValue = null
 
@@ -75,9 +82,9 @@ export default {
     const getList = async () => {
       if(props.loadOnRoute === undefined) {
         if(props.param !== undefined) {
-          props.loader(props.param)
+          store.commit(`${props.vuexModule}/${props.loader}`, props.param)
         } else {
-          props.loader()
+          store.commit(`${props.vuexModule}/${props.loader}`)
         }  
       }
 

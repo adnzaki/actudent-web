@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="store.deleteConfirm" @hide="closeDeleteConfirm">
+  <q-dialog no-backdrop-dismiss v-model="$store.state[vuexModule]['deleteConfirm']" @hide="closeDeleteConfirm">
     <q-card>
       <q-card-section class="row items-center">
         <div class="row">
@@ -15,20 +15,23 @@
       <q-card-actions align="right">
         <q-btn flat :label="$t('batal')" color="primary" @click="closeDeleteConfirm" />
         <q-btn flat :label="okButtonText" color="primary" 
-          :disable="store.helper.disableSaveButton"
-          @click="action" />
+          :disable="disableSaveButton()"
+          @click="removeData" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script>
+import { useStore } from 'vuex'
 import { computed } from 'vue'
 import { t } from 'src/composables/common'
 
 export default {
-  props: ['store', 'action', 'customText', 'okButtonText'],
+  name: 'DeleteConfirm',
+  props: ['vuexModule', 'action', 'customText', 'okButtonText'],
   setup(props) {
+    const store = useStore()
 
     return {
       confirmText: computed(() => {
@@ -41,7 +44,15 @@ export default {
                 ? props.okButtonText 
                 : t('hapus')
       }),
-      closeDeleteConfirm: () => props.store.closeDeleteConfirm(),
+      disableSaveButton: () => {
+        return store.state[props.vuexModule]['disableSaveButton']
+      },
+      closeDeleteConfirm: () => {
+        store.commit(`${props.vuexModule}/closeDeleteConfirm`)
+      },
+      removeData: () => {
+        store.dispatch(`${props.vuexModule}/${props.action}`)
+      },
     }
   }
 }
