@@ -56,7 +56,7 @@
 
 <script>
 import { ref, watch, computed } from 'vue'
-import { useParentStore } from 'stores/parent'
+import { useParentStore } from 'src/stores/parent'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {

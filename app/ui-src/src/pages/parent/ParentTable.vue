@@ -53,8 +53,8 @@
 
 <script>
 import { watch, computed } from 'vue'
-import { useParentStore } from 'stores/parent'
-import { usePagingStore } from 'stores/ss-paging'
+import { useParentStore } from 'src/stores/parent'
+import { usePagingStore } from 'src/stores/ss-paging'
 import { checkColWidth } from 'src/composables/screen'
 
 export default {

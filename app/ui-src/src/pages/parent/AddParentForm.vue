@@ -58,7 +58,7 @@
 
 <script>
 import { ref, onMounted } from 'vue'
-import { useParentStore } from 'stores/parent'
+import { useParentStore } from 'src/stores/parent'
 import { school, getSchool } from '../../composables/common'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 
