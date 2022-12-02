@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.student.showEditForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showEditForm" 
     @hide="formClose" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -11,11 +11,11 @@
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
           <q-input outlined :label="$t('siswa_nis')" minlength="9" maxlength="10" dense 
-            v-model="$store.state.student.detail.student_nis" />
+            v-model="store.detail.student_nis" />
           <error :label="error.student_nis" />
           
           <q-input outlined :label="$t('siswa_nama')" dense 
-            v-model="$store.state.student.detail.student_name" />
+            v-model="store.detail.student_name" />
           <error :label="error.student_name" />
 
           <search-parents />
@@ -32,43 +32,39 @@
 </template>
 
 <script>
-import { computed, inject } from 'vue'
-import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
+import { computed } from 'vue'
 import SearchParents from './SearchParents.vue'
+import { useStudentStore } from 'src/stores/student'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
-  name: 'EditStudentForm',
   components: { SearchParents },
-  computed: {
-    ...mapState('student', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
-    const selectedParent = computed(() => store.state.student.selectedParent)
+    const store = useStudentStore()
+    const selectedParent = computed(() => store.selectedParent)
   
     const save = () => {
-      store.state.student.detail.parent_id = selectedParent.value.id
-      store.dispatch('student/save', {
-        data: store.state.student.detail,
+      store.detail.parent_id = selectedParent.value.id
+      store.save({
+        data: store.detail,
         edit: true,
-        id: store.state.student.detail.student_id
+        id: store.detail.student_id
       })
     }
 
     const formClose = () => {
-      store.state.student.selectedParent = {
+      store.selectedParent = {
         id: '', father: '', mother: ''
       }
     }
 
     return {
       save,
+      store,
+      formClose,
+      error: store.error,
       maximizedDialog, cardDialog,
-      formClose
+      disableSaveButton: store.helper.disableSaveButton,
     }
   }
 }

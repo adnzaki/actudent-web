@@ -4,7 +4,7 @@
       <q-markup-table bordered>
         <thead>
           <tr>
-            <th :class="['text-left cursor-pointer', checkColWidth()]"><q-checkbox v-model="$store.state.student.checkAll" @update:model-value="selectAll" /></th>
+            <th :class="['text-left cursor-pointer', checkColWidth()]"><q-checkbox v-model="store.checkAll" @update:model-value="selectAll" /></th>
             <th class="text-left cursor-pointer mobile-hide" @click="sortData('student_nis')">{{ $t('siswa_nis') }} <sort-icon /></th>
             <th class="text-left cursor-pointer" @click="sortData('student_name')">{{ $t('siswa_nama') }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide" @click="sortData('parent_father_name')">{{ $t('siswa_label_ayah') }} <sort-icon /></th>
@@ -14,7 +14,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.student.selectedStudents" :val="item.student_id" /></td>
+            <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="store.selectedStudents" :val="item.student_id" /></td>
             <td class="text-left mobile-hide">{{ item.student_nis }}</td>
             <td class="text-left mobile-hide">{{ item.student_name }}</td>
             <td class="text-left mobile-only">{{ $trim(item.student_name, 30) }}</td>
@@ -52,40 +52,31 @@
 
 <script>
 import { watch, computed } from 'vue'
-import { useStore, mapState, mapMutations, mapActions } from 'vuex'
+import { useStudentStore } from 'src/stores/student'
+import { usePagingStore } from 'src/stores/ss-paging'
 import { checkColWidth } from 'src/composables/screen'
 
 export default {
-  name: 'StudentTable',
-  created() {
-    setTimeout(() => {
-      this.$store.dispatch('student/getStudents')  
-    }, 500)
-  },
-  methods: {
-    ...mapActions('student', [
-      'sortData'
-    ]),
-    ...mapMutations('student', [
-      'selectAll', 'getDetail',
-      'showDeleteConfirm'
-    ])
-  },
-  computed: {
-    ...mapState('student', {
-      data: state => state.paging.data,
-    })
- },
   setup () {
-    const store = useStore()
-    let pagingData = computed(() => store.state.student.paging.data)
+    const store = useStudentStore()
+    const paging = usePagingStore()
+    const pagingData = computed(() => paging.data)
+
+    store.getStudents()
+    
     watch(pagingData, () => {
-      store.state.student.checkAll = false
-      store.state.student.selectedStudents = []
-    })
+      store.checkAll = false
+      store.selectedStudents = []
+    })    
 
     return {
-      checkColWidth
+      store,
+      checkColWidth,
+      data: paging.data,
+      selectAll: () => store.selectAll(),
+      getDetail: id => store.getDetail(id),
+      sortData: field => paging.sortData(field),
+      showDeleteConfirm: param => store.showDeleteConfirm(param),
     }
   }
 }

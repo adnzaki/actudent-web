@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.student.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -31,22 +31,15 @@
 
 <script>
 import { ref, computed } from 'vue'
-import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
 import SearchParents from './SearchParents.vue'
+import { useStudentStore } from 'src/stores/student'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
-  name: 'AddStudentForm',
   components: { SearchParents },
-  computed: {
-    ...mapState('student', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
-    const selectedParent = computed(() => store.state.student.selectedParent)
+    const store = useStudentStore()
+    const selectedParent = computed(() => store.selectedParent)
 
     let formValue = {
       student_nis: '',
@@ -57,7 +50,7 @@ export default {
     let formData = ref(formValue)
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.student.saveStatus)
+      const saveStatus = computed(() => store.saveStatus)
       if(saveStatus.value === 200) {
         formValue = {
           student_nis: '',
@@ -65,14 +58,14 @@ export default {
           parent_id: ''
         }
 
-        store.state.student.saveStatus = 500
+        store.saveStatus = 500
         formData.value = formValue
       }
     }
     
     const save = () => {
       formData.value.parent_id = selectedParent.value.id
-      store.dispatch('student/save', {
+      store.save({
         data: formData.value,
         edit: false,
         id: null
@@ -80,10 +73,12 @@ export default {
     }
 
     return {
-      formData,
       save,
+      formData,
+      formOpen,
+      error: store.error,
       maximizedDialog, cardDialog,
-      formOpen
+      disableSaveButton: store.helper.disableSaveButton,
     }
   }
 }

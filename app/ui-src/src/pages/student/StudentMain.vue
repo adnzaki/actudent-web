@@ -9,20 +9,19 @@
           <dropdown-search 
             class="justify-data-options" 
             flex-grid="col-md-3"
-            vuex-module="student"
-            selected="getStudentsByClass"
-            loader="getClassGroup"
+            :selected="store.getStudentsByClass()"
+            :loader="store.getClassGroup()"
             label="Filter"
-            :list="$store.state.student.classGroupList"
+            :list="store.classGroupList"
             :options-value="{ label: 'grade_name', value: 'grade_id' }"
           />
-          <row-dropdown vuex-module="student" class="q-mt-sm" root-class="col-12 col-md-2" />
-          <search-box :label="$t('siswa_cari')" vuex-module="student" class="q-mt-sm" />
+          <row-dropdown class="q-mt-sm" root-class="col-12 col-md-2" />
+          <search-box :label="$t('siswa_cari')" class="q-mt-sm" />
         </div>
       </q-card-section>
       <add-student-form />
       <edit-student-form />
-      <delete-confirm vuex-module="student" action="deleteStudent" />
+      <delete-confirm :store="student" :action="store.deleteStudent()" />
       <student-table />
     </q-card>
   </div>
@@ -30,11 +29,11 @@
 
 <script>
 import { onMounted } from 'vue'
-import { useStore } from 'vuex'
 import MainButton from './MainButton.vue'
 import StudentTable from './StudentTable.vue'
 import AddStudentForm from './AddStudentForm.vue'
 import EditStudentForm from './EditStudentForm.vue'
+import { useStudentStore } from 'src/stores/student'
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
@@ -46,11 +45,17 @@ export default {
     EditStudentForm,
   },
   setup() {
-    const store = useStore()
+    const store = useStudentStore()
+
     onMounted(() => {
-      store.commit('student/getStudentLimit')
+      store.getStudentLimit()
     })
-    return { wrapperPadding, titleSpacing }
+
+    return {
+      store, 
+      titleSpacing,
+      wrapperPadding, 
+    }
   }
 }
 </script>

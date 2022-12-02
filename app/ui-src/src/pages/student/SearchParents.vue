@@ -15,30 +15,30 @@
   </q-card>
   <error :label="error.parent_id" />
   <q-input outlined :label="$t('siswa_label_ayah')" dense
-    v-model="$store.state.student.selectedParent.father" disable />
+    v-model="store.selectedParent.father" disable />
   <q-input outlined :label="$t('siswa_label_ibu')" dense class="q-mt-lg"
-    v-model="$store.state.student.selectedParent.mother" disable />  
+    v-model="store.selectedParent.mother" disable />  
 </template>
 
 <script>
 import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { useStudentStore } from 'src/stores/student'
 
 export default {
-  name: 'SearchParents',
   setup() {
-    const store = useStore()
+    const store = useStudentStore()
     const model = ref('')
-    const searchResults = computed(() => store.state.student.family)
+    const searchResults = computed(() => store.family)
 
     const selectData = data => {
-      store.commit('student/selectParent', data)
+      store.selectParent(data)
       model.value = ''
     }
 
-    const error = computed(() => store.state.student.error)
+    const error = computed(() => store.error)
 
     return {
+      store,
       model,
       selectData,
       error,

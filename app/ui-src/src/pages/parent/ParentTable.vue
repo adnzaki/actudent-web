@@ -61,9 +61,10 @@ export default {
   setup () {
     const store = useParentStore()
     const paging = usePagingStore()
+    const pagingData = computed(() => paging.data)
+    
     store.getOrtu()
 
-    let pagingData = computed(() => paging.data)
     watch(pagingData, () => {
       store.checkAll = false
       store.selectedParents = []
@@ -73,7 +74,7 @@ export default {
       store,
       checkColWidth,
       data: paging.data,
-      selectAll: store.selectAll(),
+      selectAll: () => store.selectAll(),
       getDetail: id => store.getDetail(id),
       sortData: field => paging.sortData(field),
       showDeleteConfirm: param => store.showDeleteConfirm(param),

@@ -31,7 +31,6 @@ import { computed, ref, watch } from 'vue'
 export default {
   name: 'DropdownSearch',
   props: [
-    'store', 
     'selected', 
     'loader', // provide only if loadOnRoute is not defined
     'labelAsOption', // use option to be a label, "label" prop will be overriden if it is used
@@ -51,7 +50,7 @@ export default {
     const model = ref({})
     const stringOptions = ref([])     
 
-    const selectedHandler = () => props.store.selected
+    const selectedHandler = () => props.selected
 
     let modelValue = null
 
