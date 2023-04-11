@@ -46,21 +46,21 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator/>
-    <ss-paging vuex-module="student" />
+    <ss-paging :store="store" />
   </div>
 </template>
 
 <script>
 import { watch, computed } from 'vue'
 import { useStudentStore } from 'src/stores/student'
-import { usePagingStore } from 'src/stores/ss-paging'
+import { usePagingStore } from 'ss-paging-vue'
 import { checkColWidth } from 'src/composables/screen'
 
 export default {
   setup () {
     const store = useStudentStore()
     const paging = usePagingStore()
-    const pagingData = computed(() => paging.data)
+    const pagingData = computed(() => paging.state.data)
 
     store.getStudents()
     
@@ -72,7 +72,7 @@ export default {
     return {
       store,
       checkColWidth,
-      data: paging.data,
+      data: paging.state.data,
       selectAll: () => store.selectAll(),
       getDetail: id => store.getDetail(id),
       sortData: field => paging.sortData(field),

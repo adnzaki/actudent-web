@@ -11,7 +11,7 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from '../ss-paging'
+import { usePagingStore } from 'ss-paging-vue'
 
 const paging = usePagingStore()
 
@@ -129,18 +129,18 @@ export default {
     this.error = {}
     this.selectedParent = { id: '', father: '', mother: '' }
     this.current = 1
-    this.getStudents(true)
+    paging.reloadData()
   },
   getStudents(afterSave = false) {
     // mutate paging.rows in order to affect
     // model-value on QSelect
     const limit = 25
-    paging.rows = limit
+    paging.state.rows = limit
 
     this.getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: afterSave ? paging.limit : limit,
+      limit,
       offset: this.current - 1,
       orderBy: 'student_name',
       searchBy: [
@@ -157,7 +157,7 @@ export default {
     })
   },
   getStudentsByClass(model) {
-    paging.whereClause = model.value
+    paging.state.whereClause = model.value
     paging.runPaging()
   },
   getStudentLimit() {
@@ -255,7 +255,7 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      paging.data.forEach(item => {
+      paging.state.data.forEach(item => {
         this.selectedStudents.push(item.student_id)
       })
     } else {

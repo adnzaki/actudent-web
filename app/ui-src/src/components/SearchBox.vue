@@ -1,6 +1,6 @@
 <template>
   <div :class="[rootClass, 'justify-data-options']">
-    <q-input outlined bottom-slots v-model="paging.search" 
+    <q-input outlined bottom-slots v-model="paging.state.search" 
       :label="label"
       @keyup.enter="filter"
       dense>
@@ -15,7 +15,7 @@
 import { useQuasar } from 'quasar'
 import { computed, watch } from 'vue'
 import { conf, errorNotif } from '../composables/common'
-import { usePagingStore } from 'src/stores/ss-paging'
+import { usePagingStore } from 'ss-paging-vue'
 
 export default {
   props: {
@@ -30,7 +30,7 @@ export default {
   setup() {
     const paging = usePagingStore()
     const $q = useQuasar()
-    let search = computed(() => paging.search)
+    let search = computed(() => paging.state.search)
     watch(search, () => paging.onSearchChanged())
 
     return {

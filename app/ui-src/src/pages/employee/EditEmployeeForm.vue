@@ -1,7 +1,7 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.employee.showEditForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showEditForm" 
     @before-show="formOpen" :maximized="maximizedDialog()"
-    @hide="$store.state.employee.helper.filename = ''">
+    @hide="store.helper.filename = ''">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('staff_edit_title') }}</div>
@@ -12,27 +12,27 @@
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
           <q-input outlined :label="$t('staff_input_id')" minlength="10" maxlength="10" dense 
-            v-model="$store.state.employee.detail.staff_nik" />
+            v-model="store.detail.staff_nik" />
           <error :label="error.staff_nik" />
           
           <q-input outlined :label="$t('staff_label_nama')" dense 
-            v-model="$store.state.employee.detail.staff_name" />
+            v-model="store.detail.staff_name" />
           <error :label="error.staff_name" />
 
           <q-input outlined :label="$t('staff_label_telp')" minlength="11" maxlength="13" dense 
-            v-model="$store.state.employee.detail.staff_phone" />
+            v-model="store.detail.staff_phone" />
           <error :label="error.staff_phone" />
 
           <div>
             {{ $t('staff_label_jenis') }}
           </div>
           <div class="row q-mb-md">
-            <div class="col-6"><q-radio v-model="$store.state.employee.detail.staff_type" val="teacher" :label="$t('staff_input_guru')" /></div>
-            <div class="col-6"><q-radio v-model="$store.state.employee.detail.staff_type" val="staff" label="Staff" /></div>
+            <div class="col-6"><q-radio v-model="store.detail.staff_type" val="teacher" :label="$t('staff_input_guru')" /></div>
+            <div class="col-6"><q-radio v-model="store.detail.staff_type" val="staff" label="Staff" /></div>
           </div>
 
           <q-input outlined :label="$t('staff_label_jabatan')" dense 
-            v-model="$store.state.employee.detail.staff_title" />
+            v-model="store.detail.staff_title" />
           <error :label="error.staff_title" />
 
           <q-file
@@ -63,20 +63,13 @@
 
 <script>
 import { ref, onMounted } from 'vue'
+import { useEmployeeStore } from 'src/stores/employee'
 import { school, getSchool } from '../../composables/common'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
 
 export default {
-  name: 'EditEmployeeForm',
-  computed: {
-    ...mapState('employee', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton,
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useEmployeeStore()
 
     const formData = ref({
       staff_type: 'teacher',
@@ -89,25 +82,27 @@ export default {
 
     onMounted(getSchool)
     
-    const save = () => {
-      store.dispatch('employee/save', {
-        data: store.state.employee.detail,
-        edit: true,
-        id: store.state.employee.detail.user_id
-      })
-    }
+    const save = store.save({
+      data: store.detail,
+      edit: true,
+      id: store.detail.user_id
+    })
 
     const encodeImage = val => {
-      store.commit('employee/uploadImage', val)
+      store.uploadImage(val)
     }
 
     return {
-      formData,
-      school,
       save,
-      maximizedDialog, cardDialog,
+      store,
+      school,
+      formData,
+      formOpen,
+      cardDialog,
       encodeImage,
-      formOpen
+      maximizedDialog, 
+      error: store.error,
+      disableSaveButton: store.helper.disableSaveButton
     }
   }
 }

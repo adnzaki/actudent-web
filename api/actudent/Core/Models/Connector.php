@@ -1,14 +1,23 @@
 <?php namespace Actudent\Core\Models;
 
+use CodeIgniter\Database\BaseResult;
+
+/**
+ * Main database connection class
+ * Each model class should extend this class
+ * in order to make all database-related task to run
+ * 
+ * @method BaseResult getNumRows()
+ */
 class Connector 
 {
     /**
-     * @var DatabaseConnection
+     * @var \CodeIgniter\Database\BaseConnection
      */
     public $db;
 
     /**
-     * @var DatabaseConnection
+     * @var \CodeIgniter\Database\BaseConnection
      */
     protected $dbMain;
 

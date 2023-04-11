@@ -1,7 +1,7 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.employee.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()"
-    @hide="$store.state.employee.helper.filename = ''">
+    @hide="store.helper.filename = ''">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('staff_form_add_title') }}</div>
@@ -71,20 +71,14 @@
 
 <script>
 import { ref, onMounted, computed } from 'vue'
+import { useEmployeeStore } from 'src/stores/employee'
 import { school, getSchool } from '../../composables/common'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
+
 
 export default {
-  name: 'AddEmployeeForm',
-  computed: {
-    ...mapState('employee', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton,
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useEmployeeStore()
 
     const formData = ref({
       staff_nik: '',
@@ -103,7 +97,7 @@ export default {
     const save = () => {
       //let pattern = /(\s|\W+)/ig
       //formData.value.user_email = formData.value.user_email.replace(pattern, '')
-      store.dispatch('employee/save', {
+      store.save({
         data: formData.value,
         edit: false,
         id: null
@@ -111,7 +105,7 @@ export default {
     }
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.employee.saveStatus)
+      const saveStatus = computed(() => store.saveStatus)
       if(saveStatus.value === 200) {
         formData.value = {
           staff_nik: '',
@@ -125,21 +119,25 @@ export default {
           user_password: '',
         }
 
-        store.state.employee.saveStatus = 500
+        store.saveStatus = 500
       }
     }
 
     const encodeImage = val => {
-      store.commit('employee/uploadImage', val)
+      store.uploadImage(val)
     }
 
     return {
-      formData,
-      school,
       save,
-      maximizedDialog, cardDialog,
+      store,
+      school,
       formOpen,
-      encodeImage
+      formData,
+      cardDialog,
+      encodeImage,
+      maximizedDialog, 
+      error: store.error,
+      disableSaveButton: store.helper.disableSaveButton,
     }
   }
 }

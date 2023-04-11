@@ -1,9 +1,9 @@
 <template>
   <div :class="[rootClass, 'justify-data-options']">
-    <q-select outlined v-model="paging.rows" 
+    <q-select outlined v-model="paging.state.rows" 
       :options="options" dense
       @update:model-value="showPerPage"
-      :display-value="`${paging.rows} ${$t('baris')}`" 
+      :display-value="`${paging.state.rows} ${$t('baris')}`" 
     />
   </div>
 </template>
@@ -11,7 +11,7 @@
 <script>
 import { useQuasar } from 'quasar'
 import { conf, errorNotif } from '../composables/common'
-import { usePagingStore } from 'src/stores/ss-paging'
+import { usePagingStore } from 'ss-paging-vue'
 
 export default {
   props: {

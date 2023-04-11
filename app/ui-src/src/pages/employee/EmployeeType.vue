@@ -11,19 +11,16 @@
 </template>
 
 <script>
-import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
-import { mapActions } from 'vuex'
+import { useI18n } from 'vue-i18n'
+import { useEmployeeStore } from 'src/stores/employee'
 
 export default {
-  name: 'EmployeeType',
-  methods: {
-    ...mapActions('employee', ['getEmployeeByType']),
-  },
   setup() {
+    const model = ref({})
     const { t } = useI18n()
     const options = ref([])
-    const model = ref({})
+    const store = useEmployeeStore()
     
     setTimeout(() => {
       options.value = [
@@ -36,12 +33,13 @@ export default {
         label: t('staff_semua_bagian'), value: 'null' 
       }
       
-    }, 1500);
+    }, 1500)
 
 
     return {
-      options,
       model,
+      options,
+      getEmployeeByType: model => store.getEmployeeByType(model),
     }
   } 
 }

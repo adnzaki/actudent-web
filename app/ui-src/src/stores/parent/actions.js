@@ -10,7 +10,7 @@ import {
   t
 } from '../../composables/common'
 
-import { usePagingStore } from '../ss-paging'
+import { usePagingStore } from 'ss-paging-vue'
 import { Notify } from 'quasar'
 
 const paging = usePagingStore()
@@ -18,12 +18,12 @@ const paging = usePagingStore()
 export default {
   getOrtu(afterSave = false) {   
     const limit = 25
-    paging.rows = limit
+    paging.state.rows = limit
 
     paging.getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: afterSave ? paging.limit : limit,
+      limit,
       offset: this.current - 1,
       orderBy: 'parent_father_name',
       searchBy: [
@@ -137,7 +137,7 @@ export default {
   resetForm() {
     this.error = {}
     this.current = 1
-    this.getOrtu(true)
+    paging.reloadData()
   },
   // -------------- Converted Mutations -------------- 
   getDetail(id) {
@@ -170,7 +170,7 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      paging.data.forEach(item => {
+      paging.state.data.forEach(item => {
         this.selectedParents.push(`${item.parent_id}-${item.user_id}`)
       })
     } else {

@@ -20,7 +20,7 @@
 import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { conf, errorNotif } from 'src/composables/common'
-import { usePagingStore } from 'src/stores/ss-paging'
+import { usePagingStore } from 'ss-paging-vue'
 
 export default {
   props: {
@@ -45,7 +45,7 @@ export default {
     const $q = useQuasar()
     const paging = usePagingStore()
     const totalPages = () => {
-      const pageLinks = computed(() => paging.pageLinks)
+      const pageLinks = computed(() => paging.state.pageLinks)
 
       return pageLinks.value.length
     }

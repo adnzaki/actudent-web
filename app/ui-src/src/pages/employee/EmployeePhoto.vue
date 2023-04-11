@@ -7,15 +7,16 @@
   />
 </template>
 <script>
-import { mapState } from 'vuex'
+import { useEmployeeStore } from 'src/stores/employee'
 
 export default {
-  name: 'EmployeePhoto',
-  computed: {
-    ...mapState('employee', {
-      filename: state => state.helper.filename,
-      imageBase64: state => state.helper.imageBase64
-    }),
+  setup() {
+    const store = useEmployeeStore()
+
+    return {
+      filename: store.helper.filename,
+      imageBase64: store.helper.imageBase64  
+    }
   }
 }
 </script>
