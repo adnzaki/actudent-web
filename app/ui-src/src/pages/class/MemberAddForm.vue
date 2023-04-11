@@ -1,7 +1,7 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.grade.classMember.showForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.classMember.showForm" 
     @before-show="formOpen" :maximized="maximizedDialog()"
-    @hide="$store.commit('grade/getClassMember', $route.params.id)">
+    @hide="store.getClassMember($route.params.id)">
     <q-card :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('kelas_add_student_to_group') }}</div>
@@ -10,14 +10,14 @@
       </q-card-section>
 
       <q-card-section class="card-section">
-        <search-box :label="$t('kelas_group_member_search')" vuex-module="grade" />
+        <search-box :label="$t('kelas_group_member_search')" />
         <q-scroll-area class="in-form-scroll-area">
           <q-markup-table bordered>
             <thead>
               <tr>
                 <th :class="['text-left cursor-pointer mobile-hide', checkColWidth()]">#</th>
                 <th class="text-left cursor-pointer mobile-hide">{{ $t('siswa_nis') }}</th>
-                <th class="text-left cursor-pointer" @click="sortData('student_name')">
+                <th class="text-left cursor-pointer" @click="paging.sortData('student_name')">
                   {{ $t('siswa_nama') }} <sort-icon />
                 </th>
                 <th class="text-left">{{ $t('aksi') }}</th>
@@ -40,7 +40,9 @@
           </q-markup-table>
         </q-scroll-area>
         <q-separator/>
-        <ss-paging vuex-module="grade" />
+
+        <ss-paging :store="store" />
+
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
@@ -51,38 +53,34 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { usePagingStore } from 'ss-paging-vue'
+import { useClassStore } from 'src/stores/class'
 import { maximizedDialog, cardDialog, checkColWidth } from '../../composables/screen'
-import { useStore, mapState, mapActions } from 'vuex'
 
 export default {
   name: 'MemberAddForm',
-  methods: {
-    ...mapActions('grade', [
-      'sortData'
-    ]),
-  },
-  computed: {
-    ...mapState('grade', {
-      data: state => state.paging.data,
-    })
-  },
   setup() {
-    const store = useStore()
+    const store = useClassStore()
+    const paging = usePagingStore()
     const route = useRoute()
 
     const formOpen = () => {
-      store.dispatch('grade/getUnregisteredStudents', route.params.id)
+      store.getUnregisteredStudents(route.params.id)
     }
 
     const addMember = id => {
-      store.dispatch('grade/addToClassGroup', {
+      store.addToClassGroup({
         id, 
         grade: route.params.id
       })
     }
 
     return {
+      store,
+      paging,
+      data: computed(() => paging.state.data),
       checkColWidth,
       maximizedDialog, cardDialog,
       formOpen,

@@ -33,34 +33,28 @@
 </template>
 
 <script>
-import { useStore, mapState } from 'vuex'
+import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useClassStore } from 'src/stores/class'
 
 export default {
   name: 'MemberTable',
-  created() {
-    setTimeout(() => {
-      this.$store.commit('grade/getClassMember', this.$route.params.id)  
-    }, 500)
-  },
-  computed: {
-    ...mapState('grade', {
-      member: state => state.classMember.students,
-    })
-  },
   setup () {
-    const store = useStore()
+    const store = useClassStore()
     const route = useRoute()
 
+    store.getClassMember(route.params.id)
+
     const removeMember = id => {
-      store.dispatch('grade/removeFromClassGroup', {
+      store.removeFromClassGroup({
         id,
         grade: route.params.id
       })
     }
 
     return {
-      removeMember
+      removeMember,
+      member: computed(() => store.classMember.students)
     }
   }
 }

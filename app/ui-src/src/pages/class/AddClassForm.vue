@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.grade.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -14,10 +14,9 @@
           <error :label="error.grade_name" />
 
           <dropdown-search 
-            vuex-module="grade"
             :selected="setTeacher"
             :label="$t('kelas_wali')"
-            :list="$store.state.grade.teachers"
+            :list="store.teachers"
             :options-value="{ label: 'staff_name', value: 'staff_id' }"
             load-on-route
           />    
@@ -36,20 +35,12 @@
 <script>
 import { ref, computed } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
-import SearchTeacher from './SearchTeacher.vue'
+import { useClassStore } from 'src/stores/class'
 
 export default {
   name: 'AddClassForm',
-  components: { SearchTeacher },
-  computed: {
-    ...mapState('grade', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useClassStore()
 
     let formValue = {
       grade_name: '',
@@ -62,22 +53,22 @@ export default {
 
     const formOpen = () => {
       // set default value
-      formData.value.teacher_id = store.state.grade.teacherId
+      formData.value.teacher_id = store.teacherId
 
-      const saveStatus = computed(() => store.state.grade.saveStatus)
+      const saveStatus = computed(() => store.saveStatus)
       if(saveStatus.value === 200) {
         formValue = {
           grade_name: '',
           teacher_id: ''
         }
 
-        store.state.grade.saveStatus = 500
+        store.saveStatus = 500
         formData.value = formValue
       }
     }
     
     const save = () => {
-      store.dispatch('grade/save', {
+      store.save({
         data: formData.value,
         edit: false,
         id: null
@@ -85,11 +76,14 @@ export default {
     }
 
     return {
+      store,
       formData,
       save,
       maximizedDialog, cardDialog,
       formOpen,
-      setTeacher
+      setTeacher,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton)
     }
   }
 }

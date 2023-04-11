@@ -5,20 +5,20 @@
       <div class="text-h6 text-capitalize" v-else>{{ $t('menu_kelas') }}</div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
-        <row-dropdown vuex-module="grade" class="q-mt-sm" />
-        <search-box :label="$t('kelas_cari')" vuex-module="grade" class="q-mt-sm" />
+        <row-dropdown class="q-mt-sm" />
+        <search-box :label="$t('ortu_cari')" class="q-mt-sm" />
       </div>
     </q-card-section>
     <add-class-form />
     <edit-class-form />
-    <delete-confirm vuex-module="grade" action="deleteClass" />
+    <delete-confirm :store="store" :action="store.deleteClass()" />
     <class-table />
   </q-card>
 </template>
 
 <script>
 import { onMounted} from 'vue'
-import { useStore } from 'vuex'
+import { useClassStore } from 'src/stores/class'
 import { titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import ClassTable from './ClassTable.vue'
@@ -34,14 +34,15 @@ export default {
     EditClassForm
   },
   setup () {   
-    const store = useStore()
+    const store = useClassStore()
 
     onMounted(() => {
-      store.commit('grade/getTeacher')
+      store.getTeacher()
     }) 
     
     return { 
-      titleSpacing 
+      titleSpacing,
+      store,
     }
   }
 }

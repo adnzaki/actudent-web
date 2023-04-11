@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.grade.showEditForm"
+  <q-dialog no-backdrop-dismiss v-model="store.showEditForm"
    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -10,17 +10,16 @@
 
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">          
-          <q-input outlined :label="$t('kelas_label_nama')" dense v-model="$store.state.grade.detail.grade_name" />
+          <q-input outlined :label="$t('kelas_label_nama')" dense v-model="store.detail.grade_name" />
           <error :label="error.grade_name" />
 
           <dropdown-search 
-            vuex-module="grade"
             :selected="setTeacher"
             :default="{
-              label: $store.state.grade.detail.staff_name,
-              value: $store.state.grade.detail.teacher_id
+              label: store.detail.staff_name,
+              value: store.detail.teacher_id
             }"
-            :list="$store.state.grade.teachers"
+            :list="store.teachers"
             :options-value="{ label: 'staff_name', value: 'staff_id' }"
             load-on-route
             :label="$t('kelas_wali')"
@@ -38,38 +37,32 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { computed } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
-import SearchTeacher from './SearchTeacher.vue'
+import { useClassStore } from 'src/stores/class'
 
 export default {
   name: 'EditClassForm',
-  components: { SearchTeacher },
-  computed: {
-    ...mapState('grade', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useClassStore()
     
-    const setTeacher = model => store.state.grade.detail.teacher_id = model.value
+    const setTeacher = model => store.detail.teacher_id = model.value
     
     const save = () => {
-      store.dispatch('grade/save', {
-        data: store.state.grade.detail,
+      store.save({
+        data: store.detail,
         edit: true,
-        id: store.state.grade.detail.grade_id
+        id: store.detail.grade_id
       })
     }
 
-
     return {
+      store,
       save,
       maximizedDialog, cardDialog,
-      setTeacher
+      setTeacher,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton)
     }
   }
 }
