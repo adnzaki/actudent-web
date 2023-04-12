@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.lesson.showEditForm" :maximized="maximizedDialog()">
+  <q-dialog no-backdrop-dismiss v-model="store.showEditForm" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('mapel_edit_title') }}</div>
@@ -9,10 +9,10 @@
 
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">          
-          <q-input outlined :label="$t('mapel_kode')" dense v-model="$store.state.lesson.detail.lesson_code" />
+          <q-input outlined :label="$t('mapel_kode')" dense v-model="store.detail.lesson_code" />
           <error :label="error.lesson_code" />
 
-          <q-input outlined :label="$t('mapel_nama')" dense v-model="$store.state.lesson.detail.lesson_name" />
+          <q-input outlined :label="$t('mapel_nama')" dense v-model="store.detail.lesson_name" />
           <error :label="error.lesson_name" />
         </q-form>
       </q-card-section>
@@ -27,30 +27,27 @@
 
 <script>
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
+import { useLessonStore } from 'src/stores/lesson'
 
 export default {
   name: 'EditLessonForm',
-  computed: {
-    ...mapState('lesson', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useLessonStore()
     
     const save = () => {
-      store.dispatch('lesson/save', {
-        data: store.state.lesson.detail,
+      store.save({
+        data: store.detail,
         edit: true,
-        id: store.state.lesson.detail.lesson_id
+        id: store.detail.lesson_id
       })
     }
 
     return {
       save,
+      store,
       maximizedDialog, cardDialog,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

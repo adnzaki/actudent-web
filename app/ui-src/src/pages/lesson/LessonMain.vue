@@ -6,24 +6,25 @@
         <div class="text-h6 text-capitalize" v-else>{{ $t('menu_mapel') }}</div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
-          <row-dropdown vuex-module="lesson" class="q-mt-sm" />
-          <search-box :label="$t('mapel_cari')" vuex-module="lesson" class="q-mt-sm" />
+          <row-dropdown class="q-mt-sm" />
+          <search-box :label="$t('mapel_cari')" class="q-mt-sm" />
         </div>
       </q-card-section>
       <add-lesson-form />
       <edit-lesson-form />
-      <delete-confirm vuex-module="lesson" action="deleteLesson" />
+      <delete-confirm :store="store" :action="store.deleteLesson()" />
       <lesson-table />
     </q-card>
   </div>
 </template>
 
 <script>
-import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import MainButton from './MainButton.vue'
 import LessonTable from './LessonTable.vue'
 import AddLessonForm from './AddLessonForm.vue'
 import EditLessonForm from './EditLessonForm.vue'
+import { useLessonStore } from 'src/stores/lesson'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   name: 'LessonMain',
@@ -34,7 +35,10 @@ export default {
     EditLessonForm,
   },
   setup() {
+    const store = useLessonStore()
+
     return {
+      store,
       wrapperPadding, titleSpacing
     }
   }

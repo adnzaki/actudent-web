@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.lesson.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -29,18 +29,12 @@
 <script>
 import { ref, computed } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
+import { useLessonStore } from 'src/stores/lesson'
 
 export default {
   name: 'AddLessonForm',
-  computed: {
-    ...mapState('lesson', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useLessonStore()
 
     let formValue = {
       lesson_code: '',
@@ -50,20 +44,20 @@ export default {
     const formData = ref(formValue)
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.lesson.saveStatus)
+      const saveStatus = computed(() => store.saveStatus)
       if(saveStatus.value === 200) {
         formValue = {
           lesson_code: '',
           lesson_name: ''
         }
 
-        store.state.lesson.saveStatus = 500
+        store.saveStatus = 500
         formData.value = formValue
       }
     }
     
     const save = () => {
-      store.dispatch('lesson/save', {
+      store.save({
         data: formData.value,
         edit: false,
         id: null
@@ -71,10 +65,13 @@ export default {
     }
 
     return {
-      formData,
       save,
+      store,
+      formData,
+      formOpen,
       maximizedDialog, cardDialog,
-      formOpen
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

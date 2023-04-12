@@ -41,7 +41,7 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator/>
-    <ss-paging vuex-module="rooms" />
+    <ss-paging :store="store" />
   </div>
 </template>
 
