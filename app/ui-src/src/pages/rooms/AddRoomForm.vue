@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.rooms.showAddForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showAddForm" 
     @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -29,18 +29,12 @@
 <script>
 import { ref, computed } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
+import { useRoomStore } from 'src/stores/room'
 
 export default {
   name: 'AddRoomForm',
-  computed: {
-    ...mapState('rooms', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useRoomStore()
 
     let formValue = {
       room_code: '',
@@ -50,20 +44,20 @@ export default {
     const formData = ref(formValue)
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.rooms.saveStatus)
+      const saveStatus = computed(() => store.saveStatus)
       if(saveStatus.value === 200) {
         formValue = {
           room_code: '',
           room_name: ''
         }
 
-        store.state.rooms.saveStatus = 500
+        store.saveStatus = 500
         formData.value = formValue
       }
     }
     
     const save = () => {
-      store.dispatch('rooms/save', {
+      store.save({
         data: formData.value,
         edit: false,
         id: null
@@ -71,6 +65,9 @@ export default {
     }
 
     return {
+      store,
+      error: computed(() => state.error),
+      disableSaveButton: computed(() => state.helper.disableSaveButton),
       formData,
       save,
       maximizedDialog, cardDialog,

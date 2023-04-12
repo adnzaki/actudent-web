@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.rooms.showEditForm" :maximized="maximizedDialog()">
+  <q-dialog no-backdrop-dismiss v-model="store.showEditForm" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('ruang_edit_title') }}</div>
@@ -9,10 +9,10 @@
 
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">          
-          <q-input outlined :label="$t('ruang_kode')" dense v-model="$store.state.rooms.detail.room_code" />
+          <q-input outlined :label="$t('ruang_kode')" dense v-model="store.detail.room_code" />
           <error :label="error.room_code" />
 
-          <q-input outlined :label="$t('ruang_nama')" dense v-model="$store.state.rooms.detail.room_name" />
+          <q-input outlined :label="$t('ruang_nama')" dense v-model="store.detail.room_name" />
           <error :label="error.room_name" />
         </q-form>
       </q-card-section>
@@ -27,7 +27,7 @@
 
 <script>
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
+import { useRoomStore } from 'src/stores/room'
 
 export default {
   name: 'EditRoomForm',
@@ -38,17 +38,18 @@ export default {
     }),
   },
   setup() {
-    const store = useStore()
+    const store = useRoomStore()
     
     const save = () => {
-      store.dispatch('rooms/save', {
-        data: store.state.rooms.detail,
+      store.save({
+        data: store.detail,
         edit: true,
-        id: store.state.rooms.detail.room_id
+        id: store.detail.room_id
       })
     }
 
     return {
+      store,
       save,
       maximizedDialog, cardDialog,
     }
