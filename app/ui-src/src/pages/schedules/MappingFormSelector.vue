@@ -10,13 +10,13 @@
 <script>
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
+import { useScheduleStore } from 'src/stores/schedule'
 
 export default {
   name: 'MappingFormSelector',
   setup () {
     const { t } = useI18n()
-    const store = useStore()
+    const store = useScheduleStore()
 
     const options = [
       { label: t('jadwal_belajar'), value: 'normalList' },
@@ -26,24 +26,25 @@ export default {
 
     const updateForm = model => {
       if(model !== 'break') {
-        store.state.schedule.schedule.isBreak = false
-        store.state.schedule.schedule.showLessonInput = true
-        store.state.schedule.schedule.lessonOptions = store.state.schedule.schedule[model]
+        store.schedule.isBreak = false
+        store.schedule.showLessonInput = true
+        store.schedule.lessonOptions = store.schedule[model]
         
         model === 'normalList'
-          ? store.state.schedule.schedule.scheduleType = 'lesson'
-          : store.state.schedule.schedule.scheduleType = 'inactive'
+          ? store.schedule.scheduleType = 'lesson'
+          : store.schedule.scheduleType = 'inactive'
       } else {
-        store.state.schedule.schedule.isBreak = true
-        store.state.schedule.schedule.showLessonInput = false
-        store.state.schedule.schedule.scheduleType = model
+        store.schedule.isBreak = true
+        store.schedule.showLessonInput = false
+        store.schedule.scheduleType = model
       }
     }
 
-    return {
-      group: ref(options[0].value),
+    return { 
+      store,
       options,
-      updateForm
+      updateForm,
+      group: ref(options[0].value),
     }
   }
 }

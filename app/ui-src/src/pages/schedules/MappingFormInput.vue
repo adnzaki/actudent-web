@@ -2,19 +2,17 @@
   <q-form class="q-gutter-md q-mb-md" v-if="!schedule.showLessonList" >
     <div v-if="schedule.showLessonInput">
       <dropdown-search 
-        vuex-module="schedule"
         :selected="setLesson"
         :label="$t('jadwal_label_pilih_mapel')"
-        :list="$store.state.schedule.schedule.lessonOptions"
+        :list="store.schedule.lessonOptions"
         :options-value="{ label: 'text', value: 'id' }"
         load-on-route
         class="q-mb-md"
       />       
       <dropdown-search 
-        vuex-module="schedule"
         :selected="setRoom"
         :label="$t('jadwal_label_pilih_ruang')"
-        :list="$store.state.schedule.rooms"
+        :list="store.rooms"
         :options-value="{ label: 'text', value: 'id' }"
         load-on-route
         class="q-mb-md"
@@ -48,23 +46,17 @@
 </template>
 
 <script>
-import { mapState, useStore } from 'vuex'
 import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
-import MappingFormSelector from './MappingFormSelector.vue'
 import { useQuasar } from 'quasar'
+import { useScheduleStore } from 'src/stores/schedule'
+import MappingFormSelector from './MappingFormSelector.vue'
 
 export default {
-  name: 'MappingAddNormal',
+  name: 'MappingFormInput',
   components: { MappingFormSelector },
-  computed: {
-    ...mapState('schedule', {
-      error: state => state.error,
-      schedule: state => state.schedule
-    })
-  },
   setup() {
-    const store = useStore()
+    const store = useScheduleStore()
     const { t } = useI18n()
     const $q = useQuasar()
 
@@ -74,8 +66,8 @@ export default {
     }
 
     // set default option
-    formValue.lesson = store.state.schedule.schedule.defaultLesson
-    formValue.room = store.state.schedule.schedule.defaultRoom
+    formValue.lesson = store.schedule.defaultLesson
+    formValue.room = store.schedule.defaultRoom
 
     const setLesson = model => formValue.lesson = model
     const setRoom = model => formValue.room = model
@@ -96,15 +88,15 @@ export default {
     const breakDuration = ref('10')
 
     const pushLesson = () => {
-      if(store.state.schedule.schedule.isBreak) {
+      if(store.schedule.isBreak) {
         if(breakDuration.value.match(/[^0-9]/) === null
           && breakDuration.value !== ''
           && breakDuration.value !== '0') {
-          store.commit('schedule/pushLesson', breakDuration.value)
+          store.pushLesson(breakDuration.value)
         }
       } else {
         if(formValue.lesson !== '' && formValue.room !== '' && duration.value !== null) {
-          store.commit('schedule/pushLesson', formValue)
+          store.pushLesson(formValue)
           formValue.lesson = ''
           formValue.room = ''
         } else {
@@ -118,15 +110,18 @@ export default {
       }
     }
     
-    return {
-      setLesson,
+    return { 
+      store,
       setRoom,
       duration,
-      durationOptions,
+      setLesson,
       pushLesson,
       setDuration,
       breakDuration,
-      breakLabel: `${t('jadwal_istirahat')} (${t('jadwal_menit')})`
+      durationOptions,
+      error: computed(() => store.error),
+      schedule: computed(() => store.schedule),
+      breakLabel: `${t('jadwal_istirahat')} (${t('jadwal_menit')})`,
     }
   }
 }

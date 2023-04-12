@@ -66,8 +66,8 @@ export default {
 
     return {
       store,
-      error: computed(() => state.error),
-      disableSaveButton: computed(() => state.helper.disableSaveButton),
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
       formData,
       save,
       maximizedDialog, cardDialog,

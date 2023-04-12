@@ -10,22 +10,22 @@
           {{ $t('jadwal_mapping') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
-          {{ $t('jadwal_mapping') }} - {{ $store.state.schedule.className }}
+          {{ $t('jadwal_mapping') }} - {{ store.className }}
         </div>
       </div>
       <div :class="['row', titleSpacing()]">
       </div>
     </q-card-section>
+
     <mapping-list />
+
   </q-card>
 </template>
 
 <script>
-import { onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-import { titleSpacing } from 'src/composables/screen'
 import MappingList from './MappingList.vue'
+import { titleSpacing } from 'src/composables/screen'
+import { useScheduleStore } from 'src/stores/schedule'
 
 export default {
   name: 'MappingWrapper',
@@ -33,14 +33,10 @@ export default {
     MappingList
   },
   setup() {
-    const route = useRoute()
-    const store = useStore()
+    const store = useScheduleStore()
 
-    onMounted(() => {
-      
-    })
-
-    return {
+    return { 
+      store,
       titleSpacing
     }
   }

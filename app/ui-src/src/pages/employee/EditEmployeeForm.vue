@@ -101,8 +101,8 @@ export default {
       cardDialog,
       encodeImage,
       maximizedDialog, 
-      error: store.error,
-      disableSaveButton: store.helper.disableSaveButton
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

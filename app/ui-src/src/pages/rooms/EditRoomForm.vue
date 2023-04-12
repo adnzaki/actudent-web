@@ -52,6 +52,8 @@ export default {
       store,
       save,
       maximizedDialog, cardDialog,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

@@ -76,9 +76,9 @@ export default {
       save,
       formData,
       formOpen,
-      error: store.error,
       maximizedDialog, cardDialog,
-      disableSaveButton: store.helper.disableSaveButton,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

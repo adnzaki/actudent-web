@@ -5,8 +5,8 @@
       <div class="text-h6 text-capitalize" v-else>{{ $t('menu_jadwal') }}</div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
-        <row-dropdown vuex-module="schedule" class="q-mt-sm" />
-        <search-box :label="$t('kelas_cari')" vuex-module="schedule" class="q-mt-sm" />
+        <row-dropdown class="q-mt-sm" />
+        <search-box :label="$t('kelas_cari')" class="q-mt-sm" />
         <mapping-setting-form />
       </div>
     </q-card-section>
@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import { titleSpacing } from 'src/composables/screen'
 import ClassList from './ClassList.vue'
 import MainButton from './MainButton.vue'
+import { titleSpacing } from 'src/composables/screen'
 import MappingSettingForm from './MappingSettingForm.vue'
 
 export default {

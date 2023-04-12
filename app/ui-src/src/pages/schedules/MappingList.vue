@@ -13,10 +13,10 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
 import MappingDay from './MappingDay.vue'
 import MappingForm from './MappingForm.vue'
+import { useScheduleStore } from 'src/stores/schedule'
 
 export default {
   name: 'MappingList',
@@ -25,17 +25,15 @@ export default {
     MappingForm
   },
   setup() {
-    const store = useStore()
     const route = useRoute()
+    const store = useScheduleStore()
 
-    store.commit('schedule/getSchedules', route.params.id)
-    store.commit('schedule/getLessonsList', route.params.id)
-    store.commit('schedule/getRooms')
-    store.commit('schedule/getLessonsForSchedule', route.params.id)
+    store.getRooms()
+    store.getSchedules(route.params.id)
+    store.getLessonsList(route.params.id)
+    store.getLessonsForSchedule(route.params.id)
 
-    return {
-      
-    }
+    return { store }
   }
 }
 </script>

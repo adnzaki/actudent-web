@@ -5,8 +5,8 @@
         <thead>
           <tr>
             <th class="text-center cursor-pointer">#</th>
-            <th class="text-left cursor-pointer" @click="sortData('grade_name')">{{ $t('kelas_nama') }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_name')">{{ $t('kelas_wali') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer" @click="paging.sortData('grade_name')">{{ $t('kelas_nama') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="paging.sortData('staff_name')">{{ $t('kelas_wali') }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide">{{ $t('kelas_tahun') }}</th>
             <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
@@ -48,42 +48,35 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore, mapState, mapActions } from 'vuex'
+import { usePagingStore } from 'ss-paging-vue'
+import { useScheduleStore } from 'src/stores/schedule'
 import { checkColWidth } from 'src/composables/screen'
 
 export default {
   name: 'ClassList',
-  created() {
-    setTimeout(() => {
-      this.$store.dispatch('schedule/getClassList')  
-    }, 500)
-  },
-  methods: {
-    ...mapActions('schedule', [
-      'sortData'
-    ]),
-  },
-  computed: {
-    ...mapState('schedule', {
-      data: state => state.paging.data,
-    })
-  },
   setup () {
     const router = useRouter()
-    const store = useStore()
+    const store = useScheduleStore()
+    const paging = usePagingStore()
+
+    store.getClassList()
 
     const showLessons = (gradeId, name) => {      
-      store.state.schedule.className = name
+      store.className = name
       router.push(`/schedules/lessons/${gradeId}`)
     }
 
     const showSchedules = (gradeId, name) => {      
-      store.state.schedule.className = name
+      store.className = name
       router.push(`/schedules/mapping/${gradeId}`)
     }
 
-    return {
+    return { 
+      store,
+      paging,
+      data: computed(() => paging.state.data),
       checkColWidth,
       showLessons,
       showSchedules

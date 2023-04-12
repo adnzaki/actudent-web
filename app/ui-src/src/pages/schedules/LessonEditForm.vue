@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.schedule.lesson.showEditForm"
+  <q-dialog no-backdrop-dismiss v-model="store.lesson.showEditForm"
    :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -11,28 +11,26 @@
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">   
           <dropdown-search 
-            vuex-module="schedule"
             :selected="setLesson"
             :default="{
-              label: $store.state.schedule.lesson.detail.lesson_name,
-              value: $store.state.schedule.lesson.detail.lesson_id
+              label: store.lesson.detail.lesson_name,
+              value: store.lesson.detail.lesson_id
             }"
             :label="$t('jadwal_input_cari_mapel')"
-            :list="$store.state.schedule.lesson.options"
+            :list="store.lesson.options"
             :options-value="{ label: 'text', value: 'id' }"
             load-on-route
           />       
           <error :label="error.lesson_id" />
 
           <dropdown-search 
-            vuex-module="schedule"
             :selected="setTeacher"
             :default="{
-              label: $store.state.schedule.lesson.detail.teacher,
-              value: $store.state.schedule.lesson.detail.teacher_id
+              label: store.lesson.detail.teacher,
+              value: store.lesson.detail.teacher_id
             }"
             :label="$t('jadwal_label_pilih_guru')"
-            :list="$store.state.grade.teachers"
+            :list="classStore.teachers"
             :options-value="{ label: 'staff_name', value: 'staff_id' }"
             load-on-route
           />    
@@ -49,38 +47,36 @@
 </template>
 
 <script>
-import { ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useClassStore } from 'src/stores/class'
+import { useScheduleStore } from 'src/stores/schedule'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
 
 export default {
   name: 'LessonEditForm',
-  computed: {
-    ...mapState('schedule', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useScheduleStore()
+    const classStore = useClassStore()
     
-    const setLesson = model => store.state.schedule.lesson.detail.lesson_id = model.value
-    const setTeacher = model => store.state.schedule.lesson.detail.teacher_id = model.value
+    const setLesson = model => store.lesson.detail.lesson_id = model.value
+    const setTeacher = model => store.lesson.detail.teacher_id = model.value
     
     const save = () => {
-      store.dispatch('schedule/saveLesson', {
-        data: store.state.schedule.lesson.detail,
+      store.save({
+        data: store.lesson.detail,
         edit: true,
-        id: store.state.schedule.lesson.detail.lessons_grade_id
+        id: store.lesson.detail.lessons_grade_id
       })
     }
 
-    return {
+    return { 
       save,
-      maximizedDialog, cardDialog,
+      store,
+      classStore,
       setLesson,
-      setTeacher
+      setTeacher,
+      maximizedDialog, cardDialog,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

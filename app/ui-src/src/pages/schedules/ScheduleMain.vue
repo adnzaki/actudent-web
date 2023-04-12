@@ -10,7 +10,7 @@ import { wrapperPadding } from 'src/composables/screen'
 export default {
   name: 'ScheduleMain',
   setup() {
-    return {
+    return { store,
       wrapperPadding
     }
   }
