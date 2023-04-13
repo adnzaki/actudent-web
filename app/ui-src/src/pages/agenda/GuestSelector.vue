@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-pa-sm" :style="cardDialog()" v-if="!$store.state.agenda.mainForm">
+  <q-card class="q-pa-sm" :style="cardDialog()" v-if="!store.mainForm">
     <q-card-section class="row items-center q-pb-none">
       <div class="text-h6 text-capitalize">{{ $t('agenda_manage_guests') }}</div>
       <q-space />
@@ -9,7 +9,7 @@
         <filter-guest />
       </div>
       <div class="row q-mb-md q-pr-xs">
-        <search-box :label="$t('agenda_search_name')" root-class="col-12" vuex-module="agenda" class="q-mt-sm" />
+        <search-box :label="$t('agenda_search_name')" root-class="col-12" class="q-mt-sm" />
       </div>
       <q-checkbox v-model="selectAllToggle" @update:model-value="selectAll" style="margin-left: -10px; margin-top: -15px;" :label="$t('pilih_semua')" />
       <q-list bordered separator>
@@ -39,21 +39,26 @@
 </template>
 
 <script>
+import FilterGuest from './FilterGuest.vue'
+import { conf } from 'src/composables/common'
+import { usePagingStore } from 'ss-paging-vue'
+import { useAgendaStore } from 'src/stores/agenda'
 import { ref, provide, inject, computed, watch } from 'vue'
 import { maximizedDialog, cardDialog } from 'src/composables/screen'
-import { conf } from 'src/composables/common'
-import FilterGuest from './FilterGuest.vue'
 
 export default {
   components: { FilterGuest },
   setup() {
     const formOpen = () => {}
     const formHide = () => {}
-    const { disableSaveButton, store } = inject('shared')
+    const store = useAgendaStore()
+    const paging = usePagingStore()
     const selectAllToggle = ref(false)
-    const data = computed(() => store.state.agenda.paging.data)
-    const guestType = store.state.agenda.isEditForm ? 'guestsEdit' : 'guests'
-    const guests = computed(() => store.state.agenda[guestType])
+    const { disableSaveButton } = inject('shared')
+    const data = computed(() => paging.state.data)
+
+    const guestType = store.isEditForm ? 'guestsEdit' : 'guests'
+    const guests = computed(() => store[guestType])
 
     watch(data, () => {
       selectAllToggle.value = false
@@ -63,13 +68,27 @@ export default {
       selectAllToggle
     })
 
-    return {
+    return { 
+      data,
+      conf,
+      store,
+      formOpen,
+      formHide,
+      selectAllToggle,
+      disableSaveButton,
+      maximizedDialog, cardDialog,
+      done() {
+        store.mainForm = true
+      },
+      isSelectedUser(id) {                  
+        return store[guestType].includes(id)
+      },
       toggleUserSelection(id, type = 'add' /* add or delete */) {
         if(type === 'add') {
-          store.state.agenda[guestType].push(id)
+          store[guestType].push(id)
         } else {
           let index = guests.value.findIndex(el => el === id)
-          store.state.agenda[guestType].splice(index, 1)
+          store[guestType].splice(index, 1)
         }
       },
       selectAll() {
@@ -77,27 +96,14 @@ export default {
           for(let item of data.value) {
 
             // Skip duplicate IDs
-            if(!store.state.agenda[guestType].includes(item.id)) {
-              store.state.agenda[guestType].push(item.id)
+            if(!store[guestType].includes(item.id)) {
+              store[guestType].push(item.id)
             }
           }
         } else {
-          store.state.agenda[guestType] = []
+          store[guestType] = []
         }
       },
-      selectAllToggle,
-      isSelectedUser(id) {                  
-        return store.state.agenda[guestType].includes(id)
-      },
-      data,
-      disableSaveButton,
-      conf,
-      done() {
-        store.state.agenda.mainForm = true
-      },
-      formOpen,
-      formHide,
-      maximizedDialog, cardDialog
     }
   },
 }

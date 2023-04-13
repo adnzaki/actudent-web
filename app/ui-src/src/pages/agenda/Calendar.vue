@@ -5,23 +5,23 @@
   <q-page-sticky position="bottom-right" :offset="fabPos" class="force-elevated"
     v-if="$q.cookies.get(conf.userType) === '1'">
     <q-btn fab icon="add" color="secondary" 
-      @click="$store.state.agenda.showForm = true" />    
+      @click="store.showForm = true" />    
   </q-page-sticky>
 </template>
 
 <script>
 import '@fullcalendar/core/vdom' // solves problem with Vite
-import FullCalendar from '@fullcalendar/vue3'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import listPlugin from '@fullcalendar/list'
-import interactionPlugin from '@fullcalendar/interaction'
-import id from '@fullcalendar/core/locales/id'
-import en from '@fullcalendar/core/locales/en-gb'
-import { ref, onMounted, computed } from 'vue'
-import { useStore } from 'vuex'
-import { date, useQuasar } from 'quasar'
 import { userLang } from 'boot/i18n'
+import { date, useQuasar } from 'quasar'
+import listPlugin from '@fullcalendar/list'
+import FullCalendar from '@fullcalendar/vue3'
 import { conf } from 'src/composables/common'
+import id from '@fullcalendar/core/locales/id'
+import { ref, onMounted, computed } from 'vue'
+import en from '@fullcalendar/core/locales/en-gb'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import { useAgendaStore } from 'src/stores/agenda'
+import interactionPlugin from '@fullcalendar/interaction'
 import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
 
 export default {
@@ -29,11 +29,11 @@ export default {
     FullCalendar 
   },
   setup() {
-    const store = useStore()
     const $q = useQuasar()
-    const initialView = $q.screen.lt.sm ? ref('listMonth') : ref('dayGridMonth')
-    const initialDate = ref(date.formatDate(new Date(), 'YYYY-MM-DD'))
+    const store = useAgendaStore()
     const fullCalendar = ref(null)
+    const initialDate = ref(date.formatDate(new Date(), 'YYYY-MM-DD'))
+    const initialView = $q.screen.lt.sm ? ref('listMonth') : ref('dayGridMonth')
 
     const defaultStart = date.startOfDate(new Date(), 'month')    
     const defaultStartDate = date.subtractFromDate(defaultStart, { days: 7 })
@@ -48,11 +48,11 @@ export default {
     const formatDate = v => date.formatDate(v, 'YYYY-MM-DD')
 
     const initEvents = () => {
-      store.state.agenda.calendar.view = initialView.value
-      store.state.agenda.calendar.start = formatDate(defaultStartDate)
-      store.state.agenda.calendar.end = formatDate(defaultEnd)
+      store.calendar.view = initialView.value
+      store.calendar.start = formatDate(defaultStartDate)
+      store.calendar.end = formatDate(defaultEnd)
 
-      store.dispatch('agenda/getEvents', {
+      store.getEvents({
         view: initialView.value,
         start: formatDate(defaultStartDate),
         end: formatDate(defaultEnd)
@@ -78,11 +78,11 @@ export default {
         const startDate = date.startOfDate(fcApi.getDate(), 'months')
         const nextStartDate = formatDate(date.subtractFromDate(startDate, { days: 7 }))
         const nextEndDate = formatDate(date.addToDate(startDate, { days: 14, months: 1 }))
-        store.state.agenda.calendar.view = initialView.value
-        store.state.agenda.calendar.start = nextStartDate
-        store.state.agenda.calendar.end = nextEndDate
+        store.calendar.view = initialView.value
+        store.calendar.start = nextStartDate
+        store.calendar.end = nextEndDate
 
-        store.dispatch('agenda/getEvents', {
+        store.getEvents({
           view: initialView.value,
           start: nextStartDate,
           end: nextEndDate
@@ -96,29 +96,30 @@ export default {
               : { year: 'numeric', month: 'long' }
     })
 
-    return {
+    return { 
       conf,
+      store,
+      fullCalendar,
       fabPos, draggingFab, moveFab,
       calendarOptions: computed(() => {
         return {
-          plugins: [ dayGridPlugin, interactionPlugin, listPlugin ],
+          firstDay: 0,
           height: 'auto',
+          events: store.events,
+          locale: locales[userLang],
+          eventClick({ event }) {
+            store.getDetail(event.id)
+          },
+          titleFormat: titleFormat.value,
           initialView: initialView.value,
           initialDate: initialDate.value,
-          events: store.state.agenda.events,
-          eventClick({ event }) {
-            store.dispatch('agenda/getDetail', event.id)
-          },
-          locale: locales[userLang],
-          firstDay: 0,
+          plugins: [ dayGridPlugin, interactionPlugin, listPlugin ],
           headerToolbar: {
             left: 'title',
             right: 'today prev,next'
           },
-          titleFormat: titleFormat.value
         }
       }),
-      fullCalendar
     }
   }
 }

@@ -1,10 +1,10 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.agenda.showForm"
+  <q-dialog no-backdrop-dismiss v-model="store.showForm"
     @before-show="formOpen"
     @hide="formHide"
     :maximized="maximizedDialog()">
     <guest-selector />
-    <q-card class="q-pa-sm" :style="cardDialog()" v-if="$store.state.agenda.mainForm">
+    <q-card class="q-pa-sm" :style="cardDialog()" v-if="store.mainForm">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize" v-if="conf.userType === '1'">{{ cardTitle }}</div>
         <div class="text-h6 text-capitalize" v-else>{{ $t('agenda_detail_title') }}</div>
@@ -137,7 +137,7 @@
         <!-- delete button for desktop -->
         <q-btn outline 
           v-if="$q.cookies.get(conf.userType) === '1' && isEditForm && !$q.screen.lt.sm" 
-          :label="$t('hapus')" @click="$store.state.agenda.deleteConfirm = true" 
+          :label="$t('hapus')" @click="store.deleteConfirm = true" 
           color="negative" />
         <!-- #END -->
 
@@ -150,7 +150,7 @@
             class="mobile-form-btn" 
             style="margin-left: -10px;"
             :label="$t('hapus')" 
-            @click="$store.state.agenda.deleteConfirm = true" 
+            @click="store.deleteConfirm = true" 
             color="negative" />
         <!-- #END -->
 
@@ -167,26 +167,27 @@
 </style>
 
 <script>
-import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { ref, reactive, computed, provide } from 'vue'
-import { useStore } from 'vuex'
 import { date, useQuasar } from 'quasar'
-import { selectedLang } from '../../composables/date'
-import { t, axios, bearerToken, conf, userType } from 'src/composables/common'
 import GuestSelector from './GuestSelector.vue'
+import { useAgendaStore } from 'src/stores/agenda'
+import { selectedLang } from '../../composables/date'
+import { ref, reactive, computed, provide } from 'vue'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
+import { t, axios, bearerToken, conf, userType } from 'src/composables/common'
 
 export default {
   name: 'AgendaForm',
   components: { GuestSelector },
   setup() {
-    const store = useStore()
     const $q = useQuasar()
+    const store = useAgendaStore()
     const dateModelFormat = 'YYYY-MM-DD HH:mm'
     const defaultDateValue = date.formatDate(new Date(), dateModelFormat)
     const defaultDateEndValue = date.formatDate(date.addToDate(defaultDateValue, { hours: 1 }), dateModelFormat)
+
     const dateStartRaw = ref(defaultDateValue)
     const dateEndRaw = ref(defaultDateEndValue)
-    const isEditForm = computed(() => store.state.agenda.isEditForm)
+    const isEditForm = computed(() => store.isEditForm)
 
     let formValue = {
       agenda_name: '',
@@ -218,7 +219,7 @@ export default {
     const attachment = ref([])
     const attachmentUrl = ref('')
     const formOpen = () => {
-      const details = computed(() => store.state.agenda.detail).value
+      const details = computed(() => store.detail).value
       if(isEditForm.value) {        
         formData.value = {
           agenda_name: details.agenda_name,
@@ -239,7 +240,7 @@ export default {
                               $q.cookies.get(conf.cookieName)
 
       } else {
-        const saveStatus = computed(() => store.state.agenda.saveStatus)
+        const saveStatus = computed(() => store.saveStatus)
         if(saveStatus.value === 200 || !isEditForm.value) {
           formData.value = {
             agenda_name: '',
@@ -255,7 +256,7 @@ export default {
           dateStartRaw.value = defaultDateValue
           dateEndRaw.value = defaultDateEndValue
   
-          store.state.agenda.saveStatus = 500
+          store.saveStatus = 500
         }
       }
     }
@@ -265,8 +266,9 @@ export default {
       formData.value.agenda_start = phpTimestamp(dateStartRaw.value)
       formData.value.agenda_end = phpTimestamp(dateEndRaw.value)
 
-      const guestType = store.state.agenda.isEditForm ? 'guestsEdit' : 'guests'
-      const agendaGuest = computed(() => store.state.agenda[guestType])
+      const guestType = store.isEditForm ? 'guestsEdit' : 'guests'
+      const agendaGuest = computed(() => store[guestType])
+      
       if(agendaGuest.value.length > 0) {
         formData.value.agenda_guest = JSON.stringify(agendaGuest.value)
       } else {
@@ -274,13 +276,13 @@ export default {
       }
 
       if(isEditForm.value) {
-        store.dispatch('agenda/save', {
+        store.save({
           data: formData.value,
           edit: true,
-          id: store.state.agenda.detail.agenda_id
+          id: store.detail.agenda_id
         })
       } else {
-        store.dispatch('agenda/save', {
+        store.save({
           data: formData.value,
           edit: false,
           id: null
@@ -291,10 +293,10 @@ export default {
     const attachmentError = ref('')
 
     const uploadFile = val => {
-      store.state.agenda.helper.disableSaveButton = true
+      store.helper.disableSaveButton = true
       const uploadData = new FormData()
       uploadData.append('attachment', val)
-      axios.post(`${store.getters['agenda/agendaApi']}upload`, uploadData, {
+      axios.post(`${store.agendaApi}upload`, uploadData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: bearerToken
@@ -303,11 +305,11 @@ export default {
         .then(({ data }) => {
           if(data.msg === 'OK') {
             attachmentError.value = ''
-            store.state.agenda.helper.disableSaveButton = false
+            store.helper.disableSaveButton = false
             formData.value.agenda_attachment = data.filename
           } else {
             attachmentError.value = data
-            store.state.agenda.helper.disableSaveButton = true
+            store.helper.disableSaveButton = true
           }
 
           console.log(formData.value)
@@ -316,44 +318,47 @@ export default {
     }
 
     const formHide = () => {
-      if(store.state.agenda.isEditForm) {
+      if(store.isEditForm) {
         dateStartRaw.value = defaultDateValue
         dateEndRaw.value = defaultDateEndValue
       }
 
-      store.state.agenda.isEditForm = false
-      store.state.agenda.mainForm = true
+      store.isEditForm = false
+      store.mainForm = true
     }
 
-    const disableSaveButton = computed(() => store.state.agenda.helper.disableSaveButton)
+    const disableSaveButton = computed(() => store.helper.disableSaveButton)
     provide('shared', {
       disableSaveButton,
       store
     })
 
-    return {
+    return { 
+      conf,
+      store,
+      userType,
+      formData,
+      formOpen,
+      formHide,
+      isEditForm,
+      guestWrapper,
+      attachmentUrl,
+      pickerEndChanged,
+      save, uploadFile,
+      disableSaveButton,
+      pickerStartChanged,
+      dateStartRaw, dateEndRaw,
+      cardDialog, maximizedDialog,
+      attachment, attachmentError,
+      error: computed(() => store.error),
+      showGuestSelector() {
+        store.mainForm = false
+      },
       inviteBtn: reactive({
         width: $q.screen.lt.sm ? '98%' : '99%', 
         marginLeft: 0,
         marginTop: '15px'
       }),
-      showGuestSelector() {
-        store.state.agenda.mainForm = false
-      },
-      userType,
-      closeBtnColor: computed(() => $q.dark.isActive ? 'warning' : 'deep-purple'),
-      formHide,
-      readonly: computed(() => $q.cookies.get(conf.userType) === '1' ? false : true),
-      conf,
-      cardTitle: computed(() => isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')),
-      isEditForm,
-      attachmentUrl,
-      error: computed(() => store.state.agenda.error),
-      disableSaveButton,
-      formData,
-      cardDialog, maximizedDialog,
-      pickerStartChanged,
-      pickerEndChanged,
       dateStartStr: computed(() => {
         let prefix = ''
         if($q.screen.gt.sm) {
@@ -370,12 +375,10 @@ export default {
 
         return `${prefix}${dateEndStr.value}`
       }),
-      dateStartRaw, dateEndRaw,
-      save, uploadFile,
-      attachment, attachmentError,
-      formOpen,
-      guestWrapper,
-      guestLabel: computed(() => guestWrapper.value.length > 0 ? '' : t('agenda_label_guest'))
+      closeBtnColor: computed(() => $q.dark.isActive ? 'warning' : 'deep-purple'),
+      readonly: computed(() => $q.cookies.get(conf.userType) === '1' ? false : true),
+      guestLabel: computed(() => guestWrapper.value.length > 0 ? '' : t('agenda_label_guest')),
+      cardTitle: computed(() => isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')),
     }
   }
 }

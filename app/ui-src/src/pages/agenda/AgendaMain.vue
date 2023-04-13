@@ -9,25 +9,28 @@
       </q-card-section>
       <agenda-form />
       <delete-confirm 
-        vuex-module="agenda" 
+        :store="store"
         :custom-text="$t('agenda_delete_confirm')" 
-        action="delete" />
+        :action="store.delete()" />
       <calendar />
     </q-card>
   </div>
 </template>
 
 <script>
-import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import Calendar from './Calendar.vue'
 import AgendaForm from './AgendaForm.vue'
 import GuestSelector from './GuestSelector.vue'
+import { useAgendaStore } from 'src/stores/agenda'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   components: { Calendar, AgendaForm, GuestSelector },
   name: 'AgendaMain',
   setup () {
-    return { wrapperPadding, titleSpacing }
+    const store = useAgendaStore()
+
+    return { store, wrapperPadding, titleSpacing }
   }
 }
 </script>
