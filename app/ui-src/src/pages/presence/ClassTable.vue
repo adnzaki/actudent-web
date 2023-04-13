@@ -5,15 +5,15 @@
         <thead>
           <tr>
             <th class="text-center cursor-pointer">#</th>
-            <th class="text-left cursor-pointer" @click="sortData('grade_name')">{{ $t('kelas_nama') }} <sort-icon /></th>
-            <th class="text-left cursor-pointer mobile-hide" @click="sortData('staff_name')">{{ $t('kelas_wali') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer" @click="paging.sortData('grade_name')">{{ $t('kelas_nama') }} <sort-icon /></th>
+            <th class="text-left cursor-pointer mobile-hide" @click="paging.sortData('staff_name')">{{ $t('kelas_wali') }} <sort-icon /></th>
             <th class="text-left cursor-pointer mobile-hide">{{ $t('kelas_tahun') }}</th>
             <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td class="text-center">{{ $store.getters['grade/itemNumber'](index) }}</td>
+            <td class="text-center">{{ paging.itemNumber(index) }}</td>
             <td class="text-left mobile-hide">{{ item.grade_name }}</td>
             <td class="text-left mobile-only">{{ $trim(item.grade_name, 30) }}</td>
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
@@ -57,37 +57,35 @@
 </template>
 
 <script>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore, mapState, mapActions } from 'vuex'
+import { usePagingStore } from 'ss-paging-vue'
+import { useClassStore } from 'src/stores/class'
+import { usePresenceStore } from 'src/stores/presence'
 import { checkColWidth } from 'src/composables/screen'
 
 export default {
   name: 'ClassTable',
-  methods: {
-    ...mapActions('grade', [
-      'sortData'
-    ]),
-  },
-  computed: {
-    ...mapState('grade', {
-      data: state => state.paging.data,
-    })
-  },
   setup () {
-    const store = useStore()
+    const store = usePresenceStore()
+    const classStore = useClassStore()
+    const paging = usePagingStore()
     const router = useRouter()
 
     setTimeout(() => {
-      store.dispatch('grade/getClassList')  
+      classStore.getClassList()
     }, 500)
 
     const presenceAction = (id, name, url) => {
-      store.state.presence.className = name
+      store.className = name
       localStorage.setItem('class', name)
       router.push(`/presence/${url}/${id}`)
     }
 
-    return {
+    return { 
+      store,
+      paging,
+      data: computed(() => paging.state.data),
       checkColWidth,
       presenceAction
     }

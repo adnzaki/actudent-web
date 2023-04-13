@@ -13,6 +13,7 @@
           {{ `${lessonName} - ${className}` }}
         </div>
       </div>
+
       <div class="row" v-else>
         <q-btn color="teal" flat rounded
           class="back-button"
@@ -27,7 +28,7 @@
       </div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
-        <schedule-selector v-if="!$store.state.presence.isTeacherSection" />        
+        <schedule-selector v-if="!store.isTeacherSection" />
       </div>
     </q-card-section>
     <presence-table />
@@ -37,60 +38,59 @@
 </template>
 
 <script>
-import { useRouter, useRoute } from 'vue-router'
-import { useStore } from 'vuex'
 import { computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { titleSpacing } from 'src/composables/screen'
+import { usePresenceStore } from 'src/stores/presence'
 import MainButton from './MainButton.vue'
-import ScheduleSelector from './ScheduleSelector.vue'
-import PresenceTable from './PresenceTable.vue'
 import JournalForm from './JournalForm.vue'
+import PresenceTable from './PresenceTable.vue'
 import PermissionForm from './PermissionForm.vue'
+import ScheduleSelector from './ScheduleSelector.vue'
 
 export default {
   name: 'PresenceList',
   components: {
     MainButton,
-    ScheduleSelector,
-    PresenceTable,
     JournalForm,
-    PermissionForm
+    PresenceTable,
+    PermissionForm,
+    ScheduleSelector,
   },
   setup() {
     
     const route = useRoute()
-    const store = useStore()
     const router = useRouter()
-    const teacherSection = computed(() => store.state.presence.isTeacherSection)
+    const store = usePresenceStore()
+    const teacherSection = computed(() => store.isTeacherSection)
     const classId = teacherSection.value ? route.params.classId : route.params.id
 
-    store.state.presence.classID = classId
-    store.state.presence.presenceList = []
+    store.classID = classId
+    store.presenceList = []
 
     if(teacherSection.value) {
-      store.state.presence.scheduleID = route.params.scheduleId
-      store.state.presence.helper.activeDate = route.params.activeDate
-      store.state.presence.helper.activeDay = localStorage.getItem('date')
-      store.dispatch('presence/checkJournal')
+      store.scheduleID = route.params.scheduleId
+      store.helper.activeDate = route.params.activeDate
+      store.helper.activeDay = localStorage.getItem('date')
+
+      store.checkJournal()
     }
 
     const backToClassList = () => {
       const backUrl = teacherSection.value ? '/teacher/presence' : '/presence'
+
       router.push(backUrl)
-      store.state.presence.scheduleID = ''
-      store.state.presence.showJournalBtn = false
+      store.scheduleID = ''
+      store.showJournalBtn = false
     }
 
-    return {
-      className: store.state.presence.className === '' 
-                ? localStorage.getItem('class')
-                : store.state.presence.className,
-      lessonName: store.state.presence.lessonName === '' 
-                ? localStorage.getItem('lesson')
-                : store.state.presence.lessonName,
-      teacherSection,
+    return { 
+      store,
       titleSpacing,
-      backToClassList
+      teacherSection,
+      backToClassList,
+      className: store.className === '' ? localStorage.getItem('class') : store.className,
+      lessonName: store.lessonName === '' ? localStorage.getItem('lesson') : store.lessonName,
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.presence.showPeriodTable">
+  <div v-if="store.showPeriodTable">
     <q-scroll-area class="no-paging-scroll-area">
       <q-markup-table separator="cell" flat bordered>
         <thead>
@@ -33,21 +33,21 @@
   </div>
 </template>
 <script>
-import { mapState, useStore } from 'vuex'
-import { onMounted, onUnmounted } from 'vue'
+import { computed, onUnmounted } from 'vue'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'PeriodTable',
-  computed: {
-    ...mapState('presence', {
-      periodSummary: state => state.periodSummary
-    })
-  },
   setup() {
-    const store = useStore()
+    const store = usePresenceStore()
+
     onUnmounted(() => {
-      store.state.presence.showPeriodTable = false
+      store.showPeriodTable = false
     })
+
+    return {
+      periodSummary: computed(() => store.periodSummary)
+    }
   }
 }
 </script>

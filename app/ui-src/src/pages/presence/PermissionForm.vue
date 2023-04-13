@@ -1,6 +1,6 @@
 <template>
   <q-dialog no-backdrop-dismiss 
-    v-model="$store.state.presence.showPermissionForm" @hide="formClose">
+    v-model="store.showPermissionForm" @hide="formClose">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('absensi_form_izin_title') }}</div>
@@ -12,38 +12,39 @@
 
         <q-form class="q-gutter-xs" @submit.prevent="save">          
           <q-input outlined :label="$t('absensi_izin_label')" dense 
-            v-model="$store.state.presence.permissionNote" autofocus />
+            v-model="store.permissionNote" autofocus />
         </q-form>
         
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
         <q-btn flat :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" :disable="$store.state.presence.disableSaveButton" @click="save" color="primary" padding="8px 20px" />
+        <q-btn :label="$t('simpan')" :disable="store.disableSaveButton" @click="save" color="primary" padding="8px 20px" />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script>
+import { usePresenceStore } from 'src/stores/presence'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { useStore } from 'vuex'
 
 export default {
   name: 'PermissionForm',
   setup() {
-    const store = useStore()
+    const store = usePresenceStore()
 
     const save = () => {
-      store.dispatch('presence/submitPermission')
+      store.submitPermission()
     }
 
-    const formClose = () => store.state.presence.studentPresence = []
+    const formClose = () => store.studentPresence = []
 
-    return {
+    return { 
       save,
+      store,
+      formClose,
       maximizedDialog, cardDialog,
-      formClose
     }
   }
 }

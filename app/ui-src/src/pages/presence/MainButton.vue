@@ -3,10 +3,10 @@
     <div class="q-gutter-xs">
       <q-btn color="deep-purple" icon="assessment" 
         class="q-pl-sm mobile-hide" :label="$t('absensi_jurnal')"
-        v-if="showJournalBtn || isTeacherSection"
+        v-if="store.showJournalBtn || isTeacherSection"
         @click="showJournalForm"
       />
-      <q-btn-dropdown v-if="presenceButtons" color="info" icon="bookmark_add" class="q-pl-sm" :label="$t('aksi')">
+      <q-btn-dropdown v-if="store.presenceButtons" color="info" icon="bookmark_add" class="q-pl-sm" :label="$t('aksi')">
         <q-list>
           <q-item clickable v-close-popup @click="savePresence(1)">
             <q-item-section>
@@ -57,7 +57,7 @@
       :offset="fabPos" 
       class="mobile-only force-elevated">
       <q-btn fab icon="description" color="deep-purple" 
-        v-if="showJournalBtn || isTeacherSection"
+        v-if="store.showJournalBtn || isTeacherSection"
         @click="showJournalForm" 
       />
     </q-page-sticky>
@@ -65,38 +65,31 @@
 </template>
 
 <script>
-import { fabPos } from 'src/composables/fab'
+import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
-import { mapState, useStore } from 'vuex'
-import { useRouter, useRoute } from 'vue-router'
-import { computed } from 'vue'
+import { fabPos } from 'src/composables/fab'
 import { conf } from 'src/composables/common'
+import { useRouter, useRoute } from 'vue-router'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'MainButton',
-  computed: {
-    ...mapState('presence', {
-      presenceButtons: state => state.presenceButtons,
-      showJournalBtn: state => state.showJournalBtn,
-      isHomeroomTeacher: state => state.isHomeroomTeacher
-    })
-  },
   setup() {
     const $q = useQuasar()
     const { t } = useI18n()
     const router = useRouter()
     const route = useRoute()
-    const store = useStore()
-    const isTeacherSection = computed(() => store.state.presence.isTeacherSection)
+    const store = usePresenceStore()
+    const isTeacherSection = computed(() => store.isTeacherSection)
 
     const exportReportUrl = type => { // type = "jurnal" | "absen"
       const params = {
         grade_id: isTeacherSection.value ? route.params.classId : route.params.id,
-        day: store.state.presence.helper.activeDay === '' 
+        day: store.helper.activeDay === '' 
              ? localStorage.getItem('date') 
-             : store.state.presence.helper.activeDay,
-        date: store.state.presence.helper.activeDate,
+             : store.helper.activeDay,
+        date: store.helper.activeDate,
         token: $q.cookies.get(conf.cookieName)
       }
 
@@ -107,27 +100,28 @@ export default {
 
     const backToClassList = () => {
       router.push('/presence')
-      store.state.presence.scheduleID = ''
-      store.state.presence.showJournalBtn = false
+      store.scheduleID = ''
+      store.showJournalBtn = false
     }
 
     const showPermissionForm = () => {
-      store.commit('presence/multiPresence', () => store.state.presence.showPermissionForm = true)   
+      store.multiPresence(() => store.showPermissionForm = true)   
     }
 
     const savePresence = status => {
-      store.commit('presence/multiPresence', () => store.dispatch('presence/savePresence', { status }))
+      store.multiPresence(() => store.savePresence({ status }))
     }
 
-    return {
+    return { 
+      store,
       fabPos,
-      printLabel: $q.screen.lt.sm ? '' : t('absensi_cetak_laporan'),
-      backToClassList,
-      showJournalForm: () => store.state.presence.showJournalForm = true,
-      showPermissionForm,
       savePresence,
       exportReportUrl,
+      backToClassList,
       isTeacherSection,
+      showPermissionForm,
+      showJournalForm: () => store.showJournalForm = true,
+      printLabel: $q.screen.lt.sm ? '' : t('absensi_cetak_laporan'),
     }
   }
 }

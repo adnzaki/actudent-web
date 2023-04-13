@@ -16,13 +16,11 @@
       </template>
     </q-input>   
   </div>
-  <div class="col-12 col-sm-6 q-mt-sm q-pr-sm"
-    >
+  <div class="col-12 col-sm-6 q-mt-sm q-pr-sm">
     <dropdown-search 
-      vuex-module="presence"
       :selected="getPresence"
       :label="$t('absensi_pilih_jadwal')"
-      :list="$store.state.presence.schedule"
+      :list="store.schedule"
       :options-value="{ label: 'text', value: 'id' }"
       load-on-route
     />      
@@ -31,53 +29,56 @@
 
 <script>
 import { ref } from 'vue'
+import { date } from 'quasar'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-import { date, useQuasar } from 'quasar'
 import { selectedLang } from '../../composables/date'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'ScheduleSelector',
   setup() {
     const route = useRoute()
-    const store = useStore()
+    const store = usePresenceStore()
+
     const today = new Date()
     const dateValue = ref(today)
-    const selectedDate = ref(date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang))
     const getDay = today.getDay()
     const activeDate = val => date.formatDate(val, 'YYYY-MM-DD')
+    const selectedDate = ref(date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang))
 
-    store.state.presence.helper.activeDay = getDay
-    store.state.presence.helper.activeDate = activeDate(today)
-    store.dispatch('presence/getSchedules', route.params.id)
+    store.helper.activeDay = getDay
+    store.helper.activeDate = activeDate(today)
+    
+    store.getSchedules(route.params.id)
 
     const dateChanged = (val, reason, details) => {
       const getDate = new Date(details.year, details.month - 1, details.day)
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
-      store.state.presence.helper.activeDay = getDate.getDay()
-      store.state.presence.helper.activeDate = activeDate(getDate)
 
-      store.dispatch('presence/getSchedules', route.params.id)
+      store.helper.activeDay = getDate.getDay()
+      store.helper.activeDate = activeDate(getDate)
 
+      store.getSchedules(route.params.id)
 
-      if(store.state.presence.scheduleID === '') {
-        store.state.presence.showJournalBtn = false
+      if(store.scheduleID === '') {
+        store.showJournalBtn = false
       } else {
-        store.state.presence.showJournalBtn = true
+        store.showJournalBtn = true
       }
     }
 
     const getPresence = model => {
-      store.state.presence.scheduleID = model.value
-      store.dispatch('presence/checkJournal')
-      store.state.presence.showJournalBtn = true
+      store.scheduleID = model.value
+      store.checkJournal()
+      store.showJournalBtn = true
     }
     
-    return {
-      selectedDate,
+    return { 
+      store,
       dateValue,
       dateChanged, 
       getPresence,
+      selectedDate,
     }
   }
 }

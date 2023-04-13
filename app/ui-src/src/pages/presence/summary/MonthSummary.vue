@@ -11,14 +11,14 @@
           {{ $t('absensi_rekap_bulanan') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
-          {{ `${$t('absensi_rekap_bulanan')} - ${$store.state.presence.className}` }}
+          {{ `${$t('absensi_rekap_bulanan')} - ${store.className}` }}
         </div>
       </div>
       <div :class="['row q-mt-md', titleSpacing()]">
         <month-selector />
       </div>
     </q-card-section>
-    <div class="q-pa-md summary-spinner" v-if="$store.state.presence.showSpinner">
+    <div class="q-pa-md summary-spinner" v-if="store.showSpinner">
       <q-spinner-bars color="purple" size="xl" />
     </div>
     <month-table />
@@ -26,33 +26,34 @@
 </template>
 
 <script>
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-import { titleSpacing } from 'src/composables/screen'
-import MonthSelector from './MonthSelector.vue'
-import MonthTable from './MonthTable.vue'
 import { useQuasar } from 'quasar'
+import { useRoute } from 'vue-router'
+import { titleSpacing } from 'src/composables/screen'
+import { usePresenceStore } from 'src/stores/presence'
+import MonthTable from './MonthTable.vue'
+import MonthSelector from './MonthSelector.vue'
 
 export default {
-  name: 'MonthSummory',
+  name: 'MonthSummary',
   components: {
+    MonthTable,    
     MonthSelector,
-    MonthTable    
   },
   setup() {
     const $q = useQuasar()
     const route = useRoute()
-    const store = useStore()
+    const store = usePresenceStore()
 
-    store.commit('presence/getClassName', route.params.id)
-    store.state.presence.classID = route.params.id
-    store.state.presence.showMonthTable = false
-    store.state.presence.monthlySummary = {}
+    store.getClassName(route.params.id)
+    store.classID = route.params.id
+    store.showMonthTable = false
+    store.monthlySummary = {}
 
-    return {
+    return { 
+      store,
+      titleSpacing,
       pushLeft: $q.screen.lt.sm ? '' : 'page-title-pl-5',
       showBackBtn: localStorage.getItem('grade_id') === null ? true : false,
-      titleSpacing
     }
   }
 }

@@ -5,7 +5,7 @@
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]">
-              <q-checkbox v-model="$store.state.presence.checkAll" @update:model-value="selectAll" />
+              <q-checkbox v-model="store.checkAll" @update:model-value="store.selectAll()" />
             </th>
             <th class="text-left">{{ $t('siswa_nama') }}</th>
             <th class="text-left">Status</th>
@@ -15,7 +15,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in presenceList" :key="index">
-            <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="$store.state.presence.studentPresence" :val="item.id" /></td>
+            <td :class="['text-left', checkColWidth()]"><q-checkbox v-model="store.studentPresence" :val="item.id" /></td>
             <td class="text-left mobile-hide">{{ item.name }}</td>
             <td class="text-left mobile-only">{{ $trim(item.name, 30) }}</td>
             <td class="text-left">
@@ -44,46 +44,44 @@
 
 <script>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'PresenceTable',
   setup () {
-    const store = useStore()
-
-    const selectAll = () => store.commit('presence/selectAll')
+    const store = usePresenceStore()
 
     const savePresence = (status, studentId) => {
-      store.dispatch('presence/savePresence', { status, studentId })
+      store.savePresence({ status, studentId })
     }
 
     const presenceStatus = status => {
       const colors = [
+        'info',
+        'orange',
         'negative',
         'positive',
-        'info',
-        'orange'
       ]
 
-      return colors[status]
+      return colors[ status ]
     }
 
     const showPermissionForm = id => {
-      store.state.presence.studentPresence = [ id ]
-      store.state.presence.showPermissionForm = true
+      store.studentPresence = [ id ]
+      store.showPermissionForm = true
     }
 
-    return {
-      btnAndTableDistance: store.state.presence.isTeacherSection ? 'q-mt-sm' : 'q-mt-lg',
-      scrollArea: store.state.presence.isTeacherSection ? 'no-paging-scroll-area' : 'table-scroll-area',
-      checkColWidth,
-      selectAll,
-      presenceList: computed(() => store.state.presence.presenceList),
-      presenceButtons: computed(() => store.state.presence.presenceButtons),
+    return { 
+      store,
       savePresence,
+      checkColWidth,
       presenceStatus,
-      showPermissionForm
+      showPermissionForm,
+      presenceList: computed(() => store.presenceList),
+      presenceButtons: computed(() => store.presenceButtons),
+      btnAndTableDistance: store.isTeacherSection ? 'q-mt-sm' : 'q-mt-lg',
+      scrollArea: store.isTeacherSection ? 'no-paging-scroll-area' : 'table-scroll-area',
     }
   }
 }

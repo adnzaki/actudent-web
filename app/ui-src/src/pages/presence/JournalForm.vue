@@ -1,6 +1,6 @@
 <template>
   <q-dialog no-backdrop-dismiss 
-    v-model="$store.state.presence.showJournalForm"
+    v-model="store.showJournalForm"
     :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -11,28 +11,28 @@
 
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">          
-          <q-input outlined :label="$t('absensi_isi_jurnal')" dense v-model="journal.description" type="textarea" />
+          <q-input outlined :label="$t('absensi_isi_jurnal')" dense v-model="store.journal.description" type="textarea" />
           <error :label="error.description" />
           <q-separator />
 
           <q-checkbox 
-            v-model="$store.state.presence.helper.homework" 
+            v-model="store.helper.homework" 
             @update:model-value="addHomework"
             :label="$t('absensi_sertakan_pr')" 
           />
 
-        <div v-if="helper.homework" class="q-gutter-xs">
-          <q-input outlined :label="$t('absensi_input_judul')" dense v-model="journal.homework_title" />
+        <div v-if="store.helper.homework" class="q-gutter-xs">
+          <q-input outlined :label="$t('absensi_input_judul')" dense v-model="store.journal.homework_title" />
           <error :label="error.homework_title" />
 
-          <q-input outlined :label="$t('absensi_detail_pr')" dense v-model="journal.homework_description" type="textarea" />
+          <q-input outlined :label="$t('absensi_detail_pr')" dense v-model="store.journal.homework_description" type="textarea" />
           <error :label="error.homework_description" />
 
-          <q-input v-model="journal.due_date" outlined dense mask="date" :rules="['date']">
+          <q-input v-model="store.journal.due_date" outlined dense mask="date" :rules="['date']">
             <template v-slot:append>
               <q-icon name="event" class="cursor-pointer">
                 <q-popup-proxy ref="qDateProxy" cover transition-show="scale" transition-hide="scale">
-                  <q-date v-model="journal.due_date" today-btn>
+                  <q-date v-model="store.journal.due_date" today-btn>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup :label="$t('tutup')" color="primary" flat />
                     </div>
@@ -47,8 +47,8 @@
         <q-btn outline color="secondary" style="width: 100%;" 
           class="q-mt-sm"
           :disable="disableSaveButton"
-          v-if="$store.state.presence.salinJurnal"
-          @click="$store.dispatch('presence/copyJournal')">
+          v-if="store.salinJurnal"
+          @click="store.copyJournal()">
           {{ $t('absensi_salin_jurnal_label') }}
         </q-btn>
       </q-card-section>
@@ -62,40 +62,36 @@
 </template>
 
 <script>
-import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
-import { todayStr } from '../../composables/date'
 import { date } from 'quasar'
+import { computed } from 'vue'
+import { todayStr } from '../../composables/date'
+import { usePresenceStore } from 'src/stores/presence'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
   name: 'JournalForm',
-  computed: {
-    ...mapState('presence', {
-      error: state => state.error,
-      helper: state => state.helper,
-      disableSaveButton: state => state.helper.disableSaveButton,
-      journal: state => state.journal
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = usePresenceStore()
 
     const addHomework = () => {
-      store.state.presence.journal.due_date = date.formatDate(todayStr, 'YYYY-MM-DD')
+      store.journal.due_date = date.formatDate(todayStr, 'YYYY-MM-DD')
     }
     
     const save = () => {
-      store.dispatch('presence/saveJournal')
+      store.saveJournal()
     }
 
-    if(store.state.presence.journal.description !== '') {
-      store.state.presence.salinJurnal = false
+    if(store.journal.description !== '') {
+      store.salinJurnal = false
     }
 
-    return {
-      save,
-      maximizedDialog, cardDialog,
+    return { 
+      save, 
+      store,
       addHomework,
+      maximizedDialog, cardDialog,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }
