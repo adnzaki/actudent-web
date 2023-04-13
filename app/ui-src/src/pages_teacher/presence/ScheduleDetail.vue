@@ -1,6 +1,6 @@
 <template>
   <q-dialog no-backdrop-dismiss 
-    v-model="$store.state.presence.showScheduleDetail">
+    v-model="store.showScheduleDetail">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('guru_detail_jadwal') }}</div>
@@ -30,18 +30,19 @@
 </template>
 
 <script>
-import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { usePresenceStore } from 'src/stores/presence'
+import { maximizedDialog, cardDialog } from 'src/composables/screen'
 
 export default {
   name: 'ScheduleDetail',
   setup() {
-    const store = useStore()
+    const store = usePresenceStore()
 
     return {
-      detail: computed(() => store.state.presence.scheduleDetail),
+      store,
       maximizedDialog, cardDialog,
+      detail: computed(() => store.scheduleDetail),
     }
   }
 }

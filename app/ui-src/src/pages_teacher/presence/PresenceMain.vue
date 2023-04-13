@@ -6,13 +6,13 @@
 
 <script>
 import { wrapperPadding } from 'src/composables/screen'
-import { useStore } from 'vuex'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'PresenceMain',
   setup() {
-    const store = useStore()
-    store.state.presence.isTeacherSection = true
+    const store = usePresenceStore()
+    store.isTeacherSection = true
 
     return { 
       wrapperPadding 

@@ -21,14 +21,14 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
 import { date } from 'quasar'
+import { computed } from 'vue'
 import { t } from 'src/composables/common'
+import { useAgendaStore } from 'src/stores/agenda'
 
 export default {
   setup() {
-    const store = useStore()
+    const store = useAgendaStore()
 
     const formatDate = v => date.formatDate(v, 'YYYY-MM-DD')
 
@@ -36,7 +36,7 @@ export default {
     const defaultStartDate = date.subtractFromDate(defaultStart, { days: 7 })
     const defaultEnd = date.addToDate(defaultStart, { days: 14, months: 1 })
 
-    store.dispatch('agenda/getEvents', {
+    store.getEvents({
       view: '',
       start: formatDate(defaultStartDate),
       end: formatDate(defaultEnd)
@@ -61,7 +61,7 @@ export default {
 
         return colors[ priority ]
       },
-      events: computed(() => store.state.agenda.events)
+      events: computed(() => store.events)
     } 
   }
 }
