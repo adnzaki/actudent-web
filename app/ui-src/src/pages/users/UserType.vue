@@ -12,14 +12,14 @@
 
 <script>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
 import { t } from 'src/composables/common'
+import { useUserStore } from 'src/stores/user'
 
 export default {
   setup() {
-    const options = ref([])
     const model = ref({})
-    const store = useStore()
+    const options = ref([])
+    const store = useUserStore()
     
     setTimeout(() => {
       options.value = [
@@ -35,16 +35,12 @@ export default {
       
     }, 1500);
 
-    const getUsers = () => {
-      store.dispatch('users/getUsers')
-    }
-
-    getUsers()
+    store.getUsers()
     
     return {
-      getUserByType: model => store.dispatch('users/getUserByType', model),
-      options,
       model,
+      options,
+      getUserByType: model => store.getUserByType(model),
     }
   } 
 }

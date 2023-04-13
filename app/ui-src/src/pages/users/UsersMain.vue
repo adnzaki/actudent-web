@@ -7,26 +7,29 @@
         <div :class="['row', titleSpacing()]">
           <!-- <main-button class="q-mt-sm" /> -->
           <user-type class="justify-data-options" />
-          <row-dropdown vuex-module="users" class="q-mt-sm" root-class="col-12 col-md-2" />
-          <search-box :label="$t('user_cari')" vuex-module="users" class="q-mt-sm" />
+          <row-dropdown class="q-mt-sm" root-class="col-12 col-md-2" />
+          <search-box :label="$t('user_cari')" class="q-mt-sm" />
         </div>
       </q-card-section>
+
       <user-table />
+
       <reset-password-form />
-      <delete-confirm vuex-module="users" 
+      <delete-confirm 
+        :store="store"
         :ok-button-text="$t('user_deactivate').split(' ')[0]" 
         :custom-text="$t('user_deactivate_confirm')" 
-        action="deactivate" />
+        :action="store.deactivate()" />
     </q-card>
   </div>
 </template>
 
 <script>
-import { computed } from 'vue'
-import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 import UserType from './UserType.vue'
 import UserTable from './UserTable.vue'
 import ResetPasswordForm from './ResetPasswordForm.vue'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
+import { useUserStore } from 'src/stores/user'
 
 export default {
   components: {
@@ -35,7 +38,9 @@ export default {
     ResetPasswordForm
   },
   setup() {
-    return { wrapperPadding, titleSpacing }
+    const store = useUserStore()
+
+    return { store, wrapperPadding, titleSpacing }
   }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.users.showForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.showForm" 
     @before-show="formOpen" :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
@@ -10,7 +10,7 @@
 
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
-          <q-input outlined disable :label="$t('user_label_nama')" class="q-mb-lg" dense v-model="$store.state.users.detail.name" />
+          <q-input outlined disable :label="$t('user_label_nama')" class="q-mb-lg" dense v-model="store.detail.name" />
 
           <q-input outlined :label="$t('user_pass')" dense 
             v-model="formData.user_password" type="password" />
@@ -32,18 +32,12 @@
 
 <script>
 import { ref, computed } from 'vue'
+import { useUserStore } from 'src/stores/user'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
 
 export default {
-  computed: {
-    ...mapState('users', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton,
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useUserStore()
 
     const formData = ref({
       user_password: '',
@@ -51,29 +45,32 @@ export default {
     })
     
     const save = () => {
-      store.dispatch('users/save', {
+      store.save({
         data: formData.value,
-        id: store.state.users.detail.id
+        id: store.detail.id
       })
     }
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.users.saveStatus)
+      const saveStatus = computed(() => store.saveStatus)
       if(saveStatus.value === 200) {
         formData.value = {
           user_password: '',
           user_password_confirm: ''
         }
 
-        store.state.users.saveStatus = 500
+        store.saveStatus = 500
       }
     }
 
     return {
-      formData,
       save,
-      maximizedDialog, cardDialog,
+      store,
+      formData,
       formOpen,
+      maximizedDialog, cardDialog,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

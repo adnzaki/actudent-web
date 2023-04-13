@@ -13,7 +13,7 @@
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td class="text-center mobile-hide">{{ $store.getters['users/itemNumber'](index) }}</td>
+            <td class="text-center mobile-hide">{{ paging.itemNumber(index) }}</td>
             <td class="text-left">{{ item.name }}</td>
             <td class="text-left mobile-hide">{{ item.email }}</td>
             <td class="text-left mobile-hide">{{ item.level }}</td>
@@ -58,21 +58,25 @@
 
 <script>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { checkColWidth } from 'src/composables/screen'
 import { conf } from 'src/composables/common'
+import { useUserStore } from 'src/stores/user'
+import { usePagingStore } from 'ss-paging-vue'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
   setup () {
-    const store = useStore()
+    const store = useUserStore()
+    const paging = usePagingStore()
 
     return {
       conf,
-      showDeactivateConfirm: id => store.commit('users/showDeactivateConfirm', id),
-      sortData: sortBy => store.dispatch('users/sortData', sortBy),
-      getDetail: id => store.dispatch('users/getUserDetail', id),
-      data: computed(() => store.state.users.paging.data),
-      checkColWidth
+      store,
+      paging,
+      checkColWidth,
+      data: computed(() => paging.state.data),
+      getDetail: id => store.getUserDetail(id),
+      sortData: sortBy => store.sortData(sortBy),
+      showDeactivateConfirm: id => store.showDeactivateConfirm(id),
     }
   }
 }
