@@ -21,11 +21,11 @@ const fetchLang = (file, selectedLang) => {
     })
 }
 
-const pushLang = (data, selectedLang) => {  
-  if(lang.value.length === 0) {
+const pushLang = (data, selectedLang) => {
+  if (lang.value.length === 0) {
     lang.value[selectedLang] = data
   } else {
-    for(let item in data) {
+    for (let item in data) {
       lang.value[selectedLang][item] = data[item]
     }
   }

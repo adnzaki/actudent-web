@@ -9,7 +9,7 @@ const routes = [
     children: admin.concat(teacher),
     beforeEnter: () => triggerMode()
   },
-  { path: '/login', component: () => import('layouts/Login.vue') },
+  { path: '/login', component: () => import('src/layouts/Login.vue') },
 
   // Always leave this as last one,
   // but you can also remove it

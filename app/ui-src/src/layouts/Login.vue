@@ -120,7 +120,7 @@ export default {
     if (userType === "1") url = "/home";
     else if (userType === "2" || userType === "0") url = "/teacher/home";
 
-    if (to.path === "/login" && isAuthenticated) next({ path: url });
+    if (to.path === "/login" && isAuthenticated.value) next({ path: url });
     else next();
   },
   setup() {

@@ -4,9 +4,9 @@ import { Cookies } from 'quasar'
 import { runLoadingBar } from 'src/composables/common'
 import { checkSubscription, bearerToken, redirect } from 'src/composables/subscription'
 
-function validateToken (validator, teacherReport) {
+function validateToken(validator, teacherReport) {
   runLoadingBar()
-  if(Cookies.has(conf.cookieName)) {
+  if (Cookies.has(conf.cookieName)) {
     core.get(`validate-token/${validator}`, {
       headers: {
         Authorization: bearerToken
@@ -15,15 +15,15 @@ function validateToken (validator, teacherReport) {
       .then(({ data }) => {
         if (data.status === 503) {
           redirect()
-          console.warn('Connection to API failed. Any request will be rejected and redirected to Login page.')
+          console.warn('[Actudent] Connection to API failed. Any request will be rejected and redirected to Login page.')
         } else {
-          console.info('Successfully established connection to Actudent API.')
-          if(teacherReport && data.check === 0) {
+          console.info('[Actudent] Successfully established connection to Actudent API.')
+          if (teacherReport && data.check === 0) {
             window.location.href = conf.teacherHomeUrl()
           }
 
           localStorage.setItem(conf.userLang, data.lang)
-          console.info('App language synced. Need a full reload to take effect')
+          console.info('[Actudent] App language synced. Need a full reload to take effect')
         }
       })
       .catch((error) => {
@@ -41,9 +41,9 @@ function routeValidator(type = 'is_admin', teacherReport = false) {
   validateToken(type, teacherReport)
 }
 
-export { 
-  redirect, 
-  bearerToken, 
-  validateToken, 
+export {
+  redirect,
+  bearerToken,
+  validateToken,
   routeValidator,
 }

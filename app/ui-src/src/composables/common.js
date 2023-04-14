@@ -1,5 +1,5 @@
-import { ref } from 'vue'
 import { Cookies } from 'quasar'
+import { ref, computed } from 'vue'
 import { i18n } from 'boot/i18n'
 import { runLoadingBar } from './loading-bar'
 import { validateToken } from './validate-token'
@@ -10,19 +10,19 @@ import { appConfig as conf } from '../../actudent.config'
 import { flashAlert, errorNotif, timeout } from './notify'
 
 const userType = Cookies.get(conf.userType)
-const isAuthenticated = Cookies.get(conf.cookieName) !== null
+const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)
 
 const trim = (text, length = 25, ellipsis = true) => {
   const dots = ellipsis ? '...' : ''
-  const returnedText = text.length <= length 
-                     ? text
-                     : text.substring(0, length) + dots
-  
+  const returnedText = text.length <= length
+    ? text
+    : text.substring(0, length) + dots
+
   return returnedText
 }
 
 const apiEndpoint = Cookies.get(conf.userType) === '1'
-                  ? conf.adminAPI : conf.teacherAPI
+  ? conf.adminAPI : conf.teacherAPI
 
 const t = key => i18n.global.t(key)
 
@@ -51,7 +51,7 @@ function getSchool() {
 function createFormData(obj) {
   let formData = new FormData()
 
-  for(let item in obj) {
+  for (let item in obj) {
     formData.append(item, obj[item])
   }
 
