@@ -1,15 +1,16 @@
-import { Cookies } from 'quasar'
 import { ref } from 'vue'
-import { axios, core, admin, teacher } from 'boot/axios'
+import { Cookies } from 'quasar'
 import { i18n } from 'boot/i18n'
-import { appConfig as conf } from '../../actudent.config'
-import { bearerToken, validateToken, redirect } from './validate-token'
 import { runLoadingBar } from './loading-bar'
-import { flashAlert, errorNotif, timeout } from './notify'
+import { validateToken } from './validate-token'
 import { pengguna, getPengguna } from './get-pengguna'
+import { bearerToken, redirect } from './subscription'
+import { axios, core, admin, teacher } from 'boot/axios'
+import { appConfig as conf } from '../../actudent.config'
+import { flashAlert, errorNotif, timeout } from './notify'
 
-const isAuthenticated = Cookies.get(conf.cookieName) !== null
 const userType = Cookies.get(conf.userType)
+const isAuthenticated = Cookies.get(conf.cookieName) !== null
 
 const trim = (text, length = 25, ellipsis = true) => {
   const dots = ellipsis ? '...' : ''
@@ -58,26 +59,26 @@ function createFormData(obj) {
 }
 
 export {
-  userType,
-  isAuthenticated,
-  formatDate,
-  trim,
-  apiEndpoint,
-  Cookies,
+  t,
   ref,
-  axios, core, admin, teacher,
+  trim,
   conf,
+  school,
+  Cookies,
+  timeout,
+  redirect,
+  userType,
+  getSchool,
+  formatDate,
+  errorNotif,
+  flashAlert,
+  apiEndpoint,
   bearerToken,
   validateToken,
-  redirect,
-  school,
-  getSchool,
   runLoadingBar,
-  flashAlert,
-  errorNotif,
-  timeout,
   createFormData,
+  isAuthenticated,
+  createQueryString,
   pengguna, getPengguna,
-  t,
-  createQueryString
+  axios, core, admin, teacher,
 }

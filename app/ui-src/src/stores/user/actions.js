@@ -1,4 +1,4 @@
-import { 
+import {
   conf,
   bearerToken,
   admin,
@@ -8,9 +8,7 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from 'ss-paging-vue'
-
-const paging = usePagingStore()
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   deactivate() {
@@ -61,8 +59,8 @@ export default {
       .then(({ data }) => {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
-        
-        if(data.code === '500') {
+
+        if (data.code === '500') {
           this.error = data.msg
           notifyProgress({
             message: `Error! ${t('user_error_text')}`,
@@ -85,7 +83,7 @@ export default {
   resetForm() {
     this.error = {}
     this.current = 1
-    paging.reloadData()
+    paging().reloadData()
   },
   getUserDetail(id) {
     this.error = {}
@@ -99,12 +97,12 @@ export default {
   },
   getUsers(afterSave = false) {
     const limit = 25
-    this.paging.rows = limit
+    this.paging().rows = limit
 
-    paging.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: afterSave ? this.paging.limit : limit,
+      limit: afterSave ? this.paging().limit : limit,
       offset: this.current - 1,
       orderBy: 'user_name',
       searchBy: [
@@ -121,8 +119,8 @@ export default {
     })
   },
   getUserByType(model) {
-    this.paging.whereClause = model.value
-    paging.runPaging()
+    this.paging().whereClause = model.value
+    paging().runPaging()
   },
 
   // From Vuex mutations

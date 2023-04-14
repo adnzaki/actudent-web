@@ -7,13 +7,13 @@ import DailyReportMain from 'src/pages_teacher/daily_report/DailyReportMain.vue'
 import MonthSummary from 'src/pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'src/pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
-import AppSettingsMain from 'pages/app_settings/Index.vue'
+import AppSettingsMain from 'src/pages/app_settings/IndexPage.vue'
 
 export default [
-  { 
+  {
     path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token'), children: [
-      { path: 'home', component: TeacherIndex,  beforeEnter: () => routeValidator('valid_token') },
-    ],    
+      { path: 'home', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token') },
+    ],
   },
   {
     path: 'teacher/presence', component: PresenceMain, beforeEnter: () => routeValidator('is_teacher'),

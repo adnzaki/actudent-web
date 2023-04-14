@@ -5,8 +5,8 @@
 </template>
 
 <script>
-  export default {
-    name: 'Error',
-    props: ['label'],
-  }
+export default {
+  name: "ErrorMessage",
+  props: ["label"],
+};
 </script>

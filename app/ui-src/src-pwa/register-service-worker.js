@@ -1,8 +1,4 @@
 import { register } from 'register-service-worker'
-import { flashAlert } from 'src/composables/notify'
-import { Notify, Cookies } from 'quasar'
-import { mode } from '../globalConfig'
-import { appConfig as conf } from '../actudent.config'
 
 // The ready(), registered(), cached(), updatefound() and updated()
 // events passes a ServiceWorkerRegistration instance in their arguments.
@@ -36,7 +32,6 @@ register(process.env.SERVICE_WORKER_FILE, {
   },
 
   offline () {
-    flashAlert('No internet connection, you are currently in offline mode', 'negative')
     // console.log('No internet connection found. App is running in offline mode.')
   },
 

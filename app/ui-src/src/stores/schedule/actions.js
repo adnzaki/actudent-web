@@ -1,4 +1,4 @@
-import { 
+import {
   Cookies,
   conf,
   bearerToken,
@@ -9,9 +9,7 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from 'ss-paging-vue'
-
-const paging = usePagingStore()
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   saveSettings() {
@@ -37,7 +35,7 @@ export default {
     })
       .then(res => {
         notifyProgress({ timeout })
-        if(res.code === '500') {
+        if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
             message: `Error! ${t('jadwal_unable_update_setting')}`,
@@ -46,7 +44,7 @@ export default {
           })
         } else {
           this.showSettingsForm = false
-  
+
           notifyProgress({
             message: t('jadwal_success_update_setting'),
             color: 'positive',
@@ -58,9 +56,9 @@ export default {
   },
   saveSchedules() {
     let data = JSON.stringify(this.schedule.lessonsInput),
-        toBeDeleted = JSON.stringify(this.schedule.toBeDeletedSchedule)
+      toBeDeleted = JSON.stringify(this.schedule.toBeDeletedSchedule)
 
-    const schedules = { jadwal:  data, hapus: toBeDeleted }
+    const schedules = { jadwal: data, hapus: toBeDeleted }
 
     this.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
@@ -90,7 +88,7 @@ export default {
         // show the lesson list
         this.schedule.showLessonList = true
 
-        this.schedule.isBreak = false  
+        this.schedule.isBreak = false
         this.schedule.lessonsInput = []
         this.schedule.toBeDeletedSchedule = []
         this.schedule.breakDuration = 0
@@ -110,7 +108,7 @@ export default {
   },
   deleteLesson() {
     let idString
-    if(this.lesson.selected.length > 1) {
+    if (this.lesson.selected.length > 1) {
       idString = this.lesson.selected.join('-')
     } else {
       idString = this.lesson.selected[0]
@@ -156,7 +154,7 @@ export default {
     let url = `simpan-mapel/${this.classID}`
 
     // if it is edit form
-    if(payload.edit) url = `${url}/${payload.id}`
+    if (payload.edit) url = `${url}/${payload.id}`
 
     this.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
@@ -178,7 +176,7 @@ export default {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
-        if(res.code === '500') {
+        if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
             message: `Error! ${t('jadwal_save_error')}`,
@@ -189,7 +187,7 @@ export default {
           this.lesson.saveStatus = 200
 
           this.resetForm(this.classID)
-          if(payload.edit) {
+          if (payload.edit) {
             this.lesson.showEditForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('jadwal_edit_success')}`,
@@ -217,9 +215,9 @@ export default {
   },
   getClassList() {
     const limit = 25
-    paging.state.rows = limit
-    
-    paging.getData({
+    paging().state.rows = limit
+
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,
@@ -257,7 +255,7 @@ export default {
 
         // default lesson options
         this.schedule.lessonOptions = this.schedule.normalList
-        if(this.schedule.lessonOptions.length > 0) {
+        if (this.schedule.lessonOptions.length > 0) {
           this.schedule.defaultLesson = {
             label: this.schedule.lessonOptions[0].text,
             value: this.schedule.lessonOptions[0].id
@@ -268,9 +266,9 @@ export default {
   removeLesson(id) {
     // Remove item from this.schedule.lessonsInput
     let lessons = this.schedule.lessonsInput,
-        index = lessons.findIndex(el => {
-          return el.id === id
-        })
+      index = lessons.findIndex(el => {
+        return el.id === id
+      })
     lessons.splice(index, 1)
 
     // If they are existing data from server,
@@ -286,10 +284,10 @@ export default {
       index = this.schedule.lessonsInput.length
     }
 
-    if(!this.schedule.isBreak) {
+    if (!this.schedule.isBreak) {
       let lesson = data.lesson,
-          room = data.room,
-          duration = data.duration
+        room = data.room,
+        duration = data.duration
 
       let scheduleID, lessonGradeID
       if (this.schedule.scheduleType === 'lesson') {
@@ -297,12 +295,12 @@ export default {
         lessonGradeID = lesson.value
       } else {
         const split = lesson.value.split('-')
-        
+
         scheduleID = `inactive-${split[0]}`
         lessonGradeID = split[1]
       }
 
-      schedule = { 
+      schedule = {
         id: scheduleID,
         val: lessonGradeID, // lessons_grade_id
         room: room.value, // room_id
@@ -336,7 +334,7 @@ export default {
     })
       .then(response => {
         this.rooms = response.data
-        if(this.rooms.length > 0) {
+        if (this.rooms.length > 0) {
           this.schedule.defaultRoom = {
             label: this.rooms[0].text,
             value: this.rooms[0].id
@@ -382,7 +380,7 @@ export default {
       .then(response => {
         this.schedule.list = response.data.schedule
         this.className = response.data.class_name
-        
+
         this.classID = grade
       })
   },
@@ -399,13 +397,13 @@ export default {
   },
   getLessonOptions(grade) {
     this.classID = grade
-    
+
     admin.get(`${this.scheduleApi}pilihan-mapel/${grade}`, {
       headers: { Authorization: bearerToken },
     })
       .then(response => {
         this.lesson.options = response.data
-        if(response.data.length > 0) {
+        if (response.data.length > 0) {
           this.lesson.lessonId = response.data[0].id
         }
       })
@@ -416,7 +414,7 @@ export default {
     this.deleteConfirm = true
   },
   multipleDeleteConfirm() {
-    if(this.lesson.selected.length > 0) {
+    if (this.lesson.selected.length > 0) {
       this.deleteConfirm = true
     } else {
       flashAlert(t('pilih_data_dulu'), 'negative')
@@ -428,7 +426,7 @@ export default {
     this.checkAll = false
   },
   selectAllLessons() {
-    if(this.lesson.checkAll) {
+    if (this.lesson.checkAll) {
       this.lesson.list.forEach(item => {
         this.lesson.selected.push(item.lessons_grade_id)
       })

@@ -1,4 +1,4 @@
-import { 
+import {
   Cookies,
   conf,
   bearerToken,
@@ -11,17 +11,15 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from 'ss-paging-vue'
-
-const paging = usePagingStore()
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   deleteRoom() {
     let idString
-    if(this.selectedRooms.length > 1) {
-        idString = this.selectedRooms.join('-')
+    if (this.selectedRooms.length > 1) {
+      idString = this.selectedRooms.join('-')
     } else {
-        idString = this.selectedRooms[0]
+      idString = this.selectedRooms[0]
     }
 
     // show notify
@@ -49,7 +47,7 @@ export default {
           color: 'positive',
           icon: 'done',
           spinner: false,
-           timeout
+          timeout
         })
 
         // refresh data
@@ -79,7 +77,7 @@ export default {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
-        if(res.code === '500') {
+        if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
             message: `Error! ${t('ruang_error_text')}`,
@@ -90,7 +88,7 @@ export default {
           this.saveStatus = 200
 
           this.resetForm()
-          if(payload.edit) {
+          if (payload.edit) {
             this.showEditForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('ruang_update_success')}`,
@@ -113,13 +111,13 @@ export default {
   resetForm() {
     this.error = {}
     this.current = 1
-    paging.reloadData()
+    paging().reloadData()
   },
   getRooms(afterSave = false) {
     const limit = 25
-    paging.state.rows = limit
+    paging().state.rows = limit
 
-    paging.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,
@@ -157,7 +155,7 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      this.paging.data.forEach(item => {
+      this.paging().data.forEach(item => {
         this.selectedRooms.push(item.room_id)
       })
     } else {
@@ -165,7 +163,7 @@ export default {
     }
   },
   multipleDeleteConfirm() {
-    if(this.selectedRooms.length > 0) {
+    if (this.selectedRooms.length > 0) {
       this.deleteConfirm = true
     } else {
       flashAlert(t('pilih_data_dulu'), 'negative')

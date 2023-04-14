@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { core } from 'boot/axios'
-import { bearerToken } from 'src/composables/validate-token'
+import { bearerToken } from 'src/composables/subscription'
 
 const lang = ref({
   english: [],

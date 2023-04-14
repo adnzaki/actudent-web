@@ -1,4 +1,4 @@
-import { 
+import {
   Cookies,
   conf,
   bearerToken,
@@ -10,17 +10,15 @@ import {
   t
 } from '../../composables/common'
 
-import { usePagingStore } from 'ss-paging-vue'
+import { usePagingStore as paging } from 'ss-paging-vue'
 import { Notify } from 'quasar'
 
-const paging = usePagingStore()
-
 export default {
-  getOrtu(afterSave = false) {   
+  getOrtu(afterSave = false) {
     const limit = 25
-    paging.state.rows = limit
+    paging().state.rows = limit
 
-    paging.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,
@@ -64,7 +62,7 @@ export default {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
-        if(res.code === '500') {
+        if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
             message: `Error! ${t('ortu_error_text')}`,
@@ -74,7 +72,7 @@ export default {
         } else {
           this.saveStatus = 200
           this.resetForm()
-          if(payload.edit) {
+          if (payload.edit) {
             this.showEditForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('ortu_update_success')}`,
@@ -96,10 +94,10 @@ export default {
   },
   deleteParent() {
     let idString
-    if(this.selectedParents.length > 1) {
-        idString = this.selectedParents.join('&')
+    if (this.selectedParents.length > 1) {
+      idString = this.selectedParents.join('&')
     } else {
-        idString = this.selectedParents[0]
+      idString = this.selectedParents[0]
     }
 
     // show notify
@@ -137,7 +135,7 @@ export default {
   resetForm() {
     this.error = {}
     this.current = 1
-    paging.reloadData()
+    paging().reloadData()
   },
   // -------------- Converted Mutations -------------- 
   getDetail(id) {
@@ -147,12 +145,12 @@ export default {
       headers: { Authorization: bearerToken }
     })
       .then(response => {
-        this.detail = response.data.parent  
-        this.children = response.data.children  
+        this.detail = response.data.parent
+        this.children = response.data.children
       })
   },
   multipleDeleteConfirm() {
-    if(this.selectedParents.length > 0) {
+    if (this.selectedParents.length > 0) {
       this.deleteConfirm = true
     } else {
       flashAlert(t('pilih_data_dulu'), 'negative')
@@ -170,11 +168,11 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      paging.state.data.forEach(item => {
+      paging().state.data.forEach(item => {
         this.selectedParents.push(`${item.parent_id}-${item.user_id}`)
       })
     } else {
       this.selectedParents = []
     }
-  } 
+  }
 }

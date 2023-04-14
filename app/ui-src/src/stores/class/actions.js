@@ -1,4 +1,4 @@
-import { 
+import {
   Cookies,
   conf,
   bearerToken,
@@ -11,9 +11,9 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from 'ss-paging-vue'
+import { usePagingStore as paging } from 'ss-paging-vue'
 
-const paging = usePagingStore()
+// const paging = usePagingStore()
 
 export default {
   removeFromClassGroup(payload) {
@@ -41,7 +41,7 @@ export default {
       })
   },
   getUnregisteredStudents(gradeId) {
-    paging.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit: 25,
@@ -59,10 +59,10 @@ export default {
   },
   deleteClass() {
     let idString
-    if(this.selectedClasses.length > 1) {
-        idString = this.selectedClasses.join('-')
+    if (this.selectedClasses.length > 1) {
+      idString = this.selectedClasses.join('-')
     } else {
-        idString = this.selectedClasses[0]
+      idString = this.selectedClasses[0]
     }
 
     // show notify
@@ -120,7 +120,7 @@ export default {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
-        if(res.code === '500') {
+        if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
             message: `Error! ${t('kelas_save_error')}`,
@@ -136,7 +136,7 @@ export default {
           }
 
           this.resetForm()
-          if(payload.edit) {
+          if (payload.edit) {
             this.showEditForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('kelas_edit_success')}`,
@@ -160,13 +160,13 @@ export default {
     this.error = {}
     this.selectedTeacher = { id: '', name: '' }
     this.current = 1
-    paging.reloadData()
+    paging().reloadData()
   },
   getClassList(afterSave = false) {
-    paging.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: afterSave ? this.paging.limit : 10,
+      limit: afterSave ? this.paging().limit : 10,
       offset: this.current - 1,
       orderBy: 'grade_name',
       searchBy: 'grade_name',
@@ -195,13 +195,13 @@ export default {
     })
       .then(response => {
         this.teachers = response.data
-        if(response.data.length > 0) {
+        if (response.data.length > 0) {
           this.teacherId = response.data[0].staff_id
         }
-      })     
+      })
   },
   getDetail(id) {
-    this.error = {}    
+    this.error = {}
     admin.get(`${this.classApi}detail/${id}`, {
       headers: { Authorization: bearerToken }
     })
@@ -211,7 +211,7 @@ export default {
         this.classMember.name = res.grade_name
         setTimeout(() => {
           this.showEditForm = true
-        }, 500) 
+        }, 500)
       })
   },
   closeDeleteConfirm() {
@@ -220,7 +220,7 @@ export default {
     this.checkAll = false
   },
   multipleDeleteConfirm() {
-    if(this.selectedClasses.length > 0) {
+    if (this.selectedClasses.length > 0) {
       this.deleteConfirm = true
     } else {
       flashAlert(t('pilih_data_dulu'), 'negative')
@@ -233,11 +233,11 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      this.paging.data.forEach(item => {
+      this.paging().data.forEach(item => {
         this.selectedClasses.push(item.grade_id)
       })
     } else {
       this.selectedClasses = []
     }
-  } 
+  }
 }

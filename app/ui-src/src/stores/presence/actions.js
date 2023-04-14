@@ -1,6 +1,7 @@
-import { 
+import {
   bearerToken,
   axios,
+  teacher,
   timeout,
   createFormData,
   t,
@@ -10,7 +11,7 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
-  getTeacherSchedules() {    
+  getTeacherSchedules() {
     axios.get(`${this.presenceApi}daftar-jadwal/${this.helper.activeDay}`, {
       headers: { Authorization: bearerToken }
     })
@@ -32,7 +33,7 @@ export default {
         this.showSpinner = false
 
         // show the table only if data exists
-        if(response.data.activeDays > 0) {
+        if (response.data.activeDays > 0) {
           this.showPeriodTable = true
         } else {
           this.showNoData = true
@@ -70,7 +71,7 @@ export default {
       .then(response => {
         notifyProgress({ timeout })
         const res = response.data
-        if(res.code === '500') {
+        if (res.code === '500') {
           notifyProgress({
             message: `Error! ${res.msg.presence_mark}`,
             color: 'negative',
@@ -87,8 +88,8 @@ export default {
   savePresence({ status, studentId = null }) {
     let data = []
     const mark = this.permissionNote
-    
-    if(studentId === null) {
+
+    if (studentId === null) {
       this.studentPresence.forEach(id => {
         data.push({ status, mark, id })
       })
@@ -108,7 +109,7 @@ export default {
         this.studentPresence = []
 
         // reset all students checkbox
-        if(this.checkAll) this.checkAll = false
+        if (this.checkAll) this.checkAll = false
 
         // reload presence data
         this.getPresence(this.presenceUrl)
@@ -129,7 +130,7 @@ export default {
     })
       .then(res => {
         notifyProgress({ timeout })
-        if(res.data.status === 'OK') {
+        if (res.data.status === 'OK') {
           this.journalID = res.data.id
           this.salinJurnal = false
           this.getJournal(() => {
@@ -138,9 +139,9 @@ export default {
               color: 'positive',
               icon: 'done',
               spinner: false
-            })   
-          })                 
-        } else {          
+            })
+          })
+        } else {
           notifyProgress({
             message: `Error! ${res.data.msg}`,
             color: 'negative',
@@ -176,7 +177,7 @@ export default {
     })
       .then(res => {
         notifyProgress({ timeout })
-        if(res.data.code === '500') {
+        if (res.data.code === '500') {
           this.error = res.data.msg
           notifyProgress({
             message: `Error! ${t('absensi_jurnal_error_save')}`,
@@ -194,7 +195,7 @@ export default {
 
           // reset everything
           this.showJournalForm = false
-          this.journal = { 
+          this.journal = {
             description: '',
             homework_title: '',
             homework_description: '',
@@ -214,7 +215,7 @@ export default {
 
         const data = response.data
 
-        if(data.status === 'true') {
+        if (data.status === 'true') {
           presenceUrl = `${baseUrl}${data.id}/${this.helper.activeDate}`
           this.presenceButtons = true
         } else {
@@ -229,13 +230,13 @@ export default {
 
         this.getPresence(presenceUrl)
 
-        if(data.status === 'true') {
+        if (data.status === 'true') {
           this.salinJurnal = false
           this.getJournal()
         } else {
           this.salinJurnal = true
           this.helper.homework = false
-          this.journal = { 
+          this.journal = {
             description: '',
             homework_title: '',
             homework_description: '',
@@ -250,7 +251,7 @@ export default {
     })
       .then(res => {
         this.journal.description = res.data.journal.description
-        if(res.data.homework !== null) {
+        if (res.data.homework !== null) {
           // toggle homework checkbox
           this.helper.homework = true
 
@@ -266,7 +267,7 @@ export default {
           this.journal.due_date = ''
         }
 
-        if(copyJournalCallback !== false) {
+        if (copyJournalCallback !== false) {
           copyJournalCallback()
         }
       })
@@ -277,7 +278,7 @@ export default {
     })
       .then(response => {
         this.schedule = response.data
-        if(this.schedule.length > 0) {
+        if (this.schedule.length > 0) {
           this.scheduleID = this.schedule[0].id
           this.showJournalBtn = true
           this.checkJournal()
@@ -292,9 +293,9 @@ export default {
       headers: { Authorization: bearerToken }
     })
       .then(({ data }) => {
-        if(data !== null) {
+        if (data !== null) {
           this.isHomeroomTeacher = data.check
-          if(data.check !== 0) {
+          if (data.check !== 0) {
             this.teacherOf = data.data.grade_id
           }
         }
@@ -309,7 +310,7 @@ export default {
       })
   },
   multiPresence(callback) {
-    if(this.studentPresence.length > 0) {
+    if (this.studentPresence.length > 0) {
       callback()
     } else {
       flashAlert(t('pilih_data'), 'negative')

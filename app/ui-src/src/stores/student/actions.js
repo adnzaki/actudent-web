@@ -1,4 +1,4 @@
-import { 
+import {
   Cookies,
   conf,
   bearerToken,
@@ -11,17 +11,15 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from 'ss-paging-vue'
-
-const paging = usePagingStore()
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   deleteStudent(lang) {
     let idString
-    if(this.selectedStudents.length > 1) {
-        idString = this.selectedStudents.join('-')
+    if (this.selectedStudents.length > 1) {
+      idString = this.selectedStudents.join('-')
     } else {
-        idString = this.selectedStudents[0]
+      idString = this.selectedStudents[0]
     }
 
     // show notify
@@ -80,14 +78,14 @@ export default {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
-        if(res.code === '307') {
+        if (res.code === '307') {
           notifyProgress({
             message: `Error! ${res.msg}`,
             color: 'negative',
             spinner: false
           })
         } else {
-          if(res.code === '500') {
+          if (res.code === '500') {
             this.error = res.msg
             notifyProgress({
               message: `Error! ${t('siswa_save_error')}`,
@@ -104,7 +102,7 @@ export default {
             }
 
             this.resetForm()
-            if(payload.edit) {
+            if (payload.edit) {
               this.showEditForm = false
               notifyProgress({
                 message: `${t('sukses')} ${t('siswa_update_success')}`,
@@ -129,13 +127,11 @@ export default {
     this.error = {}
     this.selectedParent = { id: '', father: '', mother: '' }
     this.current = 1
-    paging.reloadData()
+    paging().reloadData()
   },
   getStudents(afterSave = false) {
-    // mutate paging.rows in order to affect
-    // model-value on QSelect
     const limit = 25
-    paging.state.rows = limit
+    paging().state.rows = limit
 
     this.getData({
       token: bearerToken,
@@ -157,8 +153,8 @@ export default {
     })
   },
   getStudentsByClass(model) {
-    paging.state.whereClause = model.value
-    paging.runPaging()
+    paging().state.whereClause = model.value
+    paging().runPaging()
   },
   getStudentLimit() {
     admin.get(`${this.studentApi}limit`, {
@@ -179,7 +175,7 @@ export default {
     this.checkAll = false
   },
   multipleDeleteConfirm() {
-    if(this.selectedStudents.length > 0) {
+    if (this.selectedStudents.length > 0) {
       this.deleteConfirm = true
     } else {
       flashAlert(t('pilih_data_dulu'), 'negative')
@@ -197,7 +193,7 @@ export default {
         this.selectedParent.id = res.parent_id
         this.selectedParent.father = res.parent_father_name
         this.selectedParent.mother = res.parent_mother_name
-      })   
+      })
   },
   selectParent(data) {
     this.selectedParent = {
@@ -211,7 +207,7 @@ export default {
   },
   searchParents(searchParam) {
     // prevent request until searchTimeout is true
-    if(!this.searchTimeout) {
+    if (!this.searchTimeout) {
       this.searchTimeout = true
 
       // wait for 300ms before processing request to server
@@ -223,7 +219,7 @@ export default {
         } else {
           keyword = `/${searchParam}`
         }
-    
+
         admin.get(`${this.studentApi}cari-ortu${keyword}`, {
           headers: { Authorization: bearerToken }
         })
@@ -234,10 +230,10 @@ export default {
             } else {
               this.family = res
             }
-          })     
-          
-          // turn back searchTimeout to false
-          this.searchTimeout = false
+          })
+
+        // turn back searchTimeout to false
+        this.searchTimeout = false
       }, 300);
     }
   },
@@ -255,11 +251,11 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      paging.state.data.forEach(item => {
+      paging().state.data.forEach(item => {
         this.selectedStudents.push(item.student_id)
       })
     } else {
       this.selectedStudents = []
     }
-  } 
+  }
 }

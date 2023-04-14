@@ -6,6 +6,8 @@
 
 import { mode, host, uiPath, baseUrl } from './globalConfig.js'
 
+const baseAppURL = window.location.origin
+
 export const appConfig = {
   // API Url for admin section
   adminAPI: `${baseUrl()}admin/`,
@@ -24,17 +26,17 @@ export const appConfig = {
   // application page
   homeUrl: () => {
     return (mode === 'development')
-      ? 'http://localhost:8080/#/'
+      ? `${baseAppURL}/#/`
       : `${uiPath()}app`
   },
   teacherHomeUrl: () => {
     return (mode === 'development')
-      ? 'http://localhost:8080/#/teacher/home'
+      ? `${baseAppURL}/#/teacher/home`
       : `${uiPath()}app/#/teacher/home`
   },
   loginUrl: () => {
     return (mode === 'development')
-      ? 'http://localhost:8080/#/login'
+      ? `${baseAppURL}/#/login`
       : `${uiPath()}app/#/login`
   },
 

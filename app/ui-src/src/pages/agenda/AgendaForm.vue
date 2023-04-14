@@ -1,27 +1,51 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="store.showForm"
+  <q-dialog
+    no-backdrop-dismiss
+    v-model="store.showForm"
     @before-show="formOpen"
     @hide="formHide"
-    :maximized="maximizedDialog()">
+    :maximized="maximizedDialog()"
+  >
     <guest-selector />
     <q-card class="q-pa-sm" :style="cardDialog()" v-if="store.mainForm">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize" v-if="conf.userType === '1'">{{ cardTitle }}</div>
-        <div class="text-h6 text-capitalize" v-else>{{ $t('agenda_detail_title') }}</div>
+        <div class="text-h6 text-capitalize" v-if="conf.userType === '1'">
+          {{ cardTitle }}
+        </div>
+        <div class="text-h6 text-capitalize" v-else>
+          {{ $t("agenda_detail_title") }}
+        </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
       <q-card-section class="scroll card-section">
-        <q-form class="q-gutter-xs">     
-          <q-input :readonly="readonly" outlined :label="$t('agenda_label_nama') + ' (' + $t('agenda_input_nama') + ')'" dense v-model="formData.agenda_name" />
-          <error :label="error.agenda_name" />  
+        <q-form class="q-gutter-xs">
+          <q-input
+            :readonly="readonly"
+            outlined
+            :label="
+              $t('agenda_label_nama') + ' (' + $t('agenda_input_nama') + ')'
+            "
+            dense
+            v-model="formData.agenda_name"
+          />
+          <ac-error :label="error.agenda_name" />
 
           <!-- Agenda start date -->
           <q-input outlined dense v-model="dateStartStr" readonly>
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date :disable="readonly" @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    :disable="readonly"
+                    @update:model-value="pickerStartChanged"
+                    v-model="dateStartRaw"
+                    mask="YYYY-MM-DD HH:mm"
+                  >
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -32,8 +56,18 @@
 
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time :disable="readonly" @update:model-value="pickerStartChanged" v-model="dateStartRaw" mask="YYYY-MM-DD HH:mm" format24h>
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    :disable="readonly"
+                    @update:model-value="pickerStartChanged"
+                    v-model="dateStartRaw"
+                    mask="YYYY-MM-DD HH:mm"
+                    format24h
+                  >
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -42,15 +76,24 @@
               </q-icon>
             </template>
           </q-input>
-          <error :label="error.agenda_start" />
+          <ac-error :label="error.agenda_start" />
           <!-- ####### Agenda start date close -->
 
           <!-- Agenda end date -->
           <q-input outlined dense v-model="dateEndStr" readonly>
             <template v-slot:prepend>
               <q-icon name="event" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-date :disable="readonly" @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-date
+                    :disable="readonly"
+                    @update:model-value="pickerEndChanged"
+                    v-model="dateEndRaw"
+                    mask="YYYY-MM-DD HH:mm"
+                  >
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -61,8 +104,18 @@
 
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time :disable="readonly" @update:model-value="pickerEndChanged" v-model="dateEndRaw" mask="YYYY-MM-DD HH:mm" format24h>
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time
+                    :disable="readonly"
+                    @update:model-value="pickerEndChanged"
+                    v-model="dateEndRaw"
+                    mask="YYYY-MM-DD HH:mm"
+                    format24h
+                  >
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -71,32 +124,75 @@
               </q-icon>
             </template>
           </q-input>
-          <error :label="error.agenda_end" />
+          <ac-error :label="error.agenda_end" />
           <!-- ####### Agenda end date close -->
 
-          <q-input :readonly="readonly" autogrow outlined :label="$t('agenda_label_desc')" dense v-model="formData.agenda_description" />
-          <error :label="error.agenda_description" />
+          <q-input
+            :readonly="readonly"
+            autogrow
+            outlined
+            :label="$t('agenda_label_desc')"
+            dense
+            v-model="formData.agenda_description"
+          />
+          <ac-error :label="error.agenda_description" />
 
-          <q-btn icon="turned_in" 
-            :style="inviteBtn" color="accent" 
-            :label="$t('agenda_add_guests')" v-if="userType === '1'"
-            @click="showGuestSelector" />
+          <q-btn
+            icon="turned_in"
+            :style="inviteBtn"
+            color="accent"
+            :label="$t('agenda_add_guests')"
+            v-if="userType === '1'"
+            @click="showGuestSelector"
+          />
 
-          <p class="q-mt-md">{{ $t('agenda_label_prior') }}:</p>
-          <div class="row" style="margin-top: -25px; margin-left: -10px;">
+          <p class="q-mt-md">{{ $t("agenda_label_prior") }}:</p>
+          <div class="row" style="margin-top: -25px; margin-left: -10px">
             <div class="col-12 col-md-4">
-              <q-radio :disable="readonly" size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="high" :label="$t('agenda_input_highprior')" />
+              <q-radio
+                :disable="readonly"
+                size="lg"
+                v-model="formData.agenda_priority"
+                checked-icon="task_alt"
+                unchecked-icon="panorama_fish_eye"
+                val="high"
+                :label="$t('agenda_input_highprior')"
+              />
             </div>
             <div class="col-12 col-md-4">
-              <q-radio :disable="readonly" class="radio" size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="normal" :label="$t('agenda_input_normalprior')" />
+              <q-radio
+                :disable="readonly"
+                class="radio"
+                size="lg"
+                v-model="formData.agenda_priority"
+                checked-icon="task_alt"
+                unchecked-icon="panorama_fish_eye"
+                val="normal"
+                :label="$t('agenda_input_normalprior')"
+              />
             </div>
             <div class="col-12 col-md-4">
-              <q-radio :disable="readonly" class="radio" size="lg" v-model="formData.agenda_priority" checked-icon="task_alt" unchecked-icon="panorama_fish_eye" val="low" :label="$t('agenda_input_lowprior')" />
+              <q-radio
+                :disable="readonly"
+                class="radio"
+                size="lg"
+                v-model="formData.agenda_priority"
+                checked-icon="task_alt"
+                unchecked-icon="panorama_fish_eye"
+                val="low"
+                :label="$t('agenda_input_lowprior')"
+              />
             </div>
           </div>
 
-          <q-input :readonly="readonly" outlined :label="$t('agenda_input_loc')" dense v-model="formData.agenda_location" />
-          <error :label="error.agenda_location" />
+          <q-input
+            :readonly="readonly"
+            outlined
+            :label="$t('agenda_input_loc')"
+            dense
+            v-model="formData.agenda_location"
+          />
+          <ac-error :label="error.agenda_location" />
 
           <!-- <q-input outlined readonly :label="guestLabel" 
             dense v-model="formData.agenda_guest"
@@ -106,54 +202,91 @@
               <q-badge v-for="(item, index) in guestWrapper" :key="index" color="blue" :label="item.label" />
             </template>
           </q-input>
-          <error :label="error.agenda_guest" /> -->
+          <ac-error :label="error.agenda_guest" /> -->
 
-          <q-file :readonly="readonly"
+          <q-file
+            :readonly="readonly"
             v-if="$q.cookies.get(conf.userType) === '1'"
-            color="grey-3" outlined dense 
-            v-model="attachment" 
+            color="grey-3"
+            outlined
+            dense
+            v-model="attachment"
             :label="$t('agenda_label_att')"
             @update:model-value="uploadFile"
-            accept="application/pdf">
+            accept="application/pdf"
+          >
             <template v-slot:prepend>
               <q-icon name="cloud_upload" />
             </template>
           </q-file>
-          <error v-if="attachmentError !== ''" :label="attachmentError" />
-          <p v-if="isEditForm 
-            && formData.agenda_attachment !== null 
-            && formData.agenda_attachment !== ''
-            && formData.agenda_attachment !== 'null'">
-            {{ $t('agenda_label_att_name') }}
+          <ac-error v-if="attachmentError !== ''" :label="attachmentError" />
+          <p
+            v-if="
+              isEditForm &&
+              formData.agenda_attachment !== null &&
+              formData.agenda_attachment !== '' &&
+              formData.agenda_attachment !== 'null'
+            "
+          >
+            {{ $t("agenda_label_att_name") }}
             <a :href="attachmentUrl" target="_blank">
-              <q-badge color="blue" class="cursor-pointer" :label="formData.agenda_attachment" />
+              <q-badge
+                color="blue"
+                class="cursor-pointer"
+                :label="formData.agenda_attachment"
+              />
             </a>
           </p>
-
         </q-form>
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
         <!-- delete button for desktop -->
-        <q-btn outline 
-          v-if="$q.cookies.get(conf.userType) === '1' && isEditForm && !$q.screen.lt.sm" 
-          :label="$t('hapus')" @click="store.deleteConfirm = true" 
-          color="negative" />
+        <q-btn
+          outline
+          v-if="
+            $q.cookies.get(conf.userType) === '1' &&
+            isEditForm &&
+            !$q.screen.lt.sm
+          "
+          :label="$t('hapus')"
+          @click="store.deleteConfirm = true"
+          color="negative"
+        />
         <!-- #END -->
 
-        <q-btn outline v-if="!$q.screen.lt.sm" :label="$t('tutup')" :color="closeBtnColor" v-close-popup />
-        <q-btn v-if="$q.cookies.get(conf.userType) === '1'" class="mobile-form-btn" :label="$t('simpan')" @click="save" :disable="disableSaveButton" color="primary" padding="8px 20px" />
+        <q-btn
+          outline
+          v-if="!$q.screen.lt.sm"
+          :label="$t('tutup')"
+          :color="closeBtnColor"
+          v-close-popup
+        />
+        <q-btn
+          v-if="$q.cookies.get(conf.userType) === '1'"
+          class="mobile-form-btn"
+          :label="$t('simpan')"
+          @click="save"
+          :disable="disableSaveButton"
+          color="primary"
+          padding="8px 20px"
+        />
 
         <!-- delete button for mobile -->
-        <q-btn outline 
-          v-if="$q.cookies.get(conf.userType) === '1' && isEditForm && $q.screen.lt.sm" 
-            class="mobile-form-btn" 
-            style="margin-left: -10px;"
-            :label="$t('hapus')" 
-            @click="store.deleteConfirm = true" 
-            color="negative" />
+        <q-btn
+          outline
+          v-if="
+            $q.cookies.get(conf.userType) === '1' &&
+            isEditForm &&
+            $q.screen.lt.sm
+          "
+          class="mobile-form-btn"
+          style="margin-left: -10px"
+          :label="$t('hapus')"
+          @click="store.deleteConfirm = true"
+          color="negative"
+        />
         <!-- #END -->
-
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -163,177 +296,187 @@
 @media(max-width: $breakpoint-sm-max)
   .radio
     margin-top: -10px
-  
 </style>
 
 <script>
-import { date, useQuasar } from 'quasar'
-import GuestSelector from './GuestSelector.vue'
-import { useAgendaStore } from 'src/stores/agenda'
-import { selectedLang } from '../../composables/date'
-import { ref, reactive, computed, provide } from 'vue'
-import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { t, axios, bearerToken, conf, userType } from 'src/composables/common'
+import { date, useQuasar } from "quasar";
+import GuestSelector from "./GuestSelector.vue";
+import { useAgendaStore } from "src/stores/agenda";
+import { selectedLang } from "../../composables/date";
+import { ref, reactive, computed, provide } from "vue";
+import { maximizedDialog, cardDialog } from "../../composables/screen";
+import { t, axios, bearerToken, conf, userType } from "src/composables/common";
 
 export default {
-  name: 'AgendaForm',
+  name: "AgendaForm",
   components: { GuestSelector },
   setup() {
-    const $q = useQuasar()
-    const store = useAgendaStore()
-    const dateModelFormat = 'YYYY-MM-DD HH:mm'
-    const defaultDateValue = date.formatDate(new Date(), dateModelFormat)
-    const defaultDateEndValue = date.formatDate(date.addToDate(defaultDateValue, { hours: 1 }), dateModelFormat)
+    const $q = useQuasar();
+    const store = useAgendaStore();
+    const dateModelFormat = "YYYY-MM-DD HH:mm";
+    const defaultDateValue = date.formatDate(new Date(), dateModelFormat);
+    const defaultDateEndValue = date.formatDate(
+      date.addToDate(defaultDateValue, { hours: 1 }),
+      dateModelFormat
+    );
 
-    const dateStartRaw = ref(defaultDateValue)
-    const dateEndRaw = ref(defaultDateEndValue)
-    const isEditForm = computed(() => store.isEditForm)
+    const dateStartRaw = ref(defaultDateValue);
+    const dateEndRaw = ref(defaultDateEndValue);
+    const isEditForm = computed(() => store.isEditForm);
 
     let formValue = {
-      agenda_name: '',
-      agenda_start: '',
-      agenda_end: '',
-      agenda_description: '',
-      agenda_priority: 'normal',
-      agenda_location: '',
-      agenda_guest: '',
-      agenda_attachment: '',
-    }
-    
-    const guestWrapper = ref([])
+      agenda_name: "",
+      agenda_start: "",
+      agenda_end: "",
+      agenda_description: "",
+      agenda_priority: "normal",
+      agenda_location: "",
+      agenda_guest: "",
+      agenda_attachment: "",
+    };
 
-    const strFormat = $q.screen.gt.sm ? 'dddd, DD MMMM YYYY | HH:mm' : 'ddd, DD-MMM-YYYY | HH:mm'
-    const formData = ref(formValue)
-    const formatDate = val => date.formatDate(val, strFormat, selectedLang)
-    const dateStartStr = ref(formatDate(new Date))
-    const dateEndStr =  ref(formatDate(date.addToDate(defaultDateValue, { hours: 1 })))
+    const guestWrapper = ref([]);
 
-    const pickerStartChanged = val => {
-      dateStartStr.value = formatDate(new Date(val))
-    }
+    const strFormat = $q.screen.gt.sm
+      ? "dddd, DD MMMM YYYY | HH:mm"
+      : "ddd, DD-MMM-YYYY | HH:mm";
+    const formData = ref(formValue);
+    const formatDate = (val) => date.formatDate(val, strFormat, selectedLang);
+    const dateStartStr = ref(formatDate(new Date()));
+    const dateEndStr = ref(
+      formatDate(date.addToDate(defaultDateValue, { hours: 1 }))
+    );
 
-    const pickerEndChanged = val => {
-      dateEndStr.value = formatDate(new Date(val))
-    }
+    const pickerStartChanged = (val) => {
+      dateStartStr.value = formatDate(new Date(val));
+    };
 
-    const attachment = ref([])
-    const attachmentUrl = ref('')
+    const pickerEndChanged = (val) => {
+      dateEndStr.value = formatDate(new Date(val));
+    };
+
+    const attachment = ref([]);
+    const attachmentUrl = ref("");
     const formOpen = () => {
-      const details = computed(() => store.detail).value
-      if(isEditForm.value) {        
+      const details = computed(() => store.detail).value;
+      if (isEditForm.value) {
         formData.value = {
           agenda_name: details.agenda_name,
           agenda_description: details.agenda_description,
           agenda_priority: details.agenda_priority,
           agenda_location: details.agenda_location,
           agenda_attachment: details.agenda_attachment,
-        }
+        };
 
-        dateStartRaw.value = details.agenda_start
-        dateEndRaw.value = details.agenda_end
+        dateStartRaw.value = details.agenda_start;
+        dateEndRaw.value = details.agenda_end;
 
-        dateStartStr.value = formatDate(details.agenda_start)
-        dateEndStr.value = formatDate(details.agenda_end)
-        attachmentUrl.value = store.getters['agenda/agendaApi'] +
-                              'display-attachment/' +
-                              details.agenda_id + '/' +
-                              $q.cookies.get(conf.cookieName)
-
+        dateStartStr.value = formatDate(details.agenda_start);
+        dateEndStr.value = formatDate(details.agenda_end);
+        attachmentUrl.value =
+          store.getters["agenda/agendaApi"] +
+          "display-attachment/" +
+          details.agenda_id +
+          "/" +
+          $q.cookies.get(conf.cookieName);
       } else {
-        const saveStatus = computed(() => store.saveStatus)
-        if(saveStatus.value === 200 || !isEditForm.value) {
+        const saveStatus = computed(() => store.saveStatus);
+        if (saveStatus.value === 200 || !isEditForm.value) {
           formData.value = {
-            agenda_name: '',
-            agenda_description: '',
-            agenda_priority: 'normal',
-            agenda_location: '',
-            agenda_attachment: '',
-          }
-  
-          attachment.value = []
-          dateStartStr.value = formatDate(new Date)
-          dateEndStr.value =  formatDate(date.addToDate(defaultDateValue, { hours: 1 }))
-          dateStartRaw.value = defaultDateValue
-          dateEndRaw.value = defaultDateEndValue
-  
-          store.saveStatus = 500
+            agenda_name: "",
+            agenda_description: "",
+            agenda_priority: "normal",
+            agenda_location: "",
+            agenda_attachment: "",
+          };
+
+          attachment.value = [];
+          dateStartStr.value = formatDate(new Date());
+          dateEndStr.value = formatDate(
+            date.addToDate(defaultDateValue, { hours: 1 })
+          );
+          dateStartRaw.value = defaultDateValue;
+          dateEndRaw.value = defaultDateEndValue;
+
+          store.saveStatus = 500;
         }
       }
-    }
+    };
 
     const save = () => {
-      const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
-      formData.value.agenda_start = phpTimestamp(dateStartRaw.value)
-      formData.value.agenda_end = phpTimestamp(dateEndRaw.value)
+      const phpTimestamp = (val) => Date.parse(val).toString().substring(0, 10);
+      formData.value.agenda_start = phpTimestamp(dateStartRaw.value);
+      formData.value.agenda_end = phpTimestamp(dateEndRaw.value);
 
-      const guestType = store.isEditForm ? 'guestsEdit' : 'guests'
-      const agendaGuest = computed(() => store[guestType])
-      
-      if(agendaGuest.value.length > 0) {
-        formData.value.agenda_guest = JSON.stringify(agendaGuest.value)
+      const guestType = store.isEditForm ? "guestsEdit" : "guests";
+      const agendaGuest = computed(() => store[guestType]);
+
+      if (agendaGuest.value.length > 0) {
+        formData.value.agenda_guest = JSON.stringify(agendaGuest.value);
       } else {
-        formData.value.agenda_guest = ''
+        formData.value.agenda_guest = "";
       }
 
-      if(isEditForm.value) {
+      if (isEditForm.value) {
         store.save({
           data: formData.value,
           edit: true,
-          id: store.detail.agenda_id
-        })
+          id: store.detail.agenda_id,
+        });
       } else {
         store.save({
           data: formData.value,
           edit: false,
-          id: null
-        })
+          id: null,
+        });
       }
-    }
+    };
 
-    const attachmentError = ref('')
+    const attachmentError = ref("");
 
-    const uploadFile = val => {
-      store.helper.disableSaveButton = true
-      const uploadData = new FormData()
-      uploadData.append('attachment', val)
-      axios.post(`${store.agendaApi}upload`, uploadData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: bearerToken
-        }
-      })
+    const uploadFile = (val) => {
+      store.helper.disableSaveButton = true;
+      const uploadData = new FormData();
+      uploadData.append("attachment", val);
+      axios
+        .post(`${store.agendaApi}upload`, uploadData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: bearerToken,
+          },
+        })
         .then(({ data }) => {
-          if(data.msg === 'OK') {
-            attachmentError.value = ''
-            store.helper.disableSaveButton = false
-            formData.value.agenda_attachment = data.filename
+          if (data.msg === "OK") {
+            attachmentError.value = "";
+            store.helper.disableSaveButton = false;
+            formData.value.agenda_attachment = data.filename;
           } else {
-            attachmentError.value = data
-            store.helper.disableSaveButton = true
+            attachmentError.value = data;
+            store.helper.disableSaveButton = true;
           }
 
-          console.log(formData.value)
+          console.log(formData.value);
         })
-        .catch(error => console.error(error))
-    }
+        .catch((error) => console.error(error));
+    };
 
     const formHide = () => {
-      if(store.isEditForm) {
-        dateStartRaw.value = defaultDateValue
-        dateEndRaw.value = defaultDateEndValue
+      if (store.isEditForm) {
+        dateStartRaw.value = defaultDateValue;
+        dateEndRaw.value = defaultDateEndValue;
       }
 
-      store.isEditForm = false
-      store.mainForm = true
-    }
+      store.isEditForm = false;
+      store.mainForm = true;
+    };
 
-    const disableSaveButton = computed(() => store.helper.disableSaveButton)
-    provide('shared', {
+    const disableSaveButton = computed(() => store.helper.disableSaveButton);
+    provide("shared", {
       disableSaveButton,
-      store
-    })
+      store,
+    });
 
-    return { 
+    return {
       conf,
       store,
       userType,
@@ -344,42 +487,54 @@ export default {
       guestWrapper,
       attachmentUrl,
       pickerEndChanged,
-      save, uploadFile,
+      save,
+      uploadFile,
       disableSaveButton,
       pickerStartChanged,
-      dateStartRaw, dateEndRaw,
-      cardDialog, maximizedDialog,
-      attachment, attachmentError,
+      dateStartRaw,
+      dateEndRaw,
+      cardDialog,
+      maximizedDialog,
+      attachment,
+      attachmentError,
       error: computed(() => store.error),
       showGuestSelector() {
-        store.mainForm = false
+        store.mainForm = false;
       },
       inviteBtn: reactive({
-        width: $q.screen.lt.sm ? '98%' : '99%', 
+        width: $q.screen.lt.sm ? "98%" : "99%",
         marginLeft: 0,
-        marginTop: '15px'
+        marginTop: "15px",
       }),
       dateStartStr: computed(() => {
-        let prefix = ''
-        if($q.screen.gt.sm) {
-          prefix = `${t('agenda_label_start')}: `
+        let prefix = "";
+        if ($q.screen.gt.sm) {
+          prefix = `${t("agenda_label_start")}: `;
         }
 
-        return `${prefix}${dateStartStr.value}`
-      }), 
-      dateEndStr: computed(() => {
-        let prefix = ''
-        if($q.screen.gt.sm) {
-          prefix = `${t('agenda_label_end')}: `
-        }
-
-        return `${prefix}${dateEndStr.value}`
+        return `${prefix}${dateStartStr.value}`;
       }),
-      closeBtnColor: computed(() => $q.dark.isActive ? 'warning' : 'deep-purple'),
-      readonly: computed(() => $q.cookies.get(conf.userType) === '1' ? false : true),
-      guestLabel: computed(() => guestWrapper.value.length > 0 ? '' : t('agenda_label_guest')),
-      cardTitle: computed(() => isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')),
-    }
-  }
-}
+      dateEndStr: computed(() => {
+        let prefix = "";
+        if ($q.screen.gt.sm) {
+          prefix = `${t("agenda_label_end")}: `;
+        }
+
+        return `${prefix}${dateEndStr.value}`;
+      }),
+      closeBtnColor: computed(() =>
+        $q.dark.isActive ? "warning" : "deep-purple"
+      ),
+      readonly: computed(() =>
+        $q.cookies.get(conf.userType) === "1" ? false : true
+      ),
+      guestLabel: computed(() =>
+        guestWrapper.value.length > 0 ? "" : t("agenda_label_guest")
+      ),
+      cardTitle: computed(() =>
+        isEditForm.value ? t("agenda_edit_title") : t("agenda_form_title")
+      ),
+    };
+  },
+};
 </script>

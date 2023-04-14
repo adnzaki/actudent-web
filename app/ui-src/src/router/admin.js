@@ -18,16 +18,16 @@ import PresenceList from 'pages/presence/PresenceList.vue'
 import MonthSummary from 'pages/presence/summary/MonthSummary.vue'
 import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
-import AppSettingsMain from 'pages/app_settings/Index.vue'
+import AppSettingsMain from 'src/pages/app_settings/IndexPage.vue'
 import UsersMain from 'pages/users/UsersMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
-  { path: 'home', component: PageIndex,  beforeEnter: () => routeValidator() },
+  { path: 'home', component: PageIndex, beforeEnter: () => routeValidator() },
   { path: 'parent', component: ParentMain, beforeEnter: () => routeValidator() },
   { path: 'student', component: StudentMain, beforeEnter: () => routeValidator() },
   { path: 'employee', component: EmployeeMain, beforeEnter: () => routeValidator() },
-  { 
+  {
     path: 'class', component: ClassMain, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: ClassList, beforeEnter: () => routeValidator() },
@@ -36,7 +36,7 @@ export default [
   },
   { path: 'rooms', component: RoomMain, beforeEnter: () => routeValidator() },
   { path: 'lesson', component: LessonMain, beforeEnter: () => routeValidator() },
-  { 
+  {
     path: 'schedules', component: ScheduleMain, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: ClassWrapper, beforeEnter: () => routeValidator() },
@@ -44,7 +44,7 @@ export default [
       { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => routeValidator() }
     ]
   },
-  { 
+  {
     path: 'presence', component: PresenceMain, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: PresenceClassList, beforeEnter: () => routeValidator() },

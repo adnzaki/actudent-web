@@ -13,7 +13,7 @@
       </q-list>
     </q-scroll-area>
   </q-card>
-  <error :label="error.teacher_id" />
+  <ac-error :label="error.teacher_id" />
   <q-input outlined :label="$t('kelas_label_walikelas')" dense
     v-model="store.selectedTeacher.name" disable />
 </template>

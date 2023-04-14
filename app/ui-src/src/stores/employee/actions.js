@@ -1,4 +1,4 @@
-import { 
+import {
   Cookies,
   conf,
   bearerToken,
@@ -11,17 +11,15 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from 'ss-paging-vue'
-
-const paging = usePagingStore()
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   deleteEmployee() {
     let idString
-    if(this.selectedEmployees.length > 1) {
-        idString = this.selectedEmployees.join('&')
+    if (this.selectedEmployees.length > 1) {
+      idString = this.selectedEmployees.join('&')
     } else {
-        idString = this.selectedEmployees[0]
+      idString = this.selectedEmployees[0]
     }
 
     // show notify
@@ -81,7 +79,7 @@ export default {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
-        if(res.code === '500') {
+        if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
             message: `Error! ${t('staff_error_text')}`,
@@ -91,7 +89,7 @@ export default {
         } else {
           this.saveStatus = 200
           this.resetForm()
-          if(payload.edit) {
+          if (payload.edit) {
             this.showEditForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('staff_update_success')}`,
@@ -114,11 +112,11 @@ export default {
   resetForm() {
     this.error = {}
     this.current = 1
-    paging.reloadData()
+    paging().reloadData()
   },
   getEmployee(afterSave = false) {
     const limit = 25
-    paging.state.rows = limit
+    paging().state.rows = limit
 
     this.getData({
       token: bearerToken,
@@ -140,9 +138,9 @@ export default {
     })
   },
   getEmployeeByType(model) {
-    paging.state.whereClause = model.value
-    paging.runPaging()
-  },  
+    paging().state.whereClause = model.value
+    paging().runPaging()
+  },
   getDetail(id) {
     this.error = {}
     this.showEditForm = true
@@ -160,12 +158,12 @@ export default {
     this.deleteConfirm = true
   },
   multipleDeleteConfirm() {
-    if(this.selectedEmployees.length > 0) {
+    if (this.selectedEmployees.length > 0) {
       this.deleteConfirm = true
     } else {
       flashAlert(t('pilih_data_dulu'), 'negative')
     }
-  },  
+  },
   closeDeleteConfirm() {
     this.selectedEmployees = []
     this.deleteConfirm = false
@@ -182,7 +180,7 @@ export default {
       }
     })
       .then(response => {
-        if(response.data.msg === 'OK') {
+        if (response.data.msg === 'OK') {
           this.error.featured_image = ''
           this.error.staff_photo = ''
           this.helper.disableSaveButton = false
@@ -197,11 +195,11 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      paging.state.data.forEach(item => {
+      paging().state.data.forEach(item => {
         this.selectedEmployees.push(`${item.staff_id}-${item.user_id}`)
       })
     } else {
       this.selectedEmployees = []
     }
-  } 
+  }
 }

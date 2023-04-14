@@ -21,7 +21,7 @@ use Actudent\Core\Models\SekolahModel;
 use Actudent\Core\Models\AuthModel;
 use Actudent\Core\Controllers\Resources;
 
-abstract class Actudent extends \CodeIgniter\Controller
+class Actudent extends \CodeIgniter\Controller
 {
     /**
      * Instance of the main Request object.

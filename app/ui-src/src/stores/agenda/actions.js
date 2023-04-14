@@ -1,4 +1,4 @@
-import { 
+import {
   bearerToken,
   axios,
   timeout,
@@ -8,13 +8,11 @@ import {
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
-import { usePagingStore } from 'ss-paging-vue'
-
-const paging = usePagingStore()
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   getUsers(type) {
-    paging.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit: 25,
@@ -46,7 +44,7 @@ export default {
     })
       .then(({ data }) => {
         notifyProgress({ timeout })
-        if(data.status === 'OK') {
+        if (data.status === 'OK') {
           this.helper.disableSaveButton = false
           notifyProgress({
             message: `${t('sukses')} ${t('agenda_delete_success')}`,
@@ -54,7 +52,7 @@ export default {
             icon: 'done',
             spinner: false
           })
-          
+
           this.deleteConfirm = false
           this.resetDefault()
         } else {
@@ -99,16 +97,16 @@ export default {
       .then(({ data }) => {
         this.helper.disableSaveButton = false
         notifyProgress({ timeout })
-        if(data.code === '500') {
+        if (data.code === '500') {
           this.error = data.msg
           notifyProgress({
             message: `Error! ${t('agenda_error_text')}`,
             color: 'negative',
             spinner: false
           })
-        } else if(data.code === '200') {
+        } else if (data.code === '200') {
           this.saveStatus = 200
-          if(payload.edit) {
+          if (payload.edit) {
             notifyProgress({
               message: `${t('sukses')} ${t('agenda_edit_success')}`,
               color: 'positive',
@@ -140,7 +138,7 @@ export default {
       start: this.calendar.start,
       end: this.calendar.end
     })
-    
+
     this.error = {}
     this.showForm = false
     this.guests = []
