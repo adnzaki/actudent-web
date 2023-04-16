@@ -14,27 +14,27 @@
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('student_nis')"
             >
-              {{ $t("siswa_nis") }} <sort-icon />
+              {{ $t('siswa_nis') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer"
               @click="sortData('student_name')"
             >
-              {{ $t("siswa_nama") }} <sort-icon />
+              {{ $t('siswa_nama') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('parent_father_name')"
             >
-              {{ $t("siswa_label_ayah") }} <sort-icon />
+              {{ $t('siswa_label_ayah') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('parent_mother_name')"
             >
-              {{ $t("siswa_label_ibu") }} <sort-icon />
+              {{ $t('siswa_label_ibu') }} <sort-icon />
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -79,7 +79,7 @@
                       v-close-popup
                       @click="getDetail(item.student_id)"
                     >
-                      <q-item-section>{{ $t("perbarui") }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -87,7 +87,7 @@
                       v-close-popup
                       @click="showDeleteConfirm(item.student_id)"
                     >
-                      <q-item-section>{{ $t("hapus") }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -98,38 +98,38 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging :store="store" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { watch, computed } from "vue";
-import { useStudentStore } from "src/stores/student";
-import { usePagingStore } from "ss-paging-vue";
-import { checkColWidth } from "src/composables/screen";
+import { watch, computed } from 'vue'
+import { usePagingStore } from 'ss-paging-vue'
+import { useStudentStore } from 'src/stores/student'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
   setup() {
-    const store = useStudentStore();
-    const paging = usePagingStore();
-    const pagingData = computed(() => paging.state.data);
+    const store = useStudentStore()
+    const paging = usePagingStore()
+    const pagingData = computed(() => paging.state.data)
 
-    store.getStudents();
+    store.getStudents()
 
     watch(pagingData, () => {
-      store.checkAll = false;
-      store.selectedStudents = [];
-    });
+      store.checkAll = false
+      store.selectedStudents = []
+    })
 
     return {
       store,
       checkColWidth,
-      data: paging.state.data,
+      data: computed(() => paging.state.data),
       selectAll: () => store.selectAll(),
       getDetail: (id) => store.getDetail(id),
       sortData: (field) => paging.sortData(field),
       showDeleteConfirm: (param) => store.showDeleteConfirm(param),
-    };
+    }
   },
-};
+}
 </script>

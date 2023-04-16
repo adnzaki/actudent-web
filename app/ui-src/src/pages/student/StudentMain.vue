@@ -1,18 +1,20 @@
 <template>
-  <div :class="wrapperPadding()">    
+  <div :class="wrapperPadding()">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_siswa') }}</div>
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('menu_siswa') }}
+        </div>
         <div class="text-h6 text-capitalize" v-else>{{ $t('menu_siswa') }}</div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
-          <dropdown-search 
-            class="justify-data-options" 
+          <dropdown-search
+            class="justify-data-options"
             flex-grid="col-md-3"
-            :selected="store.getStudentsByClass()"
-            :loader="store.getClassGroup()"
+            @selected="store.getStudentsByClass"
             label="Filter"
             :list="store.classGroupList"
+            load-on-route
             :options-value="{ label: 'grade_name', value: 'grade_id' }"
           />
           <row-dropdown class="q-mt-sm" root-class="col-12 col-md-2" />
@@ -21,7 +23,7 @@
       </q-card-section>
       <add-student-form />
       <edit-student-form />
-      <delete-confirm :store="student" :action="store.deleteStudent()" />
+      <delete-confirm :store="store" @action="store.deleteStudent()" />
       <student-table />
     </q-card>
   </div>
@@ -38,7 +40,7 @@ import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   name: 'StudentMain',
-  components: { 
+  components: {
     MainButton,
     StudentTable,
     AddStudentForm,
@@ -49,13 +51,14 @@ export default {
 
     onMounted(() => {
       store.getStudentLimit()
+      store.getClassGroup()
     })
 
     return {
-      store, 
+      store,
       titleSpacing,
-      wrapperPadding, 
+      wrapperPadding,
     }
-  }
+  },
 }
 </script>

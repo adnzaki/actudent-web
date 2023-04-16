@@ -7,7 +7,7 @@
   >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t("siswa_add_title") }}</div>
+        <div class="text-h6 text-capitalize">{{ $t('siswa_add_title') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -58,57 +58,58 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import SearchParents from "./SearchParents.vue";
-import { useStudentStore } from "src/stores/student";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
+import { ref, computed } from 'vue'
+import SearchParents from './SearchParents.vue'
+import { useStudentStore } from 'src/stores/student'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
   components: { SearchParents },
   setup() {
-    const store = useStudentStore();
-    const selectedParent = computed(() => store.selectedParent);
+    const store = useStudentStore()
+    const selectedParent = computed(() => store.selectedParent)
 
     let formValue = {
-      student_nis: "",
-      student_name: "",
-      parent_id: "",
-    };
+      student_nis: '',
+      student_name: '',
+      parent_id: '',
+    }
 
-    let formData = ref(formValue);
+    let formData = ref(formValue)
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.saveStatus);
+      const saveStatus = computed(() => store.saveStatus)
       if (saveStatus.value === 200) {
         formValue = {
-          student_nis: "",
-          student_name: "",
-          parent_id: "",
-        };
+          student_nis: '',
+          student_name: '',
+          parent_id: '',
+        }
 
-        store.saveStatus = 500;
-        formData.value = formValue;
+        store.saveStatus = 500
+        formData.value = formValue
       }
-    };
+    }
 
     const save = () => {
-      formData.value.parent_id = selectedParent.value.id;
+      formData.value.parent_id = selectedParent.value.id
       store.save({
         data: formData.value,
         edit: false,
         id: null,
-      });
-    };
+      })
+    }
 
     return {
       save,
+      store,
       formData,
       formOpen,
       maximizedDialog,
       cardDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>

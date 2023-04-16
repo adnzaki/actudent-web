@@ -8,7 +8,7 @@
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">
-          {{ $t("ortu_form_add_title") }}
+          {{ $t('ortu_form_add_title') }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -38,7 +38,7 @@
                 self="center right"
                 :offset="[10, 10]"
               >
-                {{ $t("ortu_set_acc_name") }}
+                {{ $t('ortu_set_acc_name') }}
               </q-tooltip>
             </q-radio>
           </q-input>
@@ -56,7 +56,7 @@
                 self="center right"
                 :offset="[10, 10]"
               >
-                {{ $t("ortu_set_acc_name") }}
+                {{ $t('ortu_set_acc_name') }}
               </q-tooltip>
             </q-radio>
           </q-input>
@@ -123,57 +123,54 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import { useParentStore } from "src/stores/parent";
-import { school, getSchool } from "../../composables/common";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
+import { ref, onMounted, computed } from 'vue'
+import { useParentStore } from 'src/stores/parent'
+import { school, getSchool } from '../../composables/common'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
   setup() {
-    const store = useParentStore();
+    const store = useParentStore()
 
     let formData = ref({
-      parent_family_card: "",
-      parent_father_name: "",
-      parent_mother_name: "",
-      parent_phone_number: "",
-      user_email: "",
-      user_password: "",
-      user_password_confirm: "",
-      user_name: "1",
-    });
+      parent_family_card: '',
+      parent_father_name: '',
+      parent_mother_name: '',
+      parent_phone_number: '',
+      user_email: '',
+      user_password: '',
+      user_password_confirm: '',
+      user_name: '1',
+    })
 
-    onMounted(getSchool);
+    onMounted(getSchool)
 
     const save = () => {
-      let pattern = /(\s|\W+)/gi;
-      formData.value.user_email = formData.value.user_email.replace(
-        pattern,
-        ""
-      );
+      let pattern = /(\s|\W+)/gi
+      formData.value.user_email = formData.value.user_email.replace(pattern, '')
       store.save({
         data: formData.value,
         edit: false,
         id: null,
-      });
-    };
+      })
+    }
 
     const formOpen = () => {
       if (store.saveStatus === 200) {
         formData.value = {
-          parent_family_card: "",
-          parent_father_name: "",
-          parent_mother_name: "",
-          parent_phone_number: "",
-          user_email: "",
-          user_password: "",
-          user_password_confirm: "",
-          user_name: "1",
-        };
+          parent_family_card: '',
+          parent_father_name: '',
+          parent_mother_name: '',
+          parent_phone_number: '',
+          user_email: '',
+          user_password: '',
+          user_password_confirm: '',
+          user_name: '1',
+        }
 
-        store.saveStatus = 500;
+        store.saveStatus = 500
       }
-    };
+    }
 
     return {
       save,
@@ -183,9 +180,9 @@ export default {
       formData,
       cardDialog,
       maximizedDialog,
-      error: store.error,
-      disableSaveButton: store.helper.disableSaveButton,
-    };
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
+    }
   },
-};
+}
 </script>

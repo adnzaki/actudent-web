@@ -4,10 +4,10 @@
     :label="$t('siswa_input_kk')"
     dense
     v-model="model"
-    @update:model-value="$store.commit('student/searchParents', model)"
+    @update:model-value="store.searchParents(model)"
   />
   <q-card bordered v-if="searchResults.length > 0">
-    <q-scroll-area style="height: 100px">
+    <q-scroll-area style="height: 150px">
       <q-list bordered separator class="q-mt-xs" dense>
         <q-item
           clickable
@@ -44,21 +44,21 @@
 </template>
 
 <script>
-import { computed, ref } from "vue";
-import { useStudentStore } from "src/stores/student";
+import { computed, ref } from 'vue'
+import { useStudentStore } from 'src/stores/student'
 
 export default {
   setup() {
-    const store = useStudentStore();
-    const model = ref("");
-    const searchResults = computed(() => store.family);
+    const store = useStudentStore()
+    const model = ref('')
+    const searchResults = computed(() => store.family)
 
     const selectData = (data) => {
-      store.selectParent(data);
-      model.value = "";
-    };
+      store.selectParent(data)
+      model.value = ''
+    }
 
-    const error = computed(() => store.error);
+    const error = computed(() => store.error)
 
     return {
       store,
@@ -66,7 +66,7 @@ export default {
       selectData,
       error,
       searchResults,
-    };
+    }
   },
-};
+}
 </script>

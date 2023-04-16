@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: "ErrorMessage",
-  props: ["label"],
-};
+  name: 'ErrorMessage',
+  props: ['label'],
+}
 </script>

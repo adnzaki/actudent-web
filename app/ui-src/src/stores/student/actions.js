@@ -133,7 +133,7 @@ export default {
     const limit = 25
     paging().state.rows = limit
 
-    this.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,
