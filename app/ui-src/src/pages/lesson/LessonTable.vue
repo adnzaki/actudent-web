@@ -14,15 +14,15 @@
               class="text-left cursor-pointer mobile-hide"
               @click="paging.sortData('lesson_code')"
             >
-              {{ $t("mapel_kode") }} <sort-icon />
+              {{ $t('mapel_kode') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer"
               @click="paging.sortData('lesson_name')"
             >
-              {{ $t("mapel_nama") }} <sort-icon />
+              {{ $t('mapel_nama') }} <sort-icon />
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -63,7 +63,7 @@
                       v-close-popup
                       @click="store.getDetail(item.lesson_id)"
                     >
-                      <q-item-section>{{ $t("perbarui") }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -71,7 +71,7 @@
                       v-close-popup
                       @click="store.showDeleteConfirm(item.lesson_id)"
                     >
-                      <q-item-section>{{ $t("hapus") }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -82,37 +82,37 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging :store="store" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { watch, computed } from "vue";
-import { usePagingStore } from "ss-paging-vue";
-import { useLessonStore } from "src/stores/lesson";
-import { checkColWidth } from "src/composables/screen";
+import { watch, computed } from 'vue'
+import { usePagingStore } from 'ss-paging-vue'
+import { useLessonStore } from 'src/stores/lesson'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
-  name: "LessonTable",
+  name: 'LessonTable',
   setup() {
-    const store = useLessonStore();
-    const paging = usePagingStore();
+    const store = useLessonStore()
+    const paging = usePagingStore()
 
-    const pagingData = computed(() => store.paging.data);
+    const pagingData = computed(() => paging.state.data)
 
-    store.getLessons();
+    store.getLessons()
 
     watch(pagingData, () => {
-      store.checkAll = false;
-      store.selectedLessons = [];
-    });
+      store.checkAll = false
+      store.selectedLessons = []
+    })
 
     return {
       store,
       paging,
-      data: pagingData,
       checkColWidth,
-    };
+      data: computed(() => paging.state.data),
+    }
   },
-};
+}
 </script>

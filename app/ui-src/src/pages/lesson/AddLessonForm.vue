@@ -8,7 +8,7 @@
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">
-          {{ $t("mapel_form_add_title") }}
+          {{ $t('mapel_form_add_title') }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -56,42 +56,42 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
-import { useLessonStore } from "src/stores/lesson";
+import { ref, computed } from 'vue'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
+import { useLessonStore } from 'src/stores/lesson'
 
 export default {
-  name: "AddLessonForm",
+  name: 'AddLessonForm',
   setup() {
-    const store = useLessonStore();
+    const store = useLessonStore()
 
     let formValue = {
-      lesson_code: "",
-      lesson_name: "",
-    };
+      lesson_code: '',
+      lesson_name: '',
+    }
 
-    const formData = ref(formValue);
+    const formData = ref(formValue)
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.saveStatus);
+      const saveStatus = computed(() => store.saveStatus)
       if (saveStatus.value === 200) {
         formValue = {
-          lesson_code: "",
-          lesson_name: "",
-        };
+          lesson_code: '',
+          lesson_name: '',
+        }
 
-        store.saveStatus = 500;
-        formData.value = formValue;
+        store.saveStatus = 500
+        formData.value = formValue
       }
-    };
+    }
 
     const save = () => {
       store.save({
         data: formData.value,
         edit: false,
         id: null,
-      });
-    };
+      })
+    }
 
     return {
       save,
@@ -102,7 +102,7 @@ export default {
       cardDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>

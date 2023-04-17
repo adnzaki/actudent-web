@@ -6,7 +6,7 @@
   >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t("mapel_edit_title") }}</div>
+        <div class="text-h6 text-capitalize">{{ $t('mapel_edit_title') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -53,21 +53,22 @@
 </template>
 
 <script>
-import { maximizedDialog, cardDialog } from "../../composables/screen";
-import { useLessonStore } from "src/stores/lesson";
+import { computed } from 'vue'
+import { useLessonStore } from 'src/stores/lesson'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
-  name: "EditLessonForm",
+  name: 'EditLessonForm',
   setup() {
-    const store = useLessonStore();
+    const store = useLessonStore()
 
     const save = () => {
       store.save({
         data: store.detail,
         edit: true,
         id: store.detail.lesson_id,
-      });
-    };
+      })
+    }
 
     return {
       save,
@@ -76,7 +77,7 @@ export default {
       cardDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>

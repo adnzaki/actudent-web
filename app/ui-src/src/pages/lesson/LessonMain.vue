@@ -1,8 +1,10 @@
 <template>
-  <div :class="wrapperPadding()">  
+  <div :class="wrapperPadding()">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_mapel') }}</div>
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('menu_mapel') }}
+        </div>
         <div class="text-h6 text-capitalize" v-else>{{ $t('menu_mapel') }}</div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
@@ -12,7 +14,7 @@
       </q-card-section>
       <add-lesson-form />
       <edit-lesson-form />
-      <delete-confirm :store="store" :action="store.deleteLesson()" />
+      <delete-confirm :store="store" @action="store.deleteLesson()" />
       <lesson-table />
     </q-card>
   </div>
@@ -28,7 +30,7 @@ import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   name: 'LessonMain',
-  components: { 
+  components: {
     MainButton,
     LessonTable,
     AddLessonForm,
@@ -39,8 +41,9 @@ export default {
 
     return {
       store,
-      wrapperPadding, titleSpacing
+      wrapperPadding,
+      titleSpacing,
     }
-  }
+  },
 }
 </script>
