@@ -14,24 +14,24 @@
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('staff_nik')"
             >
-              {{ $t("staff_id") }} <sort-icon />
+              {{ $t('staff_id') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer"
               @click="sortData('staff_name')"
             >
-              {{ $t("staff_nama") }} <sort-icon />
+              {{ $t('staff_nama') }} <sort-icon />
             </th>
             <th class="text-left cursor-pointer mobile-hide">
-              {{ $t("staff_label_telp") }} <sort-icon />
+              {{ $t('staff_label_telp') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('staff_title')"
             >
-              {{ $t("staff_label_jabatan") }} <sort-icon />
+              {{ $t('staff_label_jabatan') }} <sort-icon />
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -78,7 +78,7 @@
                       v-close-popup
                       @click="getDetail(item.user_id)"
                     >
-                      <q-item-section>{{ $t("perbarui") }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -91,7 +91,7 @@
                         })
                       "
                     >
-                      <q-item-section>{{ $t("hapus") }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -102,38 +102,38 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging :store="store" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { watch, computed } from "vue";
-import { usePagingStore } from "ss-paging-vue";
-import { useEmployeeStore } from "src/stores/employee";
-import { checkColWidth } from "src/composables/screen";
+import { watch, computed } from 'vue'
+import { usePagingStore } from 'ss-paging-vue'
+import { useEmployeeStore } from 'src/stores/employee'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
   setup() {
-    const paging = usePagingStore();
-    const store = useEmployeeStore();
+    const paging = usePagingStore()
+    const store = useEmployeeStore()
 
-    store.getEmployee();
+    store.getEmployee()
 
-    let pagingData = computed(() => paging.data);
+    let pagingData = computed(() => paging.data)
     watch(pagingData, () => {
-      store.checkAll = false;
-      store.selectedEmployees = [];
-    });
+      store.checkAll = false
+      store.selectedEmployees = []
+    })
 
     return {
       store,
       checkColWidth,
-      data: paging.data,
+      data: computed(() => paging.state.data),
       selectAll: () => store.selectAll(),
       getDetail: (id) => store.getDetail(id),
       sortData: (field) => paging.sortData(field),
       showDeleteConfirm: (param) => store.showDeleteConfirm(param),
-    };
+    }
   },
-};
+}
 </script>

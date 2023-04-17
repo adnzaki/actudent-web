@@ -50,8 +50,9 @@ export default {
     const store = useStudentStore()
 
     onMounted(() => {
-      store.getStudentLimit()
+      store.getStudents()
       store.getClassGroup()
+      store.getStudentLimit()
     })
 
     return {

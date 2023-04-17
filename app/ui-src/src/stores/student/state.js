@@ -14,11 +14,12 @@ export default function () {
     selectedParent: {
       id: '', father: '', mother: ''
     },
-    detail: {}, 
+    detail: {},
     checkAll: false, selectedStudents: [],
     current: 1,
     showAddForm: false, showEditForm: false,
     saveStatus: 500, deleteConfirm: false,
     searchTimeout: false,
+    gradeId: 'null',
   }
 }

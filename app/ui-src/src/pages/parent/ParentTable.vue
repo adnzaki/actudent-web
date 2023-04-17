@@ -14,28 +14,28 @@
               class="text-left cursor-pointer mobile-only"
               @click="sortData('parent_father_name')"
             >
-              {{ $t("ortu_label_parent") }} <sort-icon />
+              {{ $t('ortu_label_parent') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('parent_family_card')"
             >
-              {{ $t("ortu_kk") }} <sort-icon />
+              {{ $t('ortu_kk') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('parent_father_name')"
             >
-              {{ $t("ortu_label_ayah") }} <sort-icon />
+              {{ $t('ortu_label_ayah') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('parent_mother_name')"
             >
-              {{ $t("ortu_label_ibu") }} <sort-icon />
+              {{ $t('ortu_label_ibu') }} <sort-icon />
             </th>
-            <th class="text-left mobile-hide">{{ $t("ortu_label_telp") }}</th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left mobile-hide">{{ $t('ortu_label_telp') }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -85,7 +85,7 @@
                       v-close-popup
                       @click="getDetail(item.parent_id)"
                     >
-                      <q-item-section>{{ $t("perbarui") }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -95,7 +95,7 @@
                         showDeleteConfirm(`${item.parent_id}-${item.user_id}`)
                       "
                     >
-                      <q-item-section>{{ $t("hapus") }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -111,23 +111,23 @@
 </template>
 
 <script>
-import { watch, computed } from "vue";
-import { useParentStore } from "src/stores/parent";
-import { usePagingStore } from "ss-paging-vue";
-import { checkColWidth } from "src/composables/screen";
+import { usePagingStore } from 'ss-paging-vue'
+import { watch, computed, onMounted } from 'vue'
+import { useParentStore } from 'src/stores/parent'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
   setup() {
-    const store = useParentStore();
-    const paging = usePagingStore();
-    const pagingData = computed(() => paging.data);
+    const store = useParentStore()
+    const paging = usePagingStore()
+    const pagingData = computed(() => paging.data)
 
-    store.getOrtu();
+    onMounted(() => store.getOrtu())
 
     watch(pagingData, () => {
-      store.checkAll = false;
-      store.selectedParents = [];
-    });
+      store.checkAll = false
+      store.selectedParents = []
+    })
 
     return {
       store,
@@ -137,7 +137,7 @@ export default {
       getDetail: (id) => store.getDetail(id),
       sortData: (field) => paging.sortData(field),
       showDeleteConfirm: (param) => store.showDeleteConfirm(param),
-    };
+    }
   },
-};
+}
 </script>

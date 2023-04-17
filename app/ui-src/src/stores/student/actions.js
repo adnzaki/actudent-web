@@ -7,7 +7,8 @@ import {
   errorNotif,
   createFormData,
   pengguna,
-  t
+  t,
+  flashAlert
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
@@ -143,9 +144,8 @@ export default {
         'student_nis', 'student_name'
       ],
       sort: 'ASC',
-      where: null,
       search: '',
-      url: `${conf.adminAPI}siswa/get-siswa/`,
+      url: `${conf.adminAPI}siswa/get-siswa/${this.gradeId}/`,
       autoReset: {
         active: true,
         timeout: 500
@@ -153,8 +153,8 @@ export default {
     })
   },
   getStudentsByClass(model) {
-    paging().state.whereClause = model.value
-    paging().runPaging()
+    this.gradeId = model.value
+    this.getStudents()
   },
   getStudentLimit() {
     admin.get(`${this.studentApi}limit`, {

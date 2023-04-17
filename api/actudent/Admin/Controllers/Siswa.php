@@ -25,10 +25,10 @@ class Siswa extends \Actudent
         $this->kelas = new KelasModel;
     }
 
-    public function getDataSiswa($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
+    public function getDataSiswa($whereClause, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
-        $data = $this->siswa->getSiswaQuery($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
-        $rows = $this->siswa->getSiswaRows($searchBy, $whereClause, $search);
+        $data = $this->siswa->getSiswaQuery($whereClause, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->siswa->getSiswaRows($whereClause, $searchBy, $search);
         return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,

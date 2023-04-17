@@ -7,7 +7,8 @@ import {
   errorNotif,
   createFormData,
   pengguna,
-  t
+  t,
+  flashAlert
 } from '../../composables/common'
 
 import { Notify } from 'quasar'
@@ -118,7 +119,7 @@ export default {
     const limit = 25
     paging().state.rows = limit
 
-    this.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,
@@ -128,9 +129,8 @@ export default {
         'staff_nik', 'staff_name', 'staff_title'
       ],
       sort: 'ASC',
-      where: null,
       search: '',
-      url: `${conf.adminAPI}pegawai/get-pegawai/`,
+      url: `${conf.adminAPI}pegawai/get-pegawai/${this.employeeType}/`,
       autoReset: {
         active: true,
         timeout: 500
@@ -138,8 +138,8 @@ export default {
     })
   },
   getEmployeeByType(model) {
-    paging().state.whereClause = model.value
-    paging().runPaging()
+    this.employeeType = model.value
+    this.getEmployee()
   },
   getDetail(id) {
     this.error = {}

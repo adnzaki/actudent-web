@@ -1,9 +1,13 @@
 <template>
-  <div :class="wrapperPadding()">    
+  <div :class="wrapperPadding()">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_pegawai') }}</div>
-        <div class="text-h6 text-capitalize" v-else>{{ $t('menu_pegawai') }}</div>
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('menu_pegawai') }}
+        </div>
+        <div class="text-h6 text-capitalize" v-else>
+          {{ $t('menu_pegawai') }}
+        </div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
           <employee-type class="justify-data-options" />
@@ -13,7 +17,7 @@
       </q-card-section>
       <add-employee-form />
       <edit-employee-form />
-      <delete-confirm :store="store" :action="store.deleteEmployee()" />
+      <delete-confirm :store="store" @action="store.deleteEmployee()" />
       <employee-table />
     </q-card>
   </div>
@@ -30,18 +34,18 @@ import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   components: {
-    MainButton, 
+    MainButton,
     EmployeeType,
     EmployeeTable,
     AddEmployeeForm,
-    EditEmployeeForm
+    EditEmployeeForm,
   },
   setup() {
-    return { 
-      titleSpacing, 
-      wrapperPadding, 
+    return {
+      titleSpacing,
+      wrapperPadding,
       store: useEmployeeStore(),
     }
-  }
+  },
 }
 </script>

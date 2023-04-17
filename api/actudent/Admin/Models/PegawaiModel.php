@@ -38,23 +38,23 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
     /**
      * Query to get staff data
      * 
+     * @param string $staffType
      * @param int $limit 
      * @param int $offset 
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
-     * @param string $whereClause
      * @param string $search 
      * 
      * @return array
      */
-    public function getStaff($limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $whereClause = 'null', $search = ''): array
+    public function getStaff($staffType, $limit, $offset, $orderBy = 'staff_name', $searchBy = 'staff_name', $sort = 'ASC', $search = ''): array
     {
-        if($whereClause !== 'null')
+        if($staffType !== 'null')
         {
             $selector = [
                 "{$this->staff}.deleted" => '0',
-                "{$this->staff}.staff_type" => $whereClause,
+                "{$this->staff}.staff_type" => $staffType,
             ];
             $where = true;
         }
@@ -73,23 +73,23 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
     /**
      * Count all rows of whole staff data
      * 
+     * @param string $staffType
      * @param string $searchBy
-     * @param string $whereClause
      * @param string $search
      * 
      * @return int
      */
-    public function getStaffRows(string $searchBy = 'staff_name', string $whereClause = 'null', string $search = ''): int
+    public function getStaffRows(string $staffType = 'null', string $searchBy = 'staff_name', string $search = ''): int
     {
         // $query = $this->search($searchBy, $search)->where('deleted', '0');
         // return $query->countAllResults();
         ///
 
-        if($whereClause !== 'null')
+        if($staffType !== 'null')
         {
             $selector = [
                 "{$this->staff}.deleted" => '0',
-                "{$this->staff}.staff_type" => $whereClause,
+                "{$this->staff}.staff_type" => $staffType,
             ];
             $where = true;
         }

@@ -17,7 +17,7 @@ export default function () {
       validImage: false,
     },
     detail: {}, userEmail: '', domain: '',
-    employeeType: '', selectedEmployees: [], checkAll: false,
+    employeeType: 'null', selectedEmployees: [], checkAll: false,
     current: 1,
     showAddForm: false, showEditForm: false,
     saveStatus: 500, deleteConfirm: false,

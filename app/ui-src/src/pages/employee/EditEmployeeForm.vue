@@ -8,7 +8,7 @@
   >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t("staff_edit_title") }}</div>
+        <div class="text-h6 text-capitalize">{{ $t('staff_edit_title') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -44,7 +44,7 @@
           <ac-error :label="error.staff_phone" />
 
           <div>
-            {{ $t("staff_label_jenis") }}
+            {{ $t('staff_label_jenis') }}
           </div>
           <div class="row q-mb-md">
             <div class="col-6">
@@ -114,35 +114,37 @@
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import { useEmployeeStore } from "src/stores/employee";
-import { school, getSchool } from "../../composables/common";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
+import { ref, onMounted, computed } from 'vue'
+import { useEmployeeStore } from 'src/stores/employee'
+import { school, getSchool } from '../../composables/common'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
   setup() {
-    const store = useEmployeeStore();
+    const store = useEmployeeStore()
 
     const formData = ref({
-      staff_type: "teacher",
+      staff_type: 'teacher',
       staff_photo: null,
-    });
+    })
 
     const formOpen = () => {
-      formData.value.staff_photo = null;
-    };
+      formData.value.staff_photo = null
+    }
 
-    onMounted(getSchool);
+    onMounted(getSchool)
 
-    const save = store.save({
-      data: store.detail,
-      edit: true,
-      id: store.detail.user_id,
-    });
+    const save = () => {
+      store.save({
+        data: store.detail,
+        edit: true,
+        id: store.detail.user_id,
+      })
+    }
 
     const encodeImage = (val) => {
-      store.uploadImage(val);
-    };
+      store.uploadImage(val)
+    }
 
     return {
       save,
@@ -155,7 +157,7 @@ export default {
       maximizedDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>
