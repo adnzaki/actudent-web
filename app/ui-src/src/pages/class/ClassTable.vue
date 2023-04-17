@@ -14,18 +14,18 @@
               class="text-left cursor-pointer"
               @click="sortData('grade_name')"
             >
-              {{ $t("kelas_nama") }} <sort-icon />
+              {{ $t('kelas_nama') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('staff_name')"
             >
-              {{ $t("kelas_wali") }} <sort-icon />
+              {{ $t('kelas_wali') }} <sort-icon />
             </th>
             <th class="text-left cursor-pointer mobile-hide">
-              {{ $t("kelas_tahun") }}
+              {{ $t('kelas_tahun') }}
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -77,7 +77,7 @@
                       v-close-popup
                       @click="store.getDetail(item.grade_id)"
                     >
-                      <q-item-section>{{ $t("perbarui") }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -85,7 +85,7 @@
                       v-close-popup
                       @click="showGroupMember(item.grade_id, item.grade_name)"
                     >
-                      <q-item-section>{{ $t("kelas_member") }}</q-item-section>
+                      <q-item-section>{{ $t('kelas_member') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -93,7 +93,7 @@
                       v-close-popup
                       @click="store.showDeleteConfirm(item.grade_id)"
                     >
-                      <q-item-section>{{ $t("hapus") }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -104,43 +104,43 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging :store="store" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { watch, computed } from "vue";
-import { useRouter } from "vue-router";
-import { checkColWidth } from "src/composables/screen";
-import { useClassStore } from "src/stores/class";
-import { usePagingStore } from "ss-paging-vue";
+import { watch, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { usePagingStore } from 'ss-paging-vue'
+import { useClassStore } from 'src/stores/class'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
-  name: "ClassTable",
+  name: 'ClassTable',
   setup() {
-    const store = useClassStore();
-    const router = useRouter();
-    const paging = usePagingStore();
-    const pagingData = computed(() => paging.store.data);
+    const store = useClassStore()
+    const router = useRouter()
+    const paging = usePagingStore()
+    const pagingData = computed(() => paging.state.data)
 
     watch(pagingData, () => {
-      store.checkAll = false;
-      store.selectedClasses = [];
-    });
+      store.checkAll = false
+      store.selectedClasses = []
+    })
 
     const showGroupMember = (id, name) => {
-      store.classMember.name = name;
-      router.push(`/class/member/${id}`);
-    };
+      store.classMember.name = name
+      router.push(`/class/member/${id}`)
+    }
 
-    store.getClassList();
+    store.getClassList()
 
     return {
       store,
       data: pagingData,
       checkColWidth,
       showGroupMember,
-    };
+    }
   },
-};
+}
 </script>

@@ -1,7 +1,9 @@
 <template>
   <q-card class="my-card">
     <q-card-section>
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_kelas') }}</div>
+      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+        {{ $t('menu_kelas') }}
+      </div>
       <div class="text-h6 text-capitalize" v-else>{{ $t('menu_kelas') }}</div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
@@ -11,19 +13,19 @@
     </q-card-section>
     <add-class-form />
     <edit-class-form />
-    <delete-confirm :store="store" :action="store.deleteClass()" />
+    <delete-confirm :store="store" @action="store.deleteClass()" />
     <class-table />
   </q-card>
 </template>
 
 <script>
-import { onMounted} from 'vue'
-import { useClassStore } from 'src/stores/class'
-import { titleSpacing } from 'src/composables/screen'
-import MainButton from './MainButton.vue'
+import { onMounted } from 'vue'
 import ClassTable from './ClassTable.vue'
+import MainButton from './MainButton.vue'
 import AddClassForm from './AddClassForm.vue'
 import EditClassForm from './EditClassForm.vue'
+import { useClassStore } from 'src/stores/class'
+import { titleSpacing } from 'src/composables/screen'
 
 export default {
   name: 'ClassList',
@@ -31,19 +33,19 @@ export default {
     MainButton,
     ClassTable,
     AddClassForm,
-    EditClassForm
+    EditClassForm,
   },
-  setup () {   
+  setup() {
     const store = useClassStore()
 
     onMounted(() => {
       store.getTeacher()
-    }) 
-    
-    return { 
+    })
+
+    return {
       titleSpacing,
       store,
     }
-  }
+  },
 }
 </script>
