@@ -14,15 +14,15 @@
               class="text-left cursor-pointer mobile-hide"
               @click="paging.sortData('room_code')"
             >
-              {{ $t("ruang_kode") }} <sort-icon />
+              {{ $t('ruang_kode') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer"
               @click="paging.sortData('room_name')"
             >
-              {{ $t("ruang_nama") }} <sort-icon />
+              {{ $t('ruang_nama') }} <sort-icon />
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@
                       v-close-popup
                       @click="store.getDetail(item.room_id)"
                     >
-                      <q-item-section>{{ $t("perbarui") }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -67,7 +67,7 @@
                       v-close-popup
                       @click="store.showDeleteConfirm(item.room_id)"
                     >
-                      <q-item-section>{{ $t("hapus") }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                   </q-list>
                 </q-menu>
@@ -78,36 +78,36 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging :store="store" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { watch, computed, defineComponent } from "vue";
-import { checkColWidth } from "src/composables/screen";
-import { useRoomStore } from "src/stores/room";
-import { usePagingStore } from "ss-paging-vue";
+import { watch, computed, defineComponent } from 'vue'
+import { checkColWidth } from 'src/composables/screen'
+import { useRoomStore } from 'src/stores/room'
+import { usePagingStore } from 'ss-paging-vue'
 
 export default defineComponent({
-  name: "RoomTable",
+  name: 'RoomTable',
   setup() {
-    const store = useRoomStore();
-    const paging = usePagingStore();
-    const pagingData = computed(() => paging.state.data);
+    const store = useRoomStore()
+    const paging = usePagingStore()
+    const pagingData = computed(() => paging.state.data)
 
-    store.getRooms();
+    store.getRooms()
 
     watch(pagingData, () => {
-      store.checkAll = false;
-      store.selectedRooms = [];
-    });
+      store.checkAll = false
+      store.selectedRooms = []
+    })
 
     return {
       store,
       paging,
       data: pagingData,
       checkColWidth,
-    };
+    }
   },
-});
+})
 </script>

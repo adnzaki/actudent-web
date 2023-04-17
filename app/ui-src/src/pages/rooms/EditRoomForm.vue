@@ -6,7 +6,7 @@
   >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t("ruang_edit_title") }}</div>
+        <div class="text-h6 text-capitalize">{{ $t('ruang_edit_title') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -53,30 +53,31 @@
 </template>
 
 <script>
-import { maximizedDialog, cardDialog } from "../../composables/screen";
-import { useRoomStore } from "src/stores/room";
+import { computed } from 'vue'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
+import { useRoomStore } from 'src/stores/room'
 
 export default {
-  name: "EditRoomForm",
+  name: 'EditRoomForm',
   setup() {
-    const store = useRoomStore();
+    const store = useRoomStore()
 
     const save = () => {
       store.save({
         data: store.detail,
         edit: true,
         id: store.detail.room_id,
-      });
-    };
+      })
+    }
 
     return {
-      store,
       save,
-      maximizedDialog,
+      store,
       cardDialog,
+      maximizedDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>

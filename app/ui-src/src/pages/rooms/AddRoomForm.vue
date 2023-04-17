@@ -8,7 +8,7 @@
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">
-          {{ $t("ruang_form_add_title") }}
+          {{ $t('ruang_form_add_title') }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -56,53 +56,53 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
-import { useRoomStore } from "src/stores/room";
+import { ref, computed } from 'vue'
+import { useRoomStore } from 'src/stores/room'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
-  name: "AddRoomForm",
+  name: 'AddRoomForm',
   setup() {
-    const store = useRoomStore();
+    const store = useRoomStore()
 
     let formValue = {
-      room_code: "",
-      room_name: "",
-    };
+      room_code: '',
+      room_name: '',
+    }
 
-    const formData = ref(formValue);
+    const formData = ref(formValue)
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.saveStatus);
+      const saveStatus = computed(() => store.saveStatus)
       if (saveStatus.value === 200) {
         formValue = {
-          room_code: "",
-          room_name: "",
-        };
+          room_code: '',
+          room_name: '',
+        }
 
-        store.saveStatus = 500;
-        formData.value = formValue;
+        store.saveStatus = 500
+        formData.value = formValue
       }
-    };
+    }
 
     const save = () => {
       store.save({
         data: formData.value,
         edit: false,
         id: null,
-      });
-    };
+      })
+    }
 
     return {
+      save,
       store,
+      formData,
+      formOpen,
+      cardDialog,
+      maximizedDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-      formData,
-      save,
-      maximizedDialog,
-      cardDialog,
-      formOpen,
-    };
+    }
   },
-};
+}
 </script>

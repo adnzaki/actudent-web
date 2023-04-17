@@ -1,8 +1,10 @@
 <template>
-  <div :class="wrapperPadding()">  
+  <div :class="wrapperPadding()">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_ruang') }}</div>
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('menu_ruang') }}
+        </div>
         <div class="text-h6 text-capitalize" v-else>{{ $t('menu_ruang') }}</div>
         <div :class="['row', titleSpacing()]">
           <main-button class="q-mt-sm" />
@@ -12,7 +14,7 @@
       </q-card-section>
       <add-room-form />
       <edit-room-form />
-      <delete-confirm :store="store" :action="store.deleteRoom()" />
+      <delete-confirm :store="store" @action="store.deleteRoom()" />
       <room-table />
     </q-card>
   </div>
@@ -28,19 +30,20 @@ import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   name: 'RoomMain',
-  components: { 
+  components: {
     MainButton,
     RoomTable,
     AddRoomForm,
-    EditRoomForm
+    EditRoomForm,
   },
   setup() {
     const store = useRoomStore()
 
     return {
       store,
-      wrapperPadding, titleSpacing
+      wrapperPadding,
+      titleSpacing,
     }
-  }
+  },
 }
 </script>
