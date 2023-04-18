@@ -8,12 +8,12 @@
       @update:model-value="filterGuest"
     />
   </div>
-  <dropdown-search 
+  <dropdown-search
     :disable="disableClassSelector"
-    class="justify-data-options" 
+    class="justify-data-options"
     custom-class="q-pr-xs"
     flex-grid="col-md-6"
-    :selected="filterGuest"
+    @selected="filterGuest"
     loader="getClassGroup"
     :label="$t('siswa_semua_kelas')"
     :list="studentStore.classGroupList"
@@ -38,7 +38,7 @@ export default {
     const studentStore = useStudentStore()
     const disableClassSelector = ref(true)
     const { selectAllToggle } = inject('GuestSelector')
-    
+
     setTimeout(() => {
       options.value = [
         { label: t('staff_guru'), value: 'guru' },
@@ -47,40 +47,41 @@ export default {
         { label: t('agenda_check_ortu'), value: 'orang_tua' },
       ]
 
-      model.value = { 
-        label: t('staff_guru'), value: 'guru'
+      model.value = {
+        label: t('staff_guru'),
+        value: 'guru',
       }
 
-      store.getUsers(model.value.value)      
+      store.getUsers(model.value.value)
     }, 1500)
 
-    return { 
+    return {
       store,
       model,
       options,
       studentStore,
       disableClassSelector,
       filterGuest(model) {
-        if(model.value !== 'orang_tua') {
+        if (model.value !== 'orang_tua') {
           store.getUsers(model.value)
 
           // disable only if model.value is a pure string
-          if(isNaN(model.value)) {
+          if (isNaN(model.value)) {
             disableClassSelector.value = true
             studentStore.getClassGroup()
-          }       
+          }
         } else {
           disableClassSelector.value = false
           const classList = computed(() => studentStore.classGroupList)
 
-          if(classList.value.length > 0) {
+          if (classList.value.length > 0) {
             store.getUsers(classList.value[0].grade_id)
           }
         }
 
         selectAllToggle.value = false
-      },      
+      },
     }
-  } 
+  },
 }
 </script>

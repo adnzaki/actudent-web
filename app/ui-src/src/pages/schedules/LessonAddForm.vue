@@ -8,7 +8,7 @@
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">
-          {{ $t("jadwal_add_mapel_title") }}
+          {{ $t('jadwal_add_mapel_title') }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -17,7 +17,7 @@
       <q-card-section class="scroll card-section">
         <q-form class="q-gutter-xs">
           <dropdown-search
-            :selected="setLesson"
+            @selected="setLesson"
             :label="$t('jadwal_input_cari_mapel')"
             :list="store.lesson.options"
             :options-value="{ label: 'text', value: 'id' }"
@@ -26,7 +26,7 @@
           <ac-error :label="error.lesson_id" />
 
           <dropdown-search
-            :selected="setTeacher"
+            @selected="setTeacher"
             :label="$t('jadwal_label_pilih_guru')"
             :list="classStore.teachers"
             :options-value="{ label: 'staff_name', value: 'staff_id' }"
@@ -58,52 +58,52 @@
 </template>
 
 <script>
-import { ref, computed } from "vue";
-import { useRoute } from "vue-router";
-import { useScheduleStore } from "src/stores/schedule";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
-import { useClassStore } from "src/stores/class";
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { useScheduleStore } from 'src/stores/schedule'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
+import { useClassStore } from 'src/stores/class'
 
 export default {
-  name: "LessonAddForm",
+  name: 'LessonAddForm',
   setup() {
-    const store = useScheduleStore();
-    const classStore = useClassStore();
-    const route = useRoute();
+    const store = useScheduleStore()
+    const classStore = useClassStore()
+    const route = useRoute()
 
     let formValue = {
-      lesson_id: "",
-      teacher_id: "",
-    };
+      lesson_id: '',
+      teacher_id: '',
+    }
 
-    const setLesson = (model) => (formValue.lesson_id = model.value);
-    const setTeacher = (model) => (formValue.teacher_id = model.value);
+    const setLesson = (model) => (formValue.lesson_id = model.value)
+    const setTeacher = (model) => (formValue.teacher_id = model.value)
 
-    const formData = ref(formValue);
+    const formData = ref(formValue)
 
     const formOpen = () => {
-      formData.value.teacher_id = classStore.teacherId;
-      formData.value.lesson_id = store.lesson.lessonId;
+      formData.value.teacher_id = classStore.teacherId
+      formData.value.lesson_id = store.lesson.lessonId
 
-      const saveStatus = computed(() => store.lesson.saveStatus);
+      const saveStatus = computed(() => store.lesson.saveStatus)
       if (saveStatus.value === 200) {
         formValue = {
-          lesson_id: "",
-          teacher_id: "",
-        };
+          lesson_id: '',
+          teacher_id: '',
+        }
 
-        store.lesson.saveStatus = 500;
-        formData.value = formValue;
+        store.lesson.saveStatus = 500
+        formData.value = formValue
       }
-    };
+    }
 
     const save = () => {
-      store.save({
+      store.saveLesson({
         data: formData.value,
         edit: false,
         id: null,
-      });
-    };
+      })
+    }
 
     return {
       save,
@@ -117,7 +117,7 @@ export default {
       cardDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>

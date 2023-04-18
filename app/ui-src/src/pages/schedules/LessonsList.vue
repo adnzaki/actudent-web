@@ -7,16 +7,16 @@
             <th :class="['text-left cursor-pointer', checkColWidth()]">
               <q-checkbox
                 v-model="store.lesson.checkAll"
-                @update:model-value="selectAllLessons"
+                @update:model-value="store.selectAllLessons()"
               />
             </th>
             <th class="text-left cursor-pointer">
-              {{ $t("jadwal_nama_mapel") }} <sort-icon />
+              {{ $t('jadwal_nama_mapel') }} <sort-icon />
             </th>
             <th class="text-left cursor-pointer mobile-hide">
-              {{ $t("jadwal_guru_mapel") }} <sort-icon />
+              {{ $t('jadwal_guru_mapel') }} <sort-icon />
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -59,7 +59,7 @@
                       v-close-popup
                       @click="store.getDetailLesson(item.lessons_grade_id)"
                     >
-                      <q-item-section>{{ $t("perbarui") }}</q-item-section>
+                      <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
                     <q-separator />
                     <q-item
@@ -67,7 +67,7 @@
                       v-close-popup
                       @click="store.showDeleteConfirm(item.lessons_grade_id)"
                     >
-                      <q-item-section>{{ $t("hapus") }}</q-item-section>
+                      <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
                     <q-separator />
                   </q-list>
@@ -83,26 +83,26 @@
 </template>
 
 <script>
-import { computed } from "vue";
-import { useRoute } from "vue-router";
-import { usePagingStore } from "ss-paging-vue";
-import { useScheduleStore } from "src/stores/schedule";
-import { checkColWidth } from "src/composables/screen";
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import { usePagingStore } from 'ss-paging-vue'
+import { useScheduleStore } from 'src/stores/schedule'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
-  name: "LessonsList",
+  name: 'LessonsList',
   setup() {
-    const store = useScheduleStore();
-    const paging = usePagingStore();
-    const route = useRoute();
+    const route = useRoute()
+    const paging = usePagingStore()
+    const store = useScheduleStore()
 
-    store.getLessonsList(route.params.id);
+    store.getLessonsList(route.params.id)
 
     return {
       store,
-      data: computed(() => paging.state.data),
       checkColWidth,
-    };
+      data: computed(() => store.lesson.list),
+    }
   },
-};
+}
 </script>

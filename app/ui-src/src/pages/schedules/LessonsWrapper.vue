@@ -2,11 +2,18 @@
   <q-card class="my-card">
     <q-card-section>
       <div class="row">
-        <q-btn color="teal" flat rounded
+        <q-btn
+          color="teal"
+          flat
+          rounded
           class="back-button"
-          icon="arrow_back" 
-          @click="$router.push('/schedules')" />
-        <div class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5" v-if="$q.screen.lt.sm">
+          icon="arrow_back"
+          @click="$router.push('/schedules')"
+        />
+        <div
+          class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5"
+          v-if="$q.screen.lt.sm"
+        >
           {{ $t('jadwal_daftar_mapel') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
@@ -20,7 +27,7 @@
     <lessons-list />
     <lesson-add-form />
     <lesson-edit-form />
-    <delete-confirm :store="store" :action="store.deleteLesson()" />
+    <delete-confirm :store="store" @action="store.deleteLesson()" />
   </q-card>
 </template>
 
@@ -41,7 +48,7 @@ export default {
     LessonsButton,
     LessonsList,
     LessonAddForm,
-    LessonEditForm
+    LessonEditForm,
   },
   setup() {
     const route = useRoute()
@@ -53,10 +60,10 @@ export default {
       classStore.getTeacher()
     })
 
-    return { 
+    return {
       store,
-      titleSpacing
+      titleSpacing,
     }
-  }
+  },
 }
 </script>

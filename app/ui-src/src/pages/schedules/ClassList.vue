@@ -9,24 +9,24 @@
               class="text-left cursor-pointer"
               @click="paging.sortData('grade_name')"
             >
-              {{ $t("kelas_nama") }} <sort-icon />
+              {{ $t('kelas_nama') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="paging.sortData('staff_name')"
             >
-              {{ $t("kelas_wali") }} <sort-icon />
+              {{ $t('kelas_wali') }} <sort-icon />
             </th>
             <th class="text-left cursor-pointer mobile-hide">
-              {{ $t("kelas_tahun") }}
+              {{ $t('kelas_tahun') }}
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
             <td class="text-center">
-              {{ $store.getters["schedule/itemNumber"](index) }}
+              {{ paging.itemNumber(index) }}
             </td>
             <td class="text-left mobile-hide">{{ item.grade_name }}</td>
             <td class="text-left mobile-only">
@@ -64,7 +64,7 @@
                       @click="showLessons(item.grade_id, item.grade_name)"
                     >
                       <q-item-section>{{
-                        $t("jadwal_daftar_mapel")
+                        $t('jadwal_daftar_mapel')
                       }}</q-item-section>
                     </q-item>
                     <q-separator />
@@ -74,7 +74,7 @@
                       @click="showSchedules(item.grade_id, item.grade_name)"
                     >
                       <q-item-section>{{
-                        $t("jadwal_jadwal_mapel")
+                        $t('jadwal_jadwal_mapel')
                       }}</q-item-section>
                     </q-item>
                     <q-separator />
@@ -87,44 +87,44 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging vuex-module="schedule" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import { usePagingStore } from "ss-paging-vue";
-import { useScheduleStore } from "src/stores/schedule";
-import { checkColWidth } from "src/composables/screen";
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { usePagingStore } from 'ss-paging-vue'
+import { useScheduleStore } from 'src/stores/schedule'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
-  name: "ClassList",
+  name: 'ClassList',
   setup() {
-    const router = useRouter();
-    const store = useScheduleStore();
-    const paging = usePagingStore();
+    const router = useRouter()
+    const paging = usePagingStore()
+    const store = useScheduleStore()
 
-    store.getClassList();
+    store.getClassList()
 
     const showLessons = (gradeId, name) => {
-      store.className = name;
-      router.push(`/schedules/lessons/${gradeId}`);
-    };
+      store.className = name
+      router.push(`/schedules/lessons/${gradeId}`)
+    }
 
     const showSchedules = (gradeId, name) => {
-      store.className = name;
-      router.push(`/schedules/mapping/${gradeId}`);
-    };
+      store.className = name
+      router.push(`/schedules/mapping/${gradeId}`)
+    }
 
     return {
       store,
       paging,
-      data: computed(() => paging.state.data),
-      checkColWidth,
       showLessons,
       showSchedules,
-    };
+      checkColWidth,
+      data: computed(() => paging.state.data),
+    }
   },
-};
+}
 </script>

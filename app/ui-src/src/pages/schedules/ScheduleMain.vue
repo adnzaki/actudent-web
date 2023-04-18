@@ -1,5 +1,5 @@
 <template>
-  <div :class="wrapperPadding()">  
+  <div :class="wrapperPadding()">
     <router-view />
   </div>
 </template>
@@ -10,9 +10,9 @@ import { wrapperPadding } from 'src/composables/screen'
 export default {
   name: 'ScheduleMain',
   setup() {
-    return { store,
-      wrapperPadding
+    return {
+      wrapperPadding,
     }
-  }
+  },
 }
 </script>

@@ -1,36 +1,45 @@
 <template>
-  <q-form class="q-gutter-md q-mb-md" v-if="!schedule.showLessonList" >
+  <q-form class="q-gutter-md q-mb-md" v-if="!schedule.showLessonList">
     <div v-if="schedule.showLessonInput">
-      <dropdown-search 
-        :selected="setLesson"
+      <dropdown-search
+        @selected="setLesson"
         :label="$t('jadwal_label_pilih_mapel')"
         :list="store.schedule.lessonOptions"
         :options-value="{ label: 'text', value: 'id' }"
         load-on-route
         class="q-mb-md"
-      />       
-      <dropdown-search 
-        :selected="setRoom"
+      />
+      <dropdown-search
+        @selected="setRoom"
         :label="$t('jadwal_label_pilih_ruang')"
         :list="store.rooms"
         :options-value="{ label: 'text', value: 'id' }"
         load-on-route
         class="q-mb-md"
-      />  
-      <q-select outlined dense 
-        v-model="duration" 
-        :options="durationOptions" 
+      />
+      <q-select
+        outlined
+        dense
+        v-model="duration"
+        :options="durationOptions"
         :label="$t('jadwal_durasi')"
-        @update:model-value="setDuration" />
+        @update:model-value="setDuration"
+      />
     </div>
 
-    <q-input outlined :label="breakLabel" 
-      dense v-model="breakDuration" 
+    <q-input
+      outlined
+      :label="breakLabel"
+      dense
+      v-model="breakDuration"
       :rules="[
-        val => val.match(/[^0-9]/) === null && val !== '' || $t('jadwal_err_istirahat_type'),
-        val => val !== '0' || $t('jadwal_err_istirahat_time')
+        (val) =>
+          (val.match(/[^0-9]/) === null && val !== '') ||
+          $t('jadwal_err_istirahat_type'),
+        (val) => val !== '0' || $t('jadwal_err_istirahat_time'),
       ]"
-      v-if="schedule.isBreak" />
+      v-if="schedule.isBreak"
+    />
 
     <mapping-form-selector />
 
@@ -41,13 +50,12 @@
         </q-tooltip>
       </q-btn>
     </div>
-
   </q-form>
 </template>
 
 <script>
-import { ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { ref, computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useScheduleStore } from 'src/stores/schedule'
 import MappingFormSelector from './MappingFormSelector.vue'
@@ -69,33 +77,39 @@ export default {
     formValue.lesson = store.schedule.defaultLesson
     formValue.room = store.schedule.defaultRoom
 
-    const setLesson = model => formValue.lesson = model
-    const setRoom = model => formValue.room = model
+    const setLesson = (model) => (formValue.lesson = model)
+    const setRoom = (model) => (formValue.room = model)
 
     const duration = ref(null)
     const durationValues = [1, 2, 3, 4]
     const durationOptions = ref([])
 
-    durationValues.forEach(item => {
-      durationOptions.value.push({ 
-        label: `${item} ${t('jadwal_jam_pelajaran')}`, 
-        value: item 
+    durationValues.forEach((item) => {
+      durationOptions.value.push({
+        label: `${item} ${t('jadwal_jam_pelajaran')}`,
+        value: item,
       })
     })
 
-    const setDuration = model => formValue.duration = model
+    const setDuration = (model) => (formValue.duration = model)
 
     const breakDuration = ref('10')
 
     const pushLesson = () => {
-      if(store.schedule.isBreak) {
-        if(breakDuration.value.match(/[^0-9]/) === null
-          && breakDuration.value !== ''
-          && breakDuration.value !== '0') {
+      if (store.schedule.isBreak) {
+        if (
+          breakDuration.value.match(/[^0-9]/) === null &&
+          breakDuration.value !== '' &&
+          breakDuration.value !== '0'
+        ) {
           store.pushLesson(breakDuration.value)
         }
       } else {
-        if(formValue.lesson !== '' && formValue.room !== '' && duration.value !== null) {
+        if (
+          formValue.lesson !== '' &&
+          formValue.room !== '' &&
+          duration.value !== null
+        ) {
           store.pushLesson(formValue)
           formValue.lesson = ''
           formValue.room = ''
@@ -109,8 +123,8 @@ export default {
         }
       }
     }
-    
-    return { 
+
+    return {
       store,
       setRoom,
       duration,
@@ -123,6 +137,6 @@ export default {
       schedule: computed(() => store.schedule),
       breakLabel: `${t('jadwal_istirahat')} (${t('jadwal_menit')})`,
     }
-  }
+  },
 }
 </script>
