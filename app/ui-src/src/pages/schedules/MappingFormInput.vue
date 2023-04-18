@@ -93,7 +93,7 @@ export default {
 
     const setDuration = (model) => (formValue.duration = model)
 
-    const breakDuration = ref('10')
+    const breakDuration = ref('20')
 
     const pushLesson = () => {
       if (store.schedule.isBreak) {
