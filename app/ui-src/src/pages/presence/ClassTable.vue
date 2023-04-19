@@ -9,18 +9,18 @@
               class="text-left cursor-pointer"
               @click="paging.sortData('grade_name')"
             >
-              {{ $t("kelas_nama") }} <sort-icon />
+              {{ $t('kelas_nama') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="paging.sortData('staff_name')"
             >
-              {{ $t("kelas_wali") }} <sort-icon />
+              {{ $t('kelas_wali') }} <sort-icon />
             </th>
             <th class="text-left cursor-pointer mobile-hide">
-              {{ $t("kelas_tahun") }}
+              {{ $t('kelas_tahun') }}
             </th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -89,7 +89,7 @@
                       "
                     >
                       <q-item-section>{{
-                        $t("absensi_isi_kehadiran")
+                        $t('absensi_isi_kehadiran')
                       }}</q-item-section>
                     </q-item>
                     <q-separator />
@@ -105,7 +105,7 @@
                       "
                     >
                       <q-item-section>{{
-                        $t("absensi_rekap_bulanan")
+                        $t('absensi_rekap_bulanan')
                       }}</q-item-section>
                     </q-item>
                     <q-item
@@ -120,7 +120,7 @@
                       "
                     >
                       <q-item-section>{{
-                        $t("absensi_rekap_semester")
+                        $t('absensi_rekap_semester')
                       }}</q-item-section>
                     </q-item>
                   </q-list>
@@ -132,35 +132,35 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging vuex-module="grade" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
-import { useRouter } from "vue-router";
-import { usePagingStore } from "ss-paging-vue";
-import { useClassStore } from "src/stores/class";
-import { usePresenceStore } from "src/stores/presence";
-import { checkColWidth } from "src/composables/screen";
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { usePagingStore } from 'ss-paging-vue'
+import { useClassStore } from 'src/stores/class'
+import { usePresenceStore } from 'src/stores/presence'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
-  name: "ClassTable",
+  name: 'ClassTable',
   setup() {
-    const store = usePresenceStore();
-    const classStore = useClassStore();
-    const paging = usePagingStore();
-    const router = useRouter();
+    const store = usePresenceStore()
+    const classStore = useClassStore()
+    const paging = usePagingStore()
+    const router = useRouter()
 
     setTimeout(() => {
-      classStore.getClassList();
-    }, 500);
+      classStore.getClassList()
+    }, 500)
 
     const presenceAction = (id, name, url) => {
-      store.className = name;
-      localStorage.setItem("class", name);
-      router.push(`/presence/${url}/${id}`);
-    };
+      store.className = name
+      localStorage.setItem('class', name)
+      router.push(`/presence/${url}/${id}`)
+    }
 
     return {
       store,
@@ -168,7 +168,7 @@ export default {
       data: computed(() => paging.state.data),
       checkColWidth,
       presenceAction,
-    };
+    }
   },
-};
+}
 </script>

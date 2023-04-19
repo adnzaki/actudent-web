@@ -6,16 +6,18 @@
           <tr>
             <th class="text-center" rowspan="2">#</th>
             <th class="text-center" rowspan="2">{{ $t('siswa_nama') }}</th>
-            <th class="text-center" colspan="5">{{ $t('absensi_ringkasan') }}</th>
+            <th class="text-center" colspan="5">
+              {{ $t('absensi_ringkasan') }}
+            </th>
           </tr>
           <tr>
-            <th class="text-center">{{ $t('absensi_hadir') }}</th>   
+            <th class="text-center">{{ $t('absensi_hadir') }}</th>
             <th class="text-center">{{ $t('absensi_izin') }}</th>
             <th class="text-center">{{ $t('absensi_sakit') }}</th>
             <th class="text-center">{{ $t('absensi_alfa') }}</th>
             <th class="text-center">{{ $t('absensi_incomplete') }}</th>
           </tr>
-        </thead> 
+        </thead>
         <tbody>
           <tr v-for="(item, index) in periodSummary.summary" :key="index">
             <td class="text-center">{{ index + 1 }}</td>
@@ -29,7 +31,7 @@
         </tbody>
       </q-markup-table>
     </q-scroll-area>
-    <q-separator/>
+    <q-separator />
   </div>
 </template>
 <script>
@@ -46,8 +48,9 @@ export default {
     })
 
     return {
-      periodSummary: computed(() => store.periodSummary)
+      store,
+      periodSummary: computed(() => store.periodSummary),
     }
-  }
+  },
 }
 </script>

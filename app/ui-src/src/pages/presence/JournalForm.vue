@@ -7,7 +7,7 @@
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">
-          {{ $t("absensi_jurnal_title") }}
+          {{ $t('absensi_jurnal_title') }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -89,7 +89,7 @@
           v-if="store.salinJurnal"
           @click="store.copyJournal()"
         >
-          {{ $t("absensi_salin_jurnal_label") }}
+          {{ $t('absensi_salin_jurnal_label') }}
         </q-btn>
       </q-card-section>
       <q-separator />
@@ -115,27 +115,27 @@
 </template>
 
 <script>
-import { date } from "quasar";
-import { computed } from "vue";
-import { todayStr } from "../../composables/date";
-import { usePresenceStore } from "src/stores/presence";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
+import { date } from 'quasar'
+import { computed } from 'vue'
+import { todayStr } from '../../composables/date'
+import { usePresenceStore } from 'src/stores/presence'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
-  name: "JournalForm",
+  name: 'JournalForm',
   setup() {
-    const store = usePresenceStore();
+    const store = usePresenceStore()
 
     const addHomework = () => {
-      store.journal.due_date = date.formatDate(todayStr, "YYYY-MM-DD");
-    };
+      store.journal.due_date = date.formatDate(todayStr, 'YYYY-MM-DD')
+    }
 
     const save = () => {
-      store.saveJournal();
-    };
+      store.saveJournal()
+    }
 
-    if (store.journal.description !== "") {
-      store.salinJurnal = false;
+    if (store.journal.description !== '') {
+      store.salinJurnal = false
     }
 
     return {
@@ -146,7 +146,7 @@ export default {
       cardDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>
