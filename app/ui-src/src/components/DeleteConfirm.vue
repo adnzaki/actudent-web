@@ -41,26 +41,26 @@
 </template>
 
 <script>
-import { computed } from "vue";
-import { t } from "src/composables/common";
+import { computed } from 'vue'
+import { t } from 'src/composables/common'
 
 export default {
-  props: ["store", "action", "customText", "okButtonText"],
-  emits: ["action"],
+  props: ['store', 'action', 'customText', 'okButtonText'],
+  emits: ['action'],
   setup(props) {
     return {
       confirmText: computed(() => {
         return props.customText !== undefined
           ? props.customText
-          : t("sure_to_delete");
+          : t('sure_to_delete')
       }),
       okButton: computed(() => {
         return props.okButtonText !== undefined
           ? props.okButtonText
-          : t("hapus");
+          : t('hapus')
       }),
       closeDeleteConfirm: () => props.store.closeDeleteConfirm(),
-    };
+    }
   },
-};
+}
 </script>

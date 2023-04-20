@@ -13,7 +13,7 @@
           {{ cardTitle }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
-          {{ $t("agenda_detail_title") }}
+          {{ $t('agenda_detail_title') }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -146,7 +146,7 @@
             @click="showGuestSelector"
           />
 
-          <p class="q-mt-md">{{ $t("agenda_label_prior") }}:</p>
+          <p class="q-mt-md">{{ $t('agenda_label_prior') }}:</p>
           <div class="row" style="margin-top: -25px; margin-left: -10px">
             <div class="col-12 col-md-4">
               <q-radio
@@ -228,7 +228,7 @@
               formData.agenda_attachment !== 'null'
             "
           >
-            {{ $t("agenda_label_att_name") }}
+            {{ $t('agenda_label_att_name') }}
             <a :href="attachmentUrl" target="_blank">
               <q-badge
                 color="blue"
@@ -299,66 +299,66 @@
 </style>
 
 <script>
-import { date, useQuasar } from "quasar";
-import GuestSelector from "./GuestSelector.vue";
-import { useAgendaStore } from "src/stores/agenda";
-import { selectedLang } from "../../composables/date";
-import { ref, reactive, computed, provide } from "vue";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
-import { t, axios, bearerToken, conf, userType } from "src/composables/common";
+import { date, useQuasar } from 'quasar'
+import GuestSelector from './GuestSelector.vue'
+import { useAgendaStore } from 'src/stores/agenda'
+import { selectedLang } from '../../composables/date'
+import { ref, reactive, computed, provide } from 'vue'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
+import { t, axios, bearerToken, conf, userType } from 'src/composables/common'
 
 export default {
-  name: "AgendaForm",
+  name: 'AgendaForm',
   components: { GuestSelector },
   setup() {
-    const $q = useQuasar();
-    const store = useAgendaStore();
-    const dateModelFormat = "YYYY-MM-DD HH:mm";
-    const defaultDateValue = date.formatDate(new Date(), dateModelFormat);
+    const $q = useQuasar()
+    const store = useAgendaStore()
+    const dateModelFormat = 'YYYY-MM-DD HH:mm'
+    const defaultDateValue = date.formatDate(new Date(), dateModelFormat)
     const defaultDateEndValue = date.formatDate(
       date.addToDate(defaultDateValue, { hours: 1 }),
       dateModelFormat
-    );
+    )
 
-    const dateStartRaw = ref(defaultDateValue);
-    const dateEndRaw = ref(defaultDateEndValue);
-    const isEditForm = computed(() => store.isEditForm);
+    const dateStartRaw = ref(defaultDateValue)
+    const dateEndRaw = ref(defaultDateEndValue)
+    const isEditForm = computed(() => store.isEditForm)
 
     let formValue = {
-      agenda_name: "",
-      agenda_start: "",
-      agenda_end: "",
-      agenda_description: "",
-      agenda_priority: "normal",
-      agenda_location: "",
-      agenda_guest: "",
-      agenda_attachment: "",
-    };
+      agenda_name: '',
+      agenda_start: '',
+      agenda_end: '',
+      agenda_description: '',
+      agenda_priority: 'normal',
+      agenda_location: '',
+      agenda_guest: '',
+      agenda_attachment: '',
+    }
 
-    const guestWrapper = ref([]);
+    const guestWrapper = ref([])
 
     const strFormat = $q.screen.gt.sm
-      ? "dddd, DD MMMM YYYY | HH:mm"
-      : "ddd, DD-MMM-YYYY | HH:mm";
-    const formData = ref(formValue);
-    const formatDate = (val) => date.formatDate(val, strFormat, selectedLang);
-    const dateStartStr = ref(formatDate(new Date()));
+      ? 'dddd, DD MMMM YYYY | HH:mm'
+      : 'ddd, DD-MMM-YYYY | HH:mm'
+    const formData = ref(formValue)
+    const formatDate = (val) => date.formatDate(val, strFormat, selectedLang)
+    const dateStartStr = ref(formatDate(new Date()))
     const dateEndStr = ref(
       formatDate(date.addToDate(defaultDateValue, { hours: 1 }))
-    );
+    )
 
     const pickerStartChanged = (val) => {
-      dateStartStr.value = formatDate(new Date(val));
-    };
+      dateStartStr.value = formatDate(new Date(val))
+    }
 
     const pickerEndChanged = (val) => {
-      dateEndStr.value = formatDate(new Date(val));
-    };
+      dateEndStr.value = formatDate(new Date(val))
+    }
 
-    const attachment = ref([]);
-    const attachmentUrl = ref("");
+    const attachment = ref([])
+    const attachmentUrl = ref('')
     const formOpen = () => {
-      const details = computed(() => store.detail).value;
+      const details = computed(() => store.detail).value
       if (isEditForm.value) {
         formData.value = {
           agenda_name: details.agenda_name,
@@ -366,55 +366,55 @@ export default {
           agenda_priority: details.agenda_priority,
           agenda_location: details.agenda_location,
           agenda_attachment: details.agenda_attachment,
-        };
+        }
 
-        dateStartRaw.value = details.agenda_start;
-        dateEndRaw.value = details.agenda_end;
+        dateStartRaw.value = details.agenda_start
+        dateEndRaw.value = details.agenda_end
 
-        dateStartStr.value = formatDate(details.agenda_start);
-        dateEndStr.value = formatDate(details.agenda_end);
+        dateStartStr.value = formatDate(details.agenda_start)
+        dateEndStr.value = formatDate(details.agenda_end)
         attachmentUrl.value =
-          store.getters["agenda/agendaApi"] +
-          "display-attachment/" +
+          store.agendaApi +
+          'display-attachment/' +
           details.agenda_id +
-          "/" +
-          $q.cookies.get(conf.cookieName);
+          '/' +
+          $q.cookies.get(conf.cookieName)
       } else {
-        const saveStatus = computed(() => store.saveStatus);
+        const saveStatus = computed(() => store.saveStatus)
         if (saveStatus.value === 200 || !isEditForm.value) {
           formData.value = {
-            agenda_name: "",
-            agenda_description: "",
-            agenda_priority: "normal",
-            agenda_location: "",
-            agenda_attachment: "",
-          };
+            agenda_name: '',
+            agenda_description: '',
+            agenda_priority: 'normal',
+            agenda_location: '',
+            agenda_attachment: '',
+          }
 
-          attachment.value = [];
-          dateStartStr.value = formatDate(new Date());
+          attachment.value = []
+          dateStartStr.value = formatDate(new Date())
           dateEndStr.value = formatDate(
             date.addToDate(defaultDateValue, { hours: 1 })
-          );
-          dateStartRaw.value = defaultDateValue;
-          dateEndRaw.value = defaultDateEndValue;
+          )
+          dateStartRaw.value = defaultDateValue
+          dateEndRaw.value = defaultDateEndValue
 
-          store.saveStatus = 500;
+          store.saveStatus = 500
         }
       }
-    };
+    }
 
     const save = () => {
-      const phpTimestamp = (val) => Date.parse(val).toString().substring(0, 10);
-      formData.value.agenda_start = phpTimestamp(dateStartRaw.value);
-      formData.value.agenda_end = phpTimestamp(dateEndRaw.value);
+      const phpTimestamp = (val) => Date.parse(val).toString().substring(0, 10)
+      formData.value.agenda_start = phpTimestamp(dateStartRaw.value)
+      formData.value.agenda_end = phpTimestamp(dateEndRaw.value)
 
-      const guestType = store.isEditForm ? "guestsEdit" : "guests";
-      const agendaGuest = computed(() => store[guestType]);
+      const guestType = store.isEditForm ? 'guestsEdit' : 'guests'
+      const agendaGuest = computed(() => store[guestType])
 
       if (agendaGuest.value.length > 0) {
-        formData.value.agenda_guest = JSON.stringify(agendaGuest.value);
+        formData.value.agenda_guest = JSON.stringify(agendaGuest.value)
       } else {
-        formData.value.agenda_guest = "";
+        formData.value.agenda_guest = ''
       }
 
       if (isEditForm.value) {
@@ -422,59 +422,59 @@ export default {
           data: formData.value,
           edit: true,
           id: store.detail.agenda_id,
-        });
+        })
       } else {
         store.save({
           data: formData.value,
           edit: false,
           id: null,
-        });
+        })
       }
-    };
+    }
 
-    const attachmentError = ref("");
+    const attachmentError = ref('')
 
     const uploadFile = (val) => {
-      store.helper.disableSaveButton = true;
-      const uploadData = new FormData();
-      uploadData.append("attachment", val);
+      store.helper.disableSaveButton = true
+      const uploadData = new FormData()
+      uploadData.append('attachment', val)
       axios
         .post(`${store.agendaApi}upload`, uploadData, {
           headers: {
-            "Content-Type": "multipart/form-data",
+            'Content-Type': 'multipart/form-data',
             Authorization: bearerToken,
           },
         })
         .then(({ data }) => {
-          if (data.msg === "OK") {
-            attachmentError.value = "";
-            store.helper.disableSaveButton = false;
-            formData.value.agenda_attachment = data.filename;
+          if (data.msg === 'OK') {
+            attachmentError.value = ''
+            store.helper.disableSaveButton = false
+            formData.value.agenda_attachment = data.filename
           } else {
-            attachmentError.value = data;
-            store.helper.disableSaveButton = true;
+            attachmentError.value = data
+            store.helper.disableSaveButton = true
           }
 
-          console.log(formData.value);
+          console.log(formData.value)
         })
-        .catch((error) => console.error(error));
-    };
+        .catch((error) => console.error(error))
+    }
 
     const formHide = () => {
       if (store.isEditForm) {
-        dateStartRaw.value = defaultDateValue;
-        dateEndRaw.value = defaultDateEndValue;
+        dateStartRaw.value = defaultDateValue
+        dateEndRaw.value = defaultDateEndValue
       }
 
-      store.isEditForm = false;
-      store.mainForm = true;
-    };
+      store.isEditForm = false
+      store.mainForm = true
+    }
 
-    const disableSaveButton = computed(() => store.helper.disableSaveButton);
-    provide("shared", {
+    const disableSaveButton = computed(() => store.helper.disableSaveButton)
+    provide('shared', {
       disableSaveButton,
       store,
-    });
+    })
 
     return {
       conf,
@@ -499,42 +499,42 @@ export default {
       attachmentError,
       error: computed(() => store.error),
       showGuestSelector() {
-        store.mainForm = false;
+        store.mainForm = false
       },
       inviteBtn: reactive({
-        width: $q.screen.lt.sm ? "98%" : "99%",
+        width: $q.screen.lt.sm ? '98%' : '99%',
         marginLeft: 0,
-        marginTop: "15px",
+        marginTop: '15px',
       }),
       dateStartStr: computed(() => {
-        let prefix = "";
+        let prefix = ''
         if ($q.screen.gt.sm) {
-          prefix = `${t("agenda_label_start")}: `;
+          prefix = `${t('agenda_label_start')}: `
         }
 
-        return `${prefix}${dateStartStr.value}`;
+        return `${prefix}${dateStartStr.value}`
       }),
       dateEndStr: computed(() => {
-        let prefix = "";
+        let prefix = ''
         if ($q.screen.gt.sm) {
-          prefix = `${t("agenda_label_end")}: `;
+          prefix = `${t('agenda_label_end')}: `
         }
 
-        return `${prefix}${dateEndStr.value}`;
+        return `${prefix}${dateEndStr.value}`
       }),
       closeBtnColor: computed(() =>
-        $q.dark.isActive ? "warning" : "deep-purple"
+        $q.dark.isActive ? 'warning' : 'deep-purple'
       ),
       readonly: computed(() =>
-        $q.cookies.get(conf.userType) === "1" ? false : true
+        $q.cookies.get(conf.userType) === '1' ? false : true
       ),
       guestLabel: computed(() =>
-        guestWrapper.value.length > 0 ? "" : t("agenda_label_guest")
+        guestWrapper.value.length > 0 ? '' : t('agenda_label_guest')
       ),
       cardTitle: computed(() =>
-        isEditForm.value ? t("agenda_edit_title") : t("agenda_form_title")
+        isEditForm.value ? t('agenda_edit_title') : t('agenda_form_title')
       ),
-    };
+    }
   },
-};
+}
 </script>

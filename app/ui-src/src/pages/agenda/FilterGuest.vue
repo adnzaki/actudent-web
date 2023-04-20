@@ -13,8 +13,8 @@
     class="justify-data-options"
     custom-class="q-pr-xs"
     flex-grid="col-md-6"
-    @selected="filterGuest"
-    loader="getClassGroup"
+    @selected="filterClassGroup"
+    load-on-route
     :label="$t('siswa_semua_kelas')"
     :list="studentStore.classGroupList"
     :options-value="{ label: 'grade_name', value: 'grade_id' }"
@@ -39,6 +39,8 @@ export default {
     const disableClassSelector = ref(true)
     const { selectAllToggle } = inject('GuestSelector')
 
+    studentStore.getClassGroup()
+
     setTimeout(() => {
       options.value = [
         { label: t('staff_guru'), value: 'guru' },
@@ -61,17 +63,14 @@ export default {
       options,
       studentStore,
       disableClassSelector,
-      filterGuest(model) {
-        if (model.value !== 'orang_tua') {
-          store.getUsers(model.value)
-
-          // disable only if model.value is a pure string
-          if (isNaN(model.value)) {
-            disableClassSelector.value = true
-            studentStore.getClassGroup()
-          }
+      filterGuest(v) {
+        const schoolPeople = ['guru', 'staff', 'wali_kelas']
+        if (schoolPeople.includes(v.value)) {
+          store.getUsers(v.value)
+          disableClassSelector.value = true
         } else {
           disableClassSelector.value = false
+          studentStore.getClassGroup()
           const classList = computed(() => studentStore.classGroupList)
 
           if (classList.value.length > 0) {
@@ -79,6 +78,10 @@ export default {
           }
         }
 
+        selectAllToggle.value = false
+      },
+      filterClassGroup(v) {
+        store.getUsers(v.value)
         selectAllToggle.value = false
       },
     }

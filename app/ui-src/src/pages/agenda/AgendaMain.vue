@@ -3,10 +3,10 @@
     <q-card class="my-card">
       <q-card-section>
         <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
-          {{ $t("menu_agenda") }}
+          {{ $t('menu_agenda') }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
-          {{ $t("menu_agenda") }}
+          {{ $t('menu_agenda') }}
         </div>
         <div :class="['row', titleSpacing()]"></div>
       </q-card-section>
@@ -14,7 +14,7 @@
       <delete-confirm
         :store="store"
         :custom-text="$t('agenda_delete_confirm')"
-        :action="store.delete()"
+        @action="store.delete()"
       />
       <full-calendar />
     </q-card>
@@ -22,18 +22,18 @@
 </template>
 
 <script>
-import FullCalendar from "./FullCalendar.vue";
-import AgendaForm from "./AgendaForm.vue";
-import { useAgendaStore } from "src/stores/agenda";
-import { wrapperPadding, titleSpacing } from "src/composables/screen";
+import FullCalendar from './FullCalendar.vue'
+import AgendaForm from './AgendaForm.vue'
+import { useAgendaStore } from 'src/stores/agenda'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   components: { FullCalendar, AgendaForm },
-  name: "AgendaMain",
+  name: 'AgendaMain',
   setup() {
-    const store = useAgendaStore();
+    const store = useAgendaStore()
 
-    return { store, wrapperPadding, titleSpacing };
+    return { store, wrapperPadding, titleSpacing }
   },
-};
+}
 </script>

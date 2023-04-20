@@ -9,12 +9,12 @@ use Actudent\Admin\Models\PenggunaModel;
 class Agenda extends \Actudent
 {
     /**
-     * @var Actudent\Admin\Models\AgendaModel
+     * @var \Actudent\Admin\Models\AgendaModel
      */
     private $agenda;
 
     /**
-     * @var Actudent\Admin\Models\PenggunaModel
+     * @var \Actudent\Admin\Models\PenggunaModel
      */
     private $user;
 
@@ -68,7 +68,7 @@ class Agenda extends \Actudent
             'guru'      => 2,
         ];
 
-        if(is_numeric($type)) {
+        if(is_numeric($type) || $type === 'null') {
             $data = $this->agenda->getParents($type, $limit, $offset, $orderBy, $searchBy, $sort, $search);
             // $data = $this->agenda->baseGetParentsQuery($type, $searchBy, $search);
             $rows = $this->agenda->getParentRows($type, $searchBy, $search);
