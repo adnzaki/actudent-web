@@ -126,10 +126,10 @@ export default {
       formHide,
       cardDialog,
       maximizedDialog,
-      error: store.error,
       user_name: ref('1'),
-      children: store.children,
-      disableSaveButton: store.helper.disableSaveButton,
+      error: computed(() => store.error),
+      children: computed(() => store.children),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   },
 }
