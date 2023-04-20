@@ -1,8 +1,10 @@
 <template>
-  <div :class="wrapperPadding()">    
+  <div :class="wrapperPadding()">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('user_title') }}</div>
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('user_title') }}
+        </div>
         <div class="text-h6 text-capitalize" v-else>{{ $t('user_title') }}</div>
         <div :class="['row', titleSpacing()]">
           <!-- <main-button class="q-mt-sm" /> -->
@@ -15,11 +17,12 @@
       <user-table />
 
       <reset-password-form />
-      <delete-confirm 
+      <delete-confirm
         :store="store"
-        :ok-button-text="$t('user_deactivate').split(' ')[0]" 
-        :custom-text="$t('user_deactivate_confirm')" 
-        :action="store.deactivate()" />
+        :ok-button-text="$t('user_deactivate').split(' ')[0]"
+        :custom-text="$t('user_deactivate_confirm')"
+        @action="store.deactivate()"
+      />
     </q-card>
   </div>
 </template>
@@ -35,12 +38,12 @@ export default {
   components: {
     UserType,
     UserTable,
-    ResetPasswordForm
+    ResetPasswordForm,
   },
   setup() {
     const store = useUserStore()
 
     return { store, wrapperPadding, titleSpacing }
-  }
+  },
 }
 </script>

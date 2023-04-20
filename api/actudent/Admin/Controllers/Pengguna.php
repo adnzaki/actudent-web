@@ -5,7 +5,7 @@ use Actudent\Admin\Models\PenggunaModel;
 class Pengguna extends \Actudent
 {
     /**
-     * @var Actudent\Admin\Models\PenggunaModel
+     * @var \Actudent\Admin\Models\PenggunaModel
      */
     private $user;
 
@@ -17,9 +17,9 @@ class Pengguna extends \Actudent
         $this->user = new PenggunaModel;
     }
 
-    public function getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
+    public function getUser($whereClause, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
-        $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
+        $data = $this->user->getUser($whereClause, $limit, $offset, $orderBy, $searchBy, $sort, $search);
 
         // User level category
         // Staff, Admin|Admin, Teacher|Guru, Parent|Orang tua
@@ -34,7 +34,7 @@ class Pengguna extends \Actudent
             $key->level = $userLevel[$key->level];
         }
 
-        $rows = $this->user->getUserRows($searchBy, $whereClause, $search);
+        $rows = $this->user->getUserRows($whereClause, $searchBy, $search);
         return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,

@@ -29,17 +29,17 @@ class PenggunaModel extends \Actudent\Core\Models\Connector
     /**
      * Query to get staff data
      * 
+     * @param string $whereClause
      * @param int $limit 
      * @param int $offset 
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
-     * @param string $whereClause
      * @param string $search 
      * 
      * @return array
      */
-    public function getUser($limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $whereClause = 'null', $search = ''): array
+    public function getUser($whereClause, $limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = ''): array
     {
         // $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
         // return $query->get()->getResult();
@@ -77,7 +77,7 @@ class PenggunaModel extends \Actudent\Core\Models\Connector
      * 
      * @return int
      */
-    public function getUserRows(string $searchBy = 'user_name', string $whereClause = 'null', string $search = ''): int
+    public function getUserRows($whereClause, string $searchBy = 'user_name', string $search = ''): int
     {
         if($whereClause !== 'null')
         {

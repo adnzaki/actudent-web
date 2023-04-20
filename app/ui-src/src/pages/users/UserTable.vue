@@ -6,16 +6,16 @@
           <tr>
             <th class="text-center cursor-pointer mobile-hide">#</th>
             <th class="text-left cursor-pointer" @click="sortData('user_name')">
-              {{ $t("user_label_nama") }} <sort-icon />
+              {{ $t('user_label_nama') }} <sort-icon />
             </th>
             <th
               class="text-left cursor-pointer mobile-hide"
               @click="sortData('user_email')"
             >
-              {{ $t("user_label_email") }} <sort-icon />
+              {{ $t('user_label_email') }} <sort-icon />
             </th>
             <th class="text-left cursor-pointer mobile-hide">Status</th>
-            <th class="text-left">{{ $t("aksi") }}</th>
+            <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -67,7 +67,7 @@
                         @click="getDetail(item.id)"
                       >
                         <q-item-section>{{
-                          $t("user_reset_password")
+                          $t('user_reset_password')
                         }}</q-item-section>
                       </q-item>
                       <q-separator />
@@ -77,7 +77,7 @@
                         @click="showDeactivateConfirm(item.id)"
                       >
                         <q-item-section>{{
-                          $t("user_deactivate")
+                          $t('user_deactivate')
                         }}</q-item-section>
                       </q-item>
                     </q-list>
@@ -90,21 +90,21 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging vuex-module="users" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
-import { computed } from "vue";
-import { conf } from "src/composables/common";
-import { useUserStore } from "src/stores/user";
-import { usePagingStore } from "ss-paging-vue";
-import { checkColWidth } from "src/composables/screen";
+import { computed } from 'vue'
+import { conf } from 'src/composables/common'
+import { useUserStore } from 'src/stores/user'
+import { usePagingStore } from 'ss-paging-vue'
+import { checkColWidth } from 'src/composables/screen'
 
 export default {
   setup() {
-    const store = useUserStore();
-    const paging = usePagingStore();
+    const store = useUserStore()
+    const paging = usePagingStore()
 
     return {
       conf,
@@ -115,7 +115,7 @@ export default {
       getDetail: (id) => store.getUserDetail(id),
       sortData: (sortBy) => store.sortData(sortBy),
       showDeactivateConfirm: (id) => store.showDeactivateConfirm(id),
-    };
+    }
   },
-};
+}
 </script>

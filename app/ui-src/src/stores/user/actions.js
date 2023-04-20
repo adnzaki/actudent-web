@@ -29,7 +29,7 @@ export default {
 
       notifyProgress({ timeout })
       this.resetForm()
-      commit('closeDeleteConfirm')
+      this.closeDeleteConfirm()
 
       notifyProgress({
         message: `${t('sukses')} ${t('user_deactivate_success')}`,
@@ -82,7 +82,6 @@ export default {
   },
   resetForm() {
     this.error = {}
-    this.current = 1
     paging().reloadData()
   },
   getUserDetail(id) {
@@ -95,23 +94,22 @@ export default {
         this.detail = data
       })
   },
-  getUsers(afterSave = false) {
+  getUsers() {
     const limit = 25
-    this.paging().rows = limit
+    paging().state.rows = limit
 
     paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: afterSave ? this.paging().limit : limit,
+      limit,
       offset: this.current - 1,
       orderBy: 'user_name',
       searchBy: [
         'user_name', 'user_email'
       ],
       sort: 'ASC',
-      where: null,
       search: '',
-      url: `${conf.adminAPI}pengguna/get-pengguna/`,
+      url: `${conf.adminAPI}pengguna/get-pengguna/${this.userType}/`,
       autoReset: {
         active: true,
         timeout: 500
@@ -119,8 +117,8 @@ export default {
     })
   },
   getUserByType(model) {
-    this.paging().whereClause = model.value
-    paging().runPaging()
+    this.userType = model.value
+    this.getUsers()
   },
 
   // From Vuex mutations

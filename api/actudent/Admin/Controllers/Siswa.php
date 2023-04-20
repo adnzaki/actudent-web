@@ -10,12 +10,12 @@ use Actudent\Admin\Models\KelasModel;
 class Siswa extends \Actudent
 {
     /**
-     * @var Actudent\Admin\Models\SiswaModel
+     * @var \Actudent\Admin\Models\SiswaModel
      */
     private $siswa;
 
     /**
-     * @var Actudent\Admin\Models\KelasModel
+     * @var \Actudent\Admin\Models\KelasModel
      */
     private $kelas;
 
