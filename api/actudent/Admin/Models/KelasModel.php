@@ -26,6 +26,8 @@ class KelasModel extends SharedModel
      */
     private $teacher = 'tb_staff';    
 
+    private $classParams = [];
+
     /**
      * Load the tables...
      */
@@ -33,7 +35,13 @@ class KelasModel extends SharedModel
     {
         parent::__construct();
         $this->QBKelas = $this->db->table($this->kelas);
-        $this->QBTeacher = $this->db->table($this->teacher);        
+        $this->QBTeacher = $this->db->table($this->teacher);      
+        $this->classParams = [
+            "{$this->kelas}.deleted"    => 0, 
+            'grade_status'              => '1',
+            'period_start'              => $this->periodStart,
+            'period_end'                => $this->periodEnd
+        ];
     }
 
     /**
@@ -51,14 +59,8 @@ class KelasModel extends SharedModel
     public function getKelasQuery($limit, $offset, $orderBy = 'grade_name', $searchBy = 'grade_name', $sort = 'ASC', $search = ''): array
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
-        $params = [
-            "{$this->kelas}.deleted"    => 0, 
-            'grade_status'              => '1',
-            'period_start'              => $this->periodStart,
-            'period_end'                => $this->periodEnd
-        ];
 
-        $query = $joinAndSearch->where($params)->orderBy($orderBy, $sort)->limit($limit, $offset);
+        $query = $joinAndSearch->where($this->classParams)->orderBy($orderBy, $sort)->limit($limit, $offset);
         return $query->get()->getResult();
     }
 
@@ -73,14 +75,8 @@ class KelasModel extends SharedModel
     public function getKelasRows(string $searchBy = 'grade_name', string $search = ''): int
     {
         $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
-        $params = [
-            "{$this->kelas}.deleted"    => 0, 
-            'grade_status'              => '1',
-            'period_start'              => $this->periodStart,
-            'period_end'                => $this->periodEnd
-        ];
 
-        return $joinAndSearch->where($params)->countAllResults();
+        return $joinAndSearch->where($this->classParams)->countAllResults();
     }
 
     /**
@@ -228,10 +224,7 @@ class KelasModel extends SharedModel
             return $rombel->select('student_id')
                           ->from($this->rombel)
                           ->join($this->kelas, "{$this->kelas}.grade_id={$this->rombel}.grade_id")
-                          ->where([
-                            'period_start'  => $this->periodStart,
-                            'period_end'    => $this->periodEnd
-                          ]);
+                          ->where($this->classParams);
         })->where(["{$this->student}.deleted" => 0]);
     }
 
@@ -310,7 +303,7 @@ class KelasModel extends SharedModel
         $field = 'staff_id, staff_name';
         $this->QBTeacher->select($field);
 
-        return $this->QBTeacher->getWhere(['deleted' => '0', 'staff_type' => 'teacher'])->getResult();
+        return $this->QBTeacher->getWhere(['deleted' => 0, 'staff_type' => 'teacher'])->getResult();
     }
 
     /**
@@ -344,6 +337,6 @@ class KelasModel extends SharedModel
      */
     public function getKelas(): array
     {
-        return $this->QBKelas->getWhere(['deleted' => 0, 'grade_status' => '1'])->getResult();
+        return $this->QBKelas->getWhere($this->classParams)->getResult();
     }
 }
