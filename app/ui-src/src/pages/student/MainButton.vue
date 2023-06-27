@@ -10,7 +10,7 @@
     <q-page-sticky position="bottom-right" 
       :offset="fabPos" 
       class="mobile-only force-elevated"
-      v-if="!$store.state.student.showAddForm">
+      v-if="!store.showAddForm">
       <q-btn fab icon="add" color="deep-purple" 
         @click="showAddForm" 
         v-if="selected.length === 0"
@@ -25,32 +25,29 @@
 </template>
 
 <script>
-import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
-import { useStore, mapMutations } from 'vuex'
 import { flashAlert } from 'src/composables/notify'
 import { fabPos } from 'src/composables/fab'
+import { useStudentStore } from 'src/stores/student'
+import { t } from 'src/composables/common'
 
 export default {
-  name: 'MainButton',
-  methods: {
-    ...mapMutations('student', ['multipleDeleteConfirm'])
-  },
   setup() {
-    const t = useI18n()
-    const store = useStore()
+    const store = useStudentStore()
     
     const showAddForm = () => {
-      if(store.state.student.studentLimit === 'allowed') {
-        store.state.student.showAddForm = true
+      if(store.studentLimit === 'allowed') {
+        store.showAddForm = true
       } else {
         flashAlert(t('value.siswa_overlimit'), 'negative')
       }
     }
 
     return {
+      store,
+      multipleDeleteConfirm: () => store.multipleDeleteConfirm(),
       showAddForm,
-      selected: computed(() => store.state.student.selectedStudents),
+      selected: computed(() => store.selectedStudents),
       fabPos
     }
   }

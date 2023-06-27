@@ -2,21 +2,21 @@
   <div class="col-12 col-md-4">
     <div class="q-gutter-xs mobile-hide">
       <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
-        @click="$store.state.lesson.showAddForm = true" />
+        @click="store.showAddForm = true" />
       <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')"
-        @click="multipleDeleteConfirm" />
+        @click="store.multipleDeleteConfirm()" />
     </div>
 
     <q-page-sticky position="bottom-right" 
       :offset="fabPos" 
       class="mobile-only force-elevated"
-      v-if="!$store.state.lesson.showAddForm">
+      v-if="!store.showAddForm">
       <q-btn fab icon="add" color="deep-purple" 
-        @click="$store.state.lesson.showAddForm = true" 
+        @click="store.showAddForm = true" 
         v-if="selected.length === 0"
       />
       <q-btn fab icon="delete" color="negative" 
-        @click="multipleDeleteConfirm" 
+        @click="store.multipleDeleteConfirm()" 
         v-if="selected.length > 0"
       />
     </q-page-sticky>
@@ -25,18 +25,17 @@
 
 <script>
 import { computed } from 'vue'
-import { mapMutations, useStore } from 'vuex'
 import { fabPos } from 'src/composables/fab'
+import { useLessonStore } from 'src/stores/lesson'
 
 export default {
   name: 'MainButton',
-  methods: {
-    ...mapMutations('lesson', ['multipleDeleteConfirm'])
-  },
   setup() {
-    const store = useStore()
+    const store = useLessonStore()
+
     return {
-      selected: computed(() => store.state.lesson.selectedLessons),
+      store,
+      selected: computed(() => store.selectedLessons),
       fabPos
     }
   }

@@ -43,32 +43,30 @@
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
-import { useStore, mapState } from 'vuex'
-import { checkColWidth } from 'src/composables/screen'
-import { date, useQuasar } from 'quasar'
 import ScheduleDetail from './ScheduleDetail.vue'
-import { computed } from '@vue/runtime-core'
+import { checkColWidth } from 'src/composables/screen'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'ScheduleItems',
   components: { ScheduleDetail },
-  computed: {
-    ...mapState('presence', {
-      data: state => state.teacherSchedules,
-    })
-  },
   setup () {
-    const store = useStore()
-    const router = useRouter()
     const $q = useQuasar()
+    const router = useRouter()
+    const store = usePresenceStore()
 
     return {
+      store,
+      checkColWidth,
+      data: computed(() => store.teacherSchedules),
       goToPresenceFilling(detail) {
-        const activeDate = computed(() => store.state.presence.helper.activeDate)
-        store.state.presence.className = detail.grade_name
-        store.state.presence.lessonName = detail.lesson_name
-        store.state.presence.scheduleID = detail.schedule_id
+        const activeDate = computed(() => store.helper.activeDate)
+        store.className = detail.grade_name
+        store.lessonName = detail.lesson_name
+        store.scheduleID = detail.schedule_id
 
         // store lesson name to localStorage, it is safe
         const date = new Date(activeDate.value)
@@ -79,9 +77,9 @@ export default {
         router.push(`presence/fill/${detail.schedule_id}/${detail.grade_id}/${activeDate.value}`)
       },
       showDetail(detail) {
-        store.state.presence.showScheduleDetail = true
+        store.showScheduleDetail = true
 
-        store.state.presence.scheduleDetail = {
+        store.scheduleDetail = {
           lesson: detail.lesson_name, 
           grade: detail.grade_name, 
           room: detail.room_name,
@@ -91,7 +89,6 @@ export default {
         }
       },
       round: $q.screen.lt.sm ? true : false,
-      checkColWidth
     }
   }
 }

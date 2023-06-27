@@ -15,10 +15,10 @@ import EventsMain from 'src/siabsen_pages/events/EventsMain.vue'
 import PresenceDialog from 'src/siabsen_pages/dashboard/PresenceDialogPage.vue'
 
 export default [
-  { 
+  {
     path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token'), children: [
-      { path: 'home', component: TeacherIndex,  beforeEnter: () => routeValidator('valid_token') },
-    ],    
+      { path: 'home', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token') },
+    ],
   },
   {
     path: 'teacher/presence', component: PresenceMain, beforeEnter: () => routeValidator('is_teacher'),
@@ -32,7 +32,7 @@ export default [
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('valid_token') },
   { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('valid_token') },
-  { 
+  {
     path: 'absence', component: SiAbsenIndex, beforeEnter: () => routeValidator('valid_token'),
     children: [
       { path: '', component: PermitMain, beforeEnter: () => routeValidator('valid_token') },

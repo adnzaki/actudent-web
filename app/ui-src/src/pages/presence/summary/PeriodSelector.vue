@@ -24,7 +24,7 @@
       style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px;"
       icon="preview" 
       :label="$t('tampilkan')"
-      @click="$store.dispatch('presence/getPeriodSummary')" />
+      @click="store.getPeriodSummary()" />
   </div>
 
   <q-page-sticky position="bottom-right" :offset="fabPos" class="force-elevated">
@@ -33,52 +33,52 @@
   </q-page-sticky>
 </template>
 <script>
-import { ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { fabPos, draggingFab, moveFab, singlePos } from 'src/composables/fab'
+import { ref, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { conf } from 'src/composables/common'
+import { usePresenceStore } from 'src/stores/presence'
+import { fabPos, draggingFab, moveFab, singlePos } from 'src/composables/fab'
 
 export default {
   name: 'PeriodSelector',
   setup() {
-    const { t } = useI18n()
-    const store = useStore()
-    const periodOptions = ref([])
-    const period = ref({})
-    const route = useRoute()
     const $q = useQuasar()
-    const currentYear = new Date().getFullYear()
+    const period = ref({})
+    const { t } = useI18n()
+    const route = useRoute()
+    const periodOptions = ref([])
+    const store = usePresenceStore()
     const currentMonth = new Date().getMonth()
+    const currentYear = new Date().getFullYear()
 
     fabPos.value = [ singlePos, singlePos ]
 
     const periodSelected = model => {
-      store.state.presence.selectedPeriod.semester = model.value
+      store.selectedPeriod.semester = model.value
     }
 
     const yearSelected = model => {
-      store.state.presence.selectedPeriod.year = model.value
+      store.selectedPeriod.year = model.value
     } 
 
     // if the current month is between January to June (0-5 in JS date)
     // then it is the first semester, otherwise it is 2nd semester
-    store.state.presence.selectedPeriod.semester = currentMonth < 6 ? '2' : '1'
+    store.selectedPeriod.semester = currentMonth < 6 ? '2' : '1'
     
     // current active year
-    store.state.presence.selectedPeriod.year = currentYear
+    store.selectedPeriod.year = currentYear
 
     setTimeout(() => {
       const periodLabel = computed(() => {
-        return store.state.presence.selectedPeriod.semester === '1'
+        return store.selectedPeriod.semester === '1'
           ? t('ganjil') : t('genap')
       }) 
 
       period.value = {
-        semester: { label: periodLabel.value, value: store.state.presence.selectedPeriod.semester },
-        year: { label: '2022/2023', value: store.state.presence.selectedPeriod.year }
+        semester: { label: periodLabel.value, value: store.selectedPeriod.semester },
+        year: { label: '2022/2023', value: store.selectedPeriod.year }
       }
 
       periodOptions.value = [
@@ -92,21 +92,22 @@ export default {
     const exportPdf = () => {
       return `${conf.adminAPI}absensi/ekspor-rekap-semester/` +
               `${route.params.id}/` +
-              `${store.state.presence.selectedPeriod.semester}/` +
-              `${store.state.presence.selectedPeriod.year}/${token}`
+              `${store.selectedPeriod.semester}/` +
+              `${store.selectedPeriod.year}/${token}`
 
     }
 
-    return {
+    return { 
+      store,
+      period,
+      exportPdf,
       periodOptions,
+      fabPos, draggingFab, moveFab,
+      periodSelected, yearSelected,
       yearOptions: [
         { label: '2021/2022', value: 2021 },
         { label: '2022/2023', value: 2022 },
       ],
-      fabPos, draggingFab, moveFab,
-      period,
-      periodSelected, yearSelected,
-      exportPdf
     }
   }
 }

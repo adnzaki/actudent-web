@@ -1,5 +1,5 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.schedule.schedule.showForm" 
+  <q-dialog no-backdrop-dismiss v-model="store.schedule.showForm" 
     @before-show="formOpen" @hide="formClose"
     :maximized="maximizedDialog()">
     <q-card class="q-pa-sm" :style="cardDialog()">
@@ -43,7 +43,7 @@
         <q-btn :label="$t('simpan')" 
           class="mobile-form-btn"
           :disable="disableSaveButton" 
-          @click="$store.dispatch('schedule/saveSchedules')" 
+          @click="store.saveSchedules()" 
           color="primary" padding="8px 20px" 
         />
       </q-card-actions>
@@ -52,60 +52,57 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
-import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
+import { computed } from 'vue'
 import MappingFormInput from './MappingFormInput.vue'
+import { useScheduleStore } from 'src/stores/schedule'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
   name: 'MappingForm',
   components: { MappingFormInput },
-  computed: {
-    ...mapState('schedule', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton,
-      schedule: state => state.schedule
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useScheduleStore()
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.state.schedule.schedule.saveStatus)
+      const saveStatus = computed(() => store.schedule.saveStatus)
       if(saveStatus.value === 200) {
         formValue = {
           lesson_id: '',
           teacher_id: ''
         }
 
-        store.state.schedule.schedule.saveStatus = 500
+        store.schedule.saveStatus = 500
         formData.value = formValue
       }
     }
 
     const showFormInput = () => {
-      store.state.schedule.schedule.showLessonList = false
-      store.state.schedule.schedule.showLessonInput = true
-      store.state.schedule.helper.disableSaveButton = true
-      store.state.schedule.schedule.lessonOptions = store.state.schedule.schedule.normalList
+      store.schedule.showLessonList = false
+      store.schedule.showLessonInput = true
+      store.helper.disableSaveButton = true
+      store.schedule.lessonOptions = store.schedule.normalList
     }
 
-    const removeLesson = id => store.commit('schedule/removeLesson', id)
+    const removeLesson = id => store.removeLesson(id)
 
     const formClose = () => {
-      store.state.schedule.schedule.lessonOptions = store.state.schedule.schedule['normalList']
-      store.state.schedule.schedule.showLessonInput = false
-      store.state.schedule.schedule.showBreakInput = false
-      store.state.schedule.schedule.showLessonList = true
-      store.state.schedule.helper.disableSaveButton = false
+      store.schedule.lessonOptions = store.schedule['normalList']
+      store.schedule.showLessonInput = false
+      store.schedule.showBreakInput = false
+      store.schedule.showLessonList = true
+      store.helper.disableSaveButton = false
     }
 
-    return {
+    return { 
+      store,
+      formOpen,
+      formClose,
+      removeLesson,
       showFormInput,
       maximizedDialog, cardDialog,
-      formOpen,
-      removeLesson,
-      formClose
+      error: computed(() => store.error),
+      schedule: computed(() => store.schedule),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   }
 }

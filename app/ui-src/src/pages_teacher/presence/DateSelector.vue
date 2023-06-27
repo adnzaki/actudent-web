@@ -17,42 +17,41 @@
 </template>
 
 <script>
+import { date } from 'quasar'
 import { ref, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
-import { date, useQuasar } from 'quasar'
 import { selectedLang } from 'src/composables/date'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'DateSelector',
   setup() {
-    const store = useStore()
+    const store = usePresenceStore()
     const today = new Date()
     const dateValue = ref(today)
     const selectedDate = ref(date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang))
     const getDay = today.getDay()
     const activeDate = val => date.formatDate(val, 'YYYY-MM-DD')
 
-    store.state.presence.helper.activeDay = getDay
-    store.state.presence.helper.activeDate = activeDate(today)
+    store.helper.activeDay = getDay
+    store.helper.activeDate = activeDate(today)
 
     const dateChanged = (val, reason, details) => {
       const getDate = new Date(details.year, details.month - 1, details.day)
       selectedDate.value = date.formatDate(getDate, 'dddd, DD MMMM YYYY', selectedLang)
-      store.state.presence.helper.activeDay = getDate.getDay()
-      store.state.presence.helper.activeDate = activeDate(getDate)
+      store.helper.activeDay = getDate.getDay()
+      store.helper.activeDate = activeDate(getDate)
 
-      store.dispatch('presence/getTeacherSchedules')
+      store.getTeacherSchedules()
     }
 
     onMounted(() => {
-      setTimeout(() => store.dispatch('presence/getTeacherSchedules'), 500)
+      setTimeout(() => store.getTeacherSchedules(), 500)
     })
     
     return {
-      selectedDate,
       dateValue,
       dateChanged, 
+      selectedDate,
     }
   }
 }

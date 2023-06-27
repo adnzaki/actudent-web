@@ -34,11 +34,11 @@ import UsersMain from 'pages/users/UsersMain.vue'
 
 export default [
   { path: '', redirect: 'home' },
-  { path: 'home', component: PageIndex,  beforeEnter: () => routeValidator() },
+  { path: 'home', component: PageIndex, beforeEnter: () => routeValidator() },
   { path: 'parent', component: ParentMain, beforeEnter: () => routeValidator() },
   { path: 'student', component: StudentMain, beforeEnter: () => routeValidator() },
   { path: 'employee', component: EmployeeMain, beforeEnter: () => routeValidator() },
-  { 
+  {
     path: 'class', component: ClassMain, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: ClassList, beforeEnter: () => routeValidator() },
@@ -47,7 +47,7 @@ export default [
   },
   { path: 'rooms', component: RoomMain, beforeEnter: () => routeValidator() },
   { path: 'lesson', component: LessonMain, beforeEnter: () => routeValidator() },
-  { 
+  {
     path: 'schedules', component: ScheduleMain, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: ClassWrapper, beforeEnter: () => routeValidator() },
@@ -55,7 +55,7 @@ export default [
       { path: 'mapping/:id', component: MappingWrapper, beforeEnter: () => routeValidator() }
     ]
   },
-  { 
+  {
     path: 'presence', component: PresenceMain, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: PresenceClassList, beforeEnter: () => routeValidator() },
@@ -66,25 +66,25 @@ export default [
   },
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
-  { 
+  {
     path: 'teacher-presence', component: SiAbsenIndex, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: ManageMain, beforeEnter: () => routeValidator() },
-      { 
+      {
         path: 'events', component: EventsRoute, beforeEnter: () => routeValidator(),
         children: [
           { path: '', component: AdminEvents, beforeEnter: () => routeValidator() },
           { path: 'attendance/:agendaId', component: EventsAttendance, beforeEnter: () => routeValidator() }
-        ] 
+        ]
       },
       { path: 'manage', component: ManageMain, beforeEnter: () => routeValidator() },
       { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator() },
-      { 
+      {
         path: 'monthly-summary', component: SummaryRoute, beforeEnter: () => routeValidator(),
         children: [
           { path: '', component: AdminSummaryMain, beforeEnter: () => routeValidator() },
           { path: 'detail/:staffId/:userId/:dateStart/:dateEnd', component: PresenceDetail, beforeEnter: () => routeValidator() },
-        ] 
+        ]
       },
       { path: 'config', component: ConfigMain, beforeEnter: () => routeValidator() },
       { path: 'schedule', component: PresenceScheduleMain, beforeEnter: () => routeValidator() },

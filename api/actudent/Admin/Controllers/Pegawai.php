@@ -20,10 +20,10 @@ class Pegawai extends \Actudent
         $this->staff = new PegawaiModel;
     }
 
-    public function getStaff($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search = '')
+    public function getStaff($staffType, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
-        $data = $this->staff->getStaff($limit, $offset, $orderBy, $searchBy, $sort, $whereClause, $search);
-        $rows = $this->staff->getStaffRows($searchBy, $whereClause, $search);
+        $data = $this->staff->getStaff($staffType, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->staff->getStaffRows($staffType, $searchBy, $search);
         return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,

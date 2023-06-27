@@ -3,15 +3,26 @@
     <q-header elevated :class="header">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
-        <q-toolbar-title class="mobile-hide"><strong>SiAbsen</strong> | SMKN 11 Kota Bekasi</q-toolbar-title>
-        <q-toolbar-title class="mobile-only"><strong>SiAbsen</strong> |</q-toolbar-title>
+        <q-toolbar-title class="mobile-hide"
+          ><strong>SiAbsen</strong> | SMKN 11 Kota Bekasi</q-toolbar-title
+        >
+        <q-toolbar-title class="mobile-only"
+          ><strong>SiAbsen</strong> |</q-toolbar-title
+        >
         <!-- Notification button here -->
         <q-btn flat round dense icon="account_circle">
           <q-menu>
             <q-list separator>
-              <other-actions icon="o_manage_accounts" :label="$t('navbar_profil')" />
+              <other-actions
+                icon="o_manage_accounts"
+                :label="$t('navbar_profil')"
+              />
               <!-- <other-actions icon="o_school" :label="$t('navbar_sekolah')" /> -->
-              <other-actions icon="logout" :label="$t('navbar_keluar')" @click="logout" />
+              <other-actions
+                icon="logout"
+                :label="$t('navbar_keluar')"
+                @click="logout"
+              />
             </q-list>
           </q-menu>
         </q-btn>
@@ -20,15 +31,15 @@
 
     <q-drawer
       v-model="drawer"
-        show-if-above
-        :width="menuWidth()"
-        :breakpoint="450"
+      show-if-above
+      :width="menuWidth()"
+      :breakpoint="450"
     >
       <app-menu />
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="../../public/boy-avatar.png">
+            <img src="/boy-avatar.png" />
           </q-avatar>
           <div class="text-weight-bold">{{ pengguna.user_name }}</div>
           <div class="mobile-hide">{{ $trim(pengguna.user_email, 25) }}</div>
@@ -36,7 +47,7 @@
         </div>
       </q-img>
     </q-drawer>
-    
+
     <q-page-container>
       <subscription-warning />
       <router-view />
@@ -45,7 +56,6 @@
 </template>
 
 <script>
-
 import { defineComponent, ref, onMounted, computed, watch, reactive } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import { headerColor } from '../composables/mode'
@@ -54,7 +64,6 @@ import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 import { useQuasar } from 'quasar'
-import { useStore } from 'vuex'
 import OtherActions from './OtherActions.vue'
 
 export default defineComponent({
@@ -62,25 +71,24 @@ export default defineComponent({
   components: {
     AppMenu,
     SubscriptionWarning,
-    OtherActions
+    OtherActions,
   },
-  setup () {
+  setup() {
     const $q = useQuasar()
-    const store = useStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
     function triggerHeader() {
-      if(headerColor.value === 'dark') {
+      if (headerColor.value === 'dark') {
         header.value = 'bg-grey-10'
       } else {
         header.value = 'bg-blue'
-      }  
+      }
     }
 
-    onMounted(triggerHeader) 
+    onMounted(triggerHeader)
 
     onMounted(getPengguna)
-    
+
     watch(headerColor, triggerHeader)
 
     const userAction = ref(false)
@@ -89,7 +97,16 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      if($q.cookies.get(conf.userType) === '1') {
+      if ($q.cookies.get(conf.userType) === '1') {
+        store.dispatch('siabsen/getPermissionNotif')
+        setInterval(() => {
+          store.dispatch('siabsen/getPermissionNotif')
+        }, 15 * 60 * 1000) // notify admin every 15 minutes
+      }
+    })
+
+    onMounted(() => {
+      if ($q.cookies.get(conf.userType) === '1') {
         store.dispatch('siabsen/getPermissionNotif')
         setInterval(() => {
           store.dispatch('siabsen/getPermissionNotif')
@@ -113,8 +130,8 @@ export default defineComponent({
       avatarBg,
       header,
       pengguna,
-      menuWidth
+      menuWidth,
     }
-  }
+  },
 })
 </script>

@@ -1,33 +1,39 @@
 <template>
-  <div :class="wrapperPadding()">    
+  <div :class="wrapperPadding()">
     <q-card class="my-card">
       <q-card-section>
-        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_agenda') }}</div>
-        <div class="text-h6 text-capitalize" v-else>{{ $t('menu_agenda') }}</div>
-        <div :class="['row', titleSpacing()]">
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('menu_agenda') }}
         </div>
+        <div class="text-h6 text-capitalize" v-else>
+          {{ $t('menu_agenda') }}
+        </div>
+        <div :class="['row', titleSpacing()]"></div>
       </q-card-section>
       <agenda-form />
-      <delete-confirm 
-        vuex-module="agenda" 
-        :custom-text="$t('agenda_delete_confirm')" 
-        action="delete" />
-      <calendar />
+      <delete-confirm
+        :store="store"
+        :custom-text="$t('agenda_delete_confirm')"
+        @action="store.delete()"
+      />
+      <full-calendar />
     </q-card>
   </div>
 </template>
 
 <script>
-import { wrapperPadding, titleSpacing } from 'src/composables/screen'
-import Calendar from './Calendar.vue'
+import FullCalendar from './FullCalendar.vue'
 import AgendaForm from './AgendaForm.vue'
-import GuestSelector from './GuestSelector.vue'
+import { useAgendaStore } from 'src/stores/agenda'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
-  components: { Calendar, AgendaForm, GuestSelector },
+  components: { FullCalendar, AgendaForm },
   name: 'AgendaMain',
-  setup () {
-    return { wrapperPadding, titleSpacing }
-  }
+  setup() {
+    const store = useAgendaStore()
+
+    return { store, wrapperPadding, titleSpacing }
+  },
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="$store.state.presence.showMonthTable">
+  <div v-if="store.showMonthTable">
     <q-markup-table separator="cell" class="my-sticky-header-column-table" flat bordered>
       <thead>
         <tr>
@@ -98,17 +98,16 @@
 </style>
 
 <script>
-import { ref } from 'vue'
-import { mapState } from 'vuex'
+import { ref, computed } from 'vue'
+import { usePresenceStore } from 'src/stores/presence'
+
 export default {
   name: 'MonthTable',
-  computed: {
-    ...mapState('presence', {
-      monthlySummary: state => state.monthlySummary
-    })
-  },
   setup() {
-    return {
+    const store = usePresenceStore()
+
+    return { 
+      store,
       showDays: ref(false),
       presenceStatus(id) {
         const icons = {
@@ -119,7 +118,8 @@ export default {
         }
 
         return id !== '-' ? icons[ id ] : id
-      }
+      },
+      monthlySummary: computed(() => store.monthlySummary)
     }
   }
 }

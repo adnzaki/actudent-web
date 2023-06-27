@@ -1,28 +1,47 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.schedule.showSettingsForm"
-    @before-show="$store.commit('schedule/getSettings')"
-    :maximized="maximizedDialog()">
+  <q-dialog
+    no-backdrop-dismiss
+    v-model="store.showSettingsForm"
+    @before-show="store.getSettings()"
+    :maximized="maximizedDialog()"
+  >
     <q-card class="q-pa-sm" style="width: 400px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t('menu_pengaturan') }}</div>
+        <div class="text-h6 text-capitalize">{{ $t("menu_pengaturan") }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
       <q-card-section class="scroll card-section">
         <q-form>
-          <q-input outlined :label="`${$t('jadwal_label_alokasi')} (${$t('jadwal_menit')})`" 
-            dense v-model="$store.state.schedule.schedule.allocation"
-            :rules="[val => val.match(/[^0-9]/) === null && val !== '' || $t('jadwal_alokasi_natural')]" 
+          <q-input
+            outlined
+            :label="`${$t('jadwal_label_alokasi')} (${$t('jadwal_menit')})`"
+            dense
+            v-model="store.schedule.allocation"
+            :rules="[
+              (val) =>
+                (val.match(/[^0-9]/) === null && val !== '') ||
+                $t('jadwal_alokasi_natural'),
+            ]"
             class="q-mb-xs"
           />
-          <error :label="error.lesson_hour" />
+          <ac-error :label="error.lesson_hour" />
 
-          <q-input outlined v-model="$store.state.schedule.schedule.startTime" mask="time" :rules="['time']">
+          <q-input
+            outlined
+            v-model="store.schedule.startTime"
+            mask="time"
+            :rules="['time']"
+          >
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
-                <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-                  <q-time v-model="$store.state.schedule.schedule.startTime" format24h>
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time v-model="store.schedule.startTime" format24h>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>
@@ -31,20 +50,27 @@
               </q-icon>
             </template>
           </q-input>
-          <error :label="error.start_time" />
+          <ac-error :label="error.start_time" />
         </q-form>
-
       </q-card-section>
 
-      <q-separator/>
+      <q-separator />
 
       <q-card-actions align="right">
-        <q-btn v-if="!$q.screen.lt.sm" flat :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" 
+        <q-btn
+          v-if="!$q.screen.lt.sm"
+          flat
+          :label="$t('tutup')"
+          color="negative"
+          v-close-popup
+        />
+        <q-btn
+          :label="$t('simpan')"
           class="mobile-form-btn"
-          :disable="disableSaveButton" 
-          @click="$store.dispatch('schedule/saveSettings')" 
-          color="primary" padding="8px 20px" 
+          :disable="disableSaveButton"
+          @click="store.saveSettings()"
+          color="primary"
+          padding="8px 20px"
         />
       </q-card-actions>
     </q-card>
@@ -52,29 +78,23 @@
 </template>
 
 <script>
-import { computed } from 'vue'
-import { useStore } from 'vuex'
-import { useI18n } from 'vue-i18n'
-import { maximizedDialog } from '../../composables/screen'
+import { computed } from "vue";
+import { useScheduleStore } from "src/stores/schedule";
+import { maximizedDialog } from "../../composables/screen";
 
 export default {
-  name: 'MappingSettingForm',
+  name: "MappingSettingForm",
   setup() {
-    const { t } = useI18n()
-    const store = useStore()
+    const store = useScheduleStore();
 
-    const disableSaveButton = computed(() => store.state.schedule.schedule.disableSaveButton)
-
-    const save = () => {
-      
-      
-    }
+    const disableSaveButton = computed(() => store.schedule.disableSaveButton);
 
     return {
+      store,
       maximizedDialog,
       disableSaveButton,
-      error: computed(() => store.state.schedule.error)
-    }
-  }
-}
+      error: computed(() => store.error),
+    };
+  },
+};
 </script>

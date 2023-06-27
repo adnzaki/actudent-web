@@ -12,16 +12,24 @@
  */
 
 use Config\Services;
+use CodeIgniter\HTTP\CLIRequest;
+use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use Psr\Log\LoggerInterface;
 use Actudent\Core\Models\SekolahModel;
 use Actudent\Core\Models\AuthModel;
 use Actudent\Core\Controllers\Resources;
-use Actudent\Admin\Models\PesanModel;
 
 class Actudent extends \CodeIgniter\Controller
 {
+    /**
+     * Instance of the main Request object.
+     *
+     * @var CLIRequest|IncomingRequest
+     */
+    protected $request;
+
     /**
      * SekolahModel
      * 

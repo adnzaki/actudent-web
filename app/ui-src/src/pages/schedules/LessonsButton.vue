@@ -1,21 +1,39 @@
 <template>
   <div class="col-12">
     <div class="q-gutter-xs mobile-hide">
-      <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
-        @click="$store.state.schedule.lesson.showAddForm = true" />
-      <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')"
-        @click="$store.commit('schedule/multipleDeleteConfirm')" />
+      <q-btn
+        color="deep-purple"
+        icon="add"
+        class="q-pl-sm"
+        :label="$t('tambah')"
+        @click="store.lesson.showAddForm = true"
+      />
+      <q-btn
+        color="negative"
+        icon="delete"
+        class="q-pl-sm"
+        :label="$t('hapus')"
+        @click="store.multipleDeleteConfirm()"
+      />
     </div>
 
-    <q-page-sticky position="bottom-right" 
-      :offset="fabPos" 
-      class="mobile-only force-elevated">
-      <q-btn fab icon="add" color="deep-purple" 
-        @click="$store.state.schedule.lesson.showAddForm = true" 
+    <q-page-sticky
+      position="bottom-right"
+      :offset="fabPos"
+      class="mobile-only force-elevated"
+    >
+      <q-btn
+        fab
+        icon="add"
+        color="deep-purple"
+        @click="store.lesson.showAddForm = true"
         v-if="selected.length === 0"
       />
-      <q-btn fab icon="delete" color="negative" 
-        @click="$store.commit('schedule/multipleDeleteConfirm')" 
+      <q-btn
+        fab
+        icon="delete"
+        color="negative"
+        @click="store.multipleDeleteConfirm()"
         v-if="selected.length > 0"
       />
     </q-page-sticky>
@@ -24,18 +42,19 @@
 
 <script>
 import { computed } from 'vue'
-import { useStore } from 'vuex'
 import { fabPos } from 'src/composables/fab'
+import { useScheduleStore } from 'src/stores/schedule'
 
 export default {
   name: 'LessonsButton',
   setup() {
-    const store = useStore()
-    
+    const store = useScheduleStore()
+
     return {
-      selected: computed(() => store.state.schedule.lesson.selected),
+      store,
       fabPos,
+      selected: computed(() => store.lesson.selected),
     }
-  }
+  },
 }
 </script>

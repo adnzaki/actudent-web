@@ -1,5 +1,9 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.lesson.showEditForm" :maximized="maximizedDialog()">
+  <q-dialog
+    no-backdrop-dismiss
+    v-model="store.showEditForm"
+    :maximized="maximizedDialog()"
+  >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('mapel_edit_title') }}</div>
@@ -8,50 +12,72 @@
       </q-card-section>
 
       <q-card-section class="scroll card-section">
-        <q-form class="q-gutter-xs">          
-          <q-input outlined :label="$t('mapel_kode')" dense v-model="$store.state.lesson.detail.lesson_code" />
-          <error :label="error.lesson_code" />
+        <q-form class="q-gutter-xs">
+          <q-input
+            outlined
+            :label="$t('mapel_kode')"
+            dense
+            v-model="store.detail.lesson_code"
+          />
+          <ac-error :label="error.lesson_code" />
 
-          <q-input outlined :label="$t('mapel_nama')" dense v-model="$store.state.lesson.detail.lesson_name" />
-          <error :label="error.lesson_name" />
+          <q-input
+            outlined
+            :label="$t('mapel_nama')"
+            dense
+            v-model="store.detail.lesson_name"
+          />
+          <ac-error :label="error.lesson_name" />
         </q-form>
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" v-if="!$q.screen.lt.sm" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" class="mobile-form-btn" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
+        <q-btn
+          flat
+          :label="$t('tutup')"
+          v-if="!$q.screen.lt.sm"
+          color="negative"
+          v-close-popup
+        />
+        <q-btn
+          :label="$t('simpan')"
+          class="mobile-form-btn"
+          :disable="disableSaveButton"
+          @click="save"
+          color="primary"
+          padding="8px 20px"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script>
+import { computed } from 'vue'
+import { useLessonStore } from 'src/stores/lesson'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
 
 export default {
   name: 'EditLessonForm',
-  computed: {
-    ...mapState('lesson', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
-    
+    const store = useLessonStore()
+
     const save = () => {
-      store.dispatch('lesson/save', {
-        data: store.state.lesson.detail,
+      store.save({
+        data: store.detail,
         edit: true,
-        id: store.state.lesson.detail.lesson_id
+        id: store.detail.lesson_id,
       })
     }
 
     return {
       save,
-      maximizedDialog, cardDialog,
+      store,
+      maximizedDialog,
+      cardDialog,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
-  }
+  },
 }
 </script>

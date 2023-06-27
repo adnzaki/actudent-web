@@ -1,6 +1,6 @@
-<template>
+<!-- <template>
   <q-input outlined :label="$t('kelas_wali')" dense 
-    v-model="model" @update:model-value="$store.commit('grade/searchTeacher', model)" />
+    v-model="model" @update:model-value="store.searchTeacher(model)" />
   <q-card bordered v-if="searchResults.length > 0">
     <q-scroll-area style="height: 100px">
       <q-list bordered separator class="q-mt-xs" dense>
@@ -13,30 +13,31 @@
       </q-list>
     </q-scroll-area>
   </q-card>
-  <error :label="error.teacher_id" />
+  <ac-error :label="error.teacher_id" />
   <q-input outlined :label="$t('kelas_label_walikelas')" dense
-    v-model="$store.state.grade.selectedTeacher.name" disable />
+    v-model="store.selectedTeacher.name" disable />
 </template>
 
 <script>
 import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { useClassStore } from 'src/stores/class'
 
 export default {
   name: 'SearchTeacher',
   setup() {
-    const store = useStore()
+    const store = useClassStore()
     const model = ref('')
-    const searchResults = computed(() => store.state.grade.teachers)
+    const searchResults = computed(() => store.teachers)
 
     const selectData = data => {
-      store.commit('grade/selectTeacher', data)
+      store.selectTeacher(data)
       model.value = ''
     }
 
-    const error = computed(() => store.state.grade.error)
+    const error = computed(() => store.error)
 
     return {
+      store,
       model,
       selectData,
       error,
@@ -44,4 +45,4 @@ export default {
     }
   } 
 }
-</script>
+</script> -->

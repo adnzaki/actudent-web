@@ -46,7 +46,7 @@
       </q-list>
 
       <q-card-actions vertical>
-        <q-btn color="accent" @click="$store.commit('schedule/showMappingForm', target)">{{ $t('kelola') }}</q-btn>
+        <q-btn color="accent" @click="store.showMappingForm(target)">{{ $t('kelola') }}</q-btn>
       </q-card-actions>
 
     </q-card>
@@ -54,16 +54,15 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { computed } from 'vue'
+import { useScheduleStore } from 'src/stores/schedule'
+
 export default {
   name: 'MappingDay',
   props: ['day', 'target'],
-  computed: {
-    ...mapState('schedule', {
-      schedules: state => state.schedule.list,
-    })
-  },
   setup() {
+    const store = useScheduleStore()
+
     const listItemClass = code => {
       return code === 'REST' ? 'bg-teal text-white text-bold' : ''
     }
@@ -72,7 +71,9 @@ export default {
       return code === 'REST' ? 'text-white' : ''
     }
 
-    return {
+    return { 
+      store,
+      schedules: computed(() => store.schedule.list),
       listItemClass,
       expandIconClass
     }

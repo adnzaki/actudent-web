@@ -1,5 +1,5 @@
 <template>
-  <div :class="wrapperPadding()">  
+  <div :class="wrapperPadding()">
     <router-view />
   </div>
 </template>
@@ -11,8 +11,8 @@ export default {
   name: 'ScheduleMain',
   setup() {
     return {
-      wrapperPadding
+      wrapperPadding,
     }
-  }
+  },
 }
 </script>

@@ -11,7 +11,7 @@
               style="width: 100%;" 
               icon="print" 
               :label="$t('absensi_cetak_laporan')"
-              @click="$store.dispatch('presence/getPeriodSummary')">
+              @click="store.getPeriodSummary()">
               <q-list>
                 <q-item clickable v-close-popup
                   :href="exportReportUrl('jurnal')"
@@ -38,14 +38,14 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
-import { useQuasar } from 'quasar'
-import { useI18n } from 'vue-i18n'
-import { wrapperPadding, titleSpacing } from 'src/composables/screen'
-import DateSelector from './DateSelector.vue'
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
+import DateSelector from './DateSelector.vue'
 import { conf } from 'src/composables/common'
+import { usePresenceStore } from 'src/stores/presence'
+import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
 export default {
   name: 'DailyReportMain',
@@ -53,20 +53,21 @@ export default {
     DateSelector   
   },
   setup() {
-    const store = useStore()
     const $q = useQuasar()
     const route = useRoute()
     const { t } = useI18n()
-    store.state.presence.isTeacherSection = true
-    const isTeacherSection = computed(() => store.state.presence.isTeacherSection)
+    const store = usePresenceStore()
+    
+    store.isTeacherSection = true
+    const isTeacherSection = computed(() => store.isTeacherSection)
 
     const exportReportUrl = type => { // type = "jurnal" | "absen"
       const params = {
         grade_id: isTeacherSection.value ? localStorage.getItem('grade_id') : route.params.id,
-        day: store.state.presence.helper.activeDay === '' 
+        day: store.helper.activeDay === '' 
              ? localStorage.getItem('date') 
-             : store.state.presence.helper.activeDay,
-        date: store.state.presence.helper.activeDate,
+             : store.helper.activeDay,
+        date: store.helper.activeDate,
         token: $q.cookies.get(conf.cookieName)
       }
 
@@ -76,9 +77,10 @@ export default {
     }
     
     return { 
-      exportReportUrl,
+      store,
+      titleSpacing, 
       wrapperPadding, 
-      titleSpacing 
+      exportReportUrl,
     }
   }
 }

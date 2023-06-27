@@ -8,36 +8,39 @@
       @update:model-value="filterGuest"
     />
   </div>
-  <dropdown-search 
+  <dropdown-search
     :disable="disableClassSelector"
-    class="justify-data-options" 
+    class="justify-data-options"
     custom-class="q-pr-xs"
     flex-grid="col-md-6"
-    vuex-module="student"
-    :selected="filterGuest"
-    loader="getClassGroup"
+    @selected="filterClassGroup"
+    load-on-route
     :label="$t('siswa_semua_kelas')"
-    :list="$store.state.student.classGroupList"
+    :list="studentStore.classGroupList"
     :options-value="{ label: 'grade_name', value: 'grade_id' }"
   />
 </template>
 
 <script>
 import { useI18n } from 'vue-i18n'
-import { ref, inject, computed } from 'vue'
-import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
+import { ref, inject, computed } from 'vue'
+import { useAgendaStore } from 'src/stores/agenda'
+import { useStudentStore } from 'src/stores/student'
 
 export default {
   setup() {
-    const { t } = useI18n()
-    const options = ref([])
     const model = ref({})
-    const store = useStore()
     const $q = useQuasar()
-    const { selectAllToggle } = inject('GuestSelector')
+    const options = ref([])
+    const { t } = useI18n()
+    const store = useAgendaStore()
+    const studentStore = useStudentStore()
     const disableClassSelector = ref(true)
-    
+    const { selectAllToggle } = inject('GuestSelector')
+
+    studentStore.getClassGroup()
+
     setTimeout(() => {
       options.value = [
         { label: t('staff_guru'), value: 'guru' },
@@ -46,39 +49,42 @@ export default {
         { label: t('agenda_check_ortu'), value: 'orang_tua' },
       ]
 
-      model.value = { 
-        label: t('staff_guru'), value: 'guru'
+      model.value = {
+        label: t('staff_guru'),
+        value: 'guru',
       }
 
-      store.dispatch('agenda/getUsers', model.value.value)      
+      store.getUsers(model.value.value)
     }, 1500)
 
     return {
+      store,
+      model,
+      options,
+      studentStore,
       disableClassSelector,
-      filterGuest(model) {
-        console.log('The model type is ' + typeof model.value)
-        if(model.value !== 'orang_tua') {
-          store.dispatch('agenda/getUsers', model.value)
-
-          // disable only if model.value is a pure string
-          if(isNaN(model.value)) {
-            disableClassSelector.value = true
-            store.commit('student/getClassGroup')
-          }       
+      filterGuest(v) {
+        const schoolPeople = ['guru', 'staff', 'wali_kelas']
+        if (schoolPeople.includes(v.value)) {
+          store.getUsers(v.value)
+          disableClassSelector.value = true
         } else {
           disableClassSelector.value = false
-          const classList = computed(() => store.state.student.classGroupList)
+          studentStore.getClassGroup()
+          const classList = computed(() => studentStore.classGroupList)
 
-          if(classList.value.length > 0) {
-            store.dispatch('agenda/getUsers', classList.value[0].grade_id)
+          if (classList.value.length > 0) {
+            store.getUsers(classList.value[0].grade_id)
           }
         }
 
         selectAllToggle.value = false
       },
-      options,
-      model,
+      filterClassGroup(v) {
+        store.getUsers(v.value)
+        selectAllToggle.value = false
+      },
     }
-  } 
+  },
 }
 </script>

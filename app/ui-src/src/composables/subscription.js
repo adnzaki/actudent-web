@@ -1,9 +1,30 @@
 import { core } from 'boot/axios'
-import { redirect, bearerToken } from './validate-token'
 import { Cookies, conf } from 'src/composables/common'
 
-export default function checkSubscription() {
-  if(Cookies.has(conf.cookieName)) {
+// get token dynamically
+const bearerToken = `Bearer ${Cookies.get(conf.cookieName)}`
+
+function redirect() {
+  // when the page is accessed with full reload
+  // we have to wait for until the entire page is fully loaded
+  window.onload = event => {
+    console.log(event)
+    window.location.href = conf.loginUrl()
+  }
+
+  // just go back to login page
+  window.location.href = conf.loginUrl()
+  window.location.reload()
+
+  // and we use this way for SPA routing,
+  // because the entire page has been fully loaded
+  if (document.readyState === 'complete') {
+    window.location.href = conf.loginUrl()
+  }
+}
+
+function checkSubscription() {
+  if (Cookies.has(conf.cookieName)) {
     core.get(`check-subscription`, {
       headers: {
         Authorization: bearerToken
@@ -23,3 +44,5 @@ export default function checkSubscription() {
     redirect()
   }
 }
+
+export { checkSubscription, bearerToken, redirect }

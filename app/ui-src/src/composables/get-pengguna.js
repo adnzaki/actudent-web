@@ -1,5 +1,5 @@
 import { core } from 'boot/axios'
-import { bearerToken } from './validate-token'
+import { bearerToken } from './subscription'
 import { ref } from 'vue'
 
 const pengguna = ref({})

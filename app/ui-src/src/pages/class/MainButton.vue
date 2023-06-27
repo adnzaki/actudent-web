@@ -2,21 +2,21 @@
   <div class="col-12 col-md-4">
     <div class="q-gutter-xs mobile-hide">
       <q-btn color="deep-purple" icon="add" class="q-pl-sm" :label="$t('tambah')"
-        @click="$store.state.grade.showAddForm = true" />
+        @click="store.showAddForm = true" />
       <q-btn color="negative" icon="delete" class="q-pl-sm" :label="$t('hapus')"
-        @click="multipleDeleteConfirm" />
+        @click="store.multipleDeleteConfirm()" />
     </div>
 
     <q-page-sticky position="bottom-right" 
       :offset="fabPos" 
       class="mobile-only force-elevated"
-      v-if="!$store.state.grade.showAddForm">
+      v-if="!store.showAddForm">
       <q-btn fab icon="add" color="deep-purple" 
-        @click="$store.state.grade.showAddForm = true" 
+        @click="store.showAddForm = true" 
         v-if="selected.length === 0"
       />
       <q-btn fab icon="delete" color="negative" 
-        @click="multipleDeleteConfirm" 
+        @click="store.multipleDeleteConfirm()" 
         v-if="selected.length > 0"
       />
     </q-page-sticky>
@@ -25,18 +25,16 @@
 
 <script>
 import { computed } from 'vue'
-import { mapMutations, useStore } from 'vuex'
+import { useClassStore } from 'src/stores/class'
 import { fabPos } from 'src/composables/fab'
 
 export default {
   name: 'MainButton',
-  methods: {
-    ...mapMutations('grade', ['multipleDeleteConfirm'])
-  },
   setup() {
-    const store = useStore()
+    const store = useClassStore()
     return {
-      selected: computed(() => store.state.grade.selectedClasses),
+      store,
+      selected: computed(() => store.selectedClasses),
       fabPos
     }
   }

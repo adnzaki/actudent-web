@@ -86,15 +86,15 @@ class AgendaModel extends \Actudent\Core\Models\Connector
     /**
      * Base query of get parents
      * 
-     * @param int $gradeId
+     * @param int|string $gradeId
      * @param string $searchBy
      * @param string $search
      * 
      * @return QueryBuilder
      */
-    public function baseGetParentsQuery(int $gradeId, string $searchBy, string $search = '')
+    public function baseGetParentsQuery($gradeId, string $searchBy, string $search = '')
     {
-        $field = 'DISTINCT `u`.`user_id` as `id`, `user_name` as `name`, `user_email` as `email`';
+        $field = 'DISTINCT `u`.`user_id` as `id`, `user_name` as `name`, `parent_father_name`, `parent_mother_name`, `user_email` as `email`, `s`.`deleted`';
         $select = $this->class->QBRombel->select($field, false);
         $join1 = $select->join("{$this->class->student} as s", "{$this->class->rombel}.student_id=s.student_id");
         $join2 = $join1->join("{$this->class->studentParent} as sp", 's.student_id=sp.student_id');
@@ -105,9 +105,16 @@ class AgendaModel extends \Actudent\Core\Models\Connector
             $join4->like($searchBy, $search);
         }
 
-        return $join4->where([
-            'grade_id' => $gradeId
-        ]);
+        
+        if($gradeId !== 'null') {
+            $join4->where([
+                'grade_id' => $gradeId
+            ]);
+        }
+        
+        $join4->where(['s.deleted' => '0']);
+
+        return $join4;
     }
 
     public function getHomeroomTeacher($limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = '')
@@ -375,8 +382,10 @@ class AgendaModel extends \Actudent\Core\Models\Connector
                 ->join($this->studentGrade, "{$this->studentGrade}.student_id = {$this->student}.student_id and {$this->student}.deleted=0")
                 ->join($this->grade, "{$this->grade}.grade_id = {$this->studentGrade}.grade_id")
                 ->join($this->teacher, "{$this->teacher}.staff_id = {$this->grade}.teacher_id")
-                ->like("{$this->grade}.grade_name", $search)->orLike("{$this->parent}.parent_father_name", $search)
-                ->orLike("{$this->parent}.parent_mother_name", $search)->orLike("{$this->teacher}.staff_name", $search);
+                ->like("{$this->grade}.grade_name", $search)
+                ->orLike("{$this->parent}.parent_father_name", $search)
+                ->orLike("{$this->parent}.parent_mother_name", $search)
+                ->orLike("{$this->teacher}.staff_name", $search);
         
         return $query;                
     }

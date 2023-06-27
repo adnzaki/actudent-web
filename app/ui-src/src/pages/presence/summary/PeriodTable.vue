@@ -1,21 +1,23 @@
 <template>
-  <div v-if="$store.state.presence.showPeriodTable">
+  <div v-if="store.showPeriodTable">
     <q-scroll-area class="no-paging-scroll-area">
       <q-markup-table separator="cell" flat bordered>
         <thead>
           <tr>
             <th class="text-center" rowspan="2">#</th>
             <th class="text-center" rowspan="2">{{ $t('siswa_nama') }}</th>
-            <th class="text-center" colspan="5">{{ $t('absensi_ringkasan') }}</th>
+            <th class="text-center" colspan="5">
+              {{ $t('absensi_ringkasan') }}
+            </th>
           </tr>
           <tr>
-            <th class="text-center">{{ $t('absensi_hadir') }}</th>   
+            <th class="text-center">{{ $t('absensi_hadir') }}</th>
             <th class="text-center">{{ $t('absensi_izin') }}</th>
             <th class="text-center">{{ $t('absensi_sakit') }}</th>
             <th class="text-center">{{ $t('absensi_alfa') }}</th>
             <th class="text-center">{{ $t('absensi_incomplete') }}</th>
           </tr>
-        </thead> 
+        </thead>
         <tbody>
           <tr v-for="(item, index) in periodSummary.summary" :key="index">
             <td class="text-center">{{ index + 1 }}</td>
@@ -29,25 +31,26 @@
         </tbody>
       </q-markup-table>
     </q-scroll-area>
-    <q-separator/>
+    <q-separator />
   </div>
 </template>
 <script>
-import { mapState, useStore } from 'vuex'
-import { onMounted, onUnmounted } from 'vue'
+import { computed, onUnmounted } from 'vue'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   name: 'PeriodTable',
-  computed: {
-    ...mapState('presence', {
-      periodSummary: state => state.periodSummary
-    })
-  },
   setup() {
-    const store = useStore()
+    const store = usePresenceStore()
+
     onUnmounted(() => {
-      store.state.presence.showPeriodTable = false
+      store.showPeriodTable = false
     })
-  }
+
+    return {
+      store,
+      periodSummary: computed(() => store.periodSummary),
+    }
+  },
 }
 </script>

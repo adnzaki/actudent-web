@@ -39,7 +39,7 @@ import indonesia from './id-updates'
 import english from './en-updates'
 
 export default {
-  name: 'Updates',
+  name: 'UpdateList',
   setup () {
     const $q = useQuasar()
     const olderUpdates = {

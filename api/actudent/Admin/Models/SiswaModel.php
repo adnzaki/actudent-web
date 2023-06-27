@@ -12,17 +12,17 @@ class SiswaModel extends SharedModel
     /**
      * Query to get student data
      * 
+     * @param string $whereClause
      * @param int $limit 
      * @param int $offset 
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
-     * @param string $whereClause
      * @param string $search 
      * 
      * @return array
      */
-    public function getSiswaQuery($limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $whereClause = 'null', $search = ''): array
+    public function getSiswaQuery($whereClause, $limit, $offset, $orderBy = 'student_name', $searchBy = 'student_name', $sort = 'ASC', $search = ''): array
     {        
         if($whereClause !== 'null')
         {
@@ -48,13 +48,13 @@ class SiswaModel extends SharedModel
     /**
      * Count all rows of whole student data
      * 
-     * @param string $searchBy
      * @param string $whereClause
+     * @param string $searchBy
      * @param string $search
      * 
      * @return int
      */
-    public function getSiswaRows(string $searchBy = 'student_name', string $whereClause = 'null', string $search = ''): int
+    public function getSiswaRows( string $whereClause = 'null', string $searchBy = 'student_name',string $search = ''): int
     {
         if($whereClause !== 'null')
         {

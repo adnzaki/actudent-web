@@ -6,15 +6,11 @@ class SubscriptionModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query builder for tb_subscription
-     * 
-     * @var object
      */
     private $QBSubscription;
 
     /**
      * Query builder for tb_organization
-     * 
-     * @var object
      */
     private $QBOrganization;
 
@@ -125,7 +121,7 @@ class SubscriptionModel extends \Actudent\Core\Models\Connector
     /**
      * Get subscription data
      * 
-     * @return array
+     * @return object
      */
     private function getSubscription(): object
     {

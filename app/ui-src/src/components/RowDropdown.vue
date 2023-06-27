@@ -1,45 +1,44 @@
 <template>
   <div :class="[rootClass, 'justify-data-options']">
-    <q-select outlined v-model="$store.state[vuexModule]['paging']['rows']" 
-      :options="options" dense
+    <q-select
+      outlined
+      v-model="paging.state.rows"
+      :options="options"
+      dense
       @update:model-value="showPerPage"
-      :display-value="`${$store.state[vuexModule]['paging']['rows']} ${$t('baris')}`" 
+      :display-value="`${paging.state.rows} ${$t('baris')}`"
     />
   </div>
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { useStore } from 'vuex'
-import { conf, errorNotif } from '../composables/common'
+import { useQuasar } from "quasar";
+import { conf, errorNotif } from "../composables/common";
+import { usePagingStore } from "ss-paging-vue";
 
 export default {
-  name: 'RowDropdown',
   props: {
     rootClass: {
       type: String,
-      default: 'col-12 col-md-2 offset-md-2'
+      default: "col-12 col-md-2 offset-md-2",
     },
-    vuexModule: {
-      type: String,
-      required: true,
-    }
   },
-  setup(props) {
-    const $store = useStore()
-    const $q = useQuasar()
-    const options = [10, 25, 50, 100, 250]
+  setup() {
+    const paging = usePagingStore();
+    const $q = useQuasar();
+    const options = [10, 25, 50, 100, 250];
 
     return {
+      paging,
       options,
       showPerPage: () => {
-        if($q.cookies.has(conf.cookieName)) {
-          $store.dispatch(`${props.vuexModule}/showPerPage`)
+        if ($q.cookies.has(conf.cookieName)) {
+          paging.showPerPage();
         } else {
-          errorNotif()
+          errorNotif();
         }
-      }
-    }
-  }
-}
+      },
+    };
+  },
+};
 </script>

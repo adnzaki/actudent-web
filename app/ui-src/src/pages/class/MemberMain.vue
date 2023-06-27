@@ -23,7 +23,7 @@
 import { useI18n } from 'vue-i18n'
 import { computed } from 'vue'
 import { useRoute, onBeforeRouteLeave } from 'vue-router'
-import { useStore } from 'vuex'
+import { useClassStore } from 'src/stores/class'
 import { titleSpacing } from 'src/composables/screen'
 import MemberButton from './MemberButton.vue'
 import MemberTable from './MemberTable.vue'
@@ -38,22 +38,22 @@ export default {
   },
   setup () {
     const { t } = useI18n()
-    const store = useStore()
+    const store = useClassStore()
     const route = useRoute()
 
-    if(store.state.grade.classMember.name === '') {
-      store.commit('grade/getDetail', route.params.id)
+    if(store.classMember.name === '') {
+      store.getDetail(route.params.id)
     }
 
     onBeforeRouteLeave((to, from) => {
-      store.state.grade.showEditForm = false
-      store.state.grade.detail = {}
+      store.showEditForm = false
+      store.detail = {}
     })
 
     const pageTitle = computed(() => {      
       return t('kelas_group_member_title') === undefined ? '' :
         `${t('kelas_group_member_title')} - 
-        ${store.state.grade.classMember.name}`
+        ${store.classMember.name}`
     })
 
     return { titleSpacing, pageTitle }

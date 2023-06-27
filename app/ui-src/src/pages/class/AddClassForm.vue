@@ -1,6 +1,10 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.grade.showAddForm" 
-    @before-show="formOpen" :maximized="maximizedDialog()">
+  <q-dialog
+    no-backdrop-dismiss
+    v-model="store.showAddForm"
+    @before-show="formOpen"
+    :maximized="maximizedDialog()"
+  >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('kelas_add_title') }}</div>
@@ -9,25 +13,41 @@
       </q-card-section>
 
       <q-card-section class="scroll card-section">
-        <q-form class="q-gutter-xs">          
-          <q-input outlined :label="$t('kelas_label_nama')" dense v-model="formData.grade_name" />
-          <error :label="error.grade_name" />
+        <q-form class="q-gutter-xs">
+          <q-input
+            outlined
+            :label="$t('kelas_label_nama')"
+            dense
+            v-model="formData.grade_name"
+          />
+          <ac-error :label="error.grade_name" />
 
-          <dropdown-search 
-            vuex-module="grade"
-            :selected="setTeacher"
+          <dropdown-search
+            @selected="setTeacher"
             :label="$t('kelas_wali')"
-            :list="$store.state.grade.teachers"
+            :list="store.teachers"
             :options-value="{ label: 'staff_name', value: 'staff_id' }"
             load-on-route
-          />    
-
+          />
         </q-form>
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" v-if="!$q.screen.lt.sm" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" class="mobile-form-btn" :disable="disableSaveButton" @click="save" color="primary" padding="8px 20px" />
+        <q-btn
+          flat
+          :label="$t('tutup')"
+          v-if="!$q.screen.lt.sm"
+          color="negative"
+          v-close-popup
+        />
+        <q-btn
+          :label="$t('simpan')"
+          class="mobile-form-btn"
+          :disable="disableSaveButton"
+          @click="save"
+          color="primary"
+          padding="8px 20px"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -36,61 +56,57 @@
 <script>
 import { ref, computed } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { mapState, useStore } from 'vuex'
-import SearchTeacher from './SearchTeacher.vue'
+import { useClassStore } from 'src/stores/class'
 
 export default {
   name: 'AddClassForm',
-  components: { SearchTeacher },
-  computed: {
-    ...mapState('grade', {
-      error: state => state.error,
-      disableSaveButton: state => state.helper.disableSaveButton
-    }),
-  },
   setup() {
-    const store = useStore()
+    const store = useClassStore()
 
     let formValue = {
       grade_name: '',
-      teacher_id: ''
+      teacher_id: '',
     }
 
-    const setTeacher = model => formValue.teacher_id = model.value
+    const setTeacher = (model) => (formValue.teacher_id = model.value)
 
     const formData = ref(formValue)
 
     const formOpen = () => {
       // set default value
-      formData.value.teacher_id = store.state.grade.teacherId
+      formData.value.teacher_id = store.teacherId
 
-      const saveStatus = computed(() => store.state.grade.saveStatus)
-      if(saveStatus.value === 200) {
+      const saveStatus = computed(() => store.saveStatus)
+      if (saveStatus.value === 200) {
         formValue = {
           grade_name: '',
-          teacher_id: ''
+          teacher_id: '',
         }
 
-        store.state.grade.saveStatus = 500
+        store.saveStatus = 500
         formData.value = formValue
       }
     }
-    
+
     const save = () => {
-      store.dispatch('grade/save', {
+      store.save({
         data: formData.value,
         edit: false,
-        id: null
+        id: null,
       })
     }
 
     return {
+      store,
       formData,
       save,
-      maximizedDialog, cardDialog,
+      maximizedDialog,
+      cardDialog,
       formOpen,
-      setTeacher
+      setTeacher,
+      error: computed(() => store.error),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
-  }
+  },
 }
 </script>

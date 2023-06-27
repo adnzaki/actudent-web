@@ -10,22 +10,22 @@ import SearchBox from 'components/SearchBox.vue'
 import RowDropdown from 'components/RowDropdown.vue'
 import DeleteConfirm from 'components/DeleteConfirm.vue'
 import SortIcon from 'components/SortIcon.vue'
-import Error from 'components/Error.vue'
+import ErrorMsg from 'src/components/ErrorMessage.vue'
 import SSPaging from 'components/SSPaging.vue'
 import EmployeePhoto from 'src/pages/employee/EmployeePhoto.vue'
 import DropdownSearch from 'components/DropdownSearch.vue'
 import BtnTooltip from 'components/BtnTooltip.vue'
-import Spinner from 'components/Spinner.vue'
+import SpinnerLoading from 'components/Spinner.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)
   app.component('row-dropdown', RowDropdown)
   app.component('delete-confirm', DeleteConfirm)
   app.component('sort-icon', SortIcon)
-  app.component('error', Error)
+  app.component('ac-error', ErrorMsg)
   app.component('ss-paging', SSPaging)
   app.component('employee-photo', EmployeePhoto)
   app.component('dropdown-search', DropdownSearch)
   app.component('btn-tooltip', BtnTooltip)
-  app.component('spinner', Spinner)
+  app.component('ac-spinner', SpinnerLoading)
 }

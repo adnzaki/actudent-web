@@ -22,22 +22,22 @@
 
 <script>
 import { onMounted, computed } from 'vue'
-import { useStore } from 'vuex'
 import { conf } from 'src/composables/common'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
   setup() {
-    const store = useStore()
+    const store = usePresenceStore()
     const getDay = new Date().getDay()
-    store.state.presence.helper.activeDay = getDay
+    store.helper.activeDay = getDay
 
     onMounted(() => {
-      setTimeout(() => store.dispatch('presence/getTeacherSchedules'), 500)
+      setTimeout(() => store.getTeacherSchedules(), 500)
     })
 
     return {
       conf,
-      schedules: computed(() => store.state.presence.teacherSchedules)
+      schedules: computed(() => store.teacherSchedules)
     } 
   }
 }

@@ -1,9 +1,13 @@
 <template>
   <div :class="[rootClass, 'justify-data-options']">
-    <q-input outlined bottom-slots v-model="$store.state[vuexModule]['paging']['search']" 
+    <q-input
+      outlined
+      bottom-slots
+      v-model="paging.state.search"
       :label="label"
       @keyup.enter="filter"
-      dense>
+      dense
+    >
       <template v-slot:append>
         <q-icon name="search" @click="filter" class="cursor-pointer" />
       </template>
@@ -12,41 +16,37 @@
 </template>
 
 <script>
-import { useQuasar } from 'quasar'
-import { computed, watch } from 'vue'
-import { useStore } from 'vuex'
-import { conf, errorNotif } from '../composables/common'
+import { useQuasar } from "quasar";
+import { computed, watch } from "vue";
+import { conf, errorNotif } from "../composables/common";
+import { usePagingStore } from "ss-paging-vue";
 
 export default {
-  name: 'SearchBox',
   props: {
     label: {
-      type: String
+      type: String,
     },
     rootClass: {
       type: String,
-      default: 'col-12 col-md-4'
+      default: "col-12 col-md-4",
     },
-    vuexModule: {
-      type: String,
-      required: true,
-    }
   },
-  setup(props) {
-    const $store = useStore()
-    const $q = useQuasar()
-    let search = computed(() => $store.state[props.vuexModule]['paging']['search'])
-    watch(search, () => $store.dispatch(`${props.vuexModule}/onSearchChanged`))
+  setup() {
+    const paging = usePagingStore();
+    const $q = useQuasar();
+    let search = computed(() => paging.state.search);
+    watch(search, () => paging.onSearchChanged());
 
     return {
+      paging,
       filter: () => {
-        if($q.cookies.has(conf.cookieName)) {
-          $store.dispatch(`${props.vuexModule}/filter`)
+        if ($q.cookies.has(conf.cookieName)) {
+          paging.filter();
         } else {
-          errorNotif()
+          errorNotif();
         }
-      }
-    }
-  }
-}
+      },
+    };
+  },
+};
 </script>

@@ -22,7 +22,7 @@
       style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px;" 
       icon="preview" 
       :label="$t('tampilkan')"
-      @click="$store.dispatch('presence/getMonthlySummary')" />
+      @click="store.getMonthlySummary()" />
   </div>
   <q-page-sticky position="bottom-right" 
     :offset="fabPos" 
@@ -48,34 +48,34 @@
 </template>
 <script>
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
-import { useStore } from 'vuex'
-import { useRoute } from 'vue-router'
 import { useQuasar } from 'quasar'
-import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
+import { useI18n } from 'vue-i18n'
+import { useRoute } from 'vue-router'
 import { conf } from 'src/composables/common'
+import { usePresenceStore } from 'src/stores/presence'
+import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
 
 export default {
   name: 'MonthSelector',
   setup() {
-    const { t } = useI18n()
-    const store = useStore()
-    const monthOptions = ref([])
     const period = ref({})
-    const route = useRoute()
     const $q = useQuasar()
+    const { t } = useI18n()
+    const route = useRoute()
+    const monthOptions = ref([])
+    const store = usePresenceStore()
     const currentYear = new Date().getFullYear()
 
     const monthSelected = model => {
-      store.state.presence.selectedPeriod.month = model.value
+      store.selectedPeriod.month = model.value
     }
 
     const yearSelected = model => {
-      store.state.presence.selectedPeriod.year = model
+      store.selectedPeriod.year = model
     } 
 
-    store.state.presence.selectedPeriod.month = '1'
-    store.state.presence.selectedPeriod.year = currentYear
+    store.selectedPeriod.month = '1'
+    store.selectedPeriod.year = currentYear
 
     setTimeout(() => {
       period.value = {
@@ -104,26 +104,27 @@ export default {
 
     const exportExcel = () => {
       return `${conf.adminAPI}absensi/excel-rekap-bulanan/` +
-              `${store.state.presence.selectedPeriod.month}/` +
-              `${store.state.presence.selectedPeriod.year}/` +
+              `${store.selectedPeriod.month}/` +
+              `${store.selectedPeriod.year}/` +
               `${gradeId}/${token}`
     }
 
     const exportPdf = () => {
       return `${conf.adminAPI}absensi/ekspor-rekap-bulanan/` +
-              `${store.state.presence.selectedPeriod.month}/` +
-              `${store.state.presence.selectedPeriod.year}/` +
+              `${store.selectedPeriod.month}/` +
+              `${store.selectedPeriod.year}/` +
               `${gradeId}/${token}`
 
     }
 
-    return {
-      monthOptions,
-      yearOptions: [currentYear - 2, currentYear - 1, currentYear],
-      fabPos, draggingFab, moveFab,
+    return { 
+      store,
       period,
+      monthOptions,
+      exportExcel, exportPdf,
       monthSelected, yearSelected,
-      exportExcel, exportPdf
+      fabPos, draggingFab, moveFab,
+      yearOptions: [currentYear - 2, currentYear - 1, currentYear],
     }
   }
 }
