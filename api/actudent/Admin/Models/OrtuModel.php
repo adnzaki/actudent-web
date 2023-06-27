@@ -38,8 +38,9 @@ class OrtuModel extends SharedModel
      */
     public function getParents($limit, $offset, $orderBy = 'parent_father_name', $searchBy = 'parent_father_name', $sort = 'ASC', $search = ''): array
     {
-        $query = $this->search($searchBy, $search)->where('deleted', '0')->orderBy($orderBy, $sort)->limit($limit, $offset);
-        return $query->get()->getResult();
+        $query = $this->search($searchBy, $search)->where(['deleted' => 0])->orderBy($orderBy, $sort)->limit($limit, $offset);
+        return $query->getWhere(['deleted' => 0])->getResult();
+        //return $query->getCompiledSelect();
     }
 
     /**
@@ -51,7 +52,7 @@ class OrtuModel extends SharedModel
      */
     public function getParentRows(string $searchBy = 'parent_father_name', string $search = ''): int
     {
-        $query = $this->search($searchBy, $search)->where('deleted', '0');
+        $query = $this->search($searchBy, $search)->where(['deleted' => 0]);
 
         return $query->countAllResults();
     }
@@ -140,7 +141,7 @@ class OrtuModel extends SharedModel
      */
     public function delete(int $parentID, int $userID): void
     {
-        $deleted = ['deleted' => '1'];
+        $deleted = ['deleted' => 1];
         $this->db->transStart();
 
         // start transcation
@@ -208,10 +209,11 @@ class OrtuModel extends SharedModel
             if(strpos($searchBy, '-') !== false)
             {
                 $searchBy = explode('-', $searchBy);
-                $select->like($searchBy[0], $search); 
+
+                $select->like("(`$searchBy[0]`", "'%$search%' ESCAPE '!'", 'none', false); 
                 $select->orLike($searchBy[1], $search); 
                 $select->orLike($searchBy[2], $search); 
-                $select->orLike($searchBy[3], $search);
+                $select->orLike($searchBy[3], "'%$search%')", 'none', false);
             }
             else 
             {
