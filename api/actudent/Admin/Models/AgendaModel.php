@@ -382,8 +382,10 @@ class AgendaModel extends \Actudent\Core\Models\Connector
                 ->join($this->studentGrade, "{$this->studentGrade}.student_id = {$this->student}.student_id and {$this->student}.deleted=0")
                 ->join($this->grade, "{$this->grade}.grade_id = {$this->studentGrade}.grade_id")
                 ->join($this->teacher, "{$this->teacher}.staff_id = {$this->grade}.teacher_id")
-                ->like("{$this->grade}.grade_name", $search)->orLike("{$this->parent}.parent_father_name", $search)
-                ->orLike("{$this->parent}.parent_mother_name", $search)->orLike("{$this->teacher}.staff_name", $search);
+                ->like("{$this->grade}.grade_name", $search)
+                ->orLike("{$this->parent}.parent_father_name", $search)
+                ->orLike("{$this->parent}.parent_mother_name", $search)
+                ->orLike("{$this->teacher}.staff_name", $search);
         
         return $query;                
     }

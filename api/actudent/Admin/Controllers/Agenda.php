@@ -64,8 +64,8 @@ class Agenda extends \Actudent
     public function getUsers($type, $limit, $offset, $orderBy = 'user_name', $searchBy = 'user_name', $sort = 'ASC', $search = '')
     {
         $level = [
-            'staff'     => 0,
-            'guru'      => 2,
+            'staff' => 0,
+            'guru'  => 2,
         ];
 
         if(is_numeric($type) || $type === 'null') {
@@ -76,8 +76,8 @@ class Agenda extends \Actudent
             $data = $this->agenda->getHomeroomTeacher($limit, $offset, $orderBy, $searchBy, $sort, $search);
             $rows = $this->agenda->getHomeroomTeacherRows($searchBy, $search);
         } else {
-            $data = $this->user->getUser($limit, $offset, $orderBy, $searchBy, $sort, $level[$type], $search);
-            $rows = $this->user->getUserRows($searchBy, $level[$type], $search);
+            $data = $this->user->getUser($level[$type], $limit, $offset, $orderBy, $searchBy, $sort, $search);
+            $rows = $this->user->getUserRows($level[$type], $searchBy, $search);
         }        
 
         return $this->createResponse([
