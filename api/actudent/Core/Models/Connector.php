@@ -26,14 +26,14 @@ class Connector
      * 
      * @var string
      */
-    public $periodStart = '2022';
+    public $periodStart = '2023';
 
     /**
      * The school calendar period end
      * 
      * @var string
      */
-    public $periodEnd = '2023';
+    public $periodEnd = '2024';
 
     /**
      * Semester in period
