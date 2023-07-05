@@ -12,10 +12,10 @@
 </template>
 
 <script>
-import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
-import { useStore } from 'vuex'
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default {
   setup() {
@@ -23,31 +23,31 @@ export default {
     const options = ref([])
     const model = ref({})
     const $q = useQuasar()
-    const store = useStore()
-    
+    const store = useSiabsenStore()
+
     setTimeout(() => {
       options.value = [
         { label: t('staff_semua_bagian'), value: 'all' },
         { label: t('staff_guru'), value: 'teacher' },
-        { label: 'Staff', value: 'staff' }
+        { label: 'Staff', value: 'staff' },
       ]
 
-      model.value = { 
-        label: t('staff_semua_bagian'), value: 'all'
+      model.value = {
+        label: t('staff_semua_bagian'),
+        value: 'all',
       }
 
-      store.dispatch('siabsen/getRequiredPresent', model.value.value)      
-    }, 1500);
-
+      store.getRequiredPresent(model.value.value)
+    }, 1500)
 
     return {
-      width: () => $q.screen.lt.md ? '100%' : '95%',
+      width: () => ($q.screen.lt.md ? '100%' : '95%'),
       modelChanged(model) {
-        store.dispatch('siabsen/getRequiredPresent', model.value)
+        store.getRequiredPresent(model.value)
       },
       options,
       model,
     }
-  } 
+  },
 }
 </script>

@@ -4,18 +4,22 @@
       <permit-list />
     </q-scroll-area>
     <permit-list class="mobile-only" />
-    <q-separator/>
-    <ss-paging vuex-module="siabsen" />
+    <q-separator />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 <script>
 import PermitList from './PermitList.vue'
+import { useSiabsenStore } from 'src/stores/siabsen'
+
 export default {
   components: {
-    PermitList
+    PermitList,
   },
   setup() {
-    
-  }
+    const store = useSiabsenStore()
+
+    return { store }
+  },
 }
 </script>

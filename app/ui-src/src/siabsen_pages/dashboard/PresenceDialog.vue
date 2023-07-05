@@ -1,8 +1,11 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.siabsen.showPresenceDialog" 
+  <q-dialog
+    no-backdrop-dismiss
+    v-model="store.showPresenceDialog"
     @show="openCamera"
     @before-hide="stopVideo"
-    :maximized="maximizedDialog()">
+    :maximized="maximizedDialog()"
+  >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('siabsen_kehadiran') }}</div>
@@ -11,26 +14,46 @@
       </q-card-section>
 
       <q-card-section class="scroll card-section">
-        <q-form class="q-gutter-xs">    
-
+        <q-form class="q-gutter-xs">
           <div class="row">
             <div class="col-12">
               <div id="myVideo">
-                <video ref="video" autoplay v-if="showVideo" style="width: 100%;">Video tidak tersedia</video>
+                <video
+                  ref="video"
+                  autoplay
+                  v-if="showVideo"
+                  style="width: 100%"
+                >
+                  Video tidak tersedia
+                </video>
               </div>
-              <canvas ref="canvas" id="canvas" width="480" height="640" style="display: none"></canvas>
+              <canvas
+                ref="canvas"
+                id="canvas"
+                width="480"
+                height="640"
+                style="display: none"
+              ></canvas>
             </div>
           </div>
-
         </q-form>
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat v-if="!$q.screen.lt.sm" :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn :label="$t('siabsen_ambil_gambar')" 
-          @click="takePicture" 
-          color="primary" padding="8px 20px"
-          class="mobile-form-btn" />
+        <q-btn
+          flat
+          v-if="!$q.screen.lt.sm"
+          :label="$t('tutup')"
+          color="negative"
+          v-close-popup
+        />
+        <q-btn
+          :label="$t('siabsen_ambil_gambar')"
+          @click="takePicture"
+          color="primary"
+          padding="8px 20px"
+          class="mobile-form-btn"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
@@ -38,15 +61,21 @@
 
 <script>
 import { onMounted, ref, computed, watch } from 'vue'
-import { axios, conf, createFormData, bearerToken, t } from 'src/composables/common'
+import {
+  axios,
+  conf,
+  createFormData,
+  bearerToken,
+  t,
+} from 'src/composables/common'
 import { maximizedDialog, cardDialog } from 'src/composables/screen'
-import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default {
   setup() {
     const $q = useQuasar()
-    const store = useStore()
+    const store = useSiabsenStore()
     const video = ref(null)
     const canvas = ref(null)
     const openCamera = ref(null)
@@ -63,55 +92,59 @@ export default {
     const locationOptions = {
       enableHighAccuracy: true,
       timeout: 5000,
-      maximumAge: 0
+      maximumAge: 0,
     }
 
-    const getLocationError = err => locationDescription.value = `${err.code}: ${err.message}`
+    const getLocationError = (err) =>
+      (locationDescription.value = `${err.code}: ${err.message}`)
 
     onMounted(() => {
-      openCamera.value = () => { 
-        showVideo.value = true        
-        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+      openCamera.value = () => {
+        showVideo.value = true
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
           video.value.srcObject = stream
         })
-      }      
-
-      stopVideo.value = () => {
-        video.value.srcObject.getVideoTracks().forEach(track => track.stop())
-        showVideo.value = false
-        // store.state.siabsen.showPresenceDialog = false
       }
 
-      takePicture.value = () => {   
+      stopVideo.value = () => {
+        video.value.srcObject.getVideoTracks().forEach((track) => track.stop())
+        showVideo.value = false
+        // store.showPresenceDialog = false
+      }
+
+      takePicture.value = () => {
         const notifyProgress = $q.notify({
           group: false,
           message: t('siabsen_validasi_lokasi'),
           color: 'info',
           position: 'center',
           timeout: 0,
-          spinner: true
+          spinner: true,
         })
 
-        const validatePosition = pos => {         
+        const validatePosition = (pos) => {
           // implicitly close progress notification
           notifyProgress({ timeout: 1 })
-          
+
           const crd = pos.coords
           const crdData = {
             lat: crd.latitude,
-            long: crd.longitude
+            long: crd.longitude,
           }
 
           location.value = crdData
 
-          axios.post(`${conf.siabsenAPI}validate-position`, crdData, {
-            headers: { Authorization: bearerToken },
-            transformRequest: [data => {
-              return createFormData(data)
-            }]
-          })
-            .then(({ data }) => {              
-              if(data.code === 500) {
+          axios
+            .post(`${conf.siabsenAPI}validate-position`, crdData, {
+              headers: { Authorization: bearerToken },
+              transformRequest: [
+                (data) => {
+                  return createFormData(data)
+                },
+              ],
+            })
+            .then(({ data }) => {
+              if (data.code === 500) {
                 canTakePicture.value = false
                 const notifyPosition = $q.notify({
                   group: true,
@@ -120,58 +153,70 @@ export default {
                   position: 'top',
                   timeout: 5000,
                   actions: [
-                    { 
-                      label: 'X' /* t('siabsen_cek_posisi') */, color: 'white', handler: () => {
+                    {
+                      label: 'X' /* t('siabsen_cek_posisi') */,
+                      color: 'white',
+                      handler: () => {
                         //window.open(`https://www.google.com/maps/@${crd.latitude},${crd.longitude},15z`, '_blank')
-                      } 
-                    }
-                  ]
+                      },
+                    },
+                  ],
                 })
-              } else if(data.code === 200) {
+              } else if (data.code === 200) {
                 setTimeout(() => {
                   const context = canvas.value.getContext('2d')
-            
-                  context.drawImage(video.value, 0, 0, canvas.value.width, canvas.value.height);
+
+                  context.drawImage(
+                    video.value,
+                    0,
+                    0,
+                    canvas.value.width,
+                    canvas.value.height
+                  )
                   imgSrc.value = canvas.value.toDataURL('image/jpeg')
                   let base64String = imgSrc.value.split(',')
-                  store.state.siabsen.base64String = base64String[1]
-                  store.dispatch('siabsen/pushPresence', {
+                  store.base64String = base64String[1]
+                  store.pushPresence({
                     lat: location.value.lat,
-                    long: location.value.long
+                    long: location.value.long,
                   })
-                }, 500);
+                }, 500)
               }
-            })          
+            })
         }
 
-        navigator.geolocation.getCurrentPosition(validatePosition, getLocationError, locationOptions)        
+        navigator.geolocation.getCurrentPosition(
+          validatePosition,
+          getLocationError,
+          locationOptions
+        )
       }
 
-      const presenceSuccess = computed(() => store.state.siabsen.presenceSuccess)
+      const presenceSuccess = computed(() => store.presenceSuccess)
       watch(presenceSuccess, () => {
-        if(store.state.siabsen.presenceSuccess) {
+        if (store.presenceSuccess) {
           stopVideo.value()
-          store.state.siabsen.showPresenceDialog = false
+          store.showPresenceDialog = false
         }
       })
     })
-    
 
     return {
-      maximizedDialog,
-      stopVideo,
-      canTakePicture,
-      validationStatus,
-      mapsURL,
-      locationDescription,
-      imgSrc,
-      showVideo,
-      takePicture,
-      openCamera,
+      store,
       video,
       canvas,
-      cardDialog
+      imgSrc,
+      mapsURL,
+      stopVideo,
+      showVideo,
+      cardDialog,
+      openCamera,
+      takePicture,
+      canTakePicture,
+      maximizedDialog,
+      validationStatus,
+      locationDescription,
     }
-  }
+  },
 }
 </script>

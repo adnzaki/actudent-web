@@ -9,10 +9,11 @@ import {
 } from '../../composables/common'
 
 import { Notify, Dialog } from 'quasar'
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   getAttendance(agendaId) {
-    this.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit: 50,
@@ -142,9 +143,9 @@ export default {
   },
   getStaffScheduleList() {
     const limit = 25
-    this.paging.rows = limit
+    this.paging().rows = limit
 
-    this.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,
@@ -251,7 +252,7 @@ export default {
   getAllStaffSummary({ start, end, type }) {
     this.spinner = true
     return new Promise((resolve, reject) => {
-      this.getData({
+      paging().getData({
         token: bearerToken,
         lang: localStorage.getItem(conf.userLang),
         limit: 5,
@@ -322,11 +323,11 @@ export default {
   },
   getPermissions() {
     const limit = 25
-    this.paging.rows = limit
+    this.paging().rows = limit
 
     const withId = Cookies.get(conf.userType) === '1' ? 'false' : 'true'
 
-    this.getData({
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,
@@ -389,8 +390,8 @@ export default {
   },
   getStaffPresence() {
     const limit = 25
-    this.paging.rows = limit
-    this.getData({
+    this.paging().rows = limit
+    paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
       limit,

@@ -1,11 +1,13 @@
 <template>
   <q-card class="my-card">
     <q-card-section>
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('siabsen_kegiatan') }}</div>
-      <div class="text-h6 text-capitalize" v-else>{{ $t('siabsen_kegiatan') }}</div>
-      <div :class="['row', titleSpacing()]" style="margin-top: 0;">
-
+      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+        {{ $t('siabsen_kegiatan') }}
       </div>
+      <div class="text-h6 text-capitalize" v-else>
+        {{ $t('siabsen_kegiatan') }}
+      </div>
+      <div :class="['row', titleSpacing()]" style="margin-top: 0"></div>
     </q-card-section>
     <agenda-form />
     <month-selector class="q-pa-md" />
@@ -25,7 +27,7 @@ import PresenceDialog from '../dashboard/PresenceDialog.vue'
 import EventsListMobile from './EventsListMobile.vue'
 import { useQuasar } from 'quasar'
 import { provide } from 'vue'
-import { useStore } from 'vuex'
+import { useSiabsenStore } from 'src/stores/siabsen'
 import { t } from 'src/composables/common'
 
 export default {
@@ -34,32 +36,32 @@ export default {
     EventsList,
     AgendaForm,
     PresenceDialog,
-    EventsListMobile
-},
+    EventsListMobile,
+  },
   setup() {
-    const store = useStore()
+    const store = useSiabsenStore()
     const $q = useQuasar()
 
     const openPresenceDialog = (id, canPresent) => {
-      if(canPresent === 1) {
-        store.state.siabsen.presenceType = 'agenda'
-        store.state.siabsen.agendaId = id
-        store.state.siabsen.showPresenceDialog = true
+      if (canPresent === 1) {
+        store.presenceType = 'agenda'
+        store.agendaId = id
+        store.showPresenceDialog = true
       } else {
-        if(canPresent === 'ended') {
+        if (canPresent === 'ended') {
           $q.dialog({
             title: 'Info',
-            message: t('siabsen_event_ended'),    
+            message: t('siabsen_event_ended'),
           })
-        } else if(canPresent === 'not_started') {
+        } else if (canPresent === 'not_started') {
           $q.dialog({
             title: 'Info',
-            message: t('siabsen_event_not_started'),    
+            message: t('siabsen_event_not_started'),
           })
         } else {
           $q.dialog({
             title: 'Info',
-            message: t('siabsen_sudah_absen'),    
+            message: t('siabsen_sudah_absen'),
           })
         }
       }
@@ -68,8 +70,8 @@ export default {
     provide('openPresenceDialog', openPresenceDialog)
 
     return {
-      titleSpacing
+      titleSpacing,
     }
-  }
+  },
 }
 </script>

@@ -10,26 +10,36 @@
             <th class="text-left cursor-pointer">{{ $t('staff_nama') }}</th>
             <th class="text-left cursor-pointer">{{ $t('siabsen_in') }}</th>
             <th class="text-left cursor-pointer">{{ $t('siabsen_out') }}</th>
-            <th class="text-left cursor-pointer">{{ $t('siabsen_worktime') }}</th>
-            <th class="text-left cursor-pointer">{{ $t('siabsen_overtime') }}</th>
+            <th class="text-left cursor-pointer">
+              {{ $t('siabsen_worktime') }}
+            </th>
+            <th class="text-left cursor-pointer">
+              {{ $t('siabsen_overtime') }}
+            </th>
             <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="(item, index) in data" :key="index">
-            <td class="text-center">{{ $store.getters['siabsen/itemNumber'](index) }}</td>
+            <td class="text-center">{{ paging.itemNumber(index) }}</td>
             <td class="text-left">{{ item.nip }}</td>
             <td class="text-left">{{ item.name }}</td>
-            <td class="text-left">{{ item.in }} <br />
-              <small class="text-negative" v-if="item.late !== '-'">(+{{ item.late }})</small>
+            <td class="text-left">
+              {{ item.in }} <br />
+              <small class="text-negative" v-if="item.late !== '-'"
+                >(+{{ item.late }})</small
+              >
             </td>
             <td class="text-left">{{ item.out }}</td>
             <td class="text-left">{{ item.workTime }}</td>
             <td class="text-left">{{ item.overtime }}</td>
             <td class="text-left">
-              <q-btn color="accent" 
-                :disable="disableBtn(item.in, item.out)" icon="image"
-                @click="showImage(item.inPhoto, item.outPhoto)">
+              <q-btn
+                color="accent"
+                :disable="disableBtn(item.in, item.out)"
+                icon="image"
+                @click="showImage(item.inPhoto, item.outPhoto)"
+              >
                 <btn-tooltip :label="$t('siabsen_detail_absensi')" />
               </q-btn>
             </td>
@@ -37,14 +47,15 @@
         </tbody>
       </q-markup-table>
     </q-scroll-area>
-    <q-separator/>
+    <q-separator />
     <ss-paging vuex-module="siabsen" />
   </div>
 </template>
 
 <script>
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useSiabsenStore } from 'src/stores/siabsen'
+import { usePagingStore } from 'ss-paging-vue'
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StaffListMobile from './StaffListMobile.vue'
@@ -52,22 +63,24 @@ import StaffListMobile from './StaffListMobile.vue'
 export default {
   name: 'StaffList',
   components: { StaffListMobile },
-  setup () {
+  setup() {
     const router = useRouter()
-    const store = useStore()
+    const store = useSiabsenStore()
+    const paging = usePagingStore()
 
     return {
+      paging,
       disableBtn(inPhoto, outPhoto) {
         return inPhoto === '-' && outPhoto === '-' ? true : false
       },
       showImage(inPhoto, outPhoto) {
-        store.state.siabsen.inPhotoURL = inPhoto
-        store.state.siabsen.outPhotoURL = outPhoto
-        store.state.siabsen.showPresenceDetail = true
+        store.inPhotoURL = inPhoto
+        store.outPhotoURL = outPhoto
+        store.showPresenceDetail = true
       },
-      data: computed(() => store.state.siabsen.paging.data),
+      data: computed(() => paging.state.data),
       checkColWidth,
     }
-  }
+  },
 }
 </script>

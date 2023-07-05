@@ -15,7 +15,7 @@
 import { useI18n } from 'vue-i18n'
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
-import { useStore } from 'vuex'
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default {
   setup() {
@@ -23,45 +23,48 @@ export default {
     const options = ref([])
     const model = ref({})
     const $q = useQuasar()
-    const store = useStore()
+    const store = useSiabsenStore()
 
     const allStaffValue = 'null'
 
-    store.state.siabsen.employeeFilter = allStaffValue
-    
+    store.employeeFilter = allStaffValue
+
     setTimeout(() => {
       options.value = [
         { label: t('staff_semua_bagian'), value: allStaffValue },
         { label: t('staff_guru'), value: 'teacher' },
-        { label: 'Staff', value: 'staff' }
+        { label: 'Staff', value: 'staff' },
       ]
 
-      model.value = { 
-        label: t('staff_semua_bagian'), value: allStaffValue
+      model.value = {
+        label: t('staff_semua_bagian'),
+        value: allStaffValue,
       }
-            
-      store.dispatch('siabsen/getAllStaffSummary', {
-        start: store.state.siabsen.dateRangeStart,
-        end: store.state.siabsen.dateRangeEnd,
-        type: store.state.siabsen.employeeFilter
-      }).then(() => store.state.siabsen.spinner = false)
 
-    }, 1500);
-
+      store
+        .getAllStaffSummary({
+          start: store.dateRangeStart,
+          end: store.dateRangeEnd,
+          type: store.employeeFilter,
+        })
+        .then(() => (store.spinner = false))
+    }, 1500)
 
     return {
-      width: () => $q.screen.lt.md ? '100%' : '95%',
+      width: () => ($q.screen.lt.md ? '100%' : '95%'),
       modelChanged(model) {
-        store.state.siabsen.employeeFilter = model.value
-        store.dispatch('siabsen/getAllStaffSummary', {
-          start: store.state.siabsen.dateRangeStart,
-          end: store.state.siabsen.dateRangeEnd,
-          type: store.state.siabsen.employeeFilter
-        }).then(() => store.state.siabsen.spinner = false)
+        store.employeeFilter = model.value
+        store
+          .getAllStaffSummary({
+            start: store.dateRangeStart,
+            end: store.dateRangeEnd,
+            type: store.employeeFilter,
+          })
+          .then(() => (store.spinner = false))
       },
       options,
       model,
     }
-  } 
+  },
 }
 </script>

@@ -1,16 +1,19 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="$store.state.siabsen.showScheduleForm"
+  <q-dialog
+    no-backdrop-dismiss
+    v-model="store.showScheduleForm"
     :maximized="maximizedDialog()"
     @before-show="formOpen"
-    @hide="formClose">
+    @hide="formClose"
+  >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize" v-if="$q.screen.lt.sm">
-          {{ $store.state.siabsen.staffName }}
+          {{ store.staffName }}
         </div>
         <div class="text-h6 text-capitalize" v-else>
           {{ $t('siabsen_atur_jadwal') }}
-          {{ $store.state.siabsen.staffName }}
+          {{ store.staffName }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -29,39 +32,53 @@
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
-        <q-btn flat :label="$t('tutup')" v-if="!$q.screen.lt.sm" color="negative" v-close-popup />
-        <q-btn class="mobile-form-btn" :label="$t('simpan')" :disable="disableSaveButton" @click="save" color="accent" padding="8px 20px" />
+        <q-btn
+          flat
+          :label="$t('tutup')"
+          v-if="!$q.screen.lt.sm"
+          color="negative"
+          v-close-popup
+        />
+        <q-btn
+          class="mobile-form-btn"
+          :label="$t('simpan')"
+          :disable="disableSaveButton"
+          @click="save"
+          color="accent"
+          padding="8px 20px"
+        />
       </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
 
 <script>
-import { maximizedDialog, cardDialog } from 'src/composables/screen'
-import { useStore } from 'vuex'
-import DailySchedule from './DailySchedule.vue'
 import { ref, computed } from 'vue'
+import DailySchedule from './DailySchedule.vue'
+import { useSiabsenStore } from 'src/stores/siabsen'
+import { maximizedDialog, cardDialog } from 'src/composables/screen'
 
 export default {
   components: { DailySchedule },
   setup() {
-    const store = useStore()
+    const store = useSiabsenStore()
 
     return {
       formClose() {
-        store.state.siabsen.scheduleDays = {}
+        store.scheduleDays = {}
       },
       formOpen() {
-        store.commit('siabsen/getDetailConfig')
-        store.state.siabsen.disableSaveButton = false
+        store.getDetailConfig()
+        store.disableSaveButton = false
       },
       save() {
-        store.dispatch('siabsen/updatePresenceSchedule')
+        store.updatePresenceSchedule()
       },
-      disableSaveButton: computed(() => store.state.siabsen.disableSaveButton),
+      cardDialog,
+      maximizedDialog,
       expanded: ref(false),
-      maximizedDialog, cardDialog
+      disableSaveButton: computed(() => store.disableSaveButton),
     }
-  }
+  },
 }
 </script>

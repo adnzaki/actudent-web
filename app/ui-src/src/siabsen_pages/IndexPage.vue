@@ -1,5 +1,5 @@
 <template>
-  <div :class="wrapperPadding()">  
+  <div :class="wrapperPadding()">
     <router-view />
   </div>
 </template>
@@ -8,12 +8,11 @@
 import { wrapperPadding } from 'src/composables/screen'
 
 export default {
-  name: 'Index',
+  name: 'IndexPage',
   setup() {
-
-    return { 
-      wrapperPadding 
+    return {
+      wrapperPadding,
     }
-  }
+  },
 }
 </script>

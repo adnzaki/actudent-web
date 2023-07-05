@@ -17,22 +17,36 @@
       </thead>
       <tbody>
         <tr v-for="(item, index) in data" :key="index">
-          <td class="text-left mobile-hide">{{ $trim(item.staff_name, 20) }}</td>
-          <td class="text-left mobile-hide">{{ $formatDate(item.permit_date, 'DD/MM/YYYY') }}</td>
+          <td class="text-left mobile-hide">
+            {{ $trim(item.staff_name, 20) }}
+          </td>
+          <td class="text-left mobile-hide">
+            {{ $formatDate(item.permit_date, 'DD/MM/YYYY') }}
+          </td>
           <td class="text-left mobile-only">
-            {{ $trim(item.staff_name, 20) }} <br>
+            {{ $trim(item.staff_name, 20) }} <br />
             {{ $formatDate(item.permit_date, 'DD-MMM-YYYY') }}
           </td>
           <td class="text-left mobile-hide">
-            {{ trimTime(item.permit_starttime) }} - {{ trimTime(item.permit_endtime) }}
+            {{ trimTime(item.permit_starttime) }} -
+            {{ trimTime(item.permit_endtime) }}
           </td>
-          <td class="text-left mobile-hide">{{ permitType(item.permit_presence) }}</td>
-          <td class="text-left mobile-hide">{{ $trim(item.permit_reason, 25) }}</td>
+          <td class="text-left mobile-hide">
+            {{ permitType(item.permit_presence) }}
+          </td>
+          <td class="text-left mobile-hide">
+            {{ $trim(item.permit_reason, 25) }}
+          </td>
           <td class="text-left">
             <status-badge :value="item.permit_status" />
           </td>
           <td class="text-left">
-            <q-btn color="accent" class="mobile-only" icon="o_info" @click="getDetail(item.permit_id)">
+            <q-btn
+              color="accent"
+              class="mobile-only"
+              icon="o_info"
+              @click="getDetail(item.permit_id)"
+            >
               <btn-tooltip :label="$t('absensi_label_pr')" />
             </q-btn>
             <q-btn-dropdown
@@ -44,14 +58,26 @@
               target="_blank"
             >
               <q-list>
-                <q-item clickable v-close-popup @click="setStatus('approved', item.permit_id)">
+                <q-item
+                  clickable
+                  v-close-popup
+                  @click="setStatus('approved', item.permit_id)"
+                >
                   <q-item-section>
-                    <q-item-label>{{ $t('siabsen_approve_permit') }}</q-item-label>
+                    <q-item-label>{{
+                      $t('siabsen_approve_permit')
+                    }}</q-item-label>
                   </q-item-section>
                 </q-item>
-                <q-item clickable v-close-popup @click="setStatus('rejected', item.permit_id)">
+                <q-item
+                  clickable
+                  v-close-popup
+                  @click="setStatus('rejected', item.permit_id)"
+                >
                   <q-item-section>
-                    <q-item-label>{{ $t('siabsen_reject_permit') }}</q-item-label>
+                    <q-item-label>{{
+                      $t('siabsen_reject_permit')
+                    }}</q-item-label>
                   </q-item-section>
                 </q-item>
               </q-list>
@@ -64,35 +90,35 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StatusBadge from 'src/siabsen_pages/teacher_permit/StatusBadge.vue'
 import permitType from './permit-type'
+import { useSiabsenStore } from 'src/stores/siabsen'
+import { usePagingStore } from 'ss-paging-vue'
 
 export default {
   components: { StatusBadge },
   setup() {
-    const router = useRouter();
-    const store = useStore();
-    store.dispatch('siabsen/getPermissions');
+    const store = useSiabsenStore()
+    const paging = usePagingStore()
+    store.getPermissions()
 
     return {
       permitType,
-      getDetail: id => store.dispatch('siabsen/getPermissionDetail', id),
+      getDetail: (id) => store.getPermissionDetail(id),
       trimTime(val) {
         return val === undefined ? '' : val.substring(0, 5)
       },
-      setStatus: (val, id ) => {
-        store.dispatch('siabsen/setPermitStatus', {
-          status: val, 
-          id
+      setStatus: (val, id) => {
+        store.setPermitStatus({
+          status: val,
+          id,
         })
       },
-      data: computed(() => store.state.siabsen.paging.data),
+      data: computed(() => paging.state.data),
       checkColWidth,
     }
-  }  
+  },
 }
 </script>

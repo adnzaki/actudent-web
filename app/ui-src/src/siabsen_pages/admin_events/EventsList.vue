@@ -18,8 +18,11 @@
             <td class="text-left">{{ item.name }}</td>
             <td class="text-left">{{ item.time }}</td>
             <td class="text-left">
-              <q-btn color="accent" icon="assignment_ind"
-                @click="goToAttendance(item.id)">
+              <q-btn
+                color="accent"
+                icon="assignment_ind"
+                @click="goToAttendance(item.id)"
+              >
                 <btn-tooltip :label="$t('siabsen_event_attendance')" />
               </q-btn>
             </td>
@@ -27,26 +30,25 @@
         </tbody>
       </q-markup-table>
     </q-scroll-area>
-    <q-separator/>
+    <q-separator />
   </div>
 </template>
 
 <script>
 import { computed, inject } from 'vue'
-import { useStore } from 'vuex'
 import { useQuasar } from 'quasar'
-
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default {
-  setup () {
-    const store = useStore()
+  setup() {
+    const store = useSiabsenStore()
     const $q = useQuasar()
     const goToAttendance = inject('goToAttendance')
 
     return {
       goToAttendance,
-      allEvents: computed(() => store.state.siabsen.allEvents),
+      allEvents: computed(() => store.allEvents),
     }
-  }
+  },
 }
 </script>

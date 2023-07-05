@@ -8,7 +8,6 @@ import { bearerToken, redirect } from './subscription'
 import { axios, core, admin, teacher, siabsen } from 'boot/axios'
 import { appConfig as conf } from '../../actudent.config'
 import { flashAlert, errorNotif, timeout } from './notify'
-import { pengguna, getPengguna } from './get-pengguna'
 
 const userType = Cookies.get(conf.userType)
 const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)
@@ -24,6 +23,12 @@ const trim = (text, length = 25, ellipsis = true) => {
 
 const apiEndpoint = Cookies.get(conf.userType) === '1'
   ? conf.adminAPI : conf.teacherAPI
+
+const t = key => i18n.global.t(key)
+
+const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
+  return date.formatDate(val, format, selectedLang)
+}
 
 const createQueryString = params => {
   return Object.entries(params).map(item => item.join('=')).join('&')
@@ -53,6 +58,33 @@ function createFormData(obj) {
   return formData
 }
 
+const monthList = () => {
+  return [
+    { label: t('mon1'), value: '01' },
+    { label: t('mon2'), value: '02' },
+    { label: t('mon3'), value: '03' },
+    { label: t('mon4'), value: '04' },
+    { label: t('mon5'), value: '05' },
+    { label: t('mon6'), value: '06' },
+    { label: t('mon7'), value: '07' },
+    { label: t('mon8'), value: '08' },
+    { label: t('mon9'), value: '09' },
+    { label: t('mon10'), value: '10' },
+    { label: t('mon11'), value: '11' },
+    { label: t('mon12'), value: '12' },
+  ]
+}
+
+const toDecimal = time => {
+  time = time.split(':')
+  let hour = time[0],
+    mins = time[1] / 60
+
+  return hour + mins
+}
+
+const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
+
 export {
   t,
   ref,
@@ -71,10 +103,6 @@ export {
   errorNotif,
   flashAlert,
   apiEndpoint,
-  Cookies,
-  ref,
-  axios, core, admin, teacher,
-  conf,
   bearerToken,
   validateToken,
   runLoadingBar,
@@ -82,5 +110,5 @@ export {
   isAuthenticated,
   createQueryString,
   pengguna, getPengguna,
-  axios, core, admin, teacher,
+  axios, core, admin, teacher, siabsen
 }

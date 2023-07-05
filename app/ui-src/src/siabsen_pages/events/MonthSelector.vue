@@ -22,7 +22,7 @@
 </template>
 <script>
 import { ref } from 'vue'
-import { useStore } from 'vuex'
+import { useSiabsenStore } from 'src/stores/siabsen'
 import { useQuasar, date } from 'quasar'
 import { conf, monthList, t } from 'src/composables/common'
 
@@ -31,53 +31,54 @@ export default {
   props: {
     allEvents: {
       default: false,
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   setup(props) {
-    const store = useStore()
+    const store = useSiabsenStore()
     const monthOptions = ref([])
     const period = ref({})
     const $q = useQuasar()
 
-    const selectedPeriod = ref(date.formatDate(new Date, 'MM-YYYY'))
-    store.state.siabsen.period = selectedPeriod.value
+    const selectedPeriod = ref(date.formatDate(new Date(), 'MM-YYYY'))
+    store.period = selectedPeriod.value
 
     const getEvents = () => {
-      if(props.allEvents) store.dispatch('siabsen/getAllEvents')
-      else store.dispatch('siabsen/getUserEvents')
-    }    
-    
+      if (props.allEvents) store.getAllEvents()
+      else store.getUserEvents()
+    }
+
     getEvents()
 
-    const monthSelected = model => {
+    const monthSelected = (model) => {
       selectedPeriod.value = `${model.value}-${period.value.year}`
-      store.state.siabsen.period = selectedPeriod.value
+      store.period = selectedPeriod.value
       getEvents()
     }
 
-    const yearSelected = model => {
+    const yearSelected = (model) => {
       selectedPeriod.value = `${period.value.month.value}-${model}`
-      store.state.siabsen.period = selectedPeriod.value
+      store.period = selectedPeriod.value
       getEvents()
-    } 
+    }
 
     setTimeout(() => {
       let monthNum = parseInt(selectedPeriod.value.substring(0, 2))
       period.value = {
         month: { label: t('mon' + monthNum), value: monthNum },
-        year: 2022
+        year: 2022,
       }
 
       monthOptions.value = monthList()
-    }, 1500)  
+    }, 1500)
 
     return {
       monthOptions,
-      yearOptions: [2020, 2021, 2022],
+      yearOptions: [2020, 2021, 2022, 2023],
       period,
-      monthSelected, yearSelected,
+      monthSelected,
+      yearSelected,
     }
-  }
+  },
 }
 </script>

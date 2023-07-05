@@ -19,10 +19,18 @@
             <td class="text-left">{{ item.time }}</td>
             <td class="text-left">
               <q-btn-group>
-                <q-btn color="accent" icon="touch_app" @click="openPresenceDialog(item.id, item.canPresent)">
+                <q-btn
+                  color="accent"
+                  icon="touch_app"
+                  @click="openPresenceDialog(item.id, item.canPresent)"
+                >
                   <btn-tooltip :label="$t('siabsen_do_absen')" />
                 </q-btn>
-                <q-btn color="accent" icon="o_info" @click="$store.dispatch('agenda/getDetail', item.id)">
+                <q-btn
+                  color="accent"
+                  icon="o_info"
+                  @click="store.getDetail(item.id)"
+                >
                   <btn-tooltip :label="$t('agenda_detail_title')" />
                 </q-btn>
               </q-btn-group>
@@ -31,28 +39,26 @@
         </tbody>
       </q-markup-table>
     </q-scroll-area>
-    <q-separator/>
+    <q-separator />
   </div>
 </template>
 
 <script>
 import { computed, inject } from 'vue'
-import { useStore } from 'vuex'
+import { useSiabsenStore } from 'src/stores/siabsen'
 import { checkColWidth } from 'src/composables/screen'
-import { useQuasar } from 'quasar'
-
 
 export default {
-  setup () {
-    const store = useStore()
-    const $q = useQuasar()
-    const openPresenceDialog = inject('openPresenceDialog')    
+  setup() {
+    const store = useSiabsenStore()
+    const openPresenceDialog = inject('openPresenceDialog')
 
     return {
-      openPresenceDialog,
-      userEvents: computed(() => store.state.siabsen.userEvents),
+      store,
       checkColWidth,
+      openPresenceDialog,
+      userEvents: computed(() => store.userEvents),
     }
-  }
+  },
 }
 </script>

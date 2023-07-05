@@ -9,7 +9,7 @@
           ]"
         >
           <q-card-section>
-            <q-img :src="brandLogo" width="30%" :ratio="1" class="app-logo" />
+            <q-img :src="brandLogo()" width="30%" :ratio="1" class="app-logo" />
             <p :class="['text-center text-uppercase q-pt-lg', pleaseLoginText]">
               {{ $t('silakan_login') }}
             </p>
@@ -253,6 +253,17 @@ export default {
         width: 'calc(100% - 5px)',
         borderRadius: $q.screen.lt.sm ? '28px' : '5px',
       }),
+      pleaseLoginText: $q.screen.lt.sm ? 'q-pb-sm' : '',
+      brandLogo: () => {
+        let logo
+        if ($q.cookies.get('theme') === 'dark') {
+          logo = 'siabsen-logo-white'
+        } else {
+          logo = 'siabsen-logo'
+        }
+
+        return `../../public/${logo}.png`
+      },
     }
   },
 }

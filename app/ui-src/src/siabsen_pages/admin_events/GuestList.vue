@@ -1,10 +1,14 @@
 <template>
   <div class="q-pa-md">
-    <q-input dense filled class="q-mb-sm" 
+    <q-input
+      dense
+      filled
+      class="q-mb-sm"
       :label="$t('agenda_search_name')"
       v-model="search"
-      @update:model-value="filterName" />
-    
+      @update:model-value="filterName"
+    />
+
     <q-list bordered separator>
       <q-item clickable v-ripple v-for="(item, index) in data" :key="index">
         <q-item-section>
@@ -19,43 +23,45 @@
         </q-item-section>
       </q-item>
     </q-list>
-    <ss-paging vuex-module="siabsen" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
 <script>
 import { computed, ref, watch } from 'vue'
-import { useStore } from 'vuex'
 import { useRoute } from 'vue-router'
-
+import { usePagingStore } from 'ss-paging-vue'
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default {
-  setup () {
-    const store = useStore()
+  setup() {
+    const store = useSiabsenStore()
+    const paging = usePagingStore()
     const route = useRoute()
 
-    const data = computed(() => store.state.siabsen.paging.data)
+    const data = computed(() => paging.state.data)
 
     const search = ref('')
     watch(search, () => {
-      if(search.value === '') {
-        store.dispatch('siabsen/getAttendance', route.params.agendaId)
+      if (search.value === '') {
+        store.getAttendance(route.params.agendaId)
       }
     })
 
     const filterName = (query) => {
-      const newData = data.value.filter(item => {
+      const newData = data.value.filter((item) => {
         return item.name.toLowerCase().includes(query.toLowerCase())
       })
 
-      store.state.siabsen.paging.data = newData
+      paging.state.data = newData
     }
 
     return {
+      store,
       filterName,
       search,
-      data
+      data,
     }
-  }
+  },
 }
 </script>

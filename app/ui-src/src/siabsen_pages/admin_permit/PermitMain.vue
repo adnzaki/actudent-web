@@ -1,12 +1,14 @@
 <template>
   <q-card class="my-card">
     <q-card-section>
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('absensi_izin') }}</div>
+      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+        {{ $t('absensi_izin') }}
+      </div>
       <div class="text-h6 text-capitalize" v-else>{{ $t('absensi_izin') }}</div>
-      <div :class="['row', titleSpacing()]" style="margin-top: 0;">
+      <div :class="['row', titleSpacing()]" style="margin-top: 0">
         <div class="col-12 col-md-5"></div>
-        <row-dropdown vuex-module="siabsen" class="q-mt-md" root-class="col-12 col-md-3 q-pr-sm" />
-        <search-box :label="$t('siabsen_cari_guru')" vuex-module="siabsen" class="q-mt-md q-pr-sm" />
+        <row-dropdown class="q-mt-md" root-class="col-12 col-md-3 q-pr-sm" />
+        <search-box :label="$t('siabsen_cari_guru')" class="q-mt-md q-pr-sm" />
       </div>
     </q-card-section>
     <permit-list-wrapper />
@@ -17,7 +19,6 @@
 </template>
 
 <script>
-import { useStore } from 'vuex'
 import { titleSpacing } from 'src/composables/screen'
 import PermitDetail from '../teacher_permit/PermitDetail.vue'
 import { onBeforeRouteLeave } from 'vue-router'
@@ -26,7 +27,7 @@ import PermitListWrapper from './PermitListWrapper.vue'
 export default {
   components: {
     PermitDetail,
-    PermitListWrapper
+    PermitListWrapper,
   },
   setup() {
     const store = useStore()
@@ -36,8 +37,8 @@ export default {
     })
 
     return {
-        titleSpacing
+      titleSpacing,
     }
-  },  
+  },
 }
 </script>
