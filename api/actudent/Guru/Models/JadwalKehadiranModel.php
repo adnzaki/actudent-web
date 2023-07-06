@@ -64,9 +64,11 @@ class JadwalKehadiranModel extends MainModel
         $join4  = $join3->join($tbRuang, "{$tbRuang}.room_id = {$this->jadwal}.room_id");
         $join5  = $join4->join($tbKelas, "{$tbKelas}.grade_id = {$this->mapelKelas}.grade_id");
         $params = [
-            'schedule_status' => 'active',
-            'schedule_day' => $day,
-            "{$this->mapelKelas}.teacher_id" => $teacher->staff_id,
+            'schedule_status'                   => 'active',
+            'schedule_day'                      => $day,
+            "{$this->mapelKelas}.teacher_id"    => $teacher->staff_id,
+            'period_start'                      => $this->periodStart,
+            'period_end'                        => $this->periodEnd
         ];
 
         return $join5->where($params)->orderBy('schedule_order', 'ASC')->get()->getResult();
