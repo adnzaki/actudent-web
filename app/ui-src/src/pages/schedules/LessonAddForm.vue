@@ -87,11 +87,6 @@ export default {
 
       const saveStatus = computed(() => store.lesson.saveStatus)
       if (saveStatus.value === 200) {
-        formValue = {
-          lesson_id: '',
-          teacher_id: '',
-        }
-
         store.lesson.saveStatus = 500
         formData.value = formValue
       }

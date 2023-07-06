@@ -141,60 +141,60 @@
   </q-scroll-area>
 </template>
 <script>
-import { onMounted, ref, watch, computed, provide } from "vue";
-import { conf } from "src/composables/common";
-import { useQuasar } from "quasar";
-import { headerColor } from "../composables/mode";
-import MenuItem from "./MenuItem.vue";
-import SubmenuItem from "./SubmenuItem.vue";
-import { usePresenceStore } from "src/stores/presence";
+import { onMounted, ref, watch, computed, provide } from 'vue'
+import { conf } from 'src/composables/common'
+import { useQuasar } from 'quasar'
+import { headerColor } from '../composables/mode'
+import MenuItem from './MenuItem.vue'
+import SubmenuItem from './SubmenuItem.vue'
+import { usePresenceStore } from 'src/stores/presence'
 
 export default {
-  name: "AppMenu",
+  name: 'AppMenu',
   components: {
     MenuItem,
     SubmenuItem,
   },
   setup() {
-    const $q = useQuasar();
-    const store = usePresenceStore();
+    const $q = useQuasar()
+    const store = usePresenceStore()
 
-    const activeClass = ref("");
+    const activeClass = ref('')
 
     // provide active class to child component
-    provide("activeClass", activeClass);
+    provide('activeClass', activeClass)
 
-    const settings = ref([]);
+    const settings = ref([])
 
     const dashboardLink =
-      $q.cookies.get(conf.userType) === "1" ? "/home" : "/teacher/home";
+      $q.cookies.get(conf.userType) === '1' ? '/home' : '/teacher/home'
 
     function activeMenuTrigger() {
-      if (headerColor.value === "dark") {
-        activeClass.value = "bg-blue-grey-8 text-grey-3";
+      if (headerColor.value === 'dark') {
+        activeClass.value = 'bg-blue-grey-8 text-grey-3'
       } else {
-        activeClass.value = "bg-teal-1 text-grey-8";
+        activeClass.value = 'bg-teal-1 text-grey-8'
       }
     }
-    watch(headerColor, activeMenuTrigger);
-    store.checkHomeroomTeacher();
+    watch(headerColor, activeMenuTrigger)
+    store.checkHomeroomTeacher()
 
-    const gradeId = localStorage.getItem("grade_id");
+    const gradeId = localStorage.getItem('grade_id')
 
-    onMounted(() => activeMenuTrigger());
+    onMounted(() => activeMenuTrigger())
     const appSettingsLink =
-      $q.cookies.get(conf.userType) === "1"
-        ? "/app-settings"
-        : "/teacher/app-settings";
+      $q.cookies.get(conf.userType) === '1'
+        ? '/app-settings'
+        : '/teacher/app-settings'
 
     return {
-      isHomeroomTeacher: computed(() => store.state.presence.isHomeroomTeacher),
+      isHomeroomTeacher: computed(() => store.isHomeroomTeacher),
       dashboardLink,
       activeClass,
       conf,
       gradeId,
       appSettingsLink,
-    };
+    }
   },
-};
+}
 </script>
