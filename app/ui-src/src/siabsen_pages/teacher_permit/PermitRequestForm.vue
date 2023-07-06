@@ -306,6 +306,7 @@ export default {
     }
 
     return {
+      store,
       permitType,
       permitOptions,
       save,
