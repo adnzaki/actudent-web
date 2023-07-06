@@ -18,30 +18,51 @@
     />
   </div>
   <div class="col-12 col-sm-4 col-md-2 q-mt-sm q-px-xs">
-    <q-btn color="deep-purple" 
-      style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px;" 
-      icon="preview" 
+    <q-btn
+      color="deep-purple"
+      style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px"
+      icon="preview"
       :label="$t('tampilkan')"
-      @click="store.getMonthlySummary()" />
+      @click="store.getMonthlySummary()"
+    />
   </div>
-  <q-page-sticky position="bottom-right" 
-    :offset="fabPos" 
-    class="force-elevated">
-    <q-fab color="secondary" 
-      icon="print" direction="up" 
+  <q-page-sticky
+    position="bottom-right"
+    :offset="fabPos"
+    class="force-elevated"
+  >
+    <q-fab
+      color="secondary"
+      icon="print"
+      direction="up"
       :disable="draggingFab"
-      v-touch-pan.prevent.mouse="moveFab">
-      <q-btn icon="picture_as_pdf" 
+      v-touch-pan.prevent.mouse="moveFab"
+    >
+      <q-btn
+        icon="picture_as_pdf"
         color="indigo"
-        round 
-        :href="exportPdf()" target="_blank">
-        <btn-tooltip :label="$t('absensi_print_pdf')" anchor="center left" self="center end" />
+        round
+        :href="exportPdf()"
+        target="_blank"
+      >
+        <btn-tooltip
+          :label="$t('absensi_print_pdf')"
+          anchor="center left"
+          self="center end"
+        />
       </q-btn>
-      <q-btn icon="table_view" 
+      <q-btn
+        icon="table_view"
         color="blue"
-        round 
-        :href="exportExcel()" target="_blank">
-        <btn-tooltip :label="$t('absensi_export_excel')" anchor="center left" self="center end" />
+        round
+        :href="exportExcel()"
+        target="_blank"
+      >
+        <btn-tooltip
+          :label="$t('absensi_export_excel')"
+          anchor="center left"
+          self="center end"
+        />
       </q-btn>
     </q-fab>
   </q-page-sticky>
@@ -66,13 +87,13 @@ export default {
     const store = usePresenceStore()
     const currentYear = new Date().getFullYear()
 
-    const monthSelected = model => {
+    const monthSelected = (model) => {
       store.selectedPeriod.month = model.value
     }
 
-    const yearSelected = model => {
+    const yearSelected = (model) => {
       store.selectedPeriod.year = model
-    } 
+    }
 
     store.selectedPeriod.month = '1'
     store.selectedPeriod.year = currentYear
@@ -80,7 +101,7 @@ export default {
     setTimeout(() => {
       period.value = {
         month: { label: t('mon1'), value: '1' },
-        year: currentYear
+        year: currentYear,
       }
 
       monthOptions.value = [
@@ -97,35 +118,47 @@ export default {
         { label: t('mon11'), value: '11' },
         { label: t('mon12'), value: '12' },
       ]
-    }, 1500)  
+    }, 1500)
 
     const gradeId = route.params.id
     const token = $q.cookies.get(conf.cookieName)
 
     const exportExcel = () => {
-      return `${conf.adminAPI}absensi/excel-rekap-bulanan/` +
-              `${store.selectedPeriod.month}/` +
-              `${store.selectedPeriod.year}/` +
-              `${gradeId}/${token}`
+      return (
+        `${conf.adminAPI}absensi/excel-rekap-bulanan/` +
+        `${store.selectedPeriod.month}/` +
+        `${store.selectedPeriod.year}/` +
+        `${gradeId}/${token}`
+      )
     }
 
     const exportPdf = () => {
-      return `${conf.adminAPI}absensi/ekspor-rekap-bulanan/` +
-              `${store.selectedPeriod.month}/` +
-              `${store.selectedPeriod.year}/` +
-              `${gradeId}/${token}`
-
+      return (
+        `${conf.adminAPI}absensi/ekspor-rekap-bulanan/` +
+        `${store.selectedPeriod.month}/` +
+        `${store.selectedPeriod.year}/` +
+        `${gradeId}/${token}`
+      )
     }
 
-    return { 
+    return {
       store,
       period,
       monthOptions,
-      exportExcel, exportPdf,
-      monthSelected, yearSelected,
-      fabPos, draggingFab, moveFab,
-      yearOptions: [currentYear - 2, currentYear - 1, currentYear],
+      exportExcel,
+      exportPdf,
+      monthSelected,
+      yearSelected,
+      fabPos,
+      draggingFab,
+      moveFab,
+      yearOptions: [
+        currentYear - 3,
+        currentYear - 2,
+        currentYear - 1,
+        currentYear,
+      ],
     }
-  }
+  },
 }
 </script>
