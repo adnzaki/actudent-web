@@ -64,6 +64,7 @@ export default {
     const store = useSiabsenStore()
 
     return {
+      store,
       formClose() {
         store.scheduleDays = {}
       },

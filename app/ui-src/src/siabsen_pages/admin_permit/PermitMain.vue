@@ -23,6 +23,7 @@ import { titleSpacing } from 'src/composables/screen'
 import PermitDetail from '../teacher_permit/PermitDetail.vue'
 import { onBeforeRouteLeave } from 'vue-router'
 import PermitListWrapper from './PermitListWrapper.vue'
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default {
   components: {
@@ -30,10 +31,10 @@ export default {
     PermitListWrapper,
   },
   setup() {
-    const store = useStore()
-    store.dispatch('siabsen/getPermissionNotif')
+    const store = useSiabsenStore()
+    store.getPermissionNotif()
     onBeforeRouteLeave(() => {
-      store.dispatch('siabsen/getPermissionNotif')
+      store.getPermissionNotif()
     })
 
     return {

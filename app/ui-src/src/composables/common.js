@@ -8,6 +8,7 @@ import { bearerToken, redirect } from './subscription'
 import { axios, core, admin, teacher, siabsen } from 'boot/axios'
 import { appConfig as conf } from '../../actudent.config'
 import { flashAlert, errorNotif, timeout } from './notify'
+import { selectedLang } from './date'
 
 const userType = Cookies.get(conf.userType)
 const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)

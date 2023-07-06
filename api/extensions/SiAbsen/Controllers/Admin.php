@@ -102,8 +102,8 @@ class Admin extends \Actudent
     {
         timer('getSchedule');
         // get the employees first (must be SSPaging-compatible format)
-        $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, 'null', $search);
-        $rows = $this->model->getStaffRows($searchBy, 'null', $search);
+        $employees = $this->model->getStaff('null', $limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->model->getStaffRows('null', $searchBy, $search);
         
         // prepare the data container
         $data = [];
@@ -177,7 +177,7 @@ class Admin extends \Actudent
     public function getTodaySummary()
     {
         $rows = $this->model->getStaffRows();
-        $employees = $this->model->getStaff($rows, 0);
+        $employees = $this->model->getStaff('null', $rows, 0);
         $summary = [];
         foreach($employees as $e) {
             $summary[$e->staff_name] = $this->getPresenceStatus($e->staff_id, date('Y-m-d'));

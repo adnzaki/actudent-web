@@ -32,7 +32,6 @@ export default {
   name: 'ManageMain',
   components: { EmployeeList, EmployeeListMobile, ScheduleForm },
   setup() {
-    const store = useStore()
     return {
       titleSpacing,
     }

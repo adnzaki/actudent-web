@@ -36,27 +36,44 @@
         :label="$t('menu_siabsen')"
         v-if="$q.cookies.get(conf.userType) === '1'"
       >
-        <submenu-item :label="$t('menu_manage_siabsen')" link="/teacher-presence/manage" />
-        <submenu-item :label="$t('siabsen_kegiatan')" link="/teacher-presence/events" />
+        <submenu-item
+          :label="$t('menu_manage_siabsen')"
+          link="/teacher-presence/manage"
+        />
+        <submenu-item
+          :label="$t('siabsen_kegiatan')"
+          link="/teacher-presence/events"
+        />
 
         <!-- Permission menu only -->
-        <q-item 
+        <q-item
           :active-class="activeClass"
-          clickable v-ripple 
-          :inset-level="1" 
-          to="/teacher-presence/permit">
+          clickable
+          v-ripple
+          :inset-level="1"
+          to="/teacher-presence/permit"
+        >
           <q-item-section>
             {{ $t('absensi_izin') }}
           </q-item-section>
-          <q-item-section side v-if="$store.state.siabsen.notifCounter > 0">
-            <q-badge :label="$store.state.siabsen.notifCounter" color="red" rounded />
+          <q-item-section side v-if="siabsen.notifCounter > 0">
+            <q-badge :label="siabsen.notifCounter" color="red" rounded />
           </q-item-section>
         </q-item>
         <!-- End permission menu -->
 
-        <submenu-item :label="$t('absensi_rekap_bulanan')" link="/teacher-presence/monthly-summary" />
-        <submenu-item :label="$t('siabsen_jadwal')" link="/teacher-presence/schedule" />
-        <submenu-item :label="$t('menu_pengaturan')" link="/teacher-presence/config" />
+        <submenu-item
+          :label="$t('absensi_rekap_bulanan')"
+          link="/teacher-presence/monthly-summary"
+        />
+        <submenu-item
+          :label="$t('siabsen_jadwal')"
+          link="/teacher-presence/schedule"
+        />
+        <submenu-item
+          :label="$t('menu_pengaturan')"
+          link="/teacher-presence/config"
+        />
       </q-expansion-item>
 
       <!-- SiAbsen Menu for teacher and staff-->
@@ -64,10 +81,16 @@
         expand-separator
         icon="o_fact_check"
         :label="$t('menu_siabsen_guru')"
-        v-if="$q.cookies.get(conf.userType) === '2' || $q.cookies.get(conf.userType) === '0'"
+        v-if="
+          $q.cookies.get(conf.userType) === '2' ||
+          $q.cookies.get(conf.userType) === '0'
+        "
       >
         <submenu-item :label="$t('absensi_izin')" link="/absence/permit" />
-        <submenu-item :label="$t('absensi_rekap_bulanan')" link="/absence/monthly-summary" />
+        <submenu-item
+          :label="$t('absensi_rekap_bulanan')"
+          link="/absence/monthly-summary"
+        />
         <submenu-item :label="$t('siabsen_kegiatan')" link="/absence/events" />
       </q-expansion-item>
 
@@ -148,6 +171,7 @@ import { headerColor } from '../composables/mode'
 import MenuItem from './MenuItem.vue'
 import SubmenuItem from './SubmenuItem.vue'
 import { usePresenceStore } from 'src/stores/presence'
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default {
   name: 'AppMenu',
@@ -158,6 +182,7 @@ export default {
   setup() {
     const $q = useQuasar()
     const store = usePresenceStore()
+    const siabsen = useSiabsenStore()
 
     const activeClass = ref('')
 
@@ -188,6 +213,7 @@ export default {
         : '/teacher/app-settings'
 
     return {
+      siabsen,
       isHomeroomTeacher: computed(() => store.isHomeroomTeacher),
       dashboardLink,
       activeClass,

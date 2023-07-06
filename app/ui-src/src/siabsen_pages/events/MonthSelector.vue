@@ -66,7 +66,7 @@ export default {
       let monthNum = parseInt(selectedPeriod.value.substring(0, 2))
       period.value = {
         month: { label: t('mon' + monthNum), value: monthNum },
-        year: 2022,
+        year: 2023,
       }
 
       monthOptions.value = monthList()

@@ -65,6 +65,7 @@ import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 import { useQuasar } from 'quasar'
 import OtherActions from './OtherActions.vue'
+import { useSiabsenStore } from 'src/stores/siabsen'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -75,6 +76,7 @@ export default defineComponent({
   },
   setup() {
     const $q = useQuasar()
+    const store = useSiabsenStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
     function triggerHeader() {
@@ -98,18 +100,9 @@ export default defineComponent({
 
     onMounted(() => {
       if ($q.cookies.get(conf.userType) === '1') {
-        store.dispatch('siabsen/getPermissionNotif')
+        store.getPermissionNotif()
         setInterval(() => {
-          store.dispatch('siabsen/getPermissionNotif')
-        }, 15 * 60 * 1000) // notify admin every 15 minutes
-      }
-    })
-
-    onMounted(() => {
-      if ($q.cookies.get(conf.userType) === '1') {
-        store.dispatch('siabsen/getPermissionNotif')
-        setInterval(() => {
-          store.dispatch('siabsen/getPermissionNotif')
+          store.getPermissionNotif()
         }, 15 * 60 * 1000) // notify admin every 15 minutes
       }
     })

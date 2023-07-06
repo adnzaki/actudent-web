@@ -143,7 +143,7 @@ export default {
   },
   getStaffScheduleList() {
     const limit = 25
-    this.paging().rows = limit
+    paging().rows = limit
 
     paging().getData({
       token: bearerToken,
@@ -323,7 +323,7 @@ export default {
   },
   getPermissions() {
     const limit = 25
-    this.paging().rows = limit
+    paging().rows = limit
 
     const withId = Cookies.get(conf.userType) === '1' ? 'false' : 'true'
 
@@ -390,7 +390,7 @@ export default {
   },
   getStaffPresence() {
     const limit = 25
-    this.paging().rows = limit
+    paging().rows = limit
     paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
