@@ -31,9 +31,11 @@ class JadwalKehadiranModel extends MainModel
         $query = $this->jadwalModel->kelas
                       ->QBKelas
                       ->getWhere([
-                          'teacher_id' => $teacherDetail[0]->staff_id,
-                          'deleted' => 0,
-                          'grade_status' => 1
+                          'teacher_id'      => $teacherDetail[0]->staff_id,
+                          'deleted'         => 0,
+                          'grade_status'    => 1,
+                          'period_start'    => $this->periodStart,
+                          'period_end'      => $this->periodEnd,
                         ])
                       ->getResult();
         
