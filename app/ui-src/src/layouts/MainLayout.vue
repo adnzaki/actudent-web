@@ -36,7 +36,7 @@
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="/boy-avatar.png" />
+            <img src="boy-avatar.png" />
           </q-avatar>
           <div class="text-weight-bold">{{ pengguna.user_name }}</div>
           <div class="mobile-hide">{{ $trim(pengguna.user_email, 25) }}</div>
@@ -53,62 +53,55 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  ref,
-  onMounted,
-  computed,
-  watch,
-  reactive,
-} from "vue";
-import { baseUrl } from "../../globalConfig";
-import { headerColor } from "../composables/mode";
-import { conf, pengguna, getPengguna } from "../composables/common";
-import { menuWidth } from "../composables/screen";
-import AppMenu from "./AppMenu.vue";
-import SubscriptionWarning from "./SubscriptionWarning.vue";
-import { useQuasar } from "quasar";
-import OtherActions from "./OtherActions.vue";
+import { defineComponent, ref, onMounted, computed, watch, reactive } from 'vue'
+import { baseUrl } from '../../globalConfig'
+import { headerColor } from '../composables/mode'
+import { conf, pengguna, getPengguna } from '../composables/common'
+import { menuWidth } from '../composables/screen'
+import AppMenu from './AppMenu.vue'
+import SubscriptionWarning from './SubscriptionWarning.vue'
+import { useQuasar } from 'quasar'
+import OtherActions from './OtherActions.vue'
 
 export default defineComponent({
-  name: "MainLayout",
+  name: 'MainLayout',
   components: {
     AppMenu,
     SubscriptionWarning,
     OtherActions,
   },
   setup() {
-    const $q = useQuasar();
-    const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`;
-    const header = ref("");
+    const $q = useQuasar()
+    const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
+    const header = ref('')
     function triggerHeader() {
-      if (headerColor.value === "dark") {
-        header.value = "bg-grey-10";
+      if (headerColor.value === 'dark') {
+        header.value = 'bg-grey-10'
       } else {
-        header.value = "bg-blue";
+        header.value = 'bg-blue'
       }
     }
 
-    onMounted(triggerHeader);
+    onMounted(triggerHeader)
 
-    onMounted(getPengguna);
+    onMounted(getPengguna)
 
-    watch(headerColor, triggerHeader);
+    watch(headerColor, triggerHeader)
 
-    const userAction = ref(false);
+    const userAction = ref(false)
     const hideUserAction = () => {
-      userAction.value = false;
-    };
+      userAction.value = false
+    }
 
     return {
       logout() {
-        $q.cookies.remove(conf.cookieName, { path: "/" });
-        $q.cookies.remove(conf.userType, { path: "/" });
-        localStorage.removeItem("class");
-        localStorage.removeItem("date");
-        localStorage.removeItem("grade_id");
-        localStorage.removeItem("lesson");
-        window.location.reload();
+        $q.cookies.remove(conf.cookieName, { path: '/' })
+        $q.cookies.remove(conf.userType, { path: '/' })
+        localStorage.removeItem('class')
+        localStorage.removeItem('date')
+        localStorage.removeItem('grade_id')
+        localStorage.removeItem('lesson')
+        window.location.reload()
       },
       drawer: ref(false),
       userAction,
@@ -117,7 +110,7 @@ export default defineComponent({
       header,
       pengguna,
       menuWidth,
-    };
+    }
   },
-});
+})
 </script>
