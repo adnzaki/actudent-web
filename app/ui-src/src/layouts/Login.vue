@@ -262,7 +262,7 @@ export default {
           logo = 'siabsen-logo'
         }
 
-        return `../../public/${logo}.png`
+        return `/${logo}.png`
       },
     }
   },
