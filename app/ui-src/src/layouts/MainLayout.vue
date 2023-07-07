@@ -39,7 +39,7 @@
       <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
-            <img src="/boy-avatar.png" />
+            <img src="boy-avatar.png" />
           </q-avatar>
           <div class="text-weight-bold">{{ pengguna.user_name }}</div>
           <div class="mobile-hide">{{ $trim(pengguna.user_email, 25) }}</div>
@@ -97,15 +97,6 @@ export default defineComponent({
     const hideUserAction = () => {
       userAction.value = false
     }
-
-    onMounted(() => {
-      if ($q.cookies.get(conf.userType) === '1') {
-        store.getPermissionNotif()
-        setInterval(() => {
-          store.getPermissionNotif()
-        }, 15 * 60 * 1000) // notify admin every 15 minutes
-      }
-    })
 
     return {
       logout() {
