@@ -48,7 +48,7 @@
       </q-markup-table>
     </q-scroll-area>
     <q-separator />
-    <ss-paging vuex-module="siabsen" />
+    <ss-paging v-model="store.current" />
   </div>
 </template>
 
@@ -69,6 +69,7 @@ export default {
     const paging = usePagingStore()
 
     return {
+      store,
       paging,
       disableBtn(inPhoto, outPhoto) {
         return inPhoto === '-' && outPhoto === '-' ? true : false

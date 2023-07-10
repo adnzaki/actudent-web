@@ -403,7 +403,7 @@ class Admin extends \Actudent
         if(is_admin()) {
             $data = $this->_getAllStaffSummary($startDate, $endDate, $type, $limit, $offset, $orderBy, $searchBy, $sort, $search);
             return $this->response->setJSON([
-                'totalRows' => $this->model->getStaffRows('staff_name', $type, $search),
+                'totalRows' => $this->model->getStaffRows($type, 'staff_name', $search),
                 'container' => $data
             ]);
         }
@@ -411,7 +411,7 @@ class Admin extends \Actudent
 
     private function _getAllStaffSummary($startDate, $endDate, $type, $limit, $offset, $orderBy, $searchBy, $sort, $search)
     {
-        $employees = $this->model->getStaff($limit, $offset, $orderBy, $searchBy, $sort, $type, $search);
+        $employees = $this->model->getStaff($type, $limit, $offset, $orderBy, $searchBy, $sort, $search);
         $presenceSummary = [];
         foreach($employees as $e) {
             $data = $this->getMonthlyPresence($e->staff_id, $startDate, $endDate);

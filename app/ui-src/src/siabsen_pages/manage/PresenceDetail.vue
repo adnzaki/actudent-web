@@ -89,10 +89,7 @@ export default {
       photoWrapper,
       maximizedDialog,
       imgSize,
-      imgSrc: (src) =>
-        src !== '' && src !== '-'
-          ? src
-          : require('../../../public/no-image.png'),
+      imgSrc: (src) => (src !== '' && src !== '-' ? src : 'no-image.png'),
       cardDialog,
     }
   },
