@@ -1,4 +1,30 @@
 export default {
+  'beta-5.ac.v2.0051': [
+    {
+      key: '[Baru]',
+      desc: 'Menambahkan opsi tampilan "Semua siswa" pada menu daftar siswa'
+    },
+    {
+      key: '[Baru]',
+      desc: 'Pembaruan basis desain antarmuka aplikasi'
+    },
+    {
+      key: '[Peningkatan]',
+      desc: 'Penambahan nama wali kelas pada daftar rombel versi mobile'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Bug: filter kelas pada menu siswa yang tidak sesuai dengan data yang ditampilkan setelah menyimpan data siswa'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Bug: menu laporan siswa tidak bisa diakses'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Bug: tidak bisa mengganti wali kelas'
+    },
+  ],
   'beta-4.ac.v2-0050': [
     {
       key: '[Baru]',

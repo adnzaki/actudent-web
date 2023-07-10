@@ -1,4 +1,30 @@
 export default {
+  'beta-5.ac.v2.0051': [
+    {
+      key: '[New]',
+      desc: 'Added "All students" display option on student list menu'
+    },
+    {
+      key: '[New]',
+      desc: 'App interface design base update'
+    },
+    {
+      key: '[Improvements]',
+      desc: 'Added homeroom teacher\'s name to the mobile version class list'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Bug: class filter on student menu that doesn\'t match the data displayed after saving student data'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Bug: student report menu cannot be accessed'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Bug: Unable to change homeroom'
+    },
+  ],
   'beta-4.ac.v2.0050': [
     {
       key: '[New]',
