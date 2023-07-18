@@ -28,11 +28,21 @@ class DapodikModel extends \Actudent\Core\Models\Connector
         $this->r = new KelasModel;
     }
 
+	public function getDefaultTeacher()
+	{
+		$teacher = $this->p->getStaff('teacher', 1, 0);
+		if(count($teacher) > 0) {
+			return $teacher[0];
+		} else {
+			return false;
+		}
+	}
+
     public function getRombelId($dapodikID)
     {
         $query = $this->r->QBKelas->getWhere(['rombel_dapodik_id' => $dapodikID]);
 
-        return $query->getResult()[0]->grade_id;
+        return $query->getNumRows() > 0 ? $query->getResult()[0]->grade_id : false;
     }
 
     public function insertRombel($value)
@@ -42,12 +52,12 @@ class DapodikModel extends \Actudent\Core\Models\Connector
 
     public function rombelExists($dapodikID)
     {
-        $query = $this->r->QBKelas->getWhere(['rombel_dapodik_id' => $dapodikID]);
+        $query = $this->r->QBKelas->getWhere(['rombel_dapodik_id' => $dapodikID, 'deleted' => 0]);
         if($query->getNumRows() > 0)
         {
             return true;
         }
-        else 
+        else
         {
             return false;
         }
@@ -65,12 +75,12 @@ class DapodikModel extends \Actudent\Core\Models\Connector
 
     public function pegawaiExists($nik)
     {
-        $query = $this->p->QBStaff->getWhere(['staff_nik' => $nik]);
+        $query = $this->p->QBStaff->getWhere(['staff_nik' => $nik, 'deleted' => 0]);
         if($query->getNumRows() > 0)
         {
             return true;
         }
-        else 
+        else
         {
             return false;
         }
@@ -103,7 +113,7 @@ class DapodikModel extends \Actudent\Core\Models\Connector
         {
             return true;
         }
-        else 
+        else
         {
             return false;
         }
@@ -118,7 +128,7 @@ class DapodikModel extends \Actudent\Core\Models\Connector
         {
             return false;
         }
-        else 
+        else
         {
             return true;
         }
@@ -129,14 +139,15 @@ class DapodikModel extends \Actudent\Core\Models\Connector
         $findParent = $this->ot->QBParent->getWhere([
             'parent_father_name' => $father,
             'parent_mother_name' => $mother,
-            'parent_phone_number'=> $phone
+            'parent_phone_number'=> $phone,
+			'deleted'			 => 0
         ]);
 
         if($findParent->getNumRows() === 0)
         {
             return false;
         }
-        else 
+        else
         {
             return $findParent->getResult()[0];
         }

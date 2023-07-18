@@ -28,12 +28,20 @@ class Dapodik extends \Actudent
                 $rombelId = $this->model->getRombelId($key->rombel_id);
                 $studentId = $key->student_id;
 
-                // use rombel setter from Kelas Model that initiated as "$this->r" in DapodikModel
-                $this->model->r->addMember($studentId, $rombelId);
-                $inserted++;
+				if($key->anggota_rombel_id !== 'Belum masuk ke dalam rombongan belajar') {
+					// use rombel setter from Kelas Model that initiated as "$this->r" in DapodikModel
+					$this->model->r->addMember($studentId, $rombelId);
+					$inserted++;
+				}
             }
-            
-            return $this->response->setJSON(['msg' => 'OK']);
+
+			if($inserted > 0) {
+				$note = "$inserted peserta didik berhasil ditambahkan ke rombel";
+			} else {
+				$note = 'Tidak ada peserta didik yang ditambahkan ke rombel';
+			}
+
+            return $this->response->setJSON(['msg' => 'OK', 'note' => $note]);
         }
     }
 
@@ -44,10 +52,11 @@ class Dapodik extends \Actudent
             $data = $this->request->getPost('data');
             $decoded = json_decode($data);
             $inserted = 0;
+			$skippedRombel = 0;
             $filePath = PUBLICPATH . 'extras/' . 'RombelTemp.json';
             $gtkFile = PUBLICPATH . 'extras/' . 'GtkTemp.json';
             write_file($filePath , '[');
-            
+
             foreach($decoded as $d)
             {
                 if(! $this->model->rombelExists($d->rombongan_belajar_id))
@@ -59,29 +68,35 @@ class Dapodik extends \Actudent
                         $filteredPtk = array_filter($ptkArray, function($item) use ($d) {
                             return $item['ptk_id'] === $d->ptk_id;
                         });
-                        
+
                         $ptkKey = array_search($d->ptk_id, array_column($ptkArray, 'ptk_id'));
                         $waliKelas = $filteredPtk[$ptkKey]['staff_id'];
                     }
-                    else 
+                    else
                     {
-                        $waliKelas = null;
+                        $teacher = $this->model->getDefaultTeacher();
+						$waliKelas = $teacher !== false ? $teacher->staff_id : null;
                     }
-    
-                    $values = [
-                        'grade_name'        => $d->nama,
-                        'teacher_id'        => $waliKelas,
-                        'rombel_dapodik_id' => $d->rombongan_belajar_id
-                    ];
-    
-                    $gradeID = $this->model->insertRombel($values);
-    
-                    $rombelTemp = '{"grade_id": ' . '"' . $gradeID . '"' .
-                            ', "rombel_id": ' . '"' . $d->rombongan_belajar_id . '"' .
-                            ', "nama": ' . '"' . $d->nama . '"' . '},';
-                    write_file($filePath, $rombelTemp, 'a');
-    
-                    $inserted++;
+
+					if($waliKelas !== null) {
+						$values = [
+							'grade_name'        => $d->nama,
+							'teacher_id'        => $waliKelas,
+							'rombel_dapodik_id' => $d->rombongan_belajar_id
+						];
+
+						$gradeID = $this->model->insertRombel($values);
+
+						$rombelTemp = '{"grade_id": ' . '"' . $gradeID . '"' .
+								', "rombel_id": ' . '"' . $d->rombongan_belajar_id . '"' .
+								', "nama": ' . '"' . $d->nama . '"' . '},';
+						write_file($filePath, $rombelTemp, 'a');
+
+						$inserted++;
+					} else {
+						$skippedRombel++;
+					}
+
                 }
             }
 
@@ -94,13 +109,17 @@ class Dapodik extends \Actudent
 
             if($inserted === 0)
             {
-                $note = 'Tidak ada rombel baru yang ditambahkan';
+				if($skippedRombel === 0) {
+					$note = 'Tidak ada rombel baru yang ditambahkan';
+				} else {
+					$note = "$skippedRombel rombel tidak dapat diimpor karena data guru masih kosong.";
+				}
             }
-            else 
+            else
             {
                 $note = "{$inserted} rombel telah berhasil ditambahkan.";
             }
-            
+
             return $this->response->setJSON(['msg' => 'OK', 'note' => $note]);
         }
     }
@@ -110,83 +129,86 @@ class Dapodik extends \Actudent
         if(is_admin())
         {
             $data = $this->request->getPost('data');
-            $decoded = json_decode($data);
-            $inserted = 0;
-            $filePath = PUBLICPATH . 'extras/' . 'GtkTemp.json';
-            write_file($filePath , '[');
-            foreach($decoded as $d)
-            {
-                if($d->status_kepegawaian_id === 1)
-                {
-                    $staffNik = $d->nip;
-                }
-                else 
-                {
-                    if($d->nuptk === null)
-                    {
-                        $staffNik = $d->nik;
-                    }
-                    else
-                    {
-                        $staffNik = $d->nuptk;
-                    }
-                }
+			$imporPtk = $this->request->getPost('ptk');
+			$inserted = 0;
+			if($imporPtk === 'yes') {
+				$decoded = json_decode($data);
+				$filePath = PUBLICPATH . 'extras/' . 'GtkTemp.json';
+				write_file($filePath , '[');
+				foreach($decoded as $d)
+				{
+					if($d->status_kepegawaian_id === 1)
+					{
+						$staffNik = $d->nip;
+					}
+					else
+					{
+						if($d->nuptk === null)
+						{
+							$staffNik = $d->nik;
+						}
+						else
+						{
+							$staffNik = $d->nuptk;
+						}
+					}
 
-                if($d->jenis_ptk_id !== '3' && $d->jenis_ptk_id !== '4')
-                {
-                    $staffType = 'staff';
-                }
-                else
-                {
-                    $staffType = 'teacher';
-                }
+					if($d->jenis_ptk_id !== '3' && $d->jenis_ptk_id !== '4')
+					{
+						$staffType = 'staff';
+					}
+					else
+					{
+						$staffType = 'teacher';
+					}
 
-                $username = $this->createUsername($d->nama);
+					$username = $this->createUsername($d->nama);
 
-                // insert only if employee is not exist
-                if(! $this->model->pegawaiExists($staffNik))
-                {
-                    $values = [
-                        'staff_nik'             => $staffNik,
-                        'staff_name'            => $d->nama,
-                        'staff_phone'           => null,
-                        'staff_type'            => $staffType,
-                        'staff_title'           => $d->jenis_ptk_id_str,
-                        'user_name'             => $d->nama,
-                        'user_email'            => $username,
-                        'user_password'         => '@Pegawai123',            
-                        'featured_image'        => null,
-                        'current_image'         => null,
-                    ];
+					// insert only if employee is not exist
+					if(! $this->model->pegawaiExists($staffNik))
+					{
+						$values = [
+							'staff_nik'             => $staffNik,
+							'staff_name'            => $d->nama,
+							'staff_phone'           => null,
+							'staff_type'            => $staffType,
+							'staff_title'           => $d->jenis_ptk_id_str,
+							'user_name'             => $d->nama,
+							'user_email'            => $username,
+							'user_password'         => '@Pegawai123',
+							'featured_image'        => null,
+							'current_image'         => null,
+						];
 
-                    $staffID = $this->model->insertPegawai($values);
+						$staffID = $this->model->insertPegawai($values);
 
-                    $ptkId = '{"staff_id": ' . '"' . $staffID . '"' .
-                            ', "ptk_id": ' . '"' . $d->ptk_id . '"' .
-                            ', "nama": ' . '"' . $d->nama . '"' . '},';
-                    write_file($filePath, $ptkId, 'a');
+						$ptkId = '{"staff_id": ' . '"' . $staffID . '"' .
+								', "ptk_id": ' . '"' . $d->ptk_id . '"' .
+								', "nama": ' . '"' . $d->nama . '"' . '},';
+						write_file($filePath, $ptkId, 'a');
 
-                    $inserted++;
-                }
-            }
+						$inserted++;
+					}
+				}
 
-            write_file($filePath, ']', 'a');
+				write_file($filePath, ']', 'a');
 
-            // remove trailing comma
-            $ptkFile = file_get_contents($filePath);
-            $ptkFile = str_replace(',]', ']', $ptkFile);
-            file_put_contents($filePath, $ptkFile);
+				// remove trailing comma
+				$ptkFile = file_get_contents($filePath);
+				$ptkFile = str_replace(',]', ']', $ptkFile);
+				file_put_contents($filePath, $ptkFile);
+			}
 
             if($inserted === 0)
             {
                 $note = 'Tidak ada pegawai baru yang ditambahkan';
             }
-            else 
+            else
             {
                 $note = "{$inserted} pegawai telah berhasil ditambahkan.";
             }
-            
-            return $this->response->setJSON(['msg' => 'OK', 'note' => $note]);
+
+            return $this->response->setJSON(['msg' => 'OK', 'note' => $note, 'import' => $imporPtk]);
         }
     }
 
@@ -196,35 +218,34 @@ class Dapodik extends \Actudent
         {
             $data = $this->request->getPost('data');
             $option = $this->request->getPost('option');
-            $response = '';
+			$level = $this->request->getPost('tingkat');
             $decoded = json_decode($data);
             $inserted = 0;
             if($option !== 'pdBaru')
             {
                 $inserted = $this->pushPesertaDidik($decoded);
-                $response = 'OK';
             }
-            else 
+            else
             {
-                $firstGrade = array_filter($decoded, function($item) {
-                    return $item->tingkat_pendidikan_id === '1';
+
+                $firstGrade = array_filter($decoded, function($item) use ($level) {
+                    return $item->tingkat_pendidikan_id === $level;
                 });
 
                 $inserted = $this->pushPesertaDidik($firstGrade);
-                $response = 'OK';
-            }    
-            
+            }
+
             if($inserted === 0)
             {
                 $note = 'Tidak ada data peserta didik yang ditambahkan.';
             }
-            else 
+            else
             {
                 $note = "{$inserted} peserta didik telah berhasil ditambahkan.";
             }
-            
-            return $this->response->setJSON(['msg' => $response, 'note' => $note]);
-        }        
+
+            return $this->response->setJSON(['msg' => 'OK', 'note' => $note]);
+        }
     }
 
     private function pushPesertaDidik($data)
@@ -243,7 +264,7 @@ class Dapodik extends \Actudent
             {
                 $userEmail = $this->createUsername($d->nama_ibu);
                 $userName = $d->nama_ibu;
-            }            
+            }
 
             $parentValues = [
                 'parent_family_card'    => $d->nik,
@@ -272,12 +293,13 @@ class Dapodik extends \Actudent
                     'student_name'  => $d->nama,
                     'parent_id'     => $parentID
                 ];
-    
+
                 $studentID = $this->model->insertPesertaDidik($studentValues);
-    
+
                 $pesdik = '{"student_id": ' . '"' . $studentID . '"' .
                         ', "pd_id": ' . '"' . $d->peserta_didik_id . '"' .
                         ', "rombel_id": ' . '"' . $d->rombongan_belajar_id . '"' .
+						', "anggota_rombel_id": ' . '"' . $d->anggota_rombel_id . '"' .
                         ', "nama": ' . '"' . $d->nama . '"' . '},';
                 write_file($filePath, $pesdik, 'a');
 
@@ -297,7 +319,7 @@ class Dapodik extends \Actudent
     }
 
     private function createUsername($name)
-    {        
+    {
         $remove = ['.', ' ', "'"];
         $replace = ['', '.', ''];
         $clean = str_replace($remove, $replace, $name);
