@@ -122,4 +122,11 @@ return [
     'siabsen_rekap_periodik'    => 'Rekap Periodik',
     'siabsen_akumulasi_hadir'   => 'Akumulasi Kehadiran',
     'siabsen_akumulasi_desc'    => 'Akumulasi jumlah kehadiran yang dihitung berdasarkan jam kerja ideal 8 jam per hari.',
+    'siabsen_holiday'           => 'Hari Libur',
+    'siabsen_holiday_add'       => 'Tambah Hari Libur',
+    'siabsen_holiday_edit'      => 'Ubah Hari Libur',
+    'siabsen_holiday_success'   => 'Berhasil menambahkan hari libur',
+    'siabsen_holiday_error'     => 'Tidak dapat menyimpan hari libur, silakan isi form dengan benar',
+    'siabsen_holiday_progress'  => 'Menyimpan hari libur...',
+    'siabsen_holiday_search'    => 'Cari berdasarkan nama hari libur...',
 ];

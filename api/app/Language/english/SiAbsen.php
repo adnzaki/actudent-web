@@ -122,4 +122,11 @@ return [
     'siabsen_rekap_periodik'    => 'Periodic Summary',
     'siabsen_akumulasi_hadir'   => 'Presence Accumulation',
     'siabsen_akumulasi_desc'    => 'The accumulated number of attendance calculated based on the ideal working hours of 8 hours per day.',
+    'siabsen_holiday'           => 'Holiday',
+    'siabsen_holiday_add'       => 'Add Holiday',
+    'siabsen_holiday_edit'      => 'Edit Holiday',
+    'siabsen_holiday_success'   => 'Successfully added holiday',
+    'siabsen_holiday_error'     => 'Unable to save holiday, please fill the form correctly',
+    'siabsen_holiday_progress'  => 'Saving holiday...',
+    'siabsen_holiday_search'    => 'Search by holiday name...',
 ];

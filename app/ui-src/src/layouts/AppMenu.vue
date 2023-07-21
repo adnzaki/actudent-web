@@ -74,6 +74,10 @@
           :label="$t('menu_pengaturan')"
           link="/teacher-presence/config"
         />
+        <submenu-item
+          :label="$t('siabsen_holiday')"
+          link="/teacher-presence/holiday"
+        />
       </q-expansion-item>
 
       <!-- SiAbsen Menu for teacher and staff-->

@@ -12,6 +12,9 @@ import { Notify, Dialog } from 'quasar'
 import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
+  deleteHoliday() {
+
+  },
   getAttendance(agendaId) {
     paging().getData({
       token: bearerToken,

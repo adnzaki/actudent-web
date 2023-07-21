@@ -30,6 +30,7 @@ import PresenceScheduleMain from 'src/siabsen_pages/presence_schedule/ScheduleMa
 import AdminEvents from 'src/siabsen_pages/admin_events/EventsMain.vue'
 import EventsRoute from 'src/siabsen_pages/admin_events/EventsRoute.vue'
 import EventsAttendance from 'src/siabsen_pages/admin_events/EventsAttendance.vue'
+import Holiday from 'src/siabsen_pages/holiday/MainPage.vue'
 import UsersMain from 'pages/users/UsersMain.vue'
 
 export default [
@@ -66,6 +67,11 @@ export default [
   },
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
+
+  // ----------------------------------------------------------------------------------------------------
+  // ------------------------------------------ SIABSEN ROUTES ------------------------------------------
+  // ----------------------------------------------------------------------------------------------------
+
   {
     path: 'teacher-presence', component: SiAbsenIndex, beforeEnter: () => routeValidator(),
     children: [
@@ -88,6 +94,7 @@ export default [
       },
       { path: 'config', component: ConfigMain, beforeEnter: () => routeValidator() },
       { path: 'schedule', component: PresenceScheduleMain, beforeEnter: () => routeValidator() },
+      { path: 'holiday', component: Holiday, beforeEnter: () => routeValidator() },
     ]
   },
   { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() }
