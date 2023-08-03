@@ -71,8 +71,7 @@ class Events
             return;
         }
 
-        /** @var Modules $config */
-        $config = config('Modules');
+        $config = config(Modules::class);
         $events = APPPATH . 'Config' . DIRECTORY_SEPARATOR . 'Events.php';
         $files  = [];
 
@@ -246,7 +245,7 @@ class Events
      *
      * @return string[]
      */
-    public function getFiles()
+    public static function getFiles()
     {
         return static::$files;
     }

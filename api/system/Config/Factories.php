@@ -23,7 +23,8 @@ use Config\Services;
  * large performance boost and helps keep code clean of lengthy
  * instantiation checks.
  *
- * @method static BaseConfig config(...$arguments)
+ * @method static BaseConfig|null config(...$arguments)
+ * @method static Model|null      models(string $name, array $options = [], ?ConnectionInterface &$conn = null)
  */
 class Factories
 {
@@ -31,7 +32,7 @@ class Factories
      * Store of component-specific options, usually
      * from CodeIgniter\Config\Factory.
      *
-     * @var array<string, array>
+     * @var array<string, array<string, bool|string|null>>
      */
     protected static $options = [];
 
@@ -39,7 +40,7 @@ class Factories
      * Explicit options for the Config
      * component to prevent logic loops.
      *
-     * @var array<string, mixed>
+     * @var array<string, bool|string|null>
      */
     private static array $configOptions = [
         'component'  => 'config',
@@ -53,7 +54,8 @@ class Factories
      * Mapping of class basenames (no namespace) to
      * their instances.
      *
-     * @var array<string, string[]>
+     * @var array<string, array<string, string>>
+     * @phpstan-var array<string, array<string, class-string>>
      */
     protected static $basenames = [];
 
@@ -63,31 +65,16 @@ class Factories
      * A multi-dimensional array with components as
      * keys to the array of name-indexed instances.
      *
-     * @var array<string, array>
+     * @var array<string, array<string, object>>
+     * @phpstan-var  array<string, array<class-string, object>>
      */
     protected static $instances = [];
-
-    /**
-     * This method is only to prevent PHPStan error.
-     * If we have a solution, we can remove this method.
-     * See https://github.com/codeigniter4/CodeIgniter4/pull/5358
-     *
-     * @template T of Model
-     *
-     * @param class-string<T> $name
-     *
-     * @return T
-     */
-    public static function models(string $name, array $options = [], ?ConnectionInterface &$conn = null)
-    {
-        return self::__callStatic('models', [$name, $options, $conn]);
-    }
 
     /**
      * Loads instances based on the method component name. Either
      * creates a new instance or returns an existing shared instance.
      *
-     * @return mixed
+     * @return object|null
      */
     public static function __callStatic(string $component, array $arguments)
     {
@@ -228,7 +215,7 @@ class Factories
      *
      * @param string $component Lowercase, plural component name
      *
-     * @return array<string, mixed>
+     * @return array<string, bool|string|null>
      */
     public static function getOptions(string $component): array
     {
@@ -243,7 +230,7 @@ class Factories
             // Handle Config as a special case to prevent logic loops
             ? self::$configOptions
             // Load values from the best Factory configuration (will include Registrars)
-            : config('Factory')->{$component} ?? [];
+            : config(Factory::class)->{$component} ?? [];
 
         return self::setOptions($component, $values);
     }
@@ -253,7 +240,7 @@ class Factories
      *
      * @param string $component Lowercase, plural component name
      *
-     * @return array<string, mixed> The result after applying defaults and normalization
+     * @return array<string, bool|string|null> The result after applying defaults and normalization
      */
     public static function setOptions(string $component, array $values): array
     {

@@ -15,8 +15,9 @@ use CodeIgniter\HTTP\Exceptions\HTTPException;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\Validation\Exceptions\ValidationException;
-use CodeIgniter\Validation\Validation;
+use CodeIgniter\Validation\ValidationInterface;
 use Config\Services;
+use Config\Validation;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -62,7 +63,7 @@ class Controller
     /**
      * Once validation has been run, will hold the Validation instance.
      *
-     * @var Validation
+     * @var ValidationInterface
      */
     protected $validator;
 
@@ -164,7 +165,7 @@ class Controller
 
         // If you replace the $rules array with the name of the group
         if (is_string($rules)) {
-            $validation = config('Validation');
+            $validation = config(Validation::class);
 
             // If the rule wasn't found in the \Config\Validation, we
             // should throw an exception so the developer can find it.

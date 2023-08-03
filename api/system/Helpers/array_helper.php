@@ -16,7 +16,7 @@ if (! function_exists('dot_array_search')) {
      * Searches an array through dot syntax. Supports
      * wildcard searches, like foo.*.bar
      *
-     * @return mixed
+     * @return array|bool|int|object|string|null
      */
     function dot_array_search(string $index, array $array)
     {
@@ -41,14 +41,19 @@ if (! function_exists('_array_search_dot')) {
      *
      * @internal This should not be used on its own.
      *
-     * @return mixed
+     * @return array|bool|float|int|object|string|null
      */
     function _array_search_dot(array $indexes, array $array)
     {
-        // Grab the current index
-        $currentIndex = $indexes ? array_shift($indexes) : null;
+        // If index is empty, returns null.
+        if ($indexes === []) {
+            return null;
+        }
 
-        if ((empty($currentIndex) && (int) $currentIndex !== 0) || (! isset($array[$currentIndex]) && $currentIndex !== '*')) {
+        // Grab the current index
+        $currentIndex = array_shift($indexes);
+
+        if (! isset($array[$currentIndex]) && $currentIndex !== '*') {
             return null;
         }
 
@@ -98,9 +103,9 @@ if (! function_exists('array_deep_search')) {
     /**
      * Returns the value of an element at a key in an array of uncertain depth.
      *
-     * @param mixed $key
+     * @param int|string $key
      *
-     * @return mixed|null
+     * @return array|bool|float|int|object|string|null
      */
     function array_deep_search($key, array $array)
     {

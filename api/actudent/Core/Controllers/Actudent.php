@@ -89,13 +89,17 @@ class Actudent extends \CodeIgniter\Controller
         ]);
     }
 
-    public function getAppConfig($userId)
+    public function getAppConfig($userId = null)
     {
         $path = $this->defaultLangPath;
         $userPath = $this->userLangPath().$userId.'.json';
 
-        if(file_exists($userPath)) {
-            $path = $userPath;
+        if($userId !== null) {
+            if(file_exists($userPath)) {
+                $path = $userPath;
+            }
+        } else {
+            $path = WRITEPATH.'settings/_default.json';
         }
 
         $config = file_get_contents($path);

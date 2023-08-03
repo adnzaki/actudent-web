@@ -106,7 +106,7 @@ class Filters
         $this->request = &$request;
         $this->setResponse($response);
 
-        $this->modules = $modules ?? config('Modules');
+        $this->modules = $modules ?? config(Modules::class);
 
         if ($this->modules->shouldDiscover('filters')) {
             $this->discoverFilters();
@@ -134,7 +134,7 @@ class Filters
             $className = $locator->getClassname($file);
 
             // Don't include our main Filter config again...
-            if ($className === 'Config\\Filters') {
+            if ($className === FiltersConfig::class) {
                 continue;
             }
 
@@ -143,20 +143,20 @@ class Filters
     }
 
     /**
-     * Set the response explicity.
+     * Set the response explicitly.
      */
     public function setResponse(ResponseInterface $response)
     {
-        $this->response = &$response;
+        $this->response = $response;
     }
 
     /**
      * Runs through all of the filters for the specified
      * uri and position.
      *
-     * @throws FilterException
-     *
      * @return mixed|RequestInterface|ResponseInterface
+     *
+     * @throws FilterException
      */
     public function run(string $uri, string $position = 'before')
     {
@@ -375,16 +375,16 @@ class Filters
     /**
      * Returns the arguments for a specified key, or all.
      *
-     * @return mixed
+     * @return array<string, string>|string
      */
     public function getArguments(?string $key = null)
     {
         return $key === null ? $this->arguments : $this->arguments[$key];
     }
 
-    //--------------------------------------------------------------------
+    // --------------------------------------------------------------------
     // Processors
-    //--------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
     /**
      * Add any applicable (not excluded) global filter settings to the mix.
@@ -509,8 +509,8 @@ class Filters
     /**
      * Check paths for match for URI
      *
-     * @param string $uri   URI to test against
-     * @param mixed  $paths The path patterns to test
+     * @param string       $uri   URI to test against
+     * @param array|string $paths The path patterns to test
      *
      * @return bool True if any of the paths apply to the URI
      */
