@@ -1,6 +1,6 @@
 <?php namespace Config;
 
-use Kint\Renderer\Renderer;
+use Kint\Renderer\AbstractRenderer;
 use CodeIgniter\Config\BaseConfig;
 
 class Kint extends BaseConfig
@@ -41,7 +41,7 @@ class Kint extends BaseConfig
 
 	public $richFolder = false;
 
-	public $richSort = Renderer::SORT_FULL;
+	public $richSort = AbstractRenderer::SORT_FULL;
 
 	public $richObjectPlugins = null;
 

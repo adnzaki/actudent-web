@@ -23,6 +23,20 @@ class App extends BaseConfig
 	*/
 	public $baseURL = '';
 
+	/**
+     * Allowed Hostnames in the Site URL other than the hostname in the baseURL.
+     * If you want to accept multiple Hostnames, set this.
+     *
+     * E.g. When your site URL ($baseURL) is 'http://example.com/', and your site
+     *      also accepts 'http://media.example.com/' and
+     *      'http://accounts.example.com/':
+     *          ['media.example.com', 'accounts.example.com']
+     *
+     * @var string[]
+     * @phpstan-var list<string>
+     */
+    public array $allowedHostnames = [];
+
 	/*
 	|--------------------------------------------------------------------------
 	| Index File
@@ -99,7 +113,7 @@ class App extends BaseConfig
 	| dates with the date helper, and can be retrieved through app_timezone()
 	|
 	*/
-	public $appTimezone = 'Asia/Jakarta';
+	public $appTimezone = 'UTC';
 
 	/*
 	|--------------------------------------------------------------------------
@@ -125,69 +139,6 @@ class App extends BaseConfig
 	| and the HTTP Strict Transport Security header will be set.
 	*/
 	public $forceGlobalSecureRequests = false;
-
-	/*
-	|--------------------------------------------------------------------------
-	| Session Variables
-	|--------------------------------------------------------------------------
-	|
-	| 'sessionDriver'
-	|
-	|	The storage driver to use: files, database, redis, memcached
-	|       - CodeIgniter\Session\Handlers\FileHandler
-	|       - CodeIgniter\Session\Handlers\DatabaseHandler
-	|       - CodeIgniter\Session\Handlers\MemcachedHandler
-	|       - CodeIgniter\Session\Handlers\RedisHandler
-	|
-	| 'sessionCookieName'
-	|
-	|	The session cookie name, must contain only [0-9a-z_-] characters
-	|
-	| 'sessionExpiration'
-	|
-	|	The number of SECONDS you want the session to last.
-	|	Setting to 0 (zero) means expire when the browser is closed.
-	|
-	| 'sessionSavePath'
-	|
-	|	The location to save sessions to, driver dependent.
-	|
-	|	For the 'files' driver, it's a path to a writable directory.
-	|	WARNING: Only absolute paths are supported!
-	|
-	|	For the 'database' driver, it's a table name.
-	|	Please read up the manual for the format with other session drivers.
-	|
-	|	IMPORTANT: You are REQUIRED to set a valid save path!
-	|
-	| 'sessionMatchIP'
-	|
-	|	Whether to match the user's IP address when reading the session data.
-	|
-	|	WARNING: If you're using the database driver, don't forget to update
-	|	         your session table's PRIMARY KEY when changing this setting.
-	|
-	| 'sessionTimeToUpdate'
-	|
-	|	How many seconds between CI regenerating the session ID.
-	|
-	| 'sessionRegenerateDestroy'
-	|
-	|	Whether to destroy session data associated with the old session ID
-	|	when auto-regenerating the session ID. When set to FALSE, the data
-	|	will be later deleted by the garbage collector.
-	|
-	| Other session cookie settings are shared with the rest of the application,
-	| except for 'cookie_prefix' and 'cookie_httponly', which are ignored here.
-	|
-	*/
-	public $sessionDriver            = 'CodeIgniter\Session\Handlers\FileHandler';
-	public $sessionCookieName        = 'actudent_session';
-	public $sessionExpiration        = 7200;
-	public $sessionSavePath          = WRITEPATH . 'session';
-	public $sessionMatchIP           = false;
-	public $sessionTimeToUpdate      = 300;
-	public $sessionRegenerateDestroy = false;
 
 	/*
 	|--------------------------------------------------------------------------

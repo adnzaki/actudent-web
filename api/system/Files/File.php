@@ -13,6 +13,7 @@ namespace CodeIgniter\Files;
 
 use CodeIgniter\Files\Exceptions\FileException;
 use CodeIgniter\Files\Exceptions\FileNotFoundException;
+use CodeIgniter\I18n\Time;
 use Config\Mimes;
 use ReturnTypeWillChange;
 use SplFileInfo;
@@ -89,7 +90,12 @@ class File extends SplFileInfo
      */
     public function guessExtension(): ?string
     {
-        return Mimes::guessExtensionFromType($this->getMimeType());
+        // naively get the path extension using pathinfo
+        $pathinfo = pathinfo($this->getRealPath() ?: $this->__toString()) + ['extension' => ''];
+
+        $proposedExtension = $pathinfo['extension'];
+
+        return Mimes::guessExtensionFromType($this->getMimeType(), $proposedExtension);
     }
 
     /**
@@ -121,7 +127,7 @@ class File extends SplFileInfo
         $extension = $this->getExtension();
         $extension = empty($extension) ? '' : '.' . $extension;
 
-        return time() . '_' . bin2hex(random_bytes(10)) . $extension;
+        return Time::now()->getTimestamp() . '_' . bin2hex(random_bytes(10)) . $extension;
     }
 
     /**

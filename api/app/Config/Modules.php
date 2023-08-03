@@ -24,6 +24,29 @@ class Modules
 	 */
 	public $discoverInComposer = true;
 
+	/**
+     * The Composer package list for Auto-Discovery
+     * This setting is optional.
+     *
+     * E.g.:
+     *   [
+     *       'only' => [
+     *           // List up all packages to auto-discover
+     *           'codeigniter4/shield',
+     *       ],
+     *   ]
+     *   or
+     *   [
+     *       'exclude' => [
+     *           // List up packages to exclude.
+     *           'pestphp/pest',
+     *       ],
+     *   ]
+     *
+     * @var array
+     */
+    public $composerPackages = [];
+
 	/*
 	|--------------------------------------------------------------------------
 	| Auto-discover Rules
