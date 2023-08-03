@@ -26,8 +26,11 @@ if ( ! function_exists('get_lang'))
         if(valid_token()) {
             $user = $ac->getDataPengguna();
             $lang = $ac->getAppConfig($user->user_id)->lang;
-            return lang($line, $args, $lang);
+        } else {
+            $lang = $ac->getAppConfig()->lang;
         }
+
+        return lang($line, $args, $lang);
     }
 }
 
