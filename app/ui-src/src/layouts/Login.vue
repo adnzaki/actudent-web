@@ -1,6 +1,21 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-page-container :class="['bg-login', styleSelector('bgImage')]">
+      <div class="q-pa-md q-gutter-sm" v-if="showUpdateProgress">
+        <q-banner
+          inline-actions
+          rounded
+          :class="[progressColor, 'text-white text-center']"
+        >
+          <strong> {{ dbProgressText }} </strong>
+
+          <!-- <template v-slot:action>
+            <q-btn flat label="Turn ON Wifi" />
+            <q-btn flat label="Dismiss" />
+          </template> -->
+        </q-banner>
+      </div>
+
       <div class="q-pa-md q-mt-md row items-start q-gutter-md">
         <q-card
           :class="[
@@ -35,6 +50,7 @@
                 @keyup.enter="validate"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
+                :disable="dbUpdate"
               >
                 <template v-slot:prepend>
                   <q-icon name="mail_outline" />
@@ -56,6 +72,7 @@
                 label="Password"
                 @keyup.enter="validate"
                 :label-color="styleSelector('label')"
+                :disable="dbUpdate"
               >
                 <template v-slot:prepend>
                   <q-icon name="vpn_key" />
@@ -80,6 +97,7 @@
                 :color="styleSelector('btn')"
                 @click="validate"
                 :style="btnStyle"
+                :disable="dbUpdate"
                 >{{ $t('login') }}</q-btn
               >
             </q-form>
@@ -102,7 +120,7 @@
 </template>
 
 <script>
-import { ref, reactive, computed } from 'vue'
+import { ref, reactive, computed, onMounted } from 'vue'
 import { axios } from 'boot/axios'
 import {
   t,
@@ -126,6 +144,41 @@ export default {
   setup() {
     const $q = useQuasar()
     const userLang = localStorage.getItem(conf.userLang)
+    const dbUpdate = ref(true)
+    const showUpdateProgress = ref(true)
+    const progressColor = ref('bg-red')
+    const dbProgressText = ref(t('db_check'))
+
+    onMounted(() => {
+      const hideDbProgress = () => {
+        setTimeout(() => {
+          showUpdateProgress.value = false
+        }, 3000)
+      }
+
+      setTimeout(() => {
+        axios.get(`${conf.coreAPI}check-db`).then(({ data }) => {
+          if (data.shouldUpdate === 1) {
+            dbProgressText.value = t('db_progress')
+
+            axios.get(`${conf.coreAPI}update-db`).then(({ data }) => {
+              setTimeout(() => {
+                dbProgressText.value = t('db_updated')
+                progressColor.value = 'bg-green'
+                dbUpdate.value = false
+              }, 2000)
+
+              hideDbProgress()
+            })
+          } else {
+            progressColor.value = 'bg-green'
+            dbProgressText.value = t('db_uptodate')
+            dbUpdate.value = false
+            hideDbProgress()
+          }
+        })
+      }, 1000)
+    })
 
     const username = ref(''),
       password = ref(''),
@@ -253,6 +306,10 @@ export default {
       msgClass,
       showMsg,
       rememberMe,
+      dbUpdate,
+      progressColor,
+      showUpdateProgress,
+      dbProgressText,
       btnStyle: reactive({
         fontSize: '18px',
         width: 'calc(100% - 5px)',

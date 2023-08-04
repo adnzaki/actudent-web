@@ -18,4 +18,8 @@ return [
     'remember_me'           => 'Ingatkan saya',
     'salah_akses'           => 'Akun yang anda masukkan adalah akun orang tua, silakan login menggunakan aplikasi versi Android',
     'login_nig'             => 'Khusus Guru/Staff',
+    'db_check'              => 'Mengecek database...',
+    'db_progress'           => 'Memperbarui struktur database... Mohon tunggu.',
+    'db_updated'            => 'Database telah diperbarui.',
+    'db_uptodate'           => 'Database telah berada di versi terbaru.'
 ];
