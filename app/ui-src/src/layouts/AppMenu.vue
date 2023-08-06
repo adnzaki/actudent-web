@@ -107,7 +107,7 @@
           link="/presence"
         />
         <menu-item icon="today" :label="$t('menu_agenda')" link="/agenda" />
-        <menu-item icon="restore" :label="$t('menu_post')" link="" />
+        <!-- <menu-item icon="restore" :label="$t('menu_post')" link="" /> -->
       </div>
       <menu-item
         icon="o_book"
@@ -126,7 +126,7 @@
           :label="$t('menu_agenda')"
           link="/teacher/agenda"
         />
-        <menu-item icon="restore" :label="$t('menu_timeline')" link="" />
+        <!-- <menu-item icon="restore" :label="$t('menu_timeline')" link="" /> -->
       </div>
 
       <!-- Report Menu -->
@@ -162,7 +162,7 @@
           link="/users"
         />
         <submenu-item :label="$t('menu_aplikasi')" :link="appSettingsLink" />
-        <submenu-item :label="$t('menu_feedback')" link="" />
+        <!-- <submenu-item :label="$t('menu_feedback')" link="" /> -->
       </q-expansion-item>
     </q-list>
   </q-scroll-area>

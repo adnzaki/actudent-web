@@ -12,4 +12,6 @@ $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($r
 	$routes->add('sekolah', 'Resources::getSekolah');
 	$routes->add('get-subscription-warning', 'Resources::showExpirationNotification');
 	$routes->add('get-report-data', 'Resources::getReportData');
+	$routes->add('check-db', 'Migrator::checkDatabase');
+	$routes->add('update-db', 'Migrator::updateDatabase');
 });
