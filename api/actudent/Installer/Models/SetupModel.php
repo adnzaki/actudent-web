@@ -15,7 +15,8 @@ class SetupModel extends \Actudent\Core\Models\Connector
     public function __construct()
     {
         parent:: __construct();
-        $this->forge = \Config\Database::forge();
+        helper('Actudent\Core\Helpers\wolesdev');
+        $this->forge = \Config\Database::forge(get_subdomain());
         $this->engine = ['ENGINE' => 'InnoDB'];
     }
 
@@ -57,8 +58,7 @@ class SetupModel extends \Actudent\Core\Models\Connector
      */
     public function dropTables(array $tables)
     {
-        foreach($tables as $val)
-        {
+        foreach($tables as $val) {
             $this->forge->dropTable($val, true);
         }
     }
