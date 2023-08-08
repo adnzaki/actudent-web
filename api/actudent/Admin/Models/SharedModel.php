@@ -179,10 +179,11 @@ class SharedModel extends \Actudent\Core\Models\Connector
         foreach($recipient as $id) {
             $userID = $this->checkUserDevice($id, $type);
             if($userID !== false) {
-                $userDevice = $this->getUserDevice($userID)[0];                
+                $userDevice = $this->getUserDevice($userID)[0];  
+                $uri    = new \CodeIgniter\HTTP\URI(base_url());
                 $values[] = [
                     'user_id'       => $userID,
-                    'notif_from'    => $sekolah->school_domain,
+                    'notif_from'    => $uri->getHost(),
                     'notif_to'      => $userDevice->fcm_registration_id,
                     'notif_title'   => $content['title'],
                     'notif_body'    => $content['body'],

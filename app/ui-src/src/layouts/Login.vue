@@ -147,7 +147,8 @@ export default {
     const dbUpdate = ref(true)
     const showUpdateProgress = ref(true)
     const progressColor = ref('bg-red')
-    const dbProgressText = ref(t('db_check'))
+    // const dbProgressText = ref(t('db_check'))
+    const dbProgressText = ref('Checking database...')
 
     onMounted(() => {
       const hideDbProgress = () => {
