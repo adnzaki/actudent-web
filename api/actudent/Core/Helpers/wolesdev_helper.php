@@ -62,7 +62,7 @@ if ( ! function_exists('validate'))
      * 
      * @return boolean
      */
-    function validate($rules, $messages)
+    function validate($rules, $messages = [])
     {        
         $validator = \Config\Services::validation();
         $isValid = $validator->withRequest(\Config\Services::request())

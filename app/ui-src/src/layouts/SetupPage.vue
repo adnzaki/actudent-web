@@ -24,8 +24,7 @@
             <q-form class="q-gutter-xs" @submit.prevent="validate">
               <q-input
                 filled
-                class="q-mb-md"
-                v-model="formData.organization_name"
+                v-model="store.postData.organization_name"
                 label="School Name"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
@@ -34,11 +33,11 @@
                   <q-icon name="o_business" />
                 </template>
               </q-input>
+              <ac-error :label="store.error.organization_name" />
 
               <q-input
                 filled
-                class="q-mb-md"
-                v-model="formData.organization_origination"
+                v-model="store.postData.organization_origination"
                 label="App URL"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
@@ -47,21 +46,22 @@
                   <q-icon name="link" />
                 </template>
               </q-input>
+              <ac-error :label="store.error.organization_origination" />
 
               <q-select
                 filled
-                v-model="formData.subscription_type"
+                v-model="store.postData.subscription_type"
                 :options="options"
               >
                 <template v-slot:prepend>
                   <q-icon name="bookmarks" />
                 </template>
               </q-select>
+              <ac-error :label="store.error.subscription_type" />
 
               <q-input
                 filled
-                class="q-my-md"
-                v-model="formData.database_name"
+                v-model="store.postData.database_name"
                 label="Database Name (for Android API)"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
@@ -70,11 +70,11 @@
                   <q-icon name="storage" />
                 </template>
               </q-input>
+              <ac-error :label="store.error.database_name" />
 
               <q-input
                 filled
-                class="q-my-md"
-                v-model="formData.token"
+                v-model="store.postData.token"
                 label="Developer Token"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
@@ -83,19 +83,20 @@
                   <q-icon name="vpn_key" />
                 </template>
               </q-input>
+              <ac-error :label="store.error.token" />
 
-              <p
-                v-if="showMsg"
+              <!-- <p
+                v-if="store.showProgressMessage"
                 style="margin-top: -20px"
                 :class="`text-bold text-${msgClass}`"
               >
-                {{ msg }}
-              </p>
+                {{ store.progressMessage }}
+              </p> -->
               <q-btn
                 :color="styleSelector('btn')"
-                @click="validate"
+                @click="store.validateForm"
                 :style="btnStyle"
-                :disable="dbUpdate"
+                :disable="store.disableButton"
                 >Install</q-btn
               >
             </q-form>
@@ -117,16 +118,11 @@
 <script setup>
 import { useQuasar } from 'quasar'
 import { ref, reactive } from 'vue'
+import { useSetupStore } from 'src/stores/setup-store'
 
 const $q = useQuasar()
+const store = useSetupStore()
 const validate = () => {}
-const formData = ref({
-  organization_name: '',
-  organization_origination: '',
-  subscription_type: 'Free',
-  database_name: '',
-  token: '',
-})
 
 const options = ['Free', 'Starter', 'Standard', 'Enhanced', 'Enterprise']
 

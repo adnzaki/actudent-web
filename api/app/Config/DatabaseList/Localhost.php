@@ -7,7 +7,7 @@ trait Localhost
         'hostname' => 'localhost',
         'username' => 'root',
         'password' => '',
-        'database' => 'db_actudent',
+        'database' => 'db_actudent_install',
         'DBDriver' => 'MySQLi',
         'DBPrefix' => '',
         'pConnect' => false,

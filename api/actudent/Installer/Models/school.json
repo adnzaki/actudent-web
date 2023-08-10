@@ -1,0 +1,13 @@
+{
+    "city": "Nama Kab/Kota",
+    "website": "(Alamat Website Sekolah)",
+    "email": "(Alamat Email Sekolah)",
+    "opd_logo": "logo-opd.png",
+    "school_logo": "logo-sekolah.png",
+    "opd_name": "Pemerintah Kab/Kota.... (Contoh)",
+    "sub_opd_name": "Dinas Pendidikan (Contoh)",
+    "headmaster": "(Nama Kepala Sekolah)",
+    "headmaster_nip": "(NIP Kepala Sekolah)",
+    "co_headmaster": "(Nama Wakil Kepala Sekolah)",
+    "co_headmaster_nip": "(NIP Wakil Kepala Sekolah)"
+}

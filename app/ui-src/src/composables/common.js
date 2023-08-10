@@ -5,7 +5,7 @@ import { runLoadingBar } from './loading-bar'
 import { validateToken } from './validate-token'
 import { pengguna, getPengguna } from './get-pengguna'
 import { bearerToken, redirect } from './subscription'
-import { axios, core, admin, teacher } from 'boot/axios'
+import { axios, core, admin, teacher, install } from 'boot/axios'
 import { appConfig as conf } from '../../actudent.config'
 import { flashAlert, errorNotif, timeout } from './notify'
 
@@ -80,5 +80,5 @@ export {
   isAuthenticated,
   createQueryString,
   pengguna, getPengguna,
-  axios, core, admin, teacher,
+  axios, core, admin, teacher, install
 }

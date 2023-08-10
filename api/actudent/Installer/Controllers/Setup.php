@@ -2,35 +2,77 @@
 
 class Setup extends \Actudent
 {
-    public function dispatch($module)
-    {
-        $firstLetter = strtoupper(substr($module, 0, 1));
-        $func = 'create' . $firstLetter . substr($module, 1, strlen($module)) . 'Module';
-        
-        // call module creation
-        $this->$func();
+    public function createOrganization()
+    {     
+        $token = $this->request->getPost('token');
 
-        return $this->response->setJSON(['status' => 'OK']);
+        if(password_verify($token, env('installation_token'))) {
+            $data = [
+                'organization_name'         => $this->request->getPost('organization_name'),
+                'organization_origination'  => $this->request->getPost('organization_origination'),
+            ];
+
+            $org = new \Actudent\Installer\Models\OrganizationModel;
+            $org->addSubscription($this->request->getPost('subscription_type'), $org->insertOrganization($data));
+            $org->insertSchool($data);
+            $org->addDatabaseName($this->request->getPost('database_name'));
+            $org->addAdmin($data['organization_origination']);
+
+            $response = [
+                'status'    => 'success',
+                'msg'       => 'Actudent installation completed. Redirecting to login page...'
+            ];
+        } else {
+            $response = [
+                'status'    => 'failed',
+                'msg'       => 'Please provide a valid developer token.'
+            ];
+        }
+
+
+        return $this->response->setJSON($response);
     }
 
-    public function dropTables()
+    public function validateForm()
     {
-        // do not change the order!
-        $tables = [
-            'tb_timelog',
-            'tb_school',
-            'tb_agenda_user', 'tb_agenda',
-            'tb_homework', 'tb_presence', 'tb_journal',
-            'tb_schedule', 'tb_schedule_settings',
-            'tb_student_grade', 'tb_student_parent', 'tb_student',
-            'tb_lessons_grade', 'tb_lessons',
-            'tb_room', 'tb_grade', 'tb_staff', 'tb_parent', 
-            'tb_user_devices', 'tb_user'
+        $rules = [
+            'organization_name'         => ['rules' => 'required', 'label' => 'school name'],
+            'organization_origination'  => ['rules' => 'required', 'label' => 'app URL'],
+            'subscription_type'         => ['rules' => 'required', 'label' => 'subscription type'],
+            'database_name'             => ['rules' => 'required', 'label' => 'database name'],
+            'token'                     => ['rules' => 'required', 'label' => 'developer token']
         ];
 
-        $model = new \Actudent\Installer\Models\SetupModel;
-        $model->dropTables($tables);
-        return $this->response->setJSON(['msg' => 'Tables dropped successfully']);
+        if(validate($rules)) {
+            $response = [
+                'status'    => 'success',
+                'msg'       => 'Form validation successful.'
+            ];
+        } else {
+            $response = [
+                'status'    => 'failed',
+                'msg'       => $this->validation->getErrors()
+            ];
+        }
+
+
+        return $this->response->setJSON($response);
+    }
+    
+    public function dispatch($module)
+    {
+        $token = $this->request->getPost('token');
+        if(password_verify($token, env('installation_token'))) {
+            $func = 'create' . ucfirst($module) . 'Module';
+            
+            // call module creation
+            $this->$func();
+    
+            return $this->response->setJSON(['status' => 'OK']);            
+
+        } else {
+            return $this->response->setJSON(['status' => 'failed']);    
+        }
     }
 
     private function createUserModule()
