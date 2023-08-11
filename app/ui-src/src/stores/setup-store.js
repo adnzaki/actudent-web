@@ -34,6 +34,7 @@ export const useSetupStore = defineStore('setup', {
           })
 
           setTimeout(() => {
+            Loading.hide()
             window.location.href = conf.loginUrl()
           }, 4000);
         } else {
