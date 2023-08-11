@@ -1,4 +1,18 @@
 export default {
+  'beta-6.ac.v2.0054': [
+    {
+      key: '[Improvement]',
+      desc: 'Updated background system of application user interface'
+    },
+    {
+      key: '[Update]',
+      desc: 'Updated period for 2023/2024 of school year'
+    },
+    {
+      key: '[Fixes]',
+      desc: 'Fixed some bugs on Agenda, Parent and Student feature'
+    },
+  ],
   'beta-5.ac.v2.0051': [
     {
       key: '[New]',

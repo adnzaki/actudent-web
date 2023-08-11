@@ -1,30 +1,38 @@
 const indonesia = [
   {
-    key: '[Peningkatan]',
-    desc: 'Pembaruan sistem latar belakang antarmuka aplikasi'
+    key: '[Baru]',
+    desc: 'Pembaruan struktur database otomatis'
   },
   {
-    key: '[Pembaruan]',
-    desc: 'Pembaruan periode untuk Tahun Ajaran 2023/2024'
+    key: '[Peningkatan]',
+    desc: 'Menambahkan tingkat Satuan Pendidikan (SD/SMP/SMA) pada SyncAPI untuk Dapodik Puller'
   },
   {
     key: '[Perbaikan]',
-    desc: 'Perbaikan bug pada fitur Agenda, Orang Tua dan Siswa'
+    desc: 'Memperbaiki notifikasi "periode langganan telah habis" tidak muncul di halaman login'
+  },
+  {
+    key: '[Baru-Dev Only]',
+    desc: 'Menambahkan fitur instalasi database Actudent untuk mempercepat proses registrasi sekolah baru'
   },
 ]
 
 const english = [
   {
+    key: '[New]',
+    desc: 'Automatic database structure update'
+  },
+  {
     key: '[Improvement]',
-    desc: 'Updated background system of application user interface'
+    desc: 'Added institution grade (SD/SMP/SMA) on SyncAPI for DapodikPuller'
   },
   {
-    key: '[Update]',
-    desc: 'Updated period for 2023/2024 of school year'
+    key: '[Fix]',
+    desc: 'Fixed "subscription period has ended" notification does not appear in login page'
   },
   {
-    key: '[Fixes]',
-    desc: 'Fixed some bugs on Agenda, Parent and Student feature'
+    key: '[New-Dev Only]',
+    desc: 'Added Actudent database installation feature to speed up new school registration process'
   },
 ]
 
