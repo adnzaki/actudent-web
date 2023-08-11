@@ -9,10 +9,25 @@ class OrganizationModel extends \Actudent\Installer\Models\SetupModel
 {
     private $subs;
 
+    private $QBInstall;
+
     public function __construct()
     {
         parent:: __construct();
         $this->subs = new SubscriptionModel;
+        $this->QBInstall = $this->dbMain->table('tb_installation');
+    }
+
+    public function hasInstallation()
+    {
+        $check = $this->QBInstall->getWhere(['db_group_key' => get_subdomain()]);
+
+        return $check->getNumRows() > 0 ? true : false;
+    }
+    
+    public function addInstallation()
+    {
+        $this->QBInstall->insert(['db_group_key' => get_subdomain()]);
     }
 
     public function addDatabaseName($dbName)

@@ -1,7 +1,17 @@
 <?php namespace Actudent\Installer\Controllers;
 
+use Actudent\Installer\Models\OrganizationModel;
+
 class Setup extends \Actudent
 {
+    public function checkInstallation()
+    {
+        $org = new OrganizationModel;
+        $check = $org->hasInstallation() ? 1 : 0;
+
+        return $this->response->setJSON(['status' => $check]);
+    }
+
     public function createOrganization()
     {     
         $token = $this->request->getPost('token');
@@ -12,11 +22,12 @@ class Setup extends \Actudent
                 'organization_origination'  => $this->request->getPost('organization_origination'),
             ];
 
-            $org = new \Actudent\Installer\Models\OrganizationModel;
+            $org = new OrganizationModel;
             $org->addSubscription($this->request->getPost('subscription_type'), $org->insertOrganization($data));
             $org->insertSchool($data);
             $org->addDatabaseName($this->request->getPost('database_name'));
             $org->addAdmin($data['organization_origination']);
+            $org->addInstallation();
 
             $response = [
                 'status'    => 'success',

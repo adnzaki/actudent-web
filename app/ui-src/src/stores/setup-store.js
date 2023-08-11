@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { conf, install, createFormData } from 'src/composables/common'
-import { Notify } from "quasar";
+import { Notify, Loading } from "quasar";
 
 export const useSetupStore = defineStore('setup', {
   state: () => {
@@ -22,6 +22,28 @@ export const useSetupStore = defineStore('setup', {
     }
   },
   actions: {
+    checkInstallation() {
+      const loading = Loading.show({
+        message: 'Checking database installation...',
+        group: 'check',
+      })
+
+      install.get('check').then(({ data }) => {
+        if (data.status === 1) {
+          loading({
+            message: 'Database has been installed, access to this feature is disabled. Redirecting to login page...'
+          })
+
+          setTimeout(() => {
+            window.location.href = conf.loginUrl()
+          }, 4000);
+        } else {
+          setTimeout(() => {
+            Loading.hide()
+          }, 1000);
+        }
+      })
+    },
     setupOrganization() {
       install.post('create-organization', this.postData, {
         transformRequest: [data => createFormData(data)]
@@ -98,7 +120,6 @@ export const useSetupStore = defineStore('setup', {
         timeout: 0,
       })
 
-
       install.post(`create/${module}`, { token: this.postData.token }, {
         transformRequest: [data => createFormData(data)]
       }).then(({ data }) => {
@@ -108,14 +129,19 @@ export const useSetupStore = defineStore('setup', {
             next()
           }, 1000);
         } else {
-          loading({
-            message: 'Installation failed, please recheck your configuration and try again',
-            timeout: this.timeout,
-            icon: 'report_problem',
-            spinner: false,
-          })
+          setTimeout(() => {
+            loading()
 
-          this.disableButton = false
+            Notify.create({
+              message: 'Installation failed, please provide a valid developer token.',
+              timeout: this.timeout + 1000,
+              icon: 'report_problem',
+              color: 'negative',
+              position: 'center',
+            })
+
+            this.disableButton = false
+          }, 1000);
         }
       })
     },
@@ -139,6 +165,7 @@ export const useSetupStore = defineStore('setup', {
           if (data.status === 'success') {
             this.createUser()
             loading({ timeout: 1 })
+            this.error = {}
           } else {
             loading({
               color: 'negative',

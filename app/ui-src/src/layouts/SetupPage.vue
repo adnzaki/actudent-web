@@ -117,7 +117,7 @@
 
 <script setup>
 import { useQuasar } from 'quasar'
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useSetupStore } from 'src/stores/setup-store'
 
 const $q = useQuasar()
@@ -131,6 +131,8 @@ const btnStyle = reactive({
   width: 'calc(100% - 5px)',
   borderRadius: $q.screen.lt.sm ? '28px' : '5px',
 })
+
+onMounted(() => store.checkInstallation())
 
 const styleSelector = (style) => {
   const styles = {
