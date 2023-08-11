@@ -1,4 +1,18 @@
 export default {
+  'beta-6.ac.v2.0054': [
+    {
+      key: '[Peningkatan]',
+      desc: 'Pembaruan sistem latar belakang antarmuka aplikasi'
+    },
+    {
+      key: '[Pembaruan]',
+      desc: 'Pembaruan periode untuk Tahun Ajaran 2023/2024'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Perbaikan bug pada fitur Agenda, Orang Tua dan Siswa'
+    },
+  ],
   'beta-5.ac.v2.0051': [
     {
       key: '[Baru]',
