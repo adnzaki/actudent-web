@@ -74,9 +74,13 @@ class AgendaModel extends \Actudent\Installer\Models\SetupModel
                 'type'          => 'INT',
                 'constraint'    => 11,
             ],
-            'guests' => [
-                'type'          => 'TEXT',
-                'null'          => true,
+            'user_id' => [
+                'type'          => 'INT',
+                'constraint'    => 11,
+            ],
+            'present' => [
+                'type'          => 'INT',
+                'constraint'    => 11,
             ],
             'created' => [
                 'type'          => 'DATETIME',
@@ -89,8 +93,6 @@ class AgendaModel extends \Actudent\Installer\Models\SetupModel
         ];
 
         $this->forge->addField($fields);
-        $this->forge->addPrimaryKey('agenda_id');
-        $this->forge->addForeignKey('agenda_id', 'tb_agenda', 'agenda_id');
         $this->forge->createTable($table, true, $this->engine);  
 
         // finish it up

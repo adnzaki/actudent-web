@@ -20,8 +20,7 @@ class LessonsModel extends \Actudent\Installer\Models\SetupModel
                 'type'          => 'VARCHAR',
                 'constraint'    => 100,
                 'null'          => true,
-            ],
-            
+            ],            
             'deleted' => [
                 'type'          => 'TINYINT',
                 'constraint'    => 1,

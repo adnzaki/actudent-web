@@ -26,6 +26,15 @@
 
           <q-input
             outlined
+            :label="$t('user_email')"
+            dense
+            v-model="store.detail.user_email"
+            disable
+          />
+          <ac-error :label="error.user_email" />
+
+          <q-input
+            outlined
             :label="$t('ortu_label_ayah')"
             dense
             v-model="store.detail.parent_father_name"

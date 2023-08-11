@@ -26,7 +26,7 @@ class Actudent extends \CodeIgniter\Controller
     /**
      * Instance of the main Request object.
      *
-     * @var CLIRequest|IncomingRequest
+     * @var IncomingRequest|CLIRequest
      */
     protected $request;
 
@@ -40,7 +40,7 @@ class Actudent extends \CodeIgniter\Controller
     /**
      * Core resources 
      *  
-     * @var object
+     * @var \Actudent\Core\Controllers\Resources
      */    
     protected $resources;
 

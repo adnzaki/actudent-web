@@ -35,10 +35,6 @@ class TimelogModel extends \Actudent\Installer\Models\SetupModel
                 'type'          => 'DATETIME',
                 'null'          => true,
             ],
-            'modified' => [
-                'type'          => 'DATETIME',
-                'null'          => true,
-            ]
         ];
 
         $this->forge->addField($fields);
@@ -48,10 +44,11 @@ class TimelogModel extends \Actudent\Installer\Models\SetupModel
         // finish it up
         $sql = "ALTER TABLE `{$table}` 
                 CHANGE `timestamp` `timestamp` TIMESTAMP NULL"; 
-        $this->db->simpleQuery($sql);
-        $this->correctCreatedAndModifiedColumn($table);
 
-        // remove modified column
-        $this->forge->dropColumn($table, 'modified');
+        $createdSql =  "ALTER TABLE `{$table}` 
+                        CHANGE `created` `created` TIMESTAMP NULL 
+                        DEFAULT CURRENT_TIMESTAMP"; 
+        $this->db->simpleQuery($sql);
+        $this->db->simpleQuery($createdSql);
     }
 }

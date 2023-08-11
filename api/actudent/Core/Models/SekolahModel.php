@@ -4,10 +4,8 @@ class SekolahModel extends \Actudent\Core\Models\Connector
 {
     /**
      * Query Builder for table tb_sekolah
-     * 
-     * @var object
      */
-    private $sekolah;
+    public $sekolah;
 
     public function __construct()
     {

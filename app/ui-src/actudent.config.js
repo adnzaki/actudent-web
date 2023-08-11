@@ -18,6 +18,9 @@ export const appConfig = {
   // API Url for resource section
   coreAPI: `${baseUrl()}core/`,
 
+  // API for installing database
+  installAPI: `${baseUrl()}install/`,
+
   // API for testing section
   testAPI: `${baseUrl()}ui-test/`,
 

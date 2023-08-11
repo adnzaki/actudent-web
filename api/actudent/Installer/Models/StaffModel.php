@@ -47,7 +47,6 @@ class StaffModel extends \Actudent\Installer\Models\SetupModel
             'staff_tag' => [
                 'type'          => 'TINYINT',
                 'constraint'    => 1,
-                'default'       => 1,
                 'null'          => true
             ],
             'deleted' => [

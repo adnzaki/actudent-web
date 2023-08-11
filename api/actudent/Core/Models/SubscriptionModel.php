@@ -7,7 +7,7 @@ class SubscriptionModel extends \Actudent\Core\Models\Connector
     /**
      * Query builder for tb_subscription
      */
-    private $QBSubscription;
+    public $QBSubscription;
 
     /**
      * Query builder for tb_organization

@@ -3,7 +3,9 @@
 $routes->group('install', ['namespace' => 'Actudent\Installer\Controllers'], function($routes)
 {
     $routes->add('setup', 'Setup::index');
-    $routes->add('setup/create-module/(:alpha)', 'Setup::dispatch/$1');
-    $routes->add('setup/drop-tables', 'Setup::dropTables');
-    $routes->add('registrasi', 'Registration::index');
+    $routes->add('validate', 'Setup::validateForm');
+    $routes->add('check', 'Setup::checkInstallation');
+    $routes->add('create/(:alpha)', 'Setup::dispatch/$1');
+    $routes->add('create-organization', 'Setup::createOrganization');
+    $routes->add('basic-test', 'Test::basic');
 });

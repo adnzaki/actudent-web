@@ -1,88 +1,88 @@
 <?php namespace Actudent\Installer\Controllers;
 
+use Actudent\Installer\Models\OrganizationModel;
+
 class Setup extends \Actudent
 {
-    public function __construct()
+    public function checkInstallation()
     {
-        // Session should be removed to avoid
-        // system check to database that has not been installed
-        session()->remove(['id', 'email', 'nama', 'userLevel', 'logged_in']);
-        session()->remove(['org_id', 'org_name']);
+        $org = new OrganizationModel;
+        $check = $org->hasInstallation() ? 1 : 0;
 
-        // set app language based on default language
-        $defaultLang = $_SESSION['actudent_lang'] ?? 'indonesia';
-        $this->setLanguage($defaultLang);
+        return $this->response->setJSON(['status' => $check]);
     }
 
-    public function index()
-    {   
-        if(ENVIRONMENT === 'development')   
-        {
-            if(db_installed())
-            {
-                return redirect()->to(base_url('admin/home'));
-            }
-            else
-            {
-                $data = $this->common();
-                $data['title']      = lang('Setup.title');    
-                $config             = config('Database');
-                $data['dbName']     = $config->default['database'];
-        
-                return parse('Actudent\Installer\Views\setup\setup-view', $data);
-            }
-        }
-        else
-        {
-            echo access_denied();
-        }
-    }    
+    public function createOrganization()
+    {     
+        $token = $this->request->getPost('token');
 
+        if(password_verify($token, env('installation_token'))) {
+            $data = [
+                'organization_name'         => $this->request->getPost('organization_name'),
+                'organization_origination'  => $this->request->getPost('organization_origination'),
+            ];
+
+            $org = new OrganizationModel;
+            $org->addSubscription($this->request->getPost('subscription_type'), $org->insertOrganization($data));
+            $org->insertSchool($data);
+            $org->addDatabaseName($this->request->getPost('database_name'));
+            $org->addAdmin($data['organization_origination']);
+            $org->addInstallation();
+
+            $response = [
+                'status'    => 'success',
+                'msg'       => 'Actudent installation completed. Redirecting to login page...'
+            ];
+        } else {
+            $response = [
+                'status'    => 'failed',
+                'msg'       => 'Please provide a valid developer token.'
+            ];
+        }
+
+
+        return $this->response->setJSON($response);
+    }
+
+    public function validateForm()
+    {
+        $rules = [
+            'organization_name'         => ['rules' => 'required', 'label' => 'school name'],
+            'organization_origination'  => ['rules' => 'required', 'label' => 'app URL'],
+            'subscription_type'         => ['rules' => 'required', 'label' => 'subscription type'],
+            'database_name'             => ['rules' => 'required', 'label' => 'database name'],
+            'token'                     => ['rules' => 'required', 'label' => 'developer token']
+        ];
+
+        if(validate($rules)) {
+            $response = [
+                'status'    => 'success',
+                'msg'       => 'Form validation successful.'
+            ];
+        } else {
+            $response = [
+                'status'    => 'failed',
+                'msg'       => $this->validation->getErrors()
+            ];
+        }
+
+
+        return $this->response->setJSON($response);
+    }
+    
     public function dispatch($module)
     {
-        if(ENVIRONMENT === 'development')
-        {
-            $firstLetter = strtoupper(substr($module, 0, 1));
-            $func = 'create' . $firstLetter . substr($module, 1, strlen($module)) . 'Module';
+        $token = $this->request->getPost('token');
+        if(password_verify($token, env('installation_token'))) {
+            $func = 'create' . ucfirst($module) . 'Module';
             
             // call module creation
             $this->$func();
-
-            return $this->response->setJSON(['status' => 'OK']);
-        }
-        else
-        {
-            echo access_denied();
-        }
-    }
-
-    public function dropTables()
-    {
-        if(ENVIRONMENT === 'development')
-        {
-            // do not change the order!
-            $tables = [
-                'tb_timelog',
-                'tb_school',
-                'tb_score_student', 'tb_score',
-                'tb_chat', 'tb_chat_users',
-                'tb_timeline',
-                'tb_agenda_user', 'tb_agenda',
-                'tb_homework', 'tb_presence', 'tb_journal',
-                'tb_schedule', 'tb_schedule_settings',
-                'tb_student_grade', 'tb_student_parent', 'tb_student',
-                'tb_lessons_grade', 'tb_lessons',
-                'tb_room', 'tb_grade', 'tb_staff', 'tb_parent', 
-                'tb_user_devices', 'tb_user_language', 'tb_user'
-            ];
     
-            $model = new \Actudent\Installer\Models\SetupModel;
-            $model->dropTables($tables);
-            return $this->response->setJSON(['msg' => 'Tables dropped successfully']);
-        }
-        else
-        {
-            echo access_denied();
+            return $this->response->setJSON(['status' => 'OK']);            
+
+        } else {
+            return $this->response->setJSON(['status' => 'failed']);    
         }
     }
 
@@ -155,26 +155,6 @@ class Setup extends \Actudent
         $model->createAgendaUser();
     }
 
-    private function createTimelineModule()
-    {
-        $model = new \Actudent\Installer\Models\TimelineModel;
-        $model->createTimeline();
-    }
-
-    private function createMessageModule()
-    {
-        $model = new \Actudent\Installer\Models\MessageModel;
-        $model->createMessageParticipant();
-        $model->createMessage();
-    }
-
-    private function createScoreModule()
-    {
-        $model = new \Actudent\Installer\Models\ScoreModel;
-        $model->createScore();
-        $model->createScoreStudent();
-    }
-
     private function createSchoolModule()
     {
         $model = new \Actudent\Installer\Models\SchoolModel;
@@ -185,14 +165,5 @@ class Setup extends \Actudent
     {
         $model = new \Actudent\Installer\Models\TimelogModel;
         $model->createTimelog();
-
-        $subs = new \Actudent\Core\Models\SubscriptionModel;
-        $organization = $subs->getOrganization();
-        $registerSession = [
-            'org_id'    => $organization->organization_id,
-            'org_name'  => $organization->organization_name,
-        ];
-
-        session()->set($registerSession);
     }
 }
