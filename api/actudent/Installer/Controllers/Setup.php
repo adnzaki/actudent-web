@@ -17,10 +17,12 @@ class Setup extends \Actudent
         $token = $this->request->getPost('token');
 
         if(password_verify($token, env('installation_token'))) {
+            $uri = new \CodeIgniter\HTTP\URI(base_url());
             $data = [
                 'organization_name'         => $this->request->getPost('organization_name'),
-                'organization_origination'  => $this->request->getPost('organization_origination'),
+                'organization_origination'  => $uri->getHost(),
             ];
+
 
             $org = new OrganizationModel;
             $org->addSubscription($this->request->getPost('subscription_type'), $org->insertOrganization($data));
@@ -48,7 +50,6 @@ class Setup extends \Actudent
     {
         $rules = [
             'organization_name'         => ['rules' => 'required', 'label' => 'school name'],
-            'organization_origination'  => ['rules' => 'required', 'label' => 'app URL'],
             'subscription_type'         => ['rules' => 'required', 'label' => 'subscription type'],
             'database_name'             => ['rules' => 'required', 'label' => 'database name'],
             'token'                     => ['rules' => 'required', 'label' => 'developer token']

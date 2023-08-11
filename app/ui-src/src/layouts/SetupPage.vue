@@ -35,19 +35,6 @@
               </q-input>
               <ac-error :label="store.error.organization_name" />
 
-              <q-input
-                filled
-                v-model="store.postData.organization_origination"
-                label="App URL"
-                :label-color="styleSelector('label')"
-                :color="styleSelector('icon')"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="link" />
-                </template>
-              </q-input>
-              <ac-error :label="store.error.organization_origination" />
-
               <q-select
                 filled
                 v-model="store.postData.subscription_type"

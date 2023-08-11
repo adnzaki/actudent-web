@@ -10,7 +10,6 @@ export const useSetupStore = defineStore('setup', {
       installSuccess: false,
       postData: {
         organization_name: '',
-        organization_origination: '',
         subscription_type: 'Free',
         database_name: '',
         token: ''
@@ -18,7 +17,7 @@ export const useSetupStore = defineStore('setup', {
       error: {},
       progressColor: 'bg-accent',
       disableButton: false,
-      timeout: 3500
+      timeout: 3000
     }
   },
   actions: {
@@ -67,7 +66,7 @@ export const useSetupStore = defineStore('setup', {
         const loading = Notify.create({
           group: false,
           spinner: true,
-          message: 'Database successfully installed. Setting up organization details......',
+          message: 'Database successfully installed. Setting up organization details...',
           color: 'positive',
           position: 'center',
           timeout: this.timeout,
@@ -127,7 +126,7 @@ export const useSetupStore = defineStore('setup', {
           setTimeout(() => {
             if (module === 'timelog') loading()
             next()
-          }, 1000);
+          }, 500);
         } else {
           setTimeout(() => {
             loading()
@@ -161,22 +160,21 @@ export const useSetupStore = defineStore('setup', {
         transformRequest: [data => createFormData(data)]
       }).then(({ data }) => {
         loading({ timeout: this.timeout })
-        setTimeout(() => {
-          if (data.status === 'success') {
-            this.createUser()
-            loading({ timeout: 1 })
-            this.error = {}
-          } else {
-            loading({
-              color: 'negative',
-              message: 'Unable to install database, please fill the form correctly.',
-              icon: 'report_problem',
-              spinner: false
-            })
-            this.error = data.msg
-            this.disableButton = false
-          }
-        }, 1000);
+        if (data.status === 'success') {
+          this.createUser()
+          loading({ timeout: 1 })
+          this.error = {}
+        } else {
+          loading({
+            color: 'negative',
+            message: 'Unable to install database, please fill the form correctly.',
+            icon: 'report_problem',
+            spinner: false
+          })
+          this.error = data.msg
+          this.disableButton = false
+        }
+
       })
     }
   }
