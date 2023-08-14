@@ -22,7 +22,7 @@ class Migrator extends \Actudent
 
     public function updateDatabase()
     {
-        $this->model->addImportedFieldForClassGroup();
+        $this->model->addReportSettingsTable();
         $this->model->updateDbVersion();
 
         return $this->response->setJSON([
