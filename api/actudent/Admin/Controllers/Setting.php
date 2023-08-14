@@ -1,9 +1,37 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use CodeIgniter\Files\FileCollection;
+use Actudent\Core\Libraries\Uploader;
+use Actudent\Admin\Models\SettingModel;
 
 class Setting extends \Actudent
 {
+    private $model;
+
+    public function __construct()
+    {
+        $this->model = new SettingModel;
+    }
+
+    public function uploadLetterhead()
+    {
+        if(is_admin()) {
+            $config = [
+                'file'      => 'letterhead_image',
+                'width'     => 2400,
+                'height'    => 500,
+                'dir'       => 'kop',
+                'maxSize'   => 2000,
+                'crop'      => 'fit'
+            ];
+
+            $uploader = new Uploader;
+            $uploaded = $uploader->uploadImage($config);
+            $this->model->updateLetterhead($uploaded['filename']);
+
+            return $this->response->setJSON($uploaded);
+        }
+    }
+
     public function setLanguage()
     {
         if(valid_token()) {

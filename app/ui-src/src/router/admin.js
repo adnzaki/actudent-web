@@ -20,6 +20,7 @@ import PeriodSummary from 'pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
 import AppSettingsMain from 'src/pages/app_settings/IndexPage.vue'
 import UsersMain from 'pages/users/UsersMain.vue'
+import ReportSettings from 'pages/report_settings/IndexPage.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -55,5 +56,6 @@ export default [
   },
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
-  { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() }
+  { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() },
+  { path: 'report-settings', component: ReportSettings, beforeEnter: () => routeValidator() }
 ]

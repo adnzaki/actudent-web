@@ -169,4 +169,5 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-timestamp', 'Test::testTimestamp');
 	$routes->add('template/icons', 'Template::icons');
 	$routes->add('template/buttons', 'Template::buttons');
+	$routes->add('pengaturan-laporan/upload-kop', 'Setting::uploadLetterhead');
 });

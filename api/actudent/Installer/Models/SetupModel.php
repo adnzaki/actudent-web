@@ -5,12 +5,12 @@ class SetupModel extends \Actudent\Core\Models\Connector
     /**
      * Database Forge class
      */
-    protected $forge;
+    public $forge;
 
     /**
      * MySQL Engine
      */
-    protected $engine;
+    public $engine;
 
     public function __construct()
     {
@@ -32,7 +32,7 @@ class SetupModel extends \Actudent\Core\Models\Connector
      * 
      * @return void
      */
-    protected function correctCreatedAndModifiedColumn(string $table, string $type = 'TIMESTAMP'): void
+    public function correctCreatedAndModifiedColumn(string $table, string $type = 'TIMESTAMP'): void
     {
         // modify created and modified column
         // into correct data type and default value
