@@ -58,6 +58,7 @@ export const useSetupStore = defineStore('setup', {
         })
 
         setTimeout(() => {
+          loading()
           window.location.href = conf.loginUrl()
         }, this.timeout + 1000);
       })
@@ -77,8 +78,11 @@ export const useSetupStore = defineStore('setup', {
         }, this.timeout);
       })
     },
+    createSetting() {
+      this.doInstall('setting', () => this.createTimelog())
+    },
     createSchool() {
-      this.doInstall('school', () => this.createTimelog())
+      this.doInstall('school', () => this.createSetting())
     },
     createAgenda() {
       this.doInstall('agenda', () => this.createSchool())

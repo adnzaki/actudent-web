@@ -28,7 +28,7 @@ class Setup extends \Actudent
             $org->addSubscription($this->request->getPost('subscription_type'), $org->insertOrganization($data));
             $org->insertSchool($data);
             $org->addDatabaseName($this->request->getPost('database_name'));
-            $org->addAdmin($data['organization_origination']);
+            $org->addAdmin();
             $org->addInstallation();
 
             $response = [
@@ -166,5 +166,11 @@ class Setup extends \Actudent
     {
         $model = new \Actudent\Installer\Models\TimelogModel;
         $model->createTimelog();
+    }
+
+    private function createSettingModule()
+    {
+        $model = new \Actudent\Installer\Models\SettingModel;
+        $model->createReportSetting();
     }
 }
