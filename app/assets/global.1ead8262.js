@@ -1,1 +1,0 @@
-import{W as t,X as a}from"./index.c9c43840.js";var n=({app:e})=>{e.config.globalProperties.$buildVersion="rc-2.ac.v2.0057",e.config.globalProperties.$trim=(r,o=25,i=!0)=>r===void 0?"":t(r,o,i),e.config.globalProperties.$formatDate=(r,o="dddd, DD MMMM YYYY")=>r===void 0?"":a(r,o)};export{n as default};
