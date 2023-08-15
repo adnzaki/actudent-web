@@ -143,14 +143,7 @@ class Dapodik extends \Actudent
 					}
 					else
 					{
-						if($d->nuptk === null)
-						{
-							$staffNik = $d->nik;
-						}
-						else
-						{
-							$staffNik = $d->nuptk;
-						}
+                        $staffNik = $d->nik;
 					}
 
 					if($d->jenis_ptk_id !== '3' && $d->jenis_ptk_id !== '4')
