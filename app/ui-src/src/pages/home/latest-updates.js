@@ -1,38 +1,38 @@
 const indonesia = [
   {
     key: '[Baru]',
-    desc: 'Pembaruan struktur database otomatis'
+    desc: 'Update versi database ke v2.2.7 (Silakan logout terlebih dahulu jika status saat ini masih login)'
   },
   {
-    key: '[Peningkatan]',
-    desc: 'Menambahkan tingkat Satuan Pendidikan (SD/SMP/SMA) pada SyncAPI untuk Dapodik Puller'
+    key: '[Baru]',
+    desc: 'Menambahkan opsi ganti gambar kop surat'
+  },
+  {
+    key: '[Baru]',
+    desc: 'Menambahkan opsi tanda tangan laporan'
   },
   {
     key: '[Perbaikan]',
-    desc: 'Memperbaiki notifikasi "periode langganan telah habis" tidak muncul di halaman login'
-  },
-  {
-    key: '[Baru-Dev Only]',
-    desc: 'Menambahkan fitur instalasi database Actudent untuk mempercepat proses registrasi sekolah baru'
+    desc: 'Memperbaiki nama file pada laporan rekap absen semester'
   },
 ]
 
 const english = [
   {
     key: '[New]',
-    desc: 'Automatic database structure update'
+    desc: 'Update database version to v2.2.7 (Please logout first if you are still logged in)'
   },
   {
-    key: '[Improvement]',
-    desc: 'Added institution grade (SD/SMP/SMA) on SyncAPI for DapodikPuller'
+    key: '[New]',
+    desc: 'Added option to change letterhead image'
+  },
+  {
+    key: '[New]',
+    desc: 'Added options for report signs'
   },
   {
     key: '[Fix]',
-    desc: 'Fixed "subscription period has ended" notification does not appear in login page'
-  },
-  {
-    key: '[New-Dev Only]',
-    desc: 'Added Actudent database installation feature to speed up new school registration process'
+    desc: 'Fixed filename on semester presence summary report'
   },
 ]
 
