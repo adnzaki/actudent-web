@@ -35,13 +35,24 @@ import {
   conf,
   createFormData,
   bearerToken,
+  t,
 } from 'src/composables/common'
+
+import { useQuasar } from 'quasar'
 
 export default {
   setup() {
     const progress = ref(false)
     const uploader = ref(null)
+    const $q = useQuasar()
     const onUploaded = () => {
+      $q.notify({
+        message: t('letterhead_success'),
+        color: 'positive',
+        icon: 'done',
+        timeout: 3500,
+        position: 'center',
+      })
       // uploader.value.removeUploadedFiles()
     }
 

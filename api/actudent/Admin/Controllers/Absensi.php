@@ -6,6 +6,7 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\JadwalKehadiranModel;
+use Actudent\Admin\Models\SettingModel;
 use PDFCreator;
 
 class Absensi extends \Actudent
@@ -30,6 +31,10 @@ class Absensi extends \Actudent
      */
     private $pdfCreator;
 
+    private $reportSetting;
+
+
+
     protected $days = [
         'minggu', 'senin', 'selasa',
         'rabu', 'kamis', 'jumat', 'sabtu'
@@ -41,6 +46,7 @@ class Absensi extends \Actudent
         $this->jadwal = new JadwalModel;
         $this->jadwalHadir = new JadwalKehadiranModel;
         $this->pdfCreator = new \PDFCreator;
+        $this->reportSetting = new SettingModel;
     }
 
     public function excelMonthlySummary($month, $year, $gradeId, $token)
@@ -54,6 +60,7 @@ class Absensi extends \Actudent
             $monthYear      = os_date()->getMonthName($month) . ' ' . $year;
             $title          = $monthYear . '-' . $grade->grade_name;
             $totalDays      = os_date()->daysInMonth($month, $year);
+            $signSetting    = $this->reportSetting->getSignSetting('monthly_presence_sign');
     
             // set properties
             $spreadsheet->getProperties()
@@ -63,7 +70,7 @@ class Absensi extends \Actudent
     
             $spreadsheet->setActiveSheetIndex(0);
     
-            $titleCell  = ["Rekapitulasi Absensi Bulan {$monthYear}" ];
+            $titleCell  = ["Daftar Absensi Bulan {$monthYear}" ];
             $gradeCell  = ["Kelas {$grade->grade_name}"];
             $header     = ['No.', 'NIS', 'Nama Siswa', 'Tanggal'];
             $note       = ['Keterangan'];
@@ -142,12 +149,23 @@ class Absensi extends \Actudent
             $excel->fillCell($note, $noteFields . '4');
             $excel->fillCell($summary, $noteFields . '5');
             $excel->fillCell($record, 'A6');
-            $excel->fillCell($knownBy, 'B' . $signRows);
-            $excel->fillCell($headMaster, 'B' . $spacedSignRows);
-            $excel->fillCell($includeWaka, 'K' . ($signRows + 1));
-            $excel->fillCell($wakaName, 'K' . $spacedSignRows);
-            $excel->fillCell($dateLocation, 'AB' . $signRows);
-            $excel->fillCell($homeroomTeacher, 'AB' . $spacedSignRows);
+            
+            if($signSetting === 'kepsek,waka,walas') {
+                $excel->fillCell($knownBy, 'B' . $signRows);
+                $excel->fillCell($headMaster, 'B' . $spacedSignRows);
+                $excel->fillCell($includeWaka, 'K' . ($signRows + 1));
+                $excel->fillCell($wakaName, 'K' . $spacedSignRows);
+                $excel->fillCell($dateLocation, 'AB' . $signRows);
+                $excel->fillCell($homeroomTeacher, 'AB' . $spacedSignRows);                
+            } elseif($signSetting === 'kepsek,walas') {
+                $excel->fillCell($knownBy, 'B' . $signRows);
+                $excel->fillCell($headMaster, 'B' . $spacedSignRows);
+                $excel->fillCell($dateLocation, 'AB' . $signRows);
+                $excel->fillCell($homeroomTeacher, 'AB' . $spacedSignRows);  
+            } else {
+                $excel->fillCell($dateLocation, 'AB' . $signRows);
+                $excel->fillCell($homeroomTeacher, 'AB' . $spacedSignRows);  
+            }
     
             // merge cells
             $excel->mergeCells('A1:' . $endFields . '1');
@@ -230,10 +248,12 @@ class Absensi extends \Actudent
                 $data[$key] = $val;
             }
     
-            $title          = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
-            $data['title']  = $title . ' ' . $year;
-            $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
-            $data['data']   = $this->_getMonthlySummary($month, $year, $gradeId);
+            $title                  = 'Rekapitulasi Absensi Bulan ' . os_date()->getMonthName($month);
+            $data['title']          = $title . ' ' . $year;
+            $data['grade']          = $this->absensi->kelas->getClassDetail($gradeId);
+            $data['data']           = $this->_getMonthlySummary($month, $year, $gradeId);
+            $data['signSetting']    = $this->reportSetting->getSignSetting('monthly_summary_sign');
+            
             $filename       = $data['title'] .'_'. time();
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-bulanan', $data);
@@ -253,12 +273,14 @@ class Absensi extends \Actudent
             $semester = $period === '1' ? 'Ganjil' : 'Genap';
             $yearPeriod = $year . ' / ' . ($year + 1);
     
-            $title          = 'Rekapitulasi Absensi Semester ' . $semester;
-            $data['title']  = $title;
-            $data['period'] = 'Tahun Ajaran ' . $yearPeriod;
-            $data['grade']  = $this->absensi->kelas->getClassDetail($gradeId);
-            $data['data']   = $this->_getPeriodSummary($gradeId, $period, $year);
-            $filename       = $title . '_' . $yearPeriod . '_'. time();
+            $title                  = 'Rekapitulasi Absensi Semester ' . $semester;
+            $data['title']          = $title;
+            $data['period']         = 'Tahun Ajaran ' . $yearPeriod;
+            $data['grade']          = $this->absensi->kelas->getClassDetail($gradeId);
+            $data['data']           = $this->_getPeriodSummary($gradeId, $period, $year);
+            $filename               = $title . '_' . $yearPeriod . '_'. time();
+            $data['signSetting']    = $this->reportSetting->getSignSetting('semester_summary_sign');
+            
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-semester', $data);
             // return $html;
@@ -507,9 +529,10 @@ class Absensi extends \Actudent
                 ];
             }
     
-            $data['column']     = $lessonHours;
-            $data['presence']   = $studentPresence;
-            $data['colspan']    = count($lessonHours);
+            $data['column']         = $lessonHours;
+            $data['presence']       = $studentPresence;
+            $data['colspan']        = count($lessonHours);
+            $data['signSetting']    = $this->reportSetting->getSignSetting('daily_presence_sign');
     
             $html       = view('Actudent\Admin\Views\absensi\ekspor-absen', $data);
             $filename   = 'Laporan Absen '. $data['grade']->grade_name . ' ' . $date .'_'. time();
@@ -535,6 +558,7 @@ class Absensi extends \Actudent
             $data['date']           = os_date()->format('d-MM-Y', reverse($date, '-', '-'));
             $journals               = $this->absensi->getJournalByDate($date, $gradeID);
             $data['journals']       = $journals;
+            $data['signSetting']    = $this->reportSetting->getSignSetting('daily_journal_sign');
     
             // get number of presence
             $presenceWrapper = [];

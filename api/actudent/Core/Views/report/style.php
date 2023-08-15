@@ -8,6 +8,10 @@
         margin: 15px 20px;
     }
 
+    .gambar-kop {
+        width: 100%;
+    }
+
     .kop-header {
         padding-left: 10px;
         margin-bottom: 10px;

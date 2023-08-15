@@ -186,7 +186,7 @@ class Actudent extends \CodeIgniter\Controller
      */
     public function reportHeader()
     {
-        return view('Actudent\Core\Views\report\kop-sekolah');
+        return view('Actudent\Core\Views\report\kop-new');
     }
 
     /**
@@ -194,7 +194,7 @@ class Actudent extends \CodeIgniter\Controller
      */
     public function masterSign()
     {
-        return view('Actudent\Core\Views\report\tanda-tangan-full');
+        return view('Actudent\Core\Views\report\tanda-tangan-new');
     }
 
     /**

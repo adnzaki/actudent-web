@@ -12,6 +12,21 @@ class Setting extends \Actudent
         $this->model = new SettingModel;
     }
 
+    public function setSignSetting($value, $type)
+    {
+        if(is_admin()) {
+            $this->model->setSignSetting($value, $type);
+            return $this->response->setJSON(['status' => 'OK']);
+        } else {
+            return $this->response->setJSON(['status' => 'Failed', 'reason' => 'Invalid credential']);
+        }
+    }
+
+    public function getSignSetting($type)
+    {
+        return $this->createResponse($this->model->getSignSetting($type), 'is_admin');
+    }
+
     public function uploadLetterhead()
     {
         if(is_admin()) {
