@@ -39,11 +39,11 @@ class OrganizationModel extends \Actudent\Installer\Models\SetupModel
         ]);
     }
 
-    public function addAdmin($domain)
+    public function addAdmin()
     {
         $values = [
             'user_name'     => 'Administrator',
-            'user_email'    => 'admin@'.$domain,
+            'user_email'    => 'admin@'.get_subdomain(),
             'user_password' => password_hash(env('default_admin_password'), PASSWORD_BCRYPT),
             'user_level'    => 1
         ];
