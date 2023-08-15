@@ -137,7 +137,7 @@ class Dapodik extends \Actudent
 				write_file($filePath , '[');
 				foreach($decoded as $d)
 				{
-					if($d->status_kepegawaian_id === 1)
+					if($d->status_kepegawaian_id === 1 || $d->status_kepegawaian_id === 11)
 					{
 						$staffNik = $d->nip;
 					}
