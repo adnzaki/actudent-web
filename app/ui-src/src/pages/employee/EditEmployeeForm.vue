@@ -18,8 +18,7 @@
           <q-input
             outlined
             :label="$t('staff_input_id')"
-            minlength="10"
-            maxlength="10"
+            maxlength="18"
             dense
             v-model="store.detail.staff_nik"
           />

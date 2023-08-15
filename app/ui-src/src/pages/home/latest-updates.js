@@ -15,6 +15,14 @@ const indonesia = [
     key: '[Perbaikan]',
     desc: 'Memperbaiki nama file pada laporan rekap absen semester'
   },
+  {
+    key: '[Perbaikan]',
+    desc: 'Memperbaiki kesalahan batas jumlah baris pada data Kelas'
+  },
+  {
+    key: '[Perbaikan]',
+    desc: 'Memperbaiki nomor pegawai hanya bisa diisi dengan 10 digit'
+  },
 ]
 
 const english = [
@@ -33,6 +41,14 @@ const english = [
   {
     key: '[Fix]',
     desc: 'Fixed filename on semester presence summary report'
+  },
+  {
+    key: '[Fix]',
+    desc: 'Fixed incorrect rows limit on class data'
+  },
+  {
+    key: '[Fix]',
+    desc: 'Fix employee number can only be filled with 10 digits'
   },
 ]
 

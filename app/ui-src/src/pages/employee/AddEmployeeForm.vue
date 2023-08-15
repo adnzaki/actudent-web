@@ -9,7 +9,7 @@
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">
-          {{ $t("staff_form_add_title") }}
+          {{ $t('staff_form_add_title') }}
         </div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
@@ -20,8 +20,7 @@
           <q-input
             outlined
             :label="$t('staff_input_id')"
-            minlength="10"
-            maxlength="10"
+            maxlength="18"
             dense
             v-model="formData.staff_nik"
           />
@@ -46,7 +45,7 @@
           <ac-error :label="error.staff_phone" />
 
           <div>
-            {{ $t("staff_label_jenis") }}
+            {{ $t('staff_label_jenis') }}
           </div>
           <div class="row q-mb-md">
             <div class="col-6">
@@ -142,28 +141,28 @@
 </template>
 
 <script>
-import { ref, onMounted, computed } from "vue";
-import { useEmployeeStore } from "src/stores/employee";
-import { school, getSchool } from "../../composables/common";
-import { maximizedDialog, cardDialog } from "../../composables/screen";
+import { ref, onMounted, computed } from 'vue'
+import { useEmployeeStore } from 'src/stores/employee'
+import { school, getSchool } from '../../composables/common'
+import { maximizedDialog, cardDialog } from '../../composables/screen'
 
 export default {
   setup() {
-    const store = useEmployeeStore();
+    const store = useEmployeeStore()
 
     const formData = ref({
-      staff_nik: "",
-      staff_name: "",
-      staff_phone: "",
-      staff_type: "teacher",
-      staff_title: "",
+      staff_nik: '',
+      staff_name: '',
+      staff_phone: '',
+      staff_type: 'teacher',
+      staff_title: '',
       staff_photo: null,
-      user_name: "",
-      user_email: "",
-      user_password: "",
-    });
+      user_name: '',
+      user_email: '',
+      user_password: '',
+    })
 
-    onMounted(getSchool);
+    onMounted(getSchool)
 
     const save = () => {
       //let pattern = /(\s|\W+)/ig
@@ -172,31 +171,31 @@ export default {
         data: formData.value,
         edit: false,
         id: null,
-      });
-    };
+      })
+    }
 
     const formOpen = () => {
-      const saveStatus = computed(() => store.saveStatus);
+      const saveStatus = computed(() => store.saveStatus)
       if (saveStatus.value === 200) {
         formData.value = {
-          staff_nik: "",
-          staff_name: "",
-          staff_phone: "",
-          staff_type: "teacher",
-          staff_title: "",
+          staff_nik: '',
+          staff_name: '',
+          staff_phone: '',
+          staff_type: 'teacher',
+          staff_title: '',
           staff_photo: null,
-          user_name: "",
-          user_email: "",
-          user_password: "",
-        };
+          user_name: '',
+          user_email: '',
+          user_password: '',
+        }
 
-        store.saveStatus = 500;
+        store.saveStatus = 500
       }
-    };
+    }
 
     const encodeImage = (val) => {
-      store.uploadImage(val);
-    };
+      store.uploadImage(val)
+    }
 
     return {
       save,
@@ -209,7 +208,7 @@ export default {
       maximizedDialog,
       error: computed(() => store.error),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
-    };
+    }
   },
-};
+}
 </script>
