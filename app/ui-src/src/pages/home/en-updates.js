@@ -1,4 +1,22 @@
 export default {
+  'rc-1.ac.v2.0055': [
+    {
+      key: '[New]',
+      desc: 'Automatic database structure update'
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Added institution grade (SD/SMP/SMA) on SyncAPI for DapodikPuller'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Fixed "subscription period has ended" notification does not appear in login page'
+    },
+    {
+      key: '[New-Dev Only]',
+      desc: 'Added Actudent database installation feature to speed up new school registration process'
+    },
+  ],
   'beta-6.ac.v2.0054': [
     {
       key: '[Improvement]',

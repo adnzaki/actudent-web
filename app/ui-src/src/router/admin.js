@@ -32,6 +32,7 @@ import EventsRoute from 'src/siabsen_pages/admin_events/EventsRoute.vue'
 import EventsAttendance from 'src/siabsen_pages/admin_events/EventsAttendance.vue'
 import Holiday from 'src/siabsen_pages/holiday/MainPage.vue'
 import UsersMain from 'pages/users/UsersMain.vue'
+import ReportSettings from 'pages/report_settings/IndexPage.vue'
 
 export default [
   { path: '', redirect: 'home' },
@@ -97,5 +98,6 @@ export default [
       { path: 'holiday', component: Holiday, beforeEnter: () => routeValidator() },
     ]
   },
-  { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() }
+  { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() },
+  { path: 'report-settings', component: ReportSettings, beforeEnter: () => routeValidator() }
 ]

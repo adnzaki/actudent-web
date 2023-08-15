@@ -169,4 +169,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-range', 'Test::calculatePoints');
 	$routes->add('template/icons', 'Template::icons');
 	$routes->add('template/buttons', 'Template::buttons');
+	$routes->add('pengaturan-laporan/upload-kop', 'Setting::uploadLetterhead');
+	$routes->add('pengaturan-laporan/get-signs/(:any)', 'Setting::getSignSetting/$1');
+	$routes->add('pengaturan-laporan/set-sign/(:any)/(:any)', 'Setting::setSignSetting/$1/$2');
 });

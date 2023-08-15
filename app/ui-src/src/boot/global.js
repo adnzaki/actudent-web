@@ -8,7 +8,7 @@
 import { trim, formatDate } from 'src/composables/common'
 
 export default ({ app }) => {
-  app.config.globalProperties.$buildVersion = 'rc-1.ac.v2.0055'
+  app.config.globalProperties.$buildVersion = 'rc-2.ac.v2.0057'
   app.config.globalProperties.$trim = (text, length = 25, ellipsis = true) => {
     return text === undefined ? '' : trim(text, length, ellipsis)
   },

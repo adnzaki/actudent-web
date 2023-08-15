@@ -162,6 +162,11 @@
           link="/users"
         />
         <submenu-item :label="$t('menu_aplikasi')" :link="appSettingsLink" />
+        <submenu-item
+          v-if="$q.cookies.get(conf.userType) === '1'"
+          :label="$t('app_report_title')"
+          link="/report-settings"
+        />
         <!-- <submenu-item :label="$t('menu_feedback')" link="" /> -->
       </q-expansion-item>
     </q-list>

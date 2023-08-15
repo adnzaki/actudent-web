@@ -12,6 +12,10 @@
         color: crimson;
     }
 
+    .gambar-kop {
+        width: 100%;
+    }
+
     .kop-header {
         padding-left: 10px;
         margin-bottom: 10px;

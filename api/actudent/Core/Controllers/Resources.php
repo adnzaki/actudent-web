@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Config\Services;
+use Actudent\Admin\Models\SettingModel;
 
 class Resources extends \Actudent
 {
@@ -108,25 +109,22 @@ class Resources extends \Actudent
     public function getReportData($token = '')
     {
         $schoolModel = new \Actudent\Core\Models\SekolahModel;
+        $reportSetting = new SettingModel;
         $sekolah = $schoolModel->getDataSekolah()[0];
-        $letterhead = $this->getSchoolLetterHead($token);
+        $letterhead = $reportSetting->getLetterhead();
+        $signs = $this->getSigns($token);
 
         return [
             'namaSekolah'           => $sekolah->school_name ?? '',
             'alamatSekolah'         => $sekolah->school_address ?? '',
-            'lokasiSekolah'         => $letterhead->city ?? '',
-            'emailSekolah'          => $letterhead->email ?? '',
-            'webSekolah'            => $letterhead->website ?? '',
+            'lokasiSekolah'         => $signs->city ?? '',
             'telpSekolah'           => $sekolah->school_telephone ?? '',
             'domainSekolah'         => $sekolah->school_domain ?? '',
-            'logoSekolah'           => $letterhead->school_logo ?? '',
-            'logoOPD'               => $letterhead->opd_logo ?? '',
-            'namaOPD'               => $letterhead->opd_name ?? '',
-            'subOPD'                => $letterhead->sub_opd_name ?? '',
-            'kepalaSekolah'         => $letterhead->headmaster ?? '',
-            'wakaKurikulum'         => $letterhead->co_headmaster ?? '',
-            'nipKepsek'             => $letterhead->headmaster_nip ?? '',
-            'nipWakasek'            => $letterhead->co_headmaster_nip ?? '',
+            'kepalaSekolah'         => $signs->headmaster ?? '',
+            'wakaKurikulum'         => $signs->co_headmaster ?? '',
+            'nipKepsek'             => $signs->headmaster_nip ?? '',
+            'nipWakasek'            => $signs->co_headmaster_nip ?? '',
+            'kopSurat'              => $letterhead,
         ];
     }
 
@@ -135,7 +133,7 @@ class Resources extends \Actudent
      * 
      * @return object
      */
-    public function getSchoolLetterHead($token = '')
+    public function getSigns($token = '')
     {
         if(valid_token($token))
         {

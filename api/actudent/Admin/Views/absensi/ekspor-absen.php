@@ -59,7 +59,7 @@
 			</tbody>
 		</table>
 	</div>
-	<?= view_cell('\Actudent::homeroomSign') ?>
+	<?= view_cell('\Actudent::masterSign') ?>
 </body>
 
 </html>

@@ -1,4 +1,22 @@
 export default {
+  'rc-1.ac.v2.0055': [
+    {
+      key: '[Baru]',
+      desc: 'Pembaruan struktur database otomatis'
+    },
+    {
+      key: '[Peningkatan]',
+      desc: 'Menambahkan tingkat Satuan Pendidikan (SD/SMP/SMA) pada SyncAPI untuk Dapodik Puller'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki notifikasi "periode langganan telah habis" tidak muncul di halaman login'
+    },
+    {
+      key: '[Baru-Dev Only]',
+      desc: 'Menambahkan fitur instalasi database Actudent untuk mempercepat proses registrasi sekolah baru'
+    },
+  ],
   'beta-6.ac.v2.0054': [
     {
       key: '[Peningkatan]',
