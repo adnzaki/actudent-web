@@ -284,7 +284,7 @@ class Absensi extends \Actudent
     
             $html = view('Actudent\Admin\Views\absensi\ekspor-rekap-semester', $data);
             // return $html;
-            PDFCreator::create($html, $filename); 
+            PDFCreator::create($html, $title); 
         }
     }
 
