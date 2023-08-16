@@ -169,6 +169,12 @@ class Jadwal extends \Actudent
                 foreach($normalTimeSchedule as $res)
                 {
                     $penambah = $res['durasi'] / 60;
+                    $lastDecimalDigit = (int)substr($penambah, -1);
+
+                    if($lastDecimalDigit >= 5) {
+                        $penambah += 0.00000000000001;
+                    }
+
                     $selesai = $mulai + $penambah;
                     $getMinute = $this->convertToMinute($selesai);
                     $waktuSelesai = $this->normalizeTime(floor($selesai)) . '.' . $this->normalizeTime($getMinute);
@@ -193,6 +199,7 @@ class Jadwal extends \Actudent
                         'schedule_start'    => $this->normalizeTime(floor($mulai)) . '.' . $this->normalizeTime($minute),
                         'schedule_end'      => $waktuSelesai,
                         'schedule_order'    => $res['index'],
+                        'last_decimal'      => $lastDecimalDigit
                     ];
         
                     $mulai = $selesai;
@@ -209,6 +216,7 @@ class Jadwal extends \Actudent
             return $this->response->setJSON([
                 'status' => '200',
                 'msg' => 'OK',
+                'data'  => $wrapper
             ]);            
         }
     }
