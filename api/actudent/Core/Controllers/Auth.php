@@ -29,7 +29,7 @@ class Auth extends \Actudent
 
             if($this->auth->validasi($username, $password)) {
                 $pengguna = $this->auth->getDataPengguna($username);
-                $tokenExpiration = $remember === 1 
+                $tokenExpiration = $remember === '1' 
                                     ? $this->tokenExp * 12 * 30 // extend expiration to 1 month
                                     : $this->tokenExp; // keep expiration in 2 hours
                 $token = [
