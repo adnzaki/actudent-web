@@ -52,7 +52,7 @@
                 <br>Wali Kelas
                 <p class="mt-80">
                     <strong><?= $grade->staff_name ?></strong>
-                    <br><br><br>NIK. <?= $grade->staff_nik ?>
+                    <br><br><br>NIP/NIK. <?= $grade->staff_nik ?>
                 </p>
                 
             </td>
