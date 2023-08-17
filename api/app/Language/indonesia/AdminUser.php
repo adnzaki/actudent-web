@@ -45,4 +45,8 @@ return [
     'user_change_title'         => 'Ubah Kata Sandi',
     'user_password_wrong'       => 'Kata sandi lama tidak sesuai',
     'user_old_password_required'=> 'Kata sandi lama tidak boleh kosong',
+    'user_token_access'         => 'Token Akses',
+    'user_token_warning'        => 'Perhatian! Harap gunakan token ini hanya dengan pihak ketiga yang terpercaya. Kami tidak bertanggung jawab terhadap segala penyalahgunaan token ini.',
+    'user_copy_token'           => 'Salin Token',
+    'user_token_copied'         => 'Token telah disalin!'
 ];

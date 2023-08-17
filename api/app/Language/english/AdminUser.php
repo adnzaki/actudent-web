@@ -45,4 +45,8 @@ return [
     'user_change_title'         => 'Change Password',
     'user_password_wrong'       => 'Incorrect old password',
     'user_old_password_required'=> 'Old password should not be empty',
+    'user_token_access'         => 'Access Token',
+    'user_token_warning'        => 'Attention! Please use this token only with trusted third-party services. We are not responsible to any abuse of this token.',
+    'user_copy_token'           => 'Copy Token',
+    'user_token_copied'         => 'Token has been copied!'
 ];
