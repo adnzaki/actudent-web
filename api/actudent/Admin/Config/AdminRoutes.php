@@ -172,4 +172,5 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pengaturan-laporan/upload-kop', 'Setting::uploadLetterhead');
 	$routes->add('pengaturan-laporan/get-signs/(:any)', 'Setting::getSignSetting/$1');
 	$routes->add('pengaturan-laporan/set-sign/(:any)/(:any)', 'Setting::setSignSetting/$1/$2');
+	$routes->add('change-password', 'Pengguna::saveNewPassword');
 });

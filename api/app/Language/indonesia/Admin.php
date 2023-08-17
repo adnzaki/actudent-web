@@ -30,7 +30,7 @@ return [
     
     // teks navbar
     'navbar_halo'  => 'Halo',
-    'navbar_profil'  => 'Profil Pengguna',
+    'navbar_profil'  => 'Akun',
     'navbar_sekolah'  => 'Data Sekolah',
     'navbar_keluar'  => 'Keluar',
                 

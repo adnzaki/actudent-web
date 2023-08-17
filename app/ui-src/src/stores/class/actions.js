@@ -164,10 +164,13 @@ export default {
     paging().reloadData()
   },
   getClassList(afterSave = false) {
+    const limit = 25
+    paging().state.rows = limit
+
     paging().getData({
       token: bearerToken,
       lang: localStorage.getItem(conf.userLang),
-      limit: afterSave ? this.paging().limit : 10,
+      limit,
       offset: this.current - 1,
       orderBy: 'grade_name',
       searchBy: 'grade_name',

@@ -5,7 +5,6 @@ class AuthModel extends \Actudent\Core\Models\Connector
     /**
      * tb_user table builder
      * 
-     * @var object
      */
     private $user;
 
@@ -86,7 +85,7 @@ class AuthModel extends \Actudent\Core\Models\Connector
                      ->where(['user_email' => $username])
                      ->orWhere(['user_id' => (int)$username]);
         $userAktif = $find->get()->getResult();
-        if($find->countAllResults() > 0 && $this->userAktif($username))
+        if($find->countAllResults() > 0 && $this->isActiveUser($username))
         {
             if(password_verify($password, $userAktif[0]->user_password))
             {
@@ -110,7 +109,7 @@ class AuthModel extends \Actudent\Core\Models\Connector
      * 
      * @return boolean
      */
-    public function userAktif(string $username): bool
+    public function isActiveUser(string $username): bool
     {
         $query = $this->user
                       ->where('user_email', $username)

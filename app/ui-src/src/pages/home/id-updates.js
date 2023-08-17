@@ -1,4 +1,30 @@
 export default {
+  'rc-2.ac.v2.0060': [
+    {
+      key: '[Baru]',
+      desc: 'Update versi database ke v2.2.7 (Silakan logout terlebih dahulu jika status saat ini masih login)'
+    },
+    {
+      key: '[Baru]',
+      desc: 'Menambahkan opsi ganti gambar kop surat'
+    },
+    {
+      key: '[Baru]',
+      desc: 'Menambahkan opsi tanda tangan laporan'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki nama file pada laporan rekap absen semester'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki kesalahan batas jumlah baris pada data Kelas'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki nomor pegawai hanya bisa diisi dengan 10 digit'
+    },
+  ],
   'rc-1.ac.v2.0055': [
     {
       key: '[Baru]',

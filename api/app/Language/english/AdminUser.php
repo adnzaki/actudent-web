@@ -39,4 +39,14 @@ return [
     'user_attention'            => 'Attention',
     'user_manage_info'          => 'Please refer to staff/parent menu to add or delete user',
     'user_reset_password'       => 'Reset password',
+    'user_old_password'         => 'Old password',
+    'user_change_progress'      => 'Changing password...',
+    'user_change_success'       => 'Password has successfully changed',
+    'user_change_title'         => 'Change Password',
+    'user_password_wrong'       => 'Incorrect old password',
+    'user_old_password_required'=> 'Old password should not be empty',
+    'user_token_access'         => 'Access Token',
+    'user_token_warning'        => 'Attention! Please use this token only with trusted third-party services. We are not responsible to any abuse of this token.',
+    'user_copy_token'           => 'Copy Token',
+    'user_token_copied'         => 'Token has been copied!'
 ];

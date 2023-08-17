@@ -106,7 +106,7 @@ class PenggunaModel extends \Actudent\Core\Models\Connector
      * 
      * @param int $id
      * 
-     * @return array
+     * @return object
      */
     public function getUserDetail(int $id): object
     {

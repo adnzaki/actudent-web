@@ -16,6 +16,7 @@
               <other-actions
                 icon="o_manage_accounts"
                 :label="$t('navbar_profil')"
+                link="/account"
               />
               <!-- <other-actions icon="o_school" :label="$t('navbar_sekolah')" /> -->
               <other-actions
