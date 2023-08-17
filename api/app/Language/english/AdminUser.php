@@ -39,4 +39,10 @@ return [
     'user_attention'            => 'Attention',
     'user_manage_info'          => 'Please refer to staff/parent menu to add or delete user',
     'user_reset_password'       => 'Reset password',
+    'user_old_password'         => 'Old password',
+    'user_change_progress'      => 'Changing password...',
+    'user_change_success'       => 'Password has successfully changed',
+    'user_change_title'         => 'Change Password',
+    'user_password_wrong'       => 'Incorrect old password',
+    'user_old_password_required'=> 'Old password should not be empty',
 ];

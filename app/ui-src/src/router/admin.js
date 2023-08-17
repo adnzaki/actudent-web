@@ -1,4 +1,5 @@
 import { routeValidator } from '../composables/validate-token'
+import UserAccount from 'src/pages/account/IndexPage.vue'
 import PageIndex from 'pages/home/Index.vue'
 import ParentMain from 'pages/parent/ParentMain.vue'
 import StudentMain from 'pages/student/StudentMain.vue'
@@ -54,6 +55,7 @@ export default [
       { path: 'period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator() },
     ]
   },
+  { path: '/account', component: UserAccount, beforeEnter: () => routeValidator('valid_token') },
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
   { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() },

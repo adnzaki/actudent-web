@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Admin\Models\PenggunaModel;
+use Actudent\Core\Models\AuthModel;
 
 class Pengguna extends \Actudent
 {
@@ -72,7 +73,7 @@ class Pengguna extends \Actudent
     public function save($id)
     {
         if(is_admin()) {
-            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+            $validation = $this->validation(); // [0 => $rules, 1 => $messages]
             if(! validate($validation[0], $validation[1])) {
                 return $this->response->setJSON([
                     'code' => '500',
@@ -89,10 +90,56 @@ class Pengguna extends \Actudent
         }
     }
 
-
-    private function validation($id)
+    public function saveNewPassword()
     {
-        $form = $this->formData();
+        if(valid_token()) {
+            $user = $this->getDataPengguna(bearer_token());
+            
+            $validation = $this->changePasswordValidation(); // [0 => $rules, 1 => $messages]
+            if(! validate($validation[0], $validation[1])) {
+                return $this->response->setJSON([
+                    'code'  => 500,
+                    'msg'   => $this->validation->getErrors(),
+                ]);
+            } else {
+                $auth = new AuthModel;
+                if($auth->validasi($user->user_email, $this->request->getPost('old_password'))) {
+                    $data = ['user_password' => $this->request->getPost('user_password')];
+                    $this->user->update($data, $user->user_id);
+                    
+                    return $this->response->setJSON([
+                        'code'  => 200,
+                        'msg'   => 'Account password updated'
+                    ]);
+                } else {
+                    return $this->response->setJSON([
+                        'code'  => 503,
+                        'msg'   => get_lang('user_password_wrong'),
+                    ]);
+                }
+            }
+        }
+    }
+
+    private function changePasswordValidation()
+    {
+        $validation = $this->validation();
+
+        $rules = ['old_password' => 'required'];
+        $messages = [
+            'old_password' => [
+                'required' => get_lang('AdminUser.user_old_password_required'),
+            ]
+        ];
+
+        return [
+            array_merge($rules, $validation[0]),
+            array_merge($messages, $validation[1])
+        ];
+    }
+
+    private function validation()
+    {
         $rules = [                
                 'user_password'         => 'required|min_length[8]',
                 'user_password_confirm' => 'required|matches[user_password]'
