@@ -1,4 +1,30 @@
 export default {
+  'rc-2.ac.v2.0060': [
+    {
+      key: '[New]',
+      desc: 'Update database version to v2.2.7 (Please logout first if you are still logged in)'
+    },
+    {
+      key: '[New]',
+      desc: 'Added option to change letterhead image'
+    },
+    {
+      key: '[New]',
+      desc: 'Added options for report signs'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Fixed filename on semester presence summary report'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Fixed incorrect rows limit on class data'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Fix employee number can only be filled with 10 digits'
+    },
+  ],
   'rc-1.ac.v2.0055': [
     {
       key: '[New]',
