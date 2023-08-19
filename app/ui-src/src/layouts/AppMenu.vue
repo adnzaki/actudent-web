@@ -38,6 +38,12 @@
           link="/presence"
         />
         <menu-item icon="today" :label="$t('menu_agenda')" link="/agenda" />
+        <menu-item
+          v-if="conf.mode === 'development'"
+          icon="list_alt"
+          :label="$t('menu_timeline')"
+          link="/post"
+        />
         <!-- <menu-item icon="restore" :label="$t('menu_post')" link="" /> -->
       </div>
       <menu-item
