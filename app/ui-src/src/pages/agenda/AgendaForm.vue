@@ -139,8 +139,9 @@
 
           <q-btn
             icon="turned_in"
+            unelevated
             :style="inviteBtn"
-            color="accent"
+            class="add-btn"
             :label="$t('agenda_add_guests')"
             v-if="userType === '1'"
             @click="showGuestSelector"
@@ -264,12 +265,11 @@
         />
         <q-btn
           v-if="$q.cookies.get(conf.userType) === '1'"
-          class="mobile-form-btn"
+          class="mobile-form-btn save-btn"
+          unelevated
           :label="$t('simpan')"
           @click="save"
           :disable="disableSaveButton"
-          color="primary"
-          padding="8px 20px"
         />
 
         <!-- delete button for mobile -->

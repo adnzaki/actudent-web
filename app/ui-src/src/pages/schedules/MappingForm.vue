@@ -1,7 +1,11 @@
 <template>
-  <q-dialog no-backdrop-dismiss v-model="store.schedule.showForm" 
-    @before-show="formOpen" @hide="formClose"
-    :maximized="maximizedDialog()">
+  <q-dialog
+    no-backdrop-dismiss
+    v-model="store.schedule.showForm"
+    @before-show="formOpen"
+    @hide="formClose"
+    :maximized="maximizedDialog()"
+  >
     <q-card class="q-pa-sm" :style="cardDialog()">
       <q-card-section class="row items-center q-pb-none">
         <div class="text-h6 text-capitalize">{{ $t('jadwal_add_title') }}</div>
@@ -12,19 +16,37 @@
       <q-card-section class="scroll card-section">
         <!-- Schedule list -->
         <div v-if="schedule.showLessonList">
-          <q-input standout dense disable
-            v-for="(item, index) in schedule.lessonsInput" :key="index"
+          <q-input
+            standout
+            dense
+            disable
+            v-for="(item, index) in schedule.lessonsInput"
+            :key="index"
             v-model="item.text"
-            class="q-mb-xs">
+            class="q-mb-xs"
+          >
             <template v-slot:after>
-              <q-btn round dense flat icon="delete" color="negative" @click="removeLesson(item.id)" />
+              <q-btn
+                round
+                dense
+                flat
+                icon="delete"
+                color="negative"
+                @click="removeLesson(item.id)"
+              />
             </template>
-          </q-input>  
+          </q-input>
 
           <div class="column items-center q-mt-md">
-            <p v-if="schedule.lessonsInput.length === 0"> {{ $t('jadwal_kosong') }} </p>
-            <q-btn round color="primary" icon="add" @click="showFormInput">
-              <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+            <p v-if="schedule.lessonsInput.length === 0">
+              {{ $t('jadwal_kosong') }}
+            </p>
+            <q-btn round class="add-btn" icon="add" @click="showFormInput">
+              <q-tooltip
+                anchor="top middle"
+                self="bottom middle"
+                :offset="[10, 10]"
+              >
                 {{ $t('tambah') }}
               </q-tooltip>
             </q-btn>
@@ -33,18 +55,24 @@
 
         <!-- Add schedule's item -->
         <mapping-form-input />
-
       </q-card-section>
-      
+
       <q-separator />
 
       <q-card-actions align="right">
-        <q-btn flat v-if="!$q.screen.lt.sm" :label="$t('tutup')" color="negative" v-close-popup />
-        <q-btn :label="$t('simpan')" 
-          class="mobile-form-btn"
-          :disable="disableSaveButton" 
-          @click="store.saveSchedules()" 
-          color="primary" padding="8px 20px" 
+        <q-btn
+          flat
+          v-if="!$q.screen.lt.sm"
+          :label="$t('tutup')"
+          color="negative"
+          v-close-popup
+        />
+        <q-btn
+          :label="$t('simpan')"
+          class="mobile-form-btn save-btn"
+          unelevated
+          :disable="disableSaveButton"
+          @click="store.saveSchedules()"
         />
       </q-card-actions>
     </q-card>
@@ -65,10 +93,10 @@ export default {
 
     const formOpen = () => {
       const saveStatus = computed(() => store.schedule.saveStatus)
-      if(saveStatus.value === 200) {
+      if (saveStatus.value === 200) {
         formValue = {
           lesson_id: '',
-          teacher_id: ''
+          teacher_id: '',
         }
 
         store.schedule.saveStatus = 500
@@ -83,7 +111,7 @@ export default {
       store.schedule.lessonOptions = store.schedule.normalList
     }
 
-    const removeLesson = id => store.removeLesson(id)
+    const removeLesson = (id) => store.removeLesson(id)
 
     const formClose = () => {
       store.schedule.lessonOptions = store.schedule['normalList']
@@ -93,17 +121,18 @@ export default {
       store.helper.disableSaveButton = false
     }
 
-    return { 
+    return {
       store,
       formOpen,
       formClose,
       removeLesson,
       showFormInput,
-      maximizedDialog, cardDialog,
+      maximizedDialog,
+      cardDialog,
       error: computed(() => store.error),
       schedule: computed(() => store.schedule),
       disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
-  }
+  },
 }
 </script>

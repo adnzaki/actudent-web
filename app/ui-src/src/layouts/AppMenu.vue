@@ -41,7 +41,7 @@
         <menu-item
           v-if="conf.mode === 'development'"
           icon="list_alt"
-          :label="$t('menu_timeline')"
+          :label="$t('menu_post')"
           link="/post"
         />
         <!-- <menu-item icon="restore" :label="$t('menu_post')" link="" /> -->

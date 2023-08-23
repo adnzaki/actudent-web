@@ -2,9 +2,9 @@
   <div class="col-12">
     <div class="q-gutter-xs mobile-hide">
       <q-btn
-        color="deep-purple"
         icon="add"
-        class="q-pl-sm"
+        class="q-pl-sm add-btn"
+        unelevated
         :label="$t('tambah')"
         @click="store.classMember.showForm = true"
       />
@@ -18,7 +18,7 @@
       <q-btn
         fab
         icon="add"
-        color="deep-purple"
+        class="add-btn"
         @click="store.classMember.showForm = true"
       />
     </q-page-sticky>

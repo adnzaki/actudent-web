@@ -1,16 +1,26 @@
 <template>
   <div class="col-12 col-md-4">
     <div class="q-gutter-xs mobile-hide">
-      <q-btn color="deep-purple" icon="settings" class="q-pl-sm" :label="$t('menu_pengaturan')"
-        @click="store.showSettingsForm = true" />
+      <q-btn
+        icon="add"
+        unelevated
+        class="q-pl-sm add-btn"
+        :label="$t('menu_pengaturan')"
+        @click="store.showSettingsForm = true"
+      />
     </div>
 
-    <q-page-sticky position="bottom-right" 
-      :offset="fabPos" 
+    <q-page-sticky
+      position="bottom-right"
+      :offset="fabPos"
       class="mobile-only force-elevated"
-      v-if="!store.showSettingsForm">
-      <q-btn fab icon="settings" color="deep-purple" 
-        @click="store.showSettingsForm = true" 
+      v-if="!store.showSettingsForm"
+    >
+      <q-btn
+        fab
+        icon="settings"
+        class="add-btn"
+        @click="store.showSettingsForm = true"
       />
     </q-page-sticky>
   </div>
@@ -24,11 +34,11 @@ export default {
   name: 'MainButton',
   setup() {
     const store = useScheduleStore()
-    
-    return { 
+
+    return {
       store,
-      fabPos
+      fabPos,
     }
-  }
+  },
 }
 </script>

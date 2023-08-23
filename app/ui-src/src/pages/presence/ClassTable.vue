@@ -37,7 +37,7 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="fact_check"
                   @click="
                     presenceAction(item.grade_id, item.grade_name, 'fill')
@@ -46,7 +46,7 @@
                   <btn-tooltip :label="$t('absensi_isi_kehadiran')" />
                 </q-btn>
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="date_range"
                   @click="
                     presenceAction(
@@ -59,7 +59,7 @@
                   <btn-tooltip :label="$t('absensi_rekap_bulanan')" />
                 </q-btn>
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="insert_chart_outlined"
                   @click="
                     presenceAction(
@@ -72,13 +72,7 @@
                   <btn-tooltip :label="$t('absensi_rekap_semester')" />
                 </q-btn>
               </q-btn-group>
-              <q-btn
-                round
-                icon="more_vert"
-                color="accent"
-                class="mobile-only"
-                outline
-              >
+              <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
                   <q-list style="min-width: 150px">
                     <q-item

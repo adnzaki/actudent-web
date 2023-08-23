@@ -47,7 +47,7 @@
               v-else
               @click="toggleUserSelection(item.id)"
               rounded
-              color="teal"
+              color="grey-7"
             />
           </q-item-section>
         </q-item>
@@ -62,12 +62,11 @@
     <q-card-actions align="right">
       <q-btn
         v-if="$q.cookies.get(conf.userType) === '1'"
-        class="mobile-form-btn"
+        class="mobile-form-btn save-btn"
+        unelevated
         :label="$t('selesai')"
         @click="done"
         :disable="disableSaveButton"
-        color="primary"
-        padding="8px 20px"
       />
     </q-card-actions>
   </q-card>

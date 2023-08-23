@@ -21,7 +21,7 @@
 
   <div class="col-12 col-sm-4 col-md-2 q-mt-sm q-px-xs">
     <q-btn
-      color="deep-purple"
+      class="add-btn"
       style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px"
       icon="preview"
       :label="$t('tampilkan')"

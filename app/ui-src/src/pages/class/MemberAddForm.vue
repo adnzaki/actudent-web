@@ -18,7 +18,7 @@
       <q-card-section class="card-section">
         <search-box :label="$t('kelas_group_member_search')" />
         <q-scroll-area class="in-form-scroll-area">
-          <q-markup-table bordered>
+          <q-markup-table bordered wrap-cells>
             <thead>
               <tr>
                 <th
@@ -50,7 +50,7 @@
                 <td class="text-left">{{ item.student_name }}</td>
                 <td class="text-left">
                   <q-btn
-                    color="deep-purple"
+                    color="teal"
                     icon="add"
                     @click="addMember(item.student_id)"
                   >

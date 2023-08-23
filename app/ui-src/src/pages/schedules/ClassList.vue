@@ -39,23 +39,17 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="list"
                   @click="showLessons(item.grade_id, item.grade_name)"
                 />
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="menu_book"
                   @click="showSchedules(item.grade_id, item.grade_name)"
                 />
               </q-btn-group>
-              <q-btn
-                round
-                icon="more_vert"
-                color="accent"
-                class="mobile-only"
-                outline
-              >
+              <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
                   <q-list style="min-width: 200px">
                     <q-item

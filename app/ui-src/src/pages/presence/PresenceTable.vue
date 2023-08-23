@@ -1,7 +1,7 @@
 <template>
   <div :class="btnAndTableDistance">
     <q-scroll-area :class="scrollArea">
-      <q-markup-table bordered>
+      <q-markup-table bordered wrap-cells>
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]">
@@ -23,8 +23,7 @@
             <td :class="['text-left', checkColWidth()]">
               <q-checkbox v-model="store.studentPresence" :val="item.id" />
             </td>
-            <td class="text-left mobile-hide">{{ item.name }}</td>
-            <td class="text-left mobile-only">{{ $trim(item.name, 30) }}</td>
+            <td class="text-left">{{ item.name }}</td>
             <td class="text-left">
               <div v-if="item.statusID !== ''">
                 <q-badge :color="presenceStatus(item.statusID)">{{
@@ -36,25 +35,25 @@
             <td class="text-left mobile-hide">
               <q-btn-group v-if="presenceButtons">
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="done"
                   @click="savePresence(1, item.id)"
                   ><btn-tooltip :label="$t('absensi_hadir')"
                 /></q-btn>
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="health_and_safety"
                   @click="savePresence(3, item.id)"
                   ><btn-tooltip :label="$t('absensi_sakit')"
                 /></q-btn>
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="error_outline"
                   @click="showPermissionForm(item.id)"
                   ><btn-tooltip :label="$t('absensi_izin')"
                 /></q-btn>
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="not_interested"
                   @click="savePresence(0, item.id)"
                   ><btn-tooltip :label="$t('absensi_alfa')"

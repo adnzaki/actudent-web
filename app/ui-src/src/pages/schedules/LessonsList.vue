@@ -35,23 +35,17 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="edit"
                   @click="store.getDetailLesson(item.lessons_grade_id)"
                 />
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="delete"
                   @click="store.showDeleteConfirm(item.lessons_grade_id)"
                 />
               </q-btn-group>
-              <q-btn
-                round
-                icon="more_vert"
-                color="accent"
-                class="mobile-only"
-                outline
-              >
+              <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item

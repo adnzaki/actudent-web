@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table bordered wrap-cells>
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]">
@@ -46,32 +46,23 @@
               />
             </td>
             <td class="text-left mobile-hide">{{ item.student_nis }}</td>
-            <td class="text-left mobile-hide">{{ item.student_name }}</td>
-            <td class="text-left mobile-only">
-              {{ $trim(item.student_name, 30) }}
-            </td>
+            <td class="text-left">{{ item.student_name }}</td>
             <td class="text-left mobile-hide">{{ item.parent_father_name }}</td>
             <td class="text-left mobile-hide">{{ item.parent_mother_name }}</td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  color="accent"
                   icon="edit"
+                  class="action-btn"
                   @click="getDetail(item.student_id)"
                 />
                 <q-btn
-                  color="accent"
+                  class="action-btn"
                   icon="delete"
                   @click="showDeleteConfirm(item.student_id)"
                 />
               </q-btn-group>
-              <q-btn
-                round
-                icon="more_vert"
-                color="accent"
-                class="mobile-only"
-                outline
-              >
+              <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item

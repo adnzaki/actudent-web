@@ -19,22 +19,79 @@
 
 .q-btn,
 .q-btn-group {
-  border-radius: 10px;
+  border-radius: 15px;
+  box-shadow: none !important;
+  text-transform: none;
 }
 
+// .q-page-sticky .q-btn {
+//   border-radius: 15px;
+// }
+
 .q-btn {
-  padding-top: 7px;
-  padding-bottom: 7px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .q-btn-group .q-btn {
   padding-top: 5px;
   padding-bottom: 5px;
+  color: #000;
+}
+
+// Custom button style
+// -------------------------------------------------
+.add-btn {
+  background-color: $grey-8;
+  color: #fff;
+}
+
+.delete-btn {
+  background-color: $deep-orange-8;
+  color: #fff;
+}
+
+.save-btn {
+  background-color: $teal-6;
+  color: #fff;
+}
+
+.save-btn,
+.close-btn {
+  padding: 8px 20px !important;
+}
+
+.action-btn {
+  background-color: $grey-8;
+  color: #fff !important;
+}
+
+.header-gradient {
+  // background: rgb(28, 142, 218);
+  // background: linear-gradient(
+  //   53deg,
+  //   rgba(28, 142, 218, 1) 36%,
+  //   rgba(84, 201, 232, 1) 61%,
+  //   rgba(3, 182, 174, 1) 91%
+  // );
+}
+
+.home-card-present {
+  background: rgb(38, 166, 154);
+  background: linear-gradient(
+    143deg,
+    rgba(38, 166, 154, 1) 38%,
+    rgba(16, 216, 197, 1) 69%
+  );
 }
 
 .q-dialog__backdrop {
   backdrop-filter: blur(5px);
   background-color: #00000069;
+}
+
+.user-menu {
+  border-radius: 10px;
 }
 
 @media (max-width: $breakpoint-xs-max) {

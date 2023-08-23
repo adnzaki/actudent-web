@@ -8,7 +8,7 @@
         >
         <!-- Notification button here -->
         <q-btn flat round dense icon="account_circle">
-          <q-menu>
+          <q-menu class="user-menu">
             <q-list separator>
               <other-actions
                 icon="o_manage_accounts"
@@ -79,7 +79,7 @@ export default defineComponent({
       if (headerColor.value === 'dark') {
         header.value = 'bg-grey-10'
       } else {
-        header.value = 'bg-blue'
+        header.value = 'header-gradient'
       }
     }
 
