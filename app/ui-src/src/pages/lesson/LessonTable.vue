@@ -39,12 +39,12 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="edit"
                   @click="store.getDetail(item.lesson_id)"
                 />
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="delete"
                   @click="store.showDeleteConfirm(item.lesson_id)"
                 />
@@ -85,6 +85,7 @@ import { watch, computed } from 'vue'
 import { usePagingStore } from 'ss-paging-vue'
 import { useLessonStore } from 'src/stores/lesson'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   name: 'LessonTable',
@@ -104,6 +105,7 @@ export default {
     return {
       store,
       paging,
+      actionButton,
       checkColWidth,
       data: computed(() => paging.state.data),
     }

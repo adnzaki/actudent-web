@@ -49,12 +49,12 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="edit"
                   @click="getDetail(item.user_id)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="delete"
                   @click="
                     showDeleteConfirm({
@@ -105,6 +105,7 @@ import { watch, computed } from 'vue'
 import { usePagingStore } from 'ss-paging-vue'
 import { useEmployeeStore } from 'src/stores/employee'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   setup() {
@@ -121,6 +122,7 @@ export default {
 
     return {
       store,
+      actionButton,
       checkColWidth,
       data: computed(() => paging.state.data),
       selectAll: () => store.selectAll(),

@@ -4,7 +4,7 @@
       <q-btn
         icon="add"
         unelevated
-        class="q-pl-sm add-btn"
+        :class="['q-pl-sm', addButton]"
         :label="$t('tambah')"
         @click="store.lesson.showAddForm = true"
       />
@@ -25,7 +25,7 @@
       <q-btn
         fab
         icon="add"
-        class="add-btn"
+        :class="addButton"
         @click="store.lesson.showAddForm = true"
         v-if="selected.length === 0"
       />
@@ -44,6 +44,7 @@
 import { computed } from 'vue'
 import { fabPos } from 'src/composables/fab'
 import { useScheduleStore } from 'src/stores/schedule'
+import { addButton } from 'src/composables/mode'
 
 export default {
   name: 'LessonsButton',
@@ -53,6 +54,7 @@ export default {
     return {
       store,
       fabPos,
+      addButton,
       selected: computed(() => store.lesson.selected),
     }
   },

@@ -4,7 +4,7 @@
       <q-btn
         icon="add"
         unelevated
-        class="q-pl-sm add-btn"
+        :class="['q-pl-sm', addButton]"
         :label="$t('tambah')"
         @click="showAddForm"
       />
@@ -26,7 +26,7 @@
       <q-btn
         fab
         icon="add"
-        class="add-btn"
+        :class="addButton"
         @click="showAddForm"
         v-if="selected.length === 0"
       />
@@ -46,7 +46,7 @@ import { computed } from 'vue'
 import { flashAlert } from 'src/composables/notify'
 import { fabPos } from 'src/composables/fab'
 import { useStudentStore } from 'src/stores/student'
-import { t } from 'src/composables/common'
+import { t, addButton } from 'src/composables/common'
 
 export default {
   setup() {
@@ -62,10 +62,11 @@ export default {
 
     return {
       store,
-      multipleDeleteConfirm: () => store.multipleDeleteConfirm(),
-      showAddForm,
-      selected: computed(() => store.selectedStudents),
       fabPos,
+      addButton,
+      showAddForm,
+      multipleDeleteConfirm: () => store.multipleDeleteConfirm(),
+      selected: computed(() => store.selectedStudents),
     }
   },
 }

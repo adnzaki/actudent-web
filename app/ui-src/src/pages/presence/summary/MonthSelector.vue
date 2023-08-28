@@ -19,7 +19,7 @@
   </div>
   <div class="col-12 col-sm-4 col-md-2 q-mt-sm q-px-xs">
     <q-btn
-      class="add-btn"
+      :class="addButton"
       style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px"
       icon="preview"
       :label="$t('tampilkan')"
@@ -32,7 +32,7 @@
     class="force-elevated"
   >
     <q-fab
-      color="secondary"
+      :color="fabColor"
       icon="print"
       direction="up"
       :disable="draggingFab"
@@ -72,7 +72,7 @@ import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { useRoute } from 'vue-router'
-import { conf } from 'src/composables/common'
+import { conf, addButton, fabColor } from 'src/composables/common'
 import { usePresenceStore } from 'src/stores/presence'
 import { fabPos, draggingFab, moveFab } from 'src/composables/fab'
 
@@ -144,6 +144,8 @@ export default {
     return {
       store,
       period,
+      fabColor,
+      addButton,
       monthOptions,
       exportExcel,
       exportPdf,

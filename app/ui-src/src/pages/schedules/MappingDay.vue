@@ -24,7 +24,7 @@
           :header-class="listItemClass(item.lesson_code)"
           :expand-icon-class="expandIconClass(item.lesson_code)"
         >
-          <q-card class="bg-blue-grey-1">
+          <q-card :class="listBackground">
             <q-card-section>
               <q-markup-table dense separator="none">
                 <tbody>
@@ -56,7 +56,7 @@
       </q-list>
 
       <q-card-actions vertical>
-        <q-btn class="add-btn" @click="store.showMappingForm(target)">{{
+        <q-btn :class="addButton" @click="store.showMappingForm(target)">{{
           $t('kelola')
         }}</q-btn>
       </q-card-actions>
@@ -65,14 +65,17 @@
 </template>
 
 <script>
-import { computed } from 'vue'
+import { computed, watch, ref, onMounted } from 'vue'
 import { useScheduleStore } from 'src/stores/schedule'
+import { addButton } from 'src/composables/mode'
+import { useQuasar } from 'quasar'
 
 export default {
   name: 'MappingDay',
   props: ['day', 'target'],
   setup() {
     const store = useScheduleStore()
+    const $q = useQuasar()
 
     const listItemClass = (code) => {
       return code === 'REST' ? 'bg-teal text-white text-bold' : ''
@@ -82,11 +85,19 @@ export default {
       return code === 'REST' ? 'text-white' : ''
     }
 
+    const listBackground = ref('bg-blue-grey-1')
+    onMounted(() => {
+      if ($q.dark.isActive) listBackground.value = 'bg-grey-9'
+      else listBackground.value = 'bg-blue-grey-1'
+    })
+
     return {
       store,
-      schedules: computed(() => store.schedule.list),
+      addButton,
       listItemClass,
+      listBackground,
       expandIconClass,
+      schedules: computed(() => store.schedule.list),
     }
   },
 }

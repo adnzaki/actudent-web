@@ -46,18 +46,22 @@
               />
             </td>
             <td class="text-left mobile-hide">{{ item.student_nis }}</td>
-            <td class="text-left">{{ item.student_name }}</td>
+            <td class="text-left mobile-hide">{{ item.student_name }}</td>
+            <td class="text-left mobile-only">
+              {{ item.student_name }}<br />
+              <small class="text-grey-8">NIS: {{ item.student_nis }}</small>
+            </td>
             <td class="text-left mobile-hide">{{ item.parent_father_name }}</td>
             <td class="text-left mobile-hide">{{ item.parent_mother_name }}</td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
                   icon="edit"
-                  class="action-btn"
+                  :class="actionButton"
                   @click="getDetail(item.student_id)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="delete"
                   @click="showDeleteConfirm(item.student_id)"
                 />
@@ -98,6 +102,7 @@ import { watch, computed } from 'vue'
 import { usePagingStore } from 'ss-paging-vue'
 import { useStudentStore } from 'src/stores/student'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   setup() {
@@ -114,6 +119,7 @@ export default {
 
     return {
       store,
+      actionButton,
       checkColWidth,
       data: computed(() => paging.state.data),
       selectAll: () => store.selectAll(),

@@ -48,17 +48,17 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="edit"
                   @click="store.getDetail(item.grade_id)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="group"
                   @click="showGroupMember(item.grade_id, item.grade_name)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="delete"
                   @click="store.showDeleteConfirm(item.grade_id)"
                 />
@@ -108,6 +108,7 @@ import { useRouter } from 'vue-router'
 import { usePagingStore } from 'ss-paging-vue'
 import { useClassStore } from 'src/stores/class'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   name: 'ClassTable',
@@ -131,6 +132,7 @@ export default {
 
     return {
       store,
+      actionButton,
       data: pagingData,
       checkColWidth,
       showGroupMember,

@@ -35,7 +35,7 @@
             <td class="text-left">
               <q-btn
                 v-if="conf.mode === 'production'"
-                class="action-btn"
+                :class="actionButton"
                 icon="o_autorenew"
                 @click="getDetail(item.id)"
               >
@@ -44,14 +44,14 @@
               <div v-else>
                 <q-btn-group class="mobile-hide">
                   <q-btn
-                    class="action-btn"
+                    :class="actionButton"
                     icon="o_autorenew"
                     @click="getDetail(item.id)"
                   >
                     <btn-tooltip :label="$t('user_reset_password')" />
                   </q-btn>
                   <q-btn
-                    class="action-btn"
+                    :class="actionButton"
                     icon="o_person_off"
                     @click="showDeactivateConfirm(item.id)"
                   >
@@ -106,6 +106,7 @@ import { conf } from 'src/composables/common'
 import { useUserStore } from 'src/stores/user'
 import { usePagingStore } from 'ss-paging-vue'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/common'
 
 export default {
   setup() {
@@ -116,6 +117,7 @@ export default {
       conf,
       store,
       paging,
+      actionButton,
       checkColWidth,
       data: computed(() => paging.state.data),
       getDetail: (id) => store.getUserDetail(id),

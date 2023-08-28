@@ -39,12 +39,12 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="list"
                   @click="showLessons(item.grade_id, item.grade_name)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="menu_book"
                   @click="showSchedules(item.grade_id, item.grade_name)"
                 />
@@ -91,6 +91,7 @@ import { useRouter } from 'vue-router'
 import { usePagingStore } from 'ss-paging-vue'
 import { useScheduleStore } from 'src/stores/schedule'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   name: 'ClassList',
@@ -115,6 +116,7 @@ export default {
       store,
       paging,
       showLessons,
+      actionButton,
       showSchedules,
       checkColWidth,
       data: computed(() => paging.state.data),

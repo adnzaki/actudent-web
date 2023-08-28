@@ -35,12 +35,12 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="edit"
                   @click="store.getDetail(item.room_id)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="delete"
                   @click="store.showDeleteConfirm(item.room_id)"
                 />
@@ -81,6 +81,7 @@ import { watch, computed, defineComponent } from 'vue'
 import { checkColWidth } from 'src/composables/screen'
 import { useRoomStore } from 'src/stores/room'
 import { usePagingStore } from 'ss-paging-vue'
+import { actionButton } from 'src/composables/mode'
 
 export default defineComponent({
   name: 'RoomTable',
@@ -99,6 +100,7 @@ export default defineComponent({
     return {
       store,
       paging,
+      actionButton,
       data: pagingData,
       checkColWidth,
     }

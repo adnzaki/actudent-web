@@ -8,6 +8,7 @@ import { bearerToken, redirect } from './subscription'
 import { axios, core, admin, teacher, install } from 'boot/axios'
 import { appConfig as conf } from '../../actudent.config'
 import { flashAlert, errorNotif, timeout } from './notify'
+import { actionButton, addButton, fabColor } from 'src/composables/mode'
 
 const userType = Cookies.get(conf.userType)
 const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)
@@ -66,6 +67,7 @@ export {
   school,
   Cookies,
   timeout,
+  fabColor,
   redirect,
   userType,
   getSchool,
@@ -80,5 +82,6 @@ export {
   isAuthenticated,
   createQueryString,
   pengguna, getPengguna,
+  actionButton, addButton,
   axios, core, admin, teacher, install
 }

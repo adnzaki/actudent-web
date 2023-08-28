@@ -4,7 +4,7 @@
       <q-btn
         icon="add"
         unelevated
-        class="q-pl-sm add-btn"
+        :class="['q-pl-sm', addButton]"
         :label="$t('tambah')"
         @click="store.showAddForm = true"
       />
@@ -26,7 +26,7 @@
       <q-btn
         fab
         icon="add"
-        class="add-btn"
+        :class="addButton"
         @click="store.showAddForm = true"
         v-if="selected.length === 0"
       />
@@ -45,6 +45,7 @@
 import { computed } from 'vue'
 import { fabPos } from 'src/composables/fab'
 import { useRoomStore } from 'src/stores/room'
+import { addButton } from 'src/composables/mode'
 
 export default {
   name: 'MainButton',
@@ -53,6 +54,7 @@ export default {
 
     return {
       store,
+      addButton,
       selected: computed(() => store.selectedRooms),
       fabPos,
     }

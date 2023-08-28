@@ -37,7 +37,7 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="fact_check"
                   @click="
                     presenceAction(item.grade_id, item.grade_name, 'fill')
@@ -46,7 +46,7 @@
                   <btn-tooltip :label="$t('absensi_isi_kehadiran')" />
                 </q-btn>
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="date_range"
                   @click="
                     presenceAction(
@@ -59,7 +59,7 @@
                   <btn-tooltip :label="$t('absensi_rekap_bulanan')" />
                 </q-btn>
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="insert_chart_outlined"
                   @click="
                     presenceAction(
@@ -137,6 +137,7 @@ import { usePagingStore } from 'ss-paging-vue'
 import { useClassStore } from 'src/stores/class'
 import { usePresenceStore } from 'src/stores/presence'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   name: 'ClassTable',
@@ -159,6 +160,7 @@ export default {
     return {
       store,
       paging,
+      actionButton,
       data: computed(() => paging.state.data),
       checkColWidth,
       presenceAction,

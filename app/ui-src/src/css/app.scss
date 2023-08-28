@@ -42,7 +42,7 @@
 // Custom button style
 // -------------------------------------------------
 .add-btn {
-  background-color: $grey-8;
+  background-color: $primary;
   color: #fff;
 }
 
@@ -61,8 +61,13 @@
   padding: 8px 20px !important;
 }
 
+.close-btn {
+  color: #000 !important;
+  background-color: $brown-1;
+}
+
 .action-btn {
-  background-color: $grey-8;
+  background-color: $primary;
   color: #fff !important;
 }
 
@@ -94,12 +99,19 @@
   border-radius: 10px;
 }
 
+.user-menu-dark {
+  background-color: $grey-9;
+  box-shadow: none;
+}
+
 @media (max-width: $breakpoint-xs-max) {
-  $fc-listmonth-radius: 15px 15px 0 0;
+  $fc-list-base-border-radius: 8px;
+  $fc-listmonth-radius: $fc-list-base-border-radius $fc-list-base-border-radius
+    0 0;
   $padding-y: 5px;
 
   .fc .fc-list-sticky .fc-list-day > * {
-    background: $primary !important;
+    background: $grey-8 !important;
   }
 
   .fc .fc-list-table td,
@@ -113,7 +125,7 @@
 
   .fc-theme-standard .fc-list {
     border: none !important;
-    border-radius: 15px;
+    border-radius: $fc-list-base-border-radius;
     box-shadow: $shadow-6;
   }
 

@@ -21,7 +21,7 @@
 
   <div class="col-12 col-sm-4 col-md-2 q-mt-sm q-px-xs">
     <q-btn
-      class="add-btn"
+      :class="addButton"
       style="width: 100%; padding-top: 7.5px; padding-bottom: 7.5px"
       icon="preview"
       :label="$t('tampilkan')"
@@ -37,7 +37,7 @@
     <q-btn
       fab
       icon="print"
-      color="secondary"
+      :color="fabColor"
       :href="exportPdf()"
       target="_blank"
     />
@@ -48,7 +48,7 @@ import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
 import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { conf } from 'src/composables/common'
+import { conf, addButton, fabColor } from 'src/composables/common'
 import { usePresenceStore } from 'src/stores/presence'
 import { fabPos, draggingFab, moveFab, singlePos } from 'src/composables/fab'
 
@@ -114,6 +114,8 @@ export default {
     return {
       store,
       period,
+      fabColor,
+      addButton,
       exportPdf,
       periodOptions,
       fabPos,

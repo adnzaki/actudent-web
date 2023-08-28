@@ -141,7 +141,7 @@
             icon="turned_in"
             unelevated
             :style="inviteBtn"
-            class="add-btn"
+            :class="addButton"
             :label="$t('agenda_add_guests')"
             v-if="userType === '1'"
             @click="showGuestSelector"
@@ -305,7 +305,14 @@ import { useAgendaStore } from 'src/stores/agenda'
 import { selectedLang } from '../../composables/date'
 import { ref, reactive, computed, provide } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { t, axios, bearerToken, conf, userType } from 'src/composables/common'
+import {
+  t,
+  axios,
+  bearerToken,
+  conf,
+  userType,
+  addButton,
+} from 'src/composables/common'
 
 export default {
   name: 'AgendaForm',
@@ -483,6 +490,7 @@ export default {
       formData,
       formOpen,
       formHide,
+      addButton,
       isEditForm,
       guestWrapper,
       attachmentUrl,

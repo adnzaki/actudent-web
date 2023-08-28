@@ -4,7 +4,7 @@
       <q-btn
         icon="add"
         unelevated
-        class="q-pl-sm add-btn"
+        :class="['q-pl-sm', addButton]"
         :label="$t('menu_pengaturan')"
         @click="store.showSettingsForm = true"
       />
@@ -19,7 +19,7 @@
       <q-btn
         fab
         icon="settings"
-        class="add-btn"
+        :class="addButton"
         @click="store.showSettingsForm = true"
       />
     </q-page-sticky>
@@ -29,6 +29,7 @@
 <script>
 import { fabPos } from 'src/composables/fab'
 import { useScheduleStore } from 'src/stores/schedule'
+import { addButton } from 'src/composables/mode'
 
 export default {
   name: 'MainButton',
@@ -38,6 +39,7 @@ export default {
     return {
       store,
       fabPos,
+      addButton,
     }
   },
 }

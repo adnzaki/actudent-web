@@ -60,11 +60,11 @@
               <q-btn-group class="mobile-hide">
                 <q-btn
                   icon="edit"
-                  class="action-btn"
+                  :class="actionButton"
                   @click="getDetail(item.parent_id)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="delete"
                   @click="
                     showDeleteConfirm(`${item.parent_id}-${item.user_id}`)
@@ -109,6 +109,7 @@ import { usePagingStore } from 'ss-paging-vue'
 import { watch, computed, onMounted } from 'vue'
 import { useParentStore } from 'src/stores/parent'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   setup() {
@@ -125,6 +126,7 @@ export default {
 
     return {
       store,
+      actionButton,
       checkColWidth,
       data: computed(() => paging.state.data),
       selectAll: () => store.selectAll(),

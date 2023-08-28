@@ -41,7 +41,7 @@
             <p v-if="schedule.lessonsInput.length === 0">
               {{ $t('jadwal_kosong') }}
             </p>
-            <q-btn round class="add-btn" icon="add" @click="showFormInput">
+            <q-btn round :class="addButton" icon="add" @click="showFormInput">
               <q-tooltip
                 anchor="top middle"
                 self="bottom middle"
@@ -84,6 +84,7 @@ import { computed } from 'vue'
 import MappingFormInput from './MappingFormInput.vue'
 import { useScheduleStore } from 'src/stores/schedule'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
+import { addButton } from 'src/composables/mode'
 
 export default {
   name: 'MappingForm',
@@ -125,6 +126,7 @@ export default {
       store,
       formOpen,
       formClose,
+      addButton,
       removeLesson,
       showFormInput,
       maximizedDialog,

@@ -3,7 +3,7 @@
     <div class="q-gutter-xs">
       <q-btn
         icon="assessment"
-        class="q-pl-sm mobile-hide action-btn"
+        :class="['q-pl-sm mobile-hide', addButton]"
         :label="$t('absensi_jurnal')"
         v-if="store.showJournalBtn || isTeacherSection"
         @click="showJournalForm"
@@ -80,7 +80,7 @@
       <q-btn
         fab
         icon="description"
-        class="add-btn"
+        :class="addButton"
         v-if="store.showJournalBtn || isTeacherSection"
         @click="showJournalForm"
       />
@@ -93,7 +93,7 @@ import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { fabPos } from 'src/composables/fab'
-import { conf } from 'src/composables/common'
+import { conf, addButton } from 'src/composables/common'
 import { useRouter, useRoute } from 'vue-router'
 import { usePresenceStore } from 'src/stores/presence'
 
@@ -143,6 +143,7 @@ export default {
     return {
       store,
       fabPos,
+      addButton,
       savePresence,
       exportReportUrl,
       backToClassList,

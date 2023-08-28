@@ -3,7 +3,7 @@
     <div class="q-gutter-xs mobile-hide">
       <q-btn
         icon="add"
-        class="q-pl-sm add-btn"
+        :class="['q-pl-sm', addButton]"
         unelevated
         :label="$t('tambah')"
         @click="store.showAddForm = true"
@@ -26,7 +26,7 @@
       <q-btn
         fab
         icon="add"
-        class="add-btn"
+        :class="addButton"
         @click="store.showAddForm = true"
         v-if="selected.length === 0"
       />
@@ -45,6 +45,7 @@
 import { computed } from 'vue'
 import { fabPos } from 'src/composables/fab'
 import { useParentStore } from 'src/stores/parent'
+import { addButton } from 'src/composables/mode'
 
 export default {
   setup() {
@@ -52,6 +53,7 @@ export default {
 
     return {
       store,
+      addButton,
       selected: computed(() => store.selectedParents),
       multipleDeleteConfirm: () => store.multipleDeleteConfirm(),
       fabPos,
