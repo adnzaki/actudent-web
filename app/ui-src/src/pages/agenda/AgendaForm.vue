@@ -244,12 +244,12 @@
       <q-card-actions align="right">
         <!-- delete button for desktop -->
         <q-btn
-          outline
           v-if="
             $q.cookies.get(conf.userType) === '1' &&
             isEditForm &&
             !$q.screen.lt.sm
           "
+          unelevated
           :label="$t('hapus')"
           @click="store.deleteConfirm = true"
           color="negative"
@@ -257,10 +257,10 @@
         <!-- #END -->
 
         <q-btn
-          outline
           v-if="!$q.screen.lt.sm"
           :label="$t('tutup')"
-          :color="closeBtnColor"
+          class="close-btn"
+          unelevated
           v-close-popup
         />
         <q-btn
@@ -274,12 +274,12 @@
 
         <!-- delete button for mobile -->
         <q-btn
-          outline
           v-if="
             $q.cookies.get(conf.userType) === '1' &&
             isEditForm &&
             $q.screen.lt.sm
           "
+          unelevated
           class="mobile-form-btn"
           style="margin-left: -10px"
           :label="$t('hapus')"
