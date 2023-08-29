@@ -55,6 +55,7 @@ class TimelineModel extends \Actudent\Installer\Models\SetupModel
 
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('timeline_id');
+        $this->forge->addForeignKey('user_id', 'tb_user', 'user_id');
         $this->forge->createTable($table, true, $this->engine);  
 
         // finish it up
