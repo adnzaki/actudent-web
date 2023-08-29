@@ -22,7 +22,7 @@ class Migrator extends \Actudent
 
     public function updateDatabase()
     {
-        $this->model->addReportSettingsTable();
+        $this->model->addTimeline();
         $this->model->updateDbVersion();
 
         return $this->response->setJSON([

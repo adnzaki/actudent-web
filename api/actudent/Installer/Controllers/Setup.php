@@ -156,6 +156,13 @@ class Setup extends \Actudent
         $model->createAgendaUser();
     }
 
+    private function createTimelineModule()
+    {
+        $model = new \Actudent\Installer\Models\TimelineModel;
+        $model->createTimeline();
+        $model->createTimelineImages();
+    }
+
     private function createSchoolModule()
     {
         $model = new \Actudent\Installer\Models\SchoolModel;
