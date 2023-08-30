@@ -28,7 +28,7 @@ return [
     'timeline_search'           => 'Search post...',
     'timeline_all'              => 'All Post',
     'timeline_public'           => 'Published',
-    'timeline_post_date'        => 'Post Date',
+    'timeline_post_date'        => 'Post Time',
     'timeline_view_post'        => 'View Post',
     'timeline_mypost'           => 'My Posts',
 ];

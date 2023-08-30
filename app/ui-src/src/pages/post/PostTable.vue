@@ -11,25 +11,26 @@
               />
             </th>
             <th
-              class="text-left cursor-pointer"
+              class="text-left cursor-pointer mobile-only"
+              @click="paging.sortData('date')"
+            >
+              Post <sort-icon />
+            </th>
+            <th
+              class="text-left cursor-pointer mobile-hide"
               @click="paging.sortData('timeline_title')"
             >
               {{ $t('timeline_label_post') }} <sort-icon />
             </th>
+            <th class="text-left cursor-pointer mobile-hide">Status</th>
             <th
-              class="text-left cursor-pointer"
-              @click="paging.sortData('timeline_content')"
-            >
-              {{ $t('timeline_label_content') }} <sort-icon />
-            </th>
-            <th
-              class="text-left cursor-pointer"
+              class="text-left cursor-pointer mobile-hide"
               @click="paging.sortData('date')"
             >
               {{ $t('timeline_post_date') }} <sort-icon />
             </th>
             <th
-              class="text-left cursor-pointer"
+              class="text-left cursor-pointer mobile-hide"
               @click="paging.sortData('author')"
             >
               {{ $t('timeline_posted_by') }} <sort-icon />
@@ -45,10 +46,31 @@
                 :val="item.timeline_id"
               />
             </td>
-            <td class="text-left">{{ item.timeline_title }}</td>
-            <td class="text-left">{{ $trim(item.timeline_content, 50) }}</td>
-            <td class="text-left">{{ item.created }}</td>
-            <td class="text-left">{{ item.author }}</td>
+            <td class="text-left mobile-only">
+              {{ item.timeline_title }} <br />
+              <small class="text-grey-8" style="font-size: small">
+                <q-icon name="o_schedule" /> {{ item.created }} </small
+              ><br />
+              <small class="text-grey-8" style="font-size: small">
+                <q-icon name="o_mode_edit" /> {{ item.author }} </small
+              ><br />
+              <small class="text-grey-8" style="font-size: small"
+                ><q-icon name="o_info" />&nbsp;</small
+              >
+              <q-badge
+                :color="statusColor(item.timeline_status)"
+                :label="status(item.timeline_status)"
+              />
+            </td>
+            <td class="text-left mobile-hide">{{ item.timeline_title }}</td>
+            <td class="text-left mobile-hide">
+              <q-badge
+                :color="statusColor(item.timeline_status)"
+                :label="status(item.timeline_status)"
+              />
+            </td>
+            <td class="text-left mobile-hide">{{ item.created }}</td>
+            <td class="text-left mobile-hide">{{ item.author }}</td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
@@ -121,6 +143,7 @@ import { checkColWidth } from 'src/composables/screen'
 import { usePostStore } from 'src/stores/post'
 import { usePagingStore } from 'ss-paging-vue'
 import { actionButton } from 'src/composables/mode'
+import { t } from 'src/composables/common'
 
 export default defineComponent({
   name: 'PostTable',
@@ -140,9 +163,11 @@ export default defineComponent({
       store,
       paging,
       actionButton,
-      data: pagingData,
       checkColWidth,
+      data: pagingData,
       disable: (editable) => (editable === 1 ? false : true),
+      statusColor: (status) => (status === 'draft' ? 'orange-10' : 'teal-8'),
+      status: (status) => (status === 'draft' ? 'Draft' : t('timeline_public')),
     }
   },
 })
