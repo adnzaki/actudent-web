@@ -1,60 +1,56 @@
 <?php namespace Actudent\Admin\Controllers;
 
-use Actudent\Admin\Models\TimelineModel;
+use Actudent\Admin\Models\PostModel;
 
-class Timeline extends \Actudent
+class Post extends \Actudent
 {
-    /**
-     * TimelineModel
-     * 
-     * @var object
-     */
-    private $timeline;
+    private $post;
 
     /**
      * The Constructor.
      */
     public function __construct()
     {
-        $this->timeline = new TimelineModel;
+        $this->post = new PostModel;
     }
 
-    public function getPosts($limit, $offset)
+    public function getPosts($type, $mypost, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
     {
-        $data = $this->timeline->getPosts($limit, $offset);
-        $formatted = [];
-        foreach($data as $d)
-        {
-            // fetch comments
-            $d->comments = $this->getPostComments($d->timeline_id, 5, 0);
+        $data = $this->post->getPosts($type, $mypost, $limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->post->getPostRows($type, $mypost, $searchBy, $search);
 
-            // push them into the formatted data
-            array_push($formatted, $d);
+        foreach($data as $d) {
+            $d->editable = $this->isEditable($d->user_id) ? 1 : 0;
         }
         
-        return $this->response->setJSON([
-            'timeline' => $data,
-            'rows' => $this->timeline->getTimelineRows(),
+        return $this->createResponse([
+            'container' => $data,
+            'totalRows' => $rows,
         ]);
     }
 
-    private function getPostComments($timelineID, $limit, $offset)
+    public function isEditable($author)
     {
-        $parentComments = $this->timeline->getPostComments($timelineID, $limit, $offset);
-        $groupedComments = [];
-        foreach($parentComments as $pc)
-        {
-            $replies = $this->timeline->getCommentReplies($pc->timeline_comment_id);
-            $pc->replies = count($replies);
-            array_push($groupedComments, $pc);
+        if(valid_token()) {
+            $user = user_data();
+    
+            if($user->user_level === '1') {
+                return true;
+            } else {
+                if($author === $user->user_id) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return false;
         }
-
-        return $groupedComments;
     }
 
     public function getPostDetail($timelineID)
     {
-        return $this->response->setJSON($this->timeline->getPostDetail($timelineID)[0]);
+        return $this->response->setJSON($this->post->getPostDetail($timelineID)[0]);
     }
 
     public function save($status, $id = null)
@@ -74,7 +70,7 @@ class Timeline extends \Actudent
             {
                 $response = [
                     'code' => '200',
-                    'id' => $this->timeline->insert($status, $data), // return the insert_id
+                    'id' => $this->post->insert($status, $data), // return the insert_id
                 ];
             }
             else 
@@ -90,7 +86,7 @@ class Timeline extends \Actudent
                 
                 $response = [
                     'code' => '200',
-                    'id' => $this->timeline->update($status, $data, $id), // return the timeline_id
+                    'id' => $this->post->update($status, $data, $id), // return the timeline_id
                 ];
             }
             
@@ -100,7 +96,7 @@ class Timeline extends \Actudent
 
     public function delete($id)
     {
-        $timeline = $this->timeline->getPostDetail($id)[0];
+        $timeline = $this->post->getPostDetail($id)[0];
         
         // remove featured image from storage
         $featuredImage = PUBLICPATH . 'attachments/timeline/' . $timeline->timeline_image;
@@ -109,7 +105,7 @@ class Timeline extends \Actudent
             unlink($featuredImage);
         }
 
-        $this->timeline->delete($id);
+        $this->post->delete($id);
         return $this->response->setJSON(['status' => 'OK']);
     }
 
@@ -149,7 +145,7 @@ class Timeline extends \Actudent
                   ->save(PUBLICPATH . 'attachments/timeline/' . $newFilename);
 
             // Set attachment
-            $this->timeline->setAttachment($newFilename, $insertID);
+            $this->post->setAttachment($newFilename, $insertID);
             return $this->response->setJSON(['msg' => 'OK']);
         }
         else 

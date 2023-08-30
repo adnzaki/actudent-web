@@ -25,4 +25,10 @@ return [
     'timeline_delete_progress'  => 'Removing post...',
     'timeline_delete_success'   => 'Post deleted successfully',
     'timeline_other_post_title' => 'Other posts',
+    'timeline_search'           => 'Search post...',
+    'timeline_all'              => 'All Post',
+    'timeline_public'           => 'Published',
+    'timeline_post_date'        => 'Post Date',
+    'timeline_view_post'        => 'View Post',
+    'timeline_mypost'           => 'My Posts',
 ];

@@ -38,12 +38,6 @@
           link="/presence"
         />
         <menu-item icon="today" :label="$t('menu_agenda')" link="/agenda" />
-        <menu-item
-          v-if="conf.mode === 'development'"
-          icon="list_alt"
-          :label="$t('menu_post')"
-          link="/post"
-        />
         <!-- <menu-item icon="restore" :label="$t('menu_post')" link="" /> -->
       </div>
       <menu-item
@@ -65,6 +59,7 @@
         />
         <!-- <menu-item icon="restore" :label="$t('menu_timeline')" link="" /> -->
       </div>
+      <menu-item icon="list_alt" :label="$t('menu_post')" link="/post" />
 
       <!-- Report Menu -->
       <q-expansion-item

@@ -25,4 +25,10 @@ return [
     'timeline_delete_progress'  => 'Menghapus post...',
     'timeline_delete_success'   => 'Post berhasil dihapus',
     'timeline_other_post_title' => 'Postingan lainnya',
+    'timeline_search'           => 'Cari post...',
+    'timeline_all'              => 'Semua Post',
+    'timeline_public'           => 'Dipublikasikan',
+    'timeline_post_date'        => 'Tanggal Post',
+    'timeline_view_post'        => 'Lihat Post',
+    'timeline_mypost'           => 'Postingan Saya',
 ];

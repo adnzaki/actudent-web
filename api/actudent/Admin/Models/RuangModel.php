@@ -137,8 +137,6 @@ class RuangModel extends \Actudent\Core\Models\Connector
      * 
      * @param string $searchBy
      * @param string $search
-     * 
-     * @return QueryBuilder
      */
     private function search(string $searchBy, string $search)
     {
