@@ -99,32 +99,33 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
     /**
      * Get post detail
      * 
-     * @param int $timelineID
+     * @param int $id
      * 
-     * @return array
+     * @return object
      */
-    public function getPostDetail(int $timelineID): array
+    public function getPostDetail(int $id): object
     {
         $field = "timeline_id, timeline_title, timeline_content, timeline_date, 
-                  timeline_image, timeline_status, {$this->post}.created, user_name as author";
+                  featured_image, timeline_status, {$this->post}.created, user_name as author";
         $join = $this->QBPost->select($field)
                 ->join($this->user, "{$this->user}.user_id = {$this->post}.user_id");
-        return $join->where(['timeline_id' => $timelineID])->get()->getResult();
+        return $join->where(['timeline_id' => $id])->get()->getResult()[0];
     }
 
     /**
      * Insert data from user input to tb_timeline 
      * 
-     * @param string $status
      * @param array $data
      * 
      * @return int
      */
-    public function insert(string $status, array $value): int
+    public function insert(array $value): int
     {
         $data = $this->fillTimelineField($value);
-        $data['user_id'] = session()->get('id');
-        $data['timeline_status'] = $status;
+        if(valid_token()) {
+            $data['user_id'] = user_data()->user_id;
+        }
+
         $this->QBPost->insert($data);
 
         // return the insertID
@@ -140,14 +141,18 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
      * 
      * @return int
      */
-    public function update(string $status, array $value, int $id): int
+    public function update(array $value, int $id): int
     {
         $data = $this->fillTimelineField($value);
-        $data['timeline_status'] = $status;
         $this->QBPost->update($data, ['timeline_id' => $id]);
 
         // return the ID for image upload
         return $id;
+    }
+
+    public function insertGallery(array $images) 
+    {
+        $this->QBPostImages->insertBatch($images);
     }
 
     /**
@@ -180,7 +185,8 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
         return [
             'timeline_title'    => $data['timeline_title'],
             'timeline_content'  => $data['timeline_content'],
-            'timeline_date'     => date('Y-m-d H:i:s'),
+            'timeline_status'   => $data['timeline_status'],
+            'featured_image'    => $data['featured_image']
         ];
     }
 

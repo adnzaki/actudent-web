@@ -1,10 +1,13 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Admin\Models\PostModel;
+use \Actudent\Core\Libraries\Uploader;
 
 class Post extends \Actudent
 {
     private $post;
+
+    private $uploader;
 
     /**
      * The Constructor.
@@ -12,6 +15,7 @@ class Post extends \Actudent
     public function __construct()
     {
         $this->post = new PostModel;
+        $this->uploader = new Uploader;
     }
 
     public function getPosts($type, $mypost, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
@@ -48,49 +52,110 @@ class Post extends \Actudent
         }
     }
 
-    public function getPostDetail($timelineID)
+    public function getPostDetail($id)
     {
-        return $this->response->setJSON($this->post->getPostDetail($timelineID)[0]);
+        $detail = $this->post->getPostDetail($id);
+        $removeScript = str_replace(['<script>', '</script>'], '', $detail->timeline_content);
+        $detail->timeline_content = $removeScript;
+
+        return $this->response->setJSON($detail);
     }
 
-    public function save($status, $id = null)
+    public function getPostContent($id)
     {
-        $validation = $this->validation(); // [0 => $rules, 1 => $messages]
-        if(! $this->validate($validation[0], $validation[1]))
-        {
-            return $this->response->setJSON([
-                'code' => '500',
-                'msg' => $this->validation->getErrors(),
-            ]);
-        }
-        else 
-        {
-            $data = $this->formData();
-            if($id === null) 
+        $content = $this->post->getPostDetail($id)->timeline_content;
+        $removeScript = str_replace(['<script>', '</script>'], '', $content);
+        $data['content'] = $removeScript;
+
+        return view('Actudent\Admin\Views\timeline\ContentViewer', $data);
+    }
+
+    public function save($id = null)
+    {
+        if(valid_token()) {
+            $validation = $this->validation(); // [0 => $rules, 1 => $messages]
+            if(! $this->validate($validation[0], $validation[1]))
             {
-                $response = [
-                    'code' => '200',
-                    'id' => $this->post->insert($status, $data), // return the insert_id
-                ];
+                return $this->response->setJSON([
+                    'code' => '500',
+                    'msg' => $this->validation->getErrors(),
+                ]);
             }
             else 
             {
-                if($data['current_image'] !== $data['image_feature'])
-                {
-                    $path = PUBLICPATH . 'attachments/timeline/';
-                    if(file_exists($path . $data['current_image']))
-                    {
-                        unlink($path . $data['current_image']);
-                    }
-                }
-                
-                $response = [
-                    'code' => '200',
-                    'id' => $this->post->update($status, $data, $id), // return the timeline_id
+                $data = [
+                    'timeline_title'    => $this->request->getPost('timeline_title'),
+                    'timeline_content'  => $this->request->getPost('timeline_content'),
+                    'timeline_status'   => $this->request->getPost('timeline_status'),
+                    'featured_image'    => $this->request->getPost('featured_image'),
+                    'gallery'           => $this->request->getPost('gallery')
                 ];
+    
+                if($id === null) {
+                    $id = $this->post->insert($data);
+                }
+                else 
+                {         
+                    $id = $this->post->update($data, $id);
+                }
+
+                // insert gallery
+                $images = json_decode($data['gallery'], true);
+                $galleryValues = [];
+                foreach($images as $img) {
+                    $galleryValues[] = [
+                        'timeline_id'   => $id,
+                        'filename'      => $img
+                    ];
+                }
+
+                $this->post->insertGallery($galleryValues);
+
+                $response = [
+                    'code'  => '200',
+                    'id'    => $id, // return the timeline_id
+                ];
+                
+                return $this->response->setJSON($response);
             }
-            
-            return $this->response->setJSON($response);
+        }
+    }
+
+    public function uploadFeaturedImage()
+    {
+        if(is_admin()) {
+            $config = [
+                'file'      => 'featured_image',
+                'width'     => 1920,
+                'height'    => 1200,
+                'dir'       => 'posts/' . date('Y-m-d'),
+                'maxSize'   => 2048,
+                'crop'      => 'fit',
+                'prefix'    => date('Y-m-d') . '_'
+            ];
+
+            $uploaded = $this->uploader->uploadImage($config);
+
+            return $this->response->setJSON($uploaded);
+        }
+    }
+
+    public function uploadImageGallery()
+    {
+        if(is_admin()) {
+            $config = [
+                'file'      => 'image_gallery',
+                'width'     => 1920,
+                'height'    => 1200,
+                'dir'       => 'posts/' . date('Y-m-d'),
+                'maxSize'   => 2048,
+                'crop'      => 'fit',
+                'prefix'    => date('Y-m-d') . '_gallery_',
+            ];
+
+            $uploaded = $this->uploader->uploadImage($config);
+
+            return $this->response->setJSON($uploaded);
         }
     }
 
@@ -111,86 +176,16 @@ class Post extends \Actudent
 
     private function validation()
     {
-        $form = $this->formData();
         $rules = [
-            'timeline_title' => 'required',
-            'image_feature' => 'required',
+            'timeline_title'    => 'required',
         ];
 
         $messages = [
             'timeline_title' => [
                 'required' => get_lang('AdminTimeline.timeline_title_required'),
             ],
-            'image_feature' => [
-                'required' => get_lang('AdminTimeline.timeline_image_required'),
-            ],
         ];            
 
         return [$rules, $messages];
     }
-
-    public function uploadFile($insertID)
-    {        
-        $validated = $this->validateFile();
-
-        if($validated) 
-        {
-            $attachment = $this->request->getFile('timeline_image');
-            $newFilename = 'img_' . $attachment->getRandomName();
-            $attachment->move(PUBLICPATH . 'attachments/timeline', $newFilename);
-
-            $image = \Config\Services::image();
-            $image->withFile(PUBLICPATH . 'attachments/timeline/' . $newFilename)
-                  ->fit(1280, 800)
-                  ->save(PUBLICPATH . 'attachments/timeline/' . $newFilename);
-
-            // Set attachment
-            $this->post->setAttachment($newFilename, $insertID);
-            return $this->response->setJSON(['msg' => 'OK']);
-        }
-        else 
-        {
-            return $this->response->setJSON($this->validation->getErrors());
-        }
-    }
-
-    public function runFileValidation()
-    {
-        $validated = $this->validateFile();
-        if($validated)
-        {
-            return $this->response->setJSON(['msg' => 'OK']);
-        }
-        else 
-        {
-            return $this->response->setJSON($this->validation->getErrors());
-        }
-    }
-
-    private function validateFile()
-    {
-        $fileRules = [
-            'timeline_image' => 'mime_in[timeline_image,image/jpeg]|max_size[timeline_image,2048]'
-        ];
-        $fileMessages = [
-            'timeline_image' => [
-                'mime_in' => get_lang('Admin.invalid_filetype'),
-                'max_size' => get_lang('Admin.file_too_large'),
-            ]
-        ];
-
-        return $this->validate($fileRules, $fileMessages);
-    }
-
-    private function formData()
-    {
-        $data = [
-            'timeline_title'    => $this->request->getPost('timeline_title'),
-            'timeline_content'  => $this->request->getPost('timeline_content'),
-            'image_feature'     => $this->request->getPost('image_feature'),
-            'current_image'     => $this->request->getPost('current_image'),
-        ];
-
-        return $data;
-    } 
 }

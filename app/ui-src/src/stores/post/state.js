@@ -10,11 +10,20 @@ export default function () {
     },
     postType: 'all',
     mypost: 0,
+    showPost: false,
     detail: {},
     checkAll: false, selectedPosts: [],
     current: 1,
-    showAddForm: false, showEditForm: false,
+    postId: null,
+    showForm: false, isEditForm: false,
     saveStatus: 500, deleteConfirm: false,
     searchTimeout: false,
+    forms: {
+      timeline_title: '',
+      timeline_content: '',
+      timeline_status: 'public',
+      featured_image: '',
+      gallery: [],
+    }
   }
 }

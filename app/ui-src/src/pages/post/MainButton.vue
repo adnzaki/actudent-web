@@ -6,7 +6,7 @@
         :class="['q-pl-sm mobile-hide', addButton]"
         unelevated
         :label="$t('tambah')"
-        @click="store.showAddForm = true"
+        @click="store.showForm = true"
       />
       <q-btn
         icon="delete"
@@ -28,13 +28,13 @@
       position="bottom-right"
       :offset="fabPos"
       class="mobile-only force-elevated"
-      v-if="!store.showAddForm"
+      v-if="!store.showForm"
     >
       <q-btn
         fab
         icon="add"
         :class="addButton"
-        @click="store.showAddForm = true"
+        @click="store.showForm = true"
         v-if="selected.length === 0"
       />
       <q-btn

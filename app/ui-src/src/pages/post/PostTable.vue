@@ -84,7 +84,7 @@
                 <q-btn
                   :class="actionButton"
                   icon="launch"
-                  @click="store.getDetail(item.timeline_id)"
+                  @click="viewPost(item.timeline_id)"
                   ><btn-tooltip :label="$t('timeline_view_post')"
                 /></q-btn>
                 <q-btn
@@ -165,6 +165,10 @@ export default defineComponent({
       actionButton,
       checkColWidth,
       data: pagingData,
+      viewPost(id) {
+        store.postId = id
+        store.showPost = true
+      },
       disable: (editable) => (editable === 1 ? false : true),
       statusColor: (status) => (status === 'draft' ? 'orange-10' : 'teal-8'),
       status: (status) => (status === 'draft' ? 'Draft' : t('timeline_public')),

@@ -62,13 +62,13 @@ export default {
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: t('ruang_save_progress'),
+      message: t('timeline_save_progress'),
       color: 'info',
       position: 'center',
       timeout: 0,
     })
 
-    admin.post(`${this.roomApi}${url}`, payload.data, {
+    admin.post(`${this.postApi}${url}`, this.forms, {
       headers: { Authorization: bearerToken },
       transformRequest: [data => {
         return createFormData(data)
@@ -81,7 +81,7 @@ export default {
         if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
-            message: `Error! ${t('ruang_error_text')}`,
+            message: `Error! ${t('timeline_error_save')}`,
             color: 'negative',
             spinner: false
           })
@@ -92,15 +92,16 @@ export default {
           if (payload.edit) {
             this.showEditForm = false
             notifyProgress({
-              message: `${t('sukses')} ${t('ruang_update_success')}`,
+              message: `${t('sukses')} ${t('timeline_save_update')}`,
               color: 'positive',
               icon: 'done',
               spinner: false
             })
           } else {
             this.showAddForm = false
+            const insertMessage = this.timeline_status === 'public' ? t('timeline_save_public') : t('timeline_save_draft')
             notifyProgress({
-              message: `${t('sukses')} ${t('ruang_insert_success')}`,
+              message: `${t('sukses')} ${insertMessage}`,
               color: 'positive',
               icon: 'done',
               spinner: false
@@ -137,7 +138,7 @@ export default {
   getDetail(id) {
     this.error = {}
     this.showEditForm = true
-    admin.get(`${this.roomApi}detail/${id}`, {
+    admin.get(`${this.postApi}get-detail/${id}`, {
       headers: { Authorization: bearerToken }
     })
       .then(response => {

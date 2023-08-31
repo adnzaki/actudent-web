@@ -23,7 +23,9 @@
       <edit-employee-form />
       <delete-confirm :store="store" @action="store.deleteEmployee()" />
       <employee-table /> -->
+      <post-form />
       <post-table />
+      <view-post />
     </q-card>
   </div>
 </template>
@@ -34,6 +36,8 @@ import { usePostStore } from 'src/stores/post'
 import MainButton from './MainButton.vue'
 import PostType from './PostType.vue'
 import PostTable from './PostTable.vue'
+import ViewPost from './ViewPost.vue'
+import PostForm from './PostForm.vue'
 
 export default {
   name: 'NewsMain',
@@ -41,6 +45,8 @@ export default {
     MainButton,
     PostType,
     PostTable,
+    ViewPost,
+    PostForm,
   },
   setup() {
     const store = usePostStore()
