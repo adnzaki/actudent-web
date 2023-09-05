@@ -123,6 +123,9 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('post/save/(:any)', 'Post::save/$1');
 	$routes->add('post/upload-featured-image', 'Post::uploadFeaturedImage');
 	$routes->add('post/upload-image-gallery', 'Post::uploadImageGallery');
+	$routes->add('post/delete-featured-image/(:any)', 'Post::deleteFeaturedImage/$1');
+	$routes->add('post/delete-image-gallery/(:any)', 'Post::deleteImageGallery/$1');
+	$routes->add('post/remove-image/(:any)', 'Post::removeImage/$1');
 	$routes->add('post/get-detail/(:any)', 'Post::getPostDetail/$1');
 	$routes->add('post/hapus/(:any)', 'Post::delete/$1');
 	$routes->add('nilai', 'Nilai::index');

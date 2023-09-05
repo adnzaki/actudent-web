@@ -9,7 +9,7 @@ return [
     'timeline_readmore'         => 'read more',
     'timeline_loadmore'         => 'Load more',
     'timeline_label_post'       => 'Post title',
-    'timeline_label_image'      => 'Featured image (Max. 2MB)',
+    'timeline_label_image'      => 'Featured image (Max. 10 MB)',
     'timeline_label_content'    => 'Post content',
     'timeline_input_content'    => 'Tell the story about your school...',
     'timeline_title_required'   => 'Post title must be filled',
@@ -34,6 +34,6 @@ return [
     'timeline_mypost'           => 'My Posts',
     'timeline_gallery'          => 'Photo Gallery',
     'timeline_placeholder'      => 'Tell something about <b>your school</b>...',
-    'timeline_gallery_desc'     => 'Add up to 10 photos for your post (Max. 2MB per photo)',
+    'timeline_gallery_desc'     => 'Add up to 10 photos for your post (Max. 10 MB per photo)',
     'timeline_upload_failed'    => 'Unable to upload the following images:',
 ];

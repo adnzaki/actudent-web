@@ -9,7 +9,7 @@ return [
     'timeline_readmore'         => 'baca selengkapnya',
     'timeline_loadmore'         => 'Muat lebih banyak',
     'timeline_label_post'       => 'Judul post',
-    'timeline_label_image'      => 'Gambar fitur (Maks. 2MB)',
+    'timeline_label_image'      => 'Gambar fitur (Maks. 10 MB)',
     'timeline_label_content'    => 'Isi post',
     'timeline_input_content'    => 'Ceritakan tentang sekolah anda...',
     'timeline_title_required'   => 'Judul post harus terisi',
@@ -34,6 +34,6 @@ return [
     'timeline_mypost'           => 'Postingan Saya',
     'timeline_gallery'          => 'Galeri Foto',
     'timeline_placeholder'      => 'Ceritakan sesuatu tentang <b>sekolah anda</b>...',
-    'timeline_gallery_desc'     => 'Tambahkan hingga 10 foto untuk postingan anda (Maks. 2MB per foto)',
+    'timeline_gallery_desc'     => 'Tambahkan hingga 10 foto untuk postingan anda (Maks. 10 MB per foto)',
     'timeline_upload_failed'    => 'Tidak dapat mengupload gambar berikut:',
 ];

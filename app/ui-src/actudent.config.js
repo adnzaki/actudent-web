@@ -46,6 +46,7 @@ export const appConfig = {
   host,
   uiPath,
   mode,
+  baseUrl,
   reportPath: `${uiPath()}app/report/`,
 
   // Cookie key name

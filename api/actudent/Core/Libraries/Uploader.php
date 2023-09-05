@@ -69,6 +69,13 @@ class Uploader
         return $response;
     }
 
+    public function setBasePath($basePath)
+    {
+        $this->basePath = $basePath;
+
+        return $this;
+    }
+
     private function doUploadImage(array $config, $file, $dirPath)
     {
         $prefix = $config['prefix'] ?? '';
@@ -90,6 +97,16 @@ class Uploader
         ];
     }
 
+    public function removePreviousImage($oldFile, $newFile, $uploadPath)
+    {
+        if(empty($oldFile) && $oldFile !== null && $oldFile !== 'null') {
+            if($oldFile !== $newFile) {
+                $filePath = $uploadPath .'/'. $oldFile;
+                $this->removeImage($filePath);
+            }
+        }
+    }
+
     public function removeImage($targetFile)
     {
         $filePath = PUBLICPATH . $this->basePath . $targetFile;
@@ -98,16 +115,6 @@ class Uploader
             return $filePath;
         } else {
             return 'No image to remove';
-        }
-    }
-
-    public function removePreviousImage(string $oldFile, string $newFile, string $uploadPath)
-    {
-        if($oldFile !== '' || $oldFile !== null || $oldFile !== 'null') {
-            if($oldFile !== $newFile) {
-                $filePath = $uploadPath .'/'. $oldFile;
-                $this->removeImage($filePath);
-            }
         }
     }
 

@@ -4,6 +4,10 @@ import actions from './actions'
 
 export const usePostStore = defineStore('post', {
   state,
-  getters: {},
+  getters: {
+    galleryCount: state => {
+      return state.forms.gallery.length + state.galleryList.length
+    }
+  },
   actions,
 })

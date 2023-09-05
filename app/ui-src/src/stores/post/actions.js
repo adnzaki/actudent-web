@@ -55,9 +55,38 @@ export default {
         this.resetForm()
       })
   },
-  save(payload) {
+  removeFeaturedImage() {
+    admin.get(`${this.postApi}remove-image/${this.forms.featured_image}`, {
+      headers: { Authorization: bearerToken },
+    }).then(({ data }) => {
+      this.forms.featured_image = null
+    })
+  },
+  removeGalleryImage({ filename, index, limit }) {
+    admin.get(`${this.postApi}remove-image/${filename}`, {
+      headers: { Authorization: bearerToken },
+    }).then(({ data }) => {
+      this.forms.gallery.splice(index, 1)
+      if (this.galleryCount < limit) {
+        this.disableGalleryUploader = false
+      }
+    })
+  },
+  deleteImage(url, id, type) {
+    admin.get(`${this.postApi}${url}/${id}`, {
+      headers: { Authorization: bearerToken },
+    }).then(({ data }) => {
+      if (type === 'post') {
+        this.forms.featured_image = null
+      } else {
+        const index = this.galleryList.findIndex(item => item.id === id)
+        this.galleryList.splice(index, 1)
+      }
+    })
+  },
+  save() {
     let url
-    payload.edit ? url = `save/${payload.id}` : url = 'save'
+    this.isEditForm ? url = `save/${this.postId}` : url = 'save'
     this.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
       group: false,
@@ -67,6 +96,8 @@ export default {
       position: 'center',
       timeout: 0,
     })
+
+    this.forms.imageGallery = JSON.stringify(this.forms.gallery)
 
     admin.post(`${this.postApi}${url}`, this.forms, {
       headers: { Authorization: bearerToken },
@@ -89,8 +120,8 @@ export default {
           this.saveStatus = 200
 
           this.resetForm()
-          if (payload.edit) {
-            this.showEditForm = false
+          if (this.isEditForm) {
+            this.isEditForm = false
             notifyProgress({
               message: `${t('sukses')} ${t('timeline_save_update')}`,
               color: 'positive',
@@ -98,8 +129,7 @@ export default {
               spinner: false
             })
           } else {
-            this.showAddForm = false
-            const insertMessage = this.timeline_status === 'public' ? t('timeline_save_public') : t('timeline_save_draft')
+            const insertMessage = this.forms.timeline_status === 'public' ? t('timeline_save_public') : t('timeline_save_draft')
             notifyProgress({
               message: `${t('sukses')} ${insertMessage}`,
               color: 'positive',
@@ -107,6 +137,10 @@ export default {
               spinner: false
             })
           }
+
+          this.showForm = false
+          this.galleryList = []
+          this.forms.gallery = []
         }
       })
   },
@@ -137,12 +171,20 @@ export default {
   },
   getDetail(id) {
     this.error = {}
-    this.showEditForm = true
     admin.get(`${this.postApi}get-detail/${id}`, {
       headers: { Authorization: bearerToken }
     })
-      .then(response => {
-        this.detail = response.data
+      .then(({ data }) => {
+        const { post, gallery } = data
+        this.forms.timeline_title = post.timeline_title
+        this.forms.timeline_content = post.timeline_content
+        this.forms.timeline_status = post.timeline_status
+        this.forms.featured_image = post.featured_image
+        this.galleryList = gallery
+        this.forms.gallery = []
+        this.postId = id
+        this.isEditForm = true
+        this.showForm = true
       })
   },
   closeDeleteConfirm() {

@@ -105,11 +105,30 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
      */
     public function getPostDetail(int $id): object
     {
-        $field = "timeline_id, timeline_title, timeline_content, timeline_date, 
-                  featured_image, timeline_status, {$this->post}.created, user_name as author";
+        $field = "timeline_id, timeline_title, timeline_content, featured_image, 
+                  timeline_status, {$this->post}.created, user_name as author";
         $join = $this->QBPost->select($field)
                 ->join($this->user, "{$this->user}.user_id = {$this->post}.user_id");
         return $join->where(['timeline_id' => $id])->get()->getResult()[0];
+    }
+
+    public function getGallery(int $postId): array
+    {
+        $query = $this->QBPostImages->getWhere(['timeline_id' => $postId]);
+
+        return $query->getResult();
+    }
+
+    public function getImageGallery(int $id)
+    {
+        $query = $this->QBPostImages->getWhere(['id' => $id]);
+
+        return $query->getResult()[0];
+    }
+
+    public function deleteImageGallery(int $id)
+    {
+        $this->QBPostImages->delete(['id' => $id]);
     }
 
     /**
@@ -132,6 +151,11 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
         return $this->db->insertID();
     }
 
+    public function deleteFeaturedImage($postId)
+    {
+        $this->QBPost->update(['featured_image' => null], ['timeline_id' => $postId]);
+    }
+
     /**
      * Update timeline
      * 
@@ -152,7 +176,9 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
 
     public function insertGallery(array $images) 
     {
-        $this->QBPostImages->insertBatch($images);
+        if(count($images) > 0) {
+            $this->QBPostImages->insertBatch($images);
+        }
     }
 
     /**

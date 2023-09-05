@@ -24,6 +24,9 @@ export default function () {
       timeline_status: 'public',
       featured_image: '',
       gallery: [],
-    }
+      imageGallery: ''
+    },
+    galleryList: [],
+    disableGalleryUploader: false
   }
 }

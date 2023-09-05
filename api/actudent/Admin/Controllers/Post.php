@@ -1,7 +1,7 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Admin\Models\PostModel;
-use \Actudent\Core\Libraries\Uploader;
+use Actudent\Core\Libraries\Uploader;
 
 class Post extends \Actudent
 {
@@ -55,10 +55,12 @@ class Post extends \Actudent
     public function getPostDetail($id)
     {
         $detail = $this->post->getPostDetail($id);
-        $removeScript = str_replace(['<script>', '</script>'], '', $detail->timeline_content);
-        $detail->timeline_content = $removeScript;
+        $gallery = $this->post->getGallery($id);
 
-        return $this->response->setJSON($detail);
+        return $this->response->setJSON([
+            'post'      => $detail,
+            'gallery'   => $gallery
+        ]);
     }
 
     public function getPostContent($id)
@@ -88,14 +90,21 @@ class Post extends \Actudent
                     'timeline_content'  => $this->request->getPost('timeline_content'),
                     'timeline_status'   => $this->request->getPost('timeline_status'),
                     'featured_image'    => $this->request->getPost('featured_image'),
-                    'gallery'           => $this->request->getPost('gallery')
+                    'gallery'           => $this->request->getPost('imageGallery')
                 ];
     
                 if($id === null) {
                     $id = $this->post->insert($data);
                 }
                 else 
-                {         
+                {
+                    $detail = $this->post->getPostDetail($id);
+                    $getDate = explode('_', $detail->featured_image)[0];
+                    $dirPath = "posts/$getDate";
+
+                    // let Uploader class decides whether the featured image should be deleted or not
+                    //$this->uploader->removePreviousImage($detail->featured_image, $data['featured_image'], $dirPath);
+
                     $id = $this->post->update($data, $id);
                 }
 
@@ -129,7 +138,7 @@ class Post extends \Actudent
                 'width'     => 1920,
                 'height'    => 1200,
                 'dir'       => 'posts/' . date('Y-m-d'),
-                'maxSize'   => 2048,
+                'maxSize'   => 10000,
                 'crop'      => 'fit',
                 'prefix'    => date('Y-m-d') . '_'
             ];
@@ -148,7 +157,7 @@ class Post extends \Actudent
                 'width'     => 1920,
                 'height'    => 1200,
                 'dir'       => 'posts/' . date('Y-m-d'),
-                'maxSize'   => 2048,
+                'maxSize'   => 10000,
                 'crop'      => 'fit',
                 'prefix'    => date('Y-m-d') . '_gallery_',
             ];
@@ -156,6 +165,43 @@ class Post extends \Actudent
             $uploaded = $this->uploader->uploadImage($config);
 
             return $this->response->setJSON($uploaded);
+        }
+    }
+
+    public function removeImage($filename)
+    {
+        if(valid_token()) {
+            $getDate = explode('_', $filename)[0];
+            $dirPath = "posts/$getDate/";
+            $this->uploader->removeImage($dirPath . $filename);
+
+            return $this->response->setJSON(['status' => 'OK']);
+        }
+    }
+
+    public function deleteFeaturedImage($postId)
+    {
+        if(valid_token()) {
+            $detail = $this->post->getPostDetail($postId);
+            $getDate = explode('_', $detail->featured_image)[0];
+            $dirPath = "posts/$getDate/";
+            $this->uploader->removeImage($dirPath . $detail->featured_image);
+            $this->post->deleteFeaturedImage($postId);
+
+            return $this->response->setJSON(['status' => 'OK']);
+        }
+    }
+
+    public function deleteImageGallery($imageId)
+    {
+        if(valid_token()) {
+            $detail = $this->post->getImageGallery($imageId);
+            $getDate = explode('_', $detail->filename)[0];
+            $dirPath = "posts/$getDate/";
+            $this->uploader->removeImage($dirPath . $detail->filename);
+            $this->post->deleteImageGallery($imageId);
+
+            return $this->response->setJSON(['status' => 'OK']);
         }
     }
 
