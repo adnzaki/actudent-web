@@ -26,6 +26,7 @@ class Uploader
      * - maxSize: maximum size of the image
      * - crop: either to use resize(), fit() or stretch() to crop image
      * - prefix: insert prefix into new filename
+     * - fit-position: set position to apply with fit() method
      * 
      * 
      * @param array $config
@@ -79,6 +80,7 @@ class Uploader
     private function doUploadImage(array $config, $file, $dirPath)
     {
         $prefix = $config['prefix'] ?? '';
+        $fitPosition = $config['fit-position'] ?? 'center';
         $newFilename = $prefix . $file->getRandomName();
         $filePath = $dirPath . $newFilename;
         $file->move($dirPath, $newFilename);
@@ -87,7 +89,7 @@ class Uploader
         if($config['crop'] === 'resize') {
             $image->resize($config['width'], $config['height'], true);
         } elseif($config['crop'] === 'fit') {
-            $image->fit($config['width'], $config['height']);
+            $image->fit($config['width'], $config['height'], $fitPosition);
         }                
         $image->save($filePath);
 
