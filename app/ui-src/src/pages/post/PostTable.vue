@@ -46,7 +46,10 @@
                 :val="item.timeline_id"
               />
             </td>
-            <td class="text-left mobile-only">
+            <td
+              class="text-left mobile-only cursor-pointer"
+              @click="viewPost(item.timeline_id)"
+            >
               {{ item.timeline_title }} <br />
               <small class="text-grey-8" style="font-size: small">
                 <q-icon name="o_schedule" /> {{ item.created }} </small
@@ -84,7 +87,7 @@
                 <q-btn
                   :class="actionButton"
                   icon="launch"
-                  @click="viewPost(item.timeline_id)"
+                  @click="store.getDetail(item.timeline_id, true)"
                   ><btn-tooltip :label="$t('timeline_view_post')"
                 /></q-btn>
                 <q-btn
@@ -109,7 +112,7 @@
                     <q-item
                       clickable
                       v-close-popup
-                      @click="store.getDetail(item.timeline_id)"
+                      @click="viewPost(item.timeline_id)"
                     >
                       <q-item-section>{{
                         $t('timeline_view_post')
@@ -144,10 +147,12 @@ import { usePostStore } from 'src/stores/post'
 import { usePagingStore } from 'ss-paging-vue'
 import { actionButton } from 'src/composables/mode'
 import { t } from 'src/composables/common'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'PostTable',
   setup() {
+    const router = useRouter()
     const store = usePostStore()
     const paging = usePagingStore()
     const pagingData = computed(() => paging.state.data)
@@ -159,16 +164,17 @@ export default defineComponent({
       store.selectedPosts = []
     })
 
+    const viewPost = (id) => {
+      router.push(`/post/view/${id}`)
+    }
+
     return {
       store,
       paging,
+      viewPost,
       actionButton,
       checkColWidth,
       data: pagingData,
-      viewPost(id) {
-        store.postId = id
-        store.showPost = true
-      },
       disable: (editable) => (editable === 1 ? false : true),
       statusColor: (status) => (status === 'draft' ? 'orange-10' : 'teal-8'),
       status: (status) => (status === 'draft' ? 'Draft' : t('timeline_public')),

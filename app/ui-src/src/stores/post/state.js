@@ -26,6 +26,11 @@ export default function () {
       gallery: [],
       imageGallery: ''
     },
+    postInfo: {
+      author: '',
+      date: '',
+      content: '',
+    },
     galleryList: [],
     disableGalleryUploader: false
   }

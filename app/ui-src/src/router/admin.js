@@ -22,6 +22,7 @@ import AgendaMain from 'pages/agenda/AgendaMain.vue'
 import AppSettingsMain from 'src/pages/app_settings/IndexPage.vue'
 import UsersMain from 'pages/users/UsersMain.vue'
 import PostMain from 'pages/post/PostMain.vue'
+import ViewPostMobile from 'pages/post/ViewPostMobile.vue'
 import ReportSettings from 'pages/report_settings/IndexPage.vue'
 
 export default [
@@ -62,5 +63,6 @@ export default [
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
   { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() },
   { path: 'post', component: PostMain, beforeEnter: () => routeValidator('valid_token') },
+  { path: 'post/view/:id', component: ViewPostMobile, beforeEnter: () => routeValidator('valid_token') },
   { path: 'report-settings', component: ReportSettings, beforeEnter: () => routeValidator() }
 ]

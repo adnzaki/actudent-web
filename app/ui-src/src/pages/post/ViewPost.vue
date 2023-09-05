@@ -14,12 +14,8 @@
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
 
-      <q-card-section class="scroll card-section">
-        <iframe
-          style="width: 100%; height: 100vh"
-          :src="src"
-          frameborder="0"
-        ></iframe>
+      <q-card-section class="scroll" style="max-height: 70vh">
+        <post-content />
       </q-card-section>
       <q-separator />
       <q-card-actions align="right">
@@ -37,13 +33,15 @@
 </template>
 
 <script>
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 import { usePostStore } from 'src/stores/post'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { conf } from 'src/composables/common'
+import PostContent from './PostContent.vue'
 
 export default {
   name: 'ViewPost',
+  components: { PostContent },
   setup() {
     const store = usePostStore()
 

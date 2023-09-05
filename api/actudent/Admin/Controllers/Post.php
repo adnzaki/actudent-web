@@ -2,6 +2,7 @@
 
 use Actudent\Admin\Models\PostModel;
 use Actudent\Core\Libraries\Uploader;
+use OstiumDate;
 
 class Post extends \Actudent
 {
@@ -56,20 +57,15 @@ class Post extends \Actudent
     {
         $detail = $this->post->getPostDetail($id);
         $gallery = $this->post->getGallery($id);
+        $postTime = explode(' ', $detail->created);
+        $od = new OstiumDate;
 
         return $this->response->setJSON([
             'post'      => $detail,
-            'gallery'   => $gallery
+            'gallery'   => $gallery,
+            'time'      => $od->create($postTime[0], 'd-m-y', '-').' '.substr($postTime[1], 0, 5),
+            'content'   => str_replace(['<script>', '</script>'], '', $detail->timeline_content)
         ]);
-    }
-
-    public function getPostContent($id)
-    {
-        $content = $this->post->getPostDetail($id)->timeline_content;
-        $removeScript = str_replace(['<script>', '</script>'], '', $content);
-        $data['content'] = $removeScript;
-
-        return view('Actudent\Admin\Views\timeline\ContentViewer', $data);
     }
 
     public function save($id = null)

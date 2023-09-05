@@ -39,6 +39,7 @@
                 },
               ],
               ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
+              ['viewsource'],
             ]"
             v-model="store.forms.timeline_content"
             min-height="10rem"

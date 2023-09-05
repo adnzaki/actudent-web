@@ -162,13 +162,13 @@ export default {
       },
     })
   },
-  getDetail(id) {
+  getDetail(id, view = false, mobile = false) {
     this.error = {}
     admin.get(`${this.postApi}get-detail/${id}`, {
       headers: { Authorization: bearerToken }
     })
       .then(({ data }) => {
-        const { post, gallery } = data
+        const { post, gallery, time, content } = data
         this.forms.timeline_title = post.timeline_title
         this.forms.timeline_content = post.timeline_content
         this.forms.timeline_status = post.timeline_status
@@ -176,8 +176,18 @@ export default {
         this.galleryList = gallery
         this.forms.gallery = []
         this.postId = id
-        this.isEditForm = true
-        this.showForm = true
+        if (!view) {
+          this.isEditForm = true
+          this.showForm = true
+        } else {
+          if (!mobile) {
+            this.showPost = true
+          }
+
+          this.postInfo.author = post.author
+          this.postInfo.date = time
+          this.postInfo.content = content
+        }
       })
   },
   closeDeleteConfirm() {
