@@ -39,7 +39,6 @@
                 },
               ],
               ['quote', 'unordered', 'ordered', 'outdent', 'indent'],
-              ['viewsource'],
             ]"
             v-model="store.forms.timeline_content"
             min-height="10rem"
@@ -216,7 +215,7 @@ const formOpen = () => {
   publish.value = store.forms.timeline_status === 'public' ? true : false
 
   const saveStatus = computed(() => store.saveStatus)
-  if (saveStatus.value === 200 && !store.isEditForm) {
+  if (saveStatus.value === 200 || !store.isEditForm) {
     store.forms = {
       timeline_title: '',
       timeline_content: t('timeline_placeholder'),
@@ -230,11 +229,16 @@ const formOpen = () => {
 }
 
 const formClose = () => {
-  store.forms.gallery.forEach((item, index) => {
-    removeGalleryImage(item, index)
-  })
+  if (store.isEditForm) store.isEditForm = false
+  if (store.forms.gallery.length > 0) {
+    store.forms.gallery.forEach((item, index) => {
+      removeGalleryImage(item, index)
+    })
+  }
 
-  store.removeFeaturedImage()
+  if (store.forms.featured_image !== '') {
+    store.removeFeaturedImage()
+  }
 }
 
 const featuredImageUrl = computed(() => {

@@ -23,6 +23,7 @@
     ></iframe> -->
     <p v-html="store.postInfo.content"></p>
     <p class="text-h6 text-bold">{{ $t('timeline_gallery') }}</p>
+
     <q-carousel
       animated
       v-model="activeImage"
@@ -33,7 +34,7 @@
       control-color="primary"
       transition-prev="slide-right"
       transition-next="slide-left"
-      class="rounded-borders shadow-3"
+      class="rounded-borders shadow-3 q-mb-md"
       :thumbnails="$q.screen.gt.sm"
       :height="galleryHeight"
       v-if="store.galleryList.length > 0"
@@ -43,21 +44,19 @@
         :name="item.id"
         :key="index"
         :img-src="getImage(item.filename)"
-      >
-        <template v-slot:control>
-          <q-carousel-control position="bottom-right" :offset="[18, 18]">
-            <q-btn
-              push
-              round
-              dense
-              color="white"
-              text-color="primary"
-              :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
-              @click="fullscreen = !fullscreen"
-            />
-          </q-carousel-control>
-        </template>
-      </q-carousel-slide>
+      />
+      <template v-slot:control>
+        <q-carousel-control position="bottom-right" :offset="[18, 18]">
+          <q-btn
+            round
+            dense
+            color="primary"
+            text-color="white"
+            :icon="fullscreen ? 'fullscreen_exit' : 'fullscreen'"
+            @click="fullscreen = !fullscreen"
+          />
+        </q-carousel-control>
+      </template>
     </q-carousel>
   </div>
 </template>
@@ -71,6 +70,7 @@ import { conf } from 'src/composables/common'
 const store = usePostStore()
 const $q = useQuasar()
 const activeImage = $q.screen.lt.sm ? ref(null) : ref(store.galleryList[0].id)
+const slide = ref(1)
 
 const gallery = computed(() => store.galleryList)
 
