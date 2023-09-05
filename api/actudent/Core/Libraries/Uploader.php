@@ -111,12 +111,14 @@ class Uploader
 
     public function removeImage($targetFile)
     {
-        $filePath = PUBLICPATH . $this->basePath . $targetFile;
-        if(file_exists($filePath)) {
-            unlink($filePath);
-            return $filePath;
-        } else {
-            return 'No image to remove';
+        if(empty($targetFile) && $targetFile !== null && $targetFile !== 'null') {
+            $filePath = PUBLICPATH . $this->basePath . $targetFile;
+            if(file_exists($filePath)) {
+                unlink($filePath);
+                return $filePath;
+            } else {
+                return 'No image to remove';
+            }
         }
     }
 

@@ -20,7 +20,7 @@ return [
     'timeline_save_public'      => 'Post has been successfully published',
     'timeline_save_draft'       => 'Post has been saved as draft',
     'timeline_save_update'      => 'Successfully updated post',
-    'timeline_delete_success'   => 'Post have been deleted successfully',
+    'timeline_delete_success'   => 'Successfully deleted post',
     'timeline_posted_by'        => 'Posted by',
     'timeline_delete_confirm'   => 'Are you sure want to remove this post?',
     'timeline_delete_progress'  => 'Removing post...',
@@ -36,4 +36,5 @@ return [
     'timeline_placeholder'      => 'Tell something about <b>your school</b>...',
     'timeline_gallery_desc'     => 'Add up to 10 photos for your post (Max. 10 MB per photo)',
     'timeline_upload_failed'    => 'Unable to upload the following images:',
+    'timeline_delete_progress'  => 'Deleting post...',
 ];

@@ -205,21 +205,37 @@ class Post extends \Actudent
         }
     }
 
-    public function delete($id)
+    public function delete()
     {
-        $timeline = $this->post->getPostDetail($id)[0];
-        
-        // remove featured image from storage
-        $featuredImage = PUBLICPATH . 'attachments/timeline/' . $timeline->timeline_image;
-        if(file_exists($featuredImage))
-        {
-            unlink($featuredImage);
+        if(valid_token()) {
+            $post = $this->request->getPost('id');
+            $post = json_decode($post, true);
+            
+            foreach($post as $id) {
+                $detail = $this->post->getPostDetail($id);
+                
+                // delete featured image from storage
+                $getDate = explode('_', $detail->featured_image)[0];
+                $dirPath = "posts/$getDate/";
+                $this->uploader->removeImage($dirPath . $detail->featured_image);
+    
+                // retrieve gallery
+                $gallery = $this->post->getGallery($id);
+
+                // delete image gallery from storage
+                foreach($gallery as $g) {
+                    $galleryPath = 'posts/'.explode('_', $g->filename)[0];
+                    $this->uploader->removeImage($galleryPath . $g->filename);
+                }
+    
+                // delete post and its gallery from database
+                $this->post->delete($id);
+            }
+
+            return $this->response->setJSON(['status' => 'OK']);
         }
-
-        $this->post->delete($id);
-        return $this->response->setJSON(['status' => 'OK']);
     }
-
+    
     private function validation()
     {
         $rules = [

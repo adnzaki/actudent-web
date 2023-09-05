@@ -248,7 +248,6 @@ const featuredImageUrl = computed(() => {
 const getImage = (filename) => {
   const imagePath = `${conf.baseUrl()}images/posts/`
   const folder = filename.split('_')[0] + '/'
-  console.log(filename)
 
   return `${imagePath}${folder}${filename}`
 }

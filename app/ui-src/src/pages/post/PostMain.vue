@@ -21,9 +21,10 @@
       </q-card-section>
       <!-- <add-employee-form />
       <edit-employee-form />
-      <delete-confirm :store="store" @action="store.deleteEmployee()" />
+      
       <employee-table /> -->
       <post-form />
+      <delete-confirm :store="store" @action="store.deletePost" />
       <post-table />
       <view-post />
     </q-card>
@@ -52,6 +53,7 @@ export default {
     const store = usePostStore()
 
     return {
+      store,
       titleSpacing,
       wrapperPadding,
     }

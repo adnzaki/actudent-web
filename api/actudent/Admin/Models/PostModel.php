@@ -193,7 +193,7 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
         // transaction started
         $this->db->transStart();
         $this->QBPostImages->delete(['timeline_id' => $id]);
-        $this->QBPost->delete(['timeline_id' => $id]);
+        $this->QBPost->update(['deleted' => 1], ['timeline_id' => $id]);
 
         // transaction complete
         $this->db->transComplete();

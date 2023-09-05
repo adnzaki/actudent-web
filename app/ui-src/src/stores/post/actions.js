@@ -15,26 +15,19 @@ import { Notify } from 'quasar'
 import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
-  deleteRoom() {
-    let idString
-    if (this.selectedRooms.length > 1) {
-      idString = this.selectedRooms.join('-')
-    } else {
-      idString = this.selectedRooms[0]
-    }
-
+  deletePost() {
     // show notify
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
-      message: t('progress_hapus'),
+      message: t('timeline_delete_progress'),
       color: 'info',
       position: 'center',
       timeout: 0,
     })
 
-    const data = { id: idString }
-    admin.post(`${this.roomApi}delete`, data, {
+    const data = { id: JSON.stringify(this.selectedPosts) }
+    admin.post(`${this.postApi}delete`, data, {
       headers: { Authorization: bearerToken },
       transformRequest: [data => {
         return createFormData(data)
@@ -44,7 +37,7 @@ export default {
         this.helper.disableSaveButton = false
         this.deleteConfirm = false
         notifyProgress({
-          message: t('ruang_delete_success'),
+          message: t('timeline_delete_success'),
           color: 'positive',
           icon: 'done',
           spinner: false,
@@ -193,8 +186,8 @@ export default {
     this.checkAll = false
   },
   showDeleteConfirm(id) {
-    this.selectedRooms = []
-    this.selectedRooms.push(id)
+    this.selectedPosts = []
+    this.selectedPosts.push(id)
     this.deleteConfirm = true
   },
   selectAll() {
@@ -207,7 +200,7 @@ export default {
     }
   },
   multipleDeleteConfirm() {
-    if (this.selectedRooms.length > 0) {
+    if (this.selectedPosts.length > 0) {
       this.deleteConfirm = true
     } else {
       flashAlert(t('pilih_data_dulu'), 'negative')
