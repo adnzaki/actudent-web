@@ -156,7 +156,12 @@
               :key="index"
               :src="getImage(item.filename)"
               @action="
-                store.deleteImage('delete-image-gallery', item.id, 'gallery')
+                store.deleteImage(
+                  'delete-image-gallery',
+                  item.id,
+                  'gallery',
+                  galleryLimit
+                )
               "
             ></gallery-list>
           </q-list>

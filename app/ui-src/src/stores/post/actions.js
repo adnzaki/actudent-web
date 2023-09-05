@@ -65,7 +65,7 @@ export default {
       }
     })
   },
-  deleteImage(url, id, type) {
+  deleteImage(url, id, type, limit = null) {
     admin.get(`${this.postApi}${url}/${id}`, {
       headers: { Authorization: bearerToken },
     }).then(({ data }) => {
@@ -74,6 +74,9 @@ export default {
       } else {
         const index = this.galleryList.findIndex(item => item.id === id)
         this.galleryList.splice(index, 1)
+        if (this.galleryCount < limit) {
+          this.disableGalleryUploader = false
+        }
       }
     })
   },
@@ -164,6 +167,7 @@ export default {
   },
   getDetail(id, view = false, mobile = false) {
     this.error = {}
+    this.saveStatus = 500
     admin.get(`${this.postApi}get-detail/${id}`, {
       headers: { Authorization: bearerToken }
     })
