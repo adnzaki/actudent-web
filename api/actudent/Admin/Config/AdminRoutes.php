@@ -172,6 +172,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('test-array', 'Test::arrayEach');
 	$routes->add('test-post', 'Test::testGetPost');
 	$routes->add('test-timestamp', 'Test::testTimestamp');
+	$routes->add('test-zip', 'Test::zip');
 	$routes->add('template/icons', 'Template::icons');
 	$routes->add('template/buttons', 'Template::buttons');
 	$routes->add('pengaturan-laporan/upload-kop', 'Setting::uploadLetterhead');
