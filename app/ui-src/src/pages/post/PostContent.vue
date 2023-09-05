@@ -14,16 +14,13 @@
       <q-icon name="o_schedule" style="margin-top: -3px" />
       {{ store.postInfo.date }}
     </p>
-    <!-- Carousel Gallery -->
 
-    <!-- <iframe
-      style="width: 100%; min-height: 200px; overflow-y: visible"
-      :src="imgSrc"
-      frameborder="0"
-    ></iframe> -->
     <p v-html="store.postInfo.content"></p>
-    <p class="text-h6 text-bold">{{ $t('timeline_gallery') }}</p>
 
+    <!-- Carousel Gallery -->
+    <p class="text-h6 text-bold" v-if="store.galleryList.length > 0">
+      {{ $t('timeline_gallery') }}
+    </p>
     <q-carousel
       animated
       v-model="activeImage"
@@ -69,8 +66,10 @@ import { conf } from 'src/composables/common'
 
 const store = usePostStore()
 const $q = useQuasar()
-const activeImage = $q.screen.lt.sm ? ref(null) : ref(store.galleryList[0].id)
-const slide = ref(1)
+const activeImage =
+  $q.screen.lt.sm || store.galleryList[0] === undefined
+    ? ref(null)
+    : ref(store.galleryList[0].id)
 
 const gallery = computed(() => store.galleryList)
 
