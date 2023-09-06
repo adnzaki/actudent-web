@@ -139,8 +139,9 @@
 
           <q-btn
             icon="turned_in"
+            unelevated
             :style="inviteBtn"
-            color="accent"
+            :class="addButton"
             :label="$t('agenda_add_guests')"
             v-if="userType === '1'"
             @click="showGuestSelector"
@@ -243,12 +244,12 @@
       <q-card-actions align="right">
         <!-- delete button for desktop -->
         <q-btn
-          outline
           v-if="
             $q.cookies.get(conf.userType) === '1' &&
             isEditForm &&
             !$q.screen.lt.sm
           "
+          unelevated
           :label="$t('hapus')"
           @click="store.deleteConfirm = true"
           color="negative"
@@ -256,30 +257,29 @@
         <!-- #END -->
 
         <q-btn
-          outline
           v-if="!$q.screen.lt.sm"
           :label="$t('tutup')"
-          :color="closeBtnColor"
+          class="close-btn"
+          unelevated
           v-close-popup
         />
         <q-btn
           v-if="$q.cookies.get(conf.userType) === '1'"
-          class="mobile-form-btn"
+          class="mobile-form-btn save-btn"
+          unelevated
           :label="$t('simpan')"
           @click="save"
           :disable="disableSaveButton"
-          color="primary"
-          padding="8px 20px"
         />
 
         <!-- delete button for mobile -->
         <q-btn
-          outline
           v-if="
             $q.cookies.get(conf.userType) === '1' &&
             isEditForm &&
             $q.screen.lt.sm
           "
+          unelevated
           class="mobile-form-btn"
           style="margin-left: -10px"
           :label="$t('hapus')"
@@ -305,7 +305,14 @@ import { useAgendaStore } from 'src/stores/agenda'
 import { selectedLang } from '../../composables/date'
 import { ref, reactive, computed, provide } from 'vue'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
-import { t, axios, bearerToken, conf, userType } from 'src/composables/common'
+import {
+  t,
+  axios,
+  bearerToken,
+  conf,
+  userType,
+  addButton,
+} from 'src/composables/common'
 
 export default {
   name: 'AgendaForm',
@@ -483,6 +490,7 @@ export default {
       formData,
       formOpen,
       formHide,
+      addButton,
       isEditForm,
       guestWrapper,
       attachmentUrl,

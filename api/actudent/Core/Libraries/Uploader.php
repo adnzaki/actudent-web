@@ -25,6 +25,8 @@ class Uploader
      * - dir: the target directory (must belong to "uploads" directory)
      * - maxSize: maximum size of the image
      * - crop: either to use resize(), fit() or stretch() to crop image
+     * - prefix: insert prefix into new filename
+     * - fit-position: set position to apply with fit() method
      * 
      * 
      * @param array $config
@@ -33,11 +35,8 @@ class Uploader
      */
     public function uploadImage(array $config)
     {
-        if($this->validateFile($config['file'], $config['maxSize'])) {
-            $attachment = $this->request->getFile($config['file']);
-            $newFilename = $attachment->getRandomName();
-            $dirPath = PUBLICPATH . $this->basePath . $config['dir'] . '/';
-            $filePath = $dirPath . $newFilename;
+        if($this->validateFile($config['file'], $config['maxSize'])) {            
+            $dirPath = PUBLICPATH . $this->basePath . $config['dir'] . '/';            
 
             // check directory,
             // if it does not exist, then make it first
@@ -45,22 +44,22 @@ class Uploader
                 mkdir($dirPath, 0777, true);
             }
 
-            $attachment->move($dirPath, $newFilename);
-            $image = \Config\Services::image()->withFile($filePath);
+            $attachment = $this->request->getFiles();
+            if(gettype($attachment[$config['file']]) === 'array') {
+                $uploadedFiles = [];
+                foreach($attachment[$config['file']] as $file) {
+                    $uploadedFiles[] = $this->doUploadImage($config, $file, $dirPath);
+                }
 
-            if($config['crop'] === 'resize') {
-                $image->resize($config['width'], $config['height'], true);
-            } elseif($config['crop'] === 'fit') {
-                $image->fit($config['width'], $config['height']);
+                $response = [
+                    'msg'       => 'OK',
+                    'uploaded'  => $uploadedFiles,
+                ];
+            } else {
+                $uploaded = $this->doUploadImage($config, $attachment[$config['file']], $dirPath);
+                $response = array_merge(['msg' => 'OK'], $uploaded);
             }
-                    
-            $image->save($filePath);
            
-            $response = [
-                'msg'       => 'OK',
-                'url'       => base_url($this->basePath . $config['dir'] .'/'. $newFilename),
-                'filename'  => $newFilename,
-            ];
         } else {
             $response = [
                 'msg'       => 'Error',
@@ -71,29 +70,54 @@ class Uploader
         return $response;
     }
 
-    public function removeImage($targetFile)
+    public function setBasePath($basePath)
     {
-        $filePath = PUBLICPATH . $this->basePath . $targetFile;
-        if(file_exists($filePath)) {
-            unlink($filePath);
-            return $filePath;
-        } else {
-            return 'No image to remove';
+        $this->basePath = $basePath;
+
+        return $this;
+    }
+
+    private function doUploadImage(array $config, $file, $dirPath)
+    {
+        $prefix = $config['prefix'] ?? '';
+        $fitPosition = $config['fit-position'] ?? 'center';
+        $newFilename = $prefix . $file->getRandomName();
+        $filePath = $dirPath . $newFilename;
+        $file->move($dirPath, $newFilename);
+
+        $image = \Config\Services::image()->withFile($filePath);
+        if($config['crop'] === 'resize') {
+            $image->resize($config['width'], $config['height'], true);
+        } elseif($config['crop'] === 'fit') {
+            $image->fit($config['width'], $config['height'], $fitPosition);
+        }                
+        $image->save($filePath);
+
+        return [
+            'url'       => base_url($this->basePath . $config['dir'] .'/'. $newFilename),
+            'filename'  => $newFilename,
+        ];
+    }
+
+    public function removePreviousImage($oldFile, $newFile, $uploadPath)
+    {
+        if(empty($oldFile) && $oldFile !== null && $oldFile !== 'null') {
+            if($oldFile !== $newFile) {
+                $filePath = $uploadPath .'/'. $oldFile;
+                $this->removeImage($filePath);
+            }
         }
     }
 
-    public function removePreviousImage(string $oldFile, string $newFile, string $uploadPath)
+    public function removeImage($targetFile)
     {
-        $dirPath = PUBLICPATH . $this->basePath . $uploadPath;
-        if($oldFile !== '' && $oldFile !== null && $oldFile !== 'null') {
-            if($oldFile !== $newFile) {
-                $filePath = $dirPath .'/'. $oldFile;
-                if(file_exists($filePath)) {
-                    unlink($filePath);
-                    return $filePath;
-                } else {
-                    return 'No image to remove';
-                }
+        if(empty($targetFile) && $targetFile !== null && $targetFile !== 'null') {
+            $filePath = PUBLICPATH . $this->basePath . $targetFile;
+            if(file_exists($filePath)) {
+                unlink($filePath);
+                return $filePath;
+            } else {
+                return 'No image to remove';
             }
         }
     }

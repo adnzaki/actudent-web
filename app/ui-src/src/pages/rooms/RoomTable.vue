@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table bordered wrap-cells>
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]">
@@ -35,23 +35,17 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="edit"
                   @click="store.getDetail(item.room_id)"
                 />
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="delete"
                   @click="store.showDeleteConfirm(item.room_id)"
                 />
               </q-btn-group>
-              <q-btn
-                round
-                icon="more_vert"
-                color="accent"
-                class="mobile-only"
-                outline
-              >
+              <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item
@@ -87,6 +81,7 @@ import { watch, computed, defineComponent } from 'vue'
 import { checkColWidth } from 'src/composables/screen'
 import { useRoomStore } from 'src/stores/room'
 import { usePagingStore } from 'ss-paging-vue'
+import { actionButton } from 'src/composables/mode'
 
 export default defineComponent({
   name: 'RoomTable',
@@ -105,6 +100,7 @@ export default defineComponent({
     return {
       store,
       paging,
+      actionButton,
       data: pagingData,
       checkColWidth,
     }

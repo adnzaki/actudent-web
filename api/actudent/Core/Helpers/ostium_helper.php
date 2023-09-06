@@ -23,58 +23,6 @@
 
 // ------------------------------------------------------------------------
 
-if(! function_exists('filter_link'))
-{
-    /**
-     * Filter Link
-     *
-     * This function used to style a link that is currently active.
-     *
-     * @param mixed $target
-     * @param string $word
-     * @return string
-     */
-    function filter_link($target, $word)
-    {
-        // Get CodeIgniter instance object
-        $CI =& get_instance();
-
-        // Style to mark active link
-        $current_link = ['<b style=color:#000;>', '</b>'];
-
-        // Check whether $target is array or string
-        is_array($target) ? $total = $CI->Posts_data->get_total_post() : $total = $CI->Posts_data->get_total_post($target);
-
-        // Link output
-        $active_link = $current_link[0] . $word . " (" . $total . ")" . $current_link[1];
-        $inactive_link = $word . " (" . $total . ")";
-
-        if(is_array($target))
-        {
-            if($CI->uri->segment(1) === $target[0] OR $CI->uri->segment(2) === $target[1] OR $CI->uri->segment(3) === $target[2])
-            {
-                $output = $active_link;
-            }
-            else
-            {
-                $output = $inactive_link;
-            }
-        }
-        else
-        {
-            if($CI->uri->segment(3) === $target)
-            {
-                $output = $active_link;
-            }
-            else
-            {
-                $output = $inactive_link;
-            }
-        }
-
-        return $output;
-    }
-}
 
 if(! function_exists('multidimensional_array_unique'))
 {
@@ -108,58 +56,6 @@ if(! function_exists('multidimensional_array_unique'))
     }
 }
 
-if(! function_exists('offset_generator'))
-{
-    /**
-     * Offset Generator
-     * Well, it's a little bit confusing to give the name of this function
-     * But because it's related to offset, and return a number, I named it 'Offset Generator'
-     *
-     * @return int
-     */
-     function offset_generator()
-     {
-         $CI =& get_instance();
-         $uri_length = $CI->uri->total_segments();
-
-         if($uri_length === 3)
-         {
-             $offset = $CI->uri->segment(4);
-         }
-         elseif($uri_length === 4)
-         {
-             $offset = $CI->uri->segment(5);
-         }
-         elseif($uri_length === 5 OR $uri_length > 5)
-         {
-             $offset = $CI->uri->segment(6);
-         }
-
-         return $offset;
-     }
-}
-
-if(! function_exists('check_session'))
-{
-    /**
-     * Check Session
-     * A function to check whether the session is exist or not
-     *
-     * @return bool
-     */
-     function check_session()
-     {
-         $CI =& get_instance();
-         if($CI->session->has_userdata('username'))
-         {
-             return TRUE;
-         }
-         else
-         {
-             return FALSE;
-         }
-     }
-}
 
 if(! function_exists('in_assoc_array'))
 {
@@ -213,24 +109,6 @@ if(! function_exists('menu_active'))
         }        
 
         return $class;
-    }
-}
-
-if(! function_exists('user_data'))
-{
-    /**
-     * User Data
-     * Display some user data on the sidebar
-     *
-     * @param string $data
-     * @return string
-     */
-    function user_data($data)
-    {
-        $CI =& get_instance();
-        $query = $CI->db->get_where('os_user', ['user_login' => $CI->session->userdata('username')]);
-        $user = $query->result_array();
-        return $user[0][$data];
     }
 }
 

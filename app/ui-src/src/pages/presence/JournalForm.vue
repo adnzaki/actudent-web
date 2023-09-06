@@ -100,14 +100,13 @@
           :label="$t('tutup')"
           color="negative"
           v-close-popup
+          class="close-btn"
         />
         <q-btn
-          class="mobile-form-btn"
+          class="mobile-form-btn save-btn"
           :label="$t('simpan')"
           :disable="disableSaveButton"
           @click="save"
-          color="primary"
-          padding="8px 20px"
         />
       </q-card-actions>
     </q-card>

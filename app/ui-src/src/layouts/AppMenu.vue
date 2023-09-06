@@ -128,6 +128,7 @@
         />
         <!-- <menu-item icon="restore" :label="$t('menu_timeline')" link="" /> -->
       </div>
+      <menu-item icon="list_alt" :label="$t('menu_post')" link="/post" />
 
       <!-- Report Menu -->
       <q-expansion-item

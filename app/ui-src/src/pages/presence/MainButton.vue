@@ -1,12 +1,20 @@
 <template>
   <div class="col-12">
     <div class="q-gutter-xs">
-      <q-btn color="deep-purple" icon="assessment" 
-        class="q-pl-sm mobile-hide" :label="$t('absensi_jurnal')"
+      <q-btn
+        icon="assessment"
+        :class="['q-pl-sm mobile-hide', addButton]"
+        :label="$t('absensi_jurnal')"
         v-if="store.showJournalBtn || isTeacherSection"
         @click="showJournalForm"
       />
-      <q-btn-dropdown v-if="store.presenceButtons" color="info" icon="bookmark_add" class="q-pl-sm" :label="$t('aksi')">
+      <q-btn-dropdown
+        v-if="store.presenceButtons"
+        color="cyan-6"
+        icon="bookmark_add"
+        class="q-pl-sm"
+        :label="$t('aksi')"
+      >
         <q-list>
           <q-item clickable v-close-popup @click="savePresence(1)">
             <q-item-section>
@@ -31,20 +39,31 @@
           </q-item>
         </q-list>
       </q-btn-dropdown>
-      <q-btn-dropdown color="teal-9" icon="print" class="q-pl-lg" 
-        :label="printLabel" v-if="!isTeacherSection">
+      <q-btn-dropdown
+        color="teal-6"
+        icon="print"
+        class="q-pl-lg"
+        :label="printLabel"
+        v-if="!isTeacherSection"
+      >
         <q-list>
-          <q-item clickable v-close-popup
-            style="min-width: 200px;"
+          <q-item
+            clickable
+            v-close-popup
+            style="min-width: 200px"
             :href="exportReportUrl('jurnal')"
-            target="_blank">
+            target="_blank"
+          >
             <q-item-section>
               <q-item-label>{{ $t('absensi_cetak_jurnal') }}</q-item-label>
             </q-item-section>
           </q-item>
-          <q-item clickable v-close-popup
+          <q-item
+            clickable
+            v-close-popup
             :href="exportReportUrl('absen')"
-            target="_blank">
+            target="_blank"
+          >
             <q-item-section>
               <q-item-label>{{ $t('absensi_cetak_absen') }}</q-item-label>
             </q-item-section>
@@ -53,12 +72,17 @@
       </q-btn-dropdown>
     </div>
 
-    <q-page-sticky position="bottom-right" 
-      :offset="fabPos" 
-      class="mobile-only force-elevated">
-      <q-btn fab icon="description" color="deep-purple" 
+    <q-page-sticky
+      position="bottom-right"
+      :offset="fabPos"
+      class="mobile-only force-elevated"
+    >
+      <q-btn
+        fab
+        icon="description"
+        :class="addButton"
         v-if="store.showJournalBtn || isTeacherSection"
-        @click="showJournalForm" 
+        @click="showJournalForm"
       />
     </q-page-sticky>
   </div>
@@ -69,7 +93,7 @@ import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useI18n } from 'vue-i18n'
 import { fabPos } from 'src/composables/fab'
-import { conf } from 'src/composables/common'
+import { conf, addButton } from 'src/composables/common'
 import { useRouter, useRoute } from 'vue-router'
 import { usePresenceStore } from 'src/stores/presence'
 
@@ -83,14 +107,18 @@ export default {
     const store = usePresenceStore()
     const isTeacherSection = computed(() => store.isTeacherSection)
 
-    const exportReportUrl = type => { // type = "jurnal" | "absen"
+    const exportReportUrl = (type) => {
+      // type = "jurnal" | "absen"
       const params = {
-        grade_id: isTeacherSection.value ? route.params.classId : route.params.id,
-        day: store.helper.activeDay === '' 
-             ? localStorage.getItem('date') 
-             : store.helper.activeDay,
+        grade_id: isTeacherSection.value
+          ? route.params.classId
+          : route.params.id,
+        day:
+          store.helper.activeDay === ''
+            ? localStorage.getItem('date')
+            : store.helper.activeDay,
         date: store.helper.activeDate,
-        token: $q.cookies.get(conf.cookieName)
+        token: $q.cookies.get(conf.cookieName),
       }
 
       const { grade_id, day, date, token } = params
@@ -105,24 +133,25 @@ export default {
     }
 
     const showPermissionForm = () => {
-      store.multiPresence(() => store.showPermissionForm = true)   
+      store.multiPresence(() => (store.showPermissionForm = true))
     }
 
-    const savePresence = status => {
+    const savePresence = (status) => {
       store.multiPresence(() => store.savePresence({ status }))
     }
 
-    return { 
+    return {
       store,
       fabPos,
+      addButton,
       savePresence,
       exportReportUrl,
       backToClassList,
       isTeacherSection,
       showPermissionForm,
-      showJournalForm: () => store.showJournalForm = true,
+      showJournalForm: () => (store.showJournalForm = true),
       printLabel: $q.screen.lt.sm ? '' : t('absensi_cetak_laporan'),
     }
-  }
+  },
 }
 </script>

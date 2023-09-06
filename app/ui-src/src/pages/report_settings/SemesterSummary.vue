@@ -34,8 +34,7 @@
           @click="
             store.save(store.semester_summary_sign, 'semester_summary_sign')
           "
-          color="primary"
-          padding="8px 20px"
+          class="save-btn"
         />
       </q-card-actions>
     </q-card-section>

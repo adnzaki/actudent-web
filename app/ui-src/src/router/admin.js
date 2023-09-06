@@ -33,6 +33,8 @@ import EventsRoute from 'src/siabsen_pages/admin_events/EventsRoute.vue'
 import EventsAttendance from 'src/siabsen_pages/admin_events/EventsAttendance.vue'
 import Holiday from 'src/siabsen_pages/holiday/MainPage.vue'
 import UsersMain from 'pages/users/UsersMain.vue'
+import PostMain from 'pages/post/PostMain.vue'
+import ViewPostMobile from 'pages/post/ViewPostMobile.vue'
 import ReportSettings from 'pages/report_settings/IndexPage.vue'
 
 export default [
@@ -67,7 +69,8 @@ export default [
       { path: 'period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator() },
     ]
   },
-  { path: '/account', component: UserAccount, beforeEnter: () => routeValidator('valid_token') },
+  { path: 'account', component: UserAccount, beforeEnter: () => routeValidator('valid_token') },
+
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
 
@@ -101,5 +104,7 @@ export default [
     ]
   },
   { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() },
+  { path: 'post', component: PostMain, beforeEnter: () => routeValidator('valid_token') },
+  { path: 'post/view/:id', component: ViewPostMobile, beforeEnter: () => routeValidator('valid_token') },
   { path: 'report-settings', component: ReportSettings, beforeEnter: () => routeValidator() }
 ]

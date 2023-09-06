@@ -1,6 +1,6 @@
 <template>
   <q-card class="my-card">
-    <q-card-section>
+    <q-card-section class="q-mb-md">
       <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
         {{ $t('menu_kelas') }}
       </div>

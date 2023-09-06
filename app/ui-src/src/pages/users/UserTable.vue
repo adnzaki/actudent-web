@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table bordered wrap-cells>
         <thead>
           <tr>
             <th class="text-center cursor-pointer mobile-hide">#</th>
@@ -23,13 +23,19 @@
             <td class="text-center mobile-hide">
               {{ paging.itemNumber(index) }}
             </td>
-            <td class="text-left">{{ item.name }}</td>
+            <td class="text-left mobile-hide">{{ item.name }}</td>
+            <td class="text-left mobile-only">
+              {{ item.name }}<br />
+              <small class="text-grey-7">{{ item.email }}</small
+              ><br />
+              <q-badge color="primary">{{ item.level }}</q-badge>
+            </td>
             <td class="text-left mobile-hide">{{ item.email }}</td>
             <td class="text-left mobile-hide">{{ item.level }}</td>
             <td class="text-left">
               <q-btn
                 v-if="conf.mode === 'production'"
-                color="accent"
+                :class="actionButton"
                 icon="o_autorenew"
                 @click="getDetail(item.id)"
               >
@@ -38,14 +44,14 @@
               <div v-else>
                 <q-btn-group class="mobile-hide">
                   <q-btn
-                    color="accent"
+                    :class="actionButton"
                     icon="o_autorenew"
                     @click="getDetail(item.id)"
                   >
                     <btn-tooltip :label="$t('user_reset_password')" />
                   </q-btn>
                   <q-btn
-                    color="accent"
+                    :class="actionButton"
                     icon="o_person_off"
                     @click="showDeactivateConfirm(item.id)"
                   >
@@ -55,9 +61,9 @@
                 <q-btn
                   round
                   icon="more_vert"
-                  color="accent"
                   class="mobile-only"
-                  outline
+                  flat
+                  unelevated
                 >
                   <q-menu>
                     <q-list style="min-width: 100px">
@@ -100,6 +106,7 @@ import { conf } from 'src/composables/common'
 import { useUserStore } from 'src/stores/user'
 import { usePagingStore } from 'ss-paging-vue'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/common'
 
 export default {
   setup() {
@@ -110,6 +117,7 @@ export default {
       conf,
       store,
       paging,
+      actionButton,
       checkColWidth,
       data: computed(() => paging.state.data),
       getDetail: (id) => store.getUserDetail(id),

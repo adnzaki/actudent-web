@@ -7,7 +7,7 @@
   >
     <q-card class="q-pa-sm" style="width: 400px">
       <q-card-section class="row items-center q-pb-none">
-        <div class="text-h6 text-capitalize">{{ $t("menu_pengaturan") }}</div>
+        <div class="text-h6 text-capitalize">{{ $t('menu_pengaturan') }}</div>
         <q-space />
         <q-btn icon="close" flat round dense v-close-popup />
       </q-card-section>
@@ -63,14 +63,14 @@
           :label="$t('tutup')"
           color="negative"
           v-close-popup
+          class="close-btn"
         />
         <q-btn
           :label="$t('simpan')"
-          class="mobile-form-btn"
           :disable="disableSaveButton"
           @click="store.saveSettings()"
-          color="primary"
-          padding="8px 20px"
+          class="mobile-form-btn save-btn"
+          unelevated
         />
       </q-card-actions>
     </q-card>
@@ -78,23 +78,23 @@
 </template>
 
 <script>
-import { computed } from "vue";
-import { useScheduleStore } from "src/stores/schedule";
-import { maximizedDialog } from "../../composables/screen";
+import { computed } from 'vue'
+import { useScheduleStore } from 'src/stores/schedule'
+import { maximizedDialog } from '../../composables/screen'
 
 export default {
-  name: "MappingSettingForm",
+  name: 'MappingSettingForm',
   setup() {
-    const store = useScheduleStore();
+    const store = useScheduleStore()
 
-    const disableSaveButton = computed(() => store.schedule.disableSaveButton);
+    const disableSaveButton = computed(() => store.schedule.disableSaveButton)
 
     return {
       store,
       maximizedDialog,
       disableSaveButton,
       error: computed(() => store.error),
-    };
+    }
   },
-};
+}
 </script>

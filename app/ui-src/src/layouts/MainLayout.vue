@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated :class="header">
+    <q-header :elevated="elevated" :class="header">
       <q-toolbar>
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-toolbar-title class="mobile-hide"
@@ -11,7 +11,7 @@
         >
         <!-- Notification button here -->
         <q-btn flat round dense icon="account_circle">
-          <q-menu>
+          <q-menu :class="userMenu">
             <q-list separator>
               <other-actions
                 icon="o_manage_accounts"
@@ -80,11 +80,18 @@ export default defineComponent({
     const store = useSiabsenStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
     const header = ref('')
+    const elevated = ref(true)
+    const userMenu = ref(['user-menu'])
+
     function triggerHeader() {
       if (headerColor.value === 'dark') {
         header.value = 'bg-grey-10'
+        elevated.value = false
+        userMenu.value.push('user-menu-dark')
       } else {
-        header.value = 'bg-blue'
+        header.value = 'header-gradient'
+        elevated.value = true
+        userMenu.value.pop()
       }
     }
 
@@ -109,6 +116,8 @@ export default defineComponent({
         localStorage.removeItem('lesson')
         window.location.reload()
       },
+      userMenu,
+      elevated,
       drawer: ref(false),
       userAction,
       hideUserAction,

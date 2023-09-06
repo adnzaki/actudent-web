@@ -10,6 +10,21 @@
  * @link        https://wolestech.com
  */
 
+if(! function_exists('user_data')) {
+    /**
+     * An alias to \Actudent::getDataPengguna()
+     * 
+     * @param string $token
+     * 
+     * @return object
+     */
+    function user_data()
+    {
+        $ac = new \Actudent;
+        return $ac->getDataPengguna();
+    }
+}
+
 if ( ! function_exists('get_lang'))
 {
     /**

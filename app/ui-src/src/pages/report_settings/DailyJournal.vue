@@ -32,8 +32,7 @@
           :label="$t('simpan')"
           :disable="store.disableButton"
           @click="store.save(store.daily_journal_sign, 'daily_journal_sign')"
-          color="primary"
-          padding="8px 20px"
+          class="save-btn"
         />
       </q-card-actions>
     </q-card-section>

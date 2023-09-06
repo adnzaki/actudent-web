@@ -1,7 +1,9 @@
 <template>
   <q-card class="my-card">
-    <q-card-section>
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">{{ $t('menu_jadwal') }}</div>
+    <q-card-section class="q-mb-md">
+      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+        {{ $t('menu_jadwal') }}
+      </div>
       <div class="text-h6 text-capitalize" v-else>{{ $t('menu_jadwal') }}</div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
@@ -25,12 +27,12 @@ export default {
   components: {
     ClassList,
     MainButton,
-    MappingSettingForm
+    MappingSettingForm,
   },
   setup() {
     return {
-      titleSpacing
+      titleSpacing,
     }
-  }
+  },
 }
 </script>

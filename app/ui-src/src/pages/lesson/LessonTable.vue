@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table bordered wrap-cells>
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]">
@@ -39,23 +39,17 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="edit"
                   @click="store.getDetail(item.lesson_id)"
                 />
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="delete"
                   @click="store.showDeleteConfirm(item.lesson_id)"
                 />
               </q-btn-group>
-              <q-btn
-                round
-                icon="more_vert"
-                color="accent"
-                class="mobile-only"
-                outline
-              >
+              <q-btn round icon="more_vert" class="mobile-only" flat unelevated>
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item
@@ -91,6 +85,7 @@ import { watch, computed } from 'vue'
 import { usePagingStore } from 'ss-paging-vue'
 import { useLessonStore } from 'src/stores/lesson'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   name: 'LessonTable',
@@ -110,6 +105,7 @@ export default {
     return {
       store,
       paging,
+      actionButton,
       checkColWidth,
       data: computed(() => paging.state.data),
     }

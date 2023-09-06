@@ -84,8 +84,11 @@ export const useSetupStore = defineStore('setup', {
     createSchool() {
       this.doInstall('school', () => this.createSetting())
     },
+    createTimeline() {
+      this.doInstall('timeline', () => this.createSchool())
+    },
     createAgenda() {
-      this.doInstall('agenda', () => this.createSchool())
+      this.doInstall('agenda', () => this.createTimeline())
     },
     createPresence() {
       this.doInstall('presence', () => this.createAgenda())

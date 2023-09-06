@@ -2,16 +2,16 @@
   <div class="col-12">
     <div class="q-gutter-xs mobile-hide">
       <q-btn
-        color="deep-purple"
         icon="add"
-        class="q-pl-sm"
+        unelevated
+        :class="['q-pl-sm', addButton]"
         :label="$t('tambah')"
         @click="store.lesson.showAddForm = true"
       />
       <q-btn
-        color="negative"
         icon="delete"
-        class="q-pl-sm"
+        unelevated
+        class="q-pl-sm delete-btn"
         :label="$t('hapus')"
         @click="store.multipleDeleteConfirm()"
       />
@@ -25,14 +25,14 @@
       <q-btn
         fab
         icon="add"
-        color="deep-purple"
+        :class="addButton"
         @click="store.lesson.showAddForm = true"
         v-if="selected.length === 0"
       />
       <q-btn
         fab
         icon="delete"
-        color="negative"
+        class="delete-btn"
         @click="store.multipleDeleteConfirm()"
         v-if="selected.length > 0"
       />
@@ -44,6 +44,7 @@
 import { computed } from 'vue'
 import { fabPos } from 'src/composables/fab'
 import { useScheduleStore } from 'src/stores/schedule'
+import { addButton } from 'src/composables/mode'
 
 export default {
   name: 'LessonsButton',
@@ -53,6 +54,7 @@ export default {
     return {
       store,
       fabPos,
+      addButton,
       selected: computed(() => store.lesson.selected),
     }
   },

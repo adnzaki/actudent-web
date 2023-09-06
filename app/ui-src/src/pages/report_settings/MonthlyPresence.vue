@@ -34,8 +34,7 @@
           @click="
             store.save(store.monthly_presence_sign, 'monthly_presence_sign')
           "
-          color="primary"
-          padding="8px 20px"
+          class="save-btn"
         />
       </q-card-actions>
     </q-card-section>

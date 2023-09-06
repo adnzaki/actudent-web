@@ -39,18 +39,18 @@
       <q-card-actions align="right">
         <q-btn
           flat
-          v-if="!$q.screen.lt.sm"
           :label="$t('tutup')"
+          v-if="!$q.screen.lt.sm"
           color="negative"
           v-close-popup
+          class="close-btn"
         />
         <q-btn
-          class="mobile-form-btn"
           :label="$t('simpan')"
+          class="mobile-form-btn save-btn"
+          unelevated
           :disable="disableSaveButton"
           @click="save"
-          color="primary"
-          padding="8px 20px"
         />
       </q-card-actions>
     </q-card>

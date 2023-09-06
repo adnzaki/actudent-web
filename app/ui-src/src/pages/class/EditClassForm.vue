@@ -42,14 +42,14 @@
           v-if="!$q.screen.lt.sm"
           color="negative"
           v-close-popup
+          class="close-btn"
         />
         <q-btn
           :label="$t('simpan')"
-          class="mobile-form-btn"
+          class="mobile-form-btn save-btn"
+          unelevated
           :disable="disableSaveButton"
           @click="save"
-          color="primary"
-          padding="8px 20px"
         />
       </q-card-actions>
     </q-card>
