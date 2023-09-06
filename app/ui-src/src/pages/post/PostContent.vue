@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="width: 100%">
     <p class="text-h5 text-bold">{{ store.forms.timeline_title }}</p>
     <q-img
       :style="{ width: '100%', height: featuredImageHeight }"
@@ -55,14 +55,22 @@
         </q-carousel-control>
       </template>
     </q-carousel>
+    <q-btn
+      icon="file_download"
+      unelevated
+      :style="inviteBtn"
+      :class="addButton"
+      :label="$t('timeline_download_media')"
+      @click="downloadMedia"
+    />
   </div>
 </template>
 
 <script setup>
 import { useQuasar } from 'quasar'
-import { ref, computed, watch } from 'vue'
+import { ref, reactive, computed, watch } from 'vue'
 import { usePostStore } from 'src/stores/post'
-import { conf } from 'src/composables/common'
+import { conf, bearerToken, addButton, admin } from 'src/composables/common'
 
 const store = usePostStore()
 const $q = useQuasar()
@@ -71,6 +79,21 @@ const activeImage =
     ? ref(null)
     : ref(store.galleryList[0].id)
 
+const downloadMedia = () => {
+  admin
+    .get(`${store.postApi}download-media/${store.postId}`, {
+      headers: { Authorization: bearerToken },
+    })
+    .then(({ data }) => {
+      window.open(data.url, '_blank')
+    })
+}
+
+const inviteBtn = reactive({
+  width: $q.screen.lt.sm ? '98%' : '99%',
+  marginLeft: 0,
+  marginTop: '15px',
+})
 const gallery = computed(() => store.galleryList)
 
 watch(gallery, () => {

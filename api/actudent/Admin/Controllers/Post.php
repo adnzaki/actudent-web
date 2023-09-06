@@ -68,6 +68,26 @@ class Post extends \Actudent
         ]);
     }
 
+    public function downloadMedia($postId)
+    {
+        $detail = $this->post->getPostDetail($postId);
+        $gallery = $this->post->getGallery($postId);
+        $featuredImage = explode('_', $detail->featured_image)[0] .'/'. $detail->featured_image;
+        $images = [];
+        foreach($gallery as $image) {
+            $images[] = explode('_', $image->filename)[0]. '/' . $image->filename;
+        }
+
+        array_unshift($images, $featuredImage);
+        $zip = new \Zipper(PUBLICPATH . 'images/posts/', true);
+        $createZip = $zip->create($images, 'Post-Media', 'archive');
+
+        return $this->createResponse([
+            'files' => $images,
+            'url'   => base_url('images/posts/archive/' . $createZip['output'])
+        ]);
+    }
+
     public function save($id = null)
     {
         if(valid_token()) {

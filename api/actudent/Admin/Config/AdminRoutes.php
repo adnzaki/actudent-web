@@ -128,6 +128,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('post/remove-image/(:any)', 'Post::removeImage/$1');
 	$routes->add('post/get-detail/(:any)', 'Post::getPostDetail/$1');
 	$routes->add('post/delete', 'Post::delete');
+	$routes->add('post/download-media/(:any)', 'Post::downloadMedia/$1');
 	$routes->add('nilai', 'Nilai::index');
 	$routes->add('nilai/get-kategori/(:any)/(:any)/(:any)', 'Nilai::getScores/$1/$2/$3');
 	$routes->add('nilai/save/(:num)/(:alpha)', 'Nilai::save/$1/$2');

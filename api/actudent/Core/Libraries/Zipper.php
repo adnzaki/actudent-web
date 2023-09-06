@@ -38,7 +38,7 @@ class Zipper
      * 
      * @return array
      */
-    public function create(array|string $files, string $dir = '')
+    public function create($files, string $filename, string $dir = '')
     {
         if(! empty($dir)) {
             $this->path .= $dir.'/';
@@ -47,7 +47,7 @@ class Zipper
         if(! is_dir($this->path)) {
             mkdir($this->path, 0777, true);
         }
-        $filename = 'Archived-Files_'. time() . '.zip';
+        $filename .= '_'.time() . '.zip';
         $filepath = $this->path . $filename;
         if($this->zip->open($filepath, $this->zip::CREATE)) {
             $zippedFiles = [];
@@ -80,7 +80,7 @@ class Zipper
      * 
      * @param string $inputPath The input file path
      * 
-     * @return this
+     * @return Zipper
      */
     public function setInputPath(string $inputPath)
     {

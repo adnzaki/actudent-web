@@ -37,4 +37,5 @@ return [
     'timeline_gallery_desc'     => 'Tambahkan hingga 10 foto untuk postingan anda (Maks. 10 MB per foto)',
     'timeline_upload_failed'    => 'Tidak dapat mengupload gambar berikut:',
     'timeline_delete_progress'  => 'Menghapus post...',
+    'timeline_download_media'   => 'Simpan Gambar',
 ];

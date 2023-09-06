@@ -37,4 +37,5 @@ return [
     'timeline_gallery_desc'     => 'Add up to 10 photos for your post (Max. 10 MB per photo)',
     'timeline_upload_failed'    => 'Unable to upload the following images:',
     'timeline_delete_progress'  => 'Deleting post...',
+    'timeline_download_media'   => 'Download Images',
 ];
