@@ -274,6 +274,11 @@ export default {
                   $q.cookies.set(conf.cookieName, res.token, cookieOptions)
                   $q.cookies.set(conf.userType, res.level, cookieOptions)
 
+                  // set copy_presence option
+                  if (localStorage.getItem('copy_presence') === null) {
+                    localStorage.setItem('copy_presence', 0)
+                  }
+
                   // always re-set the language after login successful
                   localStorage.setItem(conf.userLang, res.lang)
 

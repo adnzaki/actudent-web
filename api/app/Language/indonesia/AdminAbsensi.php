@@ -4,7 +4,7 @@ return [
     // teks halaman data kelas
     'page_title'                    => 'Kehadiran',
     'absensi_title'                 => 'Kehadiran Siswa',
-    'absensi_alfa'                  => 'Absen',
+    'absensi_alfa'                  => 'Alfa',
     'absensi_hadir'                 => 'Hadir',
     'absensi_izin'                  => 'Izin',
     'absensi_sakit'                 => 'Sakit',
@@ -65,4 +65,5 @@ return [
     'absensi_ringkasan'             => 'Rekapitulasi',
     'absensi_incomplete'            => 'Tidak Lengkap',
     'absensi_laporan_harian'        => 'Rekap Harian',
+    'absensi_salin_absen'           => 'Salin Kehadiran',
 ];

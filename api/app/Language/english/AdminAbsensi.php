@@ -65,4 +65,5 @@ return [
     'absensi_ringkasan'             => 'Summary',
     'absensi_incomplete'            => 'Incomplete',
     'absensi_laporan_harian'        => 'Daily Summary',
+    'absensi_salin_absen'           => 'Copy Presence',
 ];
