@@ -238,13 +238,14 @@ class PostModel extends \Actudent\Admin\Models\SharedModel
         $join = $select->join($this->user, "{$this->user}.user_id = {$this->post}.user_id");
         if(! empty($search))
         {
-            // Store search parameter "timeline_title-timeline_content",
+            // Store search parameter "timeline_title-timeline_content-created",
             // This code is not related to SSPaging plugin that only supports 1 search parameter
             if(strpos($searchBy, '-') !== false)
             {
                 $searchBy = explode('-', $searchBy);
                 $join->like($searchBy[0], $search); 
                 $join->orLike($searchBy[1], $search); 
+                $join->orLike($searchBy[2], $search); 
             }
             else 
             {

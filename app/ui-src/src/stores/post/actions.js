@@ -155,7 +155,7 @@ export default {
       limit,
       offset: this.current - 1,
       orderBy: 'date',
-      searchBy: ['timeline_title', 'timeline_content'],
+      searchBy: ['timeline_title', 'timeline_content', 'tb_timeline.created'],
       sort: 'DESC',
       search: '',
       url: `${conf.adminAPI}post/get/${this.postType}/${this.mypost}/`,
