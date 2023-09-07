@@ -206,11 +206,11 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      this.paging().data.forEach(item => {
-        this.selectedRooms.push(item.room_id)
+      paging().state.data.forEach(item => {
+        this.selectedPosts.push(item.timeline_id)
       })
     } else {
-      this.selectedRooms = []
+      this.selectedPosts = []
     }
   },
   multipleDeleteConfirm() {
