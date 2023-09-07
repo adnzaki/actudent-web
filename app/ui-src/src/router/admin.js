@@ -7,6 +7,7 @@ import EmployeeMain from 'pages/employee/EmployeeMain.vue'
 import ClassMain from 'pages/class/ClassMain.vue'
 import ClassList from 'pages/class/ClassList.vue'
 import MemberMain from 'pages/class/MemberMain.vue'
+import CopyClassgroup from 'pages/class/CopyClassgroup/CopyClassMain.vue'
 import RoomMain from 'pages/rooms/RoomMain.vue'
 import LessonMain from 'pages/lesson/LessonMain.vue'
 import ScheduleMain from 'pages/schedules/ScheduleMain.vue'
@@ -35,7 +36,8 @@ export default [
     path: 'class', component: ClassMain, beforeEnter: () => routeValidator(),
     children: [
       { path: '', component: ClassList, beforeEnter: () => routeValidator() },
-      { path: 'member/:id', component: MemberMain, beforeEnter: () => routeValidator() }
+      { path: 'member/:id', component: MemberMain, beforeEnter: () => routeValidator() },
+      { path: 'copy-classgroup', component: CopyClassgroup, beforeEnter: () => routeValidator() },
     ]
   },
   { path: 'rooms', component: RoomMain, beforeEnter: () => routeValidator() },

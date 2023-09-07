@@ -1,19 +1,26 @@
 <template>
-  <div class="col-12 col-md-4">
-    <div class="q-gutter-xs mobile-hide">
+  <div class="col-12 col-md-5">
+    <div class="q-gutter-xs">
       <q-btn
         icon="add"
-        :class="['q-pl-sm', addButton]"
+        :class="['q-pl-sm mobile-hide', addButton]"
         unelevated
         :label="$t('tambah')"
         @click="store.showAddForm = true"
       />
       <q-btn
         icon="delete"
-        class="q-pl-sm delete-btn"
+        class="q-pl-sm delete-btn mobile-hide"
         unelevated
         :label="$t('hapus')"
         @click="store.multipleDeleteConfirm()"
+      />
+      <q-btn
+        icon="content_copy"
+        :class="['q-pl-sm', addButton]"
+        unelevated
+        :label="$t('kelas_salin_rombel')"
+        @click="$router.push('/class/copy-classgroup')"
       />
     </div>
 

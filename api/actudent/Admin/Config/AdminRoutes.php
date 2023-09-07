@@ -29,6 +29,9 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas', 'Kelas::index');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getDataKelas/$1/$2/$3/$4/$5');
+	$routes->add('kelas/get-kelas-sebelumnya/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getPreviousGrade/$1/$2/$3/$4/$5/$6');
+	$routes->add('kelas/get-kelas-sebelumnya/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getPreviousGrade/$1/$2/$3/$4/$5');
+	$routes->add('kelas/copy-classgroup', 'Kelas::copyClassgroup');
 	$routes->add('kelas/cari-guru', 'Kelas::findTeacher');
 	$routes->add('kelas/save', 'Kelas::save');
 	$routes->add('kelas/save/(:any)', 'Kelas::save/$1');

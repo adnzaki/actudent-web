@@ -7,9 +7,6 @@ use Actudent\Admin\Models\KelasModel;
 
 class Kelas extends \Actudent
 {
-    /**
-     * @var Actudent\Admin\Models\KelasModel
-     */
     private $kelas;
 
     public function __construct()
@@ -21,10 +18,50 @@ class Kelas extends \Actudent
     {
         $data = $this->kelas->getKelasQuery($limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->kelas->getKelasRows($searchBy, $search);
-        return $this->response->setJSON([
+        return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
         ]);
+    }
+
+    public function getPreviousGrade($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+        $data = $this->kelas->getPreviousGrade($limit, $offset, $orderBy, $searchBy, $sort, $search);
+        $rows = $this->kelas->getPreviousGradeRows($searchBy, $search);
+        return $this->createResponse([
+            'container' => $data,
+            'totalRows' => $rows,
+        ]);
+    }
+
+    public function copyClassgroup()
+    {
+        if(is_admin()) {
+            $selectedClasses = json_decode($this->request->getPost('selectedClasses'), true);
+            foreach($selectedClasses as $id) {
+                $detail = $this->kelas->getClassDetail($id);
+                $member = $this->kelas->getClassMember($id);
+                $values = [
+                    'grade_name'        => $detail->grade_name,
+                    'teacher_id'        => $detail->teacher_id,
+                    'rombel_dapodik_id' => null
+                ];
+    
+                // insert new classgroup
+                $classId = $this->kelas->insert($values);
+    
+                // copy class member into new classgroup
+                foreach($member as $student) {
+                    $this->kelas->addMember($student->student_id, $classId);
+                }
+
+                $this->kelas->deactivateClassgroup($id);
+            }
+
+            return $this->response->setJSON([
+                'status' => 'OK',
+            ]);
+        }
     }
 
     public function getClassDetail($id)
@@ -77,7 +114,7 @@ class Kelas extends \Actudent
     {
         $data = $this->kelas->getUnregisteredStudents($gradeId, $limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->kelas->unregisteredStudentsRows($gradeId, $searchBy, $search);
-        return $this->response->setJSON([
+        return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
         ]);

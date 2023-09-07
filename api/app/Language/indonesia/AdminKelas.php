@@ -32,4 +32,11 @@ return [
     'kelas_kembali'                 => 'Kembali ke Daftar Kelas',
     'kelas_masih_kosong'            => 'Kelas ini belum memiliki anggota.',
     'kelas_add_student_to_group'    => 'Tambah Siswa ke Rombel',
+    'kelas_salin_rombel'            => 'Salin Rombel',
+    'kelas_apply_copy'              => 'Tambah ke Tahun Ajaran Saat Ini',
+    'kelas_confirm_copy'            => 'Apakah anda yakin ingin menambahkan kelas yang dipilih?',
+    'kelas_pilih_kelas_dulu'        => 'Silakan pilih kelas terlebih dahulu',
+    'kelas_copy_progress'           => 'Menambahkan kelas...',
+    'kelas_copy_success'            => 'Berhasil menambahkan kelas ke tahun ajaran saat ini',
+    'kelas_copy_failed'             => 'Tidak dapat menambahkan kelas karena error pada jaringan',
 ];
