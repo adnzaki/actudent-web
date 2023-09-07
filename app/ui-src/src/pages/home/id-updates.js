@@ -1,4 +1,22 @@
 export default {
+  'rc-3.ac.v2.0061': [
+    {
+      key: '[Baru]',
+      desc: 'Menambahkan fitur Ubah Kata Sandi untuk guru dan admin (menu: Akun)'
+    },
+    {
+      key: '[Baru]',
+      desc: 'Menambahkan opsi salin token khusus admin (menu: Akun)'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki bug terdapat selisih 1 menit pada beberapa kasus input jadwal pelajaran'
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Memperbaiki bug terdapat selisih waktu 7 jam antara inputan Agenda dengan data yang dikirim ke server'
+    },
+  ],
   'rc-2.ac.v2.0060': [
     {
       key: '[Baru]',

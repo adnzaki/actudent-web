@@ -1,4 +1,22 @@
 export default {
+  'rc-3.ac.v2.0061': [
+    {
+      key: '[New]',
+      desc: 'Added Change Password feature for teacher and admin (menu: Account)'
+    },
+    {
+      key: '[New]',
+      desc: 'Added option to copy token for admin only (menu: Account)'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Fix bug there is a 1 minute difference in some lesson schedule input cases'
+    },
+    {
+      key: '[Fix]',
+      desc: 'Fix bug there is 7 hours difference between Agenda input and data sent to server'
+    },
+  ],
   'rc-2.ac.v2.0060': [
     {
       key: '[New]',
