@@ -35,7 +35,7 @@
 
           <q-separator />
 
-          <q-checkbox
+          <q-toggle
             v-model="store.helper.homework"
             @update:model-value="addHomework"
             :label="$t('absensi_sertakan_pr')"
