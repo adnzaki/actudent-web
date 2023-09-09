@@ -155,11 +155,11 @@ export default {
       setTimeout(() => {
         axios.get(`${conf.coreAPI}check-db`).then(({ data }) => {
           if (data.shouldUpdate === 1) {
-            dbProgressText.value = t('db_progress')
+            dbProgressText.value = 'Loading the latest database version...'
 
             axios.get(`${conf.coreAPI}update-db`).then(({ data }) => {
               setTimeout(() => {
-                dbProgressText.value = t('db_updated')
+                dbProgressText.value = 'Database update complete'
                 progressColor.value = 'bg-green'
                 dbUpdate.value = false
               }, 2000)
@@ -168,7 +168,7 @@ export default {
             })
           } else {
             progressColor.value = 'bg-green'
-            dbProgressText.value = t('db_uptodate')
+            dbProgressText.value = 'Database is up to date.'
             dbUpdate.value = false
             hideDbProgress()
           }
