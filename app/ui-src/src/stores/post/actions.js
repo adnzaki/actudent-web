@@ -146,6 +146,9 @@ export default {
     paging().reloadData()
   },
   getPosts() {
+    // try to reset first
+    paging().state.data = []
+
     const limit = 25
     paging().state.rows = limit
 
