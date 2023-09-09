@@ -48,7 +48,7 @@
             </td>
             <td class="text-left">
               <q-btn
-                class="action-btn"
+                :class="actionButton"
                 :round="round"
                 icon="fact_check"
                 @click="goToPresenceFilling(item)"
@@ -72,6 +72,7 @@ import { useRouter } from 'vue-router'
 import ScheduleDetail from './ScheduleDetail.vue'
 import { checkColWidth } from 'src/composables/screen'
 import { usePresenceStore } from 'src/stores/presence'
+import { actionButton } from 'src/composables/common'
 
 export default {
   name: 'ScheduleItems',
@@ -83,6 +84,7 @@ export default {
 
     return {
       store,
+      actionButton,
       checkColWidth,
       data: computed(() => store.teacherSchedules),
       goToPresenceFilling(detail) {
