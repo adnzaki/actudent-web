@@ -15,7 +15,7 @@ return [
     'dashboard_agenda_empty'    => 'No agenda recently.',
     'dashboard_timeline_empty'  => 'No posts yet.',
     'dashboard_update_history'  => 'Update history',
-    'dashboard_current_update'  => 'Current build updates',
+    'dashboard_current_update'  => 'Updates in current version',
     'dashboard_prev_update'     => 'Previous updates',
     'dashboard_daily_recap'     => "Today's Student Presence Recap",
     'dashboard_weekly_chart'    => 'Student Weekly Presence Graphic',

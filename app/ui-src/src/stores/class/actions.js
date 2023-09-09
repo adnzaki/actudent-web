@@ -11,12 +11,78 @@ import {
   flashAlert
 } from '../../composables/common'
 
-import { Notify } from 'quasar'
+import { Notify, Dialog } from 'quasar'
 import { usePagingStore as paging } from 'ss-paging-vue'
 
 // const paging = usePagingStore()
 
 export default {
+  copyClassgroup() {
+    const data = JSON.stringify(this.selectedClasses)
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('kelas_copy_progress'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    admin.post(`${this.classApi}copy-classgroup`, { selectedClasses: data }, {
+      headers: { Authorization: bearerToken },
+      transformRequest: [data => {
+        return createFormData(data)
+      }]
+    }).then(({ data }) => {
+      notifyProgress({ timeout })
+      this.current = 1
+      this.selectedClasses = []
+      paging().reloadData()
+      notifyProgress({
+        message: `${t('sukses')} ${t('kelas_copy_success')}`,
+        color: 'positive',
+        icon: 'done',
+        spinner: false
+      })
+    }).catch(err => {
+      notifyProgress({
+        message: t('kelas_copy_failed'),
+        color: 'negative',
+        spinner: false
+      })
+    })
+  },
+  confirmCopyClass() {
+    Dialog.create({
+      title: t('konfirmasi'),
+      message: t('kelas_confirm_copy'),
+      cancel: t('batal'),
+      persistent: true
+    }).onOk(() => {
+      this.copyClassgroup()
+    })
+  },
+  getPreviousClass() {
+    const limit = 25
+    paging().state.rows = limit
+
+    paging().getData({
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit,
+      offset: this.current - 1,
+      orderBy: 'grade_name',
+      searchBy: 'grade_name',
+      sort: 'ASC',
+      search: '',
+      url: `${conf.adminAPI}kelas/get-kelas-sebelumnya/`,
+      autoReset: {
+        active: true,
+        timeout: 500
+      },
+    })
+  },
+
   removeFromClassGroup(payload) {
     admin.get(`${this.classApi}remove-member/${payload.id}`, {
       headers: { Authorization: bearerToken },
@@ -237,7 +303,7 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      this.paging().data.forEach(item => {
+      paging().state.data.forEach(item => {
         this.selectedClasses.push(item.grade_id)
       })
     } else {

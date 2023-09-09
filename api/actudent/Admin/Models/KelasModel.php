@@ -96,6 +96,40 @@ class KelasModel extends SharedModel
         return $select->getWhere(["{$this->kelas}.grade_id" => $id])->getResult()[0];
     }
 
+    public function getPreviousGradeRows(string $searchBy = 'grade_name', string $search = ''): int
+    {
+        $params = [
+            "{$this->kelas}.deleted"    => 0, 
+            'grade_status'              => '1',
+            'period_start'              => (int)$this->periodStart - 1,
+            'period_end'                => (int)$this->periodEnd - 1
+        ];
+
+        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);
+
+        return $joinAndSearch->where($params)->countAllResults();
+    }
+
+    public function getPreviousGrade($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+        $params = [
+            "{$this->kelas}.deleted"    => 0, 
+            'grade_status'              => '1',
+            'period_start'              => (int)$this->periodStart - 1,
+            'period_end'                => (int)$this->periodEnd - 1
+        ];
+
+        $joinAndSearch = $this->joinAndSearchQuery($searchBy, $search);        
+
+        $query = $joinAndSearch->where($params)->orderBy($orderBy, $sort)->limit($limit, $offset);
+        return $query->get()->getResult();
+    }
+
+    public function deactivateClassgroup($id)
+    {
+        $this->QBKelas->update(['grade_status' => 0], ['grade_id' => $id]);
+    }
+
     /**
      * Remove all students from a class group
      * 

@@ -155,7 +155,7 @@ export default {
       limit,
       offset: this.current - 1,
       orderBy: 'date',
-      searchBy: ['timeline_title', 'timeline_content'],
+      searchBy: ['timeline_title', 'timeline_content', 'tb_timeline.created'],
       sort: 'DESC',
       search: '',
       url: `${conf.adminAPI}post/get/${this.postType}/${this.mypost}/`,
@@ -206,11 +206,11 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      this.paging().data.forEach(item => {
-        this.selectedRooms.push(item.room_id)
+      paging().state.data.forEach(item => {
+        this.selectedPosts.push(item.timeline_id)
       })
     } else {
-      this.selectedRooms = []
+      this.selectedPosts = []
     }
   },
   multipleDeleteConfirm() {

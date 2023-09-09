@@ -32,4 +32,11 @@ return [
     'kelas_kembali'                 => 'Back to Class List',
     'kelas_masih_kosong'            => 'This class has no member yet.',
     'kelas_add_student_to_group'    => 'Add Students to Class Group',
+    'kelas_salin_rombel'            => 'Copy Classgroup',
+    'kelas_apply_copy'              => 'Add to Current Period',
+    'kelas_confirm_copy'            => 'Are you sure want to add the selected class?',
+    'kelas_pilih_kelas_dulu'        => 'Please choose class first',
+    'kelas_copy_progress'           => 'Adding class...',
+    'kelas_copy_success'            => 'Successfully added class to the current period',
+    'kelas_copy_failed'             => 'Unable to add class due to the network error',
 ];

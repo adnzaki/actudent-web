@@ -65,4 +65,5 @@ return [
     'absensi_ringkasan'             => 'Rekapitulasi',
     'absensi_incomplete'            => 'Tidak Lengkap',
     'absensi_laporan_harian'        => 'Rekap Harian',
+    'absensi_salin_absen'           => 'Salin Kehadiran',
 ];

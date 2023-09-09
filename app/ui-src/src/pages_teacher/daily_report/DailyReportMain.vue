@@ -12,7 +12,7 @@
           <date-selector />
           <div class="col-12 col-sm-6 q-mt-md">
             <q-btn-dropdown
-              class="q-pl-lg add-btn"
+              :class="addButton"
               style="width: 100%"
               icon="print"
               :label="$t('absensi_cetak_laporan')"
@@ -50,55 +50,40 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useQuasar } from 'quasar'
 import { useRoute } from 'vue-router'
 import DateSelector from './DateSelector.vue'
-import { conf } from 'src/composables/common'
+import { conf, addButton } from 'src/composables/common'
 import { usePresenceStore } from 'src/stores/presence'
 import { wrapperPadding, titleSpacing } from 'src/composables/screen'
 
-export default {
-  name: 'DailyReportMain',
-  components: {
-    DateSelector,
-  },
-  setup() {
-    const $q = useQuasar()
-    const route = useRoute()
-    const { t } = useI18n()
-    const store = usePresenceStore()
+const $q = useQuasar()
+const route = useRoute()
+const { t } = useI18n()
+const store = usePresenceStore()
 
-    store.isTeacherSection = true
-    const isTeacherSection = computed(() => store.isTeacherSection)
+store.isTeacherSection = true
+const isTeacherSection = computed(() => store.isTeacherSection)
 
-    const exportReportUrl = (type) => {
-      // type = "jurnal" | "absen"
-      const params = {
-        grade_id: isTeacherSection.value
-          ? localStorage.getItem('grade_id')
-          : route.params.id,
-        day:
-          store.helper.activeDay === ''
-            ? localStorage.getItem('date')
-            : store.helper.activeDay,
-        date: store.helper.activeDate,
-        token: $q.cookies.get(conf.cookieName),
-      }
+const exportReportUrl = (type) => {
+  // type = "jurnal" | "absen"
+  const params = {
+    grade_id: isTeacherSection.value
+      ? localStorage.getItem('grade_id')
+      : route.params.id,
+    day:
+      store.helper.activeDay === ''
+        ? localStorage.getItem('date')
+        : store.helper.activeDay,
+    date: store.helper.activeDate,
+    token: $q.cookies.get(conf.cookieName),
+  }
 
-      const { grade_id, day, date, token } = params
+  const { grade_id, day, date, token } = params
 
-      return `${conf.adminAPI}absensi/ekspor-${type}/${grade_id}/${day}/${date}/${token}`
-    }
-
-    return {
-      store,
-      titleSpacing,
-      wrapperPadding,
-      exportReportUrl,
-    }
-  },
+  return `${conf.adminAPI}absensi/ekspor-${type}/${grade_id}/${day}/${date}/${token}`
 }
 </script>

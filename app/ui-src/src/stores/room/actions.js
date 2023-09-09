@@ -156,7 +156,7 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      this.paging().data.forEach(item => {
+      paging().state.data.forEach(item => {
         this.selectedRooms.push(item.room_id)
       })
     } else {

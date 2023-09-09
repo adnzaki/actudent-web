@@ -7,7 +7,10 @@
       <div class="text-h6 text-capitalize" v-else>{{ $t('menu_kelas') }}</div>
       <div :class="['row', titleSpacing()]">
         <main-button class="q-mt-sm" />
-        <row-dropdown class="q-mt-sm" />
+        <row-dropdown
+          class="q-mt-sm"
+          root-class="col-12 col-md-2 offset-md-1"
+        />
         <search-box :label="$t('ortu_cari')" class="q-mt-sm" />
       </div>
     </q-card-section>

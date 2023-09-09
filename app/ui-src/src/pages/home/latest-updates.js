@@ -1,38 +1,62 @@
 const indonesia = [
   {
     key: '[Baru]',
-    desc: 'Menambahkan fitur Ubah Kata Sandi untuk guru dan admin (menu: Akun)'
+    desc: 'Menambahkan fitur Post'
   },
   {
     key: '[Baru]',
-    desc: 'Menambahkan opsi salin token khusus admin (menu: Akun)'
+    desc: 'Menambahkan fitur "Salin Kehadiran" pada form Jurnal'
   },
   {
-    key: '[Perbaikan]',
-    desc: 'Memperbaiki bug terdapat selisih 1 menit pada beberapa kasus input jadwal pelajaran'
+    key: '[Baru]',
+    desc: 'Menambahkan fitur "Salin Rombel" pada menu Kelas'
   },
   {
-    key: '[Perbaikan]',
-    desc: 'Memperbaiki bug terdapat selisih waktu 7 jam antara inputan Agenda dengan data yang dikirim ke server'
+    key: '[Peningkatan]',
+    desc: 'Memperbarui tampilan dasar antarmuka aplikasi'
+  },
+  {
+    key: '[Peningkatan]',
+    desc: 'Meningkatkan user-experience pada tampilan mobile'
+  },
+  {
+    key: '[Peningkatan]',
+    desc: 'Meningkatkan keselarasan warna pada Dark mode'
+  },
+  {
+    key: '[Sistem]',
+    desc: 'Memperbarui versi database ke v2.2.8'
   },
 ]
 
 const english = [
   {
     key: '[New]',
-    desc: 'Added Change Password feature for teacher and admin (menu: Account)'
+    desc: 'Added Post feature'
   },
   {
     key: '[New]',
-    desc: 'Added option to copy token for admin only (menu: Account)'
+    desc: 'Added "Copy Attendance" feature to the Journal form'
   },
   {
-    key: '[Fix]',
-    desc: 'Fix bug there is a 1 minute difference in some lesson schedule input cases'
+    key: '[New]',
+    desc: 'Added "Copy Class" feature to the Class menu'
   },
   {
-    key: '[Fix]',
-    desc: 'Fix bug there is 7 hours difference between Agenda input and data sent to server'
+    key: '[Improvement]',
+    desc: 'Updated the basic appearance of the application interface'
+  },
+  {
+    key: '[Improvement]',
+    desc: 'Improved user-experience on mobile displays'
+  },
+  {
+    key: '[Improvement]',
+    desc: 'Improved color harmony in Dark mode'
+  },
+  {
+    key: '[Sistem]',
+    desc: 'Updated database version to v2.2.8'
   },
 ]
 

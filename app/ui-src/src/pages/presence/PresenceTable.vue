@@ -35,25 +35,25 @@
             <td class="text-left mobile-hide">
               <q-btn-group v-if="presenceButtons">
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="done"
                   @click="savePresence(1, item.id)"
                   ><btn-tooltip :label="$t('absensi_hadir')"
                 /></q-btn>
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="health_and_safety"
                   @click="savePresence(3, item.id)"
                   ><btn-tooltip :label="$t('absensi_sakit')"
                 /></q-btn>
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="error_outline"
                   @click="showPermissionForm(item.id)"
                   ><btn-tooltip :label="$t('absensi_izin')"
                 /></q-btn>
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="not_interested"
                   @click="savePresence(0, item.id)"
                   ><btn-tooltip :label="$t('absensi_alfa')"
@@ -70,44 +70,32 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { checkColWidth } from 'src/composables/screen'
 import { usePresenceStore } from 'src/stores/presence'
+import { actionButton } from 'src/composables/mode'
 
-export default {
-  name: 'PresenceTable',
-  setup() {
-    const store = usePresenceStore()
+const store = usePresenceStore()
 
-    const savePresence = (status, studentId) => {
-      store.savePresence({ status, studentId })
-    }
-
-    const presenceStatus = (status) => {
-      const colors = ['negative', 'positive', 'info', 'orange']
-
-      return colors[status]
-    }
-
-    const showPermissionForm = (id) => {
-      store.studentPresence = [id]
-      store.showPermissionForm = true
-    }
-
-    return {
-      store,
-      savePresence,
-      checkColWidth,
-      presenceStatus,
-      showPermissionForm,
-      presenceList: computed(() => store.presenceList),
-      presenceButtons: computed(() => store.presenceButtons),
-      btnAndTableDistance: store.isTeacherSection ? 'q-mt-sm' : 'q-mt-lg',
-      scrollArea: store.isTeacherSection
-        ? 'no-paging-scroll-area'
-        : 'table-scroll-area',
-    }
-  },
+const savePresence = (status, studentId) => {
+  store.savePresence({ status, studentId })
 }
+
+const presenceStatus = (status) => {
+  const colors = ['negative', 'positive', 'info', 'orange']
+
+  return colors[status]
+}
+
+const showPermissionForm = (id) => {
+  store.studentPresence = [id]
+  store.showPermissionForm = true
+}
+const presenceList = computed(() => store.presenceList)
+const presenceButtons = computed(() => store.presenceButtons)
+const btnAndTableDistance = store.isTeacherSection ? 'q-mt-sm' : 'q-mt-lg'
+const scrollArea = store.isTeacherSection
+  ? 'no-paging-scroll-area'
+  : 'table-scroll-area'
 </script>

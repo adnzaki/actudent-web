@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table bordered wrap-cells>
         <thead>
           <tr>
             <th :class="['text-left cursor-pointer', checkColWidth()]">
@@ -38,7 +38,7 @@
             </td>
             <td class="text-left mobile-hide">{{ item.grade_name }}</td>
             <td class="text-left mobile-only">
-              {{ $trim(item.grade_name, 30) }}<br />
+              {{ item.grade_name }}<br />
               <small class="text-grey-8">{{ item.staff_name }}</small>
             </td>
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>

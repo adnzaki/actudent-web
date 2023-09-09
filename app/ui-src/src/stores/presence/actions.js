@@ -158,7 +158,9 @@ export default {
       description: this.journal.description,
       homework_title: this.journal.homework_title,
       homework_description: this.journal.homework_description,
-      due_date: date.formatDate(this.journal.due_date, 'YYYY-MM-DD')
+      due_date: date.formatDate(this.journal.due_date, 'YYYY-MM-DD'),
+      grade: this.classID,
+      copyPresence: localStorage.getItem('copy_presence')
     }
 
     const notifyProgress = Notify.create({

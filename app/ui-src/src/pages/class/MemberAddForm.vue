@@ -89,7 +89,7 @@
   </q-dialog>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { usePagingStore } from 'ss-paging-vue'
@@ -100,34 +100,20 @@ import {
   checkColWidth,
 } from '../../composables/screen'
 
-export default {
-  name: 'MemberAddForm',
-  setup() {
-    const store = useClassStore()
-    const paging = usePagingStore()
-    const route = useRoute()
+const store = useClassStore()
+const paging = usePagingStore()
+const route = useRoute()
 
-    const formOpen = () => {
-      store.getUnregisteredStudents(route.params.id)
-    }
-
-    const addMember = (id) => {
-      store.addToClassGroup({
-        id,
-        grade: route.params.id,
-      })
-    }
-
-    return {
-      store,
-      paging,
-      formOpen,
-      addMember,
-      cardDialog,
-      checkColWidth,
-      maximizedDialog,
-      data: computed(() => paging.state.data),
-    }
-  },
+const formOpen = () => {
+  store.getUnregisteredStudents(route.params.id)
 }
+
+const addMember = (id) => {
+  store.addToClassGroup({
+    id,
+    grade: route.params.id,
+  })
+}
+
+const data = computed(() => paging.state.data)
 </script>

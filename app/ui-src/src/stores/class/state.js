@@ -13,12 +13,14 @@ export default function () {
     },
     teacherId: '',
     teachers: [],
-    detail: {}, 
+    detail: {},
     checkAll: false, selectedClasses: [],
     current: 1,
     showAddForm: false, showEditForm: false,
     saveStatus: 500, deleteConfirm: false,
     searchTimeout: false,
+
+    showPreviousClass: false,
 
     // state for class member page only
     classMember: {

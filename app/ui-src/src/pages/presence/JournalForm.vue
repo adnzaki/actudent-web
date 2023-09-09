@@ -22,10 +22,20 @@
             v-model="store.journal.description"
             type="textarea"
           />
-          <ac-error :label="error.description" />
+          <ac-error :label="error.description" /><br
+            v-if="error.description !== undefined"
+          />
+
+          <q-toggle
+            v-model="copyPresence"
+            @update:model-value="copyPresenceChange"
+            :label="$t('absensi_salin_absen')"
+            class="q-my-sm"
+          />
+
           <q-separator />
 
-          <q-checkbox
+          <q-toggle
             v-model="store.helper.homework"
             @update:model-value="addHomework"
             :label="$t('absensi_sertakan_pr')"
@@ -113,39 +123,33 @@
   </q-dialog>
 </template>
 
-<script>
+<script setup>
 import { date } from 'quasar'
-import { computed } from 'vue'
+import { ref, computed } from 'vue'
 import { todayStr } from '../../composables/date'
 import { usePresenceStore } from 'src/stores/presence'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 
-export default {
-  name: 'JournalForm',
-  setup() {
-    const store = usePresenceStore()
+const store = usePresenceStore()
+const copyPresence = ref(
+  localStorage.getItem('copy_presence') === '1' ? true : false
+)
 
-    const addHomework = () => {
-      store.journal.due_date = date.formatDate(todayStr, 'YYYY-MM-DD')
-    }
-
-    const save = () => {
-      store.saveJournal()
-    }
-
-    if (store.journal.description !== '') {
-      store.salinJurnal = false
-    }
-
-    return {
-      save,
-      store,
-      addHomework,
-      maximizedDialog,
-      cardDialog,
-      error: computed(() => store.error),
-      disableSaveButton: computed(() => store.helper.disableSaveButton),
-    }
-  },
+const copyPresenceChange = (model, evt) => {
+  localStorage.setItem('copy_presence', model ? '1' : 0)
 }
+
+const addHomework = () => {
+  store.journal.due_date = date.formatDate(todayStr, 'YYYY-MM-DD')
+}
+
+const save = () => {
+  store.saveJournal()
+}
+
+if (store.journal.description !== '') {
+  store.salinJurnal = false
+}
+const error = computed(() => store.error)
+const disableSaveButton = computed(() => store.helper.disableSaveButton)
 </script>

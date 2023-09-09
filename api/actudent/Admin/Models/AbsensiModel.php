@@ -52,6 +52,26 @@ class AbsensiModel extends SharedModel
         $this->kelas = new KelasModel;
     }
 
+    public function copyPresence(int $currentJournalId, array $data, string $date)
+    {
+        foreach($data as $d) {
+            $values = [
+                'id'        => $d->student_id,
+                'status'    => $d->presence_status,
+                'mark'      => $d->presence_mark
+            ];
+
+            $this->savePresence($values, $currentJournalId, $date);
+        }
+    }
+
+    public function getPresenceByJournal(int $journalId): array
+    {
+        $query = $this->QBAbsen->getWhere(['journal_id' => $journalId]);
+
+        return $query->getResult();
+    }
+
     /**
      * Get total number of journals in a class in spesific period
      * 
@@ -402,8 +422,8 @@ class AbsensiModel extends SharedModel
     public function saveJournal(array $data, int $scheduleID, string $date, bool $includeHomework = false)
     {
         $journalValues = [
-            'description' => $data['description'],
-            
+            'description'   => $data['description'],
+            'journal_date'  => $date,
         ];
 
         $timestamp = strtotime($data['due_date']);
@@ -442,6 +462,8 @@ class AbsensiModel extends SharedModel
                 $this->QBHomework->insert($homeworkValues);    
                 $this->sendHomeworkNotification($scheduleID, $journalID, $homeworkValues, $date);
             }
+
+            return $this->getJournal($journalID)['journal'];
         }
         else 
         {
@@ -465,7 +487,7 @@ class AbsensiModel extends SharedModel
                 $this->sendHomeworkNotification($scheduleID, $journalID, $homeworkValues, $date);
             }
             
-            return $journal;
+            return $journal[0];
         }
     }
 
