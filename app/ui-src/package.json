@@ -24,7 +24,7 @@
     "axios": "^1.2.1",
     "chart.js": "^4.0.1",
     "pinia": "^2.0.11",
-    "quasar": "^2.12.6",
+    "quasar": "^2.12.7",
     "ss-paging-vue": "^3.0.0-alpha.22",
     "vue": "^3.0.0",
     "vue-i18n": "^9.0.0",
@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "^3.3.1",
-    "@quasar/app-vite": "^1.5.0",
+    "@quasar/app-vite": "^1.6.2",
     "autoprefixer": "^10.4.2",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.1.0",
