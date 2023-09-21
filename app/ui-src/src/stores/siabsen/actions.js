@@ -481,7 +481,7 @@ export default {
         this.presenceDetail = data
       })
   },
-  getTeacherStatus(tag) {
+  getTeacherStatus(tag, next) {
     siabsen.get(`status-${tag}`, {
       headers: { Authorization: bearerToken }
     })
@@ -497,6 +497,8 @@ export default {
           this.canOutAbsent = canAbsent
           this.absenceOut = data.timeOut
         }
+
+        next()
       })
   },
   getDetailConfig() {

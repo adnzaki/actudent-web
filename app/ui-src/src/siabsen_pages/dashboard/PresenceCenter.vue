@@ -122,43 +122,39 @@ export default {
       }
     }
 
-    onMounted(() => {
-      const prepare = async () => {
-        store.getDailySchedule()
-        store.getTeacherStatus('masuk')
-        store.getTeacherStatus('pulang')
+    const setInStatus = () => {
+      if (store.canInAbsent) {
+        disableEntry.value = false
+        entryColor.value = $q.dark.isActive ? 'bg-grey-7' : 'bg-blue'
+      } else {
+        disableEntry.value = true
+        entryColor.value = $q.dark.isActive ? 'bg-grey-9' : 'bg-blue-9'
+      }
+    }
 
-        return new Promise((resolve, reject) => setTimeout(resolve, 2500))
+    const setOutStatus = () => {
+      if (store.canOutAbsent) {
+        disableOut.value = false
+        outColor.value = $q.dark.isActive ? 'bg-grey-7' : 'bg-blue'
+      } else {
+        disableOut.value = true
+        outColor.value = $q.dark.isActive ? 'bg-grey-9' : 'bg-blue-9'
       }
 
-      prepare().then(() => {
-        if (store.canInAbsent) {
-          disableEntry.value = false
-          entryColor.value = $q.dark.isActive ? 'bg-grey-7' : 'bg-blue'
-        } else {
-          disableEntry.value = true
-          entryColor.value = $q.dark.isActive ? 'bg-grey-9' : 'bg-blue-9'
-        }
+      if (store.isLate) {
+        entryColor.value = 'bg-amber-10'
+      }
+    }
 
-        if (store.canOutAbsent) {
-          disableOut.value = false
-          outColor.value = $q.dark.isActive ? 'bg-grey-7' : 'bg-blue'
-        } else {
-          disableOut.value = true
-          outColor.value = $q.dark.isActive ? 'bg-grey-9' : 'bg-blue-9'
-        }
+    store.getDailySchedule()
+    store.getTeacherStatus('masuk', setInStatus)
+    store.getTeacherStatus('pulang', setOutStatus)
 
-        if (store.isLate) {
-          entryColor.value = 'bg-amber-10'
-        }
-      })
-
-      const isLate = computed(() => store.isLate)
-      watch(isLate, () => {
-        if (store.isLate) {
-          entryColor.value = 'bg-amber-10'
-        }
-      })
+    const isLate = computed(() => store.isLate)
+    watch(isLate, () => {
+      if (store.isLate) {
+        entryColor.value = 'bg-amber-10'
+      }
     })
 
     return {
