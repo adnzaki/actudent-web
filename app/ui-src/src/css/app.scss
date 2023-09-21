@@ -28,10 +28,10 @@
 //   border-radius: 15px;
 // }
 
-.q-btn {
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
+// .q-btn {
+//   padding-top: 10px;
+//   padding-bottom: 10px;
+// }
 
 .q-btn-group .q-btn {
   padding-top: 5px;
@@ -49,6 +49,12 @@
 .delete-btn {
   background-color: $deep-orange-8;
   color: #fff;
+}
+
+.add-btn,
+.delete-btn {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .save-btn {
