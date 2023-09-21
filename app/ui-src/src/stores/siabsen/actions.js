@@ -204,7 +204,7 @@ export default {
   showDeleteConfirm(id) {
     this.selectedPermission = id
     this.deleteConfirm = true
-    this.disableSaveButton = false
+    this.helper.disableSaveButton = false
   },
   getPermissionNotif() {
     siabsen.get('get-notif-izin', {
@@ -347,7 +347,7 @@ export default {
     })
   },
   sendPermitRequest(data) {
-    this.disableSaveButton = true
+    this.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
       group: false,
       spinner: true,
@@ -364,7 +364,7 @@ export default {
       }]
     })
       .then(response => {
-        this.disableSaveButton = false
+        this.helper.disableSaveButton = false
         const res = response.data
         if (res.code === '500') {
           this.permitError = res.msg
@@ -376,7 +376,7 @@ export default {
           })
         } else {
           this.saveStatus = 200
-          this.disableSaveButton = true
+          this.helper.disableSaveButton = true
           this.getPermissions()
 
           // this.resetForm')
@@ -471,7 +471,7 @@ export default {
   closeDeleteConfirm() {
     this.selectedPermission = null
     this.deleteConfirm = false
-    this.disableSaveButton = true
+    this.helper.disableSaveButton = true
   },
   getDetailPresence({ staffId, userId, dateStart, dateEnd }) {
     siabsen.get(`detail-absensi/${staffId}/${userId}/${dateStart}/${dateEnd}`, {

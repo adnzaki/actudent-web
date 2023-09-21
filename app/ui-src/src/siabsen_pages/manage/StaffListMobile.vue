@@ -3,24 +3,24 @@
     <q-list class="q-px-md q-mt-sm">
       <q-expansion-item
         id="list"
-        class="shadow-3 overflow-hidden q-mb-md"
+        :class="[shadow, 'overflow-hidden q-mb-md']"
         style="border-radius: 15px"
         expand-separator
         expand-icon-toggle
         icon="perm_identity"
         :label="$trim(item.name, 30)"
         :caption="item.nip"
-        header-class="bg-primary text-white"
+        :header-class="[headerMobileList, 'text-white']"
         expand-icon-class="text-white"
         default-opened
         v-for="(item, index) in data"
         :key="index"
       >
-        <q-card>
+        <q-card :class="cardColor">
           <q-card-section class="q-px-none q-pt-sm">
             <div class="row q-mb-sm">
               <div class="col-6 text-center">
-                <p class="text-grey-8" style="font-size: 12px">
+                <p :class="textColor" style="font-size: 12px">
                   {{ $t('siabsen_in') }}
                 </p>
                 <q-chip
@@ -34,7 +34,7 @@
                 </q-chip>
               </div>
               <div class="col-6 text-center">
-                <p class="text-grey-8" style="font-size: 12px">
+                <p :class="textColor" style="font-size: 12px">
                   {{ $t('siabsen_out') }}
                 </p>
                 <q-chip
@@ -70,11 +70,10 @@
           </q-card-section>
           <q-card-actions align="center" style="margin-top: -20px">
             <q-btn
-              class="stafflist-btn"
+              :class="['stafflist-btn', addButton]"
               :disable="disableBtn(item.in, item.out)"
               :label="$t('siabsen_detail_absensi')"
               @click="showImage(item.inPhoto, item.outPhoto)"
-              color="accent"
             />
           </q-card-actions>
         </q-card>
@@ -84,43 +83,39 @@
     </q-scroll-area> -->
   </div>
 </template>
-<style>
-.stafflist-btn {
-  width: 100%;
-  border-radius: 30px;
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
-}
-</style>
 
-<script>
+<script setup>
 import { checkColWidth } from 'src/composables/screen'
 import { ref, computed } from 'vue'
-import { t } from 'src/composables/common'
+import { t, addButton } from 'src/composables/common'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { usePagingStore } from 'ss-paging-vue'
+import {
+  headerMobileList,
+  cardColor,
+  shadow,
+  textColor,
+} from '../siabsen-common'
+import { useQuasar } from 'quasar'
 
-export default {
-  setup() {
-    const store = useSiabsenStore()
-    const paging = usePagingStore()
+const store = useSiabsenStore()
+const paging = usePagingStore()
+const $q = useQuasar()
 
-    return {
-      badgeLabel(text) {
-        return text !== '-' ? text : `0 ${t('siabsen_menit')}`
-      },
-      expanded: ref(true),
-      disableBtn(inPhoto, outPhoto) {
-        return inPhoto === '-' && outPhoto === '-' ? true : false
-      },
-      showImage(inPhoto, outPhoto) {
-        store.inPhotoURL = inPhoto
-        store.outPhotoURL = outPhoto
-        store.showPresenceDetail = true
-      },
-      data: computed(() => paging.state.data),
-      checkColWidth,
-    }
-  },
+const badgeLabel = (text) => {
+  return text !== '-' ? text : `0 ${t('siabsen_menit')}`
 }
+const expanded = ref(true)
+
+const disableBtn = (inPhoto, outPhoto) => {
+  return inPhoto === '-' && outPhoto === '-' ? true : false
+}
+
+const showImage = (inPhoto, outPhoto) => {
+  store.inPhotoURL = inPhoto
+  store.outPhotoURL = outPhoto
+  store.showPresenceDetail = true
+}
+
+const data = computed(() => paging.state.data)
 </script>

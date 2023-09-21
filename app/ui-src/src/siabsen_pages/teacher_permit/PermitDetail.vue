@@ -59,8 +59,7 @@
           <q-btn
             target="_blank"
             style="width: 100%"
-            class="q-mt-md"
-            color="accent"
+            :class="['q-mt-md', addButton]"
             :label="$t('feedback_label_att')"
             :href="store.permitDetail.permit_photo"
           />
@@ -76,11 +75,10 @@
           v-close-popup
         />
         <q-btn-dropdown
-          class="mobile-form-btn"
+          class="mobile-form-btn save-btn"
           style="padding-left: 17px"
           label="Status"
           v-if="$q.cookies.get(conf.userType) === '1'"
-          color="primary"
         >
           <q-list>
             <q-item
@@ -108,29 +106,17 @@
   </q-dialog>
 </template>
 
-<script>
+<script setup>
 import { maximizedDialog, cardDialog } from 'src/composables/screen'
-import { conf } from 'src/composables/common'
+import { conf, addButton } from 'src/composables/common'
 import permitType from '../admin_permit/permit-type'
 import { useSiabsenStore } from 'src/stores/siabsen'
 
-export default {
-  setup() {
-    const store = useSiabsenStore()
-
-    return {
-      store,
-      permitType,
-      maximizedDialog,
-      setStatus: (val, id) => {
-        store.setPermitStatus({
-          status: val,
-          id,
-        })
-      },
-      conf,
-      cardDialog,
-    }
-  },
+const store = useSiabsenStore()
+const setStatus = (val, id) => {
+  store.setPermitStatus({
+    status: val,
+    id,
+  })
 }
 </script>

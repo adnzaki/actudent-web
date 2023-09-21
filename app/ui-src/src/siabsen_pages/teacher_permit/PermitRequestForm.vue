@@ -149,15 +149,14 @@
           flat
           :label="$t('tutup')"
           v-if="!$q.screen.lt.sm"
-          color="negative"
+          class="close-btn"
           v-close-popup
         />
         <q-btn
-          class="mobile-form-btn"
+          class="mobile-form-btn save-btn"
           :label="$t('simpan')"
           :disable="disableSaveButton"
           @click="save"
-          color="primary"
           padding="8px 20px"
         />
       </q-card-actions>
@@ -253,11 +252,11 @@ export default {
         .then(({ data }) => {
           if (data.msg === 'OK') {
             attachmentError.value = ''
-            store.disableSaveButton = false
+            store.helper.disableSaveButton = false
             formData.value.permit_photo = data.img
           } else {
             attachmentError.value = data.attachment
-            store.disableSaveButton = true
+            store.helper.disableSaveButton = true
           }
 
           notifyProgress({
@@ -271,7 +270,7 @@ export default {
 
     const formOpen = () => {
       attachment.value = []
-      store.disableSaveButton = true
+      store.helper.disableSaveButton = true
       if (saveStatus.value === 200) {
         formValue = {
           permit_date: date.formatDate(new Date(), 'YYYY-MM-DD'),
@@ -320,7 +319,7 @@ export default {
       attachment,
       attachmentError,
       dateChanged,
-      disableSaveButton: computed(() => store.disableSaveButton),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
       cardDialog,
       maximizedDialog,
     }

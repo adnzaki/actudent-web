@@ -86,7 +86,7 @@
           style="width: 100%"
           :href="mapsUrl"
           target="_blank"
-          color="secondary"
+          :class="addButton"
           icon="location_on"
           :label="$t('siabsen_open_maps')"
         />
@@ -118,11 +118,10 @@
   <q-card-actions align="right">
     <q-btn
       :label="$t('simpan')"
-      class="mobile-form-btn q-ml-md"
-      :disable="store.disableSaveButton"
+      class="mobile-form-btn save-btn q-ml-md"
+      :disable="store.helper.disableSaveButton"
       @click="save"
-      color="primary"
-      padding="8px 20px"
+      unelevated
       style="margin-right: 20px"
     />
   </q-card-actions>
@@ -131,15 +130,17 @@
 <script>
 import { computed } from 'vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
+import { addButton } from 'src/composables/mode'
 
 export default {
   setup() {
     const store = useSiabsenStore()
     store.getDetailConfig()
 
-    store.disableSaveButton = false
+    store.helper.disableSaveButton = false
     return {
       store,
+      addButton,
       error: computed(() => store.configError),
       mapsUrl: computed(() => {
         let lat = store.presenceConfig.lat,

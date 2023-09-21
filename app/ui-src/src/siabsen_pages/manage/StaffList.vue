@@ -35,7 +35,7 @@
             <td class="text-left">{{ item.overtime }}</td>
             <td class="text-left">
               <q-btn
-                color="accent"
+                :class="addButton"
                 :disable="disableBtn(item.in, item.out)"
                 icon="image"
                 @click="showImage(item.inPhoto, item.outPhoto)"
@@ -59,6 +59,7 @@ import { usePagingStore } from 'ss-paging-vue'
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StaffListMobile from './StaffListMobile.vue'
+import { addButton } from 'src/composables/mode'
 
 export default {
   name: 'StaffList',
@@ -71,6 +72,7 @@ export default {
     return {
       store,
       paging,
+      addButton,
       disableBtn(inPhoto, outPhoto) {
         return inPhoto === '-' && outPhoto === '-' ? true : false
       },

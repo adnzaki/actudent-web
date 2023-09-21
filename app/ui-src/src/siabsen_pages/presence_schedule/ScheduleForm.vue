@@ -38,14 +38,14 @@
           v-if="!$q.screen.lt.sm"
           color="negative"
           v-close-popup
+          class="close-btn"
         />
         <q-btn
-          class="mobile-form-btn"
+          class="mobile-form-btn save-btn"
+          unelevated
           :label="$t('simpan')"
           :disable="disableSaveButton"
           @click="save"
-          color="accent"
-          padding="8px 20px"
         />
       </q-card-actions>
     </q-card>
@@ -70,7 +70,7 @@ export default {
       },
       formOpen() {
         store.getDetailConfig()
-        store.disableSaveButton = false
+        store.helper.disableSaveButton = false
       },
       save() {
         store.updatePresenceSchedule()
@@ -78,7 +78,7 @@ export default {
       cardDialog,
       maximizedDialog,
       expanded: ref(false),
-      disableSaveButton: computed(() => store.disableSaveButton),
+      disableSaveButton: computed(() => store.helper.disableSaveButton),
     }
   },
 }

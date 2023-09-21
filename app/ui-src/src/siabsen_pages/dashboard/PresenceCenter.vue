@@ -31,7 +31,7 @@
             </div>
             <div class="col-12 col-md-4">
               <q-btn
-                color="light-blue-5"
+                :color="presenceButton"
                 rounded
                 style="width: 100%"
                 :disable="disableEntry || !store.canInAbsent"
@@ -77,7 +77,7 @@
             </div>
             <div class="col-12 col-md-4">
               <q-btn
-                color="light-blue-5"
+                :color="presenceButton"
                 rounded
                 style="width: 100%"
                 :disable="disableOut || !store.canOutAbsent"
@@ -134,18 +134,18 @@ export default {
       prepare().then(() => {
         if (store.canInAbsent) {
           disableEntry.value = false
-          entryColor.value = 'bg-blue'
+          entryColor.value = $q.dark.isActive ? 'bg-grey-7' : 'bg-blue'
         } else {
           disableEntry.value = true
-          entryColor.value = 'bg-blue-9'
+          entryColor.value = $q.dark.isActive ? 'bg-grey-9' : 'bg-blue-9'
         }
 
         if (store.canOutAbsent) {
           disableOut.value = false
-          outColor.value = 'bg-blue'
+          outColor.value = $q.dark.isActive ? 'bg-grey-7' : 'bg-blue'
         } else {
           disableOut.value = true
-          outColor.value = 'bg-blue-9'
+          outColor.value = $q.dark.isActive ? 'bg-grey-9' : 'bg-blue-9'
         }
 
         if (store.isLate) {
@@ -163,6 +163,9 @@ export default {
 
     return {
       store,
+      presenceButton: computed(() =>
+        $q.dark.isActive ? 'grey-6' : 'light-blue-5'
+      ),
       openDialog,
       disableEntry,
       entryColor,

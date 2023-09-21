@@ -20,16 +20,16 @@
             <td class="text-left">
               <q-btn-group>
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="touch_app"
                   @click="openPresenceDialog(item.id, item.canPresent)"
                 >
                   <btn-tooltip :label="$t('siabsen_do_absen')" />
                 </q-btn>
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   icon="o_info"
-                  @click="store.getDetail(item.id)"
+                  @click="agendaStore.getDetail(item.id)"
                 >
                   <btn-tooltip :label="$t('agenda_detail_title')" />
                 </q-btn>
@@ -43,22 +43,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, inject } from 'vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
+import { useAgendaStore } from 'src/stores/agenda'
 
-export default {
-  setup() {
-    const store = useSiabsenStore()
-    const openPresenceDialog = inject('openPresenceDialog')
+const store = useSiabsenStore()
+const agendaStore = useAgendaStore()
+const openPresenceDialog = inject('openPresenceDialog')
 
-    return {
-      store,
-      checkColWidth,
-      openPresenceDialog,
-      userEvents: computed(() => store.userEvents),
-    }
-  },
-}
+const userEvents = computed(() => store.userEvents)
 </script>

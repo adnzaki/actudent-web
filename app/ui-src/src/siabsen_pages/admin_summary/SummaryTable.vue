@@ -41,24 +41,18 @@
           <td class="text-center">
             <q-btn-group class="mobile-hide">
               <q-btn
-                color="accent"
+                :class="actionButton"
                 icon="preview"
                 @click="openDetail(item.id, item.user)"
               />
               <q-btn
-                color="accent"
+                :class="actionButton"
                 icon="print"
                 :href="exportPdf(item.id, item.user)"
                 target="_blank"
               />
             </q-btn-group>
-            <q-btn
-              round
-              icon="more_vert"
-              color="accent"
-              class="mobile-only"
-              outline
-            >
+            <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
               <q-menu>
                 <q-list style="min-width: 100px">
                   <q-item
@@ -88,49 +82,41 @@
     </q-markup-table>
   </div>
 </template>
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { useRouter } from 'vue-router'
-import { conf } from 'src/composables/common'
+import { conf, actionButton } from 'src/composables/common'
 import { usePagingStore } from 'ss-paging-vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
 
-export default {
-  setup() {
-    const store = useSiabsenStore()
-    const paging = usePagingStore()
-    const $q = useQuasar()
-    const router = useRouter()
+const store = useSiabsenStore()
+const paging = usePagingStore()
+const $q = useQuasar()
+const router = useRouter()
 
-    const exportPdf = (id, user) => {
-      return (
-        `${conf.siabsenAPI}print-rekap-individu/` +
-        `${id}/${user}/` +
-        `${store.dateRangeStart}/${store.dateRangeEnd}/` +
-        `${$q.cookies.get(conf.cookieName)}`
-      )
-    }
-
-    return {
-      store,
-      paging,
-      exportPdf,
-      openDetail(staffId, userId) {
-        const url =
-          '/teacher-presence/monthly-summary/detail/' +
-          staffId +
-          '/' +
-          userId +
-          '/' +
-          store.dateRangeStart +
-          '/' +
-          store.dateRangeEnd
-        router.push(url)
-      },
-      separator: $q.screen.lt.sm ? 'horizontal' : 'cell',
-      summary: computed(() => paging.state.data),
-    }
-  },
+const exportPdf = (id, user) => {
+  return (
+    `${conf.siabsenAPI}print-rekap-individu/` +
+    `${id}/${user}/` +
+    `${store.dateRangeStart}/${store.dateRangeEnd}/` +
+    `${$q.cookies.get(conf.cookieName)}`
+  )
 }
+
+const openDetail = (staffId, userId) => {
+  const url =
+    '/teacher-presence/monthly-summary/detail/' +
+    staffId +
+    '/' +
+    userId +
+    '/' +
+    store.dateRangeStart +
+    '/' +
+    store.dateRangeEnd
+  router.push(url)
+}
+
+const separator = $q.screen.lt.sm ? 'horizontal' : 'cell'
+const summary = computed(() => paging.state.data)
 </script>

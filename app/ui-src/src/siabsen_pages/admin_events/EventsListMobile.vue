@@ -1,19 +1,19 @@
 <template>
   <q-list class="q-px-md q-py-sm">
     <q-expansion-item
-      class="shadow-3 overflow-hidden q-mb-md"
+      :class="[shadow, 'overflow-hidden q-mb-md']"
       style="border-radius: 15px"
       expand-separator
       expand-icon-toggle
       icon="event"
       :label="item.date"
-      header-class="bg-primary text-white"
+      :header-class="[headerMobileList, 'text-white']"
       expand-icon-class="text-white"
       default-opened
       v-for="(item, index) in allEvents"
       :key="index"
     >
-      <q-card>
+      <q-card :class="cardColor">
         <q-card-section
           class="q-px-none q-pt-md q-pb-xs cursor-pointer"
           @click="$store.dispatch('agenda/getDetail', item.id)"
@@ -46,10 +46,9 @@
         </q-card-section>
         <q-card-actions align="center">
           <q-btn
-            class="stafflist-btn"
+            :class="['stafflist-btn', addButton]"
             :label="$t('siabsen_event_attendance')"
             @click="goToAttendance(item.id)"
-            color="accent"
           />
         </q-card-actions>
       </q-card>
@@ -57,38 +56,32 @@
   </q-list>
 </template>
 
-<script>
+<script setup>
 import { computed, inject } from 'vue'
 import { t } from 'src/composables/common'
 import { useSiabsenStore } from 'src/stores/siabsen'
+import { addButton } from 'src/composables/common'
+import { headerMobileList, cardColor, shadow } from '../siabsen-common'
 
-export default {
-  setup() {
-    const store = useSiabsenStore()
-    const goToAttendance = inject('goToAttendance')
+const store = useSiabsenStore()
+const goToAttendance = inject('goToAttendance')
+const badgeLabel = (priority) => {
+  const label = {
+    high: t('agenda_input_highprior'),
+    normal: t('agenda_input_normalprior'),
+    low: t('agenda_input_lowprior'),
+  }
 
-    return {
-      goToAttendance,
-      badgeLabel: (priority) => {
-        const label = {
-          high: t('agenda_input_highprior'),
-          normal: t('agenda_input_normalprior'),
-          low: t('agenda_input_lowprior'),
-        }
-
-        return label[priority]
-      },
-      badgeColor: (priority) => {
-        const colors = {
-          high: 'negative',
-          normal: 'positive',
-          low: 'blue',
-        }
-
-        return colors[priority]
-      },
-      allEvents: computed(() => store.allEvents),
-    }
-  },
+  return label[priority]
 }
+const badgeColor = (priority) => {
+  const colors = {
+    high: 'negative',
+    normal: 'positive',
+    low: 'blue',
+  }
+
+  return colors[priority]
+}
+const allEvents = computed(() => store.allEvents)
 </script>

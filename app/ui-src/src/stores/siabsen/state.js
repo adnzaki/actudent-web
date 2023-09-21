@@ -18,7 +18,7 @@ export default function () {
     outPhotoURL: '',
     showPresenceDetail: false,
     showPermitForm: false,
-    disableSaveButton: true,
+    helper: { disableSaveButton: true },
     permitError: {},
     saveStatus: 500,
     showPermitDetail: false, deleteConfirm: false,

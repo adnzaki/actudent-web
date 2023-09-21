@@ -2,17 +2,17 @@
   <q-list>
     <q-expansion-item
       :model-value="expanded"
-      class="shadow-3 overflow-hidden q-mb-md"
+      :class="[shadow, 'overflow-hidden q-mb-md']"
       style="border-radius: 25px"
       expand-separator
       icon="perm_identity"
       :label="$t(`day${parseInt(day) + 1}`)"
       :caption="caption"
-      header-class="bg-primary text-white"
+      :header-class="[headerMobileList, 'text-white']"
       expand-icon-class="text-white"
       id="list"
     >
-      <q-card>
+      <q-card :class="cardColor">
         <q-card-section>
           <q-toggle
             :label="$t('siabsen_must_present')"
@@ -98,58 +98,46 @@
   </q-list>
 </template>
 
-<script>
+<script setup>
 import { useQuasar } from 'quasar'
 import { watch, computed } from 'vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { t } from 'src/composables/common'
+import { headerMobileList, cardColor } from '../siabsen-common'
 
-export default {
-  props: ['day', 'expanded'],
-  setup(props) {
-    const $q = useQuasar()
-    const store = useSiabsenStore()
+const props = defineProps(['day', 'expanded'])
 
-    const currentDay = computed(
-      () => store.scheduleDays['day' + props.day]['value']
-    )
+const $q = useQuasar()
+const store = useSiabsenStore()
 
-    // const expanded = ref()
+const currentDay = computed(
+  () => store.scheduleDays['day' + props.day]['value']
+)
 
-    const caption = computed(() => {
-      return currentDay.value
-        ? t('siabsen_must_present')
-        : t('siabsen_no_schedule')
-    })
+const shadow = computed(() => ($q.dark.isActive ? '' : 'shadow-3'))
 
-    const mustAttend = computed(() => currentDay.value)
-    watch(mustAttend, () => {
-      const timeinConfig = computed(() => store.presenceConfig.intime)
-      const timeoutConfig = computed(() => store.presenceConfig.outtime)
+const caption = computed(() => {
+  return currentDay.value ? t('siabsen_must_present') : t('siabsen_no_schedule')
+})
 
-      if (mustAttend.value) {
-        store.scheduleDays['day' + props.day]['timein'] =
-          timeinConfig.value + ':00'
-        store.scheduleDays['day' + props.day]['timeout'] =
-          timeoutConfig.value + ':00'
-      } else {
-        store.scheduleDays['day' + props.day]['timein'] = ''
-        store.scheduleDays['day' + props.day]['timeout'] = ''
-      }
-    })
+const mustAttend = computed(() => currentDay.value)
+watch(mustAttend, () => {
+  const timeinConfig = computed(() => store.presenceConfig.intime)
+  const timeoutConfig = computed(() => store.presenceConfig.outtime)
 
-    const prSm = () => {
-      return $q.screen.lt.sm ? '' : 'q-pr-sm'
-    }
+  if (mustAttend.value) {
+    store.scheduleDays['day' + props.day]['timein'] = timeinConfig.value + ':00'
+    store.scheduleDays['day' + props.day]['timeout'] =
+      timeoutConfig.value + ':00'
+  } else {
+    store.scheduleDays['day' + props.day]['timein'] = ''
+    store.scheduleDays['day' + props.day]['timeout'] = ''
+  }
+})
 
-    const minuteOptions = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
-    return {
-      store,
-      currentDay,
-      caption,
-      prSm,
-      minuteOptions,
-    }
-  },
+const prSm = () => {
+  return $q.screen.lt.sm ? '' : 'q-pr-sm'
 }
+
+const minuteOptions = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55]
 </script>

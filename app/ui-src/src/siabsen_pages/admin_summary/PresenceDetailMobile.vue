@@ -9,19 +9,19 @@
     </div>
     <q-list class="q-px-md q-mt-sm q-mb-xl">
       <q-expansion-item
-        class="shadow-3 overflow-hidden q-mb-md"
+        :class="[shadow, 'overflow-hidden q-mb-md']"
         style="border-radius: 15px"
         expand-separator
         expand-icon-toggle
         icon="perm_identity"
         :label="$formatDate(item.date)"
-        header-class="bg-primary text-white"
+        :header-class="[headerMobileList, 'text-white']"
         expand-icon-class="text-white"
         default-opened
         v-for="(item, index) in presenceDetail.data"
         :key="index"
       >
-        <q-card>
+        <q-card :class="cardColor">
           <q-card-section class="q-px-none q-pt-md q-pb-xs">
             <q-chip
               square
@@ -36,7 +36,7 @@
             </q-chip>
             <div class="row q-mb-sm q-mt-sm">
               <div class="col-6 text-center">
-                <p class="text-grey-8" style="font-size: 12px">
+                <p :class="textColor" style="font-size: 12px">
                   {{ $t('siabsen_in') }}
                 </p>
                 <q-chip
@@ -50,7 +50,7 @@
                 </q-chip>
               </div>
               <div class="col-6 text-center">
-                <p class="text-grey-8" style="font-size: 12px">
+                <p :class="textColor" style="font-size: 12px">
                   {{ $t('siabsen_out') }}
                 </p>
                 <q-chip
@@ -104,6 +104,12 @@ import TimeRecapMobile from './TimeRecapMobile.vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { checkColWidth } from 'src/composables/screen'
 import PresenceNoteMobile from './PresenceNoteMobile.vue'
+import {
+  headerMobileList,
+  cardColor,
+  textColor,
+  shadow,
+} from '../siabsen-common'
 
 export default {
   components: { TimeRecapMobile, PresenceNoteMobile },
@@ -117,6 +123,10 @@ export default {
       badgeLabel(text) {
         return text !== '-' ? text : `0 ${t('siabsen_menit')}`
       },
+      headerMobileList,
+      cardColor,
+      textColor,
+      shadow,
       badgeColor: (status) => {
         const colors = {
           alfa: 'negative',

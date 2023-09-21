@@ -21,14 +21,14 @@ class KegiatanModel extends \Actudent\Admin\Models\AgendaModel
 
         $user = new \Actudent\Admin\Models\PenggunaModel;
         $userDetail = $user->getUserDetail($userId);
-        $userName = $userDetail[0]->user_name;
+        $userName = $userDetail->name;
         $level = [
             0 => 'Staff',
             2 => get_lang('AdminPegawai.staff_guru'),
             3 => get_lang('AdminAgenda.agenda_check_ortu')
         ];
 
-        $userLevel = $level[$userDetail[0]->user_level];
+        $userLevel = $level[$userDetail->level];
 
         if($search->getNumRows() > 0) {            
             $result = $search->getResult()[0];
@@ -38,7 +38,7 @@ class KegiatanModel extends \Actudent\Admin\Models\AgendaModel
                 'type'  => $userLevel,
                 'time'  => substr($time, 0, 5),
                 'photo' => $result->presence_photo,
-                'level' => $userDetail[0]->user_level
+                'level' => $userDetail->level
             ];
         } else {
             return [
@@ -46,7 +46,7 @@ class KegiatanModel extends \Actudent\Admin\Models\AgendaModel
                 'type'  => $userLevel,
                 'time'  => '--:--',
                 'photo' => '-',
-                'level' => $userDetail[0]->user_level
+                'level' => $userDetail->level
             ];
         }
 

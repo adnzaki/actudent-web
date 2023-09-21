@@ -10,7 +10,7 @@
       >
         <template v-slot:after>
           <q-btn
-            color="accent"
+            :class="actionButton"
             v-if="item.type === 'staff'"
             icon="edit"
             @click="getDetail(item.schedule, item.name, item.id)"
@@ -18,10 +18,10 @@
           <q-btn-group v-else>
             <q-btn
               @click="getDetail(item.schedule, item.name, item.id)"
-              color="accent"
+              :class="actionButton"
               icon="edit"
             />
-            <q-btn color="accent" icon="sync" @click="sync(item.id)">
+            <q-btn :class="actionButton" icon="sync" @click="sync(item.id)">
               <btn-tooltip :label="$t('siabsen_sync_jadwal')" />
             </q-btn>
           </q-btn-group>
@@ -96,6 +96,7 @@ import { computed } from 'vue'
 import { useQuasar } from 'quasar'
 import { usePagingStore } from 'ss-paging-vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   setup() {
@@ -112,6 +113,7 @@ export default {
     return {
       store,
       paging,
+      actionButton,
       scheduleStatus(src, val) {
         if (src !== undefined) {
           return src['day' + val]['value'] !== 'null' ? true : false

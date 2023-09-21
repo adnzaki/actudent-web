@@ -2,7 +2,7 @@
   <div class="col-12 col-sm-6">
     <div class="q-gutter-xs">
       <q-btn
-        color="deep-purple"
+        :class="addButton"
         icon="add"
         class="q-pl-sm mobile-hide"
         :label="$t('tambah')"
@@ -19,17 +19,11 @@
   </q-page-sticky>
 </template>
 
-<script>
+<script setup>
 import { fabPos } from 'src/composables/fab'
 import { useSiabsenStore } from 'src/stores/siabsen'
+import { addButton } from 'src/composables/mode'
 
-export default {
-  setup() {
-    const store = useSiabsenStore()
-    return {
-      showForm: () => (store.showPermitForm = true),
-      fabPos,
-    }
-  },
-}
+const store = useSiabsenStore()
+const showForm = () => (store.showPermitForm = true)
 </script>

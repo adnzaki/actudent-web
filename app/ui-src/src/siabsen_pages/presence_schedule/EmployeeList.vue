@@ -1,7 +1,7 @@
 <template>
   <div class="mobile-hide">
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table separator="cell" bordered>
+      <q-markup-table separator="cell" bordered wrap-cells>
         <thead class="mobile-hide">
           <tr>
             <th rowspan="2" class="text-center cursor-pointer mobile-hide">
@@ -100,7 +100,7 @@
             <td class="text-left" v-if="item.type === 'staff'">
               <q-btn
                 @click="getDetail(item.schedule, item.name, item.id)"
-                color="accent"
+                :class="actionButton"
                 icon="edit"
               />
             </td>
@@ -108,10 +108,10 @@
               <q-btn-group>
                 <q-btn
                   @click="getDetail(item.schedule, item.name, item.id)"
-                  color="accent"
+                  :class="actionButton"
                   icon="edit"
                 />
-                <q-btn color="accent" icon="sync" @click="sync(item.id)">
+                <q-btn :class="actionButton" icon="sync" @click="sync(item.id)">
                   <btn-tooltip :label="$t('siabsen_sync_jadwal')" />
                 </q-btn>
               </q-btn-group>
@@ -131,6 +131,7 @@ import { computed, ref } from 'vue'
 import { useQuasar } from 'quasar'
 import { usePagingStore } from 'ss-paging-vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
+import { actionButton } from 'src/composables/mode'
 
 export default {
   setup() {
@@ -147,6 +148,7 @@ export default {
     return {
       store,
       paging,
+      actionButton,
       scheduleStatus(src, val) {
         if (src !== undefined) {
           return src['day' + val]['value'] !== 'null' ? true : false

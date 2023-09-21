@@ -19,7 +19,7 @@
             <td class="text-left">{{ item.time }}</td>
             <td class="text-left">
               <q-btn
-                color="accent"
+                :class="addButton"
                 icon="assignment_ind"
                 @click="goToAttendance(item.id)"
               >
@@ -34,21 +34,14 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed, inject } from 'vue'
 import { useQuasar } from 'quasar'
 import { useSiabsenStore } from 'src/stores/siabsen'
+import { addButton } from 'src/composables/mode'
 
-export default {
-  setup() {
-    const store = useSiabsenStore()
-    const $q = useQuasar()
-    const goToAttendance = inject('goToAttendance')
-
-    return {
-      goToAttendance,
-      allEvents: computed(() => store.allEvents),
-    }
-  },
-}
+const store = useSiabsenStore()
+const $q = useQuasar()
+const goToAttendance = inject('goToAttendance')
+const allEvents = computed(() => store.allEvents)
 </script>

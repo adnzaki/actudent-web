@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-markup-table bordered>
+    <q-markup-table bordered wrap-cells>
       <thead>
         <tr>
           <th class="text-left mobile-hide">{{ $t('staff_nama') }}</th>
@@ -18,13 +18,13 @@
       <tbody>
         <tr v-for="(item, index) in data" :key="index">
           <td class="text-left mobile-hide">
-            {{ $trim(item.staff_name, 20) }}
+            {{ item.staff_name }}
           </td>
           <td class="text-left mobile-hide">
             {{ $formatDate(item.permit_date, 'DD/MM/YYYY') }}
           </td>
           <td class="text-left mobile-only">
-            {{ $trim(item.staff_name, 20) }} <br />
+            {{ item.staff_name }} <br />
             {{ $formatDate(item.permit_date, 'DD-MMM-YYYY') }}
           </td>
           <td class="text-left mobile-hide">
@@ -35,14 +35,14 @@
             {{ permitType(item.permit_presence) }}
           </td>
           <td class="text-left mobile-hide">
-            {{ $trim(item.permit_reason, 25) }}
+            {{ item.permit_reason }}
           </td>
           <td class="text-left">
             <status-badge :value="item.permit_status" />
           </td>
           <td class="text-left">
             <q-btn
-              color="accent"
+              :class="actionButton"
               class="mobile-only"
               icon="o_info"
               @click="getDetail(item.permit_id)"
@@ -51,8 +51,9 @@
             </q-btn>
             <q-btn-dropdown
               class="mobile-hide"
+              text-color="white"
               split
-              color="accent"
+              :class="actionButton"
               :label="$t('feedback_label_att')"
               :href="item.permit_photo"
               target="_blank"
@@ -89,36 +90,28 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StatusBadge from 'src/siabsen_pages/teacher_permit/StatusBadge.vue'
 import permitType from './permit-type'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { usePagingStore } from 'ss-paging-vue'
+import { actionButton } from 'src/composables/mode'
 
-export default {
-  components: { StatusBadge },
-  setup() {
-    const store = useSiabsenStore()
-    const paging = usePagingStore()
-    store.getPermissions()
+const store = useSiabsenStore()
+const paging = usePagingStore()
+store.getPermissions()
 
-    return {
-      permitType,
-      getDetail: (id) => store.getPermissionDetail(id),
-      trimTime(val) {
-        return val === undefined ? '' : val.substring(0, 5)
-      },
-      setStatus: (val, id) => {
-        store.setPermitStatus({
-          status: val,
-          id,
-        })
-      },
-      data: computed(() => paging.state.data),
-      checkColWidth,
-    }
-  },
+const getDetail = (id) => store.getPermissionDetail(id)
+const trimTime = (val) => {
+  return val === undefined ? '' : val.substring(0, 5)
 }
+const setStatus = (val, id) => {
+  store.setPermitStatus({
+    status: val,
+    id,
+  })
+}
+const data = computed(() => paging.state.data)
 </script>

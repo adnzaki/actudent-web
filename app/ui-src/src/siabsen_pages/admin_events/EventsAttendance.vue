@@ -74,7 +74,7 @@ export default {
     const route = useRoute()
 
     store.getAttendance(route.params.agendaId)
-    store.getDetail(route.params.agendaId)
+    agenda.getDetail(route.params.agendaId)
 
     return {
       agenda: computed(() => agenda.detail),

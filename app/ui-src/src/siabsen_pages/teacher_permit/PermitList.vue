@@ -1,7 +1,7 @@
 <template>
   <div>
     <q-scroll-area class="table-scroll-area">
-      <q-markup-table bordered>
+      <q-markup-table bordered wrap-cells>
         <thead>
           <tr>
             <th class="text-center">#</th>
@@ -34,7 +34,7 @@
               {{ item.permit_endtime.substring(0, 5) }}
             </td>
             <td class="text-left mobile-hide">
-              {{ $trim(item.permit_reason) }}
+              {{ item.permit_reason }}
             </td>
             <td class="text-left mobile-hide">
               {{ permitType(item.permit_presence) }}
@@ -46,14 +46,14 @@
               <q-btn-group>
                 <q-btn
                   target="_blank"
-                  color="accent"
+                  :class="actionButton"
                   icon="image"
                   :href="item.permit_photo"
                 >
                   <btn-tooltip :label="$t('feedback_label_att')" />
                 </q-btn>
                 <q-btn
-                  color="accent"
+                  :class="actionButton"
                   :disable="item.permit_status !== 'submitted'"
                   icon="delete"
                   @click="showDeleteConfirm(item.permit_id)"
@@ -63,13 +63,7 @@
               </q-btn-group>
             </td>
             <td class="text-left mobile-only">
-              <q-btn
-                round
-                icon="more_vert"
-                color="accent"
-                class="mobile-only"
-                outline
-              >
+              <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
                   <q-list style="min-width: 100px">
                     <q-item
@@ -104,7 +98,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { useRouter } from 'vue-router'
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
@@ -112,25 +106,15 @@ import StatusBadge from './StatusBadge.vue'
 import permitType from '../admin_permit/permit-type'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { usePagingStore } from 'ss-paging-vue'
+import { actionButton } from 'src/composables/mode'
 
-export default {
-  components: { StatusBadge },
-  setup() {
-    const store = useSiabsenStore()
-    const paging = usePagingStore()
-    store.getPermissions()
+const store = useSiabsenStore()
+const paging = usePagingStore()
+store.getPermissions()
 
-    return {
-      store,
-      paging,
-      permitType,
-      showDeleteConfirm(id) {
-        store.showDeleteConfirm(id)
-      },
-      getDetail: (id) => store.getPermissionDetail(id),
-      data: computed(() => paging.state.data),
-      checkColWidth,
-    }
-  },
+const showDeleteConfirm = (id) => {
+  store.showDeleteConfirm(id)
 }
+const getDetail = (id) => store.getPermissionDetail(id)
+const data = computed(() => paging.state.data)
 </script>
