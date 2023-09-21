@@ -2,7 +2,7 @@
   <div class="col-12 col-md-4">
     <div class="q-gutter-xs mobile-hide">
       <q-btn
-        icon="add"
+        icon="settings"
         unelevated
         :class="['q-pl-sm', addButton]"
         :label="$t('menu_pengaturan')"
