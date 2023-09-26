@@ -92,7 +92,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
     public function baseStaffScheduleQuery($day, string $searchBy, string $search = '')
     {
         $field = "{$this->staff}.staff_id, staff_nik, staff_name";
-        $select = $this->QBStaff->select($field);
+        $select = $this->QBStaff->select($field)->where(['deleted' => 0]);        
         
         if($day !== null) {
             $this->QBStaff->join($this->presenceSchedule, "{$this->staff}.staff_id={$this->presenceSchedule}.staff_id");
