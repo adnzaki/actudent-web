@@ -35,12 +35,12 @@
             <td class="text-left">
               <q-btn-group class="mobile-hide">
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="edit"
                   @click="store.getDetailLesson(item.lessons_grade_id)"
                 />
                 <q-btn
-                  class="action-btn"
+                  :class="actionButton"
                   icon="delete"
                   @click="store.showDeleteConfirm(item.lessons_grade_id)"
                 />
@@ -76,27 +76,16 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { usePagingStore } from 'ss-paging-vue'
 import { useScheduleStore } from 'src/stores/schedule'
 import { checkColWidth } from 'src/composables/screen'
+import { actionButton } from 'src/composables/mode'
 
-export default {
-  name: 'LessonsList',
-  setup() {
-    const route = useRoute()
-    const paging = usePagingStore()
-    const store = useScheduleStore()
+const route = useRoute()
+const store = useScheduleStore()
 
-    store.getLessonsList(route.params.id)
-
-    return {
-      store,
-      checkColWidth,
-      data: computed(() => store.lesson.list),
-    }
-  },
-}
+store.getLessonsList(route.params.id)
+const data = computed(() => store.lesson.list)
 </script>
