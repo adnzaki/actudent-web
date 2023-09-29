@@ -104,7 +104,7 @@ watch(gallery, () => {
 
 const fullscreen = ref(false)
 const featuredImageHeight = computed(() =>
-  $q.screen.lt.sm ? '200px' : '300px'
+  $q.screen.lt.sm ? '200px' : '350px'
 )
 
 const galleryHeight = computed(() => ($q.screen.lt.sm ? '200px' : '320px'))
