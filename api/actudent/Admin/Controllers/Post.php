@@ -174,7 +174,7 @@ class Post extends \Actudent
                 'height'    => 1200,
                 'dir'       => 'posts/' . date('Y-m-d'),
                 'maxSize'   => 10000,
-                'crop'      => 'fit',
+                'crop'      => 'resize',
                 'prefix'    => date('Y-m-d') . '_gallery_',
             ];
 
