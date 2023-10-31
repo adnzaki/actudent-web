@@ -629,8 +629,11 @@ if (! function_exists('set_checkbox')) {
             return '';
         }
 
+        $session     = Services::session();
+        $hasOldInput = $session->has('_ci_old_input');
+
         // Unchecked checkbox and radio inputs are not even submitted by browsers ...
-        if ((string) $input === '0' || ! empty($request->getPost()) || ! empty(old($field))) {
+        if ((string) $input === '0' || ! empty($request->getPost()) || $hasOldInput) {
             return ($input === $value) ? ' checked="checked"' : '';
         }
 
@@ -698,12 +701,12 @@ if (! function_exists('validation_errors')) {
      */
     function validation_errors()
     {
-        session();
+        $errors = session('_ci_validation_errors');
 
         // Check the session to see if any were
         // passed along from a redirect withErrors() request.
-        if (isset($_SESSION['_ci_validation_errors']) && (ENVIRONMENT === 'testing' || ! is_cli())) {
-            return $_SESSION['_ci_validation_errors'];
+        if ($errors !== null && (ENVIRONMENT === 'testing' || ! is_cli())) {
+            return $errors;
         }
 
         $validation = Services::validation();
