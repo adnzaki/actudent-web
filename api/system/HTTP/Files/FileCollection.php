@@ -18,6 +18,8 @@ use RecursiveIteratorIterator;
  * Class FileCollection
  *
  * Provides easy access to uploaded files for a request.
+ *
+ * @see \CodeIgniter\HTTP\Files\FileCollectionTest
  */
 class FileCollection
 {
@@ -135,6 +137,8 @@ class FileCollection
      * of UploadedFile for each one, saving the results to this->files.
      *
      * Called by files(), file(), and hasFile()
+     *
+     * @return void
      */
     protected function populateFiles()
     {
@@ -182,7 +186,8 @@ class FileCollection
             $array['name'] ?? null,
             $array['type'] ?? null,
             $array['size'] ?? null,
-            $array['error'] ?? null
+            $array['error'] ?? null,
+            $array['full_path'] ?? null
         );
     }
 

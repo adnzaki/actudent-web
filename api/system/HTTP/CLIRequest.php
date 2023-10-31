@@ -25,6 +25,8 @@ use RuntimeException;
  * originally made available under.
  *
  * http://fuelphp.com
+ *
+ * @see \CodeIgniter\HTTP\CLIRequestTest
  */
 class CLIRequest extends Request
 {
@@ -71,6 +73,9 @@ class CLIRequest extends Request
         ignore_user_abort(true);
 
         $this->parseCommand();
+
+        // Set SiteURI for this request
+        $this->uri = new SiteURI($config, $this->getPath());
     }
 
     /**
@@ -175,6 +180,8 @@ class CLIRequest extends Request
      *
      * NOTE: I tried to use getopt but had it fail occasionally to find
      * any options, where argv has always had our back.
+     *
+     * @return void
      */
     protected function parseCommand()
     {

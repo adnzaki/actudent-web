@@ -17,6 +17,8 @@ use Config\Toolbar;
 
 /**
  * Collector for the Database tab of the Debug Toolbar.
+ *
+ * @see \CodeIgniter\Debug\Toolbar\Collectors\DatabaseTest
  */
 class Database extends BaseCollector
 {
@@ -75,7 +77,10 @@ class Database extends BaseCollector
      * The static method used during Events to collect
      * data.
      *
-     * @internal param $ array \CodeIgniter\Database\Query
+     * @internal
+     *
+     * @return void
+     * @phpstan-return never|void
      */
     public static function collect(Query $query)
     {
@@ -247,7 +252,7 @@ class Database extends BaseCollector
     /**
      * Gets the connections from the database config
      */
-    private function getConnections()
+    private function getConnections(): void
     {
         $this->connections = \Config\Database::getConnections();
     }

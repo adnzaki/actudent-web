@@ -43,6 +43,8 @@ use ReflectionMethod;
  *         class Class {
  *             function method(array $params=null)
  *         }
+ *
+ * @see \CodeIgniter\View\CellTest
  */
 class Cell
 {
@@ -234,7 +236,7 @@ class Cell
      * for a method, in the order they are defined. This allows
      * them to be passed directly into the method.
      */
-    private function getMethodParams(BaseCell $instance, string $method, array $params)
+    private function getMethodParams(BaseCell $instance, string $method, array $params): array
     {
         $mountParams = [];
 
