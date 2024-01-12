@@ -31,8 +31,15 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         'M' => 
         array (
             'MyCLabs\\Enum\\' => 13,
+            'MaxMind\\WebService\\' => 19,
+            'MaxMind\\Exception\\' => 18,
+            'MaxMind\\Db\\' => 11,
             'Matrix\\' => 7,
             'Masterminds\\' => 12,
+        ),
+        'G' => 
+        array (
+            'GeoIp2\\' => 7,
         ),
         'F' => 
         array (
@@ -44,6 +51,7 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         ),
         'C' => 
         array (
+            'Composer\\CaBundle\\' => 18,
             'Complex\\' => 8,
         ),
     );
@@ -67,8 +75,8 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         ),
         'Psr\\Http\\Message\\' => 
         array (
-            0 => __DIR__ . '/..' . '/psr/http-message/src',
-            1 => __DIR__ . '/..' . '/psr/http-factory/src',
+            0 => __DIR__ . '/..' . '/psr/http-factory/src',
+            1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'Psr\\Http\\Client\\' => 
         array (
@@ -82,6 +90,18 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         array (
             0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
+        'MaxMind\\WebService\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/WebService',
+        ),
+        'MaxMind\\Exception\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind/web-service-common/src/Exception',
+        ),
+        'MaxMind\\Db\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maxmind-db/reader/src/MaxMind/Db',
+        ),
         'Matrix\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/matrix/classes/src',
@@ -90,6 +110,10 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         array (
             0 => __DIR__ . '/..' . '/masterminds/html5/src',
         ),
+        'GeoIp2\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/geoip2/geoip2/src',
+        ),
         'FontLib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phenx/php-font-lib/src/FontLib',
@@ -97,6 +121,10 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         'Dompdf\\' => 
         array (
             0 => __DIR__ . '/..' . '/dompdf/dompdf/src',
+        ),
+        'Composer\\CaBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/composer/ca-bundle/src',
         ),
         'Complex\\' => 
         array (
