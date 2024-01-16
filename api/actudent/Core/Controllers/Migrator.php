@@ -13,7 +13,7 @@ class Migrator extends \Actudent
         $this->model = new MigratorModel;
     }
 
-    public function checkDatabase() 
+    public function checkDatabase()
     {
         return $this->response->setJSON([
             'shouldUpdate' => $this->model->getDbVersion() !== DB_VERSION ? 1 : 0
@@ -22,7 +22,7 @@ class Migrator extends \Actudent
 
     public function updateDatabase()
     {
-        $this->model->addTimeline();
+        $this->model->addLoginHistory();
         $this->model->updateDbVersion();
 
         return $this->response->setJSON([

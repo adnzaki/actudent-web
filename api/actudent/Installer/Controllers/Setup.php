@@ -13,7 +13,7 @@ class Setup extends \Actudent
     }
 
     public function createOrganization()
-    {     
+    {
         $token = $this->request->getPost('token');
 
         if(password_verify($token, env('installation_token'))) {
@@ -70,20 +70,20 @@ class Setup extends \Actudent
 
         return $this->response->setJSON($response);
     }
-    
+
     public function dispatch($module)
     {
         $token = $this->request->getPost('token');
         if(password_verify($token, env('installation_token'))) {
             $func = 'create' . ucfirst($module) . 'Module';
-            
+
             // call module creation
             $this->$func();
-    
-            return $this->response->setJSON(['status' => 'OK']);            
+
+            return $this->response->setJSON(['status' => 'OK']);
 
         } else {
-            return $this->response->setJSON(['status' => 'failed']);    
+            return $this->response->setJSON(['status' => 'failed']);
         }
     }
 
@@ -92,6 +92,17 @@ class Setup extends \Actudent
         $model = new \Actudent\Installer\Models\UserModel;
         $model->createUser();
         $model->createUserDevices();
+
+		$history = new \Actudent\Installer\Models\LoginHistoryModel;
+		$history->createLoginHistory();
+		$history->createDeviceSessions();
+    }
+
+	private function createSessionModule()
+    {
+		$model = new \Actudent\Installer\Models\LoginHistoryModel;
+		$model->createLoginHistory();
+		$model->createDeviceSessions();
     }
 
     private function createParentModule()

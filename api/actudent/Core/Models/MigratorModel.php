@@ -1,15 +1,15 @@
 <?php namespace Actudent\Core\Models;
 
 use Actudent\Core\Models\SubscriptionModel;
-use Actudent\Installer\Models\SetupModel;
 use Actudent\Installer\Models\TimelineModel;
 use Actudent\Installer\Models\SettingModel;
+use Actudent\Installer\Models\LoginHistoryModel;
 
 /**
  * Migrator class used to update database structure
- * automatically by the application. It consists of 
+ * automatically by the application. It consists of
  * set of methods that can be chosen for updating database.
- * 
+ *
  * Method selection should be done manually from controller
  * if there is a new version of database.
  */
@@ -19,15 +19,12 @@ class MigratorModel extends \Actudent\Core\Models\Connector
 
     private $subs;
 
-    private $setup;
-
     public function __construct()
     {
         parent::__construct();
         helper('Actudent\Core\Helpers\wolesdev');
         $this->forge = \Config\Database::forge(get_subdomain());
         $this->subs = new SubscriptionModel;
-        $this->setup = new SetupModel;
     }
 
     public function getDbVersion()
@@ -46,9 +43,20 @@ class MigratorModel extends \Actudent\Core\Models\Connector
     {
         $organization = $this->subs->getOrganization();
         $this->subs->QBOrganization->update(
-            ['db_version' => DB_VERSION], 
+            ['db_version' => DB_VERSION],
             ['organization_id' => $organization->organization_id]
         );
+    }
+
+	public function addLoginHistory()
+    {
+        if($this->getDbVersionNumber() < 228) {
+            $this->addTimeline();
+        }
+
+		$history = new LoginHistoryModel;
+		$history->createLoginHistory();
+		$history->createDeviceSessions();
     }
 
     public function addTimeline()
