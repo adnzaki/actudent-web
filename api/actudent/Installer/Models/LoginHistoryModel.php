@@ -2,9 +2,9 @@
 
 class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 {
-	public function createLoginHistory()
+	public function createLogins()
 	{
-		$table = 'tb_login_history';
+		$table = 'tb_logins';
 		$fields = [
 			'login_id' => [
 				'type'          => 'INT',
@@ -20,9 +20,14 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 				'constraint'	=> 20,
 				'null'          => true,
 			],
-			'user_agent' => [
+			'platform' => [
 				'type'			=> 'VARCHAR',
-				'constraint'	=> 100,
+				'constraint'	=> 50,
+				'null'          => true,
+			],
+			'browser' => [
+				'type'			=> 'VARCHAR',
+				'constraint'	=> 50,
 				'null'          => true,
 			],
 			'location' => [
@@ -44,11 +49,11 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 		$this->setAsCurrentTimestamp('login_time', $table);
 	}
 
-	public function createDeviceSessions()
+	public function createSessions()
 	{
-		$table = 'tb_device_sessions';
+		$table = 'tb_sessions';
 		$fields = [
-			'session_id' => [
+			'user_id' => [
 				'type'          => 'INT',
                 'constraint'    => 11,
                 'auto_increment'=> true
@@ -57,19 +62,14 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 				'type'          => 'INT',
                 'constraint'    => 11,
 			],
-			'user_device' => [
+			'user_token' => [
 				'type'			=> 'VARCHAR',
 				'constraint'	=> 100,
 				'null'          => true,
 			],
-			'is_main_device' => [ // 1 or 0
+			'is_main_session' => [ // 1 or 0
 				'type'			=> 'TINYINT',
 				'constraint'	=> 1,
-			],
-			'user_token' => [
-				'type'			=> 'VARCHAR',
-				'constraint'	=> 200,
-				'null'          => true,
 			],
 			'is_active' => [ // 1 or 0
 				'type'			=> 'TINYINT',
@@ -82,8 +82,8 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 		];
 
 		$this->forge->addField($fields);
-        $this->forge->addPrimaryKey('session_id');
-		$this->forge->addForeignKey('login_id', 'tb_login_history', 'login_id');
+		$this->forge->addForeignKey('user_id', 'tb_user', 'user_id');
+		$this->forge->addForeignKey('login_id', 'tb_logins', 'login_id');
         $this->forge->createTable($table, true, $this->engine);
 
 		$this->setAsCurrentTimestamp('created', $table);

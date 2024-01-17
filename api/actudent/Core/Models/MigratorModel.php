@@ -55,8 +55,8 @@ class MigratorModel extends \Actudent\Core\Models\Connector
         }
 
 		$history = new LoginHistoryModel;
-		$history->createLoginHistory();
-		$history->createDeviceSessions();
+		$history->createLogins();
+		$history->createSessions();
     }
 
     public function addTimeline()

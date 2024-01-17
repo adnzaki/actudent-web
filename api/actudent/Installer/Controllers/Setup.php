@@ -92,17 +92,13 @@ class Setup extends \Actudent
         $model = new \Actudent\Installer\Models\UserModel;
         $model->createUser();
         $model->createUserDevices();
-
-		$history = new \Actudent\Installer\Models\LoginHistoryModel;
-		$history->createLoginHistory();
-		$history->createDeviceSessions();
     }
 
 	private function createSessionModule()
     {
 		$model = new \Actudent\Installer\Models\LoginHistoryModel;
-		$model->createLoginHistory();
-		$model->createDeviceSessions();
+		$model->createLogins();
+		$model->createSessions();
     }
 
     private function createParentModule()
