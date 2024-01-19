@@ -177,7 +177,7 @@ class App extends BaseConfig
 	| Comma-separated:	'10.0.1.200,192.168.5.0/24'
 	| Array:		array('10.0.1.200', '192.168.5.0/24')
 	*/
-	public $proxyIPs = '';
+	public $proxyIPs = [];
 
 	/*
 	|--------------------------------------------------------------------------
@@ -223,7 +223,7 @@ class App extends BaseConfig
 	{
 		parent:: __construct();
 		helper([
-			'Actudent\Core\Helpers\ostium', 
+			'Actudent\Core\Helpers\ostium',
 			'cookie', 'session'
 		]);
 

@@ -27,6 +27,7 @@ class IPLocator
 			$longitude 		= !empty($record->location->longitude) ? $record->location->longitude : '';
 
 			$response = (object)[
+				'status'		=> 'OK',
 				'ip' 			=> $ip,
 				'countryCode' 	=> $countryCode,
 				'countryName' 	=> $countryName,
@@ -38,7 +39,10 @@ class IPLocator
 				'longitude' 	=> $longitude
 			];
 		} else {
-			$response = $error;
+			$response = (object)[
+				'status'	=> 'Error',
+				'msg'		=> $error
+			];
 		}
 
 		return $response;

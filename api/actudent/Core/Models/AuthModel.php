@@ -4,9 +4,19 @@ class AuthModel extends \Actudent\Core\Models\Connector
 {
     /**
      * tb_user table builder
-     * 
+     *
      */
     private $user;
+
+	/**
+	 * tb_sessions
+	 */
+	private $session;
+
+	/**
+	 * tb_logins
+	 */
+	private $logins;
 
     public function __construct()
     {
@@ -14,15 +24,119 @@ class AuthModel extends \Actudent\Core\Models\Connector
 
         // Initialize Query Builder for each tables
         $this->user = $this->db->table('tb_user');
+		$this->session = $this->db->table('tb_sessions');
+		$this->logins = $this->db->table('tb_logins');
     }
+
+	/**
+	 * Deactivate session. It is also used by revoking access feature
+	 *
+	 * @param int $loginId
+	 *
+	 * @return void
+	 */
+	public function logout(int $loginId): void
+	{
+		$this->session->update(['is_active' => 0], ['login_id' => $loginId]);
+	}
+
+	/**
+	 * Check if a user has active session or not
+	 *
+	 * @param int $loginId
+	 *
+	 * @return boolean
+	 */
+	public function hasAcitveSession(int $loginId): bool
+	{
+		$search = $this->session->getWhere([
+			'login_id'	=> $loginId,
+			'is_active'	=> 1
+		]);
+
+		return $search->getNumRows() > 0 ? true : false;
+	}
+
+	/**
+	 * Insert data into tb_sessions
+	 *
+	 * @param array $data
+	 *
+	 * @return void
+	 */
+	public function insertSession(array $data): void
+	{
+		$values = [
+			'user_id'			=> $data['user_id'],
+			'login_id'			=> $data['login_id'],
+			'is_main_session'	=> $data['is_main_session'],
+			'token_expiration'	=> $data['token_expiration']
+		];
+
+		$this->session->insert($values);
+	}
+
+	/**
+	 * Insert data into tb_logins
+	 *
+	 * @param array $data
+	 *
+	 * @return int
+	 */
+	public function insertLoginHistory(array $data): int
+	{
+		$values = [
+			'user_id'		=> $data['user_id'],
+			'ip_address'	=> $data['ip_address'],
+			'platform'		=> $data['platform'],
+			'browser'		=> $data['browser'],
+			'location'		=> $data['location']
+		];
+
+		$this->logins->insert($values);
+
+		return $this->db->insertID();
+	}
+
+	/**
+	 * Check if there has been active session or not when login successful
+	 *
+	 * @param int $userId
+	 *
+	 * @return boolean
+	 */
+	public function checkActiveSession(int $userId): bool
+	{
+		$search = $this->session->getWhere([
+			'user_id' 			=> $userId,
+			'is_active'			=> 1
+		]);
+
+		if($search->getNumRows() > 0) {
+			$results = $search->getResult();
+
+			// store token that are still valid
+			$stillValidToken = [];
+			foreach($results as $result) {
+				if(strtotime('now') < $result->token_expiration) {
+					$stillValidToken[] = $result->token_expiration;
+				}
+			}
+
+			return (count($stillValidToken) > 0) ? true : false;
+		} else {
+			return false;
+		}
+
+	}
 
     /**
      * Check whether the username is staff_nik or user_email
      * If it is staff_nik, then return their user_email,
      * if not, then return false
-     * 
+     *
      * @param string $username
-     * 
+     *
      * @return mixed
      */
     public function isNik(string $username)
@@ -42,10 +156,10 @@ class AuthModel extends \Actudent\Core\Models\Connector
 
     /**
      * Get user data who has been logged in
-     * 
-     * @param string $username 
-     * 
-     * @return object 
+     *
+     * @param string $username
+     *
+     * @return object
      */
     public function getDataPengguna(string $username): object
     {
@@ -59,10 +173,10 @@ class AuthModel extends \Actudent\Core\Models\Connector
 
     /**
      * Set network status to "online" or "offline"
-     * 
+     *
      * @param string $status
      * @param string $username
-     * 
+     *
      * @return void
      */
     public function statusJaringan(string $status, string $username): void
@@ -76,7 +190,7 @@ class AuthModel extends \Actudent\Core\Models\Connector
      * Validate username and possword
      * @param string $username
      * @param string $password
-     * 
+     *
      * @return bool
      */
     public function validasi(string $username, string $password): bool
@@ -91,12 +205,12 @@ class AuthModel extends \Actudent\Core\Models\Connector
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
-            }            
+            }
         }
-        else 
+        else
         {
             return false;
         }
@@ -104,9 +218,9 @@ class AuthModel extends \Actudent\Core\Models\Connector
 
     /**
      * Check if user is active or not
-     * 
+     *
      * @param string $username
-     * 
+     *
      * @return boolean
      */
     public function isActiveUser(string $username): bool
@@ -121,12 +235,12 @@ class AuthModel extends \Actudent\Core\Models\Connector
             {
                 return true;
             }
-            else 
+            else
             {
                 return false;
             }
         }
-        else 
+        else
         {
             return false;
         }

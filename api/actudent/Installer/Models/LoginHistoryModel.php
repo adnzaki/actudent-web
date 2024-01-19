@@ -62,11 +62,6 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 				'type'          => 'INT',
                 'constraint'    => 11,
 			],
-			'user_token' => [
-				'type'			=> 'VARCHAR',
-				'constraint'	=> 100,
-				'null'          => true,
-			],
 			'is_main_session' => [ // 1 or 0
 				'type'			=> 'TINYINT',
 				'constraint'	=> 1,
@@ -74,6 +69,11 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 			'is_active' => [ // 1 or 0
 				'type'			=> 'TINYINT',
 				'constraint'	=> 1,
+				'default'		=> 1
+			],
+			'token_expiration' => [
+				'type'			=> 'INT',
+				'constraint'	=> 15,
 			],
 			'created' => [
 				'type'          => 'DATETIME',

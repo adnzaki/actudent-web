@@ -5,7 +5,7 @@
  * This is the core of Actudent web app version. Everything is set to make this source
  * code maintainable for long-time use.
  * Every controller must extend this class in order to make this app runs as expected
- * 
+ *
  * @copyright   Wolestech (c) 2021
  * @author      WolesDev Team
  * @version     1.1.0
@@ -32,22 +32,22 @@ class Actudent extends \CodeIgniter\Controller
 
     /**
      * SekolahModel
-     * 
-     * @var object
+     *
+     * @var \Actudent\Core\Models\SekolahModel
      */
     protected $sekolah;
 
     /**
-     * Core resources 
-     *  
+     * Core resources
+     *
      * @var \Actudent\Core\Controllers\Resources
-     */    
+     */
     protected $resources;
 
     /**
      * AuthModel
-     * 
-     * @var object
+     *
+     * @var \Actudent\Core\Models\AuthModel
      */
     protected $auth;
 
@@ -58,7 +58,7 @@ class Actudent extends \CodeIgniter\Controller
 
     /**
      * HTTP Status
-     * 
+     *
      * @var string
      */
     protected $status = [
@@ -66,7 +66,8 @@ class Actudent extends \CodeIgniter\Controller
         113 => 'Subscription valid',
         200 => 'Token validated.',
         500 => 'Internal Server Error',
-        503 => 'Unauthorized Access'
+        503 => 'Unauthorized Access',
+		504 => 'Invalid Session'
     ];
 
     protected $defaultLangPath = WRITEPATH . 'settings/_default.json';
@@ -84,7 +85,7 @@ class Actudent extends \CodeIgniter\Controller
         $this->auth         = new AuthModel;
         $this->validation   = Services::validation();
         helper([
-            'Actudent\Core\Helpers\ostium', 
+            'Actudent\Core\Helpers\ostium',
             'Actudent\Core\Helpers\wolesdev',
         ]);
     }
@@ -120,10 +121,10 @@ class Actudent extends \CodeIgniter\Controller
      * for both section: Admin and Teacher. Other validators are
      * is_admin() and is_teacher() that means the response only available
      * for admin or teacher
-     * 
+     *
      * @param array $response
      * @param string $validator
-     * 
+     *
      * @return JSON
      */
     protected function createResponse($response, $validator = 'valid_token')
@@ -140,9 +141,9 @@ class Actudent extends \CodeIgniter\Controller
 
     /**
      * Set HTTP Status code
-     * 
+     *
      * @param int $code
-     * 
+     *
      * @return array
      */
     protected function setStatus($code)
@@ -152,10 +153,10 @@ class Actudent extends \CodeIgniter\Controller
             'msg'       => $this->status[$code]
         ];
     }
-    
+
     /**
      * Function that supplies global variables for the whole app
-     * 
+     *
      * @return array
      */
     protected function common()
@@ -167,7 +168,7 @@ class Actudent extends \CodeIgniter\Controller
             'css'                   => base_url() . '/css/',
             'fonts'                 => base_url() . '/fonts/',
             'images'                => base_url() . '/images/',
-            'admin'                 => base_url() . '/admin/',  
+            'admin'                 => base_url() . '/admin/',
             'guru'                  => base_url() . '/guru/',
             'newLogin'              => base_url() . '/admin-login/',
             'install'               => base_url() . '/install/',
@@ -215,7 +216,7 @@ class Actudent extends \CodeIgniter\Controller
 
     /**
      * Get user's data who has been logged in
-     * 
+     *
      * @return object
      */
     public function getDataPengguna($token = '')
