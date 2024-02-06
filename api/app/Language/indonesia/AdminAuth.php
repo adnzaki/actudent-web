@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     // teks halaman login
@@ -21,5 +21,9 @@ return [
     'db_check'              => 'Mengecek database...',
     'db_progress'           => 'Memperbarui struktur database... Mohon tunggu.',
     'db_updated'            => 'Database telah diperbarui.',
-    'db_uptodate'           => 'Database telah berada di versi terbaru.'
+    'db_uptodate'           => 'Database telah berada di versi terbaru.',
+	'session_title'			=> 'Sesi',
+	'session_manager'		=> 'Sesi Aktif',
+	'session_revoke'		=> 'Cabut Akses',
+    'login_history'         => 'Riwayat Login',
 ];

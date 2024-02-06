@@ -13,6 +13,11 @@
                 :label="$t('navbar_profil')"
                 link="/account"
               />
+              <other-actions
+                icon="o_dns"
+                :label="$t('session_title')"
+                link="/sessions"
+              />
               <!-- <other-actions icon="o_school" :label="$t('navbar_sekolah')" /> -->
               <other-actions
                 icon="logout"

@@ -1,0 +1,36 @@
+<?php namespace Actudent\Admin\Controllers;
+
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+
+use Actudent\Admin\Models\SessionModel;
+
+class Sessions extends \Actudent
+{
+    private $model;
+
+	public function __construct()
+	{
+		$this->model = new SessionModel;
+	}
+
+	public function getLogins($limit, $offset, $orderBy, $searchBy, $sort)
+	{
+		if(valid_token()) {
+			$decodedToken = jwt_decode(bearer_token());
+			$data = $this->model->getLogins($decodedToken->id, $limit, $offset);
+			$rows = $this->model->getLoginRows($decodedToken->id);
+
+			foreach($data as $d) {
+				$dt = explode(' ', $d->login_time);
+				$d->date = os_date()->create($dt[0], 'd-m-y', '-');
+				$d->time = $dt[1];
+			}
+
+			return $this->response->setJSON([
+				'container' => $data,
+				'totalRows' => $rows,
+			]);
+		}
+	}
+}
