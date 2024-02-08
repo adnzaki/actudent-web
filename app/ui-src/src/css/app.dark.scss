@@ -2,3 +2,8 @@
 .action-btn-dark {
   background-color: $grey-8;
 }
+
+.q-item.q-router-link--active.account-menu-item-dark,
+.q-item--active {
+  color: #1fee7a !important;
+}
