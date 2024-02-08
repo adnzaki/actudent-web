@@ -99,6 +99,23 @@ class AuthModel extends \Actudent\Core\Models\Connector
 	}
 
 	/**
+	 * Get number of active sessions
+	 *
+	 * @param int $userId
+	 *
+	 * @return int
+	 */
+	public function getActiveSessions(int $userId): int
+	{
+		$search = $this->session->getWhere([
+			'user_id' 			=> $userId,
+			'is_active'			=> 1
+		]);
+
+		return $search->getNumRows();
+	}
+
+	/**
 	 * Check if there has been active session or not when login successful
 	 *
 	 * @param int $userId

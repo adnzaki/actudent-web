@@ -26,4 +26,5 @@ return [
 	'session_manager'		=> 'Sesi Aktif',
 	'session_revoke'		=> 'Cabut Akses',
     'login_history'         => 'Riwayat Login',
+	'session_exceeded'		=> 'Anda telah mencapai batas sesi aktif maksimum. Silakan logout pada salah satu perangkat anda atau hubungi tim support Actudent.'
 ];

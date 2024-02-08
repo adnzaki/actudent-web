@@ -25,5 +25,6 @@ return [
 	'session_title'			=> 'Sessions',
 	'session_manager'		=> 'Active Sessions',
 	'session_revoke'		=> 'Revoke Access',
-	'login_history'         => 'Riwayat Login',
+	'login_history'         => 'Login History',
+	'session_exceeded'		=> 'You have reached the maximum limit of active sessions. Please logout from one of your devices or contact Actudent support team.'
 ];

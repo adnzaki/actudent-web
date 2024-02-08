@@ -248,7 +248,7 @@ export default {
             })
             .then((response) => {
               const res = response.data
-              if (res.msg === 'expired') {
+              if (res.msg === 'expired' || res.msg === 'maximum_session') {
                 msgClass.value = 'negative'
                 msg.value = res.note
               } else {
