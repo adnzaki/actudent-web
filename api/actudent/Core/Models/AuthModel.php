@@ -41,23 +41,6 @@ class AuthModel extends \Actudent\Core\Models\Connector
 	}
 
 	/**
-	 * Check if a user has active session or not
-	 *
-	 * @param int $loginId
-	 *
-	 * @return boolean
-	 */
-	public function hasAcitveSession(int $loginId): bool
-	{
-		$search = $this->session->getWhere([
-			'login_id'	=> $loginId,
-			'is_active'	=> 1
-		]);
-
-		return $search->getNumRows() > 0 ? true : false;
-	}
-
-	/**
 	 * Insert data into tb_sessions
 	 *
 	 * @param array $data
@@ -99,52 +82,43 @@ class AuthModel extends \Actudent\Core\Models\Connector
 	}
 
 	/**
-	 * Get number of active sessions
+	 * Check if a user has active session or not
 	 *
-	 * @param int $userId
-	 *
-	 * @return int
-	 */
-	public function getActiveSessions(int $userId): int
-	{
-		$search = $this->session->getWhere([
-			'user_id' 			=> $userId,
-			'is_active'			=> 1
-		]);
-
-		return $search->getNumRows();
-	}
-
-	/**
-	 * Check if there has been active session or not when login successful
-	 *
-	 * @param int $userId
+	 * @param int $loginId
 	 *
 	 * @return boolean
 	 */
-	public function checkActiveSession(int $userId): bool
+	public function hasActiveSession(int $loginId): bool
 	{
 		$search = $this->session->getWhere([
-			'user_id' 			=> $userId,
-			'is_active'			=> 1
+			'login_id'	=> $loginId,
+			'is_active'	=> 1
 		]);
 
-		if($search->getNumRows() > 0) {
-			$results = $search->getResult();
+		return $search->getNumRows() > 0 ? true : false;
+	}
 
-			// store token that are still valid
-			$stillValidToken = [];
-			foreach($results as $result) {
-				if(strtotime('now') < $result->token_expiration) {
-					$stillValidToken[] = $result->token_expiration;
-				}
-			}
+	/**
+	 * Get number of active sessions
+	 *
+	 * @param int $userId
+	 * @param bool $checkMainSession
+	 *
+	 * @return int
+	 */
+	public function getActiveSessions(int $userId, bool $checkMainSession = false): int
+	{
+		$search = $this->session->where([
+			'user_id' 				=> $userId,
+			'is_active'				=> 1,
+			'token_expiration >'	=> strtotime('now'),
+		]);
 
-			return (count($stillValidToken) > 0) ? true : false;
-		} else {
-			return false;
+		if($checkMainSession) {
+			$search->where('is_main_session', 1);
 		}
 
+		return $search->get()->getNumRows();
 	}
 
     /**

@@ -11,25 +11,12 @@ export default function () {
       id: '',
       name: '',
     },
-    teacherId: '',
-    teachers: [],
-    detail: {},
-    checkAll: false,
-    selectedClasses: [],
+    sessions: [],
     current: 1,
     showAddForm: false,
     showEditForm: false,
     saveStatus: 500,
     deleteConfirm: false,
     searchTimeout: false,
-
-    showPreviousClass: false,
-
-    // state for class member page only
-    classMember: {
-      name: '',
-      students: [],
-      showForm: false,
-    },
   }
 }

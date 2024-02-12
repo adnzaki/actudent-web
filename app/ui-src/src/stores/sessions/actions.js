@@ -15,6 +15,17 @@ import { Notify, Dialog } from 'quasar'
 import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
+  getActiveSessions() {
+    admin
+      .get('session/active', { headers: { Authorization: bearerToken } })
+      .then(({ data }) => {
+        if (data.msg === 'OK') {
+          this.sessions = data.result
+        } else {
+          this.sessions = null
+        }
+      })
+  },
   getHistory() {
     const limit = 5
     paging().state.rows = limit
@@ -31,7 +42,6 @@ export default {
         active: true,
         timeout: 500,
       },
-      debug: true,
     })
   },
 }

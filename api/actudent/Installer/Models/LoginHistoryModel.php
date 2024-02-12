@@ -53,14 +53,14 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 	{
 		$table = 'tb_sessions';
 		$fields = [
+			'login_id' => [
+				'type'          => 'INT',
+				'constraint'    => 11,
+			],
 			'user_id' => [
 				'type'          => 'INT',
                 'constraint'    => 11,
                 'auto_increment'=> true
-			],
-			'login_id' => [
-				'type'          => 'INT',
-                'constraint'    => 11,
 			],
 			'is_main_session' => [ // 1 or 0
 				'type'			=> 'TINYINT',
@@ -82,6 +82,7 @@ class LoginHistoryModel extends \Actudent\Installer\Models\SetupModel
 		];
 
 		$this->forge->addField($fields);
+		$this->forge->addPrimaryKey('login_id');
 		$this->forge->addForeignKey('user_id', 'tb_user', 'user_id');
 		$this->forge->addForeignKey('login_id', 'tb_logins', 'login_id');
         $this->forge->createTable($table, true, $this->engine);

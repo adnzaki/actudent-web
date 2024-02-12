@@ -24,7 +24,9 @@ return [
     'db_uptodate'           => 'Database telah berada di versi terbaru.',
 	'session_title'			=> 'Sesi',
 	'session_manager'		=> 'Sesi Aktif',
-	'session_revoke'		=> 'Cabut Akses',
+	'session_revoke'		=> 'Hapus Akses',
     'login_history'         => 'Riwayat Login',
-	'session_exceeded'		=> 'Anda telah mencapai batas sesi aktif maksimum. Silakan logout pada salah satu perangkat anda atau hubungi tim support Actudent.'
+	'session_exceeded'		=> 'Anda telah mencapai batas maksimum sesi aktif. Silakan logout pada salah satu perangkat anda atau hubungi tim support Actudent.',
+	'this_device'			=> 'Perangkat ini',
+	'main_session'			=> 'Sesi Utama',
 ];

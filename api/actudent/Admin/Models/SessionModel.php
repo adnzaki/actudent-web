@@ -35,6 +35,46 @@ class SessionModel extends \Actudent\Admin\Models\SharedModel
         $this->QBSessions = $this->db->table($this->sessions);
     }
 
+    /**
+     * Get list of active sessions
+	 *
+	 * @param int $userId
+     *
+     * @return array
+     */
+    public function getActiveSessions(int $userId): array
+    {
+		// Perform join between QBSessions and QBLogins tables
+		$results = $this->QBSessions
+		    ->select("{$this->logins}.login_id, is_main_session, platform, browser") // Select the columns you need
+		    ->join($this->logins, "{$this->logins}.login_id = {$this->sessions}.login_id")
+		    ->where("{$this->sessions}.user_id", $userId)
+		    ->where("{$this->sessions}.is_active", 1)
+		    ->where("{$this->sessions}.token_expiration >", strtotime('now'))
+			->orderBy('is_main_session', 'DESC')
+		    ->get()
+		    ->getResult();
+
+		return $results;
+    }
+
+	/**
+	 * Check if the provided login ID is the main session
+	 *
+	 * @param int $loginId The ID of the login session to check
+	 *
+	 * @return bool True if it is the main session, false otherwise
+	 */
+	public function isMainSession(int $loginId): bool
+	{
+	    $mainSession = $this->QBSessions
+	        ->where(['is_main_session' => 1, 'login_id' => $loginId])
+	        ->get()
+	        ->getFirstRow();
+
+	    return $mainSession !== null;
+	}
+
 	/**
      * Get login history
      *

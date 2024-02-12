@@ -59,7 +59,7 @@ class Resources extends \Actudent
 		} else {
 			if(valid_token()) {
 				$decodedToken = jwt_decode(bearer_token());
-				if($this->auth->hasAcitveSession($decodedToken->loginId)) {
+				if($this->auth->hasActiveSession($decodedToken->loginId)) {
 					$status = $this->setStatus(200);
 					if ($validator === 'is_teacher') {
 						$status['check'] = $this->checkHomeroomTeacher()['check'];

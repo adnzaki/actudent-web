@@ -14,6 +14,22 @@ class Sessions extends \Actudent
 		$this->model = new SessionModel;
 	}
 
+	public function getActiveSessions()
+	{
+		if(valid_token()) {
+			$decodedToken = jwt_decode(bearer_token());
+			if($this->model->isMainSession($decodedToken->loginId))	{
+				$activeSessions = $this->model->getActiveSessions($decodedToken->id);
+				return $this->response->setJSON([
+					'msg'		=> 'OK',
+					'result'	=> $activeSessions
+				]);
+			} else {
+				return $this->response->setJSON(['msg' => 'failed']);
+			}
+		}
+	}
+
 	public function getLogins($limit, $offset, $orderBy, $searchBy, $sort)
 	{
 		if(valid_token()) {

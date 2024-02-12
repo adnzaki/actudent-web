@@ -136,7 +136,7 @@ class Auth extends \Actudent
 
 		// Check if there has been active session for current logged in user or not.
 		// If not, this will be the main session and can manage other sessions.
-		$isMainSession = !$this->auth->checkActiveSession($userId) ? 1 : 0;
+		$isMainSession = ($this->auth->getActiveSessions($userId, true) > 0) ? 0 : 1;
 
 		$sessionValues = [
 			'user_id'			=> $userId,

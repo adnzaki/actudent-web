@@ -24,7 +24,9 @@ return [
     'db_uptodate'           => 'Database is up to date.',
 	'session_title'			=> 'Sessions',
 	'session_manager'		=> 'Active Sessions',
-	'session_revoke'		=> 'Revoke Access',
+	'session_revoke'		=> 'Remove Access',
 	'login_history'         => 'Login History',
-	'session_exceeded'		=> 'You have reached the maximum limit of active sessions. Please logout from one of your devices or contact Actudent support team.'
+	'session_exceeded'		=> 'You have reached the maximum limit of active sessions. Please logout from one of your devices or contact Actudent support team.',
+	'this_device'			=> 'This device',
+	'main_session'			=> 'Main Session',
 ];
