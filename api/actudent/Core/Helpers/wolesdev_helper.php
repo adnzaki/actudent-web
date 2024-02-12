@@ -3,7 +3,7 @@
 /**
  * This helper is created to help Wolestech DevTeam
  * to code easier and faster while developing their apps
- * 
+ *
  * @copyright   Copyright (c) 2021-now, Wolestech
  * @package     Helper
  * @author      Wolestech DevTeam
@@ -13,9 +13,9 @@
 if(! function_exists('user_data')) {
     /**
      * An alias to \Actudent::getDataPengguna()
-     * 
+     *
      * @param string $token
-     * 
+     *
      * @return object
      */
     function user_data()
@@ -29,10 +29,10 @@ if ( ! function_exists('get_lang'))
 {
     /**
      * Get language based on its setting
-     * 
+     *
      * @param string $line
      * @param array $args
-     * 
+     *
      * @return string
      */
     function get_lang(string $line, array $args = [])
@@ -53,7 +53,7 @@ if ( ! function_exists('st'))
 {
     /**
      * Shortcut to SimpleTag class
-     * 
+     *
      * @return object
      */
     function st()
@@ -63,22 +63,22 @@ if ( ! function_exists('st'))
 }
 
 if ( ! function_exists('validate'))
-{    
+{
     /**
      * Due to custom DBGroup usage in Actudent,
      * we have to create our own validation runner
-     * because $this->validate shortcut in controller 
+     * because $this->validate shortcut in controller
      * does not support custom DBGroup
-     * 
+     *
      * @author Adnan Zaki
-     * 
+     *
      * @param mixed $rules
      * @param array $messages
-     * 
+     *
      * @return boolean
      */
     function validate($rules, $messages = [])
-    {        
+    {
         $validator = \Config\Services::validation();
         $isValid = $validator->withRequest(\Config\Services::request())
                              ->setRules($rules, $messages)
@@ -89,22 +89,22 @@ if ( ! function_exists('validate'))
 }
 
 if ( ! function_exists('get_subdomain'))
-{    
+{
     /**
      * Get subdomain
-     * 
+     *
      * @author Adnan Zaki
-     * 
+     *
      * @return string
      */
     function get_subdomain()
-    {        
+    {
         if(get_host() !== 'localhost')
         {
             $hostArray = explode('.', get_host());
             return $hostArray[0];
         }
-        else 
+        else
         {
             return get_host();
         }
@@ -115,15 +115,15 @@ if ( ! function_exists('get_host'))
 {
     /**
      * Get host name
-     * 
+     *
      * @author Adnan Zaki
-     * 
+     *
      * @return string
      */
     function get_host()
-    {        
+    {
         $uri = new \CodeIgniter\HTTP\URI(current_url());
-        
+
         return $uri->getHost();
     }
 }
@@ -132,12 +132,12 @@ if ( ! function_exists('parse'))
 {
     /**
      * An alias function to parser renderer
-     * 
+     *
      * @author Adnan Zaki
-     * 
+     *
      * @param string $view
      * @param array $data
-     * 
+     *
      * @return string
      */
     function parse(string $view, array $data)
@@ -152,8 +152,8 @@ if ( ! function_exists('os_date'))
 {
     /**
      * Replace OstiumDate object creation into callable function
-     * 
-     * @return object
+     *
+     * @return \OstiumDate
      */
     function os_date()
     {
@@ -165,7 +165,7 @@ if ( ! function_exists('access_denied'))
 {
     /**
      * Tell users that the page they try to access is denied
-     * 
+     *
      * @return string
      */
     function access_denied()
@@ -196,18 +196,18 @@ if ( ! function_exists('copy_data'))
      * $result = copy_data($data, 2, ['age'])
      * That function call will result unique data for 'name'
      * and 'id', while 'age' will be the same value
-     * 
+     *
      * @param   array $data
      * @param   int $num
      * @param   array $nonUnique
-     * 
+     *
      * @return array
      */
     function copy_data(array $data, int $num, array $nonUnique = [])
     {
         $wrapper = [];
         for($i = 1; $i <= $num; $i++)
-        {            
+        {
             $copy = '';
             $incArray = [];
             foreach($data as $k => $v)
@@ -216,7 +216,7 @@ if ( ! function_exists('copy_data'))
                 {
                     $copy = $v;
                 }
-                else 
+                else
                 {
                     if(gettype($v) === 'string')
                     {
@@ -226,9 +226,9 @@ if ( ! function_exists('copy_data'))
                     elseif(gettype($v) === 'integer')
                     {
                         $copy = $v + $i;
-                    }               
+                    }
                 }
-                
+
                 $incArray[$k] = $copy;
             }
 
@@ -243,22 +243,22 @@ if ( ! function_exists('html_text'))
 {
     /**
      * A simple HTML element generator
-     * 
+     *
      * Example usage:
      * $style = ['p' => ['font-weight' => 'bold', 'text-align' => 'center']]
      * html_text('Hello world!', 'p > i', $style)
      * Result: <p style="font-weight: bold; text-align: center"><i>Hello world!</i></p>
      * You can add styles as many as you want
-     * 
+     *
      * @param string $inner
      * @param string $outer
      * @param array $style
-     * 
+     *
      * @return string
      */
     function html_text(string $inner, string $outer = 'h2', array $style = [])
-    {    
-        function createStyle($outer, $style)    
+    {
+        function createStyle($outer, $style)
         {
             $styleStr = '';
             if(isset($style[$outer]))
@@ -267,7 +267,7 @@ if ( ! function_exists('html_text'))
                 $closeStyle = '';
                 $i = 1;
                 foreach($style[$outer] as $k => $v)
-                {                            
+                {
                     if($i === count($style[$outer]))
                     {
                         $closeStyle = '"';
@@ -301,7 +301,7 @@ if ( ! function_exists('html_text'))
 
             $outerClose = implode('', array_reverse($outerCloseWrapper));
 
-            return $outerOpen . $inner . $outerClose;            
+            return $outerOpen . $inner . $outerClose;
         }
     }
 }
@@ -310,7 +310,7 @@ if ( ! function_exists('db_installed'))
 {
     /**
      * Check if Actudent's database has been installed properly
-     * 
+     *
      * @return boolean
      */
     function db_installed()
@@ -320,7 +320,7 @@ if ( ! function_exists('db_installed'))
         {
             return true;
         }
-        else 
+        else
         {
             return false;
         }
@@ -331,9 +331,9 @@ if ( ! function_exists('jwt_encode'))
 {
     /**
      * A shorthand to ActudentJWT::encode
-     * 
+     *
      * @param array $payload
-     * 
+     *
      * @return string
      */
     function jwt_encode($payload)
@@ -347,10 +347,10 @@ if ( ! function_exists('jwt_decode'))
 {
     /**
      * A shorthand to ActudentJWT::decode
-     * 
+     *
      * @param string $token
      * @param string $alg
-     * 
+     *
      * @return object
      */
     function jwt_decode($token, $alg = 'HS256')
@@ -365,7 +365,7 @@ if ( ! function_exists('is_admin'))
     /**
      * Check if user logged in has priviledge
      * to admin section or not
-     * 
+     *
      * @return boolean
      */
     function is_admin()
@@ -379,7 +379,7 @@ if ( ! function_exists('is_teacher'))
     /**
      * Check if user logged in has priviledge
      * to teacher section or not
-     * 
+     *
      * @return boolean
      */
     function is_teacher()
@@ -393,7 +393,7 @@ if ( ! function_exists('validate_section'))
     /**
      * Check if user logged in has priviledge
      * to a spesific section or not
-     * 
+     *
      * @return boolean
      */
     function validate_section($level)
@@ -423,9 +423,9 @@ if ( ! function_exists('valid_token'))
     /**
      * A shorthand to validate token that
      * uses Bearer token Authorization header
-     * 
+     *
      * @param string $token
-     * 
+     *
      * @return boolean
      */
     function valid_token($token = '')
@@ -434,7 +434,7 @@ if ( ! function_exists('valid_token'))
         if(empty($token)) {
             $token = bearer_token();
         }
-        
+
         return ($jwt->isValidToken($token)) ? true : false;
     }
 }
@@ -445,7 +445,7 @@ if ( ! function_exists('bearer_token'))
     /**
      * Get bearer token for authentication
      * with JSON Web Tokens
-     * 
+     *
      * @return string
      */
     function bearer_token()

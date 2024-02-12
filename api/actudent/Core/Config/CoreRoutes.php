@@ -1,9 +1,10 @@
 <?php
 
-// Core application section 
+// Core application section
 $routes->group('core', ['namespace' => 'Actudent\Core\Controllers'], function($routes)
 {
 	$routes->add('login/validasi', 'Auth::isValidLogin');
+	$routes->add('logout', 'Auth::logout');
 	$routes->add('get-lang/(:any)/(:any)', 'Resources::getLocale/$1/$2');
 	$routes->add('get-changelog/(:alpha)', 'Resources::getChangelog/$1');
 	$routes->add('validate-token/(:any)', 'Resources::validateToken/$1');

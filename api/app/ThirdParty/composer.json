@@ -2,6 +2,7 @@
   "require": {
     "dompdf/dompdf": "^2.0",
     "adnzaki/excel-creator": "^1.0",
-    "aws/aws-sdk-php": "^3.223"
+    "aws/aws-sdk-php": "^3.223",
+    "geoip2/geoip2": "~2.0"
   }
 }

@@ -18,6 +18,11 @@
                 :label="$t('navbar_profil')"
                 link="/account"
               />
+              <other-actions
+                icon="o_dns"
+                :label="$t('session_title')"
+                link="/sessions"
+              />
               <!-- <other-actions icon="o_school" :label="$t('navbar_sekolah')" /> -->
               <other-actions
                 icon="logout"
@@ -60,7 +65,13 @@
 import { defineComponent, ref, onMounted, computed, watch, reactive } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import { headerColor } from '../composables/mode'
-import { conf, pengguna, getPengguna } from '../composables/common'
+import {
+  conf,
+  pengguna,
+  getPengguna,
+  axios,
+  bearerToken,
+} from '../composables/common'
 import { menuWidth } from '../composables/screen'
 import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
@@ -108,13 +119,23 @@ export default defineComponent({
 
     return {
       logout() {
-        $q.cookies.remove(conf.cookieName, { path: '/' })
-        $q.cookies.remove(conf.userType, { path: '/' })
-        localStorage.removeItem('class')
-        localStorage.removeItem('date')
-        localStorage.removeItem('grade_id')
-        localStorage.removeItem('lesson')
-        window.location.reload()
+        axios
+          .get(`${conf.coreAPI}logout`, {
+            headers: { Authorization: bearerToken },
+          })
+          .then(({ data }) => {
+            if (data.status === 'OK') {
+              $q.cookies.remove(conf.cookieName, { path: '/' })
+              $q.cookies.remove(conf.userType, { path: '/' })
+              localStorage.removeItem('class')
+              localStorage.removeItem('date')
+              localStorage.removeItem('grade_id')
+              localStorage.removeItem('lesson')
+              window.location.reload()
+            } else {
+              console.warn(data.msg)
+            }
+          })
       },
       userMenu,
       elevated,

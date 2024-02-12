@@ -44,7 +44,7 @@ class Autoload extends AutoloadConfig
     public $psr4 = [
         APP_NAMESPACE   => APPPATH, // For custom app namespace
         'Config'        => APPPATH . 'Config',
-        'Actudent'	  	=> ACTUDENT_PATH,	
+        'Actudent'	  	=> ACTUDENT_PATH,
         'Mobile'		=> ACTUDENT_PATH . 'Mobile',
         'Keys'			=> ACTUDENT_PATH . 'Core/Config/Keys',
         'SiAbsen'       => SIABSEN_PATH
@@ -70,6 +70,7 @@ class Autoload extends AutoloadConfig
      * @var array<string, string>
      */
     public $classmap = [
+		'IPLocator'		=> ACTUDENT_PATH . 'Core/Libraries/IPLocator/IPLocator.php',
         'Zipper'        => ACTUDENT_PATH . 'Core/Libraries/Zipper.php',
         'OstiumDate' 	=> ACTUDENT_PATH . 'Core/Libraries/OstiumDate/OstiumDate.php',
         'PDFCreator'	=> ACTUDENT_PATH . 'Core/Libraries/PDFCreator.php',

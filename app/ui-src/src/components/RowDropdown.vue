@@ -12,33 +12,37 @@
 </template>
 
 <script>
-import { useQuasar } from "quasar";
-import { conf, errorNotif } from "../composables/common";
-import { usePagingStore } from "ss-paging-vue";
+import { useQuasar } from 'quasar'
+import { conf, errorNotif } from '../composables/common'
+import { usePagingStore } from 'ss-paging-vue'
 
 export default {
   props: {
     rootClass: {
       type: String,
-      default: "col-12 col-md-2 offset-md-2",
+      default: 'col-12 col-md-2 offset-md-2',
+    },
+    options: {
+      type: Array,
+      default() {
+        return [10, 25, 50, 100, 250]
+      },
     },
   },
   setup() {
-    const paging = usePagingStore();
-    const $q = useQuasar();
-    const options = [10, 25, 50, 100, 250];
+    const paging = usePagingStore()
+    const $q = useQuasar()
 
     return {
       paging,
-      options,
       showPerPage: () => {
         if ($q.cookies.has(conf.cookieName)) {
-          paging.showPerPage();
+          paging.showPerPage()
         } else {
-          errorNotif();
+          errorNotif()
         }
       },
-    };
+    }
   },
-};
+}
 </script>

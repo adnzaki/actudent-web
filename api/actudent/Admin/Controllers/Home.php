@@ -48,9 +48,33 @@ class Home extends \Actudent
     {
         return $this->createResponse([
             'highest'   => $this->getHighestPresent()[0],
-            'lowest'    => $this->getLowestPresent()[0]
+            'lowest'    => $this->getLowestPresent()[0],
+			'userAgent' => $this->testUserLoginData()
         ], 'is_admin');
     }
+
+	public function testUserLoginData()
+	{
+		$agent = $this->request->getUserAgent();
+		$device = $agent->isMobile() ? $agent->getMobile() : 'Desktop';
+		$browser = $agent->isBrowser() ? $agent->getBrowser() : '';
+		$ip = $this->request->getIPAddress();
+		$locator = new \IPLocator;
+		$location = $locator->getLocation($ip);
+		if($location->status === 'OK') {
+			$locationString = "{$location->cityName}, {$location->stateName}, {$location->countryName}";
+		} else {
+			$locationString = $location->msg;
+		}
+
+
+		return [
+			'agentString' 	=> "$device ({$agent->getPlatform()}) / $browser {$agent->getVersion()}",
+			'ip'			=> $ip,
+			'location'		=> $locationString,
+			'agent'			=> $agent->getAgentString()
+		];
+	}
 
     private function getHighestPresent()
     {
@@ -85,8 +109,8 @@ class Home extends \Actudent
                 'absent'        => $this->percentage($absent, $key->grade_id),
                 'sick'          => $this->percentage($sick, $key->grade_id),
                 'permit'        => $this->percentage($permit, $key->grade_id)
-            ];            
-        }             
+            ];
+        }
 
         return $response;
     }
@@ -120,7 +144,7 @@ class Home extends \Actudent
             $absent = 0;
             $sick = 0;
             $permit = 0;
-            
+
             foreach($grade as $g) {
                 $date = reverse($key, '-', '-');
                 $present += $this->absensi->getTodayPresence($g->grade_id, '1', $date);
@@ -152,7 +176,7 @@ class Home extends \Actudent
         {
             $result = round(($input / $countStudents) * 100, $depth);
         }
-        
+
         return $result;
     }
 }

@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import '@fullcalendar/core/vdom' // solves problem with Vite
+// import '@fullcalendar/core/vdom' // solves problem with Vite
 import { userLang } from 'boot/i18n'
 import { date, useQuasar } from 'quasar'
 import listPlugin from '@fullcalendar/list'
