@@ -134,6 +134,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('post/download-media/(:any)', 'Post::downloadMedia/$1');
 	$routes->add('session/logins/(:any)/(:any)/(:any)/(:any)/(:any)', 'Sessions::getLogins/$1/$2/$3/$4/$5');
 	$routes->add('session/active', 'Sessions::getActiveSessions');
+	$routes->add('session/delete', 'Sessions::revokeAccess');
 	$routes->add('pengaturan-laporan/upload-kop', 'Setting::uploadLetterhead');
 	$routes->add('pengaturan-laporan/get-signs/(:any)', 'Setting::getSignSetting/$1');
 	$routes->add('pengaturan-laporan/set-sign/(:any)/(:any)', 'Setting::setSignSetting/$1/$2');

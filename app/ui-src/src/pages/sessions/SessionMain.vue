@@ -16,6 +16,11 @@
       </div> -->
     </q-card-section>
     <session-list />
+    <delete-confirm
+      :store="store"
+      :custom-text="$t('session_delete_confirm')"
+      @action="store.deleteSession()"
+    />
   </q-card>
 </template>
 

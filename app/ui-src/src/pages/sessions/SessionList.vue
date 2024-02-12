@@ -17,6 +17,7 @@
             :class="actionButton"
             icon="delete"
             v-if="item.is_main_session === '0'"
+            @click="store.showDeleteConfirm(item.login_id)"
           >
             <btn-tooltip :label="$t('session_revoke')" />
           </q-btn>

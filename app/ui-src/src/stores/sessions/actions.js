@@ -15,6 +15,50 @@ import { Notify, Dialog } from 'quasar'
 import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
+  deleteSession() {
+    // show notify
+    const notifyProgress = Notify.create({
+      group: false,
+      spinner: true,
+      message: t('deleting_session'),
+      color: 'info',
+      position: 'center',
+      timeout: 0,
+    })
+
+    const data = { id: this.selectedSession }
+    admin
+      .post(`session/delete`, data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
+      .then(() => {
+        this.helper.disableSaveButton = false
+        this.deleteConfirm = false
+        notifyProgress({
+          message: t('deleted_session'),
+          color: 'positive',
+          icon: 'done',
+          spinner: false,
+          timeout,
+        })
+
+        // refresh data
+        this.getActiveSessions()
+      })
+  },
+  showDeleteConfirm(id) {
+    this.selectedSession = id
+    this.deleteConfirm = true
+  },
+  closeDeleteConfirm(id) {
+    this.selectedSession = null
+    this.deleteConfirm = false
+  },
   getActiveSessions() {
     admin
       .get('session/active', { headers: { Authorization: bearerToken } })

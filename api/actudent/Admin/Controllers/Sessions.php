@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Actudent\Admin\Models\SessionModel;
+use Actudent\Core\Models\AuthModel;
 
 class Sessions extends \Actudent
 {
@@ -12,6 +13,19 @@ class Sessions extends \Actudent
 	public function __construct()
 	{
 		$this->model = new SessionModel;
+	}
+
+	public function revokeAccess()
+	{
+		if(valid_token()) {
+			$loginId = $this->request->getPost('id');
+			$auth = new AuthModel;
+			$auth->logout($loginId);
+
+			return $this->response->setJSON([
+				'status'	=> 'OK',
+			]);
+		}
 	}
 
 	public function getActiveSessions()
