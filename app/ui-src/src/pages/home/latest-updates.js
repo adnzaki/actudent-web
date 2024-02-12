@@ -1,63 +1,39 @@
 const indonesia = [
   {
     key: '[Baru]',
-    desc: 'Menambahkan fitur Post'
+    desc: 'Menambahkan fitur manajemen sesi',
   },
   {
     key: '[Baru]',
-    desc: 'Menambahkan fitur "Salin Kehadiran" pada form Jurnal'
+    desc: 'Menambahkan fitur riwayat login',
   },
   {
     key: '[Baru]',
-    desc: 'Menambahkan fitur "Salin Rombel" pada menu Kelas'
+    desc: 'Pembatasan jumlah maksimal login aktif sebanyak 10 sesi',
   },
   {
     key: '[Peningkatan]',
-    desc: 'Memperbarui tampilan dasar antarmuka aplikasi'
-  },
-  {
-    key: '[Peningkatan]',
-    desc: 'Meningkatkan user-experience pada tampilan mobile'
-  },
-  {
-    key: '[Peningkatan]',
-    desc: 'Meningkatkan keselarasan warna pada Dark mode'
-  },
-  {
-    key: '[Sistem]',
-    desc: 'Memperbarui versi database ke v2.2.8'
+    desc: 'Perbaikan dan peningkatan sistem',
   },
 ]
 
 const english = [
   {
     key: '[New]',
-    desc: 'Added Post feature'
+    desc: 'Added session management feature',
   },
   {
     key: '[New]',
-    desc: 'Added "Copy Attendance" feature to the Journal form'
+    desc: 'Added login history feature',
   },
   {
     key: '[New]',
-    desc: 'Added "Copy Class" feature to the Class menu'
+    desc: 'Limitation of maximum active logins to 10 sessions',
   },
   {
     key: '[Improvement]',
-    desc: 'Updated the basic appearance of the application interface'
-  },
-  {
-    key: '[Improvement]',
-    desc: 'Improved user-experience on mobile displays'
-  },
-  {
-    key: '[Improvement]',
-    desc: 'Improved color harmony in Dark mode'
-  },
-  {
-    key: '[Sistem]',
-    desc: 'Updated database version to v2.2.8'
+    desc: 'System repair and improvement',
   },
 ]
 
-export { indonesia, english } 
+export { indonesia, english }

@@ -1,18 +1,25 @@
 /**
  * Global data registration for Actudent app,
  * so we do not need to create them on each main component
- * 
- * @author    Adnan Zaki 
+ *
+ * @author    Adnan Zaki
  * @copyright Wolestech (c) 2021
  */
 import { trim, formatDate } from 'src/composables/common'
 
 export default ({ app }) => {
-  app.config.globalProperties.$buildVersion = 'v2.0.0 (Stable)'
-  app.config.globalProperties.$trim = (text, length = 25, ellipsis = true) => {
+  app.config.globalProperties.$buildVersion = '2.0.1'
+  ;(app.config.globalProperties.$trim = (
+    text,
+    length = 25,
+    ellipsis = true,
+  ) => {
     return text === undefined ? '' : trim(text, length, ellipsis)
-  },
-    app.config.globalProperties.$formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
+  }),
+    (app.config.globalProperties.$formatDate = (
+      val,
+      format = 'dddd, DD MMMM YYYY',
+    ) => {
       return val === undefined ? '' : formatDate(val, format)
-    }
+    })
 }
