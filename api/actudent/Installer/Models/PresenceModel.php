@@ -41,14 +41,7 @@ class PresenceModel extends \Actudent\Installer\Models\SetupModel
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('journal_id');
         $this->forge->addForeignKey('schedule_id', 'tb_schedule', 'schedule_id');
-        $this->forge->createTable($table, true, $this->engine);  
-
-        $modifyJournalDate =  "ALTER TABLE `{$table}` 
-                              CHANGE `journal_date` `journal_date` DATE NULL 
-                              DEFAULT CURRENT_TIMESTAMP";
-
-        // correct journal_date default value
-        $this->db->simpleQuery($modifyJournalDate);
+        $this->forge->createTable($table, true, $this->engine);
 
         // finish it up
         $this->correctCreatedAndModifiedColumn($table, 'DATETIME');
@@ -88,11 +81,11 @@ class PresenceModel extends \Actudent\Installer\Models\SetupModel
 
         $this->forge->addField($fields);
         $this->forge->addForeignKey('journal_id', 'tb_journal', 'journal_id');
-        $this->forge->createTable($table, true, $this->engine);  
+        $this->forge->createTable($table, true, $this->engine);
 
         // finish it up
-        $sql = "ALTER TABLE `{$table}` 
-                CHANGE `due_date` `due_date` TIMESTAMP NULL"; 
+        $sql = "ALTER TABLE `{$table}`
+                CHANGE `due_date` `due_date` TIMESTAMP NULL";
         $this->db->simpleQuery($sql);
         $this->correctCreatedAndModifiedColumn($table);
     }
@@ -131,7 +124,7 @@ class PresenceModel extends \Actudent\Installer\Models\SetupModel
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey(['journal_id', 'student_id']);
         $this->forge->addForeignKey('student_id', 'tb_student', 'student_id');
-        $this->forge->createTable($table, true, $this->engine);  
+        $this->forge->createTable($table, true, $this->engine);
 
         // finish it up
         $this->correctCreatedAndModifiedColumn($table);
