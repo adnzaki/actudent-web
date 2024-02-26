@@ -18,28 +18,49 @@ class OrganizationModel extends \Actudent\Installer\Models\SetupModel
         $this->QBInstall = $this->dbMain->table('tb_installation');
     }
 
+    /**
+     * Check if installation exists.
+     *
+     * @return boolean
+     */
     public function hasInstallation()
     {
         $check = $this->QBInstall->getWhere(['db_group_key' => get_subdomain()]);
 
         return $check->getNumRows() > 0 ? true : false;
     }
-    
-    public function addInstallation()
-    {
-        $this->QBInstall->insert(['db_group_key' => get_subdomain()]);
-    }
 
-    public function addDatabaseName($dbName)
-    {
-        $builder = $this->dbMain->table('tb_organization_database');
-        $builder->insert([
-            'database_name' => $dbName,
-            'status'        => 1
-        ]);
-    }
+	/**
+	 * Adds an installation by inserting a new record into the tb_installation table with the provided 'db_group_key'.
+	 *
+	 * @return void
+	 */
+	public function addInstallation(): void
+	{
+		$this->QBInstall->insert(['db_group_key' => (string) get_subdomain()]);
+	}
 
-    public function addAdmin()
+	/**
+	 * Adds the given database name to the 'tb_organization_database' table.
+	 *
+	 * @param string $dbName The name of the database to be added.
+	 *
+	 * @return void
+	 */
+	public function addDatabaseName($dbName): void
+	{
+		$this->dbMain->table('tb_organization_database')->insert([
+			'database_name' => $dbName,
+			'status'        => 1
+		]);
+	}
+
+    /**
+     * Adds a new admin user with default values.
+	 *
+	 * @return void
+     */
+    public function addAdmin(): void
     {
         $values = [
             'user_name'     => 'Administrator',
@@ -52,7 +73,14 @@ class OrganizationModel extends \Actudent\Installer\Models\SetupModel
         $model->QBUser->insert($values);
     }
 
-    public function insertSchool(array $data)
+    /**
+     * Insert school data
+     *
+     * @param array $data
+     *
+     * @return void
+     */
+    public function insertSchool(array $data): void
     {
         $letterhead = file_get_contents(ACTUDENT_PATH . 'Installer/Models/school.json');
         $values = [
@@ -69,21 +97,36 @@ class OrganizationModel extends \Actudent\Installer\Models\SetupModel
         $school->sekolah->insert($values);
     }
 
-    public function addSubscription(string $subsType, int $orgId)
+    /**
+     * Adds a subscription for a specific organization.
+     *
+     * @param string $subsType The type of subscription
+     * @param int $orgId The organization ID
+     *
+     * @return void
+     */
+    public function addSubscription(string $subsType, int $orgId): void
     {
         $os = new OstiumDate;
         $add = $os->add('now', 365);
-        $expiredDate = $os->format('d-m-y', $add, '-');
+        $expiredDate = $os->create($add, 'd-m-y', '-');
 
         $values = [
             'organization_id'           => $orgId,
             'subscription_type'         => strtolower($subsType),
-            'subscription_expiration'   => reverse($expiredDate, '-', '-') . ' 23:59:59'
+            'subscription_expiration'   => $expiredDate . ' 23:59:59'
         ];
 
         $this->subs->QBSubscription->insert($values);
     }
 
+    /**
+     * Insert organization data into the database.
+     *
+     * @param array $data The data for the organization to be inserted
+     *
+     * @return int The ID of the inserted organization
+     */
     public function insertOrganization(array $data): int
     {
         $values = [

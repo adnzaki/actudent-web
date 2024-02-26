@@ -6,7 +6,7 @@ import {
   D as n,
   V as r,
   E as q,
-} from "./index.4a136751.js";
+} from "./index.eff39408.js";
 var B = u({
   name: "QBanner",
   props: { ...v, inlineActions: Boolean, dense: Boolean, rounded: Boolean },
