@@ -66,6 +66,7 @@
           :label="$t('tutup')"
           color="negative"
           v-close-popup
+          class="close-btn"
         />
         <q-btn
           :label="$t('simpan')"
