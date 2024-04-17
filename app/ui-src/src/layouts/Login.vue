@@ -79,18 +79,14 @@
                 </template>
               </q-input>
 
-              <q-checkbox
+              <!-- <q-checkbox
                 color="primary"
                 keep-color
                 class="q-mb-lg"
                 v-model="rememberMe"
                 :label="$t('remember_me')"
-              />
-              <p
-                v-if="showMsg"
-                style="margin-top: -20px"
-                :class="`text-bold text-${msgClass}`"
-              >
+              /> -->
+              <p v-if="showMsg" :class="`text-bold text-${msgClass} q-mt-md`">
                 {{ msg }}
               </p>
               <q-btn
@@ -98,6 +94,7 @@
                 @click="validate"
                 :style="btnStyle"
                 :disable="dbUpdate"
+                class="q-mt-lg"
                 >{{ $t('login') }}</q-btn
               >
             </q-form>
@@ -234,7 +231,7 @@ export default {
           const postData = {
             username: username.value,
             password: password.value,
-            remember: rememberMe.value ? 1 : 0,
+            remember: 1,
           }
 
           msg.value = t('mengautentikasi')
