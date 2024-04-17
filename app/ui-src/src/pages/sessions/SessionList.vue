@@ -6,7 +6,7 @@
       v-for="(item, index) in store.sessions"
       :key="index"
     >
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section>
           <q-item-label>{{ item.platform }}</q-item-label>
           <q-item-label caption>{{ item.browser }}</q-item-label>

@@ -34,7 +34,7 @@ class Auth extends \Actudent
 		} else {
 			$username = $this->request->getPost('username');
 			$password = $this->request->getPost('password');
-			$remember = $this->request->getPost('remember');
+			$remember = '1';
 			$isNik = $this->auth->isNik($username);
 
 			if ($isNik !== false) {
@@ -106,10 +106,10 @@ class Auth extends \Actudent
 	public function storeSession($userId, $tokenExpiration)
 	{
 		$ip = $this->request->getIPAddress();
-		$locator = new IPLocator;
+		$locator = new IPLocator('ipgeolocation');
 		$location = $locator->getLocation($ip);
 		if ($location->status === 'OK') {
-			$locationString = "{$location->cityName}, {$location->stateName}, {$location->countryName}";
+			$locationString = "{$location->cityName}, {$location->stateName}, {$location->countryName}|{$location->isp}";
 		} else {
 			$locationString = $location->msg;
 		}

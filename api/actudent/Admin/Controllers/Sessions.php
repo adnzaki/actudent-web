@@ -55,6 +55,9 @@ class Sessions extends \Actudent
 				$dt = explode(' ', $d->login_time);
 				$d->date = os_date()->create($dt[0], 'd-m-y', '-');
 				$d->time = $dt[1];
+				$location = strpos($d->location, '|') === false ? $d->location : explode('|', $d->location);
+				$d->location = is_array($location) ? $location[0] : $location;
+				$d->isp = is_array($location) ? $location[1] : '-';
 			}
 
 			return $this->response->setJSON([
