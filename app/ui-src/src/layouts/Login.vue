@@ -184,7 +184,7 @@ export default {
       msg = ref(''),
       msgClass = ref('black'),
       showMsg = ref(false),
-      rememberMe = ref(false)
+      rememberMe = ref(true)
 
     return {
       usernameLabel: computed(() => `Username / NIG (${t('login_nig')})`),
@@ -231,7 +231,6 @@ export default {
           const postData = {
             username: username.value,
             password: password.value,
-            remember: 1,
           }
 
           msg.value = t('mengautentikasi')
@@ -254,7 +253,7 @@ export default {
                   msgClass.value = 'positive'
 
                   if (rememberMe.value) {
-                    conf.cookieExp *= 12 * 30 // 30 days
+                    conf.cookieExp *= 12 * 30 * 12 // 360 days
                   }
 
                   const dt = new Date(),
