@@ -21,7 +21,8 @@ class App extends BaseConfig
 	| environments.
 	|
 	*/
-	public $baseURL = '';
+	// public $baseURL = '';
+	public $baseURL = 'http://localhost/';
 
 	/**
      * Allowed Hostnames in the Site URL other than the hostname in the baseURL.

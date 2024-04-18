@@ -48,6 +48,24 @@ class MigratorModel extends \Actudent\Core\Models\Connector
         );
     }
 
+	public function addCustomStartTime()
+    {
+        if($this->getDbVersionNumber() < 229) {
+            $this->addLoginHistory();
+        }
+
+		// add second start time
+		$jadwal = new \Actudent\Admin\Models\JadwalModel;
+		$jadwal->QBSettingJadwal->insert([
+			'setting_name' 	=> 'start_time_2',
+			'setting_value'	=> 12.5
+		]);
+
+		// add custom start time
+		$setup = new \Actudent\Installer\Models\ScheduleModel;
+		$setup->createCustomStartTime();
+    }
+
 	public function addLoginHistory()
     {
         if($this->getDbVersionNumber() < 228) {

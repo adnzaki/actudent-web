@@ -9,7 +9,7 @@ class JadwalModel extends SharedModel
     /**
      * Query builder for tb_schedule_settings
      */
-    private $QBSettingJadwal;
+    public $QBSettingJadwal;
 
     /**
      * Query builder for tb_lessons_grade
@@ -23,10 +23,10 @@ class JadwalModel extends SharedModel
 
     /**
      * Table tb_schedule
-     * 
+     *
      * @var string
      */
-    private $settingJadwal = 'tb_schedule_settings';    
+    private $settingJadwal = 'tb_schedule_settings';
 
     /**
      * @var Actudent\Admin\Models\KelasModel
@@ -48,7 +48,7 @@ class JadwalModel extends SharedModel
      */
     public function __construct()
     {
-        parent::__construct();        
+        parent::__construct();
         $this->QBSettingJadwal = $this->db->table($this->settingJadwal);
         $this->QBMapelKelas = $this->db->table($this->mapelKelas);
         $this->QBMapel = $this->db->table($this->mapel);
@@ -59,9 +59,9 @@ class JadwalModel extends SharedModel
 
     /**
      * Get lessons of a class group
-     * 
+     *
      * @var int $grade
-     * 
+     *
      * @return array|boolean
      */
     public function getLessons(int $grade)
@@ -78,7 +78,7 @@ class JadwalModel extends SharedModel
             $join = $this->lessonsGradeJoin();
             return $join->getWhere($param)->getResult();
         }
-        else 
+        else
         {
             return false;
         }
@@ -86,9 +86,9 @@ class JadwalModel extends SharedModel
 
     /**
      * Get detail of lesson list
-     * 
+     *
      * @param int $id #lessons_grade_id
-     * 
+     *
      * @return array
      */
     public function getLessonDetail(int $id): array
@@ -99,7 +99,7 @@ class JadwalModel extends SharedModel
 
     /**
      * Join tables: tb_lesson_grade, tb_lessons, tb_staff
-     * 
+     *
      * @return QueryBuilder
      */
     private function lessonsGradeJoin()
@@ -114,16 +114,16 @@ class JadwalModel extends SharedModel
 
     /**
      * Get lesson options
-     * 
+     *
      * Expected query:
      * SELECT tb_lessons.lesson_id, lesson_code, lesson_name FROM tb_lessons
      * WHERE deleted=0
      * AND tb_lessons_grade.grade_id=1
-     * AND tb_lessons.lesson_id NOT IN 
+     * AND tb_lessons.lesson_id NOT IN
      * (SELECT tb_lessons_grade.lesson_id FROM tb_lessons_grade WHERE grade_id=1 AND deleted=0)
-     * 
+     *
      * @param int $grade
-     * 
+     *
      * @return array
      */
     public function getLessonOptions(int $grade): array
@@ -141,9 +141,9 @@ class JadwalModel extends SharedModel
 
     /**
      * Insert lessons to tb_lessons_grade
-     * 
+     *
      * @param array $value
-     * 
+     *
      * @return void
      */
     public function insert(array $value): void
@@ -153,10 +153,10 @@ class JadwalModel extends SharedModel
 
     /**
      * Update tb_lessons_grade
-     * 
+     *
      * @param array $value
      * @param int $id #lessons_grade_id
-     * 
+     *
      * @return void
      */
     public function update(array $value, int $id): void
@@ -166,9 +166,9 @@ class JadwalModel extends SharedModel
 
     /**
      * Mark lessons in tb_lessons_grade to "deleted"
-     * 
+     *
      * @param int $id #lessons_grade_id
-     * 
+     *
      * @return void
      */
     public function delete(int $id): void
@@ -178,23 +178,23 @@ class JadwalModel extends SharedModel
 
     /**
      * Get days of schedule on specific grade
-     * 
+     *
      * @param int $grade
      * @param string $day
-     * 
+     *
      * @return array
      */
     public function getSchedules(int $grade, string $day): array
     {
-        $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name, 
-                   duration, schedule_start, schedule_end, schedule_order, staff_name as teacher, 
+        $field  = "schedule_id, {$this->mapelKelas}.lessons_grade_id, lesson_code, lesson_name,
+                   duration, schedule_start, schedule_end, schedule_order, staff_name as teacher,
                    {$this->ruangan->ruang}.room_id, room_name, room_code";
         $join   = $this->QBJadwal->select($field)
                   ->join($this->ruangan->ruang, "{$this->ruangan->ruang}.room_id = {$this->jadwal}.room_id")
                   ->join($this->mapelKelas, "{$this->mapelKelas}.lessons_grade_id = {$this->jadwal}.lessons_grade_id")
                   ->join($this->mapel, "{$this->mapelKelas}.lesson_id={$this->mapel}.lesson_id")
                   ->join($this->pegawai->staff, "{$this->pegawai->staff}.staff_id={$this->mapelKelas}.teacher_id");
-        
+
         $param = [
             'grade_id'          => $grade,
             'schedule_semester' => $this->semester,
@@ -206,10 +206,10 @@ class JadwalModel extends SharedModel
     }
 
     /**
-     * Get inactive schedules 
-     * 
+     * Get inactive schedules
+     *
      * @param int $grade
-     * 
+     *
      * @return array
      */
     public function getInactiveSchedules(int $grade): array
@@ -225,9 +225,9 @@ class JadwalModel extends SharedModel
 
     /**
      * Get active journal based on its schedule ID
-     * 
+     *
      * @param mixed $scheduleId
-     * 
+     *
      * @return int
      */
     public function getActiveJournal($scheduleId)
@@ -237,7 +237,7 @@ class JadwalModel extends SharedModel
 
     /**
      * Get room list
-     * 
+     *
      * @return array
      */
     public function getRoomList(): array
@@ -253,9 +253,9 @@ class JadwalModel extends SharedModel
      * Save schedules
      * It might be insert new schedule or update schedule
      * if the value provided is existing in tb_schedule
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return array
      */
     public function saveSchedules(array $data): array
@@ -275,7 +275,7 @@ class JadwalModel extends SharedModel
                 'schedule_order'    => $res['schedule_order'],
             ];
 
-            if(preg_match('/new/', $id) === 0 
+            if(preg_match('/new/', $id) === 0
                 && preg_match('/break/', $id) === 0
                 && preg_match('/inactive/', $id) === 0)
             {
@@ -311,9 +311,9 @@ class JadwalModel extends SharedModel
 
     /**
      * Set schedules to 'inactive' status
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return void
      */
     public function deleteSchedules(array $data): void
@@ -327,9 +327,9 @@ class JadwalModel extends SharedModel
 
     /**
      * Save schedule settings
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return void
      */
     public function updateSettings(array $data): void
@@ -349,7 +349,7 @@ class JadwalModel extends SharedModel
 
     /**
      * Get schedule time
-     * 
+     *
      * @return string
      */
     public function getScheduleTime(): string
@@ -360,7 +360,7 @@ class JadwalModel extends SharedModel
 
     /**
      * Get start time
-     * 
+     *
      * @return string
      */
     public function getStartTime(): string
