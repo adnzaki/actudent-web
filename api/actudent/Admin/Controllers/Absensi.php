@@ -587,11 +587,11 @@ class Absensi extends \Actudent
 
     /**
      * Get list of presence data
-     * 
+     *
      * @param int $grade
      * @param int|string $journal
      * @param string $date
-     * 
+     *
      * @return JSON
      */
     public function getListAbsensi($grade, $journal, $date)
@@ -601,11 +601,11 @@ class Absensi extends \Actudent
 
     /**
      * Get list of presence data
-     * 
+     *
      * @param int $grade
      * @param int|string $journal
      * @param string $date
-     * 
+     *
      * @return array
      */
     private function _getListAbsensi($grade, $journal, $date)
@@ -735,7 +735,7 @@ class Absensi extends \Actudent
     public function validateMark()
     {
         if (valid_token()) {
-            $mark = ['presence_mark' => $this->request->getPost('presence_mark')];
+            $mark = $this->request->getPost('presence_mark');
 
             $rules = [
                 'presence_mark' => 'required',
@@ -749,7 +749,7 @@ class Absensi extends \Actudent
 
             $validation = [$rules, $messages];
 
-            if (!$this->validate($validation[0], $validation[1])) {
+            if (! $this->validateForms($mark, $validation[0], $validation[1])) {
                 return $this->response->setJSON([
                     'code' => '500',
                     'msg' => $this->validation->getErrors(),
@@ -774,7 +774,8 @@ class Absensi extends \Actudent
 
             $validation = $this->validation($includeHomework); // [0 => $rules, 1 => $messages]
 
-            if (!$this->validate($validation[0], $validation[1])) {
+			$data = $this->request->getPost(array_keys($validation[0]));
+            if (! $this->validateForms($data, $validation[0], $validation[1])) {
                 return $this->response->setJSON([
                     'code' => '500',
                     'msg' => $this->validation->getErrors(),
@@ -803,7 +804,7 @@ class Absensi extends \Actudent
                             }
                         }
                     }
-    
+
                     if(count($presence) > 0) {
                         $this->absensi->copyPresence($saved->journal_id, $presence[0], $date);
                     }
