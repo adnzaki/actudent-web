@@ -34,7 +34,7 @@ class Auth extends \Actudent
 		} else {
 			$username = $this->request->getPost('username');
 			$password = $this->request->getPost('password');
-			$remember = '1';
+			$remember = 1;
 			$isNik = $this->auth->isNik($username);
 
 			if ($isNik !== false) {
@@ -46,7 +46,7 @@ class Auth extends \Actudent
 
 				// Allow login if active sessions less than 10
 				if($this->auth->getActiveSessions($pengguna->user_id) < 10) {
-					$tokenExpiration = $remember === '1'
+					$tokenExpiration = $remember === 1
 						? ($this->tokenExp * 12) * 30 * 12 // extend expiration to 360 days
 						: $this->tokenExp; // keep expiration in 2 hours
 
