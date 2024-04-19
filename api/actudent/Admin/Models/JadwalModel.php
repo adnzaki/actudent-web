@@ -21,7 +21,19 @@ class JadwalModel extends SharedModel
      */
     private $QBMapel;
 
+	/**
+	 * Query builder for tb_schedule_custom_starttime
+	 */
+	private $QBStartTime;
+
     /**
+     * Table tb_schedule_custom_starttime
+     *
+     * @var string
+     */
+    private $customStartTime = 'tb_schedule_custom_starttime';
+
+	/**
      * Table tb_schedule
      *
      * @var string
@@ -52,6 +64,7 @@ class JadwalModel extends SharedModel
         $this->QBSettingJadwal = $this->db->table($this->settingJadwal);
         $this->QBMapelKelas = $this->db->table($this->mapelKelas);
         $this->QBMapel = $this->db->table($this->mapel);
+		$this->QBStartTime = $this->db->table($this->customStartTime);
         $this->kelas = new KelasModel;
         $this->pegawai = new PegawaiModel;
         $this->ruangan = new RuangModel;
@@ -334,18 +347,25 @@ class JadwalModel extends SharedModel
      */
     public function updateSettings(array $data): void
     {
-        $start = $data['start_time'];
-        $start = explode(':', $start);
-        $hour = (int)$start[0];
-        $minute = $start[1] / 60;
-        $time = $hour + $minute;
-
         $lessonHour = ['setting_value' => $data['lesson_hour']];
-        $startTime = ['setting_value' => $time];
+        $startTime = ['setting_value' => $this->timestringToDecimal($data['start_time'])];
+		$startTime2 = ['setting_value' => $this->timestringToDecimal($data['start_time_2'])];
 
         $this->QBSettingJadwal->update($lessonHour, ['setting_name' => 'lesson_hour']);
         $this->QBSettingJadwal->update($startTime, ['setting_name' => 'start_time']);
+		$this->QBSettingJadwal->update($startTime2, ['setting_name' => 'start_time_2']);
     }
+
+	private function timestringToDecimal(string $time)
+	{
+		$start = $time;
+        $start = explode(':', $start);
+        $hour = (int)$start[0];
+        $minute = $start[1] / 60;
+        $timeInDecimal = $hour + $minute;
+
+		return $timeInDecimal;
+	}
 
     /**
      * Get schedule time
@@ -358,14 +378,32 @@ class JadwalModel extends SharedModel
         return $result->setting_value;
     }
 
+	public function switchShift(int $gradeId): void
+	{
+		if($this->getScheduleShift($gradeId)) {
+			$this->QBStartTime->delete(['grade_id' => $gradeId]);
+		} else {
+			$this->QBStartTime->insert(['grade_id' => $gradeId]);
+		}
+	}
+
+	public function getScheduleShift(int $gradeId): bool
+	{
+		$query = $this->QBStartTime->getWhere(['grade_id' => $gradeId]);
+
+		return $query->getNumRows() > 0;
+	}
+
     /**
      * Get start time
+	 *
+	 * @param string $shift
      *
      * @return string
      */
-    public function getStartTime(): string
+    public function getStartTime(string $shift): string
     {
-        $result = $this->QBSettingJadwal->getWhere(['setting_name' => 'start_time'])->getResult()[0];
+        $result = $this->QBSettingJadwal->getWhere(['setting_name' => $shift])->getResult()[0];
         return $result->setting_value;
     }
 }

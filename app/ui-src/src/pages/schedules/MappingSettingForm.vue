@@ -33,6 +33,7 @@
             v-model="store.schedule.startTime"
             mask="time"
             :rules="['time']"
+            :label="$t('jadwal_label_mulai_pagi')"
           >
             <template v-slot:append>
               <q-icon name="access_time" class="cursor-pointer">
@@ -42,6 +43,28 @@
                   transition-hide="scale"
                 >
                   <q-time v-model="store.schedule.startTime" format24h>
+                    <div class="row items-center justify-end">
+                      <q-btn v-close-popup label="Close" color="primary" flat />
+                    </div>
+                  </q-time>
+                </q-popup-proxy>
+              </q-icon>
+            </template>
+          </q-input>
+          <q-input
+            outlined
+            v-model="store.schedule.startTime2"
+            mask="time"
+            :label="$t('jadwal_label_mulai_siang')"
+          >
+            <template v-slot:append>
+              <q-icon name="access_time" class="cursor-pointer">
+                <q-popup-proxy
+                  cover
+                  transition-show="scale"
+                  transition-hide="scale"
+                >
+                  <q-time v-model="store.schedule.startTime2" format24h>
                     <div class="row items-center justify-end">
                       <q-btn v-close-popup label="Close" color="primary" flat />
                     </div>

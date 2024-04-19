@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Controllers;
 
 use Actudent\Admin\Models\JadwalModel;
+use Actudent\Admin\Models\KelasModel;
 
 class Jadwal extends \Actudent
 {
@@ -9,6 +10,22 @@ class Jadwal extends \Actudent
     public function __construct()
     {
         $this->jadwal = new JadwalModel;
+    }
+
+	public function getKelas($limit, $offset, $orderBy, $searchBy, $sort, $search = '')
+    {
+		$rombel = new KelasModel;
+		$data = $rombel->getKelasQuery($limit, $offset, $orderBy, $searchBy, $sort, $search);
+		$rows = $rombel->getKelasRows($searchBy, $search);
+
+		foreach($data as $item) {
+			$item->shift = $this->jadwal->getScheduleShift($item->grade_id) ? 1	: 0;
+		}
+
+		return $this->createResponse([
+			'container' => $data,
+			'totalRows' => $rows,
+		]);
     }
 
     public function getLessons($grade)
@@ -54,30 +71,45 @@ class Jadwal extends \Actudent
                 ];
             }
         }
-        
+
         return $response;
     }
+
+	public function switchShift($gradeId)
+	{
+		if(is_admin()) {
+			$this->jadwal->switchShift($gradeId);
+			return $this->response->setJSON([
+				'code' 	=> 200,
+				'msg'	=> get_lang('AdminJadwal.jadwal_shift_success'),
+			]);
+		}
+	}
 
     public function getScheduleSettings()
     {
         $alokasi = $this->jadwal->getScheduleTime();
-        $mulai = $this->jadwal->getStartTime();
+        $mulai1 = $this->jadwal->getStartTime('start_time');
+		$mulai2 = $this->jadwal->getStartTime('start_time_2');
 
-        // If $mulai is float/decimal value, convert it to minute
-        if(gettype($mulai) !== 'integer')
-        {
-            $minute = $this->convertToMinute($mulai);
-        }
-        else
-        {
-            $minute = '0';
-        }
 
         return $this->createResponse([
             'alokasi'   => $alokasi,
-            'mulai'     => $this->normalizeTime(floor($mulai)) . ':' . $this->normalizeTime($minute),
+            'mulai1'     => $this->normalizeStartTime($mulai1),
+			'mulai2'     => $this->normalizeStartTime($mulai2),
         ], 'is_admin');
     }
+
+	private function normalizeStartTime($value)
+	{
+		if(gettype($value) !== 'integer') {
+            $minute = $this->convertToMinute($value);
+        } else {
+            $minute = '0';
+        }
+
+		return $this->normalizeTime(floor($value)) . ':' . $this->normalizeTime($minute);
+	}
 
     private function getInactiveSchedules($grade)
     {
@@ -104,23 +136,17 @@ class Jadwal extends \Actudent
     public function saveSettings()
     {
         if(is_admin()) {
-            $form = [
-                'lesson_hour'   => $this->request->getPost('lesson_hour'),
-                'start_time'    => $this->request->getPost('start_time')
-            ];
-    
-            $validation = $this->settingValidation($form);
-            if(! validate($validation[0], $validation[1]))
-            {
+            $validation = $this->settingValidation();
+            $data = $this->request->getPost(array_keys($validation[0]));
+
+            if(! $this->validateForms($data, $validation[0], $validation[1])) {
                 return $this->response->setJSON([
                     'code' => '500',
                     'msg' => $this->validation->getErrors(),
                 ]);
-            }
-            else
-            {
-                $this->jadwal->updateSettings($form);
-                
+            } else {
+                $this->jadwal->updateSettings($data);
+
                 return $this->response->setJSON([
                     'code' => '200',
                 ]);
@@ -128,12 +154,12 @@ class Jadwal extends \Actudent
         }
     }
 
-    private function settingValidation($data)
+    private function settingValidation()
     {
-        $form = $data;
         $rules = [
             'lesson_hour' => 'required|is_natural',
             'start_time'  => 'required|regex_match[([0-1]{1}[0-9]{1}|[2]{1}[0-3]{1}):[0-5]{1}[0-9]{1}]',
+			'start_time_2'=> 'required|regex_match[([0-1]{1}[0-9]{1}|[2]{1}[0-3]{1}):[0-5]{1}[0-9]{1}]',
         ];
 
         $messages = [
@@ -144,9 +170,13 @@ class Jadwal extends \Actudent
             'start_time' => [
                 'required'      => get_lang('AdminJadwal.jadwal_mulai_required'),
                 'regex_match'   => get_lang('AdminJadwal.jadwal_mulai_format'),
+			],
+			'start_time_2' => [
+                'required'      => get_lang('AdminJadwal.jadwal_mulai_required'),
+                'regex_match'   => get_lang('AdminJadwal.jadwal_mulai_format'),
             ]
         ];
-        
+
         return [$rules, $messages];
     }
 
@@ -156,16 +186,19 @@ class Jadwal extends \Actudent
         {
             $request = $this->request->getPost('jadwal');
             $deleteSchedules = $this->request->getPost('hapus');
+			$gradeId = $this->request->getPost('grade');
             $data = json_decode($request, true);
             $deleteSchedules = json_decode($deleteSchedules, true);
             $alokasi = $this->jadwal->getScheduleTime();
-            $mulai = $this->jadwal->getStartTime();
-    
+
+			$shift = $this->jadwal->getScheduleShift($gradeId) ? 'start_time_2' : 'start_time';
+            $mulai = $this->jadwal->getStartTime($shift);
+
             if(count($data) > 0)
             {
                 $normalTimeSchedule = $this->exactDuration($data, $alokasi);
                 $wrapper = [];
-        
+
                 foreach($normalTimeSchedule as $res)
                 {
                     $penambah = $res['durasi'] / 60;
@@ -178,7 +211,7 @@ class Jadwal extends \Actudent
                     $selesai = $mulai + $penambah;
                     $getMinute = $this->convertToMinute($selesai);
                     $waktuSelesai = $this->normalizeTime(floor($selesai)) . '.' . $this->normalizeTime($getMinute);
-        
+
                     // If $mulai is float/decimal value, convert it to minute
                     if(gettype($mulai) !== 'integer')
                     {
@@ -188,7 +221,7 @@ class Jadwal extends \Actudent
                     {
                         $minute = '0';
                     }
-        
+
                     $wrapper[] = [
                         'schedule_id'       => $res['id'],
                         'lessons_grade_id'  => $res['val'],
@@ -201,23 +234,23 @@ class Jadwal extends \Actudent
                         'schedule_order'    => $res['index'],
                         'last_decimal'      => $lastDecimalDigit
                     ];
-        
+
                     $mulai = $selesai;
                 }
-    
+
                 $this->jadwal->saveSchedules($wrapper);
             }
-    
+
             if(count($deleteSchedules) > 0)
             {
                 $this->jadwal->deleteSchedules($deleteSchedules);
             }
-    
+
             return $this->response->setJSON([
                 'status' => '200',
                 'msg' => 'OK',
                 'data'  => $wrapper
-            ]);            
+            ]);
         }
     }
 
@@ -235,7 +268,7 @@ class Jadwal extends \Actudent
                 ];
             }
         }
-        
+
         return $this->createResponse($response);
     }
 
@@ -261,17 +294,17 @@ class Jadwal extends \Actudent
             {
                 continue;
             }
-            else 
+            else
             {
                 if(preg_match('/break/', $val['id']) === 1)
                 {
                     $duration = $val['duration'];
                 }
-                else 
+                else
                 {
                     $duration = $val['duration'] * $alokasi;
                 }
-    
+
                 $formatted[] = [
                     'id' => $val['id'], // schedule_id or new schedule index
                     'val' => $val['val'], // lessons_grade_id
@@ -280,7 +313,7 @@ class Jadwal extends \Actudent
                     'durasi' => $duration,
                     'index' => $val['index'],
                 ];
-            }            
+            }
         }
 
         return $formatted;
@@ -295,12 +328,12 @@ class Jadwal extends \Actudent
 
         $response = [];
         $wrapper = [];
-        
+
         foreach($days as $key => $val)
         {
             $response[$val] = $this->jadwal->getSchedules($grade, $val);
         }
-        
+
         foreach($response as $key => $val)
         {
             $formatter = [];
@@ -313,7 +346,7 @@ class Jadwal extends \Actudent
                 {
                     $formatter[] = $arr;
                 }
-                else 
+                else
                 {
                     $diff = $this->countDiff($finish, $arr->schedule_start);
                     if($diff > 0)
@@ -330,16 +363,16 @@ class Jadwal extends \Actudent
                             'schedule_end'      => $arr->schedule_start,
                             'journal_filled'    => null,
                         ];
-    
+
                         $formatter[] = $break;
                     }
                     array_push($formatter, $arr);
                 }
                 $finish = $arr->schedule_end;
-                
+
                 $index++;
             }
-            $wrapper[$key] = $formatter;            
+            $wrapper[$key] = $formatter;
         }
 
         $classGroup = $this->jadwal->kelas->getClassDetail($grade);
@@ -351,13 +384,13 @@ class Jadwal extends \Actudent
 
         return $this->createResponse($data, 'is_admin');
     }
-    
+
     private function countDiff($time1, $time2)
     {
         $hour1 = $this->numberValue($time1);
         $hour2 = $this->numberValue($time2);
         $diff = $hour2 - $hour1;
-        
+
         return $diff;
     }
 
@@ -387,7 +420,7 @@ class Jadwal extends \Actudent
                 'text' => "{$res->lesson_name} ({$res->lesson_code})",
             ];
         }
-        
+
         return $this->createResponse($formatter);
     }
 
@@ -405,11 +438,11 @@ class Jadwal extends \Actudent
                     $this->jadwal->delete($id);
                 }
             }
-            else 
+            else
             {
                 $this->jadwal->delete($idString);
             }
-    
+
             return $this->response->setJSON(['status' => 'OK']);
         }
     }
@@ -429,7 +462,7 @@ class Jadwal extends \Actudent
             else
             {
                 $data = $this->formData();
-                if($id === null) 
+                if($id === null)
                 {
                     $data['grade_id'] = $grade;
                     $this->jadwal->insert($data);
@@ -438,7 +471,7 @@ class Jadwal extends \Actudent
                 {
                     $this->jadwal->update($data, $id);
                 }
-                
+
                 return $this->response->setJSON([
                     'code' => '200',
                 ]);
@@ -464,7 +497,7 @@ class Jadwal extends \Actudent
                 'is_natural'    => get_lang('AdminKelas.kelas_err_teacher_natural'),
             ]
         ];
-        
+
         return [$rules, $messages];
     }
 

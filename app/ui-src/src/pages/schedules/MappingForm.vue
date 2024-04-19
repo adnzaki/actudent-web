@@ -73,7 +73,7 @@
           class="mobile-form-btn save-btn"
           unelevated
           :disable="disableSaveButton"
-          @click="store.saveSchedules()"
+          @click="store.saveSchedules($route.params.id)"
         />
       </q-card-actions>
     </q-card>
