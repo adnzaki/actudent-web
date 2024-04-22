@@ -66,7 +66,13 @@
 <script>
 import { defineComponent, ref, onMounted, provide, watch, reactive } from 'vue'
 import { baseUrl } from '../../globalConfig'
-import { headerColor } from '../composables/mode'
+import {
+  headerColor,
+  header,
+  elevated,
+  userMenu,
+  triggerHeader,
+} from '../composables/mode'
 import {
   conf,
   pengguna,
@@ -94,21 +100,21 @@ export default defineComponent({
     const $q = useQuasar()
     const store = useSiabsenStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
-    const header = ref('')
-    const elevated = ref(true)
-    const userMenu = ref(['user-menu'])
+    // const header = ref('')
+    // const elevated = ref(true)
+    // const userMenu = ref(['user-menu'])
 
-    function triggerHeader() {
-      if (headerColor.value === 'dark') {
-        header.value = 'bg-grey-10'
-        elevated.value = false
-        userMenu.value.push('user-menu-dark')
-      } else {
-        header.value = 'header-gradient'
-        elevated.value = true
-        userMenu.value.pop()
-      }
-    }
+    // function triggerHeader() {
+    //   if (headerColor.value === 'dark') {
+    //     header.value = 'bg-grey-10'
+    //     elevated.value = false
+    //     userMenu.value.push('user-menu-dark')
+    //   } else {
+    //     header.value = 'header-gradient'
+    //     elevated.value = true
+    //     userMenu.value.pop()
+    //   }
+    // }
 
     onMounted(triggerHeader)
 
