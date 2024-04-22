@@ -1,39 +1,57 @@
 const indonesia = [
   {
     key: '[Baru]',
-    desc: 'Menambahkan fitur manajemen sesi',
+    desc: 'Penambahan shift siang pada Jadwal Pelajaran untuk mengakomodir beberapa sekolah terutama SD Negeri yang masih terdapat 2 shift.',
   },
   {
     key: '[Baru]',
-    desc: 'Menambahkan fitur riwayat login',
+    desc: 'Penambahan informasi Internet Service Provider (ISP) pada menu Riwayat Login',
   },
   {
     key: '[Baru]',
-    desc: 'Pembatasan jumlah maksimal login aktif sebanyak 10 sesi',
+    desc: 'Penambahan tampilan menu baru (Bottom Menu) untuk perangkat mobile.',
   },
   {
     key: '[Peningkatan]',
-    desc: 'Perbaikan dan peningkatan sistem',
+    desc: 'Penambahan masa aktif login menjadi 360 hari ',
+  },
+  {
+    key: '[Peningkatan]',
+    desc: 'Menghapus opsi “Ingatkan Saya” di halaman login',
+  },
+  {
+    key: '[Perbaikan]',
+    desc: 'Menghapus auto-cropping pada saat upload Featured Image pada postingan',
   },
 ]
 
 const english = [
-  {
-    key: '[New]',
-    desc: 'Added session management feature',
-  },
-  {
-    key: '[New]',
-    desc: 'Added login history feature',
-  },
-  {
-    key: '[New]',
-    desc: 'Limitation of maximum active logins to 10 sessions',
-  },
-  {
-    key: '[Improvement]',
-    desc: 'System repair and improvement',
-  },
+  [
+    {
+      key: '[New]',
+      desc: 'Adding afternoon shift to Lesson Schedule to accommodate some elementary schools that still have 2 shifts.',
+    },
+    {
+      key: '[New]',
+      desc: 'Adding Internet Service Provider (ISP) information on Login History page',
+    },
+    {
+      key: '[New]',
+      desc: 'Adding new menu (Bottom Menu) for mobile devices.',
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Increasing login session time to 360 days ',
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Removing “Remember Me” option on login page',
+    },
+    {
+      key: '[Fix]',
+      desc: 'Removing auto-cropping when uploading Featured Image on post',
+    },
+  ],
 ]
 
 export { indonesia, english }

@@ -1,4 +1,22 @@
 export default {
+  '2.0.1': [
+    {
+      key: '[New]',
+      desc: 'Added session management feature',
+    },
+    {
+      key: '[New]',
+      desc: 'Added login history feature',
+    },
+    {
+      key: '[New]',
+      desc: 'Limitation of maximum active logins to 10 sessions',
+    },
+    {
+      key: '[Improvement]',
+      desc: 'System repair and improvement',
+    },
+  ],
   '2.0.0-stable': [
     {
       key: '[New]',
