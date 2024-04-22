@@ -1,11 +1,14 @@
 import { Dark, Cookies } from 'quasar'
 import { ref } from 'vue'
 
-let headerColor = ref('')
+const headerColor = ref('')
 const actionButton = ref(['action-btn'])
 const addButton = ref(['add-btn'])
 const saveButton = ref('save-btn')
 const fabColor = ref('primary')
+const header = ref('')
+const elevated = ref(true)
+const userMenu = ref(['user-menu'])
 
 const toggleHeader = () => {
   if (Dark.isActive) {
@@ -19,7 +22,18 @@ const toggleHeader = () => {
     addButton.value.pop()
     fabColor.value = 'secondary'
   }
+}
 
+function triggerHeader() {
+  if (headerColor.value === 'dark') {
+    header.value = 'bg-grey-10'
+    elevated.value = false
+    userMenu.value.push('user-menu-dark')
+  } else {
+    header.value = 'header-gradient'
+    elevated.value = true
+    userMenu.value.pop()
+  }
 }
 
 function triggerMode() {
@@ -29,4 +43,15 @@ function triggerMode() {
   }
 }
 
-export { headerColor, toggleHeader, triggerMode, actionButton, addButton, fabColor }
+export {
+  headerColor,
+  toggleHeader,
+  triggerMode,
+  actionButton,
+  addButton,
+  fabColor,
+  triggerHeader,
+  header,
+  elevated,
+  userMenu,
+}

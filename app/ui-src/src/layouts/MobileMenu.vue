@@ -1,5 +1,5 @@
 <template>
-  <q-footer elevated v-if="$q.screen.lt.sm">
+  <q-footer :elevated="elevated" v-if="$q.screen.lt.sm" :class="header">
     <q-tabs align="center" v-model="activeMobileMenu" class="text-white">
       <q-route-tab :name="dashboardLink" icon="o_home" :to="dashboardLink" />
 
@@ -52,7 +52,13 @@
 <script>
 import { useQuasar } from 'quasar'
 import { conf, dashboardLink } from '../composables/common'
-import { ref } from 'vue'
+import { ref, inject, onMounted, watch } from 'vue'
+import {
+  headerColor,
+  header,
+  elevated,
+  triggerHeader,
+} from '../composables/mode'
 
 export default {
   name: 'MobileMenu',
@@ -60,7 +66,17 @@ export default {
     const $q = useQuasar()
 
     const activeMobileMenu = ref(dashboardLink)
-    return { conf, dashboardLink, activeMobileMenu }
+    onMounted(triggerHeader)
+    watch(headerColor, triggerHeader)
+
+    return {
+      headerColor,
+      header,
+      elevated,
+      conf,
+      dashboardLink,
+      activeMobileMenu,
+    }
   },
 }
 </script>
