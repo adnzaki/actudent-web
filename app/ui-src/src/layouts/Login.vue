@@ -74,18 +74,14 @@
                 </template>
               </q-input>
 
-              <q-checkbox
+              <!-- <q-checkbox
                 color="primary"
                 keep-color
                 class="q-mb-lg"
                 v-model="rememberMe"
                 :label="$t('remember_me')"
-              />
-              <p
-                v-if="showMsg"
-                style="margin-top: -20px"
-                :class="`text-bold text-${msgClass}`"
-              >
+              /> -->
+              <p v-if="showMsg" :class="`text-bold text-${msgClass} q-mt-md`">
                 {{ msg }}
               </p>
               <q-btn
@@ -93,6 +89,7 @@
                 @click="validate"
                 :style="btnStyle"
                 :disable="dbUpdate"
+                class="q-mt-lg"
                 >{{ $t('login') }}</q-btn
               >
             </q-form>
@@ -182,7 +179,7 @@ export default {
       msg = ref(''),
       msgClass = ref('black'),
       showMsg = ref(false),
-      rememberMe = ref(false)
+      rememberMe = ref(true)
 
     return {
       usernameLabel: computed(() => `Username / NIG (${t('login_nig')})`),
@@ -229,7 +226,6 @@ export default {
           const postData = {
             username: username.value,
             password: password.value,
-            remember: rememberMe.value ? 1 : 0,
           }
 
           msg.value = t('mengautentikasi')
@@ -252,7 +248,7 @@ export default {
                   msgClass.value = 'positive'
 
                   if (rememberMe.value) {
-                    conf.cookieExp *= 12 * 30 // 30 days
+                    conf.cookieExp *= 12 * 30 * 12 // 360 days
                   }
 
                   const dt = new Date(),

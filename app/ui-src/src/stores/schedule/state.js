@@ -8,11 +8,13 @@ export default function () {
       showDeleteButton: false,
       deleteProgress: false,
     },
-    detail: {}, 
+    detail: {},
     current: 1,
     showSettingsForm: false,
-    showAddForm: false, showEditForm: false,
-    saveStatus: 500, deleteConfirm: false,
+    showAddForm: false,
+    showEditForm: false,
+    saveStatus: 500,
+    deleteConfirm: false,
     searchTimeout: false,
     className: '',
     classID: '',
@@ -26,7 +28,7 @@ export default function () {
       checkAll: false,
       saveStatus: 500,
       options: [],
-      lessonId: ''
+      lessonId: '',
     },
     schedule: {
       lessonOptions: [], // this is the wrapper for normalList and inactiveList
@@ -40,16 +42,18 @@ export default function () {
       showLessonInput: false, // show lesson input form
       showBreakInput: false, // show break input form
       isBreak: false,
-      
+
       // list of lessons in manage lessons form
       lessonsInput: [],
 
-      selectedDay: '', breakDuration: 0,
+      selectedDay: '',
+      breakDuration: 0,
       toBeDeletedSchedule: [],
-      allocation: '', 
+      allocation: '',
       startTime: '',
+      startTime2: '',
       scheduleType: 'lesson', // lesson, inactive, break
       saveStatus: 500,
-    },      
+    },
   }
 }

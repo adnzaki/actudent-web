@@ -90,6 +90,24 @@ class Actudent extends \CodeIgniter\Controller
         ]);
     }
 
+
+		/**
+		 * Validates the given data against the specified rules and returns a boolean indicating whether the validation passed or not.
+		 * This method is just a mask of \CodeIgniter\Controller::validateData()
+		 * Here we have passed the $dbGroup and make it available publicly to be used outside of Controller.
+		 *
+		 * @param array $data The data to be validated.
+		 * @param mixed $rules The validation rules.
+		 * @param array $messages The custom error messages for validation errors.
+		 * @param string|null $dbGroup The database group to use for validation.
+		 *
+		 * @return bool Returns true if the validation passes, false otherwise.
+		 */
+	public function validateForms(array $data, $rules, array $messages = []): bool
+	{
+		return $this->validateData($data, $rules, $messages, get_subdomain());
+	}
+
     public function getAppConfig($userId = null)
     {
         $path = $this->defaultLangPath;

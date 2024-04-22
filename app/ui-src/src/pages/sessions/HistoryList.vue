@@ -1,13 +1,12 @@
 <template>
   <div class="q-pa-md">
     <q-list bordered separator v-for="(item, index) in data" :key="index">
-      <q-item clickable v-ripple>
+      <q-item clickable>
         <q-item-section>
           <q-item-label>{{ item.platform }}</q-item-label>
           <q-item-label caption lines="3"
-            >IP: {{ item.ip_address }} <br />({{
-              item.location
-            }}).</q-item-label
+            >IP: {{ item.ip_address }} <br />({{ item.location }}). <br />
+            ISP: {{ item.isp }}</q-item-label
           >
         </q-item-section>
 

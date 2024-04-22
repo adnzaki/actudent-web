@@ -74,6 +74,7 @@ if ( ! function_exists('validate'))
      *
      * @param mixed $rules
      * @param array $messages
+	 * @deprecated Use \Actudent::validateForms() instead
      *
      * @return boolean
      */

@@ -7,9 +7,6 @@ use Actudent\Admin\Models\MapelModel;
 
 class Mapel extends \Actudent
 {
-    /**
-     * @var Actudent\Admin\Models\MapelModel
-     */
     private $mapel;
 
     public function __construct()
@@ -29,7 +26,7 @@ class Mapel extends \Actudent
 
     public function getLessonDetail($id)
     {
-        $lessons = $this->mapel->getLessonDetail($id);        
+        $lessons = $this->mapel->getLessonDetail($id);
 
         return $this->createResponse($lessons[0], 'is_admin');
     }
@@ -48,7 +45,7 @@ class Mapel extends \Actudent
                     $this->mapel->delete($id);
                 }
             }
-            else 
+            else
             {
                 $this->mapel->delete($idString);
             }
@@ -61,18 +58,18 @@ class Mapel extends \Actudent
     {
         if(is_admin())
         {
-            $validation = $this->validation($id); // [0 => $rules, 1 => $messages]
-            if(! validate($validation[0], $validation[1]))
+			$validation = $this->validation($id); // [0 => $rules, 1 => $messages]
+			$data = $this->request->getPost(array_keys($validation[0]));
+            if(! $this->validateForms($data, $validation[0], $validation[1]))
             {
                 return $this->response->setJSON([
                     'code' => '500',
                     'msg' => $this->validation->getErrors(),
                 ]);
             }
-            else 
+            else
             {
-                $data = $this->formData();
-                if($id === null) 
+                if($id === null)
                 {
                     $this->mapel->insert($data);
                 }
@@ -80,7 +77,7 @@ class Mapel extends \Actudent
                 {
                     $this->mapel->update($data, $id);
                 }
-                
+
                 return $this->response->setJSON([
                     'code' => '200',
                 ]);
@@ -90,7 +87,6 @@ class Mapel extends \Actudent
 
     private function validation($id)
     {
-        $form = $this->formData();
         $rules = [
             'lesson_code'    => "required|min_length[3]|max_length[10]|is_unique[tb_lessons.lesson_code,lesson_id,$id]",
             'lesson_name'    => 'required',
@@ -105,17 +101,9 @@ class Mapel extends \Actudent
             ],
             'lesson_name' => [
                 'required'  => get_lang('AdminMapel.mapel_err_name_req'),
-            ],                  
+            ],
         ];
 
         return [$rules, $messages];
-    }
-
-    private function formData()
-    {
-        return [
-            'lesson_code'    => $this->request->getPost('lesson_code'),
-            'lesson_name'    => $this->request->getPost('lesson_name'),
-        ];
     }
 }

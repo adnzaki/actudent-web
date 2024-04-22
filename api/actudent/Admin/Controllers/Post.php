@@ -27,7 +27,7 @@ class Post extends \Actudent
         foreach($data as $d) {
             $d->editable = $this->isEditable($d->user_id) ? 1 : 0;
         }
-        
+
         return $this->createResponse([
             'container' => $data,
             'totalRows' => $rows,
@@ -38,7 +38,7 @@ class Post extends \Actudent
     {
         if(valid_token()) {
             $user = user_data();
-    
+
             if($user->user_level === '1') {
                 return true;
             } else {
@@ -99,7 +99,7 @@ class Post extends \Actudent
                     'msg' => $this->validation->getErrors(),
                 ]);
             }
-            else 
+            else
             {
                 $data = [
                     'timeline_title'    => $this->request->getPost('timeline_title'),
@@ -108,11 +108,11 @@ class Post extends \Actudent
                     'featured_image'    => $this->request->getPost('featured_image'),
                     'gallery'           => $this->request->getPost('imageGallery')
                 ];
-    
+
                 if($id === null) {
                     $id = $this->post->insert($data);
                 }
-                else 
+                else
                 {
                     $detail = $this->post->getPostDetail($id);
                     $getDate = explode('_', $detail->featured_image)[0];
@@ -140,7 +140,7 @@ class Post extends \Actudent
                     'code'  => '200',
                     'id'    => $id, // return the timeline_id
                 ];
-                
+
                 return $this->response->setJSON($response);
             }
         }
@@ -155,7 +155,7 @@ class Post extends \Actudent
                 'height'    => 1200,
                 'dir'       => 'posts/' . date('Y-m-d'),
                 'maxSize'   => 10000,
-                'crop'      => 'fit',
+                'crop'      => 'resize',
                 'prefix'    => date('Y-m-d') . '_'
             ];
 
@@ -226,15 +226,15 @@ class Post extends \Actudent
         if(valid_token()) {
             $post = $this->request->getPost('id');
             $post = json_decode($post, true);
-            
+
             foreach($post as $id) {
                 $detail = $this->post->getPostDetail($id);
-                
+
                 // delete featured image from storage
                 $getDate = explode('_', $detail->featured_image)[0];
                 $dirPath = "posts/$getDate/";
                 $this->uploader->removeImage($dirPath . $detail->featured_image);
-    
+
                 // retrieve gallery
                 $gallery = $this->post->getGallery($id);
 
@@ -243,7 +243,7 @@ class Post extends \Actudent
                     $galleryPath = 'posts/'.explode('_', $g->filename)[0];
                     $this->uploader->removeImage($galleryPath . $g->filename);
                 }
-    
+
                 // delete post and its gallery from database
                 $this->post->delete($id);
             }
@@ -251,7 +251,7 @@ class Post extends \Actudent
             return $this->response->setJSON(['status' => 'OK']);
         }
     }
-    
+
     private function validation()
     {
         $rules = [
@@ -262,7 +262,7 @@ class Post extends \Actudent
             'timeline_title' => [
                 'required' => get_lang('AdminTimeline.timeline_title_required'),
             ],
-        ];            
+        ];
 
         return [$rules, $messages];
     }

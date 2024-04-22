@@ -1,11 +1,22 @@
 <template>
   <q-card class="my-card" v-if="store.sessions !== null">
     <q-card-section class="q-mb-md">
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
-        {{ $t('session_manager') }}
-      </div>
-      <div class="text-h6 text-capitalize" v-else>
-        {{ $t('session_manager') }}
+      <div class="row">
+        <q-btn
+          color="teal"
+          flat
+          rounded
+          class="back-button"
+          icon="arrow_back"
+          @click="$router.push('/manage-account')"
+          v-if="$q.screen.lt.sm"
+        />
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('session_manager') }}
+        </div>
+        <div class="text-h6 text-capitalize" v-else>
+          {{ $t('session_manager') }}
+        </div>
       </div>
       <!-- <div :class="['row', titleSpacing()]">
         <row-dropdown

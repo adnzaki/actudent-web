@@ -59,7 +59,27 @@ class ScheduleModel extends \Actudent\Installer\Models\SetupModel
         $this->forge->addPrimaryKey('schedule_id');
         $this->forge->addForeignKey('lessons_grade_id', 'tb_lessons_grade', 'lessons_grade_id');
         $this->forge->addForeignKey('room_id', 'tb_room', 'room_id');
-        $this->forge->createTable($table, true, $this->engine);  
+        $this->forge->createTable($table, true, $this->engine);
+    }
+
+	public function createCustomStartTime()
+    {
+        $table = 'tb_schedule_custom_starttime';
+        $fields = [
+            'id' => [
+                'type'          => 'INT',
+                'constraint'    => 11,
+                'auto_increment'=> true
+            ],
+            'grade_id' => [
+                'type'          => 'INT',
+                'constraint'    => 11,
+            ],
+        ];
+
+        $this->forge->addField($fields);
+        $this->forge->addPrimaryKey('id');
+        $this->forge->createTable($table, true, $this->engine);
     }
 
     public function createScheduleSettings()
@@ -85,7 +105,7 @@ class ScheduleModel extends \Actudent\Installer\Models\SetupModel
 
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('schedule_setting_id');
-        $this->forge->createTable($table, true, $this->engine);  
+        $this->forge->createTable($table, true, $this->engine);
     }
 
     public function insertScheduleSettings()
@@ -99,6 +119,10 @@ class ScheduleModel extends \Actudent\Installer\Models\SetupModel
             [
                 'setting_name'  => 'start_time',
                 'setting_value' => 7
+            ],
+			[
+                'setting_name'  => 'start_time_2',
+                'setting_value' => 12.5
             ],
         ];
         $builder->insertBatch($data);

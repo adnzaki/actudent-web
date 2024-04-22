@@ -8,14 +8,15 @@ import {
   t,
 } from '../../composables/common'
 
-import { Notify } from 'quasar'
+import { Notify, Dialog } from 'quasar'
 import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
   saveSettings() {
     const data = {
       lesson_hour: this.schedule.allocation,
-      start_time: this.schedule.startTime
+      start_time: this.schedule.startTime,
+      start_time_2: this.schedule.startTime2,
     }
 
     const notifyProgress = Notify.create({
@@ -27,20 +28,23 @@ export default {
       timeout: 0,
     })
 
-    admin.post(`${this.scheduleApi}simpan-pengaturan`, data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
-      .then(res => {
+    admin
+      .post(`${this.scheduleApi}simpan-pengaturan`, data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
+      .then((res) => {
         notifyProgress({ timeout })
         if (res.code === '500') {
           this.error = res.msg
           notifyProgress({
             message: `Error! ${t('jadwal_unable_update_setting')}`,
             color: 'negative',
-            spinner: false
+            spinner: false,
           })
         } else {
           this.showSettingsForm = false
@@ -49,16 +53,16 @@ export default {
             message: t('jadwal_success_update_setting'),
             color: 'positive',
             icon: 'done',
-            spinner: false
+            spinner: false,
           })
         }
       })
   },
-  saveSchedules() {
+  saveSchedules(gradeId) {
     let data = JSON.stringify(this.schedule.lessonsInput),
       toBeDeleted = JSON.stringify(this.schedule.toBeDeletedSchedule)
 
-    const schedules = { jadwal: data, hapus: toBeDeleted }
+    const schedules = { jadwal: data, hapus: toBeDeleted, grade: gradeId }
 
     this.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
@@ -70,12 +74,19 @@ export default {
       timeout: 0,
     })
 
-    admin.post(`${this.scheduleApi}simpan-jadwal/${this.schedule.selectedDay}`, schedules, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
+    admin
+      .post(
+        `${this.scheduleApi}simpan-jadwal/${this.schedule.selectedDay}`,
+        schedules,
+        {
+          headers: { Authorization: bearerToken },
+          transformRequest: [
+            (data) => {
+              return createFormData(data)
+            },
+          ],
+        },
+      )
       .then(() => {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
@@ -98,7 +109,7 @@ export default {
           message: t('jadwal_save_success'),
           color: 'positive',
           icon: 'done',
-          spinner: false
+          spinner: false,
         })
 
         this.getSchedules(this.classID)
@@ -127,12 +138,15 @@ export default {
     })
 
     const data = { id: idString }
-    admin.post(`${this.scheduleApi}hapus-mapel`, data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
+    admin
+      .post(`${this.scheduleApi}hapus-mapel`, data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
       .then(() => {
         this.helper.disableSaveButton = false
         this.deleteConfirm = false
@@ -142,7 +156,7 @@ export default {
           color: 'positive',
           icon: 'done',
           spinner: false,
-          timeout
+          timeout,
         })
 
         // refresh data
@@ -166,13 +180,16 @@ export default {
       timeout: 0,
     })
 
-    admin.post(`${this.scheduleApi}${url}`, payload.data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
-      .then(response => {
+    admin
+      .post(`${this.scheduleApi}${url}`, payload.data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
+      .then((response) => {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
@@ -181,7 +198,7 @@ export default {
           notifyProgress({
             message: `Error! ${t('jadwal_save_error')}`,
             color: 'negative',
-            spinner: false
+            spinner: false,
           })
         } else {
           this.lesson.saveStatus = 200
@@ -193,7 +210,7 @@ export default {
               message: `${t('sukses')} ${t('jadwal_edit_success')}`,
               color: 'positive',
               icon: 'done',
-              spinner: false
+              spinner: false,
             })
           } else {
             this.lesson.showAddForm = false
@@ -201,7 +218,7 @@ export default {
               message: `${t('sukses')} ${t('jadwal_insert_success')}`,
               color: 'positive',
               icon: 'done',
-              spinner: false
+              spinner: false,
             })
           }
         }
@@ -226,30 +243,70 @@ export default {
       searchBy: 'grade_name',
       sort: 'ASC',
       search: '',
-      url: `${conf.adminAPI}kelas/get-kelas/`,
+      url: `${conf.adminAPI}jadwal/get-kelas/`,
       autoReset: {
         active: true,
-        timeout: 500
+        timeout: 500,
       },
     })
   },
 
-  // from Vuex mutations
-  // ------------------------------------------------------
-  getSettings() {
-    admin.get(`${this.scheduleApi}get-pengaturan`, {
-      headers: { Authorization: bearerToken },
+  switchShift(gradeId) {
+    Dialog.create({
+      title: t('konfirmasi'),
+      message: t('jadwal_tukar_shift_confirm'),
+      cancel: t('batal'),
+      persistent: true,
+    }).onOk(() => {
+      const notifyProgress = Notify.create({
+        group: false,
+        spinner: true,
+        message: t('jadwal_tukar_shift_progress'),
+        color: 'info',
+        position: 'center',
+        timeout: 0,
+      })
+
+      admin
+        .get(`${this.scheduleApi}tukar-shift/${gradeId}`, {
+          headers: { Authorization: bearerToken },
+        })
+        .then(({ data }) => {
+          this.getClassList()
+          notifyProgress({ timeout })
+          notifyProgress({
+            message: `${t('sukses')} ${t('jadwal_tukar_shift_success')}`,
+            color: 'positive',
+            icon: 'done',
+            spinner: false,
+          })
+        })
+        .catch((error) => {
+          notifyProgress({
+            message: `Error! ${error}`,
+            color: 'negative',
+            spinner: false,
+          })
+        })
     })
-      .then(response => {
+  },
+  getSettings() {
+    admin
+      .get(`${this.scheduleApi}get-pengaturan`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.schedule.allocation = response.data.alokasi
-        this.schedule.startTime = response.data.mulai
+        this.schedule.startTime = response.data.mulai1
+        this.schedule.startTime2 = response.data.mulai2
       })
   },
   getLessonsForSchedule(grade) {
-    admin.get(`${this.scheduleApi}get-pilihan-mapel/${grade}`, {
-      headers: { Authorization: bearerToken },
-    })
-      .then(response => {
+    admin
+      .get(`${this.scheduleApi}get-pilihan-mapel/${grade}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.schedule.normalList = response.data.normalList
         this.schedule.inactiveList = response.data.inactiveList
 
@@ -258,7 +315,7 @@ export default {
         if (this.schedule.lessonOptions.length > 0) {
           this.schedule.defaultLesson = {
             label: this.schedule.lessonOptions[0].text,
-            value: this.schedule.lessonOptions[0].id
+            value: this.schedule.lessonOptions[0].id,
           }
         }
       })
@@ -266,7 +323,7 @@ export default {
   removeLesson(id) {
     // Remove item from this.schedule.lessonsInput
     let lessons = this.schedule.lessonsInput,
-      index = lessons.findIndex(el => {
+      index = lessons.findIndex((el) => {
         return el.id === id
       })
     lessons.splice(index, 1)
@@ -278,7 +335,8 @@ export default {
     }
   },
   pushLesson(data) {
-    let schedule, index = 0
+    let schedule,
+      index = 0
 
     if (this.schedule.lessonsInput.length > 0) {
       index = this.schedule.lessonsInput.length
@@ -306,7 +364,7 @@ export default {
         room: room.value, // room_id
         text: `${lesson.label} (${duration.label} - ${room.label})`,
         duration: duration.value,
-        index
+        index,
       }
     } else {
       schedule = {
@@ -315,7 +373,7 @@ export default {
         room: 'null',
         text: `${t('jadwal_istirahat')} (${data} ${t('jadwal_menit')})`,
         duration: data,
-        index: 'null'
+        index: 'null',
       }
     }
 
@@ -329,15 +387,16 @@ export default {
     this.helper.disableSaveButton = false
   },
   getRooms() {
-    admin.get(`${this.scheduleApi}get-ruang`, {
-      headers: { Authorization: bearerToken },
-    })
-      .then(response => {
+    admin
+      .get(`${this.scheduleApi}get-ruang`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.rooms = response.data
         if (this.rooms.length > 0) {
           this.schedule.defaultRoom = {
             label: this.rooms[0].text,
-            value: this.rooms[0].id
+            value: this.rooms[0].id,
           }
         }
       })
@@ -368,16 +427,17 @@ export default {
           room: item.room_id,
           text: `${item.lesson_name} (${item.duration} ${satuan}${ruang})`,
           duration: item.duration,
-          index: scheduleIndex
+          index: scheduleIndex,
         })
       })
     }
   },
   getSchedules(grade) {
-    admin.get(`${this.scheduleApi}get-jadwal/${grade}`, {
-      headers: { Authorization: bearerToken },
-    })
-      .then(response => {
+    admin
+      .get(`${this.scheduleApi}get-jadwal/${grade}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.schedule.list = response.data.schedule
         this.className = response.data.class_name
 
@@ -385,10 +445,11 @@ export default {
       })
   },
   getDetailLesson(id) {
-    admin.get(`${this.scheduleApi}detail-mapel/${id}`, {
-      headers: { Authorization: bearerToken },
-    })
-      .then(response => {
+    admin
+      .get(`${this.scheduleApi}detail-mapel/${id}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.lesson.detail = response.data
         setTimeout(() => {
           this.lesson.showEditForm = true
@@ -398,10 +459,11 @@ export default {
   getLessonOptions(grade) {
     this.classID = grade
 
-    admin.get(`${this.scheduleApi}pilihan-mapel/${grade}`, {
-      headers: { Authorization: bearerToken },
-    })
-      .then(response => {
+    admin
+      .get(`${this.scheduleApi}pilihan-mapel/${grade}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.lesson.options = response.data
         if (response.data.length > 0) {
           this.lesson.lessonId = response.data[0].id
@@ -427,7 +489,7 @@ export default {
   },
   selectAllLessons() {
     if (this.lesson.checkAll) {
-      this.lesson.list.forEach(item => {
+      this.lesson.list.forEach((item) => {
         this.lesson.selected.push(item.lessons_grade_id)
       })
     } else {
@@ -435,10 +497,11 @@ export default {
     }
   },
   getLessonsList(grade) {
-    admin.get(`${this.scheduleApi}daftar-mapel/${grade}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    admin
+      .get(`${this.scheduleApi}daftar-mapel/${grade}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.lesson.list = response.data.lessons
         this.className = response.data.class_name
       })

@@ -66,13 +66,14 @@
           :label="$t('tutup')"
           color="negative"
           v-close-popup
+          class="close-btn"
         />
         <q-btn
           :label="$t('simpan')"
           class="mobile-form-btn save-btn"
           unelevated
           :disable="disableSaveButton"
-          @click="store.saveSchedules()"
+          @click="store.saveSchedules($route.params.id)"
         />
       </q-card-actions>
     </q-card>

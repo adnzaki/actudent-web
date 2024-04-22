@@ -1,6 +1,6 @@
 <?php
-return [    
-    // teks side menu 
+return [
+    // teks side menu
     'menu_dashboard'        => 'Beranda',
     'menu_master'           => 'Data Master',
     'menu_siswa'            => 'Siswa',
@@ -23,17 +23,17 @@ return [
     'menu_siabsen'          => 'Absensi Guru',
     'menu_manage_siabsen'   => 'Data Harian',
     'menu_siabsen_guru'     => 'Absensi Saya',
-    
+
     // menu guru
     'menu_post'         => 'Post',
     'menu_jadwal_guru'  => 'Jadwal dan Kehadiran',
-    
+
     // teks navbar
     'navbar_halo'  => 'Halo',
     'navbar_profil'  => 'Akun',
     'navbar_sekolah'  => 'Data Sekolah',
     'navbar_keluar'  => 'Keluar',
-                
+
     // teks umum
     'semua'             => 'Semua',
     'baris'             => 'baris',
@@ -80,6 +80,8 @@ return [
     'laporan'           => 'Laporan',
     'keterangan'        => 'Keterangan',
     'pilih_semua'       => 'Pilih semua',
+	'pagi'              => 'Pagi',
+	'siang'             => 'Siang',
 
     // hari-hari
     'day1'              => 'Senin',

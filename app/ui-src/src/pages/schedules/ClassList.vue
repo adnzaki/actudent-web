@@ -17,9 +17,7 @@
             >
               {{ $t('kelas_wali') }} <sort-icon />
             </th>
-            <th class="text-left cursor-pointer mobile-hide">
-              {{ $t('kelas_tahun') }}
-            </th>
+            <th class="text-left cursor-pointer mobile-hide">Shift</th>
             <th class="text-left">{{ $t('aksi') }}</th>
           </tr>
         </thead>
@@ -34,7 +32,10 @@
             </td>
             <td class="text-left mobile-hide">{{ item.staff_name }}</td>
             <td class="text-left mobile-hide">
-              {{ item.period_start }} / {{ item.period_end }}
+              <q-badge
+                :color="item.shift === 0 ? 'green' : 'orange'"
+                :label="item.shift === 0 ? $t('pagi') : $t('siang')"
+              />
             </td>
             <td class="text-left">
               <q-btn-group class="mobile-hide">
@@ -42,12 +43,20 @@
                   :class="actionButton"
                   icon="list"
                   @click="showLessons(item.grade_id, item.grade_name)"
-                />
+                  ><btn-tooltip :label="$t('jadwal_daftar_mapel')"
+                /></q-btn>
                 <q-btn
                   :class="actionButton"
                   icon="menu_book"
                   @click="showSchedules(item.grade_id, item.grade_name)"
-                />
+                  ><btn-tooltip :label="$t('jadwal_jadwal_mapel')"
+                /></q-btn>
+                <q-btn
+                  :class="actionButton"
+                  icon="autorenew"
+                  @click="store.switchShift(item.grade_id)"
+                  ><btn-tooltip :label="$t('jadwal_tukar_shift')"
+                /></q-btn>
               </q-btn-group>
               <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
@@ -72,6 +81,15 @@
                       }}</q-item-section>
                     </q-item>
                     <q-separator />
+                    <q-item
+                      clickable
+                      v-close-popup
+                      @click="store.switchShift(item.grade_id)"
+                    >
+                      <q-item-section>{{
+                        $t('jadwal_tukar_shift')
+                      }}</q-item-section>
+                    </q-item>
                   </q-list>
                 </q-menu>
               </q-btn>
@@ -86,6 +104,7 @@
 </template>
 
 <script>
+import { useQuasar } from 'quasar'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePagingStore } from 'ss-paging-vue'
@@ -99,6 +118,7 @@ export default {
     const router = useRouter()
     const paging = usePagingStore()
     const store = useScheduleStore()
+    const $q = useQuasar()
 
     store.getClassList()
 

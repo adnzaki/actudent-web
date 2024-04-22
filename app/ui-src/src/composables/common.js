@@ -14,38 +14,43 @@ import { selectedLang } from './date'
 const userType = Cookies.get(conf.userType)
 const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)
 
+const dashboardLink =
+  Cookies.get(conf.userType) === '1' ? '/home' : '/teacher/home'
+
 const trim = (text, length = 25, ellipsis = true) => {
   const dots = ellipsis ? '...' : ''
-  const returnedText = text.length <= length
-    ? text
-    : text.substring(0, length) + dots
+  const returnedText =
+    text.length <= length ? text : text.substring(0, length) + dots
 
   return returnedText
 }
 
-const apiEndpoint = Cookies.get(conf.userType) === '1'
-  ? conf.adminAPI : conf.teacherAPI
+const apiEndpoint =
+  Cookies.get(conf.userType) === '1' ? conf.adminAPI : conf.teacherAPI
 
-const t = key => i18n.global.t(key)
+const t = (key) => i18n.global.t(key)
 
 const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
   return date.formatDate(val, format, selectedLang)
 }
 
-const createQueryString = params => {
-  return Object.entries(params).map(item => item.join('=')).join('&')
+const createQueryString = (params) => {
+  return Object.entries(params)
+    .map((item) => item.join('='))
+    .join('&')
 }
 
 let school = ref({})
 
 function getSchool() {
-  core.get('sekolah', {
-    headers: { Authorization: bearerToken }
-  })
-    .then(response => {
+  core
+    .get('sekolah', {
+      headers: { Authorization: bearerToken },
+    })
+    .then((response) => {
       school.value = response.data
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(`Error: ${error}`)
     })
 }
@@ -77,7 +82,7 @@ const monthList = () => {
   ]
 }
 
-const toDecimal = time => {
+const toDecimal = (time) => {
   time = time.split(':')
   let hour = time[0],
     mins = time[1] / 60
@@ -85,7 +90,7 @@ const toDecimal = time => {
   return hour + mins
 }
 
-const phpTimestamp = val => Date.parse(val).toString().substring(0, 10)
+const phpTimestamp = (val) => Date.parse(val).toString().substring(0, 10)
 
 export {
   t,
@@ -109,10 +114,18 @@ export {
   bearerToken,
   validateToken,
   runLoadingBar,
+  dashboardLink,
   createFormData,
   isAuthenticated,
   createQueryString,
-  pengguna, getPengguna,
-  actionButton, addButton,
-  axios, core, admin, teacher, siabsen, install
+  pengguna,
+  getPengguna,
+  actionButton,
+  addButton,
+  axios,
+  core,
+  admin,
+  teacher,
+  siabsen,
+  install,
 }

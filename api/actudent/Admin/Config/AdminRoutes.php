@@ -74,7 +74,9 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('mapel/save/(:any)', 'Mapel::save/$1');
 	$routes->add('mapel/detail/(:any)', 'Mapel::getLessonDetail/$1');
 	$routes->add('mapel/delete', 'Mapel::delete');
-	$routes->add('jadwal', 'Jadwal::index');
+	$routes->add('jadwal/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Jadwal::getKelas/$1/$2/$3/$4/$5/$6');
+	$routes->add('jadwal/get-kelas/(:any)/(:any)/(:any)/(:any)/(:any)', 'Jadwal::getKelas/$1/$2/$3/$4/$5');
+	$routes->add('jadwal/tukar-shift/(:any)', 'Jadwal::switchShift/$1');
 	$routes->add('jadwal/daftar-mapel/(:any)', 'Jadwal::getLessons/$1');
 	$routes->add('jadwal/pilihan-mapel/(:any)', 'Jadwal::getLessonOptions/$1');
 	$routes->add('jadwal/simpan-mapel/(:num)', 'Jadwal::saveLesson/$1');

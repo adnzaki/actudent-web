@@ -1,6 +1,6 @@
 <?php
-return [   
-    // teks side menu 
+return [
+    // teks side menu
     'menu_dashboard'        => 'Dashboard',
     'menu_master'           => 'Master Data',
     'menu_siswa'            => 'Student',
@@ -27,13 +27,13 @@ return [
     // menu guru
     'menu_post'         => 'Posts',
     'menu_jadwal_guru'  => 'Schedule and Presence',
-    
+
     // teks navbar
     'navbar_halo'        => 'Hello',
     'navbar_profil'      => 'Account',
     'navbar_sekolah'     => 'School Data',
-    'navbar_keluar'      => 'Logout',   
-    
+    'navbar_keluar'      => 'Logout',
+
     // teks umum
     'semua'             => 'All',
     'baris'             => 'rows',
@@ -80,6 +80,8 @@ return [
     'laporan'           => 'Report',
     'keterangan'        => 'Description',
     'pilih_semua'       => 'Select all',
+	'pagi'              => 'Morning',
+	'siang'             => 'Afternoon',
 
     // hari-hari
     'day1'              => 'Monday',

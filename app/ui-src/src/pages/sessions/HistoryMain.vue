@@ -1,11 +1,22 @@
 <template>
   <q-card class="my-card">
     <q-card-section class="q-mb-md">
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
-        {{ $t('login_history') }}
-      </div>
-      <div class="text-h6 text-capitalize" v-else>
-        {{ $t('login_history') }}
+      <div class="row">
+        <q-btn
+          color="teal"
+          flat
+          rounded
+          class="back-button"
+          icon="arrow_back"
+          @click="$router.push('/manage-account')"
+          v-if="$q.screen.lt.sm && store.sessions === null"
+        />
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('login_history') }}
+        </div>
+        <div class="text-h6 text-capitalize" v-else>
+          {{ $t('login_history') }}
+        </div>
       </div>
       <div :class="['row', titleSpacing()]">
         <row-dropdown
@@ -22,6 +33,7 @@
 <script>
 import { titleSpacing } from 'src/composables/screen'
 import HistoryList from './HistoryList.vue'
+import { useSessionStore } from 'src/stores/sessions'
 
 export default {
   name: 'HistoryMain',
@@ -30,6 +42,7 @@ export default {
   },
   setup() {
     return {
+      store: useSessionStore(),
       titleSpacing,
     }
   },

@@ -38,6 +38,7 @@ import PostMain from 'pages/post/PostMain.vue'
 import ViewPostMobile from 'pages/post/ViewPostMobile.vue'
 import ReportSettings from 'pages/report_settings/IndexPage.vue'
 import SessionManager from 'pages/sessions/SessionManager.vue'
+import MainView from 'pages/manage_account/MainView.vue'
 
 // prettier-ignore
 export default [
@@ -75,6 +76,7 @@ export default [
   },
   { path: 'account', component: UserAccount, beforeEnter: () => routeValidator('valid_token') },
   { path: 'sessions', component: SessionManager, beforeEnter: () => routeValidator('valid_token') },
+  { path: 'manage-account', component: MainView, beforeEnter: () => routeValidator('valid_token') },
 
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },

@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     // teks halaman data user management
@@ -48,5 +48,6 @@ return [
     'user_token_access'         => 'Access Token',
     'user_token_warning'        => 'Attention! Please use this token only with trusted third-party services. We are not responsible to any abuse of this token.',
     'user_copy_token'           => 'Copy Token',
-    'user_token_copied'         => 'Token has been copied!'
+    'user_token_copied'         => 'Token has been copied!',
+	'user_manage_account'       => 'Manage Account',
 ];
