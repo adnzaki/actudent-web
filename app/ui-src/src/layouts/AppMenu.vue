@@ -12,6 +12,7 @@
         icon="o_home"
         :label="$t('menu_dashboard')"
         :link="dashboardLink"
+        v-if="$q.screen.gt.sm"
       />
 
       <!-- Master Data Menu -->
@@ -20,6 +21,7 @@
         icon="o_inventory_2"
         label="Data"
         v-if="$q.cookies.get(conf.userType) === '1'"
+        :default-opened="$q.screen.lt.sm"
       >
         <submenu-item :label="$t('menu_parent')" link="/parent" />
         <submenu-item :label="$t('menu_siswa')" link="/student" />
@@ -31,25 +33,37 @@
 
       <!-- Main App Menu -->
       <div v-if="$q.cookies.get(conf.userType) === '1'">
-        <menu-item icon="list" :label="$t('menu_jadwal')" link="/schedules" />
+        <menu-item
+          icon="list"
+          :label="$t('menu_jadwal')"
+          link="/schedules"
+          v-if="$q.screen.gt.sm"
+        />
         <menu-item
           icon="task_alt"
           :label="$t('menu_kehadiran')"
           link="/presence"
+          v-if="$q.screen.gt.sm"
         />
-        <menu-item icon="today" :label="$t('menu_agenda')" link="/agenda" />
+        <menu-item
+          icon="today"
+          :label="$t('menu_agenda')"
+          link="/agenda"
+          v-if="$q.screen.gt.sm"
+        />
         <!-- <menu-item icon="restore" :label="$t('menu_post')" link="" /> -->
       </div>
       <menu-item
         icon="o_book"
         :label="$t('menu_jadwal_guru')"
-        v-if="$q.cookies.get(conf.userType) === '2'"
+        v-if="$q.cookies.get(conf.userType) === '2' && $q.screen.gt.sm"
         link="/teacher/presence"
       />
       <div
         v-if="
-          $q.cookies.get(conf.userType) === '2' ||
-          $q.cookies.get(conf.userType) === '0'
+          ($q.cookies.get(conf.userType) === '2' ||
+            $q.cookies.get(conf.userType) === '0') &&
+          $q.screen.gt.sm
         "
       >
         <menu-item
@@ -59,7 +73,12 @@
         />
         <!-- <menu-item icon="restore" :label="$t('menu_timeline')" link="" /> -->
       </div>
-      <menu-item icon="list_alt" :label="$t('menu_post')" link="/post" />
+      <menu-item
+        icon="list_alt"
+        :label="$t('menu_post')"
+        link="/post"
+        v-if="$q.screen.gt.sm"
+      />
 
       <!-- Report Menu -->
       <q-expansion-item
@@ -67,6 +86,7 @@
         icon="o_summarize"
         :label="$t('laporan')"
         v-if="$q.cookies.get(conf.userType) === '2' && isHomeroomTeacher"
+        :default-opened="$q.screen.lt.sm"
       >
         <submenu-item
           :label="$t('absensi_laporan_harian')"
@@ -87,6 +107,7 @@
         expand-separator
         icon="o_settings"
         :label="$t('menu_pengaturan')"
+        :default-opened="$q.screen.lt.sm"
       >
         <submenu-item
           v-if="$q.cookies.get(conf.userType) === '1'"

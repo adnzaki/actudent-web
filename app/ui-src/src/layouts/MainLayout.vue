@@ -5,7 +5,7 @@
         <q-btn flat @click="drawer = !drawer" round dense icon="menu" />
         <q-toolbar-title>ActudentV2 </q-toolbar-title>
         <!-- Notification button here -->
-        <q-btn flat round dense icon="account_circle">
+        <q-btn flat round dense icon="account_circle" class="mobile-hide">
           <q-menu :class="userMenu">
             <q-list separator>
               <other-actions
@@ -29,6 +29,8 @@
         </q-btn>
       </q-toolbar>
     </q-header>
+
+    <mobile-menu />
 
     <q-drawer
       v-model="drawer"
@@ -57,7 +59,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, computed, watch, reactive } from 'vue'
+import { defineComponent, ref, onMounted, provide, watch, reactive } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import { headerColor } from '../composables/mode'
 import {
@@ -72,6 +74,7 @@ import AppMenu from './AppMenu.vue'
 import SubscriptionWarning from './SubscriptionWarning.vue'
 import { useQuasar } from 'quasar'
 import OtherActions from './OtherActions.vue'
+import MobileMenu from './MobileMenu.vue'
 
 export default defineComponent({
   name: 'MainLayout',
@@ -79,6 +82,7 @@ export default defineComponent({
     AppMenu,
     SubscriptionWarning,
     OtherActions,
+    MobileMenu,
   },
   setup() {
     const $q = useQuasar()
@@ -110,26 +114,30 @@ export default defineComponent({
       userAction.value = false
     }
 
+    const logout = () => {
+      axios
+        .get(`${conf.coreAPI}logout`, {
+          headers: { Authorization: bearerToken },
+        })
+        .then(({ data }) => {
+          if (data.status === 'OK') {
+            $q.cookies.remove(conf.cookieName, { path: '/' })
+            $q.cookies.remove(conf.userType, { path: '/' })
+            localStorage.removeItem('class')
+            localStorage.removeItem('date')
+            localStorage.removeItem('grade_id')
+            localStorage.removeItem('lesson')
+            window.location.reload()
+          } else {
+            console.warn(data.msg)
+          }
+        })
+    }
+
+    provide('logout', logout)
+
     return {
-      logout() {
-        axios
-          .get(`${conf.coreAPI}logout`, {
-            headers: { Authorization: bearerToken },
-          })
-          .then(({ data }) => {
-            if (data.status === 'OK') {
-              $q.cookies.remove(conf.cookieName, { path: '/' })
-              $q.cookies.remove(conf.userType, { path: '/' })
-              localStorage.removeItem('class')
-              localStorage.removeItem('date')
-              localStorage.removeItem('grade_id')
-              localStorage.removeItem('lesson')
-              window.location.reload()
-            } else {
-              console.warn(data.msg)
-            }
-          })
-      },
+      logout,
       userMenu,
       elevated,
       drawer: ref(false),

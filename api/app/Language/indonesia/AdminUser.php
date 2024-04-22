@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 return [
     // teks halaman data user management
@@ -12,7 +12,7 @@ return [
     'user_error_text'           => 'Tidak dapat menyimpan data, silakan isi form dengan benar',
     'user_update_success'       => 'Password pengguna berhasil diperbarui',
     'user_update_title'         => 'Reset password',
-    'user_cari'                 => 'Cari nama pengguna, atau email pengguna', 
+    'user_cari'                 => 'Cari nama pengguna, atau email pengguna',
     'user_label_nama'           => 'Nama Pengguna',
     'user_label_email'          => 'Email',
     'user_label_level'          => 'Level Pengguna',
@@ -48,5 +48,6 @@ return [
     'user_token_access'         => 'Token Akses',
     'user_token_warning'        => 'Perhatian! Harap gunakan token ini hanya dengan pihak ketiga yang terpercaya. Kami tidak bertanggung jawab terhadap segala penyalahgunaan token ini.',
     'user_copy_token'           => 'Salin Token',
-    'user_token_copied'         => 'Token telah disalin!'
+    'user_token_copied'         => 'Token telah disalin!',
+	'user_manage_account'       => 'Kelola Akun',
 ];

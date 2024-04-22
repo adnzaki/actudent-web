@@ -13,38 +13,43 @@ import { actionButton, addButton, fabColor } from 'src/composables/mode'
 const userType = Cookies.get(conf.userType)
 const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)
 
+const dashboardLink =
+  Cookies.get(conf.userType) === '1' ? '/home' : '/teacher/home'
+
 const trim = (text, length = 25, ellipsis = true) => {
   const dots = ellipsis ? '...' : ''
-  const returnedText = text.length <= length
-    ? text
-    : text.substring(0, length) + dots
+  const returnedText =
+    text.length <= length ? text : text.substring(0, length) + dots
 
   return returnedText
 }
 
-const apiEndpoint = Cookies.get(conf.userType) === '1'
-  ? conf.adminAPI : conf.teacherAPI
+const apiEndpoint =
+  Cookies.get(conf.userType) === '1' ? conf.adminAPI : conf.teacherAPI
 
-const t = key => i18n.global.t(key)
+const t = (key) => i18n.global.t(key)
 
 const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
   return date.formatDate(val, format, selectedLang)
 }
 
-const createQueryString = params => {
-  return Object.entries(params).map(item => item.join('=')).join('&')
+const createQueryString = (params) => {
+  return Object.entries(params)
+    .map((item) => item.join('='))
+    .join('&')
 }
 
 let school = ref({})
 
 function getSchool() {
-  core.get('sekolah', {
-    headers: { Authorization: bearerToken }
-  })
-    .then(response => {
+  core
+    .get('sekolah', {
+      headers: { Authorization: bearerToken },
+    })
+    .then((response) => {
       school.value = response.data
     })
-    .catch(error => {
+    .catch((error) => {
       console.error(`Error: ${error}`)
     })
 }
@@ -78,10 +83,17 @@ export {
   bearerToken,
   validateToken,
   runLoadingBar,
+  dashboardLink,
   createFormData,
   isAuthenticated,
   createQueryString,
-  pengguna, getPengguna,
-  actionButton, addButton,
-  axios, core, admin, teacher, install
+  pengguna,
+  getPengguna,
+  actionButton,
+  addButton,
+  axios,
+  core,
+  admin,
+  teacher,
+  install,
 }

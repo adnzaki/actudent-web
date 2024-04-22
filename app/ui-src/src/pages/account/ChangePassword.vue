@@ -1,11 +1,22 @@
 <template>
   <q-card class="my-card q-pb-sm q-mt-md">
     <q-card-section>
-      <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
-        {{ $t('user_change_title') }}
-      </div>
-      <div class="text-h6 text-capitalize" v-else>
-        {{ $t('user_change_title') }}
+      <div class="row">
+        <q-btn
+          color="teal"
+          flat
+          rounded
+          class="back-button"
+          icon="arrow_back"
+          @click="$router.push('/manage-account')"
+          v-if="$q.screen.lt.sm"
+        />
+        <div class="text-subtitle1 text-uppercase" v-if="$q.screen.lt.sm">
+          {{ $t('user_change_title') }}
+        </div>
+        <div class="text-h6 text-capitalize" v-else>
+          {{ $t('user_change_title') }}
+        </div>
       </div>
 
       <q-form class="q-gutter-xs q-mt-md">
