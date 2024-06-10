@@ -24,6 +24,13 @@
 
             <q-item-section>{{ $t('session_title') }}</q-item-section>
           </q-item>
+          <q-item clickable v-ripple to="/contribution">
+            <q-item-section avatar>
+              <q-icon name="o_favorite" />
+            </q-item-section>
+
+            <q-item-section>{{ $t('menu_kontribusi') }}</q-item-section>
+          </q-item>
         </q-list>
 
         <q-btn

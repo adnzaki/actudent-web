@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 09, 2024 at 06:25 AM
+-- Generation Time: Jun 09, 2024 at 02:46 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -32,9 +32,11 @@ CREATE TABLE `tb_contribution` (
   `user_id` int DEFAULT NULL,
   `org_id` int DEFAULT NULL,
   `nominal` bigint DEFAULT NULL,
-  `payment_type` enum('Bank','OVO') DEFAULT NULL,
+  `payment_type` enum('Mandiri','BJB','OVO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `status` enum('Verified','Pending') NOT NULL DEFAULT 'Pending',
+  `evidence` varchar(255) DEFAULT NULL,
   `created` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+  `modified` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --

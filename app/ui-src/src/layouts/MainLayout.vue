@@ -18,6 +18,11 @@
                 :label="$t('session_title')"
                 link="/sessions"
               />
+              <other-actions
+                icon="o_favorite"
+                :label="$t('menu_kontribusi')"
+                link="/contribution"
+              />
               <!-- <other-actions icon="o_school" :label="$t('navbar_sekolah')" /> -->
               <other-actions
                 icon="logout"
