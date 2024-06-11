@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of CodeIgniter 4 framework.
  *
@@ -21,30 +23,16 @@ use Generator;
  */
 final class DefinedRouteCollector
 {
-    private RouteCollection $routeCollection;
-
-    public function __construct(RouteCollection $routes)
+    public function __construct(private readonly RouteCollection $routeCollection)
     {
-        $this->routeCollection = $routes;
     }
 
     /**
-     * @phpstan-return Generator<array{method: string, route: string, name: string, handler: string}>
+     * @return Generator<array{method: string, route: string, name: string, handler: string}>
      */
     public function collect(): Generator
     {
-        $methods = [
-            'get',
-            'head',
-            'post',
-            'patch',
-            'put',
-            'delete',
-            'options',
-            'trace',
-            'connect',
-            'cli',
-        ];
+        $methods = Router::HTTP_METHODS;
 
         foreach ($methods as $method) {
             $routes = $this->routeCollection->getRoutes($method);
