@@ -66,7 +66,7 @@ export default [
   { path: 'account', component: UserAccount, beforeEnter: () => routeValidator('valid_token') },
   { path: 'sessions', component: SessionManager, beforeEnter: () => routeValidator('valid_token') },
   { path: 'manage-account', component: MainView, beforeEnter: () => routeValidator('valid_token') },
-  { path: 'contribution', component: ContributionMain, beforeEnter: () => routeValidator('valid_token') },
+  // { path: 'contribution', component: ContributionMain, beforeEnter: () => routeValidator('valid_token') },
 
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
