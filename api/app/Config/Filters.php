@@ -23,6 +23,9 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+		'forcehttps'    => \CodeIgniter\Filters\ForceHTTPS::class,
+		'pagecache'     => \CodeIgniter\Filters\PageCache::class,
+		'performance'   => \CodeIgniter\Filters\PerformanceMetrics::class,
     ];
 
     /**
@@ -53,7 +56,10 @@ class Filters extends BaseConfig
      *
      * @var array
      */
-    public $methods = [];
+    public $methods = [
+		'POST' => ['invalidchars', 'csrf'],
+    	'GET'  => ['csrf'],
+	];
 
     /**
      * List of filter aliases that should run on any
