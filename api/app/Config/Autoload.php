@@ -70,7 +70,6 @@ class Autoload extends AutoloadConfig
         'ActudentJWT'	=> ACTUDENT_PATH . 'Core/Libraries/ActudentJWT.php',
         'Actudent'      => ACTUDENT_PATH . 'Core/Controllers/Actudent.php',
         'SimpleTag'     => ACTUDENT_PATH . 'Core/Libraries/simple-tag/SimpleTag.php',
-		'Kint'			=> SYSTEMPATH . 'ThirdParty/Kint/Kint.php',
     ];
 
     /**
