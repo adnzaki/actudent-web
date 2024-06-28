@@ -2,7 +2,7 @@
  * Global Configuration is like a magic file that changes everything in Actudent
  * Incorrect setting in this configuration will cause Actudent does not run as expected
  * Please read the instruction in order to set up this configuration correctly.
- * 
+ *
  * @author      Adnan Zaki
  * @copyright   Wolestech DevTeam (c) 2021
  * @since       March 2021
@@ -33,26 +33,19 @@ const mode = 'development' // development, build, production
 const host = () => {
   const path = window.location.hostname
 
-  const protocol = (mode === 'production') ? 'https' : 'http'
-  
+  const protocol = mode === 'production' ? 'https' : 'http'
+
   return `${protocol}://${path}${port}/`
 }
 
 const uiPath = () => {
-  return (mode === 'production')
-    ? host()
-    : `${host()}actudent/`
+  return mode === 'production' ? host() : `${host()}actudent-web/`
 }
 
 const baseUrl = () => {
-  return (mode === 'production')
+  return mode === 'production'
     ? `${host()}api/public/`
-    : `${host()}actudent/api/public/`
+    : `${host()}actudent-web/api/public/`
 }
 
-export {
-  mode,
-  host,
-  uiPath,
-  baseUrl
-}
+export { mode, host, uiPath, baseUrl }
