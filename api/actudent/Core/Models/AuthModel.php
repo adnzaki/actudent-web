@@ -37,7 +37,11 @@ class AuthModel extends \Actudent\Core\Models\Connector
 	 */
 	public function logout(int $loginId): void
 	{
-		$this->session->update(['is_active' => 0], ['login_id' => $loginId]);
+		$this->session->update([
+			'is_main_session' => 0,
+			'is_active' => 0,
+			'token_expiration' => 0
+		], ['login_id' => $loginId]);
 	}
 
 	/**
