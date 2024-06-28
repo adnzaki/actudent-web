@@ -3,7 +3,7 @@
 use Kint\Renderer\AbstractRenderer;
 use CodeIgniter\Config\BaseConfig;
 
-class Kint
+class Kint extends BaseConfig
 {
 	/*
 	|--------------------------------------------------------------------------
