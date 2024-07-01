@@ -111,6 +111,11 @@
       >
         <submenu-item
           v-if="$q.cookies.get(conf.userType) === '1'"
+          :label="$t('libur_title')"
+          link="/holidays"
+        />
+        <submenu-item
+          v-if="$q.cookies.get(conf.userType) === '1'"
           :label="$t('menu_pengguna')"
           link="/users"
         />
