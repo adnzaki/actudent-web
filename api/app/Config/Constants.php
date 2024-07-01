@@ -21,7 +21,7 @@ defined('APP_NAMESPACE') || define('APP_NAMESPACE', 'App');
  */
 defined('ACTUDENT_PATH') || define('ACTUDENT_PATH', ROOTPATH . 'actudent/');
 
-defined('DB_VERSION') || define('DB_VERSION', '2.3.0');
+defined('DB_VERSION') || define('DB_VERSION', '2.3.1');
 
 /**
  * -----------------------------------------------------------------------

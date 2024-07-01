@@ -82,8 +82,11 @@ export const useSetupStore = defineStore('setup', {
         }, this.timeout)
       })
     },
+    createHolidays() {
+      this.doInstall('holidays', () => this.createTimelog())
+    },
     createSetting() {
-      this.doInstall('setting', () => this.createTimelog())
+      this.doInstall('setting', () => this.createHolidays())
     },
     createSchool() {
       this.doInstall('school', () => this.createSetting())
@@ -192,7 +195,7 @@ export const useSetupStore = defineStore('setup', {
             loading({
               color: 'negative',
               message:
-                'Unable to install database, please fill the form correctly.',
+                'Unable to install database, please fill in the form correctly.',
               icon: 'report_problem',
               spinner: false,
             })

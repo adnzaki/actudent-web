@@ -65,7 +65,7 @@ class OrganizationModel extends \Actudent\Installer\Models\SetupModel
         $values = [
             'user_name'     => 'Administrator',
             'user_email'    => 'admin@'.get_subdomain(),
-            'user_password' => password_hash(env('default_admin_password'), PASSWORD_BCRYPT),
+            'user_password' => password_hash(env('default_admin_password'), PASSWORD_DEFAULT),
             'user_level'    => 1
         ];
 
@@ -108,13 +108,12 @@ class OrganizationModel extends \Actudent\Installer\Models\SetupModel
     public function addSubscription(string $subsType, int $orgId): void
     {
         $os = new OstiumDate;
-        $add = $os->add('now', 365);
-        $expiredDate = $os->create($add, 'd-m-y', '-');
+        $expiredDate = $os->add('now', 365);
 
         $values = [
             'organization_id'           => $orgId,
             'subscription_type'         => strtolower($subsType),
-            'subscription_expiration'   => $expiredDate . ' 23:59:59'
+            'subscription_expiration'   => reverse($expiredDate, '-', '-') . ' 23:59:59'
         ];
 
         $this->subs->QBSubscription->insert($values);

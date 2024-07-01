@@ -55,7 +55,9 @@ class Setup extends \Actudent
             'token'                     => ['rules' => 'required', 'label' => 'developer token']
         ];
 
-        if(validate($rules)) {
+		$data = $this->request->getPost(array_keys($rules));
+
+        if($this->validateForms($data, $rules)) {
             $response = [
                 'status'    => 'success',
                 'msg'       => 'Form validation successful.'
@@ -186,5 +188,11 @@ class Setup extends \Actudent
     {
         $model = new \Actudent\Installer\Models\SettingModel;
         $model->createReportSetting();
+    }
+
+	private function createHolidaysModule()
+    {
+        $model = new \Actudent\Installer\Models\HolidaysModel;
+        $model->createHolidays();
     }
 }

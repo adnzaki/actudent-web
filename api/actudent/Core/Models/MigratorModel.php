@@ -48,6 +48,16 @@ class MigratorModel extends \Actudent\Core\Models\Connector
         );
     }
 
+	public function addHolidays()
+	{
+		if($this->getDbVersionNumber() < 230) {
+            $this->addCustomStartTime();
+        }
+
+		$model = new \Actudent\Installer\Models\HolidaysModel;
+		$model->createHolidays();
+	}
+
 	public function addCustomStartTime()
     {
         if($this->getDbVersionNumber() < 229) {
