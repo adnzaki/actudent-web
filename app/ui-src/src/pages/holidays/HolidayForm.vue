@@ -2,6 +2,7 @@
   <q-dialog
     no-backdrop-dismiss
     v-model="store.showForm"
+    @before-show="formOpen"
     :maximized="maximizedDialog()"
   >
     <q-card class="q-pa-sm" :style="cardDialog()">
@@ -100,8 +101,11 @@ const error = computed(() => store.error)
 // managing start and end date value
 const dateFormat = 'YYYY-MM-DD'
 const defaultDateValue = ref(date.formatDate(new Date(), dateFormat))
-store.postData.start_date = defaultDateValue.value
-store.postData.end_date = defaultDateValue.value
+
+const formOpen = () => {
+  store.postData.start_date = defaultDateValue.value
+  store.postData.end_date = defaultDateValue.value
+}
 
 // managing start and end date text that will be shown to users
 const dateTextFormat = 'DD MMMM YYYY'
