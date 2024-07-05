@@ -89,7 +89,7 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { date, useQuasar } from 'quasar'
+import { date } from 'quasar'
 import { maximizedDialog, cardDialog } from '../../composables/screen'
 import { useHolidaysStore } from 'src/stores/holidays'
 import { selectedLang } from '../../composables/date'
