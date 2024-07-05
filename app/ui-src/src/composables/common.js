@@ -33,6 +33,8 @@ const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
   return date.formatDate(val, format, selectedLang)
 }
 
+const phpTimestamp = (val) => Date.parse(val).toString().substring(0, 10)
+
 const createQueryString = (params) => {
   return Object.entries(params)
     .map((item) => item.join('='))
@@ -90,6 +92,7 @@ export {
   pengguna,
   getPengguna,
   actionButton,
+  phpTimestamp,
   addButton,
   axios,
   core,

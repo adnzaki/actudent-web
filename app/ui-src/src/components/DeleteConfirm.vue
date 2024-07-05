@@ -32,7 +32,7 @@
           flat
           :label="okButton"
           color="primary"
-          :disable="store.helper.disableSaveButton"
+          :disable="disableButton(store)"
           @click="$emit('action')"
         />
       </q-card-actions>
@@ -49,6 +49,11 @@ export default {
   emits: ['action'],
   setup(props) {
     return {
+      disableButton(store) {
+        return store.disableSaveButton === undefined
+          ? store.helper.disableSaveButton
+          : store.disableSaveButton
+      },
       confirmText: computed(() => {
         return props.customText !== undefined
           ? props.customText

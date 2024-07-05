@@ -141,9 +141,13 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pengaturan-laporan/get-signs/(:any)', 'Setting::getSignSetting/$1');
 	$routes->add('pengaturan-laporan/set-sign/(:any)/(:any)', 'Setting::setSignSetting/$1/$2');
 	$routes->add('change-password', 'Pengguna::saveNewPassword');
-	$routes->add('pengaturan-aplikasi', 'Setting::index');
-	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan/set-bahasa', 'Setting::setLanguage');
+	$routes->add('libur/get-data/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Libur::getHolidays/$1/$2/$3/$4/$5/$6');
+	$routes->add('libur/get-data/(:any)/(:any)/(:any)/(:any)/(:any)', 'Libur::getHolidays/$1/$2/$3/$4/$5');
+	$routes->add('libur/save', 'Libur::save');
+	$routes->add('libur/save/(:any)', 'Libur::save/$1');
+	$routes->add('libur/detail/(:any)', 'Libur::getDetail/$1');
+	$routes->add('libur/delete', 'Libur::delete');
 	$routes->add('sekolah', 'Sekolah::index');
 	$routes->add('sekolah/data', 'Sekolah::schoolData');
 	$routes->add('sekolah/detail', 'Sekolah::getSchoolDetail');
