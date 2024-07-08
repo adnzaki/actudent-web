@@ -10,6 +10,23 @@
  * @link        https://wolestech.com
  */
 
+if( ! function_exists('generate_symbol')) {
+	function generate_symbol(int $num = 1) {
+		$symbols = [
+			'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '=', '[', ']', /*'{', '}', */ '|', ':', ';',
+			'<', '>', ',', '.', '/', '?', '~'
+		];
+
+		$generatedSymbols = '';
+
+		for($i = 0; $i < $num; $i++) {
+			$generatedSymbols .= $symbols[rand(0, count($symbols) - 1)];
+		}
+
+		return $generatedSymbols;
+	}
+}
+
 if(! function_exists('user_data')) {
     /**
      * An alias to \Actudent::getDataPengguna()

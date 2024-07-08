@@ -49,7 +49,7 @@
               <q-input
                 filled
                 v-model="store.postData.database_name"
-                label="Database Name (for Android API)"
+                label="Database Name"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
               >
@@ -58,6 +58,32 @@
                 </template>
               </q-input>
               <ac-error :label="store.error.database_name" />
+
+              <q-input
+                filled
+                v-model="store.postData.db_user"
+                label="Database user"
+                :label-color="styleSelector('label')"
+                :color="styleSelector('icon')"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="account_circle" />
+                </template>
+              </q-input>
+              <ac-error :label="store.error.db_user" />
+
+              <q-input
+                filled
+                v-model="store.postData.db_password"
+                label="Database password"
+                :label-color="styleSelector('label')"
+                :color="styleSelector('icon')"
+              >
+                <template v-slot:prepend>
+                  <q-icon name="lock_open" />
+                </template>
+              </q-input>
+              <ac-error :label="store.error.db_password" />
 
               <q-input
                 filled
@@ -99,7 +125,7 @@
   background: rgb(79,134,201)
   background: linear-gradient(143deg, rgba(79,134,201,1) 22%, rgba(67,148,247,1) 49%, rgba(46,104,173,1) 89%)
   margin-top: -20px
-  height: calc( 100vh + 20px )
+  height: calc( 120vh + 20px )
 </style>
 
 <script setup>
