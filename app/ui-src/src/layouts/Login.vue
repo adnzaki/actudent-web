@@ -134,6 +134,7 @@ export default {
     let url = '/login'
     if (userType === '1') url = '/home'
     else if (userType === '2' || userType === '0') url = '/teacher/home'
+    else if (userType === '3') url = '/parent/home'
 
     if (to.path === '/login' && isAuthenticated.value) next({ path: url })
     else next()
@@ -285,6 +286,9 @@ export default {
                   } else if (res.level === '2' || res.level === '0') {
                     localStorage.setItem('grade_id', res.grade)
                     window.location.href = conf.teacherHomeUrl()
+                  } else if (res.level === '3') {
+                    window.location.href = conf.parentHomeUrl()
+                    localStorage.removeItem('grade_id')
                   }
                 } else if (res.msg === 'unauthorized') {
                   msgClass.value = 'negative'

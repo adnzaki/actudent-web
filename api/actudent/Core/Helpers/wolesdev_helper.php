@@ -10,24 +10,25 @@
  * @link        https://wolestech.com
  */
 
-if( ! function_exists('generate_symbol')) {
-	function generate_symbol(int $num = 1) {
-		$symbols = [
-			'!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '=', '[', ']', /*'{', '}', */ '|', ':', ';',
-			'<', '>', ',', '.', '/', '?', '~'
-		];
+if (!function_exists('generate_symbol')) {
+    function generate_symbol(int $num = 1)
+    {
+        $symbols = [
+            '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '-', '+', '=', '[', ']', /*'{', '}', */ '|', ':', ';',
+            '<', '>', ',', '.', '/', '?', '~'
+        ];
 
-		$generatedSymbols = '';
+        $generatedSymbols = '';
 
-		for($i = 0; $i < $num; $i++) {
-			$generatedSymbols .= $symbols[rand(0, count($symbols) - 1)];
-		}
+        for ($i = 0; $i < $num; $i++) {
+            $generatedSymbols .= $symbols[rand(0, count($symbols) - 1)];
+        }
 
-		return $generatedSymbols;
-	}
+        return $generatedSymbols;
+    }
 }
 
-if(! function_exists('user_data')) {
+if (!function_exists('user_data')) {
     /**
      * An alias to \Actudent::getDataPengguna()
      *
@@ -42,8 +43,7 @@ if(! function_exists('user_data')) {
     }
 }
 
-if ( ! function_exists('get_lang'))
-{
+if (!function_exists('get_lang')) {
     /**
      * Get language based on its setting
      *
@@ -55,7 +55,7 @@ if ( ! function_exists('get_lang'))
     function get_lang(string $line, array $args = [])
     {
         $ac = new \Actudent;
-        if(valid_token()) {
+        if (valid_token()) {
             $user = $ac->getDataPengguna();
             $lang = $ac->getAppConfig($user->user_id)->lang;
         } else {
@@ -66,8 +66,7 @@ if ( ! function_exists('get_lang'))
     }
 }
 
-if ( ! function_exists('st'))
-{
+if (!function_exists('st')) {
     /**
      * Shortcut to SimpleTag class
      *
@@ -79,8 +78,7 @@ if ( ! function_exists('st'))
     }
 }
 
-if ( ! function_exists('validate'))
-{
+if (!function_exists('validate')) {
     /**
      * Due to custom DBGroup usage in Actudent,
      * we have to create our own validation runner
@@ -91,7 +89,7 @@ if ( ! function_exists('validate'))
      *
      * @param mixed $rules
      * @param array $messages
-	 * @deprecated Use \Actudent::validateForms() instead
+     * @deprecated Use \Actudent::validateForms() instead
      *
      * @return boolean
      */
@@ -99,15 +97,14 @@ if ( ! function_exists('validate'))
     {
         $validator = \Config\Services::validation();
         $isValid = $validator->withRequest(\Config\Services::request())
-                             ->setRules($rules, $messages)
-                             ->run(null, null, get_subdomain());
+            ->setRules($rules, $messages)
+            ->run(null, null, get_subdomain());
 
         return $isValid;
     }
 }
 
-if ( ! function_exists('get_subdomain'))
-{
+if (!function_exists('get_subdomain')) {
     /**
      * Get subdomain
      *
@@ -117,20 +114,16 @@ if ( ! function_exists('get_subdomain'))
      */
     function get_subdomain()
     {
-        if(get_host() !== 'localhost')
-        {
+        if (get_host() !== 'localhost') {
             $hostArray = explode('.', get_host());
             return $hostArray[0];
-        }
-        else
-        {
+        } else {
             return get_host();
         }
     }
 }
 
-if ( ! function_exists('get_host'))
-{
+if (!function_exists('get_host')) {
     /**
      * Get host name
      *
@@ -146,8 +139,7 @@ if ( ! function_exists('get_host'))
     }
 }
 
-if ( ! function_exists('parse'))
-{
+if (!function_exists('parse')) {
     /**
      * An alias function to parser renderer
      *
@@ -166,8 +158,7 @@ if ( ! function_exists('parse'))
     }
 }
 
-if ( ! function_exists('os_date'))
-{
+if (!function_exists('os_date')) {
     /**
      * Replace OstiumDate object creation into callable function
      *
@@ -179,8 +170,7 @@ if ( ! function_exists('os_date'))
     }
 }
 
-if ( ! function_exists('access_denied'))
-{
+if (!function_exists('access_denied')) {
     /**
      * Tell users that the page they try to access is denied
      *
@@ -203,8 +193,7 @@ if ( ! function_exists('access_denied'))
     }
 }
 
-if ( ! function_exists('copy_data'))
-{
+if (!function_exists('copy_data')) {
     /**
      * Copy single data into many data
      * You can create unique value for each of them
@@ -224,25 +213,17 @@ if ( ! function_exists('copy_data'))
     function copy_data(array $data, int $num, array $nonUnique = [])
     {
         $wrapper = [];
-        for($i = 1; $i <= $num; $i++)
-        {
+        for ($i = 1; $i <= $num; $i++) {
             $copy = '';
             $incArray = [];
-            foreach($data as $k => $v)
-            {
-                if(array_search($k, $nonUnique) !== false)
-                {
+            foreach ($data as $k => $v) {
+                if (array_search($k, $nonUnique) !== false) {
                     $copy = $v;
-                }
-                else
-                {
-                    if(gettype($v) === 'string')
-                    {
+                } else {
+                    if (gettype($v) === 'string') {
                         $suffix = " ({$i})";
                         $copy = $v . $suffix;
-                    }
-                    elseif(gettype($v) === 'integer')
-                    {
+                    } elseif (gettype($v) === 'integer') {
                         $copy = $v + $i;
                     }
                 }
@@ -257,8 +238,7 @@ if ( ! function_exists('copy_data'))
     }
 }
 
-if ( ! function_exists('html_text'))
-{
+if (!function_exists('html_text')) {
     /**
      * A simple HTML element generator
      *
@@ -279,18 +259,15 @@ if ( ! function_exists('html_text'))
         function createStyle($outer, $style)
         {
             $styleStr = '';
-            if(isset($style[$outer]))
-            {
+            if (isset($style[$outer])) {
                 $styleStr = 'style="';
                 $closeStyle = '';
                 $i = 1;
-                foreach($style[$outer] as $k => $v)
-                {
-                    if($i === count($style[$outer]))
-                    {
+                foreach ($style[$outer] as $k => $v) {
+                    if ($i === count($style[$outer])) {
                         $closeStyle = '"';
                     }
-                    $styleStr .= $k .': ' . $v . ';' . $closeStyle;
+                    $styleStr .= $k . ': ' . $v . ';' . $closeStyle;
                     $i++;
                 }
 
@@ -298,20 +275,16 @@ if ( ! function_exists('html_text'))
             }
         }
 
-        if(strpos($outer, '>') === false)
-        {
+        if (strpos($outer, '>') === false) {
             $styleStr = createStyle($outer, $style);
-            return '<'.$outer. ' ' .$styleStr.'>'. $inner .'</'.$outer.'>';
-        }
-        else
-        {
+            return '<' . $outer . ' ' . $styleStr . '>' . $inner . '</' . $outer . '>';
+        } else {
             $removeSpace = str_replace(' ', '', $outer);
             $elems = explode('>', $removeSpace);
             $outerOpen = '';
             $outerClose = '';
             $outerCloseWrapper = [];
-            foreach($elems as $val)
-            {
+            foreach ($elems as $val) {
                 $styleStr = createStyle($val, $style);
                 $outerOpen .= '<' . $val . ' ' . $styleStr . '>';
                 $outerCloseWrapper[] = '</' . $val . '>';
@@ -324,8 +297,7 @@ if ( ! function_exists('html_text'))
     }
 }
 
-if ( ! function_exists('db_installed'))
-{
+if (!function_exists('db_installed')) {
     /**
      * Check if Actudent's database has been installed properly
      *
@@ -334,19 +306,15 @@ if ( ! function_exists('db_installed'))
     function db_installed()
     {
         $conn = new \Actudent\Core\Models\Connector;
-        if(count($conn->db->listTables()) >= 26)
-        {
+        if (count($conn->db->listTables()) >= 26) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
 }
 
-if ( ! function_exists('jwt_encode'))
-{
+if (!function_exists('jwt_encode')) {
     /**
      * A shorthand to ActudentJWT::encode
      *
@@ -361,8 +329,7 @@ if ( ! function_exists('jwt_encode'))
     }
 }
 
-if ( ! function_exists('jwt_decode'))
-{
+if (!function_exists('jwt_decode')) {
     /**
      * A shorthand to ActudentJWT::decode
      *
@@ -378,8 +345,7 @@ if ( ! function_exists('jwt_decode'))
     }
 }
 
-if ( ! function_exists('is_admin'))
-{
+if (!function_exists('is_admin')) {
     /**
      * Check if user logged in has priviledge
      * to admin section or not
@@ -392,8 +358,20 @@ if ( ! function_exists('is_admin'))
     }
 }
 
-if ( ! function_exists('is_teacher'))
-{
+if (!function_exists('is_employee')) {
+    /**
+     * Check if user logged in has priviledge
+     * to employee section or not
+     *
+     * @return boolean
+     */
+    function is_employee()
+    {
+        return validate_section('2') || validate_section('0');
+    }
+}
+
+if (!function_exists('is_teacher')) {
     /**
      * Check if user logged in has priviledge
      * to teacher section or not
@@ -406,8 +384,20 @@ if ( ! function_exists('is_teacher'))
     }
 }
 
-if ( ! function_exists('validate_section'))
-{
+if (!function_exists('is_parent')) {
+    /**
+     * Check if user logged in has priviledge
+     * to parent section or not
+     *
+     * @return boolean
+     */
+    function is_parent()
+    {
+        return validate_section('3');
+    }
+}
+
+if (!function_exists('validate_section')) {
     /**
      * Check if user logged in has priviledge
      * to a spesific section or not
@@ -416,28 +406,21 @@ if ( ! function_exists('validate_section'))
      */
     function validate_section($level)
     {
-        if(valid_token() !== true)
-        {
+        if (valid_token() !== true) {
             return false;
-        }
-        else
-        {
+        } else {
             $token = bearer_token();
             $decoded = jwt_decode($token);
-            if($decoded->userLevel === $level)
-            {
+            if ($decoded->userLevel === $level) {
                 return true;
-            }
-            else
-            {
+            } else {
                 return false;
             }
         }
     }
 }
 
-if ( ! function_exists('valid_token'))
-{
+if (!function_exists('valid_token')) {
     /**
      * A shorthand to validate token that
      * uses Bearer token Authorization header
@@ -449,7 +432,7 @@ if ( ! function_exists('valid_token'))
     function valid_token($token = '')
     {
         $jwt = new \ActudentJWT;
-        if(empty($token)) {
+        if (empty($token)) {
             $token = bearer_token();
         }
 
@@ -458,8 +441,7 @@ if ( ! function_exists('valid_token'))
 }
 
 
-if ( ! function_exists('bearer_token'))
-{
+if (!function_exists('bearer_token')) {
     /**
      * Get bearer token for authentication
      * with JSON Web Tokens

@@ -36,9 +36,14 @@ class Auth extends \Actudent
 			$password = $this->request->getPost('password');
 			$remember = 1;
 			$isNik = $this->auth->isNik($username);
+			$nomorIndukSiswa = $this->auth->isNomorIndukSiswa($username);
 
 			if ($isNik !== false) {
 				$username = $isNik;
+			}
+
+			if ($nomorIndukSiswa !== false) {
+				$username = $nomorIndukSiswa;
 			}
 
 			if ($this->auth->validasi($username, $password)) {
@@ -66,28 +71,24 @@ class Auth extends \Actudent
 
 					$gradeId = null;
 
-					if ($pengguna->user_level === '3') {
-						return $this->response->setJSON(['msg' => 'unauthorized']);
-					} else {
-						if ($pengguna->user_level === '2') {
-							$model = new \Actudent\Guru\Models\JadwalKehadiranModel;
-							$check = $model->isHomeroomTeacher($pengguna->user_id);
-							if ($check !== false) {
-								$gradeId = (int)$check->grade_id;
-							}
+					if ($pengguna->user_level === '2') {
+						$model = new \Actudent\Guru\Models\JadwalKehadiranModel;
+						$check = $model->isHomeroomTeacher($pengguna->user_id);
+						if ($check !== false) {
+							$gradeId = (int)$check->grade_id;
 						}
-
-						$encodedToken = jwt_encode($token);
-
-						$this->auth->statusJaringan('online', $username);
-						return $this->response->setJSON([
-							'msg'   	=> 'valid',
-							'token' 	=> $encodedToken,
-							'level' 	=> $pengguna->user_level,
-							'grade' 	=> $gradeId,
-							'lang'  	=> $this->getAppConfig($pengguna->user_id)->lang
-						]);
 					}
+
+					$encodedToken = jwt_encode($token);
+
+					$this->auth->statusJaringan('online', $username);
+					return $this->response->setJSON([
+						'msg'   	=> 'valid',
+						'token' 	=> $encodedToken,
+						'level' 	=> $pengguna->user_level,
+						'grade' 	=> $gradeId,
+						'lang'  	=> $this->getAppConfig($pengguna->user_id)->lang
+					]);
 				} else {
 					return $this->response->setJSON([
 						'msg' => 'maximum_session',

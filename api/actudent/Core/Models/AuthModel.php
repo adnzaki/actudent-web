@@ -125,6 +125,23 @@ class AuthModel extends \Actudent\Core\Models\Connector
 		return $search->get()->getNumRows();
 	}
 
+	public function isNomorIndukSiswa(string $username)
+	{
+		$siswa = new \Actudent\Admin\Models\SiswaModel;
+		$query = $siswa->QBStudent->getWhere(['student_nis' => $username]);
+		if($query->getNumRows() > 0) {
+			$studentId = $query->getResult()[0]->student_id;
+			$parentId = $siswa->getStudentDetail($studentId)[0]->parent_id;
+
+			$parent = new \Actudent\Admin\Models\OrtuModel;
+			$parentDetail = $parent->getParentDetail($parentId);
+
+			return $parentDetail[0]->user_email;
+		} else {
+			return false;
+		}
+	}
+
     /**
      * Check whether the username is staff_nik or user_email
      * If it is staff_nik, then return their user_email,

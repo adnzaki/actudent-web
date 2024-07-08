@@ -28,17 +28,20 @@ export const appConfig = {
   // Actudent authentication page into main
   // application page
   homeUrl: () => {
-    return (mode === 'development')
-      ? `${baseAppURL}/#/`
-      : `${uiPath()}app`
+    return mode === 'development' ? `${baseAppURL}/#/` : `${uiPath()}app`
   },
   teacherHomeUrl: () => {
-    return (mode === 'development')
+    return mode === 'development'
       ? `${baseAppURL}/#/teacher/home`
       : `${uiPath()}app/#/teacher/home`
   },
+  parentHomeUrl: () => {
+    return mode === 'development'
+      ? `${baseAppURL}/#/parent/home`
+      : `${uiPath()}app/#/parent/home`
+  },
   loginUrl: () => {
-    return (mode === 'development')
+    return mode === 'development'
       ? `${baseAppURL}/#/login`
       : `${uiPath()}app/#/login`
   },
@@ -59,5 +62,5 @@ export const appConfig = {
   userLang: 'ac_userlang',
 
   // Cookie name to retrieve user type of current user
-  userType: 'actudent_usertype'
+  userType: 'actudent_usertype',
 }

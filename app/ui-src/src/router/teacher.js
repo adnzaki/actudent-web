@@ -9,10 +9,11 @@ import PeriodSummary from 'src/pages/presence/summary/PeriodSummary.vue'
 import AgendaMain from 'pages/agenda/AgendaMain.vue'
 import AppSettingsMain from 'src/pages/app_settings/IndexPage.vue'
 
+// prettier-ignore
 export default [
   {
-    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token'), children: [
-      { path: 'home', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token') },
+    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('is_employee'), children: [
+      { path: 'home', component: TeacherIndex, beforeEnter: () => routeValidator('is_employee') },
     ],
   },
   {
@@ -25,6 +26,6 @@ export default [
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('valid_token') },
-  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('valid_token') }
+  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_employee') },
+  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('is_employee') }
 ]

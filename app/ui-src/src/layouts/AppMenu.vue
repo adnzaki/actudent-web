@@ -155,8 +155,19 @@ export default {
 
     const settings = ref([])
 
-    const dashboardLink =
-      $q.cookies.get(conf.userType) === '1' ? '/home' : '/teacher/home'
+    const dashboardLink = computed(() => {
+      const userLevel = $q.cookies.get(conf.userType)
+      const dashboardUrl = ref('')
+      if (userLevel === '1') {
+        dashboardUrl.value = '/home'
+      } else if (userLevel === '2' || userLevel === '0') {
+        dashboardUrl.value = '/teacher/home'
+      } else if (userLevel === '3') {
+        dashboardUrl.value = '/parent/home'
+      }
+
+      return dashboardUrl.value
+    })
 
     function activeMenuTrigger() {
       if (headerColor.value === 'dark') {
@@ -171,10 +182,16 @@ export default {
     const gradeId = localStorage.getItem('grade_id')
 
     onMounted(() => activeMenuTrigger())
-    const appSettingsLink =
-      $q.cookies.get(conf.userType) === '1'
-        ? '/app-settings'
-        : '/teacher/app-settings'
+
+    const appSettingsLink = computed(() => {
+      let appSettingUrl = '/app-settings'
+      const userType = $q.cookies.get(conf.userType)
+
+      if (userType === '2') appSettingUrl = '/teacher/app-settings'
+      else if (userType === '3') appSettingUrl = '/parent/app-settings'
+
+      return appSettingUrl
+    })
 
     return {
       isHomeroomTeacher: computed(() => store.isHomeroomTeacher),
