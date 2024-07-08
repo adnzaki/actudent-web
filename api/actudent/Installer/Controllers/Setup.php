@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Actudent\Installer\Models\OrganizationModel;
+use CodeIgniter\Files\File;
 
 class Setup extends \App\Controllers\BaseController
 {
@@ -65,10 +66,37 @@ class Setup extends \App\Controllers\BaseController
         }
     }
 
+	public function addTokenKey()
+	{
+		$token = $this->request->getPost('token');
+        if(password_verify($token, env('installation_token'))) {
+			$secretKey = generate_symbol(4) . random_string('crypto', 16) . generate_symbol(4);
+			$path = ACTUDENT_PATH . 'Core/Config/Keys/JawaBarat/KotaBekasi.php';
+			$file = new File($path);
+			if ($file->isWritable()) {
+				$addKey = $file->openFile('r');
+				$currentContent = $addKey->fread($file->getSize());
+
+				$addKey = "    '".get_subdomain()."' => '".$secretKey."',\n    ];";
+				$newContent = str_replace(['];'], [$addKey], $currentContent);
+
+				$modifyFile = $file->openFile('w');
+				$modifyFile->fwrite($newContent);
+
+				$this->addDatabaseConfig();
+				return $this->response->setJSON(['status' => 'OK']);
+			} else {
+				return $this->response->setJSON(['status' => 'failed']);
+			}
+		} else {
+			return $this->response->setJSON(['status' => 'failed']);
+		}
+	}
+
 	private function addDatabaseConfig()
 	{
 		$path = APPPATH . 'Config/DatabaseList/DbTemplate.php';
-		$file = new \CodeIgniter\Files\File($path);
+		$file = new File($path);
 		$content = $file->openFile('r')->fread($file->getSize());
 
 		// the substitution values...
@@ -94,7 +122,7 @@ class Setup extends \App\Controllers\BaseController
 	private function addWrapper(string $traitName)
 	{
 		$path = APPPATH . 'Config/DatabaseList/DBGroupWrapper.php';
-		$file = new \CodeIgniter\Files\File($path);
+		$file = new File($path);
 		if ($file->isWritable()) {
 			$addGroup = $file->openFile('r');
 			$currentContent = $addGroup->fread($file->getSize());
@@ -102,34 +130,6 @@ class Setup extends \App\Controllers\BaseController
 			$modifyFile = $file->openFile('w');
 			$modifyFile->fwrite($newContent);
 		}
-	}
-
-	public function addTokenKey()
-	{
-		$token = $this->request->getPost('token');
-        if(password_verify($token, env('installation_token'))) {
-			$secretKey = generate_symbol(4) . random_string('crypto', 16) . generate_symbol(4);
-			$path = ACTUDENT_PATH . 'Core/Config/Keys/JawaBarat/KotaBekasi.php';
-			$file = new \CodeIgniter\Files\File($path);
-			if ($file->isWritable()) {
-				$addKey = $file->openFile('r');
-				$currentContent = $addKey->fread($file->getSize());
-
-				$addKey = "    '".get_subdomain()."' => '".$secretKey."',\n    ];";
-				$newContent = str_replace(['];'], [$addKey], $currentContent);
-
-				$modifyFile = $file->openFile('w');
-				$modifyFile->fwrite($newContent);
-
-				$this->addDatabaseConfig();
-				return $this->response->setJSON(['status' => 'OK']);
-			} else {
-				return $this->response->setJSON(['status' => 'failed']);
-			}
-		} else {
-			return $this->response->setJSON(['status' => 'failed']);
-		}
-
 	}
 
     public function validateForm()
