@@ -13,8 +13,10 @@ import { actionButton, addButton, fabColor } from 'src/composables/mode'
 const userType = Cookies.get(conf.userType)
 const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)
 
-const dashboardLink =
-  Cookies.get(conf.userType) === '1' ? '/home' : '/teacher/home'
+let dashboardLink = '/home'
+
+if (userType === '2' || userType === '0') dashboardLink = '/teacher/home'
+else if (userType === '3') dashboardLink = '/student/home'
 
 const trim = (text, length = 25, ellipsis = true) => {
   const dots = ellipsis ? '...' : ''

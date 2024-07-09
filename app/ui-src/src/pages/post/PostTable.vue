@@ -75,7 +75,10 @@
             <td class="text-left mobile-hide">{{ item.created }}</td>
             <td class="text-left mobile-hide">{{ item.author }}</td>
             <td class="text-left">
-              <q-btn-group class="mobile-hide">
+              <q-btn-group
+                class="mobile-hide"
+                v-if="$q.cookies.get(conf.userType) !== '3'"
+              >
                 <q-btn
                   :class="actionButton"
                   icon="edit"
@@ -98,6 +101,13 @@
                   ><btn-tooltip :label="$t('hapus')"
                 /></q-btn>
               </q-btn-group>
+              <q-btn
+                v-else
+                :class="[actionButton, 'mobile-hide']"
+                icon="launch"
+                @click="store.getDetail(item.timeline_id, true)"
+                ><btn-tooltip :label="$t('timeline_view_post')"
+              /></q-btn>
               <q-btn round icon="more_vert" class="mobile-only" unelevated flat>
                 <q-menu>
                   <q-list style="min-width: 100px">
@@ -106,6 +116,7 @@
                       v-close-popup
                       @click="store.getDetail(item.timeline_id)"
                       :disable="disable(item.editable)"
+                      v-if="$q.cookies.get(conf.userType) !== '3'"
                     >
                       <q-item-section>{{ $t('perbarui') }}</q-item-section>
                     </q-item>
@@ -118,12 +129,13 @@
                         $t('timeline_view_post')
                       }}</q-item-section>
                     </q-item>
-                    <q-separator />
+                    <q-separator v-if="$q.cookies.get(conf.userType) !== '3'" />
                     <q-item
                       clickable
                       v-close-popup
                       @click="store.showDeleteConfirm(item.timeline_id)"
                       :disable="disable(item.editable)"
+                      v-if="$q.cookies.get(conf.userType) !== '3'"
                     >
                       <q-item-section>{{ $t('hapus') }}</q-item-section>
                     </q-item>
@@ -146,7 +158,7 @@ import { checkColWidth } from 'src/composables/screen'
 import { usePostStore } from 'src/stores/post'
 import { usePagingStore } from 'ss-paging-vue'
 import { actionButton } from 'src/composables/mode'
-import { t } from 'src/composables/common'
+import { conf, t } from 'src/composables/common'
 import { useRouter } from 'vue-router'
 
 export default defineComponent({
@@ -169,6 +181,7 @@ export default defineComponent({
     }
 
     return {
+      conf,
       store,
       paging,
       viewPost,

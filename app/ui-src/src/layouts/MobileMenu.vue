@@ -13,7 +13,13 @@
         v-if="$q.cookies.get(conf.userType) === '2'"
         to="/teacher/presence"
         name="schedules"
-        icon="list"
+        icon="task_alt"
+      />
+      <q-route-tab
+        v-if="$q.cookies.get(conf.userType) === '3'"
+        to="/student/presence"
+        name="schedules"
+        icon="task_alt"
       />
       <q-route-tab
         v-if="
@@ -25,10 +31,13 @@
         icon="today"
       />
       <q-route-tab
-        v-if="
-          $q.cookies.get(conf.userType) === '2' ||
-          $q.cookies.get(conf.userType) === '0'
-        "
+        v-if="$q.cookies.get(conf.userType) === '3'"
+        to="/student/agenda"
+        name="agenda"
+        icon="today"
+      />
+      <q-route-tab
+        v-if="$q.cookies.get(conf.userType) !== '1'"
         to="/post"
         name="post"
         icon="list_alt"
@@ -52,7 +61,7 @@
 <script>
 import { useQuasar } from 'quasar'
 import { conf, dashboardLink } from '../composables/common'
-import { ref, inject, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import {
   headerColor,
   header,
@@ -64,6 +73,19 @@ export default {
   name: 'MobileMenu',
   setup() {
     const $q = useQuasar()
+    // const dashboardLink = computed(() => {
+    //   const userLevel = $q.cookies.get(conf.userType)
+    //   const dashboardUrl = ref('')
+    //   if (userLevel === '1') {
+    //     dashboardUrl.value = '/home'
+    //   } else if (userLevel === '2' || userLevel === '0') {
+    //     dashboardUrl.value = '/teacher/home'
+    //   } else if (userLevel === '3') {
+    //     dashboardUrl.value = '/student/home'
+    //   }
+
+    //   return dashboardUrl.value
+    // })
 
     const activeMobileMenu = ref(dashboardLink)
     onMounted(triggerHeader)

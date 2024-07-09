@@ -74,6 +74,18 @@
         <!-- <menu-item icon="restore" :label="$t('menu_timeline')" link="" /> -->
       </div>
       <menu-item
+        icon="task_alt"
+        :label="$t('menu_kehadiran')"
+        link="/student/presence"
+        v-if="$q.cookies.get(conf.userType) === '3' && $q.screen.gt.sm"
+      />
+      <menu-item
+        v-if="$q.cookies.get(conf.userType) === '3' && $q.screen.gt.sm"
+        icon="today"
+        :label="$t('menu_agenda')"
+        link="/student/agenda"
+      />
+      <menu-item
         icon="list_alt"
         :label="$t('menu_post')"
         link="/post"
@@ -163,7 +175,7 @@ export default {
       } else if (userLevel === '2' || userLevel === '0') {
         dashboardUrl.value = '/teacher/home'
       } else if (userLevel === '3') {
-        dashboardUrl.value = '/parent/home'
+        dashboardUrl.value = '/student/home'
       }
 
       return dashboardUrl.value
@@ -188,7 +200,7 @@ export default {
       const userType = $q.cookies.get(conf.userType)
 
       if (userType === '2') appSettingUrl = '/teacher/app-settings'
-      else if (userType === '3') appSettingUrl = '/parent/app-settings'
+      else if (userType === '3') appSettingUrl = '/student/app-settings'
 
       return appSettingUrl
     })

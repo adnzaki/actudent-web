@@ -134,7 +134,7 @@ export default {
     let url = '/login'
     if (userType === '1') url = '/home'
     else if (userType === '2' || userType === '0') url = '/teacher/home'
-    else if (userType === '3') url = '/parent/home'
+    else if (userType === '3') url = '/student/home'
 
     if (to.path === '/login' && isAuthenticated.value) next({ path: url })
     else next()
