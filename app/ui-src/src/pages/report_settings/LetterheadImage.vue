@@ -15,7 +15,7 @@
         style="width: 100%"
         :url="`${conf.adminAPI}pengaturan-laporan/upload-kop`"
         :label="$t('letterhead_explain')"
-        :max-file-size="2048 * 1000"
+        :max-file-size="4096 * 1000"
         accept=".jpg, image/*"
         max-files="1"
         :headers="[{ name: 'Authorization', value: bearerToken }]"
