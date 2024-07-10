@@ -4,14 +4,16 @@ import { ref } from 'vue'
 
 const pengguna = ref({})
 
-function getPengguna() {
-  core.get('pengguna', {
-    headers: {
-      Authorization: bearerToken
-    }
-  })
-    .then(response => {
-      pengguna.value = response.data
+function getPengguna(next = null) {
+  core
+    .get('pengguna', {
+      headers: {
+        Authorization: bearerToken,
+      },
+    })
+    .then(({ data }) => {
+      pengguna.value = data
+      if (next !== null) next(data)
     })
     .catch((error) => {
       console.error('Error:', error)

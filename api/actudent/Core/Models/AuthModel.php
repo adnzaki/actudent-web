@@ -131,12 +131,16 @@ class AuthModel extends \Actudent\Core\Models\Connector
 		$query = $siswa->QBStudent->getWhere(['student_nis' => $username]);
 		if($query->getNumRows() > 0) {
 			$studentId = $query->getResult()[0]->student_id;
-			$parentId = $siswa->getStudentDetail($studentId)[0]->parent_id;
+			$studentDetail = $siswa->getStudentDetail($studentId)[0];
+			$parentId = $studentDetail->parent_id;
 
 			$parent = new \Actudent\Admin\Models\OrtuModel;
 			$parentDetail = $parent->getParentDetail($parentId);
 
-			return $parentDetail[0]->user_email;
+			return [
+				'student' => $studentDetail,
+				'email' => $parentDetail[0]->user_email
+			];
 		} else {
 			return false;
 		}

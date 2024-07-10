@@ -37,8 +37,8 @@ export const appConfig = {
   },
   parentHomeUrl: () => {
     return mode === 'development'
-      ? `${baseAppURL}/#/parent/home`
-      : `${uiPath()}app/#/parent/home`
+      ? `${baseAppURL}/#/student/home`
+      : `${uiPath()}app/#/student/home`
   },
   loginUrl: () => {
     return mode === 'development'

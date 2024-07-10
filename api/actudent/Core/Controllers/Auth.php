@@ -43,7 +43,7 @@ class Auth extends \Actudent
 			}
 
 			if ($nomorIndukSiswa !== false) {
-				$username = $nomorIndukSiswa;
+				$username = $nomorIndukSiswa['email'];
 			}
 
 			if ($this->auth->validasi($username, $password)) {
@@ -70,6 +70,7 @@ class Auth extends \Actudent
 					];
 
 					$gradeId = null;
+					$student = null;
 
 					if ($pengguna->user_level === '2') {
 						$model = new \Actudent\Guru\Models\JadwalKehadiranModel;
@@ -77,6 +78,10 @@ class Auth extends \Actudent
 						if ($check !== false) {
 							$gradeId = (int)$check->grade_id;
 						}
+					}
+
+					if($pengguna->user_level === '3') {
+						$student = $nomorIndukSiswa['student'];
 					}
 
 					$encodedToken = jwt_encode($token);
@@ -87,6 +92,7 @@ class Auth extends \Actudent
 						'token' 	=> $encodedToken,
 						'level' 	=> $pengguna->user_level,
 						'grade' 	=> $gradeId,
+						'student'	=> $student,
 						'lang'  	=> $this->getAppConfig($pengguna->user_id)->lang
 					]);
 				} else {

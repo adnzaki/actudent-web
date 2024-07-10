@@ -289,6 +289,11 @@ export default {
                   } else if (res.level === '3') {
                     window.location.href = conf.parentHomeUrl()
                     localStorage.removeItem('grade_id')
+                    localStorage.setItem(
+                      'studentName',
+                      res.student.student_name,
+                    )
+                    localStorage.setItem('studentNis', res.student.student_nis)
                   }
                 } else if (res.msg === 'unauthorized') {
                   msgClass.value = 'negative'

@@ -49,9 +49,9 @@
           <q-avatar size="56px" class="q-mb-sm">
             <img src="boy-avatar.png" />
           </q-avatar>
-          <div class="text-weight-bold">{{ pengguna.user_name }}</div>
-          <div class="mobile-hide">{{ $trim(pengguna.user_email, 25) }}</div>
-          <div class="mobile-only">{{ $trim(pengguna.user_email, 30) }}</div>
+          <div class="text-weight-bold">{{ userName }}</div>
+          <div class="mobile-hide">{{ $trim(userEmail, 25) }}</div>
+          <div class="mobile-only">{{ $trim(userEmail, 30) }}</div>
         </div>
       </q-img>
     </q-drawer>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, provide, watch, reactive } from 'vue'
+import { defineComponent, ref, onMounted, provide, watch, computed } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import {
   headerColor,
@@ -98,6 +98,11 @@ export default defineComponent({
   setup() {
     const $q = useQuasar()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
+
+    const userName = ref(null)
+
+    const userEmail = ref(null)
+
     // const header = ref('')
     // const elevated = ref(true)
     // const userMenu = ref(['user-menu'])
@@ -116,7 +121,19 @@ export default defineComponent({
 
     onMounted(triggerHeader)
 
-    onMounted(getPengguna)
+    onMounted(() => {
+      getPengguna((data) => {
+        userName.value =
+          localStorage.getItem('studentName') !== null
+            ? localStorage.getItem('studentName')
+            : data.user_name
+
+        userEmail.value =
+          localStorage.getItem('studentNis') !== null
+            ? localStorage.getItem('studentNis')
+            : data.user_email
+      })
+    })
 
     watch(headerColor, triggerHeader)
 
@@ -138,6 +155,8 @@ export default defineComponent({
             localStorage.removeItem('date')
             localStorage.removeItem('grade_id')
             localStorage.removeItem('lesson')
+            localStorage.removeItem('studentName')
+            localStorage.removeItem('studentNis')
             window.location.reload()
           } else {
             console.warn(data.msg)
@@ -157,6 +176,8 @@ export default defineComponent({
       avatarBg,
       header,
       pengguna,
+      userName,
+      userEmail,
       menuWidth,
     }
   },
