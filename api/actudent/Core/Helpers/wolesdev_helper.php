@@ -10,6 +10,26 @@
  * @link        https://wolestech.com
  */
 
+
+if(!function_exists('get_percentage')) {
+	/**
+	 * Calculates the percentage of a given number in relation to another number.
+	 *
+	 * @param int|float $num1 The number to calculate the percentage for.
+	 * @param int|float $num2 The number to calculate the percentage relative to.
+	 *
+	 * @return string|null The percentage as a formatted string, or null if num1 is not greater than zero.
+	 */
+	function get_percentage($num1, $num2)
+	{
+		if ($num1 > 0) {
+			return number_format(($num1 / $num2) * 100, 1) . '%';
+		} else {
+			return 0 . '%';
+		}
+	}
+}
+
 if (!function_exists('generate_symbol')) {
     function generate_symbol(int $num = 1)
     {
