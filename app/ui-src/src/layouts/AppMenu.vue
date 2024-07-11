@@ -12,7 +12,7 @@
         icon="o_home"
         :label="$t('menu_dashboard')"
         :link="dashboardLink"
-        v-if="$q.screen.gt.sm"
+        v-if="$q.screen.gt.xs"
       />
 
       <!-- Master Data Menu -->
@@ -37,33 +37,33 @@
           icon="list"
           :label="$t('menu_jadwal')"
           link="/schedules"
-          v-if="$q.screen.gt.sm"
+          v-if="$q.screen.gt.xs"
         />
         <menu-item
           icon="task_alt"
           :label="$t('menu_kehadiran')"
           link="/presence"
-          v-if="$q.screen.gt.sm"
+          v-if="$q.screen.gt.xs"
         />
         <menu-item
           icon="today"
           :label="$t('menu_agenda')"
           link="/agenda"
-          v-if="$q.screen.gt.sm"
+          v-if="$q.screen.gt.xs"
         />
         <!-- <menu-item icon="restore" :label="$t('menu_post')" link="" /> -->
       </div>
       <menu-item
         icon="o_book"
         :label="$t('menu_jadwal_guru')"
-        v-if="$q.cookies.get(conf.userType) === '2' && $q.screen.gt.sm"
+        v-if="$q.cookies.get(conf.userType) === '2' && $q.screen.gt.xs"
         link="/teacher/presence"
       />
       <div
         v-if="
           ($q.cookies.get(conf.userType) === '2' ||
             $q.cookies.get(conf.userType) === '0') &&
-          $q.screen.gt.sm
+          $q.screen.gt.xs
         "
       >
         <menu-item
@@ -77,10 +77,10 @@
         icon="task_alt"
         :label="$t('menu_kehadiran')"
         link="/student/presence"
-        v-if="$q.cookies.get(conf.userType) === '3' && $q.screen.gt.sm"
+        v-if="$q.cookies.get(conf.userType) === '3' && $q.screen.gt.xs"
       />
       <menu-item
-        v-if="$q.cookies.get(conf.userType) === '3' && $q.screen.gt.sm"
+        v-if="$q.cookies.get(conf.userType) === '3' && $q.screen.gt.xs"
         icon="today"
         :label="$t('menu_agenda')"
         link="/student/agenda"
@@ -89,7 +89,7 @@
         icon="list_alt"
         :label="$t('menu_post')"
         link="/post"
-        v-if="$q.screen.gt.sm"
+        v-if="$q.screen.gt.xs"
       />
 
       <!-- Report Menu -->
