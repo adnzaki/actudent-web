@@ -22,5 +22,6 @@ fetchLang('AdminTimeline', 'indonesia')
 fetchLang('AdminUser', 'indonesia')
 fetchLang('GuruAbsensi', 'indonesia')
 fetchLang('AdminLibur', 'indonesia')
+fetchLang('Parent', 'indonesia')
 
 export default lang.value.indonesia

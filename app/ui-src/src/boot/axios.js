@@ -5,6 +5,7 @@ import { appConfig as conf } from '../../actudent.config'
 const admin = axios.create({ baseURL: conf.adminAPI })
 const teacher = axios.create({ baseURL: conf.teacherAPI })
 const core = axios.create({ baseURL: conf.coreAPI })
+const parent = axios.create({ baseURL: conf.parentAPI })
 const install = axios.create({ baseURL: conf.installAPI })
 
 export default boot(({ app }) => {
@@ -21,4 +22,4 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 })
 
-export { axios, admin, teacher, core, install }
+export { axios, admin, teacher, core, parent, install }

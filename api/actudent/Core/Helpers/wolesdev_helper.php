@@ -17,13 +17,19 @@ if(!function_exists('get_percentage')) {
 	 *
 	 * @param int|float $num1 The number to calculate the percentage for.
 	 * @param int|float $num2 The number to calculate the percentage relative to.
+	 * @param bool		$round Whether to round the result to the nearest integer.
+	 * @param int		$precision The number of decimal places to round the result to.
 	 *
 	 * @return string|null The percentage as a formatted string, or null if num1 is not greater than zero.
 	 */
-	function get_percentage($num1, $num2)
+	function get_percentage($num1, $num2, $round = false, $precision = 1)
 	{
 		if ($num1 > 0) {
-			return number_format(($num1 / $num2) * 100, 1) . '%';
+			$result = ($num1 / $num2) * 100;
+			if($round) {
+				return round($result, $precision) . '%';
+			}
+			return number_format($result, $precision) . '%';
 		} else {
 			return 0 . '%';
 		}

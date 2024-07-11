@@ -377,14 +377,14 @@ class Absensi extends \Actudent
 		return $response;
 	}
 
-	private function getPercentage($a, $b)
+	public function getPercentage($a, $b)
 	{
 		if ($a > 0) {
 			return ' (' . number_format(($a / $b) * 100, 1) . '%)';
 		}
 	}
 
-	private function getPresenceStatusNumber($array, $status)
+	public function getPresenceStatusNumber($array, $status)
 	{
 		$result = count(array_filter($array, fn ($val) => $val === $status));
 
@@ -429,7 +429,7 @@ class Absensi extends \Actudent
 		];
 	}
 
-	private function countPresence($studentId, $gradeId, $month, $year)
+	public function countPresence($studentId, $gradeId, $month, $year)
 	{
 		$presenceData = [];
 		$totalDays = os_date()->daysInMonth($month, $year);

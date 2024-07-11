@@ -5,7 +5,7 @@ import { runLoadingBar } from './loading-bar'
 import { validateToken } from './validate-token'
 import { pengguna, getPengguna } from './get-pengguna'
 import { bearerToken, redirect } from './subscription'
-import { axios, core, admin, teacher, install } from 'boot/axios'
+import { axios, core, admin, teacher, parent, install } from 'boot/axios'
 import { appConfig as conf } from '../../actudent.config'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { actionButton, addButton, fabColor } from 'src/composables/mode'
@@ -100,5 +100,6 @@ export {
   core,
   admin,
   teacher,
+  parent,
   install,
 }

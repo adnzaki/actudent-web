@@ -5,7 +5,9 @@
         <q-item-section>
           <q-item-label>{{ item.platform }}</q-item-label>
           <q-item-label caption lines="3"
-            >IP: {{ item.ip_address }} <br />({{ item.location }}). <br />
+            >IP: {{ item.ip_address }} ({{ item.browser }}) <br />({{
+              item.location
+            }}). <br />
             ISP: {{ item.isp }}</q-item-label
           >
         </q-item-section>

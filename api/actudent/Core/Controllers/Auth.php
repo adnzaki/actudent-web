@@ -57,6 +57,11 @@ class Auth extends \Actudent
 
 					$expirationTimestamp = strtotime('now') + $tokenExpiration;
 
+					$student = null;
+					if($pengguna->user_level === '3') {
+						$student = $nomorIndukSiswa['student'];
+					}
+
 					// store login history and session data
 					$loginId = $this->storeSession($pengguna->user_id, $expirationTimestamp);
 					$token = [
@@ -64,13 +69,14 @@ class Auth extends \Actudent
 						'loginId'	=> $loginId,
 						'email'     => $username,
 						'nama'      => $pengguna->user_name,
+						'studentId'	=> $student?->student_id,
 						'userLevel' => $pengguna->user_level,
 						'iat'       => strtotime('now'),
 						'exp'       => $expirationTimestamp
 					];
 
 					$gradeId = null;
-					$student = null;
+
 
 					if ($pengguna->user_level === '2') {
 						$model = new \Actudent\Guru\Models\JadwalKehadiranModel;
@@ -78,10 +84,6 @@ class Auth extends \Actudent
 						if ($check !== false) {
 							$gradeId = (int)$check->grade_id;
 						}
-					}
-
-					if($pengguna->user_level === '3') {
-						$student = $nomorIndukSiswa['student'];
 					}
 
 					$encodedToken = jwt_encode($token);

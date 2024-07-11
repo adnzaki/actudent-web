@@ -99,25 +99,9 @@ export default defineComponent({
     const $q = useQuasar()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
 
-    const userName = ref(null)
+    const userName = ref('')
 
-    const userEmail = ref(null)
-
-    // const header = ref('')
-    // const elevated = ref(true)
-    // const userMenu = ref(['user-menu'])
-
-    // function triggerHeader() {
-    //   if (headerColor.value === 'dark') {
-    //     header.value = 'bg-grey-10'
-    //     elevated.value = false
-    //     userMenu.value.push('user-menu-dark')
-    //   } else {
-    //     header.value = 'header-gradient'
-    //     elevated.value = true
-    //     userMenu.value.pop()
-    //   }
-    // }
+    const userEmail = ref('')
 
     onMounted(triggerHeader)
 

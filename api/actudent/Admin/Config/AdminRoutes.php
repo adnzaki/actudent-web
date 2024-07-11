@@ -41,7 +41,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getUnregisteredStudents/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-member/(:any)', 'Kelas::getClassMember/$1');
 	$routes->add('kelas/add-member', 'Kelas::addMember');
-	$routes->add('kelas/remove-member/(:any)', 'Kelas::removeMember/$1');
+	$routes->add('kelas/remove-member/(:any)/(:any)', 'Kelas::removeMember/$1/$2');
 	$routes->add('kelas/empty-group/(:any)', 'Kelas::emptyGroup/$1');
 	$routes->add('pegawai', 'Pegawai::index');
 	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5/$6/$7');

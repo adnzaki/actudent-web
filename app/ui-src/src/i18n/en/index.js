@@ -22,5 +22,6 @@ fetchLang('AdminTimeline', 'english')
 fetchLang('AdminUser', 'english')
 fetchLang('GuruAbsensi', 'english')
 fetchLang('AdminLibur', 'english')
+fetchLang('Parent', 'english')
 
 export default lang.value.english
