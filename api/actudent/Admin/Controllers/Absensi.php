@@ -688,6 +688,13 @@ class Absensi extends \Actudent
 
 	public function getJournal($journalID)
 	{
+		$jurnal = $this->_getJournal($journalID);
+
+		return $this->createResponse($jurnal);
+	}
+
+	public function _getJournal($journalID)
+	{
 		$jurnal = $this->absensi->getJournal($journalID);
 
 		if ($jurnal['homework'] !== null) {
@@ -695,7 +702,7 @@ class Absensi extends \Actudent
 			$jurnal['homework']->due_date = $date[0];
 		}
 
-		return $this->createResponse($jurnal);
+		return $jurnal;
 	}
 
 	public function copyJournal($scheduleID, $date)

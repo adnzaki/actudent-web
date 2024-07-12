@@ -24,8 +24,18 @@ export const useMonitoringStore = defineStore('monitoring', {
       },
     },
     todaySchedule: [],
+    homework: [],
   }),
   actions: {
+    getHomework() {
+      parent
+        .get('get-homework-info', {
+          headers: { Authorization: bearerToken },
+        })
+        .then(({ data }) => {
+          this.homework = data
+        })
+    },
     getTodaySchedule() {
       parent
         .get('get-today-schedule', {

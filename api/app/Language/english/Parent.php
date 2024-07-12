@@ -7,4 +7,6 @@ return [
 	'home_monthly_percentage'	=> 'Monthly Presence Level',
 	'home_period_percentage'	=> 'Semester Presence Level',
 	'home_no_schedule'			=> 'No schedule today, have a nice day!',
+	'home_tugas_rumah'			=> 'Homework',
+	'home_no_homework'			=> 'No homework recently added',
 ];

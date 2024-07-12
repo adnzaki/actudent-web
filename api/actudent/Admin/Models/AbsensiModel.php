@@ -7,12 +7,12 @@ class AbsensiModel extends SharedModel
     /**
      * Query Builder for tb_presence
      */
-    private $QBAbsen;
+    public $QBAbsen;
 
     /**
      * Query Builder for tb_homework
      */
-    private $QBHomework;
+    public $QBHomework;
 
     /**
      * Table tb_presence

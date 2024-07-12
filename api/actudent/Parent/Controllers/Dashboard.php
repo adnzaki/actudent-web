@@ -20,6 +20,24 @@ class Dashboard extends \Actudent
 		$this->model = new BaseModel;
 	}
 
+	public function getHomeworkInfo()
+	{
+		if(is_parent()) {
+			$decodedToken = jwt_decode(bearer_token());
+			$studentId = $decodedToken->studentId;
+			$gradeId = $this->model->getStudentGrade($studentId);
+			$data = $this->model->getHomeworks($gradeId);
+			foreach($data as $d) {
+				$getDate = explode(' ', $d->due_date);
+				$d->due_date = os_date()->create($getDate[0]);
+				$d->due_date_short = os_date()->create($getDate[0], 'd-m-y', '-');
+			}
+
+			return $this->response->setJSON($data);
+
+		}
+	}
+
 	public function getTodaySchedule()
 	{
 		if(is_parent()) {
@@ -63,7 +81,7 @@ class Dashboard extends \Actudent
 				'Status: ' . get_lang('AdminAbsensi.absensi_izin'),
 				'Status: ' . get_lang('AdminAbsensi.absensi_sakit'),
 				get_lang('Parent.home_no_lesson'),
-				get_lang('Parent.home_no_lesson'),
+				get_lang('Parent.home_no_presence'),
 			];
 
 
