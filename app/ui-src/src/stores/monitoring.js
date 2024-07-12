@@ -16,16 +16,25 @@ export const useMonitoringStore = defineStore('monitoring', {
   state: () => ({
     baseUrl: 'parent/',
     presenceInfo: {
-      message: 'Loading info...',
+      message: 'Loading status...',
       status: 4,
       presence: {
-        monthlyPercentage: '',
-        periodPercentage: '',
+        monthlyPercentage: '%',
+        periodPercentage: '%',
       },
     },
-    // presenceInfo: {},
+    todaySchedule: [],
   }),
   actions: {
+    getTodaySchedule() {
+      parent
+        .get('get-today-schedule', {
+          headers: { Authorization: bearerToken },
+        })
+        .then(({ data }) => {
+          this.todaySchedule = data
+        })
+    },
     getPresenceInfo() {
       parent
         .get('get-presence-info', {

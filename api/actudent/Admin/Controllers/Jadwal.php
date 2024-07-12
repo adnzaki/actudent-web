@@ -302,6 +302,12 @@ class Jadwal extends \Actudent
 
 	public function getSchedules($grade)
 	{
+		$response = $this->_getSchedules($grade);
+		return $this->createResponse($response);
+	}
+
+	public function _getSchedules($grade)
+	{
 		$days = [
 			'senin', 'selasa', 'rabu',
 			'kamis', 'jumat', 'sabtu'
@@ -351,12 +357,10 @@ class Jadwal extends \Actudent
 
 		$classGroup = $this->jadwal->kelas->getClassDetail($grade);
 
-		$data = [
+		return [
 			'class_name' => $classGroup->grade_name,
 			'schedule' => $wrapper,
 		];
-
-		return $this->createResponse($data, 'is_admin');
 	}
 
 	private function countDiff($time1, $time2)

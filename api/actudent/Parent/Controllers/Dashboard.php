@@ -4,6 +4,7 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use Actudent\Admin\Controllers\Absensi;
+use Actudent\Admin\Controllers\Jadwal;
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Parent\Models\BaseModel;
 
@@ -17,6 +18,29 @@ class Dashboard extends \Actudent
 	{
 		$this->absensi = new AbsensiModel;
 		$this->model = new BaseModel;
+	}
+
+	public function getTodaySchedule()
+	{
+		if(is_parent()) {
+			$today = getdate();
+			$days = [
+				'minggu',
+				'senin', 'selasa', 'rabu',
+				'kamis', 'jumat', 'sabtu'
+			];
+
+			$selectedDay = $days[$today['wday']];
+			$decodedToken = jwt_decode(bearer_token());
+			$studentId = $decodedToken->studentId;
+			$gradeId = $this->model->getStudentGrade($studentId);
+
+			$jadwalController = new Jadwal;
+			$getSchedule = $jadwalController->_getSchedules($gradeId);
+			$todaySchedule = $getSchedule['schedule'][$selectedDay];
+
+			return $this->response->setJSON($todaySchedule);
+		}
 	}
 
 	public function getPresenceInfo()
@@ -38,8 +62,8 @@ class Dashboard extends \Actudent
 				'Status: ' . get_lang('AdminAbsensi.absensi_hadir'),
 				'Status: ' . get_lang('AdminAbsensi.absensi_izin'),
 				'Status: ' . get_lang('AdminAbsensi.absensi_sakit'),
-				get_lang('Parent.home_no_schedule'),
-				get_lang('Parent.home_no_presence'),
+				get_lang('Parent.home_no_lesson'),
+				get_lang('Parent.home_no_lesson'),
 			];
 
 

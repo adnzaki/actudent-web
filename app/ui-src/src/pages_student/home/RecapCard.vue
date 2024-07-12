@@ -23,6 +23,13 @@
 .number, .icon
   font-size: 2.5em
 
+@media(max-width: $breakpoint-sm-max)
+  .title
+    font-size: 1em
+    margin-top: 8px
+  .number, .icon
+    font-size: 1.8em
+
 .number
   font-weight: thin
   border-radius: 0 4px 4px 0
@@ -40,7 +47,7 @@
 const props = defineProps({
   title: String,
   number: {
-    type: Number,
+    type: [Number, String],
     required: false,
   },
   color: String,
