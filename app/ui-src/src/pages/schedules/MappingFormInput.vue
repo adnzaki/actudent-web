@@ -111,8 +111,8 @@ export default {
           duration.value !== null
         ) {
           store.pushLesson(formValue)
-          formValue.lesson = ''
-          formValue.room = ''
+          // formValue.lesson = ''
+          // formValue.room = ''
         } else {
           $q.notify({
             message: t('jadwal_save_error'),
