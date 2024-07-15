@@ -9,4 +9,7 @@ return [
 	'home_no_schedule'			=> 'No schedule today, have a nice day!',
 	'home_tugas_rumah'			=> 'Homework',
 	'home_no_homework'			=> 'No homework recently added',
+	'home_recent_post'			=> 'Recent Post',
+	'home_no_recent_post'		=> 'No recent post',
+	'home_view_more'			=> 'View More',
 ];

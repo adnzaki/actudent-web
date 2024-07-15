@@ -26,7 +26,11 @@
           </q-item-section>
 
           <q-item-section side center>
-            <q-badge class="mobile-hide" color="teal" :label="item.due_date" />
+            <q-badge
+              class="mobile-hide"
+              color="negative"
+              :label="item.due_date"
+            />
             <q-badge
               class="mobile-only"
               color="teal"

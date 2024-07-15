@@ -7,7 +7,10 @@ import {
   timeout,
   bearerToken,
   createFormData,
+  conf,
 } from '../composables/common'
+
+import { usePagingStore as paging } from 'ss-paging-vue'
 
 import { date } from 'quasar'
 import { Notify } from 'quasar'
@@ -27,6 +30,27 @@ export const useMonitoringStore = defineStore('monitoring', {
     homework: [],
   }),
   actions: {
+    getRecentPost() {
+      // try to reset first
+      const limit = 3
+      paging().state.rows = limit
+
+      paging().getData({
+        token: bearerToken,
+        lang: localStorage.getItem(conf.userLang),
+        limit,
+        offset: 0,
+        orderBy: 'date',
+        searchBy: ['timeline_title', 'timeline_content', 'tb_timeline.created'],
+        sort: 'DESC',
+        search: '',
+        url: `${conf.adminAPI}post/get/public/0/`,
+        autoReset: {
+          active: true,
+          timeout: 500,
+        },
+      })
+    },
     getHomework() {
       parent
         .get('get-homework-info', {

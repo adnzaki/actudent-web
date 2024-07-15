@@ -8,7 +8,7 @@
           rounded
           class="back-button"
           icon="arrow_back"
-          @click="$router.push('/post')"
+          @click="$router.back()"
         />
         <div
           class="text-subtitle1 text-uppercase q-mt-xs page-title-pl-5"

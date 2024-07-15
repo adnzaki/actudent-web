@@ -34,9 +34,13 @@
 <script setup>
 import RecapCard from './RecapCard.vue'
 import { useMonitoringStore } from 'stores/monitoring'
+import { onBeforeRouteLeave } from 'vue-router'
 
 const store = useMonitoringStore()
 store.getPresenceInfo()
+
+const intervalId = setInterval(store.getPresenceInfo, 15000)
+onBeforeRouteLeave(() => clearInterval(intervalId))
 
 const presenceIcon = (status) => {
   const icons = {

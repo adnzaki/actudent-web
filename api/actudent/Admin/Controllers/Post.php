@@ -26,6 +26,15 @@ class Post extends \Actudent
 
         foreach($data as $d) {
             $d->editable = $this->isEditable($d->user_id) ? 1 : 0;
+
+			$postTime = explode(' ', $d->created);
+
+			// get featured image
+			$imagePath = explode('_', $d->featured_image);
+			$folder = $imagePath[0];
+			$d->featured_image_path = base_url() ."images/posts/$folder/$d->featured_image";
+			$d->excerpt = excerpt($d->timeline_content);
+			$d->post_date = os_date()->create($postTime[0], 'd-m-y', '-').' '.substr($postTime[1], 0, 5);
         }
 
         return $this->createResponse([
