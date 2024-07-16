@@ -3,7 +3,7 @@
     <PresenceRecap />
     <TodaySchedule />
     <HomeworkInfo />
-    <RecentAgenda url="student/agenda" />
+    <RecentAgenda url="/student/agenda" />
     <RecentPost />
     <ViewPost />
   </div>

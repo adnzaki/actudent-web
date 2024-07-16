@@ -10,7 +10,6 @@
           v-ripple
           v-for="(item, index) in store.homework"
           :key="index"
-          to="/xxx"
         >
           <q-item-section>
             <q-item-label class="mobile-hide"
