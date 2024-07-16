@@ -1,5 +1,5 @@
 <template>
-  <q-card class="q-mb-md">
+  <q-card class="q-mb-md cursor-pointer" @click="goToPresence">
     <q-card-section>
       <div class="text-h6 text-capitalize q-mb-md">
         {{ $t('home_presence_recap') }}
@@ -34,10 +34,13 @@
 <script setup>
 import RecapCard from './RecapCard.vue'
 import { useMonitoringStore } from 'stores/monitoring'
-import { onBeforeRouteLeave } from 'vue-router'
+import { onBeforeRouteLeave, useRouter } from 'vue-router'
 
 const store = useMonitoringStore()
+const router = useRouter()
 store.getPresenceInfo()
+
+const goToPresence = () => router.push('/student/presence')
 
 const intervalId = setInterval(store.getPresenceInfo, 15000)
 onBeforeRouteLeave(() => clearInterval(intervalId))
