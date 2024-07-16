@@ -23,9 +23,7 @@ class Dashboard extends \Actudent
 	public function getHomeworkInfo()
 	{
 		if(is_parent()) {
-			$decodedToken = jwt_decode(bearer_token());
-			$studentId = $decodedToken->studentId;
-			$gradeId = $this->model->getStudentGrade($studentId);
+			$gradeId = get_student()->gradeId;
 			$data = $this->model->getHomeworks($gradeId);
 			foreach($data as $d) {
 				$getDate = explode(' ', $d->due_date);
@@ -49,9 +47,7 @@ class Dashboard extends \Actudent
 			];
 
 			$selectedDay = $days[$today['wday']];
-			$decodedToken = jwt_decode(bearer_token());
-			$studentId = $decodedToken->studentId;
-			$gradeId = $this->model->getStudentGrade($studentId);
+			$gradeId = get_student()->gradeId;
 
 			$jadwalController = new Jadwal;
 			$getSchedule = $jadwalController->_getSchedules($gradeId);
@@ -66,9 +62,8 @@ class Dashboard extends \Actudent
 		if(is_parent()) {
 			$today = date('Y-m-d');
 			// $date = '2024-07-11';
-			$decodedToken = jwt_decode(bearer_token());
-			$studentId = $decodedToken->studentId;
-			$gradeId = $this->model->getStudentGrade($studentId);
+			$studentId = get_student()->id;
+			$gradeId = get_student()->gradeId;
 			$journal = $this->absensi->getJournalByDate($today, $gradeId);
 
 			// set default status and message

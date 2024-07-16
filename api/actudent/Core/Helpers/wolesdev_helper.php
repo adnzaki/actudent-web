@@ -10,6 +10,28 @@
  * @link        https://wolestech.com
  */
 
+ if(! function_exists('get_student')) {
+/**
+ * Retrieves the student ID and grade ID of the authenticated parent user.
+ *
+ * @return object|null An object containing the student ID and grade ID, or null if the user is not authenticated as a parent.
+ */
+	function get_student() {
+		$model = new Actudent\Parent\Models\BaseModel;
+		if(is_parent()) {
+			$decodedToken = jwt_decode(bearer_token());
+			$studentId = $decodedToken->studentId;
+			$gradeId = $model->getStudentGrade($studentId);
+
+			return (object)[
+				'id' => $studentId,
+				'gradeId' => $gradeId
+			];
+		} else {
+			return null;
+		}
+	}
+ }
 
 if(!function_exists('get_percentage')) {
 	/**
