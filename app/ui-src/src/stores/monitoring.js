@@ -28,8 +28,27 @@ export const useMonitoringStore = defineStore('monitoring', {
     },
     todaySchedule: [],
     homework: [],
+    showSpinner: false,
+    selectedPeriod: {
+      month: '1',
+      year: 2024,
+    },
+    monthlyPresence: [],
+    showMonthlyPresence: true,
   }),
   actions: {
+    getMonthlyPresence() {
+      parent
+        .get(
+          `get-presence-detail/${this.selectedPeriod.month}/${this.selectedPeriod.year}`,
+          {
+            headers: { Authorization: bearerToken },
+          },
+        )
+        .then(({ data }) => {
+          this.monthlyPresence = data
+        })
+    },
     getRecentPost() {
       // try to reset first
       const limit = 3

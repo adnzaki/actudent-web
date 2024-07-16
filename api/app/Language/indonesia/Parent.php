@@ -12,4 +12,6 @@ return [
 	'home_recent_post'			=> 'Postingan Terbaru',
 	'home_no_recent_post'		=> 'Tidak ada postingan baru-baru ini',
 	'home_view_more'			=> 'Lihat Lebih Banyak',
+	'presence_detail'			=> 'Detail Kehadiran',
+	'presence_not_available'	=> 'Data kehadiran tidak tersedia',
 ];

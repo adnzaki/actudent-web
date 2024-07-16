@@ -12,4 +12,6 @@ return [
 	'home_recent_post'			=> 'Recent Post',
 	'home_no_recent_post'		=> 'No recent post',
 	'home_view_more'			=> 'View More',
+	'presence_detail'			=> 'Presence Detail',
+	'presence_not_available'	=> 'Presence data not available',
 ];

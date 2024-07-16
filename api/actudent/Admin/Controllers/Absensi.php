@@ -42,6 +42,8 @@ class Absensi extends \Actudent
 		'rabu', 'kamis', 'jumat', 'sabtu'
 	];
 
+	public $presenceCategory = [];
+
 	public function __construct()
 	{
 		$this->absensi = new AbsensiModel;
@@ -49,6 +51,13 @@ class Absensi extends \Actudent
 		$this->jadwalHadir = new JadwalKehadiranModel;
 		$this->pdfCreator = new \PDFCreator;
 		$this->reportSetting = new SettingModel;
+
+		$this->presenceCategory = [
+			get_lang('AdminAbsensi.absensi_alfa'),
+			get_lang('AdminAbsensi.absensi_hadir'),
+			get_lang('AdminAbsensi.absensi_izin'),
+			get_lang('AdminAbsensi.absensi_sakit')
+		];
 	}
 
 	public function excelMonthlySummary($month, $year, $gradeId, $token)
@@ -431,47 +440,88 @@ class Absensi extends \Actudent
 
 	public function countPresence($studentId, $gradeId, $month, $year)
 	{
+		return array_column($this->_countPresence($studentId, $gradeId, $month, $year), 'status');
+	}
+
+	public function _countPresence($studentId, $gradeId, $month, $year)
+	{
 		$presenceData = [];
 		$totalDays = os_date()->daysInMonth($month, $year);
+		$user = $this->getDataPengguna();
+		$lang = $this->getAppConfig($user->user_id)->lang;
 
 		// Loop the days from the selected month
 		for ($i = 1; $i <= $totalDays; $i++) {
 			$date = reverse(os_date()->shortDate($i, $month, $year), '-', '-');
+			$dateLong = $lang === 'english' ? date('l, d F Y', strtotime($date)) : os_date()->create($date, 'DD-MM-y');
 			$journals = $this->absensi->getJournalByDate($date, $gradeId, true);
 
 			if (count($journals) === 0) {
-				$presenceData[] = '-';
+				$presenceData[] = [
+					'status' 	=> '-',
+					'date'   	=> $date,
+					'date_long' => $dateLong,
+				];
 			} else {
 				// Create a storage for presence of all journals
 				$todayPresence = [];
 				foreach ($journals as $key) {
 					$getPresence = $this->absensi->getPresence($key->journal_id, $studentId, $date);
-					$todayPresence[] = $getPresence !== null ? $getPresence->presence_status : '-';
+					$todayPresence[] = [
+						'journal' 		=> $key,
+						'status'  		=> $getPresence !== null ? $getPresence->presence_status : '-',
+						'status_text' 	=> $getPresence !== null ? $this->presenceCategory[$getPresence->presence_status] : '-'
+					];
 				}
 
+				$presenceStatus = array_column($todayPresence, 'status');
 				// Do search only if a student has presence data
-				if (array_search('-', $todayPresence) === false) {
+				if (array_search('-', $presenceStatus) === false) {
 
 					// Search if a student has absent today or not
-					$hasAbsent = array_search(0, $todayPresence);
+					$hasAbsent = array_search(0, $presenceStatus);
 
 					// If there is an absent, then presenceData should be 0 (absent)
 					if ($hasAbsent !== false) {
-						$presenceData[] = 0;
+						$presenceData[] = [
+							'status' 	=> 0,
+							'date'   	=> $date,
+							'date_long' => $dateLong,
+							'detail' 	=> $todayPresence,
+						];
 					} else {
 						if (array_search(3, $todayPresence) !== false) {
-							$presenceData[] = 3;
+							$presenceData[] = [
+								'status' 	=> 3,
+								'date'   	=> $date,
+								'date_long' => $dateLong,
+								'detail' 	=> $todayPresence,
+							];
 						} else {
 							if ($todayPresence[0] === 1 && end($todayPresence) === 1) {
-								$presenceData[] = 1;
+								$presenceData[] = [
+									'status' 	=> 1,
+									'date'   	=> $date,
+									'date_long' => $dateLong,
+									'detail' 	=> $todayPresence,
+								];
 							} else {
-								$presenceData[] = end($todayPresence);
+								$presenceData[] = [
+									'status' 	=> end($presenceStatus),
+									'date'   	=> $date,
+									'date_long' => $dateLong,
+									'detail' 	=> $todayPresence,
+								];
 							}
 						}
 						// If presence_status is 1 (present) in the first and last lesson hour...
 					}
 				} else {
-					$presenceData[] = '-';
+					$presenceData[] = [
+						'status' 	=> '-',
+						'date'   	=> $date,
+						'date_long' => $dateLong,
+					];
 				}
 			}
 		}
@@ -616,14 +666,6 @@ class Absensi extends \Actudent
 		// Presence data to be wrapped
 		$presenceWrapper = [];
 
-		// Presence status category
-		// Absent|Absen, Present|Hadir, Permit|Izin, Sick|Sakit
-		$presenceCategory = [
-			get_lang('AdminAbsensi.absensi_alfa'),
-			get_lang('AdminAbsensi.absensi_hadir'),
-			get_lang('AdminAbsensi.absensi_izin'),
-			get_lang('AdminAbsensi.absensi_sakit')
-		];
 
 		foreach ($student as $key) {
 			// Get presence of a student
@@ -633,7 +675,7 @@ class Absensi extends \Actudent
 				$presenceWrapper[] = [
 					'id'        => $key->student_id,
 					'name'      => $key->student_name,
-					'status'    => $presenceCategory[$presence->presence_status],
+					'status'    => $this->presenceCategory[$presence->presence_status],
 					'note'      => $presence->presence_mark,
 					'statusID'  => $presence->presence_status,
 				];

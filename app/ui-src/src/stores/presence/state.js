@@ -14,30 +14,39 @@ export default function () {
     showPermissionForm: false,
 
     // model for Journal Form
-    journal: { 
+    journal: {
       description: '',
       homework_title: '',
       homework_description: '',
-      due_date: ''
-    }, 
+      due_date: '',
+    },
     current: 1,
     className: '',
     lessonName: '',
     dateStr: '',
     classID: '',
-    day: '', scheduleLength: 0,
+    day: '',
+    scheduleLength: 0,
     schedule: [], // schedule list
-    scheduleID: '', journalID: '',
-    presenceButtons: false, showJournalBtn: false, salinJurnal: true,
-    journalStatus: 'false', archivePage: true, archiveButton: false,
-    presenceGrid: true, backToArchive: false,
+    scheduleID: '',
+    journalID: '',
+    presenceButtons: false,
+    showJournalBtn: false,
+    salinJurnal: true,
+    journalStatus: 'false',
+    archivePage: true,
+    archiveButton: false,
+    presenceGrid: true,
+    backToArchive: false,
     presenceList: [],
-    checkAll: false, 
+    checkAll: false,
     studentPresence: [], // students to be presented
     presenceUrl: '', // presence URL
     permissionNote: '',
     selectedPeriod: {
-      semester: '2', month: '1', year: 2022
+      semester: '2',
+      month: '1',
+      year: 2024,
     },
     monthlySummary: {},
     periodSummary: {},
