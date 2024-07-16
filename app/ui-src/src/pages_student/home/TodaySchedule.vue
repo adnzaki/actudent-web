@@ -10,7 +10,6 @@
           v-ripple
           v-for="(item, index) in store.todaySchedule"
           :key="index"
-          to="/xxx"
         >
           <q-item-section v-if="item.lesson_code !== 'REST'">
             <q-item-label class="mobile-hide"
