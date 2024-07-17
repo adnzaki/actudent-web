@@ -45,9 +45,9 @@
               <q-input
                 filled
                 class="q-mb-md"
-                v-model="username"
+                v-model="store.username"
                 :label="usernameLabel"
-                @keyup.enter="validate"
+                @keyup.enter="store.validate"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
                 :disable="dbUpdate"
@@ -68,9 +68,9 @@
               <q-input
                 type="password"
                 filled
-                v-model="password"
+                v-model="store.password"
                 label="Password"
-                @keyup.enter="validate"
+                @keyup.enter="store.validate"
                 :label-color="styleSelector('label')"
                 :disable="dbUpdate"
               >
@@ -86,12 +86,15 @@
                 v-model="rememberMe"
                 :label="$t('remember_me')"
               /> -->
-              <p v-if="showMsg" :class="`text-bold text-${msgClass} q-mt-md`">
-                {{ msg }}
+              <p
+                v-if="store.showMessage"
+                :class="`text-bold text-${store.messageClass} q-mt-md`"
+              >
+                {{ store.message }}
               </p>
               <q-btn
                 :color="styleSelector('btn')"
-                @click="validate"
+                @click="store.validate"
                 :style="btnStyle"
                 :disable="dbUpdate"
                 class="q-mt-lg"
@@ -127,6 +130,7 @@ import {
   userType,
 } from 'src/composables/common'
 import { useQuasar } from 'quasar'
+import { useLoginStore } from 'src/stores/login-store'
 
 export default {
   name: 'LoginPage',
@@ -141,6 +145,7 @@ export default {
   },
   setup() {
     const $q = useQuasar()
+    const store = useLoginStore()
     const userLang = localStorage.getItem(conf.userLang)
     const dbUpdate = ref(true)
     const showUpdateProgress = ref(true)
@@ -179,13 +184,7 @@ export default {
       }, 1000)
     })
 
-    const username = ref(''),
-      password = ref(''),
-      error = ref({}),
-      msg = ref(''),
-      msgClass = ref('black'),
-      showMsg = ref(false),
-      rememberMe = ref(true)
+    const error = computed(() => store.error)
 
     return {
       usernameLabel: computed(() => `Username / NIG (${t('login_nig')})`),
@@ -219,104 +218,9 @@ export default {
           ? styles.dark[style]
           : styles.light[style]
       },
-      validate() {
-        msg.value = ''
-        showMsg.value = true
-        const hideMsg = () => (showMsg.value = false)
-
-        if (username.value === '' || password.value === '') {
-          msg.value = t('userpassword_wajib')
-          msgClass.value = 'negative'
-          setTimeout(hideMsg, 6000)
-        } else {
-          const postData = {
-            username: username.value,
-            password: password.value,
-          }
-
-          msg.value = t('mengautentikasi')
-          msgClass.value =
-            $q.cookies.get('theme') === 'dark' ? 'white' : 'black'
-
-          // do request..
-          axios
-            .post(`${conf.coreAPI}login/validasi`, postData, {
-              transformRequest: [(data) => createFormData(data)],
-            })
-            .then((response) => {
-              const res = response.data
-              if (res.msg === 'expired' || res.msg === 'maximum_session') {
-                msgClass.value = 'negative'
-                msg.value = res.note
-              } else {
-                if (res.msg === 'valid') {
-                  msg.value = t('login_sukses')
-                  msgClass.value = 'positive'
-
-                  if (rememberMe.value) {
-                    conf.cookieExp *= 12 * 30 * 12 // 360 days
-                  }
-
-                  const dt = new Date(),
-                    now = dt.getTime(),
-                    expMs = now + conf.cookieExp,
-                    exp = new Date(expMs),
-                    cookieOptions = {
-                      expires: exp.toUTCString(),
-                      path: '/',
-                      sameSite: 'None',
-                      secure: true,
-                    }
-
-                  $q.cookies.set(conf.cookieName, res.token, cookieOptions)
-                  $q.cookies.set(conf.userType, res.level, cookieOptions)
-
-                  // set copy_presence option
-                  if (localStorage.getItem('copy_presence') === null) {
-                    localStorage.setItem('copy_presence', 0)
-                  }
-
-                  // always re-set the language after login successful
-                  localStorage.setItem(conf.userLang, res.lang)
-
-                  // redirect to dashboard depend on user type...
-                  if (res.level === '1') {
-                    window.location.href = conf.homeUrl()
-                    localStorage.removeItem('grade_id')
-                  } else if (res.level === '2' || res.level === '0') {
-                    localStorage.setItem('grade_id', res.grade)
-                    window.location.href = conf.teacherHomeUrl()
-                  } else if (res.level === '3') {
-                    window.location.href = conf.parentHomeUrl()
-                    localStorage.removeItem('grade_id')
-                    localStorage.setItem(
-                      'studentName',
-                      res.student.student_name,
-                    )
-                    localStorage.setItem('studentNis', res.student.student_nis)
-                  }
-                } else if (res.msg === 'unauthorized') {
-                  msgClass.value = 'negative'
-                  msg.value = t('salah_akses')
-
-                  setTimeout(hideMsg, 8000)
-                } else {
-                  msgClass.value = 'negative'
-                  msg.value = t('invalid_login')
-
-                  setTimeout(hideMsg, 4000)
-                }
-              }
-            })
-        }
-      },
-      username,
-      password,
       error,
-      msg,
-      msgClass,
-      showMsg,
-      rememberMe,
+      // msg,
+      store,
       dbUpdate,
       progressColor,
       showUpdateProgress,
