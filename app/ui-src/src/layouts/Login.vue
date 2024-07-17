@@ -34,14 +34,6 @@
               {{ $t('silakan_login') }}
             </p>
             <q-form class="q-gutter-xs" @submit.prevent="validate">
-              <!-- <q-input :class="['q-pl-md q-mb-lg', styleSelector('input')]" borderless :color="styleSelector('icon')"
-                v-model="username" label="Username / NIK" :input-class="styleSelector('inputColor')"
-                :label-color="styleSelector('label')" @keyup.enter="validate">
-                <template v-slot:prepend>
-                  <q-icon name="mail_outline" />
-                </template>
-              </q-input> -->
-
               <q-input
                 filled
                 class="q-mb-md"
@@ -56,14 +48,6 @@
                   <q-icon name="mail_outline" />
                 </template>
               </q-input>
-
-              <!-- <q-input :class="['q-pl-md q-mb-xs', styleSelector('input')]" type="password" :color="styleSelector('icon')"
-                borderless v-model="password" label="Password" :label-color="styleSelector('label')"
-                :input-class="styleSelector('inputColor')"  @keyup.enter="validate">
-                <template v-slot:prepend>
-                  <q-icon name="vpn_key" :color="styleSelector('icon')" />
-                </template>
-              </q-input> -->
 
               <q-input
                 type="password"
@@ -122,13 +106,7 @@
 <script>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { axios } from 'boot/axios'
-import {
-  t,
-  conf,
-  createFormData,
-  isAuthenticated,
-  userType,
-} from 'src/composables/common'
+import { t, conf, isAuthenticated, userType } from 'src/composables/common'
 import { useQuasar } from 'quasar'
 import { useLoginStore } from 'src/stores/login-store'
 
