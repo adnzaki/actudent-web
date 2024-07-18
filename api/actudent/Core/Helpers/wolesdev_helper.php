@@ -22,10 +22,12 @@
 			$decodedToken = jwt_decode(bearer_token());
 			$studentId = $decodedToken->studentId;
 			$gradeId = $model->getStudentGrade($studentId);
+			$parentId = $model->getParentId($studentId);
 
 			return (object)[
 				'id' => $studentId,
-				'gradeId' => $gradeId
+				'gradeId' => $gradeId,
+				'parentId' => $parentId
 			];
 		} else {
 			return null;

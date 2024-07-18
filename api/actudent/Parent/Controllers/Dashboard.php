@@ -20,6 +20,17 @@ class Dashboard extends \Actudent
 		$this->model = new BaseModel;
 	}
 
+	public function getSiblings()
+	{
+		if(is_parent()) {
+			$studentId = get_student()->id;
+			$parentId = get_student()->parentId;
+			$data = $this->model->getSiblings($studentId, $parentId);
+
+			return $this->response->setJSON($data);
+		}
+	}
+
 	public function getHomeworkInfo()
 	{
 		if(is_parent()) {

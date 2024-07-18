@@ -33,7 +33,7 @@
             <p class="text-center text-uppercase q-pt-lg q-pb-sm">
               {{ $t('silakan_login') }}
             </p>
-            <q-form class="q-gutter-xs" @submit.prevent="validate">
+            <q-form class="q-gutter-xs" @submit.prevent="store.validate">
               <q-input
                 filled
                 class="q-mb-md"

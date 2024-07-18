@@ -13,7 +13,7 @@ class OrtuModel extends SharedModel
      */
     private $timelineComments = 'tb_timeline_comments';
     private $timelineLikes = 'tb_timeline_likes';
-    
+
     /**
      * Load the tables...
      */
@@ -26,14 +26,14 @@ class OrtuModel extends SharedModel
 
     /**
      * Get parents data
-     * 
-     * @param int $limit 
-     * @param int $offset 
+     *
+     * @param int $limit
+     * @param int $offset
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
-     * @param string $search 
-     * 
+     * @param string $search
+     *
      * @return array
      */
     public function getParents($limit, $offset, $orderBy = 'parent_father_name', $searchBy = 'parent_father_name', $sort = 'ASC', $search = ''): array
@@ -45,7 +45,7 @@ class OrtuModel extends SharedModel
 
     /**
      * Count all rows of whole parent data
-     * 
+     *
      * @param string $searchBy
      * @param string $search
      * @return int
@@ -59,44 +59,49 @@ class OrtuModel extends SharedModel
 
     /**
      * Get parent detail
-     * 
+     *
      * @param int $id
-     * 
+     *
      * @return array
      */
     public function getParentDetail(int $id): array
     {
-        $field = 'parent_id, tb_parent.user_id, parent_family_card, 
+        $field = 'parent_id, tb_parent.user_id, parent_family_card,
                   parent_father_name, parent_mother_name, parent_phone_number,
                   user_name, user_email';
         $select = $this->QBParent->select($field)
                   ->join($this->user, "{$this->parent}.user_id = {$this->user}.user_id")
                   ->where('parent_id', $id)->get();
 
-        return $select->getResult();                  
+        return $select->getResult();
     }
 
     /**
      * Get children list
-     * 
+     *
      * @param int $id
-     * 
+	 * @param int|null $skipId The student ID to skip
+     *
      * @return array
      */
-    public function getChildren(int $id): array
+    public function getChildren(int $id, int|null $skipId = null): array
     {
         $field = "student_nis, student_name, {$this->student}.deleted";
         $select = $this->QBStudent->select($field);
         $select->join($this->studentParent, "{$this->studentParent}.student_id = {$this->student}.student_id");
+
+		if($skipId != null) {
+			$select->where("{$this->studentParent}.student_id !=", $skipId);
+		}
 
         return $select->getWhere(["{$this->studentParent}.parent_id" => $id])->getResult();
     }
 
     /**
      * Insert parent data
-     * 
+     *
      * @param array $value
-     * 
+     *
      * @return int
      */
     public function insert(array $value): int
@@ -119,10 +124,10 @@ class OrtuModel extends SharedModel
 
     /**
      * Update parent data
-     * 
+     *
      * @param array $value
-     * @param int $id 
-     * 
+     * @param int $id
+     *
      * @return void
      */
     public function update(array $value, int $id): void
@@ -133,10 +138,10 @@ class OrtuModel extends SharedModel
 
     /**
      * Delete parent and their user account
-     * 
+     *
      * @param int parent_id
      * @param int user_id
-     * 
+     *
      * @return void
      */
     public function delete(int $parentID, int $userID): void
@@ -156,9 +161,9 @@ class OrtuModel extends SharedModel
 
     /**
      * Fill tb_parent field with these data
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return array
      */
     private function fillParentField(array $data): array
@@ -173,9 +178,9 @@ class OrtuModel extends SharedModel
 
     /**
      * Fill tb_user field with these data
-     * 
+     *
      * @param array $data
-     * 
+     *
      * @return array
      */
     private function fillUserField(array $data): array
@@ -188,14 +193,14 @@ class OrtuModel extends SharedModel
             'user_level'    => 3,
         ];
     }
-    
+
     /**
      * Search for parents by parent_family_card, parent_father_name, parent_mother_name,
      * parent_phone_number fields
-     * 
+     *
      * @param string $searchBy
      * @param string $search
-     * 
+     *
      * @return QueryBuilder
      */
     private function search(string $searchBy, string $search)
@@ -210,12 +215,12 @@ class OrtuModel extends SharedModel
             {
                 $searchBy = explode('-', $searchBy);
 
-                $select->like("(`$searchBy[0]`", "'%$search%' ESCAPE '!'", 'none', false); 
-                $select->orLike($searchBy[1], $search); 
-                $select->orLike($searchBy[2], $search); 
+                $select->like("(`$searchBy[0]`", "'%$search%' ESCAPE '!'", 'none', false);
+                $select->orLike($searchBy[1], $search);
+                $select->orLike($searchBy[2], $search);
                 $select->orLike($searchBy[3], "'%$search%')", 'none', false);
             }
-            else 
+            else
             {
                 $select->like($searchBy, $search); // search by one parameter
             }

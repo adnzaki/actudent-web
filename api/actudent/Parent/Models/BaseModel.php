@@ -3,9 +3,25 @@
 use Actudent\Admin\Models\SharedModel;
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\KelasModel;
+use Actudent\Admin\Models\SiswaModel;
+use Actudent\Admin\Models\OrtuModel;
 
 class BaseModel extends SharedModel
 {
+	public function getSiblings(int $studentId, int $parentId)
+	{
+		$model = new OrtuModel;
+
+		return $model->getChildren($parentId, $studentId);
+	}
+
+	public function getParentId(int $studentId)
+	{
+		$model = new SiswaModel;
+
+		return $model->getStudentDetail($studentId)[0]->parent_id;
+	}
+
 	/**
 	 * Retrieves the homework assignments for a specific grade.
 	 *

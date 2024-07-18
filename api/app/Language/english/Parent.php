@@ -14,4 +14,5 @@ return [
 	'home_view_more'			=> 'View More',
 	'presence_detail'			=> 'Presence Detail',
 	'presence_not_available'	=> 'Presence data not available',
+	'switch_account'			=> 'Switch Account',
 ];

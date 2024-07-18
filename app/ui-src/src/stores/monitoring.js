@@ -35,8 +35,18 @@ export const useMonitoringStore = defineStore('monitoring', {
     },
     monthlyPresence: [],
     showMonthlyPresence: true,
+    siblings: [],
   }),
   actions: {
+    getSiblings() {
+      parent
+        .get('get-siblings', {
+          headers: { Authorization: bearerToken },
+        })
+        .then(({ data }) => {
+          this.siblings = data
+        })
+    },
     getMonthlyPresence() {
       parent
         .get(
@@ -49,9 +59,8 @@ export const useMonitoringStore = defineStore('monitoring', {
           this.monthlyPresence = data
         })
     },
-    getRecentPost() {
+    getRecentPost(limit) {
       // try to reset first
-      const limit = 3
       paging().state.rows = limit
 
       paging().getData({

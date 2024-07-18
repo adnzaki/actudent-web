@@ -14,4 +14,5 @@ return [
 	'home_view_more'			=> 'Lihat Lebih Banyak',
 	'presence_detail'			=> 'Detail Kehadiran',
 	'presence_not_available'	=> 'Data kehadiran tidak tersedia',
+	'switch_account'			=> 'Ganti Akun',
 ];

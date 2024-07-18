@@ -3,6 +3,7 @@
 namespace Actudent\Core\Controllers;
 
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use IPLocator;
 
@@ -32,8 +33,11 @@ class Auth extends \Actudent
 				'note' => get_lang('Error.app_expired'),
 			]);
 		} else {
+
 			$username = $this->request->getPost('username');
 			$password = $this->request->getPost('password');
+			$requirePassword = $this->request->getPost('requirePassword') === 1 ? true : false;
+
 			$remember = 1;
 			$isNik = $this->auth->isNik($username);
 			$nomorIndukSiswa = $this->auth->isNomorIndukSiswa($username);
@@ -46,7 +50,7 @@ class Auth extends \Actudent
 				$username = $nomorIndukSiswa['email'];
 			}
 
-			if ($this->auth->validasi($username, $password)) {
+			if ($this->auth->validasi($username, $password, $requirePassword)) {
 				$pengguna = $this->auth->getDataPengguna($username);
 
 				// Allow login if active sessions less than 10
@@ -106,10 +110,16 @@ class Auth extends \Actudent
 			} else {
 				return $this->response->setJSON([
 					'msg'   => 'invalid',
-					'user'  => $username
+					'user'  => $username,
+					'requirePassword' => $requirePassword
 				]);
 			}
 		}
+	}
+
+	private function generateToken()
+	{
+
 	}
 
 	public function storeSession($userId, $tokenExpiration)

@@ -22,6 +22,7 @@ export const useLoginStore = defineStore('login', {
     messageClass: 'black',
     error: {},
     remember: true,
+    requirePassword: 1,
   }),
   getters: {},
   actions: {
@@ -37,6 +38,7 @@ export const useLoginStore = defineStore('login', {
         const postData = {
           username: this.username,
           password: this.password,
+          requirePassword: this.requirePassword,
         }
 
         this.message = t('mengautentikasi')
@@ -52,6 +54,7 @@ export const useLoginStore = defineStore('login', {
               this.message = data.note
             } else {
               if (data.msg === 'valid') {
+                this.requirePassword = 1
                 this.message = t('login_sukses')
                 this.messageClass = 'positive'
 
