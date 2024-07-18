@@ -12,14 +12,20 @@
       <q-route-tab
         v-if="$q.cookies.get(conf.userType) === '2'"
         to="/teacher/presence"
-        name="schedules"
+        name="presence"
         icon="task_alt"
       />
       <q-route-tab
         v-if="$q.cookies.get(conf.userType) === '3'"
         to="/student/presence"
-        name="schedules"
+        name="presence"
         icon="task_alt"
+      />
+      <q-route-tab
+        v-if="$q.cookies.get(conf.userType) === '3'"
+        to="/student/post"
+        name="post"
+        icon="list_alt"
       />
       <q-route-tab
         v-if="
@@ -37,7 +43,10 @@
         icon="today"
       />
       <q-route-tab
-        v-if="$q.cookies.get(conf.userType) !== '1'"
+        v-if="
+          $q.cookies.get(conf.userType) !== '1' &&
+          $q.cookies.get(conf.userType) !== '3'
+        "
         to="/post"
         name="post"
         icon="list_alt"

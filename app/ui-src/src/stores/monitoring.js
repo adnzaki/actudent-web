@@ -59,7 +59,7 @@ export const useMonitoringStore = defineStore('monitoring', {
           this.monthlyPresence = data
         })
     },
-    getRecentPost(limit) {
+    getPost(limit) {
       // try to reset first
       paging().state.rows = limit
 
@@ -72,6 +72,7 @@ export const useMonitoringStore = defineStore('monitoring', {
         searchBy: ['timeline_title', 'timeline_content', 'tb_timeline.created'],
         sort: 'DESC',
         search: '',
+        linkNum: 3,
         url: `${conf.adminAPI}post/get/public/0/`,
         autoReset: {
           active: true,

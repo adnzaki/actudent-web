@@ -37,20 +37,20 @@
           </q-card-section>
 
           <q-card-section class="q-pt-none">
-            <p v-html="item.timeline_content"></p>
+            <p v-html="item.excerpt"></p>
           </q-card-section>
         </q-card>
       </div>
     </div>
     <p v-else>{{ $t('home_no_recent_post') }}</p>
 
-    <q-card-actions align="center">
+    <q-card-actions align="center" v-if="data.length > 0">
       <q-btn
         :label="$t('home_view_more')"
         unelevated
         :class="addButton"
         style="padding: 10px !important"
-        to="/post"
+        to="/student/post"
       >
       </q-btn>
     </q-card-actions>
@@ -72,7 +72,7 @@ const paging = usePagingStore()
 const $q = useQuasar()
 const router = useRouter()
 
-store.getRecentPost()
+store.getPost(3)
 
 const cardPadding = computed(() => ($q.screen.lt.md ? '' : 'q-pa-md'))
 

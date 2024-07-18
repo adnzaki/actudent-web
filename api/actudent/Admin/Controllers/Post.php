@@ -33,7 +33,9 @@ class Post extends \Actudent
 			$imagePath = explode('_', $d->featured_image);
 			$folder = $imagePath[0];
 			$d->featured_image_path = base_url() ."images/posts/$folder/$d->featured_image";
-			$d->excerpt = excerpt($d->timeline_content);
+			$charLimit = 50;
+			$ellipsis = strlen($d->timeline_content) > $charLimit ? '...' : '';
+			$d->excerpt = substr($d->timeline_content, 0, 50) . $ellipsis;
 			$d->post_date = os_date()->create($postTime[0], 'd-m-y', '-').' '.substr($postTime[1], 0, 5);
         }
 

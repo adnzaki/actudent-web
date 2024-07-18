@@ -86,10 +86,16 @@
         link="/student/agenda"
       />
       <menu-item
+        v-if="$q.cookies.get(conf.userType) === '3' && $q.screen.gt.xs"
+        icon="list_alt"
+        :label="$t('menu_post')"
+        link="/student/post"
+      />
+      <menu-item
         icon="list_alt"
         :label="$t('menu_post')"
         link="/post"
-        v-if="$q.screen.gt.xs"
+        v-if="$q.screen.gt.xs && $q.cookies.get(conf.userType) !== '3'"
       />
 
       <!-- Report Menu -->
