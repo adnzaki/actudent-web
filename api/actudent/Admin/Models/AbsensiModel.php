@@ -1,6 +1,7 @@
 <?php namespace Actudent\Admin\Models;
 
 use Actudent\Admin\Models\KelasModel;
+use Actudent\Admin\Models\LiburModel;
 
 class AbsensiModel extends SharedModel
 {
@@ -224,29 +225,29 @@ class AbsensiModel extends SharedModel
      *
      * @return array
      */
-    public function getPresencePercentage(): array
+    public function getPresencePercentage()
     {
-        $percentage = [
-            'present' => 0,
-            'absent' => 0,
-            'withPermission' => 0,
-        ];
+        // $percentage = [
+        //     'present' => 0,
+        //     'absent' => 0,
+        //     'withPermission' => 0,
+        // ];
 
-        $journalRows = $this->QBJurnal->select('*')->countAllResults();
-        if($journalRows > 0)
-        {
-            $countStudents = $this->QBStudent->where('deleted', 0)->countAllResults();
-            $present = $this->getTodayPresence('1');
-            $absent = $this->getTodayPresence('0');
-            $withPermission = $this->getTodayAbsenceWithPermission();
-            $percentage = [
-                'present' => ($present / $countStudents) * 100,
-                'absent' => ($absent / $countStudents) * 100,
-                'withPermission' => ($withPermission / $countStudents) * 100,
-            ];
-        }
+        // $journalRows = $this->QBJurnal->select('*')->countAllResults();
+        // if($journalRows > 0)
+        // {
+        //     $countStudents = $this->QBStudent->where('deleted', 0)->countAllResults();
+        //     $present = $this->getTodayPresence('1');
+        //     $absent = $this->getTodayPresence('0');
+        //     $withPermission = $this->getTodayAbsenceWithPermission();
+        //     $percentage = [
+        //         'present' => ($present / $countStudents) * 100,
+        //         'absent' => ($absent / $countStudents) * 100,
+        //         'withPermission' => ($withPermission / $countStudents) * 100,
+        //     ];
+        // }
 
-        return $percentage;
+        // return $percentage;
     }
 
     /**

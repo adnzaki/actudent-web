@@ -9,6 +9,7 @@ use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\JadwalModel;
 use Actudent\Guru\Models\JadwalKehadiranModel;
 use Actudent\Admin\Models\SettingModel;
+use Actudent\Admin\Models\LiburModel;
 use PDFCreator;
 
 class Absensi extends \Actudent
@@ -58,6 +59,32 @@ class Absensi extends \Actudent
 			get_lang('AdminAbsensi.absensi_izin'),
 			get_lang('AdminAbsensi.absensi_sakit')
 		];
+	}
+
+	public function canFillJournal($date)
+	{
+		if(is_admin() || is_employee()) {
+			$canFillJournal = $this->_canFillJournal($date) ? 1 : 0;
+			return $this->response->setJSON(['can_fill' => $canFillJournal]);
+		}
+	}
+
+	private function _canFillJournal($date)
+	{
+		$libur = new LiburModel;
+		$previousMonth = os_date()->getPreviousMonth($date, 'fsd');
+		$nextMonth = os_date()->getNextMonth($date, 'fld');
+		$getHolidays = $libur->getHolidaysByDateRange($previousMonth, $nextMonth);
+		$canFillJournal = true;
+
+		foreach($getHolidays as $key) {
+			if(os_date()->between($date, $key->start_date, $key->end_date)) {
+				$canFillJournal = false;
+				break;
+			}
+		}
+
+		return $canFillJournal;
 	}
 
 	public function excelMonthlySummary($month, $year, $gradeId, $token)
@@ -814,7 +841,7 @@ class Absensi extends \Actudent
 
 	public function save($scheduleID, $date, $includeHomework)
 	{
-		if (valid_token()) {
+		if (valid_token() && $this->_canFillJournal($date)) {
 			if ($includeHomework === 'true') {
 				$includeHomework = true;
 			} else {

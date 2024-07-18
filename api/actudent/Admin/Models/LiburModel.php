@@ -23,6 +23,22 @@ class LiburModel extends \Actudent\Core\Models\Connector
         $this->QBLibur = $this->db->table($this->libur);
     }
 
+	/**
+	 * Retrieves holidays within a specified date range.
+	 *
+	 * @param string $startDate The start date of the range (format: Y-m-d).
+	 * @param string $endDate The end date of the range (format: Y-m-d).
+	 *
+	 * @return array An array of holidays within the specified date range.
+	 */
+	public function getHolidaysByDateRange($startDate, $endDate): array
+	{
+		return $this->QBLibur->where('start_date >=', $startDate)
+			->where('start_date <=', $endDate)
+			->orderBy('start_date', 'ASC')
+			->get()->getResult();
+	}
+
      /**
      * Get room data
      *

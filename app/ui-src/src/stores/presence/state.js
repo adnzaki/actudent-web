@@ -60,5 +60,6 @@ export default function () {
     isTeacherSection: false, // determine the app is in teacher section or not (admin)
     isHomeroomTeacher: 0,
     teacherOf: null,
+    journalFillable: true,
   }
 }

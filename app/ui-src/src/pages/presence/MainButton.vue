@@ -107,6 +107,18 @@ export default {
     const store = usePresenceStore()
     const isTeacherSection = computed(() => store.isTeacherSection)
 
+    const showJournalForm = () => {
+      if (store.journalFillable) {
+        store.showJournalForm = true
+      } else {
+        $q.dialog({
+          title: t('peringatan'),
+          message: t('absensi_not_fillable'),
+          persistent: true,
+        })
+      }
+    }
+
     const exportReportUrl = (type) => {
       // type = "jurnal" | "absen"
       const params = {
@@ -146,10 +158,10 @@ export default {
       addButton,
       savePresence,
       exportReportUrl,
+      showJournalForm,
       backToClassList,
       isTeacherSection,
       showPermissionForm,
-      showJournalForm: () => (store.showJournalForm = true),
       printLabel: $q.screen.lt.sm ? '' : t('absensi_cetak_laporan'),
     }
   },

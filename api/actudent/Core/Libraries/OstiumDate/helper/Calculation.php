@@ -17,7 +17,6 @@ require_once 'helper.php';
 
 class Calculation
 {
-
 	/**
 	 * Checks if the given date is between the start and end dates.
 	 *
