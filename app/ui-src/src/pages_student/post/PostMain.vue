@@ -9,12 +9,12 @@
           {{ $t('menu_post') }}
         </div>
         <div :class="['row', titleSpacing()]">
-          <div class="offset-md-7"></div>
+          <div class="offset-md-6"></div>
           <row-dropdown class="q-mt-sm" root-class="col-12 col-md-2" />
           <search-box
             :label="$t('timeline_search')"
             class="q-mt-sm"
-            root-class="col-12 col-md-3"
+            root-class="col-12 col-md-4"
           />
         </div>
       </q-card-section>
