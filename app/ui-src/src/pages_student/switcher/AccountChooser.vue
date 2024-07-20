@@ -43,7 +43,7 @@
 <script setup>
 import { useMonitoringStore } from 'src/stores/monitoring'
 import { useLoginStore } from 'src/stores/login-store'
-import { addButton } from 'src/composables/common'
+import { addButton, axios, conf, bearerToken } from 'src/composables/common'
 
 const store = useMonitoringStore()
 const loginStore = useLoginStore()
@@ -52,7 +52,13 @@ const switchAccount = (username) => {
   loginStore.username = username
   loginStore.password = 'switch account'
   loginStore.requirePassword = 0
-  loginStore.validate()
+  axios
+    .get(`${conf.coreAPI}logout`, {
+      headers: { Authorization: bearerToken },
+    })
+    .then(({ data }) => {
+      loginStore.validate()
+    })
 }
 
 store.getSiblings()
