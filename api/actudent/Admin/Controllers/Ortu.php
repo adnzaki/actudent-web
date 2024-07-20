@@ -57,7 +57,7 @@ class Ortu extends \Actudent
                     $this->ortu->delete($toArray[0], $toArray[1]);
                 }
             }
-            else 
+            else
             {
                 $toArray = explode('-', $idString);
                 $this->ortu->delete($toArray[0], $toArray[1]);
@@ -78,10 +78,10 @@ class Ortu extends \Actudent
                     'msg' => $this->validation->getErrors(),
                 ]);
             }
-            else 
+            else
             {
                 $data = $this->formData();
-                if($id === null) 
+                if($id === null)
                 {
                     $this->ortu->insert($data);
                 }
@@ -89,7 +89,7 @@ class Ortu extends \Actudent
                 {
                     $this->ortu->update($data, $id);
                 }
-                
+
                 return $this->response->setJSON([
                     'code' => '200',
                 ]);
@@ -125,13 +125,13 @@ class Ortu extends \Actudent
                 'is_natural'    => get_lang('AdminOrtu.ortu_err_phone_num'),
                 'min_length'    => get_lang('AdminOrtu.ortu_err_phone_min'),
                 'max_length'    => get_lang('AdminOrtu.ortu_err_phone_max'),
-            ],            
-        ];      
+            ],
+        ];
 
-        if($id === null) 
+        if($id === null)
         {
             $insertRules = [
-                'user_email'            => 'required|is_unique[tb_user.user_email]',
+                'user_email'            => 'required|valid_email|is_unique[tb_user.user_email]',
                 'user_password'         => 'required|min_length[8]',
                 'user_password_confirm' => 'required|matches[user_password]'
             ];
@@ -140,6 +140,7 @@ class Ortu extends \Actudent
                 'user_email' => [
                     'required'      => get_lang('AdminUser.user_err_email_required'),
                     'is_unique'     => get_lang('AdminUser.user_err_email_unique'),
+					'valid_email'   => get_lang('AdminPegawai.staff_err_email'),
                 ],
                 'user_password' => [
                     'required'      => get_lang('AdminUser.user_err_pass_required'),
@@ -161,7 +162,7 @@ class Ortu extends \Actudent
                 $messages[$msg] = $val;
             }
         }
-        
+
         return [$rules, $messages];
     }
 
@@ -171,7 +172,7 @@ class Ortu extends \Actudent
         $motherName = $this->request->getPost('parent_mother_name');
         $userNameSelector = $this->request->getPost('user_name');
         $userName = $userNameSelector === '1' ? $fatherName : $motherName;
-        
+
         return [
             'parent_family_card'    => $this->request->getPost('parent_family_card'),
             'parent_father_name'    => $fatherName,

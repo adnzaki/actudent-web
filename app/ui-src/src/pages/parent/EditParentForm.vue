@@ -24,13 +24,13 @@
           />
           <ac-error :label="error.parent_family_card" />
 
-          <q-input
+          <!-- <q-input
             outlined
             :label="$t('user_email')"
             dense
             v-model="store.detail.user_email"
             disable
-          />
+          /> -->
           <ac-error :label="error.user_email" />
 
           <q-input

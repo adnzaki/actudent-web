@@ -77,7 +77,6 @@
             :label="$t('user_email')"
             dense
             v-model="formData.user_email"
-            :suffix="`@${school.school_domain}`"
           />
           <ac-error :label="error.user_email" />
 
@@ -146,8 +145,8 @@ export default {
     onMounted(getSchool)
 
     const save = () => {
-      let pattern = /(\s|\W+)/gi
-      formData.value.user_email = formData.value.user_email.replace(pattern, '')
+      // let pattern = /(\s|\W+)/gi
+      // formData.value.user_email = formData.value.user_email.replace(pattern, '')
       store.save({
         data: formData.value,
         edit: false,
