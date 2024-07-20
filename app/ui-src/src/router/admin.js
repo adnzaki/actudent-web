@@ -72,7 +72,7 @@ export default [
   { path: 'agenda', component: AgendaMain, beforeEnter: () => routeValidator() },
   { path: 'app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator() },
   { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() },
-  { path: 'post', component: PostMain, beforeEnter: () => routeValidator('is_employee') },
+  { path: 'post', component: PostMain, beforeEnter: () => routeValidator('valid_token') },
   { path: 'post/view/:id', component: ViewPostMobile, beforeEnter: () => routeValidator('valid_token') },
   { path: 'report-settings', component: ReportSettings, beforeEnter: () => routeValidator() }
 ]
