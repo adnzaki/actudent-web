@@ -11,7 +11,7 @@ import {
   conf,
 } from '../composables/common'
 
-import { Notify, Cookies } from 'quasar'
+import { Notify, Cookies, Loading } from 'quasar'
 
 export const useLoginStore = defineStore('login', {
   state: () => ({
@@ -26,6 +26,24 @@ export const useLoginStore = defineStore('login', {
   }),
   getters: {},
   actions: {
+    updateDb() {
+      core.get('check-db').then(({ data }) => {
+        if (data.shouldUpdate === 1) {
+          const loading = Loading.show({
+            message: 'Memperbarui database ke versi terbaru...',
+            group: 'check',
+          })
+          setTimeout(() => {
+            core.get('update-db').then(({ data }) => {
+              loading({ message: 'Database telah diperbarui ke versi terbaru' })
+              setTimeout(() => {
+                Loading.hide('check')
+              }, 1000)
+            })
+          }, 1000)
+        }
+      })
+    },
     validate() {
       this.message = ''
       this.showMessage = true

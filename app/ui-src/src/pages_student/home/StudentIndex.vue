@@ -18,6 +18,7 @@ import RecentAgenda from 'src/pages_teacher/home/RecentAgenda.vue'
 import RecentPost from './RecentPost.vue'
 import ViewPost from 'src/pages/post/ViewPost.vue'
 import AccountChooser from 'src/pages_student/switcher/AccountChooser.vue'
+import { useLoginStore } from 'src/stores/login-store'
 
 export default {
   name: 'StudentIndex',
@@ -34,6 +35,11 @@ export default {
     if (from.fullPath === '/login') {
       window.location.reload()
     }
+  },
+  setup() {
+    const store = useLoginStore()
+
+    store.updateDb()
   },
 }
 </script>
