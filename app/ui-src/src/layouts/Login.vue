@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-page-container :class="['bg-login', styleSelector('bgImage')]">
-      <div class="q-pa-md q-gutter-sm" v-if="showUpdateProgress">
+      <!-- <div class="q-pa-md q-gutter-sm" v-if="showUpdateProgress">
         <q-banner
           inline-actions
           rounded
@@ -9,12 +9,8 @@
         >
           <strong> {{ dbProgressText }} </strong>
 
-          <!-- <template v-slot:action>
-            <q-btn flat label="Turn ON Wifi" />
-            <q-btn flat label="Dismiss" />
-          </template> -->
         </q-banner>
-      </div>
+      </div> -->
 
       <div class="q-pa-md q-mt-md row items-start q-gutter-md">
         <q-card
@@ -125,42 +121,13 @@ export default {
     const $q = useQuasar()
     const store = useLoginStore()
     const userLang = localStorage.getItem(conf.userLang)
-    const dbUpdate = ref(true)
-    const showUpdateProgress = ref(true)
-    const progressColor = ref('bg-red')
-    // const dbProgressText = ref(t('db_check'))
-    const dbProgressText = ref('Checking database...')
+    // const dbUpdate = ref(true)
+    // const showUpdateProgress = ref(true)
+    // const progressColor = ref('bg-red')
+    // // const dbProgressText = ref(t('db_check'))
+    // const dbProgressText = ref('Checking database...')
 
-    onMounted(() => {
-      const hideDbProgress = () => {
-        setTimeout(() => {
-          showUpdateProgress.value = false
-        }, 3000)
-      }
-
-      setTimeout(() => {
-        axios.get(`${conf.coreAPI}check-db`).then(({ data }) => {
-          if (data.shouldUpdate === 1) {
-            dbProgressText.value = 'Loading the latest database version...'
-
-            axios.get(`${conf.coreAPI}update-db`).then(({ data }) => {
-              setTimeout(() => {
-                dbProgressText.value = 'Database update complete'
-                progressColor.value = 'bg-green'
-                dbUpdate.value = false
-              }, 2000)
-
-              hideDbProgress()
-            })
-          } else {
-            progressColor.value = 'bg-green'
-            dbProgressText.value = 'Database is up to date.'
-            dbUpdate.value = false
-            hideDbProgress()
-          }
-        })
-      }, 1000)
-    })
+    store.updateDb()
 
     const error = computed(() => store.error)
 
@@ -199,10 +166,10 @@ export default {
       error,
       // msg,
       store,
-      dbUpdate,
-      progressColor,
-      showUpdateProgress,
-      dbProgressText,
+      // dbUpdate,
+      // progressColor,
+      // showUpdateProgress,
+      // dbProgressText,
       btnStyle: reactive({
         fontSize: '18px',
         width: 'calc(100% - 5px)',
