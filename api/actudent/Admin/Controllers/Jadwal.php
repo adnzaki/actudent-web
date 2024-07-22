@@ -33,16 +33,12 @@ class Jadwal extends \Actudent
 	public function getLessons($grade)
 	{
 		$data = $this->jadwal->getLessons($grade);
-		$lessons = [];
-		if ($data !== false) {
-			$lessons = $data;
-		}
 
 		$className = $this->jadwal->kelas->getClassDetail($grade);
 		$response = [
 			'class_name'    => $className->grade_name,
 			'class_id'      => $className->grade_id,
-			'lessons'       => $lessons,
+			'lessons'       => $data,
 		];
 
 		return $this->createResponse($response, 'is_admin');

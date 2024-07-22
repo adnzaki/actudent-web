@@ -55,6 +55,16 @@ class Kelas extends \Actudent
                     $this->kelas->addMember($student->student_id, $classId);
                 }
 
+				$jadwal = new \Actudent\Admin\Models\JadwalModel;
+				$lessons = $jadwal->getLessons($id);
+				foreach($lessons as $lesson) {
+					$jadwal->insert([
+						'lesson_id' 	=> $lesson->lesson_id,
+						'grade_id'		=> $classId, // use new class group ID
+						'teacher_id'	=> $lesson->teacher_id
+					]);
+				}
+
                 $this->kelas->deactivateClassgroup($id);
             }
 
