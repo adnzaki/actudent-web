@@ -1,4 +1,30 @@
 export default {
+  '2.0.2': [
+    {
+      key: '[Baru]',
+      desc: 'Penambahan shift siang pada Jadwal Pelajaran untuk mengakomodir beberapa sekolah terutama SD Negeri yang masih terdapat 2 shift.',
+    },
+    {
+      key: '[Baru]',
+      desc: 'Penambahan informasi Internet Service Provider (ISP) pada menu Riwayat Login',
+    },
+    {
+      key: '[Baru]',
+      desc: 'Penambahan tampilan menu baru (Bottom Menu) untuk perangkat mobile.',
+    },
+    {
+      key: '[Peningkatan]',
+      desc: 'Penambahan masa aktif login menjadi 360 hari ',
+    },
+    {
+      key: '[Peningkatan]',
+      desc: 'Menghapus opsi “Ingatkan Saya” di halaman login',
+    },
+    {
+      key: '[Perbaikan]',
+      desc: 'Menghapus auto-cropping pada saat upload Featured Image pada postingan',
+    },
+  ],
   '2.0.1': [
     {
       key: '[Baru]',

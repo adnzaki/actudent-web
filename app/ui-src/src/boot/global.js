@@ -8,7 +8,7 @@
 import { trim, formatDate } from 'src/composables/common'
 
 export default ({ app }) => {
-  app.config.globalProperties.$buildVersion = '2.0.2 (22-04-2024)'
+  app.config.globalProperties.$buildVersion = '2.1.0 (22-07-2024)'
   ;(app.config.globalProperties.$trim = (
     text,
     length = 25,

@@ -14,6 +14,7 @@ import Updates from './Updates.vue'
 import WeeklyChart from './WeeklyChart.vue'
 import PresenceRank from './PresenceRank.vue'
 import HighestLowestPresence from './HighestLowestPresence.vue'
+import { useLoginStore } from 'src/stores/login-store'
 export default {
   name: 'PageIndex',
   components: {
@@ -27,6 +28,11 @@ export default {
     if (from.fullPath === '/login') {
       window.location.reload()
     }
+  },
+  setup() {
+    const store = useLoginStore()
+
+    store.updateDb()
   },
 }
 </script>
