@@ -7,6 +7,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('home/absen-seminggu', 'Home::getLastSevenDaysPresence');
 	$routes->add('home/absen-harian', 'Home::getTodayPresence');
 	$routes->add('home/absen-harian-kelas', 'Home::getTodayPresencePercentage');
+	$routes->add('home/absen-tertinggi-terendah', 'Home::getStudentWithLowestAndHighestPresence');
 	$routes->add('siswa', 'Siswa::index');
 	$routes->add('siswa/limit', 'Siswa::getStudentLimit');
 	$routes->add('siswa/get-kelas', 'Siswa::getKelas');

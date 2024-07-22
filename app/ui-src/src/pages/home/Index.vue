@@ -1,7 +1,8 @@
 <template>
-  <div class="q-pa-md">    
+  <div class="q-pa-md">
     <total-daily-recap />
     <weekly-chart />
+    <highest-lowest-presence />
     <presence-rank />
     <updates />
   </div>
@@ -12,18 +13,20 @@ import TotalDailyRecap from './TotalDailyRecap.vue'
 import Updates from './Updates.vue'
 import WeeklyChart from './WeeklyChart.vue'
 import PresenceRank from './PresenceRank.vue'
+import HighestLowestPresence from './HighestLowestPresence.vue'
 export default {
   name: 'PageIndex',
   components: {
     Updates,
     TotalDailyRecap,
     WeeklyChart,
-    PresenceRank
+    PresenceRank,
+    HighestLowestPresence,
   },
   beforeRouteEnter(to, from) {
-    if(from.fullPath === '/login') {
+    if (from.fullPath === '/login') {
       window.location.reload()
     }
-  }
+  },
 }
 </script>

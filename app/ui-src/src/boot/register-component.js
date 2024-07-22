@@ -1,8 +1,8 @@
 /**
  * Global component registration for Actudent app,
  * so we do not need to register them on each main component
- * 
- * @author    Adnan Zaki 
+ *
+ * @author    Adnan Zaki
  * @copyright Wolestech (c) 2021
  */
 
@@ -15,7 +15,7 @@ import SSPaging from 'components/SSPaging.vue'
 import EmployeePhoto from 'src/pages/employee/EmployeePhoto.vue'
 import DropdownSearch from 'components/DropdownSearch.vue'
 import BtnTooltip from 'components/BtnTooltip.vue'
-import SpinnerLoading from 'components/Spinner.vue'
+import SpinnerOrbit from 'components/SpinnerOrbit.vue'
 
 export default ({ app }) => {
   app.component('search-box', SearchBox)
@@ -27,5 +27,5 @@ export default ({ app }) => {
   app.component('employee-photo', EmployeePhoto)
   app.component('dropdown-search', DropdownSearch)
   app.component('btn-tooltip', BtnTooltip)
-  app.component('ac-spinner', SpinnerLoading)
+  app.component('spinner-orbit', SpinnerOrbit)
 }

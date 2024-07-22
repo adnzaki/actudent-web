@@ -68,7 +68,7 @@ class Dashboard extends \Actudent
 		}
 	}
 
-	public function getPresenceInfo()
+	public function getPresenceInfo($setAsJsonResult = true)
 	{
 		if(is_parent()) {
 			$today = date('Y-m-d');
@@ -126,18 +126,10 @@ class Dashboard extends \Actudent
 			}
 
 			// get this month's presence percentage
-			$absensiController = new Absensi();
-			$monthlyPresence = $absensiController->countPresence($studentId, $gradeId, (int)date('m'), date('Y'));
-
-			$monthlyPresent = $absensiController->getPresenceStatusNumber($monthlyPresence, '1');
-
-			$monthDateStart = date('Y-m-01');
-			$monthDateEnd = date('Y-m-t');
-
-			$thisMonthJournals = $this->absensi->getTotalJournals($gradeId, $monthDateStart, $monthDateEnd);
-			$monthlyPercentage = get_percentage($monthlyPresent, $thisMonthJournals, true);
+			$monthlyPercentage = $this->getMonthlyPercentage($studentId, $gradeId);
 
 			// get this semester's presence percentage
+			$absensiController = new Absensi();
 			$semester = $this->absensi->semester;
 			$periodStart = $semester === 1 ? 7 : 1;
 			$periodEnd = $semester === 1 ? 12 : 6;
@@ -162,17 +154,36 @@ class Dashboard extends \Actudent
 
 			$periodPercentage = get_percentage($absensiController->getPresenceStatusNumber($periodCountResult, '1'), $thisPeriodJournals, true);
 
-
-			return $this->response->setJSON([
+			$response = [
 				'status' => $status,
 				'message' => $presenceCategory[$status],
-				'thisMonthJournal' => $thisMonthJournals,
 				'presence' => [
 					'monthlyPercentage' => $monthlyPercentage,
 					'periodPercentage' => $periodPercentage,
 					'period' => $countStart .' ---- '. $countEnd,
 				],
-			]);
+			];
+			if($setAsJsonResult) {
+				return $this->response->setJSON($response);
+			} else {
+				return $response;
+			}
+
 		}
+	}
+
+	public function getMonthlyPercentage($studentId, $gradeId)
+	{
+		$absensiController = new Absensi();
+		$monthlyPresence = $absensiController->countPresence($studentId, $gradeId, (int)date('m'), date('Y'));
+
+		$monthlyPresent = $absensiController->getPresenceStatusNumber($monthlyPresence, '1');
+
+		$monthDateStart = date('Y-m-01');
+		$monthDateEnd = date('Y-m-t');
+
+		$thisMonthJournals = $this->absensi->getTotalJournals($gradeId, $monthDateStart, $monthDateEnd);
+
+		return get_percentage($monthlyPresent, $thisMonthJournals, true);
 	}
 }

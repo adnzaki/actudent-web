@@ -4,7 +4,7 @@
       <q-card class="q-mb-md">
         <q-card-section>
           <div class="text-h6 text-capitalize q-mb-md">
-            {{ $t('dashboard_high_rank') }}
+            {{ $t('dashboard_highest_student') }}
           </div>
           <q-list bordered separator>
             <q-item
@@ -14,9 +14,12 @@
               :key="index"
             >
               <q-item-section>
-                <q-item-label>{{ item.grade_name }}</q-item-label>
+                <q-item-label
+                  >{{ item.student_name }} - {{ item.grade_name }}</q-item-label
+                >
                 <q-item-label caption>
-                  {{ $t('dashboard_presence_level') }}: {{ item.present }}%
+                  {{ $t('dashboard_presence_level') }}:
+                  {{ item.percentage }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -28,7 +31,7 @@
       <q-card class="q-mb-md">
         <q-card-section>
           <div class="text-h6 text-capitalize q-mb-md">
-            {{ $t('dashboard_low_rank') }}
+            {{ $t('dashboard_lowest_student') }}
           </div>
           <q-list bordered separator>
             <q-item
@@ -38,9 +41,11 @@
               :key="index"
             >
               <q-item-section>
-                <q-item-label>{{ item.grade_name }}</q-item-label>
+                <q-item-label
+                  >{{ item.student_name }} - {{ item.grade_name }}</q-item-label
+                >
                 <q-item-label caption>
-                  {{ $t('dashboard_presence_level') }}: {{ item.present }}%
+                  {{ $t('dashboard_presence_level') }}: {{ item.percentage }}
                 </q-item-label>
               </q-item-section>
             </q-item>
@@ -53,8 +58,7 @@
     <div class="col-12">
       <q-card class="q-mb-md">
         <q-card-section
-          ><spinner-orbit
-            text="Calculating presence percentage of class groups..."
+          ><spinner-orbit text="Calculating student presence..."
         /></q-card-section>
       </q-card>
     </div>
@@ -65,7 +69,6 @@
 import { ref } from 'vue'
 import { admin } from 'boot/axios'
 import { bearerToken, t } from 'src/composables/common'
-import { onBeforeRouteLeave } from 'vue-router'
 
 export default {
   setup() {
@@ -74,7 +77,7 @@ export default {
 
     const getPercentage = () => {
       admin
-        .get('home/absen-harian-kelas', {
+        .get('home/absen-tertinggi-terendah', {
           headers: { Authorization: bearerToken },
         })
         .then(({ data }) => {
@@ -84,8 +87,6 @@ export default {
     }
 
     getPercentage()
-    const intervalId = setInterval(getPercentage, 22000)
-    onBeforeRouteLeave(() => clearInterval(intervalId))
 
     return {
       highest,

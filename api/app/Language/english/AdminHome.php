@@ -23,5 +23,7 @@ return [
     'dashboard_low_rank'        => 'Class With Lowest Presence Today',
     'dashboard_presence_level'  => 'Presence level',
     'dashboard_today_schedule'  => "Today's Schedule",
-    'dashboard_no_schedule'     => 'No schedule today, just enjoy your day.'
+    'dashboard_no_schedule'     => 'No schedule today, just enjoy your day.',
+	'dashboard_highest_student'	=> 'Student with highest presence this month',
+	'dashboard_lowest_student'	=> 'Student with lowest presence this month',
 ];

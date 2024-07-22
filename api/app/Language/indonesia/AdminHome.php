@@ -24,4 +24,6 @@ return [
     'dashboard_presence_level'  => 'Tingkat kehadiran',
     'dashboard_today_schedule'  => 'Jadwal Hari Ini',
     'dashboard_no_schedule'     => 'Tidak ada jadwal hari ini, silakan nikmati hari anda.',
+	'dashboard_highest_student'	=> 'Siswa dengan kehadiran tertinggi bulan ini',
+	'dashboard_lowest_student'	=> 'Siswa dengan kehadiran terendah bulan ini',
 ];
