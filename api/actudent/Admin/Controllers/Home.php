@@ -87,8 +87,8 @@ class Home extends \Actudent
     public function getTodayPresencePercentage()
     {
         return $this->createResponse([
-            'highest'   => $this->getHighestPresent()[0],
-            'lowest'    => $this->getLowestPresent()[0],
+            'highest'   => count($this->getHighestPresent()) > 0 ? $this->getHighestPresent()[0] : [],
+            'lowest'    => count($this->getLowestPresent()) > 0 ? $this->getLowestPresent()[0] : [],
 			'userAgent' => $this->testUserLoginData()
         ], 'is_admin');
     }
