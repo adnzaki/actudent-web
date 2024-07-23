@@ -1,12 +1,12 @@
 <template>
-  <div class="row q-col-gutter-sm" v-if="highest.length > 0">
+  <div class="row q-col-gutter-sm" v-if="!showSpinner">
     <div class="col-12 col-md-6">
       <q-card class="q-mb-md">
         <q-card-section>
           <div class="text-h6 text-capitalize q-mb-md">
             {{ $t('dashboard_highest_student') }}
           </div>
-          <q-list bordered separator>
+          <q-list bordered separator v-if="highest.length > 0">
             <q-item
               clickable
               v-ripple
@@ -24,6 +24,7 @@
               </q-item-section>
             </q-item>
           </q-list>
+          <p v-else>{{ $t('presence_not_available') }}</p>
         </q-card-section>
       </q-card>
     </div>
@@ -33,7 +34,7 @@
           <div class="text-h6 text-capitalize q-mb-md">
             {{ $t('dashboard_lowest_student') }}
           </div>
-          <q-list bordered separator>
+          <q-list bordered separator v-if="lowest.length > 0">
             <q-item
               clickable
               v-ripple
@@ -50,6 +51,9 @@
               </q-item-section>
             </q-item>
           </q-list>
+          <p v-else>
+            {{ $t('presence_not_available') }}
+          </p>
         </q-card-section>
       </q-card>
     </div>
@@ -74,6 +78,7 @@ export default {
   setup() {
     const highest = ref([])
     const lowest = ref([])
+    const showSpinner = ref(true)
 
     const getPercentage = () => {
       admin
@@ -83,14 +88,16 @@ export default {
         .then(({ data }) => {
           highest.value = data.highest
           lowest.value = data.lowest
+          showSpinner.value = false
         })
     }
 
     getPercentage()
 
     return {
-      highest,
       lowest,
+      highest,
+      showSpinner,
     }
   },
 }
