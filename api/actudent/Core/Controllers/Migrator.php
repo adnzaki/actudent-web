@@ -22,7 +22,7 @@ class Migrator extends \Actudent
 
     public function updateDatabase()
     {
-        $this->model->addHolidays();
+        $this->model->addPtkDapodikId();
         $this->model->updateDbVersion();
 
         return $this->response->setJSON([

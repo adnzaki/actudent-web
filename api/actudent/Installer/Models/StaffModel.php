@@ -49,6 +49,11 @@ class StaffModel extends \Actudent\Installer\Models\SetupModel
                 'constraint'    => 1,
                 'null'          => true
             ],
+			'ptk_dapodik_id' => [
+				'type'          => 'VARCHAR',
+				'constraint'    => 50,
+				'null'          => true
+			],
             'deleted' => [
                 'type'          => 'TINYINT',
                 'constraint'    => 1,
@@ -67,8 +72,8 @@ class StaffModel extends \Actudent\Installer\Models\SetupModel
         $this->forge->addField($fields);
         $this->forge->addPrimaryKey('staff_id');
         $this->forge->addForeignKey('user_id', 'tb_user', 'user_id');
-        $this->forge->createTable($table, true, $this->engine);  
-        
+        $this->forge->createTable($table, true, $this->engine);
+
         // finish it up
         $this->correctCreatedAndModifiedColumn($table);
     }

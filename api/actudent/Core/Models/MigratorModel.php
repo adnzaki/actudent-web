@@ -48,6 +48,22 @@ class MigratorModel extends \Actudent\Core\Models\Connector
         );
     }
 
+	public function addPtkDapodikId()
+	{
+		if($this->getDbVersionNumber() < 231) {
+			$this->addHolidays();
+		}
+
+		$this->forge->addColumn('tb_staff', [
+			'ptk_dapodik_id' => [
+				'type'          => 'VARCHAR',
+				'constraint'    => 50,
+				'null'          => true,
+				'after'			=> 'staff_tag',
+			],
+		]);
+	}
+
 	public function addHolidays()
 	{
 		if($this->getDbVersionNumber() < 230) {
