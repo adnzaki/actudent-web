@@ -7,9 +7,6 @@ use Actudent\Admin\Models\OrtuModel;
 
 class Ortu extends \Actudent
 {
-    /**
-     * @var Actudent\Admin\Models\OrtuModel
-     */
     private $ortu;
 
     /**

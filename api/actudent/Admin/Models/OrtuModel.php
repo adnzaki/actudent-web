@@ -150,8 +150,6 @@ class OrtuModel extends SharedModel
         $this->db->transStart();
 
         // start transcation
-        $this->QBTimelineComments->delete(['user_id' => $userID]);
-        $this->QBTimelineLikes->delete(['user_id' => $userID]);
         $this->QBParent->update($deleted, ['parent_id' => $parentID]);
         $this->QBUser->update($deleted, ['user_id' => $userID]);
 
@@ -185,10 +183,9 @@ class OrtuModel extends SharedModel
      */
     private function fillUserField(array $data): array
     {
-        $sekolah = $this->sekolah->getDataSekolah()[0];
         return [
             'user_name'     => $data['user_name'],
-            'user_email'    => $data['user_email'] . '@' . $sekolah->school_domain,
+            'user_email'    => $data['user_email'],
             'user_password' => password_hash($data['user_password'], PASSWORD_BCRYPT),
             'user_level'    => 3,
         ];

@@ -22,7 +22,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
     /**
      * Query Builder for table tb_student_parent
      */
-    protected $QBStudentParent;
+    public $QBStudentParent;
 
     /**
      * Query Builder for table tb_student_grade
@@ -33,7 +33,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
      * Query builder for tb_schedule
      */
     protected $QBJadwal;
-    
+
     /**
      * Query Builder for tb_journal
      */
@@ -52,77 +52,77 @@ class SharedModel extends \Actudent\Core\Models\Connector
 
     /**
      * Table tb_parent
-     * 
+     *
      * @var string
      */
     public $parent = 'tb_parent';
 
     /**
      * Table tb_user
-     * 
+     *
      * @var string
      */
     public $user = 'tb_user';
 
     /**
      * Table tb_student
-     * 
+     *
      * @var string
      */
     public $student = 'tb_student';
-    
+
     /**
      * Table tb_student_parent
-     * 
+     *
      * @var string
      */
     public $studentParent = 'tb_student_parent';
 
     /**
      * Table tb_student_grade
-     * 
+     *
      * @var string
      */
     public $rombel = 'tb_student_grade';
 
     /**
      * Table tb_schedule
-     * 
+     *
      * @var string
      */
     protected $jadwal = 'tb_schedule';
-    
+
     /**
      * Table tb_journal
-     * 
+     *
      * @var string
      */
     protected $jurnal = 'tb_journal';
 
     /**
      * Table tb_lessons_grade
-     * 
+     *
      * @var string
      */
     protected $mapelKelas = 'tb_lessons_grade';
 
     /**
      * Table tb_lessons
-     * 
+     *
      * @var string
      */
     protected $mapel = 'tb_lessons';
 
     /**
      * Table tb_notification
-     * 
+     *
      * @var string
      */
     protected $notifikasi = 'tb_notification';
 
     /**
      * Table tb_user_devices
-     * 
+     *
      * @var string
      */
     private $userDevices = 'tb_user_devices';
@@ -153,7 +153,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
 
     /**
      * Get full domain of a school
-     * 
+     *
      * @return string
      */
     public function getSchoolDomain(): string
@@ -165,11 +165,11 @@ class SharedModel extends \Actudent\Core\Models\Connector
 
     /**
      * Send notification to parent or staff
-     * 
+     *
      * @param array|int $recipient
      * @param array $content
      * @param string $type => student, mixed (parent and staff)
-     * 
+     *
      * @return void
      */
     public function sendNotification($recipient, array $content = [], string $type = 'student'): void
@@ -179,7 +179,7 @@ class SharedModel extends \Actudent\Core\Models\Connector
         foreach($recipient as $id) {
             $userID = $this->checkUserDevice($id, $type);
             if($userID !== false) {
-                $userDevice = $this->getUserDevice($userID)[0];  
+                $userDevice = $this->getUserDevice($userID)[0];
                 $uri    = new \CodeIgniter\HTTP\URI(base_url());
                 $values[] = [
                     'user_id'       => $userID,
@@ -199,9 +199,9 @@ class SharedModel extends \Actudent\Core\Models\Connector
 
     /**
      * Get user device data
-     * 
+     *
      * @param int $userID
-     * 
+     *
      * @return array
      */
     protected function getUserDevice(int $userID): array
@@ -211,10 +211,10 @@ class SharedModel extends \Actudent\Core\Models\Connector
 
     /**
      * Check if a user is exist on tb_user_devices or not
-     * 
+     *
      * @param int $recipient => student_id | user_id
      * @param string $type => student, mixed (parent and staff)
-     * 
+     *
      * @return int|boolean
      */
     protected function checkUserDevice(int $recipient, string $type)
@@ -234,8 +234,8 @@ class SharedModel extends \Actudent\Core\Models\Connector
             $user = $this->QBUser->select("{$this->user}.user_id");
             $join = $user->join($this->userDevices, "{$this->userDevices}.user_id={$this->user}.user_id");
             $row = $join->where("{$this->userDevices}.user_id", $recipient)->get()->getResult();
-        }      
-        
+        }
+
         return (count($row) > 0) ? $row[0]->user_id : false;
-    }  
+    }
 }
