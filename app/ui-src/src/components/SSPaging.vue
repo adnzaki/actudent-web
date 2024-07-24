@@ -11,7 +11,7 @@
         <q-pagination
           :model-value="modelValue"
           :max="paging.state.last + 1"
-          :max-pages="paging.state.linkNum"
+          :max-pages="paging.state.linkNum === false ? 0 : paging.state.linkNum"
           :input="useInput"
           direction-links
           boundary-links
