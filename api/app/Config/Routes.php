@@ -35,13 +35,16 @@ $routes->set404Override('Actudent\Core\Controllers\Error::show404');
  * Actudent Modules Routing
  * --------------------------------------------------------------------
  */
-// Admin section 
+// Admin section
 require ACTUDENT_PATH . 'Admin/Config/AdminRoutes.php';
 
-// Teacher section 
+// Teacher section
 require ACTUDENT_PATH . 'Guru/Config/GuruRoutes.php';
 
-// Installer section 
+// Parent section
+require ACTUDENT_PATH . 'Parent/Config/ParentRoutes.php';
+
+// Installer section
 require ACTUDENT_PATH . 'Installer/Config/InstallerRoutes.php';
 
 // Core section

@@ -1,29 +1,30 @@
 <?php namespace Actudent\Admin\Models;
 
 use Actudent\Admin\Models\KelasModel;
+use Actudent\Admin\Models\LiburModel;
 
 class AbsensiModel extends SharedModel
 {
     /**
      * Query Builder for tb_presence
      */
-    private $QBAbsen;
+    public $QBAbsen;
 
     /**
      * Query Builder for tb_homework
      */
-    private $QBHomework;
+    public $QBHomework;
 
     /**
      * Table tb_presence
-     * 
+     *
      * @var string
      */
     public $absensi = 'tb_presence';
-    
+
     /**
      * Table tb_homework
-     * 
+     *
      * @var string
      */
     public $homework = 'tb_homework';
@@ -35,7 +36,7 @@ class AbsensiModel extends SharedModel
 
     /**
      * Table tb_staff
-     * 
+     *
      * @var string
      */
     public $staff = 'tb_staff';
@@ -47,8 +48,8 @@ class AbsensiModel extends SharedModel
     public function __construct()
     {
         parent::__construct();
-        $this->QBAbsen = $this->db->table($this->absensi);        
-        $this->QBHomework = $this->db->table($this->homework);       
+        $this->QBAbsen = $this->db->table($this->absensi);
+        $this->QBHomework = $this->db->table($this->homework);
         $this->kelas = new KelasModel;
     }
 
@@ -74,11 +75,11 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get total number of journals in a class in spesific period
-     * 
+     *
      * @param int $gradeId
      * @param string $dateStart
      * @param string $dateEnd
-     * 
+     *
      * @return int
      */
     public function getTotalJournals(int $gradeId, string $dateStart, string $dateEnd): int
@@ -95,12 +96,12 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get presence of a student
-     * 
+     *
      * @param string $journal >>> Journal ID
      * @param int $student >>> Student ID
      * @param string $date >>> Selected date
-     * 
-     * @return mixed
+     *
+     * @return object|null
      */
     public function getPresence(string $journal, int $student, string $date)
     {
@@ -116,11 +117,11 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get journals by selected date
-     * 
+     *
      * @param string $date
      * @param int|null $grade
      * @param boolean $isReport
-     * 
+     *
      * @return array
      */
     public function getJournalByDate(string $date, $grade = null, bool $isReport = false): array
@@ -147,9 +148,9 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get the number of presence
-     * 
+     *
      * @param int $journalID
-     * 
+     *
      * @return array
      */
     public function getPresenceCount(int $journalID): array
@@ -165,11 +166,11 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get today's presence
-     * 
+     *
      * @param int $gradeId
      * @param int $status
      * @param null|string $date
-     * 
+     *
      * @return int
      */
     public function getTodayPresence(int $gradeId, int $status, $date = null): int
@@ -177,7 +178,7 @@ class AbsensiModel extends SharedModel
         if($date === null) {
             $date = date('Y-m-d');
         }
-        
+
         $journal = $this->getJournalByDate($date, $gradeId);
         $query = 0;
         if(count($journal) > 0) {
@@ -185,7 +186,7 @@ class AbsensiModel extends SharedModel
                         ->select('DISTINCT `student_id`', false)
                         ->where(['presence_status' => $status, 'journal_id' => $journal[0]->journal_id])
                         ->like('created', $date)
-                        ->get()->getNumRows();            
+                        ->get()->getNumRows();
         }
 
         return $query;
@@ -193,11 +194,11 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get today's absence with permission
-     * 
+     *
      * @param int $grade
      * @param null|string $date
      * @param int $type
-     * 
+     *
      * @return int
      */
     public function getTodayAbsenceWithPermission($gradeId, $type, $date = null): int
@@ -213,7 +214,7 @@ class AbsensiModel extends SharedModel
                         ->like('created', $date)
                         ->where('presence_status', $type)
                         ->where('journal_id', $journal[0]->journal_id)
-                        ->get()->getNumRows();            
+                        ->get()->getNumRows();
         }
 
         return $query;
@@ -221,37 +222,37 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get percentage of a presence
-     * 
+     *
      * @return array
      */
-    public function getPresencePercentage(): array
+    public function getPresencePercentage()
     {
-        $percentage = [
-            'present' => 0,
-            'absent' => 0,
-            'withPermission' => 0,
-        ];
+        // $percentage = [
+        //     'present' => 0,
+        //     'absent' => 0,
+        //     'withPermission' => 0,
+        // ];
 
-        $journalRows = $this->QBJurnal->select('*')->countAllResults();
-        if($journalRows > 0)
-        {
-            $countStudents = $this->QBStudent->where('deleted', 0)->countAllResults();
-            $present = $this->getTodayPresence('1');
-            $absent = $this->getTodayPresence('0');
-            $withPermission = $this->getTodayAbsenceWithPermission();
-            $percentage = [
-                'present' => ($present / $countStudents) * 100,
-                'absent' => ($absent / $countStudents) * 100,
-                'withPermission' => ($withPermission / $countStudents) * 100,
-            ];
-        }
-        
-        return $percentage;
+        // $journalRows = $this->QBJurnal->select('*')->countAllResults();
+        // if($journalRows > 0)
+        // {
+        //     $countStudents = $this->QBStudent->where('deleted', 0)->countAllResults();
+        //     $present = $this->getTodayPresence('1');
+        //     $absent = $this->getTodayPresence('0');
+        //     $withPermission = $this->getTodayAbsenceWithPermission();
+        //     $percentage = [
+        //         'present' => ($present / $countStudents) * 100,
+        //         'absent' => ($absent / $countStudents) * 100,
+        //         'withPermission' => ($withPermission / $countStudents) * 100,
+        //     ];
+        // }
+
+        // return $percentage;
     }
 
     /**
      * Get class group/grade list
-     * 
+     *
      * @return array
      */
     public function getRombel(): array
@@ -263,10 +264,10 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get schedules of the day
-     * 
+     *
      * @param string $day
      * @param int $grade
-     * 
+     *
      * @return array
      */
     public function getJadwal(string $day, int $grade): array
@@ -282,9 +283,9 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get journal data
-     * 
+     *
      * @param int $journalID
-     * 
+     *
      * @return array
      */
     public function getJournal(int $journalID): array
@@ -297,18 +298,18 @@ class AbsensiModel extends SharedModel
         }
 
         return [
-            'journal'   => $journal[0] ?? null, 
+            'journal'   => $journal[0] ?? null,
             'homework'  => $homework[0] ?? null,
         ];
     }
 
     /**
      * Get journal archives
-     * 
+     *
      * @param int|string $gradeID | "null" = skip grade selection
      * @param string $date
      * @param int|null $teacher
-     * 
+     *
      * @return array
      */
     public function getJournalArchives($gradeID, string $date, $teacher = null): array
@@ -324,7 +325,7 @@ class AbsensiModel extends SharedModel
         {
             $params = ['is_archive' => 1, "{$this->mapelKelas}.teacher_id" => $teacher];
         }
-        else 
+        else
         {
             $params = ['is_archive' => 1, "{$this->mapelKelas}.grade_id" => $gradeID];
         }
@@ -333,15 +334,15 @@ class AbsensiModel extends SharedModel
                         ->where($params)
                         ->get()
                         ->getResult();
-        
-        return $result;                       
+
+        return $result;
     }
 
     /**
      * Get homework from a journal archive
-     * 
+     *
      * @param int $journalID
-     * 
+     *
      * @return object|string
      */
     public function getHomeWorkArchive(int $journalID)
@@ -353,11 +354,11 @@ class AbsensiModel extends SharedModel
 
     /**
      * Save presence data
-     * 
+     *
      * @param array $data
      * @param int $journalID
      * @param string $date
-     * 
+     *
      * @return void
      */
     public function savePresence(array $data, int $journalID, string $date): void
@@ -368,7 +369,7 @@ class AbsensiModel extends SharedModel
             'presence_status'   => $data['status'],
             'presence_mark'     => $data['mark'],
             'created'           => $dateTime
-        ];        
+        ];
 
         if($this->presenceExists($journalID, $data['id']))
         {
@@ -377,7 +378,7 @@ class AbsensiModel extends SharedModel
                 'student_id' => $data['id']
             ]);
         }
-        else 
+        else
         {
             $values['journal_id'] = $journalID;
             $values['student_id'] = $data['id'];
@@ -407,16 +408,16 @@ class AbsensiModel extends SharedModel
         {
             $this->sendNotification([ $data['id'] ], $content);
         }
-    }    
+    }
 
     /**
      * Save the journal
-     * 
+     *
      * @param array $data
      * @param int $scheduleID
      * @param string $date
      * @param boolean $includeHomework
-     * 
+     *
      * @return mixed
      */
     public function saveJournal(array $data, int $scheduleID, string $date, bool $includeHomework = false)
@@ -431,7 +432,7 @@ class AbsensiModel extends SharedModel
         // set clock to 23.59
         $addHours = 23 * 60 * 60 + (59 * 60);
 
-        // set due date 
+        // set due date
         $dueDate = date('Y-m-d H:i:s', $timestamp + $addHours);
         $homeworkValues = [
             'homework_title'        => $data['homework_title'],
@@ -457,15 +458,15 @@ class AbsensiModel extends SharedModel
             if($includeHomework)
             {
                 $homeworkValues['journal_id'] = $journalID;
-                
+
                 // insert the homework
-                $this->QBHomework->insert($homeworkValues);    
+                $this->QBHomework->insert($homeworkValues);
                 $this->sendHomeworkNotification($scheduleID, $journalID, $homeworkValues, $date);
             }
 
             return $this->getJournal($journalID)['journal'];
         }
-        else 
+        else
         {
             $journalID = $journal[0]->journal_id;
             $this->QBJurnal->update($journalValues, ['journal_id' => $journalID]);
@@ -476,29 +477,29 @@ class AbsensiModel extends SharedModel
                 {
                     $this->QBHomework->update($homeworkValues, ['journal_id' => $journalID]);
                 }
-                else 
+                else
                 {
                     $homeworkValues['journal_id'] = $journalID;
-                
+
                     // insert the homework
                     $this->QBHomework->insert($homeworkValues);
                 }
 
                 $this->sendHomeworkNotification($scheduleID, $journalID, $homeworkValues, $date);
             }
-            
+
             return $journal[0];
         }
     }
 
     /**
      * Send homework notification
-     * 
+     *
      * @param int $scheduleID
      * @param int $journalID
      * @param array $homework
      * @param string $date
-     * 
+     *
      * @return void
      */
     private function sendHomeworkNotification(int $scheduleID, int $journalID, array $homework, string $date): void
@@ -512,21 +513,21 @@ class AbsensiModel extends SharedModel
             $content = [
                 'title' => 'Pemberitahuan Tugas Baru untuk ' . $member->student_name,
                 'body'  => $lesson->lesson_name .
-                            ': ' . $homework['homework_title'] . 
-                            ' telah terbit, batas pengumpulan tugas ' . 
+                            ': ' . $homework['homework_title'] .
+                            ' telah terbit, batas pengumpulan tugas ' .
                             os_date()->format('DD-MM-Y', reverse($date, '-', '-')),
             ];
 
             // send notification
             $this->sendNotification([ $member->student_id ], $content);
         }
-    } 
+    }
 
     /**
      * Get class group by schedule_id
-     * 
+     *
      * @param int $scheduleID
-     * 
+     *
      * @return array
      */
     public function getClassGroupBySchedule(int $scheduleID): array
@@ -541,9 +542,9 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get student name
-     * 
+     *
      * @param int $studentID
-     * 
+     *
      * @return array
      */
     public function getStudentName(int $studentID)
@@ -553,9 +554,9 @@ class AbsensiModel extends SharedModel
 
     /**
      * Get lesson name by journalID
-     * 
+     *
      * @param int $journalID
-     * 
+     *
      * @return array
      */
     public function getLessonName(int $journalID): array
@@ -571,10 +572,10 @@ class AbsensiModel extends SharedModel
 
     /**
      * Check if journal of a schedule has been created before on the same date
-     * 
+     *
      * @param int $scheduleID
      * @param string $date
-     * 
+     *
      * @return int|boolean
      */
     public function journalHasCreatedBefore(int $scheduleID, string $date)
@@ -601,9 +602,9 @@ class AbsensiModel extends SharedModel
 
     /**
      * Check if a homework is exist
-     * 
+     *
      * @param int $journalID
-     * 
+     *
      * @return boolean
      */
     private function homeworkExists(int $journalID): bool
@@ -613,7 +614,7 @@ class AbsensiModel extends SharedModel
         {
             return true;
         }
-        else 
+        else
         {
             return false;
         }
@@ -621,10 +622,10 @@ class AbsensiModel extends SharedModel
 
     /**
      * Check if a presence exists
-     * 
+     *
      * @param int $journalID
      * @param int $studentID
-     * 
+     *
      * @return boolean
      */
     public function presenceExists(int $journalID, int $studentID): bool
@@ -643,10 +644,10 @@ class AbsensiModel extends SharedModel
 
     /**
      * Check if a journal in schedule is exist
-     * 
+     *
      * @param int $scheduleID
      * @param string $date
-     * 
+     *
      * @return array|boolean
      */
     public function journalExists(int $scheduleID, string $date)

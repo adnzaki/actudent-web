@@ -23,6 +23,7 @@ return [
     'menu_siabsen'          => 'Absensi Guru',
     'menu_manage_siabsen'   => 'Data Harian',
     'menu_siabsen_guru'     => 'Absensi Saya',
+	'menu_kontribusi'    => 'Kontribusi',
 
     // menu guru
     'menu_post'         => 'Post',

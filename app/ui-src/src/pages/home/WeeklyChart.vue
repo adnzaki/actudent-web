@@ -1,7 +1,10 @@
 <template>
   <q-card class="q-mb-md">
     <q-card-section>
-      <div class="text-h6 text-capitalize q-mb-md">{{ $t('dashboard_weekly_chart') }}</div>
+      <div class="text-h6 text-capitalize q-mb-md">
+        {{ $t('dashboard_weekly_chart') }}
+      </div>
+      <spinner-orbit text="Generating charts..." v-if="showSpinner" />
       <div style="width: 100%" class="chart-container">
         <canvas :height="canvasHeight" id="presence-chart"></canvas>
       </div>
@@ -11,7 +14,7 @@
 
 <script>
 import { Chart } from 'chart.js/auto'
-import { ref, onMounted, computed }  from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { admin } from 'boot/axios'
 import { bearerToken, t } from 'src/composables/common'
 import { useQuasar } from 'quasar'
@@ -24,7 +27,8 @@ export default {
     const sick = ref([])
     const permit = ref([])
     const days = ref([])
-    const $q = useQuasar()    
+    const $q = useQuasar()
+    const showSpinner = ref(true)
 
     const CHART_COLORS = {
       red: 'rgb(255, 99, 132)',
@@ -33,73 +37,76 @@ export default {
       green: 'rgb(75, 192, 192)',
       blue: 'rgb(54, 162, 235)',
       purple: 'rgb(153, 102, 255)',
-      grey: 'rgb(201, 203, 207)'
+      grey: 'rgb(201, 203, 207)',
     }
 
-    let intervalId;
-    
-    onMounted(() => {      
+    let intervalId
+
+    onMounted(() => {
       setTimeout(() => {
         const getLastSevenDays = () => {
-          admin.get('home/absen-seminggu', {
-            headers: { Authorization: bearerToken },
-          }).then(({ data }) => {
-            present.value = data.present
-            absent.value = data.absent
-            sick.value = data.sick
-            permit.value = data.permit
-            days.value = data.date
+          admin
+            .get('home/absen-seminggu', {
+              headers: { Authorization: bearerToken },
+            })
+            .then(({ data }) => {
+              present.value = data.present
+              absent.value = data.absent
+              sick.value = data.sick
+              permit.value = data.permit
+              days.value = data.date
 
-            const labels = days.value
+              const labels = days.value
 
-            const datasets = [
-              {
-                label: t('absensi_hadir'),
-                data: present.value,
-                borderColor: CHART_COLORS.green,
-                fill: false,
-                cubicInterpolationMode: 'monotone',
-                tension: 0.4
-              },
-              {
-                label: t('absensi_alfa'),
-                data: absent.value,
-                borderColor: CHART_COLORS.red,
-                fill: false,
-                cubicInterpolationMode: 'monotone',
-                tension: 0.4
-              },
-              {
-                label: t('absensi_sakit'),
-                data: sick.value,
-                borderColor: CHART_COLORS.orange,
-                fill: false,
-                cubicInterpolationMode: 'monotone',
-                tension: 0.4
-              },
-              {
-                label: t('absensi_izin'),
-                data: permit.value,
-                borderColor: CHART_COLORS.blue,
-                fill: false,
-                cubicInterpolationMode: 'monotone',
-                tension: 0.4
-              },
-            ]
-    
-            // update the chart
-            setTimeout(() => {
-              chart.data.labels = labels
-              chart.data.datasets = datasets
-              chart.update('none')
-            }, 500)
-          })      
+              const datasets = [
+                {
+                  label: t('absensi_hadir'),
+                  data: present.value,
+                  borderColor: CHART_COLORS.green,
+                  fill: false,
+                  cubicInterpolationMode: 'monotone',
+                  tension: 0.4,
+                },
+                {
+                  label: t('absensi_alfa'),
+                  data: absent.value,
+                  borderColor: CHART_COLORS.red,
+                  fill: false,
+                  cubicInterpolationMode: 'monotone',
+                  tension: 0.4,
+                },
+                {
+                  label: t('absensi_sakit'),
+                  data: sick.value,
+                  borderColor: CHART_COLORS.orange,
+                  fill: false,
+                  cubicInterpolationMode: 'monotone',
+                  tension: 0.4,
+                },
+                {
+                  label: t('absensi_izin'),
+                  data: permit.value,
+                  borderColor: CHART_COLORS.blue,
+                  fill: false,
+                  cubicInterpolationMode: 'monotone',
+                  tension: 0.4,
+                },
+              ]
+
+              // update the chart
+              setTimeout(() => {
+                chart.data.labels = labels
+                chart.data.datasets = datasets
+                chart.update('none')
+                showSpinner.value = false
+              }, 500)
+            })
         }
-        
+
         getLastSevenDays()
-    
-        const chartId = document.getElementById('presence-chart')    
-    
+
+        const chartId = document.getElementById('presence-chart')
+
         const chart = new Chart(chartId, {
           type: 'line',
           options: {
@@ -111,19 +118,20 @@ export default {
           },
           data: {
             labels: [],
-            datasets: []
+            datasets: [],
           },
-        })      
+        })
 
         intervalId = setInterval(getLastSevenDays, 24000)
       }, 2000)
     })
 
     onBeforeRouteLeave(() => clearInterval(intervalId))
-    
+
     return {
-      canvasHeight: computed(() => $q.screen.lt.sm ? 300 : 320)
-    }    
-  }
+      showSpinner,
+      canvasHeight: computed(() => ($q.screen.lt.sm ? 300 : 320)),
+    }
+  },
 }
 </script>

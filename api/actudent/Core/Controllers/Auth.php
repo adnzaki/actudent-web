@@ -3,6 +3,7 @@
 namespace Actudent\Core\Controllers;
 
 header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use IPLocator;
 
@@ -32,16 +33,24 @@ class Auth extends \Actudent
 				'note' => get_lang('Error.app_expired'),
 			]);
 		} else {
+
 			$username = $this->request->getPost('username');
 			$password = $this->request->getPost('password');
+			$requirePassword = $this->request->getPost('requirePassword') === 1 ? true : false;
+
 			$remember = 1;
 			$isNik = $this->auth->isNik($username);
+			$nomorIndukSiswa = $this->auth->isNomorIndukSiswa($username);
 
 			if ($isNik !== false) {
 				$username = $isNik;
 			}
 
-			if ($this->auth->validasi($username, $password)) {
+			if ($nomorIndukSiswa !== false) {
+				$username = $nomorIndukSiswa['email'];
+			}
+
+			if ($this->auth->validasi($username, $password, $requirePassword)) {
 				$pengguna = $this->auth->getDataPengguna($username);
 
 				// Allow login if active sessions less than 10
@@ -52,6 +61,11 @@ class Auth extends \Actudent
 
 					$expirationTimestamp = strtotime('now') + $tokenExpiration;
 
+					$student = null;
+					if($pengguna->user_level === '3') {
+						$student = $nomorIndukSiswa['student'];
+					}
+
 					// store login history and session data
 					$loginId = $this->storeSession($pengguna->user_id, $expirationTimestamp);
 					$token = [
@@ -59,6 +73,7 @@ class Auth extends \Actudent
 						'loginId'	=> $loginId,
 						'email'     => $username,
 						'nama'      => $pengguna->user_name,
+						'studentId'	=> $student?->student_id,
 						'userLevel' => $pengguna->user_level,
 						'iat'       => strtotime('now'),
 						'exp'       => $expirationTimestamp
@@ -66,28 +81,26 @@ class Auth extends \Actudent
 
 					$gradeId = null;
 
-					if ($pengguna->user_level === '3') {
-						return $this->response->setJSON(['msg' => 'unauthorized']);
-					} else {
-						if ($pengguna->user_level === '2') {
-							$model = new \Actudent\Guru\Models\JadwalKehadiranModel;
-							$check = $model->isHomeroomTeacher($pengguna->user_id);
-							if ($check !== false) {
-								$gradeId = (int)$check->grade_id;
-							}
+
+					if ($pengguna->user_level === '2') {
+						$model = new \Actudent\Guru\Models\JadwalKehadiranModel;
+						$check = $model->isHomeroomTeacher($pengguna->user_id);
+						if ($check !== false) {
+							$gradeId = (int)$check->grade_id;
 						}
-
-						$encodedToken = jwt_encode($token);
-
-						$this->auth->statusJaringan('online', $username);
-						return $this->response->setJSON([
-							'msg'   	=> 'valid',
-							'token' 	=> $encodedToken,
-							'level' 	=> $pengguna->user_level,
-							'grade' 	=> $gradeId,
-							'lang'  	=> $this->getAppConfig($pengguna->user_id)->lang
-						]);
 					}
+
+					$encodedToken = jwt_encode($token);
+
+					$this->auth->statusJaringan('online', $username);
+					return $this->response->setJSON([
+						'msg'   	=> 'valid',
+						'token' 	=> $encodedToken,
+						'level' 	=> $pengguna->user_level,
+						'grade' 	=> $gradeId,
+						'student'	=> $student,
+						'lang'  	=> $this->getAppConfig($pengguna->user_id)->lang
+					]);
 				} else {
 					return $this->response->setJSON([
 						'msg' => 'maximum_session',
@@ -97,10 +110,16 @@ class Auth extends \Actudent
 			} else {
 				return $this->response->setJSON([
 					'msg'   => 'invalid',
-					'user'  => $username
+					'user'  => $username,
+					'requirePassword' => $requirePassword
 				]);
 			}
 		}
+	}
+
+	private function generateToken()
+	{
+
 	}
 
 	public function storeSession($userId, $tokenExpiration)

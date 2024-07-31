@@ -26,6 +26,17 @@ class Post extends \Actudent
 
         foreach($data as $d) {
             $d->editable = $this->isEditable($d->user_id) ? 1 : 0;
+
+			$postTime = explode(' ', $d->created);
+
+			// get featured image
+			$imagePath = explode('_', $d->featured_image);
+			$folder = $imagePath[0];
+			$d->featured_image_path = base_url() ."images/posts/$folder/$d->featured_image";
+			$charLimit = 50;
+			$ellipsis = strlen($d->timeline_content) > $charLimit ? '...' : '';
+			$d->excerpt = substr($d->timeline_content, 0, 50) . $ellipsis;
+			$d->post_date = os_date()->create($postTime[0], 'd-m-y', '-').' '.substr($postTime[1], 0, 5);
         }
 
         return $this->createResponse([
@@ -90,7 +101,7 @@ class Post extends \Actudent
 
     public function save($id = null)
     {
-        if(valid_token()) {
+        if(is_admin() || is_employee()) {
             $validation = $this->validation(); // [0 => $rules, 1 => $messages]
             if(! $this->validate($validation[0], $validation[1]))
             {
@@ -148,7 +159,7 @@ class Post extends \Actudent
 
     public function uploadFeaturedImage()
     {
-        if(is_admin()) {
+        if(is_admin() || is_employee()) {
             $config = [
                 'file'      => 'featured_image',
                 'width'     => 1920,
@@ -167,7 +178,7 @@ class Post extends \Actudent
 
     public function uploadImageGallery()
     {
-        if(is_admin()) {
+        if(is_admin() || is_employee()) {
             $config = [
                 'file'      => 'image_gallery',
                 'width'     => 1920,
@@ -186,7 +197,7 @@ class Post extends \Actudent
 
     public function removeImage($filename)
     {
-        if(valid_token()) {
+        if(is_admin() || is_employee()) {
             $getDate = explode('_', $filename)[0];
             $dirPath = "posts/$getDate/";
             $this->uploader->removeImage($dirPath . $filename);
@@ -197,7 +208,7 @@ class Post extends \Actudent
 
     public function deleteFeaturedImage($postId)
     {
-        if(valid_token()) {
+        if(is_admin() || is_employee()) {
             $detail = $this->post->getPostDetail($postId);
             $getDate = explode('_', $detail->featured_image)[0];
             $dirPath = "posts/$getDate/";
@@ -210,7 +221,7 @@ class Post extends \Actudent
 
     public function deleteImageGallery($imageId)
     {
-        if(valid_token()) {
+        if(is_admin() || is_employee()) {
             $detail = $this->post->getImageGallery($imageId);
             $getDate = explode('_', $detail->filename)[0];
             $dirPath = "posts/$getDate/";
@@ -223,7 +234,7 @@ class Post extends \Actudent
 
     public function delete()
     {
-        if(valid_token()) {
+        if(is_admin() || is_employee()) {
             $post = $this->request->getPost('id');
             $post = json_decode($post, true);
 

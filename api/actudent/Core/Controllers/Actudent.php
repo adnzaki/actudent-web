@@ -87,6 +87,7 @@ class Actudent extends \CodeIgniter\Controller
         helper([
             'Actudent\Core\Helpers\ostium',
             'Actudent\Core\Helpers\wolesdev',
+			'text'
         ]);
     }
 

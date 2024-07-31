@@ -23,6 +23,7 @@ return [
     'menu_siabsen'          => 'Teacher Presence',
     'menu_manage_siabsen'   => 'Daily Data',
     'menu_siabsen_guru'     => 'My Absence',
+	'menu_kontribusi'    => 'Contribution',
 
     // menu guru
     'menu_post'         => 'Posts',

@@ -1,4 +1,30 @@
 export default {
+  '2.0.2': [
+    {
+      key: '[New]',
+      desc: 'Adding afternoon shift to Lesson Schedule to accommodate some elementary schools that still have 2 shifts.',
+    },
+    {
+      key: '[New]',
+      desc: 'Adding Internet Service Provider (ISP) information on Login History page',
+    },
+    {
+      key: '[New]',
+      desc: 'Adding new menu (Bottom Menu) for mobile devices.',
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Increasing login session time to 360 days ',
+    },
+    {
+      key: '[Improvement]',
+      desc: 'Removing “Remember Me” option on login page',
+    },
+    {
+      key: '[Fix]',
+      desc: 'Removing auto-cropping when uploading Featured Image on post',
+    },
+  ],
   '2.0.1': [
     {
       key: '[New]',

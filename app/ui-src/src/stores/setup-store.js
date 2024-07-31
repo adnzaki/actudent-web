@@ -13,6 +13,8 @@ export const useSetupStore = defineStore('setup', {
         subscription_type: 'Free',
         database_name: '',
         token: '',
+        db_user: '',
+        db_password: '',
       },
       error: {},
       progressColor: 'bg-accent',
@@ -27,23 +29,30 @@ export const useSetupStore = defineStore('setup', {
         group: 'check',
       })
 
-      install.get('check').then(({ data }) => {
-        if (data.status === 1) {
-          loading({
-            message:
-              'Database has been installed, access to this feature is disabled. Redirecting to login page...',
-          })
+      install
+        .get('check')
+        .then(({ data }) => {
+          if (data.status === 1) {
+            loading({
+              message:
+                'Database has been installed, access to this feature is disabled. Redirecting to login page...',
+            })
 
-          setTimeout(() => {
-            Loading.hide()
-            window.location.href = conf.loginUrl()
-          }, 4000)
-        } else {
+            setTimeout(() => {
+              Loading.hide()
+              window.location.href = conf.loginUrl()
+            }, 4000)
+          } else {
+            setTimeout(() => {
+              Loading.hide()
+            }, 1000)
+          }
+        })
+        .catch(() => {
           setTimeout(() => {
             Loading.hide()
           }, 1000)
-        }
-      })
+        })
     },
     setupOrganization() {
       install
@@ -82,8 +91,11 @@ export const useSetupStore = defineStore('setup', {
         }, this.timeout)
       })
     },
+    createHolidays() {
+      this.doInstall('holidays', () => this.createTimelog())
+    },
     createSetting() {
-      this.doInstall('setting', () => this.createTimelog())
+      this.doInstall('setting', () => this.createHolidays())
     },
     createSchool() {
       this.doInstall('school', () => this.createSetting())
@@ -135,13 +147,9 @@ export const useSetupStore = defineStore('setup', {
       })
 
       install
-        .post(
-          `create/${module}`,
-          { token: this.postData.token },
-          {
-            transformRequest: [(data) => createFormData(data)],
-          },
-        )
+        .post(`create/${module}`, this.postData, {
+          transformRequest: [(data) => createFormData(data)],
+        })
         .then(({ data }) => {
           if (data.status === 'OK') {
             setTimeout(() => {
@@ -165,6 +173,43 @@ export const useSetupStore = defineStore('setup', {
             }, 1000)
           }
         })
+        .catch(() => {
+          loading()
+          this.disableButton = false
+        })
+    },
+    setupDatabase() {
+      //this.showProgressMessage = true
+      this.disableButton = true
+      const loading = Notify.create({
+        group: false,
+        spinner: true,
+        message: 'Setting up database...',
+        color: 'accent',
+        position: 'center',
+        timeout: 0,
+      })
+
+      install
+        .post('setup-database', this.postData, {
+          transformRequest: [(data) => createFormData(data)],
+        })
+        .then(({ data }) => {
+          if (data.status === 'OK') {
+            setTimeout(() => {
+              loading()
+              this.createUser()
+            }, 3000)
+          } else {
+            loading({
+              color: 'negative',
+              message: 'There is a problem while setting up the database.',
+              icon: 'report_problem',
+              spinner: false,
+            })
+            this.disableButton = false
+          }
+        })
     },
     validateForm() {
       this.showProgressMessage = true
@@ -185,14 +230,14 @@ export const useSetupStore = defineStore('setup', {
         .then(({ data }) => {
           loading({ timeout: this.timeout })
           if (data.status === 'success') {
-            this.createUser()
+            this.setupDatabase()
             loading({ timeout: 1 })
             this.error = {}
           } else {
             loading({
               color: 'negative',
               message:
-                'Unable to install database, please fill the form correctly.',
+                'Unable to install database, please fill in the form correctly.',
               icon: 'report_problem',
               spinner: false,
             })

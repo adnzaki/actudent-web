@@ -23,6 +23,11 @@
                 :label="$t('session_title')"
                 link="/sessions"
               />
+              <!-- <other-actions
+                icon="o_favorite"
+                :label="$t('menu_kontribusi')"
+                link="/contribution"
+              /> -->
               <!-- <other-actions icon="o_school" :label="$t('navbar_sekolah')" /> -->
               <other-actions
                 icon="logout"
@@ -49,9 +54,9 @@
           <q-avatar size="56px" class="q-mb-sm">
             <img src="boy-avatar.png" />
           </q-avatar>
-          <div class="text-weight-bold">{{ pengguna.user_name }}</div>
-          <div class="mobile-hide">{{ $trim(pengguna.user_email, 25) }}</div>
-          <div class="mobile-only">{{ $trim(pengguna.user_email, 30) }}</div>
+          <div class="text-weight-bold">{{ userName }}</div>
+          <div class="mobile-hide">{{ $trim(userEmail, 25) }}</div>
+          <div class="mobile-only">{{ $trim(userEmail, 30) }}</div>
         </div>
       </q-img>
     </q-drawer>
@@ -64,7 +69,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, onMounted, provide, watch, reactive } from 'vue'
+import { defineComponent, ref, onMounted, provide, watch, computed } from 'vue'
 import { baseUrl } from '../../globalConfig'
 import {
   headerColor,
@@ -100,25 +105,26 @@ export default defineComponent({
     const $q = useQuasar()
     const store = useSiabsenStore()
     const avatarBg = `${baseUrl()}images/bg/wp-4.jpg`
-    // const header = ref('')
-    // const elevated = ref(true)
-    // const userMenu = ref(['user-menu'])
 
-    // function triggerHeader() {
-    //   if (headerColor.value === 'dark') {
-    //     header.value = 'bg-grey-10'
-    //     elevated.value = false
-    //     userMenu.value.push('user-menu-dark')
-    //   } else {
-    //     header.value = 'header-gradient'
-    //     elevated.value = true
-    //     userMenu.value.pop()
-    //   }
-    // }
+    const userName = ref('')
+
+    const userEmail = ref('')
 
     onMounted(triggerHeader)
 
-    onMounted(getPengguna)
+    onMounted(() => {
+      getPengguna((data) => {
+        userName.value =
+          localStorage.getItem('studentName') !== null
+            ? localStorage.getItem('studentName')
+            : data.user_name
+
+        userEmail.value =
+          localStorage.getItem('studentNis') !== null
+            ? localStorage.getItem('studentNis')
+            : data.user_email
+      })
+    })
 
     watch(headerColor, triggerHeader)
 
@@ -140,6 +146,8 @@ export default defineComponent({
             localStorage.removeItem('date')
             localStorage.removeItem('grade_id')
             localStorage.removeItem('lesson')
+            localStorage.removeItem('studentName')
+            localStorage.removeItem('studentNis')
             window.location.reload()
           } else {
             console.warn(data.msg)
@@ -159,6 +167,8 @@ export default defineComponent({
       avatarBg,
       header,
       pengguna,
+      userName,
+      userEmail,
       menuWidth,
     }
   },

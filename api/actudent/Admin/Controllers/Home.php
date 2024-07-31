@@ -2,17 +2,12 @@
 
 use Actudent\Admin\Models\AbsensiModel;
 use Actudent\Admin\Models\KelasModel;
+use Actudent\Parent\Controllers\Dashboard;
 
 class Home extends \Actudent
 {
-    /**
-     * @var Actudent\Admin\Models\AbsensiModel
-     */
     private $absensi;
 
-    /**
-     * @var Actudent\Admin\Models\KelasModel
-     */
     private $kelas;
 
     public function __construct()
@@ -20,6 +15,51 @@ class Home extends \Actudent
         $this->absensi = new AbsensiModel;
         $this->kelas = new KelasModel;
     }
+
+	public function getStudentWithLowestAndHighestPresence()
+	{
+		if(is_admin()) {
+			$highest = $this->getMonthlyStudentPercentage();
+			usort($highest, function ($a, $b) {
+				return $b['percentage'] <=> $a['percentage'];
+			});
+
+			$lowest = $this->getMonthlyStudentPercentage();
+			usort($lowest, function ($a, $b) {
+				return $a['percentage'] <=> $b['percentage'];
+			});
+
+			return $this->response->setJSON([
+				'highest' => array_slice($highest, 0, 5),
+				'lowest'  => array_slice($lowest, 0, 5)
+			]);
+
+		}
+	}
+
+	private function getMonthlyStudentPercentage()
+	{
+		$classgroup = $this->kelas->getKelas();
+		$result = [];
+
+		foreach($classgroup as $key) {
+			$classMember = $this->kelas->getClassMember($key->grade_id);
+			foreach($classMember as $member) {
+				$studentDashboard = new Dashboard;
+				$monthlyPercentage = $studentDashboard->getMonthlyPercentage($member->student_id, $key->grade_id);
+
+				$result[] = [
+					'student_id' 	=> $member->student_id,
+					'student_name' 	=> $member->student_name,
+					'percentage' 	=> $monthlyPercentage,
+					'grade_id' 		=> $key->grade_id,
+					'grade_name' 	=> $key->grade_name
+				];
+			}
+		}
+
+		return $result;
+	}
 
     public function getTodayPresence()
     {
@@ -47,8 +87,8 @@ class Home extends \Actudent
     public function getTodayPresencePercentage()
     {
         return $this->createResponse([
-            'highest'   => $this->getHighestPresent()[0],
-            'lowest'    => $this->getLowestPresent()[0],
+            'highest'   => count($this->getHighestPresent()) > 0 ? $this->getHighestPresent()[0] : [],
+            'lowest'    => count($this->getLowestPresent()) > 0 ? $this->getLowestPresent()[0] : [],
 			'userAgent' => $this->testUserLoginData()
         ], 'is_admin');
     }

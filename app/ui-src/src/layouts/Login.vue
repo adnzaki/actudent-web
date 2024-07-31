@@ -1,7 +1,7 @@
 <template>
   <q-layout view="hHh lpR fFf">
     <q-page-container :class="['bg-login', styleSelector('bgImage')]">
-      <div class="q-pa-md q-gutter-sm" v-if="showUpdateProgress">
+      <!-- <div class="q-pa-md q-gutter-sm" v-if="showUpdateProgress">
         <q-banner
           inline-actions
           rounded
@@ -9,12 +9,8 @@
         >
           <strong> {{ dbProgressText }} </strong>
 
-          <!-- <template v-slot:action>
-            <q-btn flat label="Turn ON Wifi" />
-            <q-btn flat label="Dismiss" />
-          </template> -->
         </q-banner>
-      </div>
+      </div> -->
 
       <div class="q-pa-md q-mt-md row items-start q-gutter-md">
         <q-card
@@ -28,21 +24,13 @@
             <p :class="['text-center text-uppercase q-pt-lg', pleaseLoginText]">
               {{ $t('silakan_login') }}
             </p>
-            <q-form class="q-gutter-xs" @submit.prevent="validate">
-              <!-- <q-input :class="['q-pl-md q-mb-lg', styleSelector('input')]" borderless :color="styleSelector('icon')"
-                v-model="username" label="Username / NIK" :input-class="styleSelector('inputColor')"
-                :label-color="styleSelector('label')" @keyup.enter="validate">
-                <template v-slot:prepend>
-                  <q-icon name="mail_outline" />
-                </template>
-              </q-input> -->
-
+            <q-form class="q-gutter-xs" @submit.prevent="store.validate">
               <q-input
                 filled
                 class="q-mb-md"
-                v-model="username"
+                v-model="store.username"
                 :label="usernameLabel"
-                @keyup.enter="validate"
+                @keyup.enter="store.validate"
                 :label-color="styleSelector('label')"
                 :color="styleSelector('icon')"
                 :disable="dbUpdate"
@@ -52,20 +40,12 @@
                 </template>
               </q-input>
 
-              <!-- <q-input :class="['q-pl-md q-mb-xs', styleSelector('input')]" type="password" :color="styleSelector('icon')"
-                borderless v-model="password" label="Password" :label-color="styleSelector('label')"
-                :input-class="styleSelector('inputColor')"  @keyup.enter="validate">
-                <template v-slot:prepend>
-                  <q-icon name="vpn_key" :color="styleSelector('icon')" />
-                </template>
-              </q-input> -->
-
               <q-input
                 type="password"
                 filled
-                v-model="password"
+                v-model="store.password"
                 label="Password"
-                @keyup.enter="validate"
+                @keyup.enter="store.validate"
                 :label-color="styleSelector('label')"
                 :disable="dbUpdate"
               >
@@ -81,12 +61,15 @@
                 v-model="rememberMe"
                 :label="$t('remember_me')"
               /> -->
-              <p v-if="showMsg" :class="`text-bold text-${msgClass} q-mt-md`">
-                {{ msg }}
+              <p
+                v-if="store.showMessage"
+                :class="`text-bold text-${store.messageClass} q-mt-md`"
+              >
+                {{ store.message }}
               </p>
               <q-btn
                 :color="styleSelector('btn')"
-                @click="validate"
+                @click="store.validate"
                 :style="btnStyle"
                 :disable="dbUpdate"
                 class="q-mt-lg"
@@ -114,14 +97,9 @@
 <script>
 import { ref, reactive, computed, onMounted } from 'vue'
 import { axios } from 'boot/axios'
-import {
-  t,
-  conf,
-  createFormData,
-  isAuthenticated,
-  userType,
-} from 'src/composables/common'
+import { t, conf, isAuthenticated, userType } from 'src/composables/common'
 import { useQuasar } from 'quasar'
+import { useLoginStore } from 'src/stores/login-store'
 
 export default {
   name: 'LoginPage',
@@ -129,57 +107,24 @@ export default {
     let url = '/login'
     if (userType === '1') url = '/home'
     else if (userType === '2' || userType === '0') url = '/teacher/home'
+    else if (userType === '3') url = '/student/home'
 
     if (to.path === '/login' && isAuthenticated.value) next({ path: url })
     else next()
   },
   setup() {
     const $q = useQuasar()
+    const store = useLoginStore()
     const userLang = localStorage.getItem(conf.userLang)
-    const dbUpdate = ref(true)
-    const showUpdateProgress = ref(true)
-    const progressColor = ref('bg-red')
-    // const dbProgressText = ref(t('db_check'))
-    const dbProgressText = ref('Checking database...')
+    // const dbUpdate = ref(true)
+    // const showUpdateProgress = ref(true)
+    // const progressColor = ref('bg-red')
+    // // const dbProgressText = ref(t('db_check'))
+    // const dbProgressText = ref('Checking database...')
 
-    onMounted(() => {
-      const hideDbProgress = () => {
-        setTimeout(() => {
-          showUpdateProgress.value = false
-        }, 3000)
-      }
+    store.updateDb()
 
-      setTimeout(() => {
-        axios.get(`${conf.coreAPI}check-db`).then(({ data }) => {
-          if (data.shouldUpdate === 1) {
-            dbProgressText.value = 'Loading the latest database version...'
-
-            axios.get(`${conf.coreAPI}update-db`).then(({ data }) => {
-              setTimeout(() => {
-                dbProgressText.value = 'Database update complete'
-                progressColor.value = 'bg-green'
-                dbUpdate.value = false
-              }, 2000)
-
-              hideDbProgress()
-            })
-          } else {
-            progressColor.value = 'bg-green'
-            dbProgressText.value = 'Database is up to date.'
-            dbUpdate.value = false
-            hideDbProgress()
-          }
-        })
-      }, 1000)
-    })
-
-    const username = ref(''),
-      password = ref(''),
-      error = ref({}),
-      msg = ref(''),
-      msgClass = ref('black'),
-      showMsg = ref(false),
-      rememberMe = ref(true)
+    const error = computed(() => store.error)
 
     return {
       usernameLabel: computed(() => `Username / NIG (${t('login_nig')})`),
@@ -213,100 +158,13 @@ export default {
           ? styles.dark[style]
           : styles.light[style]
       },
-      validate() {
-        msg.value = ''
-        showMsg.value = true
-        const hideMsg = () => (showMsg.value = false)
-
-        if (username.value === '' || password.value === '') {
-          msg.value = t('userpassword_wajib')
-          msgClass.value = 'negative'
-          setTimeout(hideMsg, 6000)
-        } else {
-          const postData = {
-            username: username.value,
-            password: password.value,
-          }
-
-          msg.value = t('mengautentikasi')
-          msgClass.value =
-            $q.cookies.get('theme') === 'dark' ? 'white' : 'black'
-
-          // do request..
-          axios
-            .post(`${conf.coreAPI}login/validasi`, postData, {
-              transformRequest: [(data) => createFormData(data)],
-            })
-            .then((response) => {
-              const res = response.data
-              if (res.msg === 'expired' || res.msg === 'maximum_session') {
-                msgClass.value = 'negative'
-                msg.value = res.note
-              } else {
-                if (res.msg === 'valid') {
-                  msg.value = t('login_sukses')
-                  msgClass.value = 'positive'
-
-                  if (rememberMe.value) {
-                    conf.cookieExp *= 12 * 30 * 12 // 360 days
-                  }
-
-                  const dt = new Date(),
-                    now = dt.getTime(),
-                    expMs = now + conf.cookieExp,
-                    exp = new Date(expMs),
-                    cookieOptions = {
-                      expires: exp.toUTCString(),
-                      path: '/',
-                      sameSite: 'None',
-                      secure: true,
-                    }
-
-                  $q.cookies.set(conf.cookieName, res.token, cookieOptions)
-                  $q.cookies.set(conf.userType, res.level, cookieOptions)
-
-                  // set copy_presence option
-                  if (localStorage.getItem('copy_presence') === null) {
-                    localStorage.setItem('copy_presence', 0)
-                  }
-
-                  // always re-set the language after login successful
-                  localStorage.setItem(conf.userLang, res.lang)
-
-                  // redirect to dashboard depend on user type...
-                  if (res.level === '1') {
-                    window.location.href = conf.homeUrl()
-                    localStorage.removeItem('grade_id')
-                  } else if (res.level === '2' || res.level === '0') {
-                    localStorage.setItem('grade_id', res.grade)
-                    window.location.href = conf.teacherHomeUrl()
-                  }
-                } else if (res.msg === 'unauthorized') {
-                  msgClass.value = 'negative'
-                  msg.value = t('salah_akses')
-
-                  setTimeout(hideMsg, 8000)
-                } else {
-                  msgClass.value = 'negative'
-                  msg.value = t('invalid_login')
-
-                  setTimeout(hideMsg, 4000)
-                }
-              }
-            })
-        }
-      },
-      username,
-      password,
       error,
-      msg,
-      msgClass,
-      showMsg,
-      rememberMe,
-      dbUpdate,
-      progressColor,
-      showUpdateProgress,
-      dbProgressText,
+      // msg,
+      store,
+      // dbUpdate,
+      // progressColor,
+      // showUpdateProgress,
+      // dbProgressText,
       btnStyle: reactive({
         fontSize: '18px',
         width: 'calc(100% - 5px)',

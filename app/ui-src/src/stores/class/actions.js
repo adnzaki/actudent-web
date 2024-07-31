@@ -8,7 +8,7 @@ import {
   createFormData,
   pengguna,
   t,
-  flashAlert
+  flashAlert,
 } from '../../composables/common'
 
 import { Notify, Dialog } from 'quasar'
@@ -28,36 +28,45 @@ export default {
       timeout: 0,
     })
 
-    admin.post(`${this.classApi}copy-classgroup`, { selectedClasses: data }, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    }).then(({ data }) => {
-      notifyProgress({ timeout })
-      this.current = 1
-      this.selectedClasses = []
-      paging().reloadData()
-      notifyProgress({
-        message: `${t('sukses')} ${t('kelas_copy_success')}`,
-        color: 'positive',
-        icon: 'done',
-        spinner: false
+    admin
+      .post(
+        `${this.classApi}copy-classgroup`,
+        { selectedClasses: data },
+        {
+          headers: { Authorization: bearerToken },
+          transformRequest: [
+            (data) => {
+              return createFormData(data)
+            },
+          ],
+        },
+      )
+      .then(({ data }) => {
+        notifyProgress({ timeout })
+        this.current = 1
+        this.selectedClasses = []
+        paging().reloadData()
+        notifyProgress({
+          message: `${t('sukses')} ${t('kelas_copy_success')}`,
+          color: 'positive',
+          icon: 'done',
+          spinner: false,
+        })
       })
-    }).catch(err => {
-      notifyProgress({
-        message: t('kelas_copy_failed'),
-        color: 'negative',
-        spinner: false
+      .catch((err) => {
+        notifyProgress({
+          message: t('kelas_copy_failed'),
+          color: 'negative',
+          spinner: false,
+        })
       })
-    })
   },
   confirmCopyClass() {
     Dialog.create({
       title: t('konfirmasi'),
       message: t('kelas_confirm_copy'),
       cancel: t('batal'),
-      persistent: true
+      persistent: true,
     }).onOk(() => {
       this.copyClassgroup()
     })
@@ -78,32 +87,36 @@ export default {
       url: `${conf.adminAPI}kelas/get-kelas-sebelumnya/`,
       autoReset: {
         active: true,
-        timeout: 500
+        timeout: 500,
       },
     })
   },
 
-  removeFromClassGroup(payload) {
-    admin.get(`${this.classApi}remove-member/${payload.id}`, {
-      headers: { Authorization: bearerToken },
-    })
-      .then(response => {
-        this.getClassMember(payload.grade)
+  removeFromClassGroup({ id, grade }) {
+    admin
+      .get(`${this.classApi}remove-member/${id}/${grade}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
+        this.getClassMember(grade)
       })
   },
   addToClassGroup(payload) {
     const data = {
       id: payload.id,
-      grade: payload.grade
+      grade: payload.grade,
     }
 
-    admin.post(`${this.classApi}add-member`, data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
-      .then(response => {
+    admin
+      .post(`${this.classApi}add-member`, data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
+      .then((response) => {
         this.getUnregisteredStudents(payload.grade)
       })
   },
@@ -120,7 +133,7 @@ export default {
       url: `${conf.adminAPI}kelas/get-siswa/${gradeId}/`,
       autoReset: {
         active: true,
-        timeout: 500
+        timeout: 500,
       },
     })
   },
@@ -143,12 +156,15 @@ export default {
     })
 
     const data = { id: idString }
-    admin.post(`${this.classApi}delete`, data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
+    admin
+      .post(`${this.classApi}delete`, data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
       .then(() => {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
@@ -157,7 +173,7 @@ export default {
           message: t('kelas_delete_success'),
           color: 'positive',
           icon: 'done',
-          spinner: false
+          spinner: false,
         })
 
         // refresh data
@@ -166,7 +182,7 @@ export default {
   },
   save(payload) {
     let url
-    payload.edit ? url = `save/${payload.id}` : url = 'save'
+    payload.edit ? (url = `save/${payload.id}`) : (url = 'save')
     this.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
       group: false,
@@ -177,13 +193,16 @@ export default {
       timeout: 0,
     })
 
-    admin.post(`${this.classApi}${url}`, payload.data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
-      .then(response => {
+    admin
+      .post(`${this.classApi}${url}`, payload.data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
+      .then((response) => {
         notifyProgress({ timeout })
         this.helper.disableSaveButton = false
         const res = response.data
@@ -192,14 +211,14 @@ export default {
           notifyProgress({
             message: `Error! ${t('kelas_save_error')}`,
             color: 'negative',
-            spinner: false
+            spinner: false,
           })
         } else {
           this.saveStatus = 200
 
           this.selectedTeacher = {
             id: '',
-            name: ''
+            name: '',
           }
 
           this.resetForm()
@@ -209,7 +228,7 @@ export default {
               message: `${t('sukses')} ${t('kelas_edit_success')}`,
               color: 'positive',
               icon: 'done',
-              spinner: false
+              spinner: false,
             })
           } else {
             this.showAddForm = false
@@ -217,7 +236,7 @@ export default {
               message: `${t('sukses')} ${t('kelas_insert_success')}`,
               color: 'positive',
               icon: 'done',
-              spinner: false
+              spinner: false,
             })
           }
         }
@@ -245,25 +264,27 @@ export default {
       url: `${conf.adminAPI}kelas/get-kelas/`,
       autoReset: {
         active: true,
-        timeout: 500
+        timeout: 500,
       },
     })
   },
 
   // ported from Vuex mutations
   getClassMember(id) {
-    admin.get(`${this.classApi}get-member/${id}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    admin
+      .get(`${this.classApi}get-member/${id}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.classMember.students = response.data
       })
   },
   getTeacher() {
-    admin.get(`${this.classApi}cari-guru`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    admin
+      .get(`${this.classApi}cari-guru`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.teachers = response.data
         if (response.data.length > 0) {
           this.teacherId = response.data[0].staff_id
@@ -272,10 +293,11 @@ export default {
   },
   getDetail(id) {
     this.error = {}
-    admin.get(`${this.classApi}detail/${id}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    admin
+      .get(`${this.classApi}detail/${id}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         const res = response.data
         this.detail = res
         this.classMember.name = res.grade_name
@@ -303,11 +325,11 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      paging().state.data.forEach(item => {
+      paging().state.data.forEach((item) => {
         this.selectedClasses.push(item.grade_id)
       })
     } else {
       this.selectedClasses = []
     }
-  }
+  },
 }

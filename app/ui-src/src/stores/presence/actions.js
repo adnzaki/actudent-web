@@ -12,11 +12,21 @@ import { date } from 'quasar'
 import { Notify } from 'quasar'
 
 export default {
+  canFillJournal() {
+    axios
+      .get(`${this.presenceApi}can-fill-journal/${this.helper.activeDate}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then(({ data }) => {
+        this.journalFillable = data.can_fill === 1 ? true : false
+      })
+  },
   getTeacherSchedules() {
-    axios.get(`${this.presenceApi}daftar-jadwal/${this.helper.activeDay}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    axios
+      .get(`${this.presenceApi}daftar-jadwal/${this.helper.activeDay}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.teacherSchedules = response.data
       })
   },
@@ -26,10 +36,11 @@ export default {
     this.showPeriodTable = false
     this.showNoData = false
 
-    axios.get(`${this.presenceApi}rekap-semester/${this.classID}/${period}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    axios
+      .get(`${this.presenceApi}rekap-semester/${this.classID}/${period}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.periodSummary = response.data
         this.showSpinner = false
 
@@ -46,10 +57,11 @@ export default {
     this.showSpinner = true
     this.showMonthTable = false
 
-    axios.get(`${this.presenceApi}rekap-bulanan/${period}/${this.classID}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    axios
+      .get(`${this.presenceApi}rekap-bulanan/${period}/${this.classID}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.monthlySummary = response.data
         this.showSpinner = false
         this.showMonthTable = true
@@ -65,18 +77,23 @@ export default {
       timeout: 0,
     })
 
-    axios.post(`${this.presenceApi}izin`, { presence_mark: this.permissionNote }, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => createFormData(data)]
-    })
-      .then(response => {
+    axios
+      .post(
+        `${this.presenceApi}izin`,
+        { presence_mark: this.permissionNote },
+        {
+          headers: { Authorization: bearerToken },
+          transformRequest: [(data) => createFormData(data)],
+        },
+      )
+      .then((response) => {
         notifyProgress({ timeout })
         const res = response.data
         if (res.code === '500') {
           notifyProgress({
             message: `Error! ${res.msg.presence_mark}`,
             color: 'negative',
-            spinner: false
+            spinner: false,
           })
         } else {
           notifyProgress({ timeout: 1 })
@@ -91,7 +108,7 @@ export default {
     const mark = this.permissionNote
 
     if (studentId === null) {
-      this.studentPresence.forEach(id => {
+      this.studentPresence.forEach((id) => {
         data.push({ status, mark, id })
       })
     } else {
@@ -101,10 +118,15 @@ export default {
     const absen = JSON.stringify(data)
     const url = `${this.presenceApi}simpan-absen/${this.journalID}/${this.helper.activeDate}`
 
-    axios.post(url, { absen }, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => createFormData(data)]
-    })
+    axios
+      .post(
+        url,
+        { absen },
+        {
+          headers: { Authorization: bearerToken },
+          transformRequest: [(data) => createFormData(data)],
+        },
+      )
       .then(() => {
         // empty presence list
         this.studentPresence = []
@@ -126,10 +148,14 @@ export default {
       timeout: 0,
     })
 
-    axios.get(`${this.presenceApi}salin-jurnal/${this.scheduleID}/${this.helper.activeDate}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(res => {
+    axios
+      .get(
+        `${this.presenceApi}salin-jurnal/${this.scheduleID}/${this.helper.activeDate}`,
+        {
+          headers: { Authorization: bearerToken },
+        },
+      )
+      .then((res) => {
         notifyProgress({ timeout })
         if (res.data.status === 'OK') {
           this.journalID = res.data.id
@@ -139,14 +165,14 @@ export default {
               message: `${t('sukses')} ${res.data.msg}`,
               color: 'positive',
               icon: 'done',
-              spinner: false
+              spinner: false,
             })
           })
         } else {
           notifyProgress({
             message: `Error! ${res.data.msg}`,
             color: 'negative',
-            spinner: false
+            spinner: false,
           })
         }
       })
@@ -160,7 +186,7 @@ export default {
       homework_description: this.journal.homework_description,
       due_date: date.formatDate(this.journal.due_date, 'YYYY-MM-DD'),
       grade: this.classID,
-      copyPresence: localStorage.getItem('copy_presence')
+      copyPresence: localStorage.getItem('copy_presence'),
     }
 
     const notifyProgress = Notify.create({
@@ -172,20 +198,23 @@ export default {
       timeout: 0,
     })
 
-    axios.post(`${baseUrl}/${includeHomework}`, data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
-      .then(res => {
+    axios
+      .post(`${baseUrl}/${includeHomework}`, data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
+      .then((res) => {
         notifyProgress({ timeout })
         if (res.data.code === '500') {
           this.error = res.data.msg
           notifyProgress({
             message: `Error! ${t('absensi_jurnal_error_save')}`,
             color: 'negative',
-            spinner: false
+            spinner: false,
           })
         } else {
           this.error = {}
@@ -193,7 +222,7 @@ export default {
             message: `${t('sukses')} ${t('absensi_jurnal_success_save')}`,
             color: 'positive',
             icon: 'done',
-            spinner: false
+            spinner: false,
           })
 
           // reset everything
@@ -202,17 +231,21 @@ export default {
             description: '',
             homework_title: '',
             homework_description: '',
-            due_date: ''
+            due_date: '',
           }
           this.checkJournal()
         }
       })
   },
   checkJournal() {
-    axios.get(`${this.presenceApi}cek-jurnal/${this.scheduleID}/${this.helper.activeDate}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    axios
+      .get(
+        `${this.presenceApi}cek-jurnal/${this.scheduleID}/${this.helper.activeDate}`,
+        {
+          headers: { Authorization: bearerToken },
+        },
+      )
+      .then((response) => {
         const baseUrl = `${this.presenceApi}get-absen/${this.classID}/`
         let presenceUrl = `${baseUrl}null/null`
 
@@ -243,16 +276,17 @@ export default {
             description: '',
             homework_title: '',
             homework_description: '',
-            due_date: ''
+            due_date: '',
           }
         }
       })
   },
   getJournal(copyJournalCallback = false) {
-    axios.get(`${this.presenceApi}get-jurnal/${this.journalID}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(res => {
+    axios
+      .get(`${this.presenceApi}get-jurnal/${this.journalID}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((res) => {
         this.journal.description = res.data.journal.description
         if (res.data.homework !== null) {
           // toggle homework checkbox
@@ -263,7 +297,7 @@ export default {
           this.journal.homework_description = hw.homework_description
           this.journal.due_date = hw.due_date
         } else {
-          // reset if it has previously filled 
+          // reset if it has previously filled
           this.helper.homework = false
           this.journal.homework_title = ''
           this.journal.homework_description = ''
@@ -276,10 +310,11 @@ export default {
       })
   },
   getSchedules(grade) {
-    axios.get(`${this.presenceApi}get-jadwal/${this.helper.activeDay}/${grade}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    axios
+      .get(`${this.presenceApi}get-jadwal/${this.helper.activeDay}/${grade}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.schedule = response.data
         if (this.schedule.length > 0) {
           this.scheduleID = this.schedule[0].id
@@ -292,9 +327,10 @@ export default {
   // from Vuex mutations
   // ---------------------------------------------------
   checkHomeroomTeacher() {
-    teacher.get('absensi/cek-walikelas', {
-      headers: { Authorization: bearerToken }
-    })
+    teacher
+      .get('absensi/cek-walikelas', {
+        headers: { Authorization: bearerToken },
+      })
       .then(({ data }) => {
         if (data !== null) {
           this.isHomeroomTeacher = data.check
@@ -305,10 +341,11 @@ export default {
       })
   },
   getClassName(id) {
-    admin.get(`kelas/detail/${id}`, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    admin
+      .get(`kelas/detail/${id}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.className = response.data.grade_name
       })
   },
@@ -321,7 +358,7 @@ export default {
   },
   selectAll() {
     if (this.checkAll) {
-      this.presenceList.forEach(item => {
+      this.presenceList.forEach((item) => {
         this.studentPresence.push(item.id)
       })
     } else {
@@ -329,10 +366,11 @@ export default {
     }
   },
   getPresence(url) {
-    axios.get(url, {
-      headers: { Authorization: bearerToken }
-    })
-      .then(response => {
+    axios
+      .get(url, {
+        headers: { Authorization: bearerToken },
+      })
+      .then((response) => {
         this.presenceList = response.data
       })
   },

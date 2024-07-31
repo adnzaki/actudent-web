@@ -75,26 +75,18 @@ class JadwalModel extends SharedModel
      *
      * @var int $grade
      *
-     * @return array|boolean
+     * @return array
      */
-    public function getLessons(int $grade)
+    public function getLessons(int $grade): array
     {
-        $query = $this->QBMapelKelas->where(['grade_id' => $grade]);
-        if($query->countAllResults() > 0)
-        {
-            $param = [
-                "{$this->mapel}.deleted" => '0',
-                "{$this->mapelKelas}.grade_id" => $grade,
-                "{$this->mapelKelas}.deleted" => '0',
-            ];
+		$param = [
+			"{$this->mapel}.deleted" => '0',
+			"{$this->mapelKelas}.grade_id" => $grade,
+			"{$this->mapelKelas}.deleted" => '0',
+		];
 
-            $join = $this->lessonsGradeJoin();
-            return $join->getWhere($param)->getResult();
-        }
-        else
-        {
-            return false;
-        }
+		$join = $this->lessonsGradeJoin();
+		return $join->getWhere($param)->getResult();
     }
 
     /**

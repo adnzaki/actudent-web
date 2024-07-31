@@ -35,7 +35,7 @@ class Setting extends \Actudent
                 'width'     => 2400,
                 'height'    => 500,
                 'dir'       => 'kop',
-                'maxSize'   => 2000,
+                'maxSize'   => 4096,
                 'crop'      => 'fit'
             ];
 
@@ -50,11 +50,11 @@ class Setting extends \Actudent
     public function setLanguage()
     {
         if(valid_token()) {
-            $lang = $this->request->getPost('lang');        
+            $lang = $this->request->getPost('lang');
             $userData = $this->getDataPengguna();
             $path = $this->userLangPath().$userData->user_id.'.json';
             if(file_exists($path)) {
-                $settings = json_decode(file_get_contents($path));                
+                $settings = json_decode(file_get_contents($path));
                 $settings->lang = $lang;
             } else {
                 // check if the directory exist or not
@@ -65,10 +65,10 @@ class Setting extends \Actudent
 
                 $settings = ['lang' => $lang];
             }
-    
+
             // write settings to the file...
             file_put_contents($path, json_encode($settings));
-    
+
             return $this->response->setJSON(['msg' => 'Language setting updated']);
         }
     }

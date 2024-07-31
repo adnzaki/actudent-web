@@ -5,7 +5,15 @@ import { runLoadingBar } from './loading-bar'
 import { validateToken } from './validate-token'
 import { pengguna, getPengguna } from './get-pengguna'
 import { bearerToken, redirect } from './subscription'
-import { axios, core, admin, teacher, siabsen, install } from 'boot/axios'
+import {
+  axios,
+  core,
+  admin,
+  teacher,
+  siabsen,
+  parent,
+  install,
+} from 'boot/axios'
 import { appConfig as conf } from '../../actudent.config'
 import { flashAlert, errorNotif, timeout } from './notify'
 import { actionButton, addButton, fabColor } from 'src/composables/mode'
@@ -14,8 +22,10 @@ import { selectedLang } from './date'
 const userType = Cookies.get(conf.userType)
 const isAuthenticated = computed(() => Cookies.get(conf.cookieName) !== null)
 
-const dashboardLink =
-  Cookies.get(conf.userType) === '1' ? '/home' : '/teacher/home'
+let dashboardLink = '/home'
+
+if (userType === '2' || userType === '0') dashboardLink = '/teacher/home'
+else if (userType === '3') dashboardLink = '/student/home'
 
 const trim = (text, length = 25, ellipsis = true) => {
   const dots = ellipsis ? '...' : ''
@@ -33,6 +43,8 @@ const t = (key) => i18n.global.t(key)
 const formatDate = (val, format = 'dddd, DD MMMM YYYY') => {
   return date.formatDate(val, format, selectedLang)
 }
+
+const phpTimestamp = (val) => Date.parse(val).toString().substring(0, 10)
 
 const createQueryString = (params) => {
   return Object.entries(params)
@@ -121,11 +133,13 @@ export {
   pengguna,
   getPengguna,
   actionButton,
+  phpTimestamp,
   addButton,
   axios,
   core,
   admin,
   teacher,
   siabsen,
+  parent,
   install,
 }

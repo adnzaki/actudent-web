@@ -7,6 +7,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('home/absen-seminggu', 'Home::getLastSevenDaysPresence');
 	$routes->add('home/absen-harian', 'Home::getTodayPresence');
 	$routes->add('home/absen-harian-kelas', 'Home::getTodayPresencePercentage');
+	$routes->add('home/absen-tertinggi-terendah', 'Home::getStudentWithLowestAndHighestPresence');
 	$routes->add('siswa', 'Siswa::index');
 	$routes->add('siswa/limit', 'Siswa::getStudentLimit');
 	$routes->add('siswa/get-kelas', 'Siswa::getKelas');
@@ -41,7 +42,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('kelas/get-siswa/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Kelas::getUnregisteredStudents/$1/$2/$3/$4/$5/$6');
 	$routes->add('kelas/get-member/(:any)', 'Kelas::getClassMember/$1');
 	$routes->add('kelas/add-member', 'Kelas::addMember');
-	$routes->add('kelas/remove-member/(:any)', 'Kelas::removeMember/$1');
+	$routes->add('kelas/remove-member/(:any)/(:any)', 'Kelas::removeMember/$1/$2');
 	$routes->add('kelas/empty-group/(:any)', 'Kelas::emptyGroup/$1');
 	$routes->add('pegawai', 'Pegawai::index');
 	$routes->add('pegawai/get-pegawai/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Pegawai::getStaff/$1/$2/$3/$4/$5/$6/$7');
@@ -96,6 +97,7 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('absensi/get-jadwal/(:any)/(:any)', 'Absensi::getJadwal/$1/$2');
 	$routes->add('absensi/get-jurnal/(:any)', 'Absensi::getJournal/$1');
 	$routes->add('absensi/cek-jurnal/(:any)/(:any)', 'Absensi::checkJournal/$1/$2');
+	$routes->add('absensi/can-fill-journal/(:any)', 'Absensi::canFillJournal/$1');
 	$routes->add('absensi/save/(:any)/(:any)/(:any)', 'Absensi::save/$1/$2/$3');
 	$routes->add('absensi/simpan-absen/(:any)/(:any)', 'Absensi::savePresence/$1/$2');
 	$routes->add('absensi/izin', 'Absensi::validateMark');
@@ -141,9 +143,13 @@ $routes->group('admin', ['namespace' => 'Actudent\Admin\Controllers'], function(
 	$routes->add('pengaturan-laporan/get-signs/(:any)', 'Setting::getSignSetting/$1');
 	$routes->add('pengaturan-laporan/set-sign/(:any)/(:any)', 'Setting::setSignSetting/$1/$2');
 	$routes->add('change-password', 'Pengguna::saveNewPassword');
-	$routes->add('pengaturan-aplikasi', 'Setting::index');
-	$routes->add('pengaturan-aplikasi/set-tema/(:any)', 'Setting::setWarnaTema/$1');
 	$routes->add('pengaturan/set-bahasa', 'Setting::setLanguage');
+	$routes->add('libur/get-data/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'Libur::getHolidays/$1/$2/$3/$4/$5/$6');
+	$routes->add('libur/get-data/(:any)/(:any)/(:any)/(:any)/(:any)', 'Libur::getHolidays/$1/$2/$3/$4/$5');
+	$routes->add('libur/save', 'Libur::save');
+	$routes->add('libur/save/(:any)', 'Libur::save/$1');
+	$routes->add('libur/detail/(:any)', 'Libur::getDetail/$1');
+	$routes->add('libur/delete', 'Libur::delete');
 	$routes->add('sekolah', 'Sekolah::index');
 	$routes->add('sekolah/data', 'Sekolah::schoolData');
 	$routes->add('sekolah/detail', 'Sekolah::getSchoolDetail');

@@ -6,6 +6,7 @@ const admin = axios.create({ baseURL: conf.adminAPI })
 const teacher = axios.create({ baseURL: conf.teacherAPI })
 const core = axios.create({ baseURL: conf.coreAPI })
 const siabsen = axios.create({ baseURL: conf.siabsenAPI })
+const parent = axios.create({ baseURL: conf.parentAPI })
 const install = axios.create({ baseURL: conf.installAPI })
 
 export default boot(({ app }) => {
@@ -23,4 +24,4 @@ export default boot(({ app }) => {
   //       so you can easily perform requests against your app's API
 })
 
-export { axios, admin, teacher, core, siabsen, install }
+export { axios, admin, teacher, core, siabsen, parent, install }

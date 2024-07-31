@@ -46,14 +46,24 @@ class Kelas extends \Actudent
                     'teacher_id'        => $detail->teacher_id,
                     'rombel_dapodik_id' => null
                 ];
-    
+
                 // insert new classgroup
                 $classId = $this->kelas->insert($values);
-    
+
                 // copy class member into new classgroup
                 foreach($member as $student) {
                     $this->kelas->addMember($student->student_id, $classId);
                 }
+
+				$jadwal = new \Actudent\Admin\Models\JadwalModel;
+				$lessons = $jadwal->getLessons($id);
+				foreach($lessons as $lesson) {
+					$jadwal->insert([
+						'lesson_id' 	=> $lesson->lesson_id,
+						'grade_id'		=> $classId, // use new class group ID
+						'teacher_id'	=> $lesson->teacher_id
+					]);
+				}
 
                 $this->kelas->deactivateClassgroup($id);
             }
@@ -77,19 +87,19 @@ class Kelas extends \Actudent
             $grade = $this->request->getPost('grade');
 
             $this->kelas->addMember($id, $grade);
-            
+
             return $this->response->setJSON([
                 'msg' => 'OK'
             ]);
         }
     }
 
-    public function removeMember($id)
+    public function removeMember($studentId, $gradeId)
     {
         if(is_admin())
         {
-            $this->kelas->removeMember($id);
-            
+            $this->kelas->removeMember($studentId, $gradeId);
+
             return $this->response->setJSON([
                 'msg' => 'OK'
             ]);
@@ -99,7 +109,7 @@ class Kelas extends \Actudent
     public function emptyGroup($grade)
     {
         $this->kelas->emptyGroup($grade);
-        
+
         return $this->response->setJSON([
             'msg' => 'OK'
         ]);
@@ -135,7 +145,7 @@ class Kelas extends \Actudent
             else
             {
                 $data = $this->formData();
-                if($id === null) 
+                if($id === null)
                 {
                     $this->kelas->insert($data);
                 }
@@ -143,7 +153,7 @@ class Kelas extends \Actudent
                 {
                     $this->kelas->update($data, $id);
                 }
-                
+
                 return $this->response->setJSON([
                     'code' => '200',
                 ]);
@@ -165,7 +175,7 @@ class Kelas extends \Actudent
                     $this->kelas->delete($id);
                 }
             }
-            else 
+            else
             {
                 $this->kelas->delete($idString);
             }
@@ -193,7 +203,7 @@ class Kelas extends \Actudent
                 'is_natural'    => get_lang('AdminKelas.kelas_err_teacher_natural'),
             ]
         ];
-        
+
         return [$rules, $messages];
     }
 

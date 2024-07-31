@@ -1,6 +1,6 @@
 <template>
   <div class="col-12 col-md-5">
-    <div class="q-gutter-xs">
+    <div class="q-gutter-xs" v-if="$q.cookies.get(conf.userType) !== '3'">
       <q-btn
         icon="add"
         :class="['q-pl-sm mobile-hide', addButton]"
@@ -28,7 +28,7 @@
       position="bottom-right"
       :offset="fabPos"
       class="mobile-only force-elevated"
-      v-if="!store.showForm"
+      v-if="!store.showForm && $q.cookies.get(conf.userType) !== '3'"
     >
       <q-btn
         fab

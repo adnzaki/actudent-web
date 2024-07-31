@@ -21,6 +21,9 @@ export const appConfig = {
   // API for installing database
   installAPI: `${baseUrl()}install/`,
 
+  // API for parent section
+  parentAPI: `${baseUrl()}parent/`,
+
   // API for testing section
   testAPI: `${baseUrl()}ui-test/`,
 
@@ -31,17 +34,20 @@ export const appConfig = {
   // Actudent authentication page into main
   // application page
   homeUrl: () => {
-    return (mode === 'development')
-      ? `${baseAppURL}/#/`
-      : `${uiPath()}app`
+    return mode === 'development' ? `${baseAppURL}/#/` : `${uiPath()}app`
   },
   teacherHomeUrl: () => {
-    return (mode === 'development')
+    return mode === 'development'
       ? `${baseAppURL}/#/teacher/home`
       : `${uiPath()}app/#/teacher/home`
   },
+  parentHomeUrl: () => {
+    return mode === 'development'
+      ? `${baseAppURL}/#/student/home`
+      : `${uiPath()}app/#/student/home`
+  },
   loginUrl: () => {
-    return (mode === 'development')
+    return mode === 'development'
       ? `${baseAppURL}/#/login`
       : `${uiPath()}app/#/login`
   },
@@ -62,5 +68,5 @@ export const appConfig = {
   userLang: 'ac_userlang',
 
   // Cookie name to retrieve user type of current user
-  userType: 'actudent_usertype'
+  userType: 'actudent_usertype',
 }

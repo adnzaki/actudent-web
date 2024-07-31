@@ -58,7 +58,7 @@ export default {
     const getDay = today.getDay()
     const activeDate = (val) => date.formatDate(val, 'YYYY-MM-DD')
     const selectedDate = ref(
-      date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang)
+      date.formatDate(dateValue.value, 'dddd, DD MMMM YYYY', selectedLang),
     )
 
     store.helper.activeDay = getDay
@@ -71,13 +71,14 @@ export default {
       selectedDate.value = date.formatDate(
         getDate,
         'dddd, DD MMMM YYYY',
-        selectedLang
+        selectedLang,
       )
 
       store.helper.activeDay = getDate.getDay()
       store.helper.activeDate = activeDate(getDate)
 
       store.getSchedules(route.params.id)
+      store.canFillJournal()
 
       if (store.scheduleID === '') {
         store.showJournalBtn = false
@@ -85,6 +86,8 @@ export default {
         store.showJournalBtn = true
       }
     }
+
+    store.canFillJournal()
 
     const getPresence = (model) => {
       store.scheduleID = model.value

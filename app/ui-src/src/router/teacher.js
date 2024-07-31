@@ -14,10 +14,11 @@ import SummaryMain from 'src/siabsen_pages/teacher_summary/SummaryMain.vue'
 import EventsMain from 'src/siabsen_pages/events/EventsMain.vue'
 import PresenceDialog from 'src/siabsen_pages/dashboard/PresenceDialogPage.vue'
 
+// prettier-ignore
 export default [
   {
-    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token'), children: [
-      { path: 'home', component: TeacherIndex, beforeEnter: () => routeValidator('valid_token') },
+    path: 'teacher', component: TeacherIndex, beforeEnter: () => routeValidator('is_employee'), children: [
+      { path: 'home', component: TeacherIndex, beforeEnter: () => routeValidator('is_employee') },
     ],
   },
   {
@@ -30,8 +31,8 @@ export default [
   { path: 'teacher/daily-report', component: DailyReportMain, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/monthly-summary/:id', component: MonthSummary, beforeEnter: () => routeValidator('is_teacher', true) },
   { path: 'teacher/period-summary/:id', component: PeriodSummary, beforeEnter: () => routeValidator('is_teacher', true) },
-  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('valid_token') },
-  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('valid_token') },
+  { path: 'teacher/agenda', component: AgendaMain, beforeEnter: () => routeValidator('is_employee') },
+  { path: 'teacher/app-settings', component: AppSettingsMain, beforeEnter: () => routeValidator('is_employee') },
   {
     path: 'absence', component: SiAbsenIndex, beforeEnter: () => routeValidator('valid_token'),
     children: [

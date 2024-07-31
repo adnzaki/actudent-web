@@ -1,8 +1,9 @@
 <template>
-  <div class="q-pa-md">  
-    <presence-flash-recap />   
+  <div class="q-pa-md">
+    <presence-flash-recap />
     <total-daily-recap />
     <weekly-chart />
+    <highest-lowest-presence />
     <presence-rank />
     <updates />
   </div>
@@ -14,6 +15,8 @@ import TotalDailyRecap from './TotalDailyRecap.vue'
 import Updates from './Updates.vue'
 import WeeklyChart from './WeeklyChart.vue'
 import PresenceRank from './PresenceRank.vue'
+import HighestLowestPresence from './HighestLowestPresence.vue'
+import { useLoginStore } from 'src/stores/login-store'
 export default {
   name: 'PageIndex',
   components: {
@@ -21,12 +24,18 @@ export default {
     Updates,
     TotalDailyRecap,
     WeeklyChart,
-    PresenceRank
+    PresenceRank,
+    HighestLowestPresence,
   },
   beforeRouteEnter(to, from) {
-    if(from.fullPath === '/login') {
+    if (from.fullPath === '/login') {
       window.location.reload()
     }
-  }
+  },
+  setup() {
+    const store = useLoginStore()
+
+    store.updateDb()
+  },
 }
 </script>
