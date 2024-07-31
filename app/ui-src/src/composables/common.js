@@ -102,8 +102,6 @@ const toDecimal = (time) => {
   return hour + mins
 }
 
-const phpTimestamp = (val) => Date.parse(val).toString().substring(0, 10)
-
 export {
   t,
   ref,
@@ -133,7 +131,6 @@ export {
   pengguna,
   getPengguna,
   actionButton,
-  phpTimestamp,
   addButton,
   axios,
   core,
