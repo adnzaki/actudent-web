@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="q-my-md row">
+    <div class="q-my-md row" v-if="!showSpinner">
       <div :class="['col-12 col-md-4', responsiveClass()]">
         <q-card class="my-card bg-green">
           <q-card-section class="text-white">
@@ -68,6 +68,11 @@
         </q-card>
       </div>
     </div>
+    <div class="q-my-md row" v-else>
+      <div class="col">
+        <spinner-orbit text="Getting today's employee attendance..." />
+      </div>
+    </div>
     <q-card class="q-my-md" v-if="recentPresence.length > 0">
       <q-card-section>
         <div class="text-h6 text-capitalize">
@@ -113,6 +118,7 @@ export default {
     })
 
     const recentPresence = ref([])
+    const showSpinner = ref(true)
 
     const getDailyRecap = () => {
       siabsen
@@ -125,6 +131,7 @@ export default {
             present: data.present,
             permit: data.permit,
           }
+          showSpinner.value = false
 
           recentPresence.value = data.recent
         })
@@ -140,6 +147,7 @@ export default {
     onBeforeRouteLeave(() => clearInterval(updateRecap))
 
     return {
+      showSpinner,
       presenceLabel: (type) => {
         return type === 'masuk' ? t('siabsen_in') : t('siabsen_out')
       },
