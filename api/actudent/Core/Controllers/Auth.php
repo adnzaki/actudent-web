@@ -36,7 +36,7 @@ class Auth extends \Actudent
 
 			$username = $this->request->getPost('username');
 			$password = $this->request->getPost('password');
-			$requirePassword = $this->request->getPost('requirePassword') === 1 ? true : false;
+			$requirePassword = (int)$this->request->getPost('requirePassword') === 1 ? true : false;
 
 			$remember = 1;
 			$isNik = $this->auth->isNik($username);
@@ -111,7 +111,6 @@ class Auth extends \Actudent
 				return $this->response->setJSON([
 					'msg'   => 'invalid',
 					'user'  => $username,
-					'requirePassword' => $requirePassword
 				]);
 			}
 		}
