@@ -44,7 +44,11 @@
       :breakpoint="450"
     >
       <app-menu />
-      <q-img class="absolute-top" :src="avatarBg" style="height: 150px">
+      <q-img
+        class="absolute-top ac-user-image"
+        :src="avatarBg"
+        style="height: 150px"
+      >
         <div class="absolute-bottom bg-transparent">
           <q-avatar size="56px" class="q-mb-sm">
             <img src="boy-avatar.png" />
@@ -56,7 +60,9 @@
       </q-img>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container
+      :style="{ paddingLeft: `${qPageContainerPaddingLeft}px` }"
+    >
       <subscription-warning />
       <router-view />
     </q-page-container>
@@ -102,6 +108,10 @@ export default defineComponent({
     const userName = ref('')
 
     const userEmail = ref('')
+
+    const qPageContainerPaddingLeft = computed(() => {
+      return $q.screen.gt.sm ? menuWidth() + 20 : menuWidth()
+    })
 
     onMounted(triggerHeader)
 
@@ -163,6 +173,7 @@ export default defineComponent({
       userName,
       userEmail,
       menuWidth,
+      qPageContainerPaddingLeft,
     }
   },
 })
