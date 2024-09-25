@@ -474,13 +474,11 @@ class Absensi extends \Actudent
 	{
 		$presenceData = [];
 		$totalDays = os_date()->daysInMonth($month, $year);
-		$user = $this->getDataPengguna();
-		$lang = $this->getAppConfig($user->user_id)->lang;
 
 		// Loop the days from the selected month
 		for ($i = 1; $i <= $totalDays; $i++) {
 			$date = reverse(os_date()->shortDate($i, $month, $year), '-', '-');
-			$dateLong = $lang === 'english' ? date('l, d F Y', strtotime($date)) : os_date()->create($date, 'DD-MM-y');
+			$dateLong = os_date()->create($date, 'DD-MM-y');
 			$journals = $this->absensi->getJournalByDate($date, $gradeId, true);
 
 			if (count($journals) === 0) {

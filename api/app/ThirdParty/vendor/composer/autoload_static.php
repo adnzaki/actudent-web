@@ -38,7 +38,6 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         ),
         'M' =>
         array (
-            'MyCLabs\\Enum\\' => 13,
             'MaxMind\\WebService\\' => 19,
             'MaxMind\\Exception\\' => 18,
             'MaxMind\\Db\\' => 11,
@@ -101,8 +100,8 @@ class ComposerStaticInitdfc094e9702dfd253ae4bb88488ae032
         ),
         'Psr\\Http\\Message\\' =>
         array (
-            0 => __DIR__ . '/..' . '/psr/http-factory/src',
-            1 => __DIR__ . '/..' . '/psr/http-message/src',
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
+            1 => __DIR__ . '/..' . '/psr/http-factory/src',
         ),
         'Psr\\Http\\Client\\' =>
         array (
