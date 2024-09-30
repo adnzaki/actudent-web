@@ -72,6 +72,7 @@ class Autoload extends AutoloadConfig
         'Actudent'      => ACTUDENT_PATH . 'Core/Controllers/Actudent.php',
         'SimpleTag'     => ACTUDENT_PATH . 'Core/Libraries/simple-tag/SimpleTag.php',
         'AwsClient'     => SIABSEN_PATH . 'Libraries/AwsClient.php',
+        'FormGenerator' => SIABSEN_PATH . 'Libraries/FormGenerator.php',
     ];
 
     /**
