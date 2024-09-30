@@ -238,7 +238,7 @@ class PegawaiModel extends \Actudent\Core\Models\Connector
             'staff_type'    	=> $data['staff_type'],
             'staff_title'   	=> $data['staff_title'],
             'staff_photo'   	=> $data['featured_image'],
-			'ptk_dapodik_id'	=> $data['ptk_dapodik_id'],
+			'ptk_dapodik_id'	=> (isset($data['ptk_dapodik_id'])) ? $data['ptk_dapodik_id'] : null,
         ];
     }
 
