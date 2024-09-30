@@ -6,7 +6,6 @@ node_modules
 .quasar
 /dist
 
-port.conf.js
 .updates-raw
 
 # Cordova related directories and files
