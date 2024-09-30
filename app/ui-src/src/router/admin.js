@@ -41,6 +41,9 @@ import SessionManager from 'pages/sessions/SessionManager.vue'
 import ManageAccountMain from 'pages/manage_account/MainView.vue'
 import ContributionMain from 'pages/contribution/MainView.vue'
 import HolidaysMain from 'pages/holidays/MainView.vue'
+// Leave Requests
+import AdminLeaveRequest from 'src/siabsen_pages/admin_leave_request/LeaveRequestMain.vue'
+
 
 // prettier-ignore
 export default [
@@ -111,6 +114,7 @@ export default [
       { path: 'config', component: ConfigMain, beforeEnter: () => routeValidator() },
       { path: 'schedule', component: PresenceScheduleMain, beforeEnter: () => routeValidator() },
       { path: 'holiday', component: Holiday, beforeEnter: () => routeValidator() },
+      { path: 'leave-request', component: AdminLeaveRequest, beforeEnter: () => routeValidator() },
     ]
   },
   { path: 'users', component: UsersMain, beforeEnter: () => routeValidator() },

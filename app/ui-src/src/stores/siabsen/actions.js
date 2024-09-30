@@ -524,5 +524,27 @@ export default {
       .then(({ data }) => {
         this.config = data
       })
+  },
+  getAllLeaveRequest() {
+    const limit = 25
+    paging().rows = limit
+
+    const withId = Cookies.get(conf.userType) === '1' ? 'false' : 'true'
+
+    paging().getData({
+      token: bearerToken,
+      lang: localStorage.getItem(conf.userLang),
+      limit,
+      offset: this.current - 1,
+      orderBy: 'created',
+      searchBy: 'staff_name',
+      sort: 'DESC',
+      search: '',
+      url: `${conf.siabsenAPI}leave-request/list/${withId}/`,
+      autoReset: {
+        active: true,
+        timeout: 500
+      },
+    })
   }
 }

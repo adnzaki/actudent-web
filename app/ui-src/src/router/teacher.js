@@ -13,6 +13,7 @@ import PermitMain from 'src/siabsen_pages/teacher_permit/PermitMain.vue'
 import SummaryMain from 'src/siabsen_pages/teacher_summary/SummaryMain.vue'
 import EventsMain from 'src/siabsen_pages/events/EventsMain.vue'
 import PresenceDialog from 'src/siabsen_pages/dashboard/PresenceDialogPage.vue'
+import LeaveRequestMain from 'src/siabsen_pages/teacher_leave_request/LeaveRequestMain.vue'
 
 // prettier-ignore
 export default [
@@ -41,6 +42,7 @@ export default [
       { path: 'permit', component: PermitMain, beforeEnter: () => routeValidator('valid_token') },
       { path: 'monthly-summary', component: SummaryMain, beforeEnter: () => routeValidator('valid_token') },
       { path: 'events', component: EventsMain, beforeEnter: () => routeValidator('valid_token') },
+      { path: 'leave-request', component: LeaveRequestMain, beforeEnter: () => routeValidator('valid_token') },
     ]
   },
 ]

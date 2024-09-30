@@ -1,7 +1,7 @@
 <?php namespace SiAbsen\Controllers;
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: Authorization, Content-type');
+// header('Access-Control-Allow-Origin: *');
+// header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 use PDFCreator;
 
@@ -27,6 +27,7 @@ class Admin extends \Actudent
         $this->kegiatan = new \SiAbsen\Models\KegiatanModel;
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;
+        $this->leaveRequest = new \SiAbsen\Models\LeaveRequestModel;
     }
 
     public function updateSchedule()
