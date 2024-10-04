@@ -5,16 +5,14 @@ import {
   createFormData,
   t,
   conf,
-  Cookies
+  Cookies,
 } from '../../composables/common'
 
 import { Notify, Dialog } from 'quasar'
 import { usePagingStore as paging } from 'ss-paging-vue'
 
 export default {
-  deleteHoliday() {
-
-  },
+  deleteHoliday() {},
   getAttendance(agendaId) {
     paging().getData({
       token: bearerToken,
@@ -29,18 +27,22 @@ export default {
     })
   },
   getAllEvents() {
-    siabsen.get(`get-kegiatan/${this.period}/1`, {
-      headers: { Authorization: bearerToken }
-    }).then(({ data }) => {
-      this.allEvents = data
-    })
+    siabsen
+      .get(`get-kegiatan/${this.period}/1`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then(({ data }) => {
+        this.allEvents = data
+      })
   },
   getUserEvents() {
-    siabsen.get(`get-kegiatan/${this.period}`, {
-      headers: { Authorization: bearerToken }
-    }).then(({ data }) => {
-      this.userEvents = data
-    })
+    siabsen
+      .get(`get-kegiatan/${this.period}`, {
+        headers: { Authorization: bearerToken },
+      })
+      .then(({ data }) => {
+        this.userEvents = data
+      })
   },
   getRequiredPresent(val) {
     this.requiredPresent = val
@@ -56,36 +58,41 @@ export default {
       timeout: 0,
     })
 
-    const data = Object.entries(this.scheduleDays).filter(key => key[1].value === true)
+    const data = Object.entries(this.scheduleDays).filter(
+      (key) => key[1].value === true,
+    )
     const filtered = Object.fromEntries(data)
     const postData = {
       id: this.staffId,
-      schedule: JSON.stringify(filtered)
+      schedule: JSON.stringify(filtered),
     }
 
-    siabsen.post('update-jadwal', postData, {
-      headers: {
-        Authorization: bearerToken
-      },
-      transformRequest: [data => createFormData(data)]
-    }).then(({ data }) => {
-      this.getStaffScheduleList()
-      this.showScheduleForm = false
-      notifyProgress({
-        message: `${t('sukses')} ${t('siabsen_jadwal_success')}`,
-        color: 'positive',
-        icon: 'done',
-        spinner: false,
-        timeout
+    siabsen
+      .post('update-jadwal', postData, {
+        headers: {
+          Authorization: bearerToken,
+        },
+        transformRequest: [(data) => createFormData(data)],
       })
-    }).catch(error => {
-      notifyProgress({
-        message: `Error! ${t('siabsen_jadwal_error')} [${error}]`,
-        color: 'negative',
-        spinner: false,
-        timeout: 8000
+      .then(({ data }) => {
+        this.getStaffScheduleList()
+        this.showScheduleForm = false
+        notifyProgress({
+          message: `${t('sukses')} ${t('siabsen_jadwal_success')}`,
+          color: 'positive',
+          icon: 'done',
+          spinner: false,
+          timeout,
+        })
       })
-    })
+      .catch((error) => {
+        notifyProgress({
+          message: `Error! ${t('siabsen_jadwal_error')} [${error}]`,
+          color: 'negative',
+          spinner: false,
+          timeout: 8000,
+        })
+      })
   },
   promptSync(id) {
     const dialog = Dialog.create({
@@ -93,8 +100,8 @@ export default {
       message: t('siabsen_sync_confirm_msg'),
       cancel: {
         label: t('batal'),
-        flat: true
-      }
+        flat: true,
+      },
     }).onOk(() => {
       this.syncFromTeachingSchedule(id)
     })
@@ -109,27 +116,30 @@ export default {
       timeout: 0,
     })
 
-    siabsen.get(`sync-jadwal-mengajar/${id}`, {
-      headers: {
-        Authorization: bearerToken
-      }
-    }).then(({ data }) => {
-      this.getStaffScheduleList()
-      notifyProgress({
-        message: `${t('sukses')} ${t('siabsen_sync_success')}`,
-        color: 'positive',
-        icon: 'done',
-        spinner: false,
-        timeout
+    siabsen
+      .get(`sync-jadwal-mengajar/${id}`, {
+        headers: {
+          Authorization: bearerToken,
+        },
       })
-    }).catch(error => {
-      notifyProgress({
-        message: `Error! ${t('siabsen_sync_error')} [${error}]`,
-        color: 'negative',
-        spinner: false,
-        timeout: 8000
+      .then(({ data }) => {
+        this.getStaffScheduleList()
+        notifyProgress({
+          message: `${t('sukses')} ${t('siabsen_sync_success')}`,
+          color: 'positive',
+          icon: 'done',
+          spinner: false,
+          timeout,
+        })
       })
-    })
+      .catch((error) => {
+        notifyProgress({
+          message: `Error! ${t('siabsen_sync_error')} [${error}]`,
+          color: 'negative',
+          spinner: false,
+          timeout: 8000,
+        })
+      })
   },
   getDetailSchedule({ schedule, name, id }) {
     this.staffName = name
@@ -138,7 +148,7 @@ export default {
       this.scheduleDays[i] = {
         value: schedule[i]['value'] !== 'null' ? true : false,
         timein: schedule[i]['timein'],
-        timeout: schedule[i]['timeout']
+        timeout: schedule[i]['timeout'],
       }
     }
 
@@ -160,7 +170,7 @@ export default {
       url: `${conf.siabsenAPI}jadwal-absen-guru/`,
       autoReset: {
         active: true,
-        timeout: 500
+        timeout: 500,
       },
     })
   },
@@ -174,32 +184,40 @@ export default {
       timeout: 0,
     })
 
-    siabsen.post('hapus-izin', { id: this.selectedPermission }, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    }).then(({ data }) => {
-      if (data.status === 200) {
-        notifyProgress({
-          message: `${t('sukses')} ${t('siabsen_sukses_hapus_izin')}`,
-          color: 'positive',
-          icon: 'done',
-          spinner: false,
-          timeout
-        })
-      } else {
-        notifyProgress({
-          message: `Error! ${t('siabsen_gagal_hapus_izin')}`,
-          color: 'negative',
-          spinner: false,
-          timeout: 7000
-        })
-      }
+    siabsen
+      .post(
+        'hapus-izin',
+        { id: this.selectedPermission },
+        {
+          headers: { Authorization: bearerToken },
+          transformRequest: [
+            (data) => {
+              return createFormData(data)
+            },
+          ],
+        },
+      )
+      .then(({ data }) => {
+        if (data.status === 200) {
+          notifyProgress({
+            message: `${t('sukses')} ${t('siabsen_sukses_hapus_izin')}`,
+            color: 'positive',
+            icon: 'done',
+            spinner: false,
+            timeout,
+          })
+        } else {
+          notifyProgress({
+            message: `Error! ${t('siabsen_gagal_hapus_izin')}`,
+            color: 'negative',
+            spinner: false,
+            timeout: 7000,
+          })
+        }
 
-      this.getPermissions()
-      this.closeDeleteConfirm()
-    })
+        this.getPermissions()
+        this.closeDeleteConfirm()
+      })
   },
   showDeleteConfirm(id) {
     this.selectedPermission = id
@@ -207,13 +225,15 @@ export default {
     this.helper.disableSaveButton = false
   },
   getPermissionNotif() {
-    siabsen.get('get-notif-izin', {
-      headers: {
-        Authorization: bearerToken
-      }
-    }).then(({ data }) => {
-      this.notifCounter = data.notif
-    })
+    siabsen
+      .get('get-notif-izin', {
+        headers: {
+          Authorization: bearerToken,
+        },
+      })
+      .then(({ data }) => {
+        this.notifCounter = data.notif
+      })
   },
   saveConfig() {
     const notifyProgress = Notify.create({
@@ -225,12 +245,15 @@ export default {
       timeout: 0,
     })
 
-    siabsen.post(`save-config`, this.presenceConfig, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
+    siabsen
+      .post(`save-config`, this.presenceConfig, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
       .then(({ data }) => {
         if (data.code === '500') {
           this.configError = data.msg
@@ -238,7 +261,7 @@ export default {
             message: `Error! ${t('siabsen_config_failed')}`,
             color: 'negative',
             spinner: false,
-            timeout
+            timeout,
           })
         } else {
           this.configError = {}
@@ -247,7 +270,7 @@ export default {
             color: 'positive',
             icon: 'done',
             spinner: false,
-            timeout
+            timeout,
           })
         }
       })
@@ -267,24 +290,29 @@ export default {
         url: `${conf.siabsenAPI}rekap-bulanan/${start}/${end}/${type}/`,
         autoReset: {
           active: true,
-          timeout: 500
+          timeout: 500,
         },
       })
 
       setTimeout(() => {
         resolve()
       }, 500)
-
     })
     //this.spinner = false
   },
-  getPermissionDetail(id) {
-    siabsen.get(`get-detail-izin/${id}`, {
-      headers: { Authorization: bearerToken }
-    })
+  getPermissionDetail(id, edit) {
+    siabsen
+      .get(`get-detail-izin/${id}`, {
+        headers: { Authorization: bearerToken },
+      })
       .then(({ data }) => {
         this.permitDetail = data
-        this.showPermitDetail = true
+        if (edit) {
+          this.showPermitForm = true
+          this.formType = 'edit'
+        } else {
+          this.showPermitDetail = true
+        }
       })
   },
   setPermitStatus({ status, id }) {
@@ -297,13 +325,20 @@ export default {
       timeout: 0,
     })
 
-    siabsen.post(`set-status-izin/${id}`, { status }, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
-      .then(res => {
+    siabsen
+      .post(
+        `set-status-izin/${id}`,
+        { status },
+        {
+          headers: { Authorization: bearerToken },
+          transformRequest: [
+            (data) => {
+              return createFormData(data)
+            },
+          ],
+        },
+      )
+      .then((res) => {
         this.getPermissions()
         this.getPermissionNotif()
         this.showPermitDetail = false
@@ -312,15 +347,15 @@ export default {
           color: 'positive',
           icon: 'done',
           spinner: false,
-          timeout
+          timeout,
         })
       })
-      .catch(err => {
+      .catch((err) => {
         notifyProgress({
           message: `Error! ${t('siabsen_renew_izin_failed')} [${err.message}]`,
           color: 'negative',
           spinner: false,
-          timeout
+          timeout,
         })
       })
   },
@@ -342,11 +377,11 @@ export default {
       url: `${conf.siabsenAPI}get-izin/${withId}/`,
       autoReset: {
         active: true,
-        timeout: 500
+        timeout: 500,
       },
     })
   },
-  sendPermitRequest(data) {
+  sendPermitRequest(data, id, next) {
     this.helper.disableSaveButton = true
     const notifyProgress = Notify.create({
       group: false,
@@ -357,13 +392,18 @@ export default {
       timeout: 0,
     })
 
-    siabsen.post('kirim-izin', data, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => {
-        return createFormData(data)
-      }]
-    })
-      .then(response => {
+    const url = id === null ? 'kirim-izin' : `kirim-izin/${id}`
+
+    siabsen
+      .post(url, data, {
+        headers: { Authorization: bearerToken },
+        transformRequest: [
+          (data) => {
+            return createFormData(data)
+          },
+        ],
+      })
+      .then((response) => {
         this.helper.disableSaveButton = false
         const res = response.data
         if (res.code === '500') {
@@ -372,11 +412,10 @@ export default {
             message: `Error! ${t('siabsen_permit_error')}`,
             color: 'negative',
             spinner: false,
-            timeout
+            timeout,
           })
         } else {
-          this.saveStatus = 200
-          this.helper.disableSaveButton = true
+          next()
           this.getPermissions()
 
           // this.resetForm')
@@ -386,7 +425,7 @@ export default {
             color: 'positive',
             icon: 'done',
             spinner: false,
-            timeout
+            timeout,
           })
         }
       })
@@ -416,23 +455,32 @@ export default {
       timeout: 0,
     })
 
-    const presenceUrl = this.presenceType === 'agenda'
-      ? `kirim-absen-agenda/${this.agendaId}`
-      : `kirim-absen/${this.presenceType}`
+    const presenceUrl =
+      this.presenceType === 'agenda'
+        ? `kirim-absen-agenda/${this.agendaId}`
+        : `kirim-absen/${this.presenceType}`
 
-    siabsen.post(`upload/${this.presenceType}`, { photo: this.base64String }, {
-      headers: { Authorization: bearerToken },
-      transformRequest: [data => createFormData(data)]
-    })
+    siabsen
+      .post(
+        `upload/${this.presenceType}`,
+        { photo: this.base64String },
+        {
+          headers: { Authorization: bearerToken },
+          transformRequest: [(data) => createFormData(data)],
+        },
+      )
       .then(({ data }) => {
         const posts = {
-          lat, long, photo: data.img
+          lat,
+          long,
+          photo: data.img,
         }
 
-        siabsen.post(presenceUrl, posts, {
-          headers: { Authorization: bearerToken },
-          transformRequest: [data => createFormData(data)]
-        })
+        siabsen
+          .post(presenceUrl, posts, {
+            headers: { Authorization: bearerToken },
+            transformRequest: [(data) => createFormData(data)],
+          })
           .then(({ data }) => {
             if (data.code === 500) {
               notifyProgress({
@@ -447,7 +495,7 @@ export default {
                 color: 'positive',
                 icon: 'done',
                 spinner: false,
-                timeout
+                timeout,
               })
 
               this.presenceSuccess = true
@@ -457,7 +505,7 @@ export default {
             }
           })
       })
-      .catch(err => {
+      .catch((err) => {
         notifyProgress({
           message: t('siabsen_error_network'),
           color: 'negative',
@@ -465,7 +513,6 @@ export default {
           timeout: 5000,
         })
       })
-
   },
   // -------------------- MUTATIONS --------------------------
   closeDeleteConfirm() {
@@ -474,17 +521,19 @@ export default {
     this.helper.disableSaveButton = true
   },
   getDetailPresence({ staffId, userId, dateStart, dateEnd }) {
-    siabsen.get(`detail-absensi/${staffId}/${userId}/${dateStart}/${dateEnd}`, {
-      headers: { Authorization: bearerToken }
-    })
+    siabsen
+      .get(`detail-absensi/${staffId}/${userId}/${dateStart}/${dateEnd}`, {
+        headers: { Authorization: bearerToken },
+      })
       .then(({ data }) => {
         this.presenceDetail = data
       })
   },
   getTeacherStatus(tag, next) {
-    siabsen.get(`status-${tag}`, {
-      headers: { Authorization: bearerToken }
-    })
+    siabsen
+      .get(`status-${tag}`, {
+        headers: { Authorization: bearerToken },
+      })
       .then(({ data }) => {
         const canAbsent = data.canAbsent === 1 ? true : false
         if (tag === 'masuk') {
@@ -502,27 +551,30 @@ export default {
       })
   },
   getDetailConfig() {
-    siabsen.get('get-detail-config', {
-      headers: { Authorization: bearerToken }
-    })
+    siabsen
+      .get('get-detail-config', {
+        headers: { Authorization: bearerToken },
+      })
       .then(({ data }) => {
         this.presenceConfig = data
       })
   },
   getDailySchedule() {
-    siabsen.get('get-jadwal-harian', {
-      headers: { Authorization: bearerToken }
-    })
+    siabsen
+      .get('get-jadwal-harian', {
+        headers: { Authorization: bearerToken },
+      })
       .then(({ data }) => {
         this.dailySchedule = data
       })
   },
   getConfig() {
-    siabsen.get('get-config', {
-      headers: { Authorization: bearerToken }
-    })
+    siabsen
+      .get('get-config', {
+        headers: { Authorization: bearerToken },
+      })
       .then(({ data }) => {
         this.config = data
       })
-  }
+  },
 }

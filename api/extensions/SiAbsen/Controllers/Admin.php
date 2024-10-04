@@ -16,7 +16,7 @@ class Admin extends \Actudent
     protected $kegiatan;
 
     private $days = [
-        'senin' => 0, 'selasa' => 1, 'rabu' => 2, 
+        'senin' => 0, 'selasa' => 1, 'rabu' => 2,
         'kamis' => 3, 'jumat' => 4, 'sabtu' => 5,
         'minggu' => 6
     ];
@@ -32,8 +32,8 @@ class Admin extends \Actudent
     public function updateSchedule()
     {
         if(is_admin()) {
-            $scheduleStr = $this->request->getPost('schedule');    
-            $staffId = (int)$this->request->getPost('id');  
+            $scheduleStr = $this->request->getPost('schedule');
+            $staffId = (int)$this->request->getPost('id');
             $schedule = json_decode($scheduleStr, true);
             $values = [];
 
@@ -50,7 +50,7 @@ class Admin extends \Actudent
             $this->model->updateSchedule($staffId, $values);
 
             return $this->response->setJSON(['msg' => 'OK']);
-        }                
+        }
     }
 
     public function getTeachingSchedule($staffId)
@@ -69,7 +69,7 @@ class Admin extends \Actudent
                 ];
             }
 
-            $values = [];    
+            $values = [];
             if(count($wrapper) > 0) {
                 foreach($wrapper as $w) {
                     $day = $this->days[$w['day']];
@@ -81,16 +81,16 @@ class Admin extends \Actudent
                         'schedule_timein'   => str_replace('.', ':', $w['first']),
                         'schedule_timeout'  => str_replace('.', ':', $w['last'])
                     ];
-    
+
                 }
             }
 
             // do insertion
             $this->model->updateSchedule($staffId, $values);
-    
+
             timer('sync');
             $elapsed = timer()->getElapsedTime('sync');
-    
+
             return $this->response->setJSON([
                 'elapsed'   => number_format($elapsed, 3, ',', '.'),
                 'status'    => 'OK',
@@ -104,7 +104,7 @@ class Admin extends \Actudent
         // get the employees first (must be SSPaging-compatible format)
         $employees = $this->model->getStaff('null', $limit, $offset, $orderBy, $searchBy, $sort, $search);
         $rows = $this->model->getStaffRows('null', $searchBy, $search);
-        
+
         // prepare the data container
         $data = [];
 
@@ -127,12 +127,12 @@ class Admin extends \Actudent
                         'timeout'   => $timeoutArray[$a]
                     ];
                 }
-            }            
+            }
 
             // here we loop the days from monday to sunday (0-6)
             // to generate the final presence schedule
             $schedule = [];
-            foreach(range(0, 6) as $k => $v) {   
+            foreach(range(0, 6) as $k => $v) {
                 $filtered = function($array, $val) {
                     $filterItems = array_filter($array, fn($v) => $v['value'] === $val);
                     $default = [
@@ -141,8 +141,8 @@ class Admin extends \Actudent
                         'timeout'   => ''
                     ];
 
-                    return count($filterItems) > 0 
-                            ? array_slice($filterItems, 0, 1)[0] 
+                    return count($filterItems) > 0
+                            ? array_slice($filterItems, 0, 1)[0]
                             : $default;
                 };
 
@@ -198,7 +198,7 @@ class Admin extends \Actudent
     public function exportStaffSummary($staffId, $userId, $startDate, $endDate, $token)
     {
         if(valid_token($token)) {
-            $data = [];        
+            $data = [];
             foreach($this->resources->getReportData($token) as $key => $val) {
                 $data[$key] = $val;
             }
@@ -214,7 +214,7 @@ class Admin extends \Actudent
             $result = $this->_getDetailPresence($staffId, $userId, $startDate, $endDate);
             $splitEndDate = explode('-', $endDate);
             $printDate = os_date()->create("{$splitEndDate[0]}-{$splitEndDate[1]}-21");
-            
+
             $title          = 'Rekap Absensi ' .$result['name'];
             $data['title']  = $title;
             $data['period'] = 'Periode '.$periodStart.' sd. '.$periodEnd;
@@ -229,10 +229,10 @@ class Admin extends \Actudent
             $data['izin']   = $result['permit'];
             $data['date']   = 'Bekasi, ' . $printDate;
             $filename       = $title . ' ' . $data['period'];
-    
+
             $html = view('SiAbsen\Views\ekspor-rekap-individu', $data);
             // return $html;
-            PDFCreator::create($html, $filename); 
+            PDFCreator::create($html, $filename);
         }
     }
 
@@ -242,12 +242,12 @@ class Admin extends \Actudent
             if($staffId === 'null') {
                 $staffId = $this->getStaffId();
             }
-    
+
             if($userId === 'null') {
                 $staffData = $this->getStaffData();
                 $userId = $staffData->user_id;
             }
-    
+
             return $this->response->setJSON($this->_getDetailPresence($staffId, $userId, $startDate, $endDate));
         }
     }
@@ -270,8 +270,8 @@ class Admin extends \Actudent
         $totalOvertime = array_sum(array_column($summary, 'overtime_in_minute'));
 
         foreach($summary as $key) {
-            $late = $key['late_in_minute'] !== '0' 
-                    ? $key['late_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
+            $late = $key['late_in_minute'] !== '0'
+                    ? $key['late_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit')
                     : '-';
 
             $currentTime = strtotime(date('Y-m-d H:i:s'));
@@ -282,11 +282,11 @@ class Admin extends \Actudent
             }
 
             $work = $key['work_in_minute'] !== '0' && $currentTime > $snapshotTimeoutDecimal
-                    ? $key['work_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
+                    ? $key['work_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit')
                     : '-';
-                    
-            $over = $key['overtime_in_minute'] !== '0' 
-                    ? $key['overtime_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit') 
+
+            $over = $key['overtime_in_minute'] !== '0'
+                    ? $key['overtime_in_minute'] .' '. get_lang('SiAbsen.siabsen_menit')
                     : '-';
 
             $wrapper[] = [
@@ -303,10 +303,10 @@ class Admin extends \Actudent
             ];
         }
 
-        $monthlyStatus = array_column($summary, 'status_day');      
+        $monthlyStatus = array_column($summary, 'status_day');
         $totalTime = function($time) {
-            return $time > 0 
-                    ? number_format($time, 0, ',', '.') .' '. get_lang('SiAbsen.siabsen_menit') 
+            return $time > 0
+                    ? number_format($time, 0, ',', '.') .' '. get_lang('SiAbsen.siabsen_menit')
                     : '-';
         };
 
@@ -331,7 +331,7 @@ class Admin extends \Actudent
     public function exportAllStaffSummary($startDate, $endDate, $type, $token)
     {
         if(valid_token($token)) {
-            $data = [];        
+            $data = [];
             foreach($this->resources->getReportData($token) as $key => $val) {
                 $data[$key] = $val;
             }
@@ -341,17 +341,17 @@ class Admin extends \Actudent
             $periodEnd = os_date()->format('d-MM-y', reverse($endDate, '-', '-'));
             $splitEndDate = explode('-', $endDate);
             $printDate = os_date()->create("{$splitEndDate[0]}-{$splitEndDate[1]}-21");
-            
+
             $title          = 'Rekapitulasi Absensi';
             $data['title']  = $title;
             $data['period'] = 'Periode '.$periodStart.' sd. '.$periodEnd;
             $data['data']   = $this->_getAllStaffSummary($startDate, $endDate, $type, $rows, 0, 'staff_name', 'staff_name', 'ASC', '');
             $data['date']   = 'Bekasi, ' . $printDate;
             $filename       = $title . '_' . $data['period']. '_'. time();
-    
+
             $html = view('SiAbsen\Views\ekspor-rekap-bulanan', $data);
             // return $html;
-            PDFCreator::create($html, $filename); 
+            PDFCreator::create($html, $filename);
         }
     }
 
@@ -363,7 +363,7 @@ class Admin extends \Actudent
     protected function _getPermissionDetail($id)
     {
         $data = $this->model->getPermissionDetail($id);
-        $data->permit_date = os_date()->format('D-M-Y', reverse($data->permit_date, '-', '-'), '-');
+		$data->permit_date_str = os_date()->create($data->permit_date, 'D-M-Y', '-');
         $data->permit_starttime = substr($data->permit_starttime, 0, 5);
         $data->permit_endtime = substr($data->permit_endtime, 0, 5);
 
@@ -379,7 +379,7 @@ class Admin extends \Actudent
             return $this->response->setJSON([
                 'msg' => 'OK'
             ]);
-        }        
+        }
     }
 
     public function getIndividualSummary($startDate, $endDate, $staffId = '')
@@ -471,7 +471,7 @@ class Admin extends \Actudent
             $modHour = ($hours - floor($hours)) * 60;
             $hm = floor($hours) . $hoursStr.' '. round($modHour) .$minutesStr;
             $ms = floor($minutes) . $minutesStr .' '. round($secondsDiff) . $secondsStr;
-    
+
             $format = [
                 'h'     => $hoursFormat . $hoursStr, // 1 hour | 1,233 hour
                 'h:m'   => $hm, // 1 hour 32 minutes
@@ -479,8 +479,8 @@ class Admin extends \Actudent
                 'm'     => $minutesFormat . $minutesStr, // 32,345 minutes
                 'm:s'   => $ms, // 32 minutes 24 seconds
                 's'     => $diff . $secondsStr // 3842 seconds
-            ];        
-    
+            ];
+
             return $format[$displayFormat];
         } else {
             return '-';
@@ -506,8 +506,8 @@ class Admin extends \Actudent
         $dayValues = [];
 
         $schedules = $this->model->getPresenceSchedule($staffId);
-        if($schedules !== null) { 
-            $dayValues = array_column($schedules, 'schedule_day'); 
+        if($schedules !== null) {
+            $dayValues = array_column($schedules, 'schedule_day');
         }
 
         $status = 3;
@@ -564,7 +564,7 @@ class Admin extends \Actudent
 
             // use this magic method!
             $worktime = $this->formatWorkTime($timein, $timeout, $dailySchedule);
-            
+
             $wrapper[] = [
                 'nip'           => $key->staff_nik,
                 'name'          => $key->staff_name,
@@ -616,10 +616,10 @@ class Admin extends \Actudent
                 if($timeinDecimal > $snapshotTimeinDecimal) {
                     $workTime = $this->getWorkTime($timein, $ds->snapshot_timeout, 'raw');
                 }
-    
+
                 // if an employee tap for presence-in or out only,
                 // then their work time is a half of range from minimum work time
-                if($timein === '-' && $timeout !== '-' || $timein !== '-' && $timeout === '-') {                
+                if($timein === '-' && $timeout !== '-' || $timein !== '-' && $timeout === '-') {
                     $workTime = $minWorkTime / 2;
                 }
             }
@@ -656,7 +656,7 @@ class Admin extends \Actudent
     protected function getPresence($date, $tag)
     {
         $presence = $this->model->getPresence($this->getStaffId(), $date, $tag);
-        
+
         return $presence;
     }
 
@@ -668,11 +668,11 @@ class Admin extends \Actudent
             $hours = intval($timeArr[0]);
             $minutes = intval($timeArr[1]) / 60;
             $seconds = 0;
-    
+
             if(count($timeArr) > 2) {
                 $seconds = intval($timeArr[2]) / 60 / 60;
             }
-    
+
             return $hours + $minutes + $seconds;
         } else {
             return 0;
@@ -708,7 +708,7 @@ class Admin extends \Actudent
                 'tolerance' => 'required|is_natural|less_than_equal_to[120]',
                 'range'     => 'required|is_natural'
             ];
-    
+
             $messages = [
                 'intime' => [
                     'required'          => get_lang('SiAbsen.siabsen_config_error.field_required'),
@@ -736,7 +736,7 @@ class Admin extends \Actudent
                     'is_natural'        => get_lang('SiAbsen.siabsen_config_error.numeric_only'),
                 ]
             ];
-    
+
             if(! validate($rules, $messages)) {
                 return $this->response->setJSON([
                     'code' => '500',
@@ -780,9 +780,9 @@ class Admin extends \Actudent
     {
         return $this->createResponse($this->config);
     }
-        
+
     public function validatePosition()
-    {        
+    {
         return $this->createResponse($this->_validatePosition());
     }
 
@@ -808,25 +808,25 @@ class Admin extends \Actudent
 
         return $response;
     }
-    
+
     private function calculatePoints($latFrom, $longFrom, $latTo, $longTo)
-    {        
+    {
         $long1 = deg2rad($longFrom);
 		$long2 = deg2rad($longTo);
 		$lat1 = deg2rad($latFrom);
 		$lat2 = deg2rad($latTo);
-			
+
 		//Haversine Formula
 		$dlong = $long2 - $long1;
 		$dlati = $lat2 - $lat1;
-			
+
 		$val = pow(sin($dlati/2),2)+cos($lat1)*cos($lat2)*pow(sin($dlong/2),2);
-			
+
 		$res = 2 * asin(sqrt($val));
-			
+
 		$radius = 6371;
         $toMeters = ($res * $radius) * 1000;
-			
+
 		return $toMeters;
     }
 }

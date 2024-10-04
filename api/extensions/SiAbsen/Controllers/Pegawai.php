@@ -37,18 +37,23 @@ class Pegawai extends Admin
         }
     }
 
-    public function sendPermitRequest()
+    public function sendPermitRequest($id = null)
     {
         if(valid_token()) {
             $validation = $this->permitValidation();
-            if(! validate($validation[0], $validation[1])) {
+			$formData = array_merge(array_keys($validation[0]), ['permit_photo']);
+			$data = $this->request->getPost($formData);
+            if(! $this->validateForms($data, $validation[0], $validation[1])) {
                 return $this->response->setJSON([
                     'code' => '500',
                     'msg' => $this->validation->getErrors(),
                 ]);
             } else {
-                $data = $this->formData();
-                $this->model->insertPermit($data, $this->getStaffId());
+				if($id === null) {
+					$this->model->insertPermit($data, $this->getStaffId());
+				} else {
+					$this->model->updatePermit($data, $id);
+				}
 
                 return $this->response->setJSON([
                     'code' => '200',
@@ -64,9 +69,9 @@ class Pegawai extends Admin
             'permit_date'       => 'required|valid_date[Y-m-d]',
             'permit_starttime'  => 'required|valid_date[H:i]',
             'permit_endtime'    => 'required|valid_date[H:i]',
+			'permit_type'		=> 'required',
             'permit_presence'   => 'required',
             'permit_reason'     => 'required',
-            'permit_photo'      => 'required',
         ];
 
         $messages = [
@@ -82,19 +87,20 @@ class Pegawai extends Admin
                 'required'      => get_lang('SiAbsen.permit_endtime_required'),
                 'valid_date'    => get_lang('SiAbsen.permit_time_invalid'),
             ],
+			'permit_type' => [
+				'required'      => get_lang('SiAbsen.permit_type_required'),
+			],
             'permit_presence' => [
                 'required'      => get_lang('SiAbsen.permit_type_required'),
             ],
             'permit_reason' => [
                 'required'      => get_lang('SiAbsen.permit_reason_required'),
-            ],'permit_photo' => [
-                'required'      => get_lang('SiAbsen.permit_photo_required'),
-            ]
+			],
         ];
-        
+
         return [$rules, $messages];
     }
-    
+
     private function formData()
     {
         return [
@@ -111,13 +117,13 @@ class Pegawai extends Admin
     {
         $url = $this->request->getPost('url');
         $this->aws->folder('staff-permit')->deleteObject($url);
-        
+
         return $this->response->setJSON(['msg' => 'OK']);
     }
 
     public function uploadPermitAttachment()
     {
-        if(valid_token()) {   
+        if(valid_token()) {
             if($this->validateFile()) {
                 $attachment = $this->request->getFile('attachment');
                 $newFilename = $attachment->getRandomName();
@@ -128,13 +134,12 @@ class Pegawai extends Admin
                         ->withFile($filePath)
                         ->resize(1024, 1024, true)
                         ->save($filePath);
-    
+
                 $result = $this->aws->folder('staff-permit')->putObject($filePath);
-                if(file_exists($filePath))
-                {
+                if(file_exists($filePath)) {
                     unlink($filePath);
                 }
-                
+
                 $response = [
                     'msg' => 'OK',
                     'img' => $result // get AWS object URL
@@ -180,8 +185,8 @@ class Pegawai extends Admin
 
                 if($this->getPresence(date('Y-m-d'), $tag) === null) {
                     $this->model->sendPresence($tag, $data, $this->getStaffId());
-                }        
-                
+                }
+
                 $response = [
                     'code'      => 200,
                     'msg'       => get_lang('SiAbsen.siabsen_absen_berhasil'),
@@ -199,7 +204,7 @@ class Pegawai extends Admin
             $newFilename = date('Ymd').'_'.$this->getStaffNik().'_'.$tag.'.jpeg';
             $dirPath = PUBLICPATH . 'images/absensi/';
             file_put_contents($dirPath . $newFilename, base64_decode($attachment));
-            
+
             $path = $dirPath . $newFilename;
 
             // upload to AWS S3...
@@ -213,7 +218,7 @@ class Pegawai extends Admin
             {
                 unlink($path);
             }
-            
+
             $response = [
                 'msg' => 'OK',
                 'img' => $result // get AWS object URL
@@ -232,7 +237,7 @@ class Pegawai extends Admin
             $currentTime = $this->toDecimal(date('H:i:s'));
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
             $dayOfWeek = $this->getDayOfWeek($currentDate);
-            
+
             $checkSchedule = $this->model->scheduleExists($this->getStaffId(), $dayOfWeek);
             if(! $checkSchedule) {
                 $status = get_lang('SiAbsen.siabsen_no_schedule_today');
@@ -268,8 +273,8 @@ class Pegawai extends Admin
                 'canAbsent' => $canAbsent,
                 'timeOut'   => $out === null ? '-' : substr($out->presence_datetime, 11, 8)
             ];
-    
-            return $this->response->setJSON($response);    
+
+            return $this->response->setJSON($response);
         }
     }
 
@@ -278,7 +283,7 @@ class Pegawai extends Admin
         if(valid_token()) {
             $currentDate = date('Y-m-d');
             $presence = $this->getPresence($currentDate, 'masuk');
-            $currentTime = $this->toDecimal(date('H:i:s'));            
+            $currentTime = $this->toDecimal(date('H:i:s'));
             $todayLimit = $this->toDecimal('23:59:00');
             $isLate = 0;
             $hasPermission = $this->model->hasPermissionToday($currentDate, $this->getStaffId());
@@ -293,7 +298,7 @@ class Pegawai extends Admin
                     $status = get_lang('SiAbsen.siabsen_permit_approved');
                     $canAbsent = 0; // unable to absent
                 } else {
-                    // get today schedule                       
+                    // get today schedule
                     $todaySchedule = $this->model->getTodaySchedule($this->getStaffId(), $dayOfWeek);
                     $timeOut = $this->toDecimal($todaySchedule->schedule_timeout);
 
@@ -304,7 +309,7 @@ class Pegawai extends Admin
                         if($presence === null) {
                             $status = get_lang('SiAbsen.siabsen_belum_masuk');
                             $canAbsent = 1; // able to absent
-                        } else {     
+                        } else {
                             // get today presence data
                             $datetime = explode(' ', $presence->presence_datetime);
 
@@ -314,19 +319,19 @@ class Pegawai extends Admin
 
                             // get late tolerance
                             $timeLimit = $this->config->timelimit_allowed / 60 / 60;
-                            
+
                             $presenceIn = $this->toDecimal($datetime[1]);
 
                             // get time limit for counting lateness
                             $ontimeLimit = $timeIn + $timeLimit;
-                
+
                             if($presenceIn > $ontimeLimit) {
                                 $late = $this->countLate($this->getStaffId(), $datetime[0], $datetime[1]);
                                 $status = get_lang('SiAbsen.siabsen_telat_masuk', [$late['str']]);
                             } else {
                                 $status = get_lang('SiAbsen.siabsen_sudah_masuk');
                             }
-            
+
                             $canAbsent = 0; // unable to absent
                             if($presenceIn > $ontimeLimit) {
                                 $isLate = 1;
@@ -334,7 +339,7 @@ class Pegawai extends Admin
                         }
                     }
                 }
-            }            
+            }
 
             $response = [
                 'status'    => $status,
@@ -342,7 +347,7 @@ class Pegawai extends Admin
                 'late'      => $isLate,
                 'timeIn'    => $presence === null ? '-' : substr($presence->presence_datetime, 11, 8)
             ];
-    
+
             return $this->response->setJSON($response);
         }
     }
@@ -359,7 +364,7 @@ class Pegawai extends Admin
             } else {
                 $response = $schedule;
             }
-    
+
             return $this->response->setJSON($response);
         }
     }

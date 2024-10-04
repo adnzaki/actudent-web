@@ -37,7 +37,7 @@
               {{ item.permit_reason }}
             </td>
             <td class="text-left mobile-hide">
-              {{ permitType(item.permit_presence) }}
+              {{ permitType(item.permit_type) }}
             </td>
             <td class="text-left">
               <status-badge :value="item.permit_status" />
@@ -52,6 +52,18 @@
                 >
                   <btn-tooltip :label="$t('feedback_label_att')" />
                 </q-btn>
+                <q-btn
+                  :class="actionButton"
+                  icon="edit"
+                  @click="getDetail(item.permit_id, true)"
+                  v-if="item.permit_status === 'submitted'"
+                ></q-btn>
+                <q-btn
+                  :class="actionButton"
+                  icon="visibility"
+                  v-else
+                  @click="getDetail(item.permit_id)"
+                ></q-btn>
                 <q-btn
                   :class="actionButton"
                   :disable="item.permit_status !== 'submitted'"
@@ -69,6 +81,17 @@
                     <q-item
                       clickable
                       v-close-popup
+                      v-if="item.permit_status === 'submitted'"
+                      @click="getDetail(item.permit_id, true)"
+                    >
+                      <q-item-section>{{
+                        $t('perbarui')
+                      }}</q-item-section></q-item
+                    >
+                    <q-item
+                      clickable
+                      v-close-popup
+                      v-else
                       @click="getDetail(item.permit_id)"
                     >
                       <q-item-section>{{
@@ -103,7 +126,7 @@ import { useRouter } from 'vue-router'
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StatusBadge from './StatusBadge.vue'
-import permitType from '../admin_permit/permit-type'
+import { permitType } from '../admin_permit/permit-type'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { usePagingStore } from 'ss-paging-vue'
 import { actionButton } from 'src/composables/mode'
@@ -115,6 +138,8 @@ store.getPermissions()
 const showDeleteConfirm = (id) => {
   store.showDeleteConfirm(id)
 }
-const getDetail = (id) => store.getPermissionDetail(id)
+const getDetail = (id, edit = false) => {
+  store.getPermissionDetail(id, edit)
+}
 const data = computed(() => paging.state.data)
 </script>

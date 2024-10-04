@@ -92,8 +92,8 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
     public function baseStaffScheduleQuery($day, string $searchBy, string $search = '')
     {
         $field = "{$this->staff}.staff_id, staff_nik, staff_name";
-        $select = $this->QBStaff->select($field)->where(['deleted' => 0]);        
-        
+        $select = $this->QBStaff->select($field)->where(['deleted' => 0]);
+
         if($day !== null) {
             $this->QBStaff->join($this->presenceSchedule, "{$this->staff}.staff_id={$this->presenceSchedule}.staff_id");
             $select->where(['schedule_day' => $day]);
@@ -134,7 +134,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         if($this->scheduleExists($staffId)) {
             $this->QBSchedule->delete(['staff_id' => $staffId]);
         }
-        
+
         if(count($values) > 0) {
             $this->QBSchedule->insertBatch($values);
         }
@@ -166,10 +166,10 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
                     'schedule_day' => $day
                 ];
             }
-            
+
             $query = $this->QBSchedule->getWhere($params);
-            return $query->getNumRows() > 0 
-                    ? $query->getResultArray() 
+            return $query->getNumRows() > 0
+                    ? $query->getResultArray()
                     : null;
         } else {
             return null;
@@ -234,7 +234,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     /**
      * Get staff permissions
-     * 
+     *
      * @param int $limit
      * @param int $offset
      * @param string $search | The date to be searched
@@ -242,16 +242,16 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
      * @param string $orderBy
      * @param string $searchBy
      * @param string $sort
-     * 
+     *
      * @return array
      */
     public function getPermissions(
-        int $limit, 
-        int $offset, 
+        int $limit,
+        int $offset,
         string $search,
         $staffId,
-        string $orderBy, 
-        string $searchBy, 
+        string $orderBy,
+        string $searchBy,
         string $sort = 'ASC'
     ): array
     {
@@ -277,7 +277,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     private function search(string $searchBy = 'staff_name', string $search = '')
     {
-        $field = "permit_id, {$this->presencePermit}.staff_id, staff_name, permit_date, permit_starttime, permit_endtime, permit_presence, permit_reason, permit_photo, permit_status";
+        $field = "permit_id, {$this->presencePermit}.staff_id, staff_name, permit_date, permit_starttime, permit_endtime, permit_type, permit_presence, permit_reason, permit_photo, permit_status";
 
         $select = $this->QBPermit->select($field);
         $join = $select->join($this->staff, "{$this->presencePermit}.staff_id={$this->staff}.staff_id");
@@ -285,9 +285,9 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
         if(! empty($search)) {
             $join->like($searchBy, $search); // search by one parameter
         }
-        
+
         return $join;
-    }      
+    }
 
     public function insertPermit(array $data, int $staffId): void
     {
@@ -296,6 +296,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
             'permit_date'       => $data['permit_date'],
             'permit_starttime'  => $data['permit_starttime'],
             'permit_endtime'    => $data['permit_endtime'],
+			'permit_type'       => $data['permit_type'],
             'permit_presence'   => $data['permit_presence'],
             'permit_reason'     => $data['permit_reason'],
             'permit_photo'      => $data['permit_photo'],
@@ -304,6 +305,21 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
         $this->QBPermit->insert($values);
     }
+
+	public function updatePermit(array $data, int $id): void
+	{
+		$values = [
+			'permit_date'       => $data['permit_date'],
+			'permit_starttime'  => $data['permit_starttime'],
+			'permit_endtime'    => $data['permit_endtime'],
+			'permit_type'       => $data['permit_type'],
+			'permit_presence'   => $data['permit_presence'],
+			'permit_reason'     => $data['permit_reason'],
+			'permit_photo'      => $data['permit_photo'],
+		];
+
+		$this->QBPermit->update($values, ['permit_id' => $id]);
+	}
 
     public function getFirstAndLastSchedule(int $staffId, string $day, string $pointer)
     {
@@ -320,7 +336,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
             'schedule_day' => $day
         ]);
 
-        return $where->get()->getResult()[0];        
+        return $where->get()->getResult()[0];
     }
 
     public function getTeacherSchedules(int $staffId)
@@ -335,7 +351,7 @@ class CoreModel extends \Actudent\Admin\Models\PegawaiModel
 
     private function joinScheduleTeacherTable($select)
     {
-        return $select->join($this->shared->mapelKelas, 
+        return $select->join($this->shared->mapelKelas,
             "{$this->shared->jadwal}.lessons_grade_id = {$this->shared->mapelKelas}.lessons_grade_id"
         );
     }

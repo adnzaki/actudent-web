@@ -3,7 +3,7 @@
     no-backdrop-dismiss
     v-model="store.showPermitForm"
     @before-show="formOpen"
-    @hide="formClose"
+    @hide="formClose(null)"
     :maximized="maximizedDialog()"
   >
     <q-card class="q-pa-sm" :style="cardDialog()">
@@ -115,7 +115,16 @@
             outlined
             :label="$t('siabsen_permit_type')"
             v-model="permitType"
-            :options="permitOptions"
+            :options="permitTypeOptions"
+            dense
+          />
+
+          <q-select
+            class="q-mb-lg"
+            outlined
+            :label="$t('siabsen_permit_for')"
+            v-model="permitNeeds"
+            :options="permitNeedsOptions"
             dense
           />
 
@@ -124,8 +133,14 @@
             :label="$t('siabsen_alasan_izin')"
             dense
             v-model="formData.permit_reason"
+            :rules="[
+              (val) => (val && val.length > 0) || $t('permit_reason_required'),
+            ]"
           />
-          <error :label="error.permit_reason" />
+          <ac-error
+            :label="error.permit_reason"
+            v-if="error.permit_reason !== undefined"
+          />
 
           <q-file
             color="grey-3"
@@ -140,7 +155,18 @@
               <q-icon name="cloud_upload" />
             </template>
           </q-file>
-          <error v-if="attachmentError !== ''" :label="attachmentError" />
+          <ac-error v-if="attachmentError !== ''" :label="attachmentError" />
+          <q-btn
+            v-if="
+              store.formType === 'edit' &&
+              store.permitDetail.permit_photo !== ''
+            "
+            target="_blank"
+            style="width: 100%"
+            :class="['q-mt-md', addButton]"
+            :label="$t('feedback_label_att')"
+            :href="store.permitDetail.permit_photo"
+          />
         </q-form>
       </q-card-section>
       <q-separator />
@@ -155,7 +181,6 @@
         <q-btn
           class="mobile-form-btn save-btn"
           :label="$t('simpan')"
-          :disable="disableSaveButton"
           @click="save"
           padding="8px 20px"
         />
@@ -165,42 +190,42 @@
 </template>
 
 <script>
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { date, useQuasar } from 'quasar'
 import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { selectedLang } from 'src/composables/date'
-import { siabsen, bearerToken, createFormData, t } from 'src/composables/common'
+import {
+  siabsen,
+  bearerToken,
+  createFormData,
+  t,
+  addButton,
+  conf,
+} from 'src/composables/common'
+import { lang } from 'src/i18n/fetch-lang'
 
 export default {
   setup() {
     const store = useSiabsenStore()
     const $q = useQuasar()
 
-    const permitType = ref({})
+    const permitType = ref(null)
+    const permitNeeds = ref(null)
+    const permitTypeOptions = ref([])
+    const permitNeedsOptions = ref([])
 
-    const permitOptions = ref([])
-
-    setTimeout(() => {
-      permitType.value = {
-        label: t('siabsen_izin_full'),
-        value: 'none',
-      }
-
-      permitOptions.value = [
-        { label: t('siabsen_izin_full'), value: 'none' },
-        { label: t('siabsen_izin_masuk'), value: 'masuk' },
-        { label: t('siabsen_izin_pulang'), value: 'pulang' },
-      ]
-    }, 1500)
-
-    let formValue = {
+    let defaultFormValues = {
       permit_date: date.formatDate(new Date(), 'YYYY-MM-DD'),
       permit_starttime: '08:00',
       permit_endtime: '12:00',
       permit_reason: '',
       permit_photo: '',
+      permit_presence: null,
+      permit_type: null,
     }
+
+    const formData = ref(defaultFormValues)
 
     const strFormat = $q.screen.gt.sm
       ? 'dddd, DD MMMM YYYY'
@@ -220,94 +245,143 @@ export default {
       return val >= date.formatDate(new Date(), 'YYYY/MM/DD')
     }
 
-    const formData = ref(formValue)
     const saveStatus = computed(() => store.saveStatus)
     const save = () => {
-      formData.value.permit_presence = permitType.value.value
-      store.sendPermitRequest(formData.value)
+      if (
+        permitType.value === null ||
+        permitNeeds.value === null ||
+        formData.value.permit_reason === ''
+      ) {
+        $q.notify({
+          color: 'negative',
+          message: t('siabsen_permit_error'),
+          icon: 'warning',
+          position: 'center',
+        })
+      } else {
+        formData.value.permit_type = permitType.value.value
+        formData.value.permit_presence = permitNeeds.value.value
+
+        const id =
+          store.formType === 'edit' ? store.permitDetail.permit_id : null
+        store.sendPermitRequest(formData.value, id, () => {
+          formData.value = defaultFormValues
+          attachment.value = []
+
+          // return the form type into add mode
+          store.formType = 'add'
+        })
+      }
     }
 
     const uploadFile = (val) => {
-      // clear any existing file before upload..
-      formClose()
-
-      const uploadData = new FormData()
-      uploadData.append('attachment', val)
-      const notifyProgress = $q.notify({
-        group: false,
-        spinner: true,
-        message: t('siabsen_upload_progress'),
-        color: 'info',
-        position: 'center',
-        timeout: 0,
-      })
-
-      siabsen
-        .post('unggah-lampiran', uploadData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            Authorization: bearerToken,
-          },
+      // ensure that if the user uploads a file,
+      // remove any existing image, whether it is in
+      // server or client.
+      formClose(() => {
+        const uploadData = new FormData()
+        uploadData.append('attachment', val)
+        const notifyProgress = $q.notify({
+          group: false,
+          spinner: true,
+          message: t('siabsen_upload_progress'),
+          color: 'info',
+          position: 'center',
+          timeout: 0,
         })
-        .then(({ data }) => {
-          if (data.msg === 'OK') {
-            attachmentError.value = ''
-            store.helper.disableSaveButton = false
-            formData.value.permit_photo = data.img
-          } else {
-            attachmentError.value = data.attachment
-            store.helper.disableSaveButton = true
-          }
 
-          notifyProgress({
-            timeout: 1,
+        siabsen
+          .post('unggah-lampiran', uploadData, {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+              Authorization: bearerToken,
+            },
           })
+          .then(({ data }) => {
+            if (data.msg === 'OK') {
+              attachmentError.value = ''
+              formData.value.permit_photo = data.img
+            } else {
+              attachmentError.value = data.attachment
+            }
 
-          console.log(formData.value)
-        })
-        .catch((error) => console.error(error))
+            notifyProgress({
+              timeout: 1,
+            })
+          })
+          .catch((error) => console.error(error))
+      })
     }
 
     const formOpen = () => {
       attachment.value = []
-      store.helper.disableSaveButton = true
-      if (saveStatus.value === 200) {
-        formValue = {
-          permit_date: date.formatDate(new Date(), 'YYYY-MM-DD'),
-          permit_starttime: '08:00',
-          permit_endtime: '12:00',
-          permit_presence: permitType.value.value,
-          permit_reason: '',
-          permit_photo: '',
+      permitTypeOptions.value = [
+        { label: t('siabsen_permit_sick'), value: 'sick' },
+        { label: t('siabsen_permit_outstation'), value: 'outstation' },
+        { label: t('siabsen_permit_others'), value: 'others' },
+      ]
+
+      permitNeedsOptions.value = [
+        { label: t('siabsen_izin_full'), value: 'none' },
+        { label: t('siabsen_izin_masuk'), value: 'masuk' },
+        { label: t('siabsen_izin_pulang'), value: 'pulang' },
+      ]
+
+      if (store.formType === 'edit') {
+        formData.value = {
+          permit_date: store.permitDetail.permit_date,
+          permit_starttime: store.permitDetail.permit_starttime,
+          permit_endtime: store.permitDetail.permit_endtime,
+          permit_reason: store.permitDetail.permit_reason,
+          permit_photo: store.permitDetail.permit_photo,
         }
 
-        formData.value = formValue
-        store.saveStatus = 500
+        permitDateStr.value = store.permitDetail.permit_date_str
+        permitType.value = permitTypeOptions.value.find(
+          (item) => item.value === store.permitDetail.permit_type,
+        )
+        permitNeeds.value = permitNeedsOptions.value.find(
+          (item) => item.value === store.permitDetail.permit_presence,
+        )
+      } else {
+        formData.value = defaultFormValues
+
+        permitType.value = null
+        permitNeeds.value = null
       }
     }
 
-    const formClose = () => {
-      if (saveStatus.value === 500 && attachment.value !== []) {
-        const data = { url: formData.value.permit_photo }
+    const formClose = (next) => {
+      if (typeof attachment.value === 'object') {
         siabsen
-          .post('hapus-lampiran', data, {
-            headers: { Authorization: bearerToken },
-            transformRequest: [
-              (data) => {
-                return createFormData(data)
-              },
-            ],
-          })
+          .post(
+            'hapus-lampiran',
+            { url: formData.value.permit_photo },
+            {
+              headers: { Authorization: bearerToken },
+              transformRequest: [
+                (data) => {
+                  return createFormData(data)
+                },
+              ],
+            },
+          )
           .then(() => {
-            console.info('Form canceled, attachment removed if exists.')
+            if (next === null) {
+              attachment.value = []
+              formData.value.permit_photo = ''
+            } else {
+              next()
+            }
           })
       }
     }
 
     return {
       store,
+      addButton,
       permitType,
-      permitOptions,
+      permitNeeds,
       save,
       uploadFile,
       dateOptions,
@@ -319,6 +393,8 @@ export default {
       attachment,
       attachmentError,
       dateChanged,
+      permitTypeOptions,
+      permitNeedsOptions,
       disableSaveButton: computed(() => store.helper.disableSaveButton),
       cardDialog,
       maximizedDialog,

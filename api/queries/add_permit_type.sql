@@ -1,0 +1,1 @@
+ALTER TABLE `tb_staff_presence_permit` ADD `permit_type` ENUM('sick', 'outstation', 'others') NOT NULL AFTER `permit_photo`; 

@@ -18,7 +18,7 @@
           <q-input
             outlined
             dense
-            v-model="store.permitDetail.permit_date"
+            v-model="store.permitDetail.permit_date_str"
             readonly
           />
           <div class="row">
@@ -46,7 +46,16 @@
             dense
             class="q-mb-lg"
             readonly
-            :model-value="permitType(store.permitDetail.permit_presence)"
+            :model-value="permitType(store.permitDetail.permit_type)"
+          />
+
+          <q-input
+            outlined
+            :label="$t('siabsen_permit_for')"
+            dense
+            class="q-mb-lg"
+            readonly
+            :model-value="permitPresence(store.permitDetail.permit_presence)"
           />
 
           <q-input
@@ -71,7 +80,7 @@
           flat
           :label="$t('tutup')"
           v-if="!$q.screen.lt.sm"
-          color="negative"
+          class="close-btn"
           v-close-popup
         />
         <q-btn-dropdown
@@ -109,7 +118,7 @@
 <script setup>
 import { maximizedDialog, cardDialog } from 'src/composables/screen'
 import { conf, addButton } from 'src/composables/common'
-import permitType from '../admin_permit/permit-type'
+import { permitType, permitPresence } from '../admin_permit/permit-type'
 import { useSiabsenStore } from 'src/stores/siabsen'
 
 const store = useSiabsenStore()

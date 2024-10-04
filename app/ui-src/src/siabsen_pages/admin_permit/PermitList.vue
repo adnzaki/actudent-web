@@ -32,7 +32,9 @@
             {{ trimTime(item.permit_endtime) }}
           </td>
           <td class="text-left mobile-hide">
-            {{ permitType(item.permit_presence) }}
+            {{ permitType(item.permit_type) }} - <br />{{
+              permitPresence(item.permit_presence)
+            }}
           </td>
           <td class="text-left mobile-hide">
             {{ item.permit_reason }}
@@ -94,7 +96,7 @@
 import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StatusBadge from 'src/siabsen_pages/teacher_permit/StatusBadge.vue'
-import permitType from './permit-type'
+import { permitType, permitPresence } from './permit-type'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { usePagingStore } from 'ss-paging-vue'
 import { actionButton } from 'src/composables/mode'
