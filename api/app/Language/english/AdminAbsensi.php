@@ -66,5 +66,6 @@ return [
     'absensi_incomplete'            => 'Incomplete',
     'absensi_laporan_harian'        => 'Daily Summary',
     'absensi_salin_absen'           => 'Copy Presence',
-	'absensi_not_fillable'			=> 'Cannot add journals on dates that fall within holidays.'
+	'absensi_not_fillable'			=> 'Cannot add journals on dates that fall within holidays.',
+    'absensi_leave_request'         => 'Leave Request',
 ];

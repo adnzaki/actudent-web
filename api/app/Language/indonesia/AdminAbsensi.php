@@ -66,5 +66,6 @@ return [
     'absensi_incomplete'            => 'Tidak Lengkap',
     'absensi_laporan_harian'        => 'Rekap Harian',
     'absensi_salin_absen'           => 'Salin Kehadiran',
-	'absensi_not_fillable'			=> 'Tidak dapat menambahkan jurnal pada tanggal yang termasuk dalam hari libur.'
+	'absensi_not_fillable'			=> 'Tidak dapat menambahkan jurnal pada tanggal yang termasuk dalam hari libur.',
+    'absensi_leave_request'        => 'Pengajuan Cuti',
 ];

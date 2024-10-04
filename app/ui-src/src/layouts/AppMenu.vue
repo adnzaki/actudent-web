@@ -65,6 +65,11 @@
         <!-- End permission menu -->
 
         <submenu-item
+          :label="$t('absensi_leave_request')"
+          link="/teacher-presence/leave-request"
+        />
+
+        <submenu-item
           :label="$t('absensi_rekap_bulanan')"
           link="/teacher-presence/monthly-summary"
         />
@@ -93,6 +98,7 @@
         "
       >
         <submenu-item :label="$t('absensi_izin')" link="/absence/permit" />
+        <submenu-item :label="$t('absensi_leave_request')" link="/absence/leave-request" />
         <submenu-item
           :label="$t('absensi_rekap_bulanan')"
           link="/absence/monthly-summary"

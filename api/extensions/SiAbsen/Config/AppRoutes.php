@@ -44,4 +44,14 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');
     $routes->add('test-late/(:any)/(:any)', 'Test::testCountLate/$1/$2');
     $routes->add('test-late/(:any)/(:any)/(:any)', 'Test::testCountLate/$1/$2/$3');
+
+    // Pengajuan Cuti
+    $routes->group('leave-request', ['namespace' => 'SiAbsen\Controllers'], function($routes) {
+        $routes->add('list/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'LeaveRequest::getLeaveRequest/$1/$2/$3/$4/$5/$6');
+        $routes->add('list/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)/(:any)', 'LeaveRequest::getLeaveRequest/$1/$2/$3/$4/$5/$6/$7');
+        $routes->add('create', 'LeaveRequest::createLeaveRequest');
+        $routes->add('update', 'LeaveRequest::updateLeaveRequest');
+        $routes->add('attachment/create', 'LeaveRequest::createForm');
+        $routes->add('template/download', 'LeaveRequest::downloadFormTemplate');
+    });
 });
