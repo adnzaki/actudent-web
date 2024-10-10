@@ -5,12 +5,14 @@ header('Access-Control-Allow-Headers: Authorization, Content-type');
 
 class LeaveRequest extends Admin
 {
+	private $school, $formGenerator;
+
     public function __construct()
     {
+		parent::__construct();
         $this->leaveRequest = new \SiAbsen\Models\LeaveRequestModel;
         $this->school = new \Actudent\Core\Models\SekolahModel;
         $this->formGenerator = new \FormGenerator;
-        $this->model = new \SiAbsen\Models\CoreModel;
     }
 
     public function getLeaveRequest($withId, $limit, $offset, $orderBy, $searchBy, $sort, $search = '')
@@ -22,7 +24,7 @@ class LeaveRequest extends Admin
         }
 
         if($withId === 'true') {
-            $withId = $this->getStaffData();
+            $withId = $this->getStaffData()->staff_id;
         }
         $data = $this->leaveRequest->getLeaveRequest($limit, $offset, $search, $withId, $orderBy, $searchBy, $sort);
 
@@ -135,7 +137,7 @@ class LeaveRequest extends Admin
                 'required'      => 'Kolom nomor telepon tidak boleh kosong'
             ],
         ];
-        
+
         return [$rules, $messages];
     }
 

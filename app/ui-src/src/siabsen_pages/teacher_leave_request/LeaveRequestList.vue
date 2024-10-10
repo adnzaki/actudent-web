@@ -11,9 +11,6 @@
             <th class="text-left">Lama Cuti</th>
             <th class="text-left">Tanggal Cuti</th>
             <th class="text-left">Status</th>
-            <th class="text-left mobile-hide">
-              {{ $t('feedback_label_att') }}
-            </th>
             <th class="text-left mobile-only">{{ $t('aksi') }}</th>
           </tr>
         </thead>
@@ -27,8 +24,8 @@
               {{ $formatDate(item.permit_date, 'dddd, DD-MMM-YYYY') }}
             </td>
             <td class="text-left mobile-hide">
-              {{ item.permit_starttime.substring(0, 5) }} -
-              {{ item.permit_endtime.substring(0, 5) }}
+              {{ item.start_date.substring(0, 5) }} -
+              {{ item.end_date.substring(0, 5) }}
             </td>
             <td class="text-left mobile-hide">
               {{ item.permit_reason }}
@@ -100,7 +97,7 @@ import { useRouter } from 'vue-router'
 // import { checkColWidth } from 'src/composables/screen'
 import { computed } from 'vue'
 import StatusBadge from './StatusBadge.vue'
-import permitType from '../admin_permit/permit-type'
+import { permitType } from '../admin_permit/permit-type'
 import { useSiabsenStore } from 'src/stores/siabsen'
 import { usePagingStore } from 'ss-paging-vue'
 import { actionButton } from 'src/composables/mode'

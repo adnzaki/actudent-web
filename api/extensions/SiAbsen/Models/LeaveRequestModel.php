@@ -14,18 +14,18 @@ class LeaveRequestModel extends \Actudent\Core\Models\Connector
     }
 
     public function getLeaveRequest(
-        int $limit, 
-        int $offset, 
+        int $limit,
+        int $offset,
         string $search,
         $staffId,
-        string $orderBy, 
-        string $searchBy, 
+        string $orderBy,
+        string $searchBy,
         string $sort = 'ASC'
     ): array
     {
         $select = $this->search($searchBy, $search);
         if($staffId !== 'false') {
-            $select->where(["{$this->leaveRequestTable}.staff_id" => $staffId]);
+            $select->where(["{$this->leaveRequest}.staff_id" => $staffId]);
         }
 
         $query = $select->orderBy($orderBy, $sort)->limit($limit, $offset);
@@ -43,9 +43,9 @@ class LeaveRequestModel extends \Actudent\Core\Models\Connector
         if(!empty($search)) {
             $join->like($searchBy, $search); // search by one parameter
         }
-        
+
         return $join;
-    }   
+    }
 
     public function getLeaveRequestRows($staffId)
     {
@@ -59,13 +59,13 @@ class LeaveRequestModel extends \Actudent\Core\Models\Connector
 
     public function getLeaveRequestById($leaveId)
     {
-        $field = "leave_id, {$this->leaveRequest}.staff_id, staff_name, staff_nik, staff_title, leave_type, reason, start_date, end_date, 
+        $field = "leave_id, {$this->leaveRequest}.staff_id, staff_name, staff_nik, staff_title, leave_type, reason, start_date, end_date,
                 CONCAT(working_period, ' ', working_period_label) as working_period, status, address, {$this->leaveRequest}.phone_number, {$this->leaveRequest}.created";
         $select = $this->QBLeaveRequest->select($field);
         $select->join($this->staff, "{$this->leaveRequest}.staff_id={$this->staff}.staff_id");
         $select->where(['leave_id' => $leaveId]);
 
-        return $select->get()->getRowArray();  
+        return $select->get()->getRowArray();
     }
 
     public function updateLeaveRequest(array $data, $leaveId): void
@@ -79,5 +79,4 @@ class LeaveRequestModel extends \Actudent\Core\Models\Connector
         return $this->db->insertID();
     }
 
-      
 }

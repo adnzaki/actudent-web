@@ -44,6 +44,7 @@ $routes->group('siabsen', ['namespace' => 'SiAbsen\Controllers'], function($rout
     $routes->add('test-aws/(:any)', 'Test::testAws/$1');
     $routes->add('test-late/(:any)/(:any)', 'Test::testCountLate/$1/$2');
     $routes->add('test-late/(:any)/(:any)/(:any)', 'Test::testCountLate/$1/$2/$3');
+	$routes->add('test-common', 'Test::commonTest');
 
     // Pengajuan Cuti
     $routes->group('leave-request', ['namespace' => 'SiAbsen\Controllers'], function($routes) {

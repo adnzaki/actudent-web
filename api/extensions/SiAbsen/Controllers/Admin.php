@@ -15,6 +15,8 @@ class Admin extends \Actudent
 
     protected $kegiatan;
 
+	protected $leaveRequest;
+
     private $days = [
         'senin' => 0, 'selasa' => 1, 'rabu' => 2,
         'kamis' => 3, 'jumat' => 4, 'sabtu' => 5,
@@ -23,7 +25,7 @@ class Admin extends \Actudent
 
     public function __construct()
     {
-        $this->model = new \SiAbsen\Models\CoreModel;
+		$this->model = new \SiAbsen\Models\CoreModel;
         $this->kegiatan = new \SiAbsen\Models\KegiatanModel;
         $this->config = $this->model->getConfig();
         $this->aws = new \AwsClient;

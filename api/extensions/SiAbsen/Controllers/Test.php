@@ -7,8 +7,14 @@ use CodeIgniter\I18n\Time;
 
 class Test extends Admin
 {
+	public function commonTest()
+	{
+		$data = $this->getStaffData();
+		return $this->response->setJSON($data);
+	}
+
     public function testGetSchedules()
-    {        
+    {
         return $this->response->setJSON([
             'data' => $this->model->getMonthlyPresence(1, '2022-08-20', '2022-09-20'),
         ]);
@@ -43,7 +49,7 @@ class Test extends Admin
             $output = $diff . ' ' . lang('SiAbsen.siabsen_detik');
         } elseif($diff > 60 && $diff < 3600) {
             $minutes = $diff / 60;
-            $output = floor($minutes).' '. 
+            $output = floor($minutes).' '.
                       $minsText . getSeconds($minutes, $showSeconds);
         } else {
             $hours = $diff / 60 / 60;
@@ -62,7 +68,7 @@ class Test extends Admin
             $pengguna = $this->getDataPengguna();
             $date = date('Y-m-d');
             $presence = $this->model->getPresence($pengguna->user_id, $date, $tag);
-    
+
             return $this->response->setJSON($presence);
         }
     }
